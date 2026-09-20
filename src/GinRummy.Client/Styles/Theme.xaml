@@ -10,16 +10,22 @@
     <conv:UpperCaseConverter x:Key="CnvUpperCase" />
 
     <!-- ============================================================
-         Tokens tomados del prototipo de Figma (GinRummy, seccion
-         "Inicio y autenticacion"). Los valores son los del archivo.
+         Tokens de diseno del cliente. El prototipo de Figma fue el
+         punto de partida; a partir de la version 2 el diseno es una
+         decision del equipo y vive aqui, no en el archivo de Figma.
          ============================================================ -->
 
-    <FontFamily x:Key="FntDisplay">pack://application:,,,/Fonts/#Oswald</FontFamily>
-    <FontFamily x:Key="FntBody">pack://application:,,,/Fonts/#Source Sans 3</FontFamily>
+    <!-- Neither of the two pixel families covers the whole alphabet, so both name
+         Pixeloid Sans as the next family in the list. WPF resolves a missing glyph
+         family by family, which keeps the accented letters that STK-13 requires
+         inside a pixel typeface instead of dropping them to a system font. -->
+    <FontFamily x:Key="FntDisplay">pack://application:,,,/Fonts/#Pixelta, pack://application:,,,/Fonts/#Pixeloid Sans</FontFamily>
+    <FontFamily x:Key="FntBody">pack://application:,,,/Fonts/#Pixeloid Sans</FontFamily>
+    <FontFamily x:Key="FntBrand">pack://application:,,,/Fonts/#HigherPixels, pack://application:,,,/Fonts/#Pixeloid Sans</FontFamily>
 
-    <SolidColorBrush x:Key="BrsMenuRoot" Color="#FFF1F1F1" />
+    <SolidColorBrush x:Key="BrsMenuRoot" Color="#FF072118" />
     <SolidColorBrush x:Key="BrsMenuArtwork" Color="#FFE9E9E9" />
-    <SolidColorBrush x:Key="BrsMenuEdge" Color="#999B9B9B" />
+    <SolidColorBrush x:Key="BrsMenuEdge" Color="#73FFFFFF" />
     <SolidColorBrush x:Key="BrsMenuPrimary" Color="#FF8E8E93" />
     <SolidColorBrush x:Key="BrsOutline" Color="#FF333333" />
     <SolidColorBrush x:Key="BrsLogo" Color="#FF8E8E93" />
@@ -30,6 +36,27 @@
     <Color x:Key="ClrMenuLiquidDeep">#FF072118</Color>
     <Color x:Key="ClrMenuLiquidMid">#FF1E6746</Color>
     <Color x:Key="ClrMenuLiquidGlow">#FF6AD29A</Color>
+    <!-- Paleta del menu. Los nombres describen la funcion, no el color, para que
+         cambiar de paleta no obligue a renombrar nada. -->
+    <SolidColorBrush x:Key="BrsMenuInk" Color="#FF051710" />
+    <SolidColorBrush x:Key="BrsMenuPanel" Color="#BF1A1712" />
+    <SolidColorBrush x:Key="BrsMenuAccent" Color="#FF8B2C1F" />
+    <SolidColorBrush x:Key="BrsMenuAction" Color="#FF3B3F2F" />
+    <SolidColorBrush x:Key="BrsMenuEarth" Color="#FF4B3B2A" />
+    <SolidColorBrush x:Key="BrsMenuNeutral" Color="#FF2C2E30" />
+    <SolidColorBrush x:Key="BrsMenuWarn" Color="#FF6B2E2F" />
+    <SolidColorBrush x:Key="BrsMenuChipFace" Color="#FF8A4B2A" />
+    <SolidColorBrush x:Key="BrsMenuDropdown" Color="#FFA06D51" />
+    <SolidColorBrush x:Key="BrsMenuChipFaceOver" Color="#FF442F1C" />
+    <SolidColorBrush x:Key="BrsMenuDropdownOver" Color="#FF4E3F2F" />
+    <SolidColorBrush x:Key="BrsMenuLight" Color="#FFEDE4DC" />
+    <SolidColorBrush x:Key="BrsMenuOnDark" Color="#FFFFFFFF" />
+
+    <!-- Sombras compartidas por los elementos del menu. -->
+    <DropShadowEffect x:Key="EfxPanelShadow" Color="#FF0A130E"
+                      BlurRadius="26" ShadowDepth="7" Direction="270" Opacity="0.60" />
+    <DropShadowEffect x:Key="EfxTextShadow" Color="#FF0A130E"
+                      BlurRadius="14" ShadowDepth="4" Direction="270" Opacity="0.65" />
 
     <SolidColorBrush x:Key="BrsPageBackground" Color="#FFF6F6F6" />
     <SolidColorBrush x:Key="BrsSurface" Color="#FFFFFFFF" />
@@ -51,76 +78,206 @@
 
     <!-- ===================== Menu principal (P01) ===================== -->
 
+    <!-- The wordmark is the only place that uses FntBrand, and the weight stays normal
+         on every pixel family: none of them ships a bold face, and the weight WPF
+         synthesises thickens the strokes by a fraction of a pixel, which blurs the
+         square edges the typeface is chosen for. -->
     <Style x:Key="StyLogoWordmark" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
-        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontFamily" Value="{StaticResource FntBrand}" />
+        <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="FontSize" Value="128" />
         <Setter Property="Foreground" Value="{StaticResource BrsLogo}" />
     </Style>
 
     <Style x:Key="StyTagline" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
-        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="FontSize" Value="18" />
         <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
         <Setter Property="TextAlignment" Value="Center" />
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
 
+    <!-- Boton del menu: cara elevada sobre su propia sombra, contorno grueso y
+         hundimiento al presionar. El color lo pone cada variante. -->
+    <ControlTemplate x:Key="TplMenuButton" TargetType="Button">
+        <Grid>
+            <Border x:Name="brdShadow" Margin="0,7,0,0" CornerRadius="10"
+                    Background="{StaticResource BrsMenuInk}" />
+            <Border x:Name="brdFace" Margin="0,0,0,7" CornerRadius="10"
+                    Background="{TemplateBinding Background}">
+                <Grid>
+                    <!-- El realce cubre la cara completa. El relleno lateral lo aporta el
+                         contenido y no el borde, porque con relleno en el borde la capa
+                         quedaba por dentro y dejaba una franja sin oscurecer a cada lado.
+                         Sigue por debajo del contenido, de modo que el texto conserva su
+                         tono en todos los estados. -->
+                    <Border x:Name="brdHighlight" CornerRadius="10"
+                            Background="{StaticResource BrsMenuInk}" Opacity="0" />
+                    <ContentPresenter Margin="20,0,20,0"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Grid>
+            </Border>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="brdHighlight" Property="Opacity" Value="0.53" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter TargetName="brdFace" Property="Margin" Value="0,7,0,0" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="brdFace" Property="Opacity" Value="0.45" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!-- The sizes of the menu grew with the change of typeface. Pixelta draws its capitals
+         at 0.66 of the em against the 0.73 of the family it replaces, so the same number
+         read about a tenth smaller on screen. The widest label still measures less than
+         the minimum width of the button, so the bar keeps the width it had. -->
     <Style x:Key="StyMenuButton" TargetType="Button">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuOnDark}" />
+        <Setter Property="Background" Value="{StaticResource BrsMenuAction}" />
+        <Setter Property="Height" Value="72" />
+        <Setter Property="MinWidth" Value="230" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template" Value="{StaticResource TplMenuButton}" />
+    </Style>
+
+    <Style x:Key="StyMenuSmallButton" TargetType="Button" BasedOn="{StaticResource StyMenuButton}">
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Height" Value="58" />
+        <Setter Property="MinWidth" Value="200" />
+    </Style>
+
+    <Style x:Key="StyMenuSmallAltButton" TargetType="Button" BasedOn="{StaticResource StyMenuSmallButton}">
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuOnDark}" />
+        <Setter Property="Background" Value="{StaticResource BrsMenuWarn}" />
+    </Style>
+
+    <Style x:Key="StyMenuPrimaryButton" TargetType="Button" BasedOn="{StaticResource StyMenuButton}">
+        <Setter Property="FontSize" Value="30" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuOnDark}" />
+        <Setter Property="Background" Value="{StaticResource BrsMenuAccent}" />
+    </Style>
+
+    <Style x:Key="StyMenuBar" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsMenuPanel}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="0,0,0,8" />
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="Padding" Value="14,14,14,14" />
+        <Setter Property="Effect" Value="{StaticResource EfxPanelShadow}" />
+    </Style>
+
+    <Style x:Key="StyMenuChip" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsMenuPanel}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="0,0,0,7" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="14,12,14,14" />
+        <Setter Property="Effect" Value="{StaticResource EfxPanelShadow}" />
+    </Style>
+
+    <Style x:Key="StyMenuChipInset" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="0,0,0,5" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsMenuChipFaceOver}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyMenuLanguageItem" TargetType="ComboBoxItem">
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuOnDark}" />
         <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="FontSize" Value="18" />
-        <Setter Property="Foreground" Value="{StaticResource BrsOutline}" />
-        <Setter Property="Background" Value="{StaticResource BrsSurface}" />
-        <Setter Property="Height" Value="64" />
+        <Setter Property="Padding" Value="10,7,10,7" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{StaticResource BrsOutline}"
-                            BorderThickness="1.5"
-                            CornerRadius="3"
-                            Padding="28,0,28,0">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <ControlTemplate TargetType="ComboBoxItem">
+                    <Border x:Name="brdItem" Background="Transparent"
+                            Padding="{TemplateBinding Padding}">
+                        <ContentPresenter />
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="True">
+                            <Setter TargetName="brdItem" Property="Background"
+                                    Value="{StaticResource BrsMenuChipFace}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#FFF4F4F4" />
-            </Trigger>
-        </Style.Triggers>
     </Style>
 
-    <Style x:Key="StyMenuButtonDisplay" TargetType="Button" BasedOn="{StaticResource StyMenuButton}">
-        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
-    </Style>
-
-    <Style x:Key="StyMenuPrimaryButton" TargetType="Button">
+    <!-- El ComboBox del sistema dibuja su propio fondo claro e ignora Background, asi
+         que la lista de idiomas lleva plantilla propia. PART_Popup es el nombre que
+         exige el framework, no una eleccion de nomenclatura. -->
+    <Style x:Key="StyMenuLanguageBox" TargetType="ComboBox">
         <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
-        <Setter Property="FontWeight" Value="Black" />
-        <Setter Property="FontSize" Value="32" />
-        <Setter Property="Foreground" Value="{StaticResource BrsSurface}" />
-        <Setter Property="Background" Value="{StaticResource BrsMenuPrimary}" />
-        <Setter Property="Height" Value="64" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuOnDark}" />
         <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource StyMenuLanguageItem}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" CornerRadius="3" Padding="28,0,28,0">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Border>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <ToggleButton Focusable="False" ClickMode="Press"
+                                      IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Border x:Name="brdSelector" CornerRadius="6"
+                                            Background="{StaticResource BrsMenuDropdown}" />
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="brdSelector" Property="Background"
+                                                    Value="{StaticResource BrsMenuDropdownOver}" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                        </ToggleButton>
+                        <ContentPresenter Margin="10,0,24,0"
+                                          HorizontalAlignment="Left" VerticalAlignment="Center"
+                                          Content="{TemplateBinding SelectionBoxItem}"
+                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                          IsHitTestVisible="False" />
+                        <Path Data="M0,0 L8,0 L4,5 Z"
+                              Fill="{StaticResource BrsMenuOnDark}"
+                              HorizontalAlignment="Right" VerticalAlignment="Center"
+                              Margin="0,0,9,0" IsHitTestVisible="False" />
+                        <Popup x:Name="PART_Popup" Placement="Bottom" AllowsTransparency="True"
+                               IsOpen="{TemplateBinding IsDropDownOpen}" Focusable="False">
+                            <Border Background="{StaticResource BrsMenuDropdown}" CornerRadius="6"
+                                    Margin="0,4,0,0" MinWidth="{TemplateBinding ActualWidth}">
+                                <StackPanel IsItemsHost="True" />
+                            </Border>
+                        </Popup>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#FF9C9CA1" />
-            </Trigger>
-        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyMenuChipCaption" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
 
     <Style x:Key="StyPanelCaption" TargetType="TextBlock">
@@ -178,8 +335,11 @@
         <Setter Property="Padding" Value="0" />
     </Style>
 
+    <!-- The field of the password draws the circle of U+25CF, which the display family does
+         not carry. It takes the body family so that the mask comes from a font that has the
+         glyph and not from whichever one the system decides to lend. -->
     <Style x:Key="StyFieldPassword" TargetType="PasswordBox">
-        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
         <Setter Property="CaretBrush" Value="{StaticResource BrsBody}" />

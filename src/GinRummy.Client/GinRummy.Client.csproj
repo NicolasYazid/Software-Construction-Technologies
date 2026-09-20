@@ -152,13 +152,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Fonts\Oswald-Bold.ttf" />
-    <Resource Include="Fonts\Oswald-Regular.ttf" />
-    <Resource Include="Fonts\Oswald-SemiBold.ttf" />
-    <Resource Include="Fonts\SourceSans3-Black.ttf" />
-    <Resource Include="Fonts\SourceSans3-Bold.ttf" />
-    <Resource Include="Fonts\SourceSans3-Regular.ttf" />
-    <Resource Include="Fonts\SourceSans3-Semibold.ttf" />
+    <Resource Include="Fonts\HigherPixels-Regular.ttf" />
+    <Resource Include="Fonts\PixeloidSans-Bold.ttf" />
+    <Resource Include="Fonts\PixeloidSans-Regular.ttf" />
+    <Resource Include="Fonts\Pixelta-Regular.ttf" />
+    <None Include="Fonts\LICENSES.md" />
+    <None Include="Fonts\OFL-PixeloidSans.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Strings.resx" />

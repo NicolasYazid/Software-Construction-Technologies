@@ -22,6 +22,15 @@
         </DrawingImage.Drawing>
     </DrawingImage>
 
+    <DrawingImage x:Key="IcoUserLight">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 H19 V19 H0 Z">
+                <GeometryDrawing Brush="#EDE4DC"
+                                 Geometry="M9.50006 9.81666C9.9367 9.81666 10.3691 9.73065 10.7725 9.56356C11.1759 9.39646 11.5424 9.15154 11.8512 8.84279C12.1599 8.53403 12.4049 8.16749 12.572 7.76408C12.7391 7.36067 12.8251 6.9283 12.8251 6.49166C12.8251 6.05501 12.7391 5.62264 12.572 5.21923C12.4049 4.81583 12.1599 4.44928 11.8512 4.14053C11.5424 3.83177 11.1759 3.58685 10.7725 3.41976C10.3691 3.25266 9.9367 3.16666 9.50006 3.16666C8.61821 3.16666 7.77249 3.51697 7.14893 4.14053C6.52537 4.76409 6.17506 5.60981 6.17506 6.49166C6.17506 7.3735 6.52537 8.21923 7.14893 8.84279C7.77249 9.46635 8.61821 9.81666 9.50006 9.81666ZM9.50006 11.2417C6.17506 11.2417 3.64172 13.0625 3.64172 15.3583V16.625H15.3584V15.3583C15.3584 13.0625 12.8251 11.2417 9.50006 11.2417Z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
     <DrawingImage x:Key="IcoLock">
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 H19 V19 H0 Z">
@@ -61,12 +70,12 @@
             <DrawingGroup ClipGeometry="M0,0 H20 V20 H0 Z">
                 <GeometryDrawing Geometry="M9.99996 17.0834C13.912 17.0834 17.0833 13.912 17.0833 10C17.0833 6.088 13.912 2.91669 9.99996 2.91669C6.08794 2.91669 2.91663 6.088 2.91663 10C2.91663 13.912 6.08794 17.0834 9.99996 17.0834Z">
                     <GeometryDrawing.Pen>
-                        <Pen Brush="#5E5E5E" Thickness="1.41667" />
+                        <Pen Brush="#EDE4DC" Thickness="1.41667" />
                     </GeometryDrawing.Pen>
                 </GeometryDrawing>
                 <GeometryDrawing Geometry="M2.91663 10H17.0833M9.99996 2.91669C11.8333 4.83335 12.8333 7.33335 12.8333 10C12.8333 12.6667 11.8333 15.1667 9.99996 17.0834C8.16663 15.1667 7.16663 12.6667 7.16663 10C7.16663 7.33335 8.16663 4.83335 9.99996 2.91669Z">
                     <GeometryDrawing.Pen>
-                        <Pen Brush="#5E5E5E" Thickness="1.41667" />
+                        <Pen Brush="#EDE4DC" Thickness="1.41667" />
                     </GeometryDrawing.Pen>
                 </GeometryDrawing>
             </DrawingGroup>
@@ -78,12 +87,12 @@
             <DrawingGroup ClipGeometry="M0,0 H115 V115 H0 Z">
                 <GeometryDrawing Geometry="M57.5 10C31.2665 10 10 31.2665 10 57.5C10 83.7335 31.2665 105 57.5 105C83.7335 105 105 83.7335 105 57.5C105 31.2665 83.7335 10 57.5 10Z">
                     <GeometryDrawing.Pen>
-                        <Pen Brush="#3B3B3B" Thickness="20" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
+                        <Pen Brush="#8B2C1F" Thickness="20" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
                     </GeometryDrawing.Pen>
                 </GeometryDrawing>
                 <GeometryDrawing Geometry="M57.5 39.6875C47.6624 39.6875 39.6875 47.6624 39.6875 57.5C39.6875 67.3376 47.6624 75.3125 57.5 75.3125C67.3376 75.3125 75.3125 67.3376 75.3125 57.5C75.3125 47.6624 67.3376 39.6875 57.5 39.6875Z">
                     <GeometryDrawing.Pen>
-                        <Pen Brush="#3B3B3B" Thickness="20" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
+                        <Pen Brush="#8B2C1F" Thickness="20" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
                     </GeometryDrawing.Pen>
                 </GeometryDrawing>
             </DrawingGroup>

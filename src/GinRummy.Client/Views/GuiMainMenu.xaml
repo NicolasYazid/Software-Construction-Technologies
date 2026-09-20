@@ -9,97 +9,115 @@
         WindowStartupLocation="CenterScreen"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display">
-    <Grid Width="1120" Height="775" Background="{StaticResource BrsMenuRoot}">
+    <Grid Width="1240" Height="775" Background="{StaticResource BrsMenuRoot}">
 
-        <Border Background="{StaticResource BrsMenuArtwork}" />
+        <ctl:CtlLiquidBackground x:Name="imgLiquidBackground"
+                                 DeepColour="{StaticResource ClrMenuLiquidDeep}"
+                                 MidColour="{StaticResource ClrMenuLiquidMid}"
+                                 GlowColour="{StaticResource ClrMenuLiquidGlow}" />
 
-        <Rectangle Margin="16" Stroke="{StaticResource BrsMenuEdge}" StrokeThickness="1"
-                   StrokeDashArray="4 4" Fill="Transparent" />
+        <Grid Margin="32,36,32,36">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <ctl:CtlBrandMark x:Name="imgBrand" MarkFontSize="128"
-                          MarkForeground="{StaticResource BrsLogo}"
-                          HorizontalAlignment="Center" VerticalAlignment="Top"
-                          Margin="0,240,0,0" />
+            <ctl:CtlBrandMark x:Name="imgBrand" Grid.Row="0" MarkFontSize="144"
+                              MarkForeground="{StaticResource BrsMenuLight}"
+                              Effect="{StaticResource EfxTextShadow}"
+                              HorizontalAlignment="Center" VerticalAlignment="Center" />
 
-        <TextBlock x:Name="lblTagline" Style="{StaticResource StyTagline}"
-                   HorizontalAlignment="Center" VerticalAlignment="Top"
-                   Width="300" Margin="0,403,0,0"
-                   Text="{Binding [MainMenu_LblTagline], Source={StaticResource Loc}}" />
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,531,0,0" Width="820">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="btnCreateAccount" Style="{StaticResource StyMenuButton}"
-                        Margin="0,0,14,0"
-                        Content="{Binding [Shared_BtnCreateAccount], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
-                        Click="OnCreateAccountClick" />
-                <Button x:Name="btnLogIn" Style="{StaticResource StyMenuPrimaryButton}"
-                        Margin="0,0,14,0"
-                        Content="{Binding [Shared_BtnLogIn], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
-                        Click="OnLogInClick" />
-                <Button x:Name="btnPlayAsGuest" Style="{StaticResource StyMenuButton}"
-                        Content="{Binding [MainMenu_BtnPlayAsGuest], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
-                        Click="OnPlayAsGuestClick" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,14,0,0">
-                <Button x:Name="btnHowToPlay" Style="{StaticResource StyMenuButton}"
-                        Margin="0,0,14,0"
-                        Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
-                        Click="OnHowToPlayClick" />
-                <!-- Ranura de opciones del prototipo: existe como caja, todavia sin caso de uso. -->
-                <Border Width="170" Height="64" Margin="0,0,14,0" CornerRadius="3"
-                        Background="{StaticResource BrsSurface}"
-                        BorderBrush="{StaticResource BrsOutline}" BorderThickness="1.5" />
-                <Button x:Name="btnExit" Style="{StaticResource StyMenuButtonDisplay}"
-                        Content="{Binding [MainMenu_BtnExit], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
-                        Click="OnExitClick" />
-            </StackPanel>
-        </StackPanel>
-
-        <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,650,0,0"
-                Width="150" CornerRadius="4" Padding="14,12,14,14"
-                Background="{StaticResource BrsSurface}"
-                BorderBrush="{StaticResource BrsFieldBorder}" BorderThickness="1">
-            <Border Height="44" Width="122" CornerRadius="3" Background="{StaticResource BrsMenuArtwork}">
-                <Image Source="{StaticResource IcoUser}" Width="15" Height="15"
-                       HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </Border>
-        </Border>
-
-        <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="930,653,0,0"
-                Width="150" CornerRadius="4" Padding="14,12,14,14"
-                Background="{StaticResource BrsSurface}"
-                BorderBrush="{StaticResource BrsFieldBorder}" BorderThickness="1">
-            <StackPanel>
-                <TextBlock x:Name="lblLanguage" Style="{StaticResource StyPanelCaption}"
-                           Text="{Binding [MainMenu_LblLanguage], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
-                <Border Height="52" Margin="0,8,0,0" CornerRadius="3"
-                        Background="{StaticResource BrsSurface}"
-                        BorderBrush="{StaticResource BrsOutline}" BorderThickness="1.5">
-                    <DockPanel LastChildFill="True" Margin="16,0,18,0">
-                        <Image Source="{StaticResource IcoGlobe}" Width="20" Height="20"
-                               VerticalAlignment="Center" Margin="0,0,10,0" />
-                        <ComboBox x:Name="cmbLanguage"
-                                  VerticalAlignment="Center"
-                                  BorderThickness="0" Background="Transparent"
-                                  FontFamily="{StaticResource FntBody}" FontWeight="Bold" FontSize="14"
-                                  Foreground="{StaticResource BrsOutline}"
-                                  ItemsSource="{Binding AvailableCultures, Source={StaticResource Loc}}"
-                                  SelectedItem="{Binding SelectedCulture, Source={StaticResource Loc}, Mode=TwoWay}"
-                                  IsEditable="False">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ShortName, Converter={StaticResource CnvUpperCase}}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </DockPanel>
+                <Border Grid.Column="0" Style="{StaticResource StyMenuChip}"
+                        HorizontalAlignment="Left" VerticalAlignment="Center" Width="175">
+                    <StackPanel>
+                        <TextBlock x:Name="lblProfile" Style="{StaticResource StyMenuChipCaption}"
+                                   Text="{Binding [LobbyChat_BtnProfile], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
+                        <Border Style="{StaticResource StyMenuChipInset}" Height="44" Margin="0,8,0,0">
+                            <Image Source="{StaticResource IcoUserLight}" Width="18" Height="18"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </StackPanel>
                 </Border>
-            </StackPanel>
-        </Border>
 
-        <TextBlock x:Name="lblCultureSample" Style="{StaticResource StyPanelCaption}"
-                   HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,26"
-                   Opacity="0.75" />
+                <Border Grid.Column="1" Style="{StaticResource StyMenuBar}"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel Grid.IsSharedSizeScope="True">
+                        <Grid HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuTopButton" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuTopButton" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuTopButton" />
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" x:Name="btnCreateAccount"
+                                    Background="{StaticResource BrsMenuAction}"
+                                    Style="{StaticResource StyMenuButton}" Margin="7,0,7,0"
+                                    Content="{Binding [Shared_BtnCreateAccount], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                                    Click="OnCreateAccountClick" />
+                            <Button Grid.Column="1" x:Name="btnLogIn"
+                                    Background="{StaticResource BrsMenuAccent}"
+                                    Style="{StaticResource StyMenuPrimaryButton}" Margin="7,0,7,0"
+                                    Content="{Binding [Shared_BtnLogIn], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                                    Click="OnLogInClick" />
+                            <Button Grid.Column="2" x:Name="btnPlayAsGuest"
+                                    Background="{StaticResource BrsMenuEarth}"
+                                    Style="{StaticResource StyMenuButton}" Margin="7,0,7,0"
+                                    Content="{Binding [MainMenu_BtnPlayAsGuest], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                                    Click="OnPlayAsGuestClick" />
+                        </Grid>
+                        <Grid HorizontalAlignment="Center" Margin="0,14,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuBottomButton" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="MenuBottomButton" />
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" x:Name="btnHowToPlay"
+                                    Background="{StaticResource BrsMenuNeutral}"
+                                    Style="{StaticResource StyMenuSmallButton}" Margin="7,0,7,0"
+                                    Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                                    Click="OnHowToPlayClick" />
+                            <Button Grid.Column="1" x:Name="btnExit"
+                                    Background="{StaticResource BrsMenuWarn}"
+                                    Style="{StaticResource StyMenuSmallAltButton}" Margin="7,0,7,0"
+                                    Content="{Binding [MainMenu_BtnExit], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                                    Click="OnExitClick" />
+                        </Grid>
+                    </StackPanel>
+                </Border>
 
+                <Border Grid.Column="2" Style="{StaticResource StyMenuChip}"
+                        HorizontalAlignment="Right" VerticalAlignment="Center" Width="175">
+                    <StackPanel>
+                        <TextBlock x:Name="lblLanguage" Style="{StaticResource StyMenuChipCaption}"
+                                   Text="{Binding [MainMenu_LblLanguage], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
+                        <Border Style="{StaticResource StyMenuChipInset}" Height="44" Margin="0,8,0,0">
+                            <DockPanel LastChildFill="True" Margin="10,6,8,6">
+                                <Image Source="{StaticResource IcoGlobe}" Width="17" Height="17"
+                                       VerticalAlignment="Center" Margin="0,0,6,0" />
+                                <ComboBox x:Name="cmbLanguage"
+                                          Style="{StaticResource StyMenuLanguageBox}"
+                                          VerticalAlignment="Stretch"
+                                          ItemsSource="{Binding AvailableCultures, Source={StaticResource Loc}}"
+                                          SelectedItem="{Binding SelectedCulture, Source={StaticResource Loc}, Mode=TwoWay}"
+                                          IsEditable="False">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ShortName, Converter={StaticResource CnvUpperCase}}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </DockPanel>
+                        </Border>
+                    </StackPanel>
+                </Border>
+
+            </Grid>
+
+        </Grid>
     </Grid>
 </views:GuiWindowBase>

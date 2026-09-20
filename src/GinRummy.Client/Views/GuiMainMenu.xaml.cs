@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows;
-using GinRummy.Client.Localization;
+﻿using System.Windows;
 
 namespace GinRummy.Client.Views
 {
@@ -10,29 +8,12 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiMainMenu : GuiWindowBase
     {
-        private const string ClockFormat = "t";
-
         /// <summary>
         /// Builds the main menu.
         /// </summary>
         public GuiMainMenu()
         {
             InitializeComponent();
-            RefreshFormattedText();
-        }
-
-        /// <summary>
-        /// Rebuilds the sample of cultural formatting shown at the foot of the menu. It uses
-        /// the shared time format of the dictionary, so it also proves that the time itself
-        /// is formatted with the active culture and never written into the string.
-        /// </summary>
-        protected override void RefreshFormattedText()
-        {
-            if (lblCultureSample != null)
-            {
-                string clock = DateTime.Now.ToString(ClockFormat, Localization.CurrentCulture);
-                lblCultureSample.Text = Localization.Format("Shared_Timestamp", clock);
-            }
         }
 
         private void OnLogInClick(object sender, RoutedEventArgs e)
