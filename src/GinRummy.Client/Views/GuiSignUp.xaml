@@ -1,0 +1,86 @@
+﻿<views:GuiWindowBase x:Class="GinRummy.Client.Views.GuiSignUp"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:GinRummy.Client.Views"
+        Title="{Binding [SignUp_LblTitle], Source={StaticResource Loc}}"
+        Height="760" Width="520"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="{StaticResource BrsBackground}"
+        FontFamily="{StaticResource FntPrimary}">
+    <Grid>
+        <Border Style="{StaticResource StyCard}" Width="420">
+            <StackPanel>
+
+                <TextBlock x:Name="lblTitle" Style="{StaticResource StyHeading}"
+                           Text="{Binding [SignUp_LblTitle], Source={StaticResource Loc}}" />
+                <TextBlock x:Name="lblSubtitle" Style="{StaticResource StySubtitle}"
+                           Text="{Binding [SignUp_LblSubtitle], Source={StaticResource Loc}}" />
+
+                <TextBlock x:Name="lblEmail" Style="{StaticResource StyLabel}"
+                           Text="{Binding [SignUp_LblEmail], Source={StaticResource Loc}}" />
+                <Grid>
+                    <TextBox x:Name="txtEmail" Style="{StaticResource StyTextBox}" />
+                    <TextBlock Style="{StaticResource StyPlaceholder}"
+                               Text="{Binding [SignUp_TxtEmailPlaceholder], Source={StaticResource Loc}}"
+                               Visibility="{Binding Text, ElementName=txtEmail, Converter={StaticResource CnvEmptyTextToVisibility}}" />
+                </Grid>
+
+                <TextBlock x:Name="lblUsername" Style="{StaticResource StyLabel}"
+                           Text="{Binding [SignUp_LblUsername], Source={StaticResource Loc}}" />
+                <Grid>
+                    <TextBox x:Name="txtUsername" Style="{StaticResource StyTextBox}" />
+                    <TextBlock Style="{StaticResource StyPlaceholder}"
+                               Text="{Binding [SignUp_TxtUsernamePlaceholder], Source={StaticResource Loc}}"
+                               Visibility="{Binding Text, ElementName=txtUsername, Converter={StaticResource CnvEmptyTextToVisibility}}" />
+                </Grid>
+
+                <TextBlock x:Name="lblPassword" Style="{StaticResource StyLabel}"
+                           Text="{Binding [SignUp_LblPassword], Source={StaticResource Loc}}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <PasswordBox x:Name="pwdPassword" Grid.Column="0"
+                                 Style="{StaticResource StyPasswordBox}" />
+                    <Button x:Name="btnTogglePassword" Grid.Column="1"
+                            Style="{StaticResource StySecondaryButton}"
+                            Height="40" Margin="8,0,0,0" Content="&#x1F441;"
+                            ToolTip="{Binding [Shared_TipTogglePassword], Source={StaticResource Loc}}"
+                            Click="OnTogglePasswordClick" />
+                </Grid>
+
+                <TextBlock x:Name="lblConfirmPassword" Style="{StaticResource StyLabel}"
+                           Text="{Binding [SignUp_LblConfirmPassword], Source={StaticResource Loc}}" />
+                <PasswordBox x:Name="pwdConfirmPassword" Style="{StaticResource StyPasswordBox}" />
+
+                <StackPanel Margin="0,12,0,0">
+                    <TextBlock x:Name="lblReqMinLength" Style="{StaticResource StyHint}"
+                               Text="{Binding [SignUp_LblReqMinLength], Source={StaticResource Loc}}" />
+                    <TextBlock x:Name="lblReqLetter" Style="{StaticResource StyHint}"
+                               Text="{Binding [SignUp_LblReqLetter], Source={StaticResource Loc}}" />
+                    <TextBlock x:Name="lblReqNumber" Style="{StaticResource StyHint}"
+                               Text="{Binding [SignUp_LblReqNumber], Source={StaticResource Loc}}" />
+                </StackPanel>
+
+                <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyError}" />
+                <TextBlock x:Name="lblGuestSessionNotKept" Style="{StaticResource StyNotice}"
+                           Text="{Binding [SignUp_GuestSessionNotKept], Source={StaticResource Loc}}" />
+                <TextBlock x:Name="lblCreatingAccount" Style="{StaticResource StyNotice}"
+                           Text="{Binding [SignUp_LblCreatingAccount], Source={StaticResource Loc}}" />
+
+                <Button x:Name="btnCreateAccount" Style="{StaticResource StyPrimaryButton}"
+                        Margin="0,20,0,0"
+                        Content="{Binding [Shared_BtnCreateAccount], Source={StaticResource Loc}}"
+                        Click="OnCreateAccountClick" />
+
+                <Button x:Name="btnCancel" Style="{StaticResource StyLinkButton}"
+                        Margin="0,14,0,0"
+                        Content="{Binding [Shared_BtnCancel], Source={StaticResource Loc}}"
+                        Click="OnCancelClick" />
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</views:GuiWindowBase>

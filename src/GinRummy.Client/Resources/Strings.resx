@@ -1,0 +1,1470 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccountBanned_LblMessage" xml:space="preserve">
+    <value>Tu cuenta quedó bloqueada de forma permanente por faltas graves o repetidas.</value>
+    <comment>Contenido de GuiAccountBanned</comment>
+  </data>
+  <data name="AccountBanned_LblTitle" xml:space="preserve">
+    <value>Cuenta bloqueada</value>
+    <comment>Encabezado de GuiAccountBanned</comment>
+  </data>
+  <data name="AccountBanned_LnkTermsOfService" xml:space="preserve">
+    <value>Términos de servicio</value>
+    <comment>Navegación de GuiAccountBanned</comment>
+  </data>
+  <data name="AccountCreated_LblMessage" xml:space="preserve">
+    <value>Tu correo quedó verificado. Inicia sesión para entrar al lobby.</value>
+    <comment>Contenido de GuiAccountCreated</comment>
+  </data>
+  <data name="AccountCreated_LblTitle" xml:space="preserve">
+    <value>Cuenta creada</value>
+    <comment>Encabezado de GuiAccountCreated</comment>
+  </data>
+  <data name="AccountSuspended_LblMessage" xml:space="preserve">
+    <value>Tu cuenta está suspendida temporalmente por reportes verificados.</value>
+    <comment>Contenido de GuiAccountSuspended</comment>
+  </data>
+  <data name="AccountSuspended_LblTimeRemaining" xml:space="preserve">
+    <value>Tiempo restante: {0}</value>
+    <comment>Contenido de GuiAccountSuspended</comment>
+  </data>
+  <data name="AccountSuspended_LblTitle" xml:space="preserve">
+    <value>Cuenta suspendida</value>
+    <comment>Encabezado de GuiAccountSuspended</comment>
+  </data>
+  <data name="Card_A11yFormat" xml:space="preserve">
+    <value>{0} de {1}</value>
+    <comment>Nomenclatura de cartas de GuiGameTable</comment>
+  </data>
+  <data name="Card_RankAce" xml:space="preserve">
+    <value>A</value>
+    <comment>Nomenclatura de cartas de GuiGameTable</comment>
+  </data>
+  <data name="Card_RankJack" xml:space="preserve">
+    <value>J</value>
+    <comment>Nomenclatura de cartas de GuiGameTable</comment>
+  </data>
+  <data name="Card_RankKing" xml:space="preserve">
+    <value>K</value>
+    <comment>Nomenclatura de cartas de GuiGameTable</comment>
+  </data>
+  <data name="Card_RankQueen" xml:space="preserve">
+    <value>Q</value>
+    <comment>Nomenclatura de cartas de GuiGameTable</comment>
+  </data>
+  <data name="Card_SuitClubs" xml:space="preserve">
+    <value>tréboles</value>
+    <comment>Nomenclatura de cartas de GuiGameTable</comment>
+  </data>
+  <data name="Card_SuitDiamonds" xml:space="preserve">
+    <value>diamantes</value>
+    <comment>Nomenclatura de cartas de GuiGameTable</comment>
+  </data>
+  <data name="Card_SuitHearts" xml:space="preserve">
+    <value>corazones</value>
+    <comment>Nomenclatura de cartas de GuiGameTable</comment>
+  </data>
+  <data name="Card_SuitSpades" xml:space="preserve">
+    <value>picas</value>
+    <comment>Nomenclatura de cartas de GuiGameTable</comment>
+  </data>
+  <data name="ConfirmDialog_LblPassword" xml:space="preserve">
+    <value>Contraseña</value>
+    <comment>Mensajes del sistema de GuiConfirmDialog</comment>
+  </data>
+  <data name="ConfirmDialog_LblTitleForfeit" xml:space="preserve">
+    <value>ABANDONAR PARTIDA</value>
+    <comment>Encabezado de GuiConfirmDialog</comment>
+  </data>
+  <data name="ConfirmDialog_LblTitleLogOut" xml:space="preserve">
+    <value>CERRAR SESIÓN</value>
+    <comment>Encabezado de GuiConfirmDialog</comment>
+  </data>
+  <data name="ConfirmDialog_LblTitleRemoveFriend" xml:space="preserve">
+    <value>ELIMINAR AMIGO</value>
+    <comment>Encabezado de GuiConfirmDialog</comment>
+  </data>
+  <data name="ConfirmDialog_LblTitleSocialLinkRemove" xml:space="preserve">
+    <value>QUITAR ENLACE</value>
+    <comment>Encabezado de GuiConfirmDialog</comment>
+  </data>
+  <data name="ConfirmDialog_LblTitleSocialLinkReplace" xml:space="preserve">
+    <value>SUSTITUIR ENLACE</value>
+    <comment>Encabezado de GuiConfirmDialog</comment>
+  </data>
+  <data name="ConfirmDialog_LblTitleTwoStepDisable" xml:space="preserve">
+    <value>DESACTIVAR VERIFICACIÓN EN DOS PASOS</value>
+    <comment>Encabezado de GuiConfirmDialog</comment>
+  </data>
+  <data name="EditProfile_BtnAddSocialLink" xml:space="preserve">
+    <value>Agregar red social</value>
+    <comment>Acciones de GuiEditProfile</comment>
+  </data>
+  <data name="EditProfile_BtnChangePhoto" xml:space="preserve">
+    <value>Cambiar foto</value>
+    <comment>Acciones de GuiEditProfile</comment>
+  </data>
+  <data name="EditProfile_BtnRemovePhoto" xml:space="preserve">
+    <value>Quitar foto</value>
+    <comment>Acciones de GuiEditProfile</comment>
+  </data>
+  <data name="EditProfile_BtnSocialLinkRemoveConfirm" xml:space="preserve">
+    <value>Quitar</value>
+    <comment>Acciones de GuiEditProfile</comment>
+  </data>
+  <data name="EditProfile_BtnSocialLinkReplaceConfirm" xml:space="preserve">
+    <value>Sustituir</value>
+    <comment>Acciones de GuiEditProfile</comment>
+  </data>
+  <data name="EditProfile_BtnUnlink" xml:space="preserve">
+    <value>Quitar</value>
+    <comment>Acciones de GuiEditProfile</comment>
+  </data>
+  <data name="EditProfile_FieldSocialLink" xml:space="preserve">
+    <value>Dirección de tu red social</value>
+    <comment>Contenido de GuiEditProfile</comment>
+  </data>
+  <data name="EditProfile_LblBio" xml:space="preserve">
+    <value>Descripción</value>
+    <comment>Contenido de GuiEditProfile</comment>
+  </data>
+  <data name="EditProfile_LblBioCounter" xml:space="preserve">
+    <value>Te quedan {0} caracteres</value>
+    <comment>Contenido de GuiEditProfile</comment>
+  </data>
+  <data name="EditProfile_LblImageRequirements" xml:space="preserve">
+    <value>Formatos admitidos: JPG y PNG. Tamaño máximo: {0}.</value>
+    <comment>Contenido de GuiEditProfile</comment>
+  </data>
+  <data name="EditProfile_LblPlatform" xml:space="preserve">
+    <value>Plataforma</value>
+    <comment>Contenido de GuiEditProfile</comment>
+  </data>
+  <data name="EditProfile_LblSocialLinks" xml:space="preserve">
+    <value>Redes sociales</value>
+    <comment>Contenido de GuiEditProfile</comment>
+  </data>
+  <data name="EditProfile_LblSocialUrl" xml:space="preserve">
+    <value>Dirección</value>
+    <comment>Contenido de GuiEditProfile</comment>
+  </data>
+  <data name="EditProfile_LblTitle" xml:space="preserve">
+    <value>Editar perfil</value>
+    <comment>Encabezado de GuiEditProfile</comment>
+  </data>
+  <data name="EditProfile_LblUsername" xml:space="preserve">
+    <value>Nombre de usuario</value>
+    <comment>Contenido de GuiEditProfile</comment>
+  </data>
+  <data name="EditProfile_SocialLinkRemoveConfirm" xml:space="preserve">
+    <value>¿Quieres quitar este enlace de tu perfil?</value>
+    <comment>Mensajes del sistema de GuiEditProfile</comment>
+  </data>
+  <data name="EditProfile_SocialLinkReplaceConfirm" xml:space="preserve">
+    <value>Ya tienes un enlace de esa red
+¿Quieres sustituirlo?</value>
+    <comment>Mensajes del sistema de GuiEditProfile</comment>
+  </data>
+  <data name="EditProfile_UsernameChanged" xml:space="preserve">
+    <value>Tu nombre se actualizó</value>
+    <comment>Mensajes del sistema de GuiEditProfile</comment>
+  </data>
+  <data name="ErrorDialog_BtnRetry" xml:space="preserve">
+    <value>Reintentar</value>
+    <comment>Acciones de GuiErrorDialog</comment>
+  </data>
+  <data name="ErrorDialog_BtnReturnToMatch" xml:space="preserve">
+    <value>Volver a la partida</value>
+    <comment>Acciones de GuiErrorDialog</comment>
+  </data>
+  <data name="ErrorDialog_LblTitleConnectionLost" xml:space="preserve">
+    <value>CONEXIÓN PERDIDA</value>
+    <comment>Encabezado de GuiErrorDialog</comment>
+  </data>
+  <data name="ErrorDialog_LblTitleConnectionRefused" xml:space="preserve">
+    <value>ERROR DE CONEXIÓN</value>
+    <comment>Encabezado de GuiErrorDialog</comment>
+  </data>
+  <data name="ErrorDialog_LblTitleDataNotFound" xml:space="preserve">
+    <value>JUGADOR NO DISPONIBLE</value>
+    <comment>Encabezado de GuiErrorDialog</comment>
+  </data>
+  <data name="ErrorDialog_LblTitleLogOutNotRecorded" xml:space="preserve">
+    <value>SESIÓN CERRADA</value>
+    <comment>Encabezado de GuiErrorDialog</comment>
+  </data>
+  <data name="ErrorDialog_LblTitlePlayerBusy" xml:space="preserve">
+    <value>YA ESTÁS EN UNA PARTIDA</value>
+    <comment>Encabezado de GuiErrorDialog</comment>
+  </data>
+  <data name="ErrorDialog_LblTitleServiceUnavailable" xml:space="preserve">
+    <value>SERVICIO NO DISPONIBLE</value>
+    <comment>Encabezado de GuiErrorDialog</comment>
+  </data>
+  <data name="ErrorDialog_LblTitleSessionClosedElsewhere" xml:space="preserve">
+    <value>SESIÓN CERRADA EN ESTE EQUIPO</value>
+    <comment>Encabezado de GuiErrorDialog</comment>
+  </data>
+  <data name="ErrorDialog_LblTitleSessionExpired" xml:space="preserve">
+    <value>SESIÓN NO VÁLIDA</value>
+    <comment>Encabezado de GuiErrorDialog</comment>
+  </data>
+  <data name="ErrorDialog_LblTitleUnexpected" xml:space="preserve">
+    <value>ALGO SALIÓ MAL</value>
+    <comment>Encabezado de GuiErrorDialog</comment>
+  </data>
+  <data name="Error_AuthCodeInvalid" xml:space="preserve">
+    <value>El código no es correcto</value>
+    <comment>Mensajes del sistema de GuiVerifyEmail</comment>
+  </data>
+  <data name="Error_AuthEmailAlreadyRegistered" xml:space="preserve">
+    <value>Ese correo ya está registrado</value>
+    <comment>Mensajes del sistema de GuiSignUp</comment>
+  </data>
+  <data name="Error_AuthEmailNotVerified" xml:space="preserve">
+    <value>Verifica tu correo antes de iniciar sesión</value>
+    <comment>Mensajes del sistema de GuiLogIn</comment>
+  </data>
+  <data name="Error_AuthInvalidCredentials" xml:space="preserve">
+    <value>El correo o la contraseña no son correctos</value>
+    <comment>Mensajes del sistema de GuiLogIn</comment>
+  </data>
+  <data name="Error_AuthInvalidCurrentPassword" xml:space="preserve">
+    <value>La contraseña actual no es correcta</value>
+    <comment>Mensajes del sistema de GuiNewPassword</comment>
+  </data>
+  <data name="Error_AuthResendLimitReached" xml:space="preserve">
+    <value>Espera un momento antes de pedir otro código</value>
+    <comment>Mensajes del sistema de GuiVerifyEmail</comment>
+  </data>
+  <data name="Error_AuthSessionExpired" xml:space="preserve">
+    <value>Tu sesión ya no es válida, vuelve a iniciar sesión</value>
+    <comment>Mensajes del sistema de GuiErrorDialog</comment>
+  </data>
+  <data name="Error_AuthTooManyAttempts" xml:space="preserve">
+    <value>Agotaste los intentos, solicita un código nuevo</value>
+    <comment>Mensajes del sistema de GuiVerifyEmail</comment>
+  </data>
+  <data name="Error_DataNotFound" xml:space="preserve">
+    <value>El jugador que buscas ya no está disponible</value>
+    <comment>Mensajes del sistema de GuiErrorDialog</comment>
+  </data>
+  <data name="Error_GamePlayerBusy" xml:space="preserve">
+    <value>Ya estás en una partida</value>
+    <comment>Mensajes del sistema de GuiErrorDialog</comment>
+  </data>
+  <data name="Error_ModAccountSuspended" xml:space="preserve">
+    <value>Tu cuenta está suspendida</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="Error_NetConnectionLost" xml:space="preserve">
+    <value>Se perdió la conexión con el servidor</value>
+    <comment>Mensajes del sistema de GuiErrorDialog</comment>
+  </data>
+  <data name="Error_NetConnectionRefused" xml:space="preserve">
+    <value>No pudimos conectarnos al servidor.</value>
+    <comment>Mensajes del sistema de GuiErrorDialog</comment>
+  </data>
+  <data name="Error_SysLogOutNotRecorded" xml:space="preserve">
+    <value>Cerramos tu sesión, pero no pudimos registrarla</value>
+    <comment>Mensajes del sistema de GuiErrorDialog</comment>
+  </data>
+  <data name="Error_SysServiceUnavailable" xml:space="preserve">
+    <value>El servicio no está disponible en este momento.
+Inténtalo de nuevo en unos minutos.</value>
+    <comment>Mensajes del sistema de GuiErrorDialog</comment>
+  </data>
+  <data name="Error_SysUnexpected" xml:space="preserve">
+    <value>No pudimos crear tu cuenta. Inténtalo de nuevo.</value>
+    <comment>Mensajes del sistema de GuiErrorDialog</comment>
+  </data>
+  <data name="Error_ValDisallowedCharacters" xml:space="preserve">
+    <value>Hay caracteres no permitidos en lo que escribiste</value>
+    <comment>Mensajes del sistema de GuiSignUp</comment>
+  </data>
+  <data name="Error_ValFieldLength" xml:space="preserve">
+    <value>El texto es demasiado largo. Máximo 500 caracteres.</value>
+    <comment>Mensajes del sistema de GuiEditProfile</comment>
+  </data>
+  <data name="Error_ValInvalidEmailFormat" xml:space="preserve">
+    <value>Escribe una dirección de correo válida</value>
+    <comment>Mensajes del sistema de GuiSignUp</comment>
+  </data>
+  <data name="Error_ValPasswordMismatch" xml:space="preserve">
+    <value>Las contraseñas no coinciden</value>
+    <comment>Mensajes del sistema de GuiSignUp</comment>
+  </data>
+  <data name="Error_ValRequiredField" xml:space="preserve">
+    <value>Completa los campos marcados</value>
+    <comment>Mensajes del sistema de GuiSignUp</comment>
+  </data>
+  <data name="Error_ValUnsupportedImage" xml:space="preserve">
+    <value>Esa imagen no es válida</value>
+    <comment>Mensajes del sistema de GuiEditProfile</comment>
+  </data>
+  <data name="Error_ValWeakPassword" xml:space="preserve">
+    <value>Tu contraseña no cumple los requisitos</value>
+    <comment>Mensajes del sistema de GuiSignUp</comment>
+  </data>
+  <data name="FriendsList_BtnRemoveConfirm" xml:space="preserve">
+    <value>Eliminar</value>
+    <comment>Acciones de GuiLobbyChat</comment>
+  </data>
+  <data name="FriendsList_EmptyState" xml:space="preserve">
+    <value>Todavía no tienes amigos.
+Busca a un jugador por su etiqueta pública para enviarle una solicitud.</value>
+    <comment>Contenido de GuiLobbyChat</comment>
+  </data>
+  <data name="FriendsList_LblGroupAway" xml:space="preserve">
+    <value>AUSENTES  {0}</value>
+    <comment>Tabla y grupos (compartida)</comment>
+  </data>
+  <data name="FriendsList_LblGroupOnline" xml:space="preserve">
+    <value>EN LÍNEA  {0}</value>
+    <comment>Tabla y grupos (compartida)</comment>
+  </data>
+  <data name="FriendsList_LblGroupUnavailable" xml:space="preserve">
+    <value>NO DISPONIBLES  {0}</value>
+    <comment>Tabla y grupos (compartida)</comment>
+  </data>
+  <data name="FriendsList_RemoveConfirm" xml:space="preserve">
+    <value>¿Quieres eliminar a este jugador de tus amigos?</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="GameTable_BtnForfeit" xml:space="preserve">
+    <value>Abandonar</value>
+    <comment>Acciones de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_BtnForfeitConfirm" xml:space="preserve">
+    <value>Abandonar</value>
+    <comment>Acciones de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_BtnNextHand" xml:space="preserve">
+    <value>SIGUIENTE MANO</value>
+    <comment>Acciones de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_BtnPass" xml:space="preserve">
+    <value>Pasar</value>
+    <comment>Acciones de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_BtnReturnToLobby" xml:space="preserve">
+    <value>Volver al lobby</value>
+    <comment>Acciones de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_BtnTake" xml:space="preserve">
+    <value>Tomar</value>
+    <comment>Acciones de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_ForfeitWarning" xml:space="preserve">
+    <value>Si abandonas, la partida cuenta como derrota</value>
+    <comment>Mensajes del sistema de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblCardCount" xml:space="preserve">
+    <value>{0} cartas</value>
+    <comment>Indicadores de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblCardCountOne" xml:space="preserve">
+    <value>1 carta</value>
+    <comment>Mesa de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblCardsInStock" xml:space="preserve">
+    <value>Cartas en el mazo</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblChat" xml:space="preserve">
+    <value>Chat de la partida</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblDeadwood" xml:space="preserve">
+    <value>Deadwood</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblDeadwoodCount" xml:space="preserve">
+    <value>{0} DE DEADWOOD</value>
+    <comment>Indicadores de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblDeadwoodInline" xml:space="preserve">
+    <value>Deadwood · {0}</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblDefeatReason" xml:space="preserve">
+    <value>Tu rival gana esta vez.</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblDiscard" xml:space="preserve">
+    <value>Descarte</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblFinalScore" xml:space="preserve">
+    <value>PUNTUACIÓN FINAL
+
+Tú: {0}   -   Rival: {1}</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblHandHint" xml:space="preserve">
+    <value>Toca una carta para seleccionarla y arrástrala para reordenar</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblHandRoleDefended" xml:space="preserve">
+    <value>TÚ • DEFENDISTE</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblHandRoleKnocked" xml:space="preserve">
+    <value>{0} • CERRÓ</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblHandWinner" xml:space="preserve">
+    <value>{0} GANA LA MANO</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblKnockAnnounce" xml:space="preserve">
+    <value>{0} CERRÓ CON {1} DE DEADWOOD</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblKnockWith" xml:space="preserve">
+    <value>Cierre con {0}</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblMatch" xml:space="preserve">
+    <value>Partida</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblMatchLog" xml:space="preserve">
+    <value>Bitácora de la partida</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblMeldRun" xml:space="preserve">
+    <value>ESCALERA</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblMeldSet" xml:space="preserve">
+    <value>GRUPO</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblMinusOpponentDeadwood" xml:space="preserve">
+    <value>Menos el deadwood de {0}</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblOpponentHouse" xml:space="preserve">
+    <value>La casa</value>
+    <comment>Mesa de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblPaused" xml:space="preserve">
+    <value>Partida en pausa</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblPausedHint" xml:space="preserve">
+    <value>Tu rival perdió la conexión. La partida sigue cuando vuelva o termina si no regresa.</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblPointsFor" xml:space="preserve">
+    <value>Para {0}</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblResultDefeat" xml:space="preserve">
+    <value>DERROTA</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblResultVictory" xml:space="preserve">
+    <value>VICTORIA</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblScoreTarget" xml:space="preserve">
+    <value>PUNTUACIÓN • META {0}</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblStock" xml:space="preserve">
+    <value>Mazo · {0}</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblTarget" xml:space="preserve">
+    <value>Meta</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblUnmatched" xml:space="preserve">
+    <value>SIN COMBINAR</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblVictoryReasonForfeit" xml:space="preserve">
+    <value>Tu rival abandonó la partida</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblVictoryReasonTarget" xml:space="preserve">
+    <value>¡Alcanzaste la meta de puntos!</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblWaiting" xml:space="preserve">
+    <value>Esperando tu jugada</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblYou" xml:space="preserve">
+    <value>Tú</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblYourDeadwood" xml:space="preserve">
+    <value>Tu deadwood</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblYourHand" xml:space="preserve">
+    <value>Tu mano</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LogDealtFormat" xml:space="preserve">
+    <value>Repartió {0} cartas</value>
+    <comment>Registro de partida de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LogDiscardedFormat" xml:space="preserve">
+    <value>Descartó {0}</value>
+    <comment>Registro de partida de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LogDrewFromStock" xml:space="preserve">
+    <value>Robó del mazo</value>
+    <comment>Registro de partida de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LogGin" xml:space="preserve">
+    <value>¡Gin!</value>
+    <comment>Registro de partida de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LogKnockedFormat" xml:space="preserve">
+    <value>Cerró mano con {0} de deadwood</value>
+    <comment>Registro de partida de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LogPassed" xml:space="preserve">
+    <value>Pasó</value>
+    <comment>Registro de partida de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LogTurnedUpFormat" xml:space="preserve">
+    <value>Volteó {0}</value>
+    <comment>Registro de partida de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_TxtMessagePlaceholder" xml:space="preserve">
+    <value>Escribe un mensaje</value>
+    <comment>Formulario de GuiGameTable</comment>
+  </data>
+  <data name="GuestLobby_ChatDisabled" xml:space="preserve">
+    <value>Crea una cuenta para escribir en el chat</value>
+    <comment>Mensajes del sistema de GuiGuestLobby</comment>
+  </data>
+  <data name="GuestLobby_FriendsDisabled" xml:space="preserve">
+    <value>Crea una cuenta para tener amigos</value>
+    <comment>Mensajes del sistema de GuiGuestLobby</comment>
+  </data>
+  <data name="HouseRules_LblCardHead" xml:space="preserve">
+    <value>Reglas de la casa</value>
+    <comment>Encabezado de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblFairPlay" xml:space="preserve">
+    <value>No se permite hacer trampa. Juega limpio.</value>
+    <comment>Encabezado de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblGlossaryTitle" xml:space="preserve">
+    <value>Glosario</value>
+    <comment>Encabezado de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule01" xml:space="preserve">
+    <value>Cada jugador recibe {0} cartas. Una carta se voltea boca arriba para iniciar el pozo de descarte.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule02" xml:space="preserve">
+    <value>Quien no repartió decide primero si toma esa carta. Si pasa, decide quien repartió. Si ambos pasan, el juego empieza desde el mazo.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule03" xml:space="preserve">
+    <value>En tu turno robas una carta, del mazo o del pozo de descarte, y descartas una.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule04" xml:space="preserve">
+    <value>No puedes descartar la misma carta que acabas de tomar del pozo de descarte.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule05" xml:space="preserve">
+    <value>Un grupo son tres o cuatro cartas del mismo valor, o una escalera de tres o más cartas del mismo palo.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule06" xml:space="preserve">
+    <value>El as vale 1 y siempre va al inicio de la escalera: A-2-3 es válida y Q-K-A no.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule07" xml:space="preserve">
+    <value>El deadwood es la suma de tus cartas sueltas. Las figuras y los dieces valen 10, y el as vale 1.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule08" xml:space="preserve">
+    <value>Puedes cerrar la mano cuando tu deadwood es de {0} puntos o menos: descartas y bajas tu mano.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule09" xml:space="preserve">
+    <value>Al cerrar, tu rival baja sus grupos y puede acomodar sus cartas sueltas en los tuyos. Ganas la diferencia de deadwood.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule10" xml:space="preserve">
+    <value>Gin es cerrar sin ninguna carta suelta. Da {0} puntos de bonificación y tu rival no puede acomodar nada.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule11" xml:space="preserve">
+    <value>Si tu rival queda con igual o menos deadwood que tú, él gana la diferencia más {0} puntos.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule12" xml:space="preserve">
+    <value>Si quedan {0} cartas en el mazo, la mano se anula y nadie anota.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule13" xml:space="preserve">
+    <value>Gana la partida quien llegue primero a {0} puntos.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule14" xml:space="preserve">
+    <value>El repartidor se alterna en cada mano.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule15" xml:space="preserve">
+    <value>El mazo se baraja al inicio de cada mano.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule16" xml:space="preserve">
+    <value>Solo se roba una carta por turno y el turno siempre termina con un descarte.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule17" xml:space="preserve">
+    <value>Cada carta puede pertenecer a un solo grupo a la vez.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule18" xml:space="preserve">
+    <value>Puedes reordenar tu mano cuando quieras; el orden no afecta la partida.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule19" xml:space="preserve">
+    <value>Abandonar una partida en curso cuenta como derrota.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblRule20" xml:space="preserve">
+    <value>En el chat de la partida se aplican las mismas reglas de convivencia que en el lobby, y las faltas pueden terminar en sanción.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblTerm01" xml:space="preserve">
+    <value>Cerrar mano</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblTerm02" xml:space="preserve">
+    <value>Acomodar</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblTerm03" xml:space="preserve">
+    <value>Mazo</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblTerm04" xml:space="preserve">
+    <value>Pozo de descarte</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblTerm05" xml:space="preserve">
+    <value>Deadwood</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblTerm06" xml:space="preserve">
+    <value>Gin</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblTerm07" xml:space="preserve">
+    <value>Undercut</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblTerm08" xml:space="preserve">
+    <value>Grupo</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblTermDefinition01" xml:space="preserve">
+    <value>Bajar tu mano cuando tu deadwood es de {0} puntos o menos.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblTermDefinition02" xml:space="preserve">
+    <value>Agregar tus cartas sueltas a los grupos que bajó tu rival.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblTermDefinition03" xml:space="preserve">
+    <value>El montón de cartas boca abajo del que se roba.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblTermDefinition04" xml:space="preserve">
+    <value>El montón de cartas boca arriba donde se descarta.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblTermDefinition05" xml:space="preserve">
+    <value>La suma de tus cartas sueltas, las que no forman ningún grupo.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblTermDefinition06" xml:space="preserve">
+    <value>Cerrar la mano sin ninguna carta suelta.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblTermDefinition07" xml:space="preserve">
+    <value>Cuando quien no cerró queda con igual o menos deadwood.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblTermDefinition08" xml:space="preserve">
+    <value>Tres o cuatro cartas del mismo valor, o una escalera del mismo palo.</value>
+    <comment>Contenido de GuiHouseRules</comment>
+  </data>
+  <data name="HouseRules_LblTitle" xml:space="preserve">
+    <value>Cómo jugar</value>
+    <comment>Encabezado de GuiHouseRules</comment>
+  </data>
+  <data name="LobbyChat_BtnCancelChallenge" xml:space="preserve">
+    <value>Cancelar reto</value>
+    <comment>Acciones de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_BtnCancelSearch" xml:space="preserve">
+    <value>Cancelar búsqueda</value>
+    <comment>Acciones de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_BtnFindMatch" xml:space="preserve">
+    <value>Buscar partida</value>
+    <comment>Acciones de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_BtnProfile" xml:space="preserve">
+    <value>Perfil</value>
+    <comment>Acciones de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_BtnRankings" xml:space="preserve">
+    <value>Clasificación</value>
+    <comment>Acciones de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_ChallengeDeclined" xml:space="preserve">
+    <value>Tu reto fue rechazado</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_ChallengeSent" xml:space="preserve">
+    <value>Has retado a este jugador</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_EmptyNoPlayers" xml:space="preserve">
+    <value>No hay jugadores buscando partida.</value>
+    <comment>Panel de jugadores de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_LblChallengeReceived" xml:space="preserve">
+    <value>{0} te retó a una partida</value>
+    <comment>Contenido de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_LblChatRules" xml:space="preserve">
+    <value>Sé respetuoso: nada de racismo, sexismo, suplantación ni amenazas. Las faltas pueden terminar en sanción.</value>
+    <comment>Contenido de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_LblChatRulesTitle" xml:space="preserve">
+    <value>Reglas del chat</value>
+    <comment>Encabezado de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_LblSearchingMatch" xml:space="preserve">
+    <value>BUSCANDO PARTIDA</value>
+    <comment>Contenido de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_LblVersus" xml:space="preserve">
+    <value>vs</value>
+    <comment>Contenido (compartida)</comment>
+  </data>
+  <data name="LobbyChat_MessageCensored" xml:space="preserve">
+    <value>Mensaje censurado</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_MniChallenge" xml:space="preserve">
+    <value>Retar</value>
+    <comment>Menú contextual de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_MniFriendRequest" xml:space="preserve">
+    <value>Solicitud de amistad</value>
+    <comment>Menú contextual de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_MniProfile" xml:space="preserve">
+    <value>Perfil</value>
+    <comment>Menú contextual de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_MniRemoveFriend" xml:space="preserve">
+    <value>Eliminar amigo</value>
+    <comment>Menú contextual de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_MniReport" xml:space="preserve">
+    <value>Reportar</value>
+    <comment>Menú contextual de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_NoOpponentAvailable" xml:space="preserve">
+    <value>Aún no hay rivales disponibles. Seguimos buscando.</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_TabEveryone" xml:space="preserve">
+    <value>Todos</value>
+    <comment>Pestañas (compartida)</comment>
+  </data>
+  <data name="LobbyChat_TipMyProfile" xml:space="preserve">
+    <value>Mi perfil</value>
+    <comment>Barra lateral de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_TipSend" xml:space="preserve">
+    <value>Enviar</value>
+    <comment>Entrada de mensaje de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_TipSettings" xml:space="preserve">
+    <value>Configuración</value>
+    <comment>Barra lateral de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_TxtMessagePlaceholder" xml:space="preserve">
+    <value>Escribe un mensaje</value>
+    <comment>Formulario de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyStatus_LookingToPlay" xml:space="preserve">
+    <value>BUSCANDO PARTIDA  {0}</value>
+    <comment>Tabla y grupos de GuiLobbyChat</comment>
+  </data>
+  <data name="LogIn_LblEmail" xml:space="preserve">
+    <value>Correo electrónico</value>
+    <comment>Contenido de GuiLogIn</comment>
+  </data>
+  <data name="LogIn_LblPassword" xml:space="preserve">
+    <value>Contraseña</value>
+    <comment>Contenido de GuiLogIn</comment>
+  </data>
+  <data name="LogIn_LblSubtitle" xml:space="preserve">
+    <value>Qué bueno verte de nuevo</value>
+    <comment>Contenido de GuiLogIn</comment>
+  </data>
+  <data name="LogIn_LblTitle" xml:space="preserve">
+    <value>Iniciar sesión</value>
+    <comment>Encabezado de GuiLogIn</comment>
+  </data>
+  <data name="LogIn_LnkForgotPassword" xml:space="preserve">
+    <value>¿Olvidaste tu contraseña?</value>
+    <comment>Navegación de GuiLogIn</comment>
+  </data>
+  <data name="LogIn_SessionClosedElsewhere" xml:space="preserve">
+    <value>Se inició sesión en tu cuenta desde otro equipo</value>
+    <comment>Mensajes del sistema de GuiLogIn</comment>
+  </data>
+  <data name="LogIn_TxtEmailPlaceholder" xml:space="preserve">
+    <value>tu@correo.com</value>
+    <comment>Formulario de GuiLogIn</comment>
+  </data>
+  <data name="MainMenu_BtnExit" xml:space="preserve">
+    <value>Salir</value>
+    <comment>Acciones de GuiMainMenu</comment>
+  </data>
+  <data name="MainMenu_BtnPlayAsGuest" xml:space="preserve">
+    <value>Jugar como invitado</value>
+    <comment>Acciones de GuiMainMenu</comment>
+  </data>
+  <data name="MainMenu_LblLanguage" xml:space="preserve">
+    <value>Idioma</value>
+    <comment>Contenido de GuiMainMenu</comment>
+  </data>
+  <data name="MainMenu_LblTagline" xml:space="preserve">
+    <value>Tu jugada. Tu victoria.</value>
+    <comment>Contenido de GuiMainMenu</comment>
+  </data>
+  <data name="NewPassword_BtnUpdate" xml:space="preserve">
+    <value>Actualizar contraseña</value>
+    <comment>Acciones de GuiNewPassword</comment>
+  </data>
+  <data name="NewPassword_LblConfirmPassword" xml:space="preserve">
+    <value>Repite la contraseña</value>
+    <comment>Mensajes del sistema de GuiNewPassword</comment>
+  </data>
+  <data name="NewPassword_LblCurrentPassword" xml:space="preserve">
+    <value>Contraseña actual</value>
+    <comment>Contenido de GuiNewPassword</comment>
+  </data>
+  <data name="NewPassword_LblInstructions" xml:space="preserve">
+    <value>Crea una contraseña segura.</value>
+    <comment>Contenido de GuiNewPassword</comment>
+  </data>
+  <data name="NewPassword_LblNewPassword" xml:space="preserve">
+    <value>Contraseña nueva</value>
+    <comment>Contenido de GuiNewPassword</comment>
+  </data>
+  <data name="NewPassword_LblTitle" xml:space="preserve">
+    <value>Contraseña nueva</value>
+    <comment>Encabezado de GuiNewPassword</comment>
+  </data>
+  <data name="NewPassword_LblTitleChange" xml:space="preserve">
+    <value>Cambiar contraseña</value>
+    <comment>Encabezado de GuiNewPassword</comment>
+  </data>
+  <data name="Notifications_LblFriendRequest" xml:space="preserve">
+    <value>{0} te envió una solicitud de amistad</value>
+    <comment>Contenido de GuiNotifications</comment>
+  </data>
+  <data name="Notifications_LblTitle" xml:space="preserve">
+    <value>Notificaciones</value>
+    <comment>Encabezado de GuiNotifications</comment>
+  </data>
+  <data name="Notifications_NoPendingRequests" xml:space="preserve">
+    <value>No tienes solicitudes pendientes</value>
+    <comment>Contenido de GuiNotifications</comment>
+  </data>
+  <data name="Notifications_TabFriendRequests" xml:space="preserve">
+    <value>Solicitudes</value>
+    <comment>Pestañas de GuiNotifications</comment>
+  </data>
+  <data name="Notifications_TabSanctions" xml:space="preserve">
+    <value>Sanciones</value>
+    <comment>Pestañas de GuiNotifications</comment>
+  </data>
+  <data name="PlayerProfile_BtnAddFriend" xml:space="preserve">
+    <value>Solicitar amistad</value>
+    <comment>Acciones de GuiPlayerProfile</comment>
+  </data>
+  <data name="PlayerProfile_BtnClose" xml:space="preserve">
+    <value>Cerrar perfil</value>
+    <comment>Acciones de GuiPlayerProfile</comment>
+  </data>
+  <data name="PlayerProfile_BtnEditProfile" xml:space="preserve">
+    <value>Editar perfil</value>
+    <comment>Acciones de GuiPlayerProfile</comment>
+  </data>
+  <data name="PlayerProfile_BtnReport" xml:space="preserve">
+    <value>Reportar</value>
+    <comment>Acciones de GuiPlayerProfile</comment>
+  </data>
+  <data name="PlayerProfile_GuestHasNoProfile" xml:space="preserve">
+    <value>Las cuentas de invitado no tienen perfil</value>
+    <comment>Mensajes del sistema de GuiPlayerProfile</comment>
+  </data>
+  <data name="PlayerProfile_LblBio" xml:space="preserve">
+    <value>Descripción</value>
+    <comment>Contenido de GuiPlayerProfile</comment>
+  </data>
+  <data name="PlayerProfile_LblMatchesPlayed" xml:space="preserve">
+    <value>Partidas jugadas</value>
+    <comment>Contenido de GuiPlayerProfile</comment>
+  </data>
+  <data name="PlayerProfile_LblScore" xml:space="preserve">
+    <value>Puntuación</value>
+    <comment>Contenido de GuiPlayerProfile</comment>
+  </data>
+  <data name="PlayerProfile_LblSocialLinks" xml:space="preserve">
+    <value>Redes sociales</value>
+    <comment>Contenido de GuiPlayerProfile</comment>
+  </data>
+  <data name="PlayerProfile_LblWinRate" xml:space="preserve">
+    <value>Porcentaje de victorias</value>
+    <comment>Contenido de GuiPlayerProfile</comment>
+  </data>
+  <data name="PlayerProfile_NoMatchesYet" xml:space="preserve">
+    <value>Este jugador aún no ha jugado ninguna partida</value>
+    <comment>Mensajes del sistema de GuiPlayerProfile</comment>
+  </data>
+  <data name="ProfilePanel_BtnChangeEmail" xml:space="preserve">
+    <value>Cambiar correo</value>
+    <comment>Acciones de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_BtnChangePassword" xml:space="preserve">
+    <value>Cambiar contraseña</value>
+    <comment>Acciones de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_BtnLink" xml:space="preserve">
+    <value>Vincular</value>
+    <comment>Acciones de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_BtnTwoStepDisableConfirm" xml:space="preserve">
+    <value>Desactivar</value>
+    <comment>Acciones de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_EmailChanged" xml:space="preserve">
+    <value>Tu correo se actualizó</value>
+    <comment>Mensajes del sistema de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_LblAudio" xml:space="preserve">
+    <value>Audio y sonido</value>
+    <comment>Contenido de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_LblChangeEmailTitle" xml:space="preserve">
+    <value>Cambiar correo</value>
+    <comment>Encabezado de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_LblChatFilter" xml:space="preserve">
+    <value>Filtro de groserías del chat</value>
+    <comment>Contenido de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_LblChatFilterHint" xml:space="preserve">
+    <value>Bloquea insultos y palabras sensibles.</value>
+    <comment>Contenido de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_LblEmail" xml:space="preserve">
+    <value>Correo electrónico</value>
+    <comment>Contenido de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_LblLanguage" xml:space="preserve">
+    <value>Idioma</value>
+    <comment>Contenido de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_LblLinkedAccounts" xml:space="preserve">
+    <value>Cuentas vinculadas</value>
+    <comment>Contenido de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_LblMasterVolume" xml:space="preserve">
+    <value>Volumen general</value>
+    <comment>Contenido de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_LblNewEmail" xml:space="preserve">
+    <value>Dirección nueva</value>
+    <comment>Contenido de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_LblPassword" xml:space="preserve">
+    <value>Contraseña</value>
+    <comment>Contenido de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_LblTitle" xml:space="preserve">
+    <value>Tu perfil</value>
+    <comment>Encabezado de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_LblTwoStep" xml:space="preserve">
+    <value>Verificación en dos pasos</value>
+    <comment>Contenido de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_LblTwoStepHint" xml:space="preserve">
+    <value>Pide un código al iniciar sesión.</value>
+    <comment>Contenido de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_LogOutForfeitWarning" xml:space="preserve">
+    <value>Si cierras sesión abandonas la partida y cuenta como derrota</value>
+    <comment>Mensajes del sistema de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_TwoStepDisableWarning" xml:space="preserve">
+    <value>Tu cuenta quedará protegida solo por tu contraseña</value>
+    <comment>Mensajes del sistema de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_TwoStepDisabled" xml:space="preserve">
+    <value>La verificación en dos pasos está desactivada</value>
+    <comment>Mensajes del sistema de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_TxtNewEmailPlaceholder" xml:space="preserve">
+    <value>tu@correo.com</value>
+    <comment>Formulario de GuiProfilePanel</comment>
+  </data>
+  <data name="Rankings_LblLosses" xml:space="preserve">
+    <value>D</value>
+    <comment>Tabla y grupos de GuiRankings</comment>
+  </data>
+  <data name="Rankings_LblPlayer" xml:space="preserve">
+    <value>Jugador</value>
+    <comment>Tabla y grupos de GuiRankings</comment>
+  </data>
+  <data name="Rankings_LblPosition" xml:space="preserve">
+    <value>Pos.</value>
+    <comment>Tabla y grupos de GuiRankings</comment>
+  </data>
+  <data name="Rankings_LblRank" xml:space="preserve">
+    <value>Rango</value>
+    <comment>Tabla y grupos de GuiRankings</comment>
+  </data>
+  <data name="Rankings_LblWinRate" xml:space="preserve">
+    <value>% victorias</value>
+    <comment>Tabla y grupos de GuiRankings</comment>
+  </data>
+  <data name="Rankings_LblWins" xml:space="preserve">
+    <value>V</value>
+    <comment>Tabla y grupos de GuiRankings</comment>
+  </data>
+  <data name="Rankings_LblYou" xml:space="preserve">
+    <value>(tú)</value>
+    <comment>Contenido de GuiRankings</comment>
+  </data>
+  <data name="Rankings_LossesShortFormat" xml:space="preserve">
+    <value>{0}D</value>
+    <comment>Podio de GuiRankings</comment>
+  </data>
+  <data name="Rankings_NoMatches" xml:space="preserve">
+    <value>Ningún jugador coincide con la búsqueda</value>
+    <comment>Contenido de GuiRankings</comment>
+  </data>
+  <data name="Rankings_PositionFormat" xml:space="preserve">
+    <value>#{0}</value>
+    <comment>Podio de GuiRankings</comment>
+  </data>
+  <data name="Rankings_TabGlobal" xml:space="preserve">
+    <value>Global</value>
+    <comment>Pestañas de GuiRankings</comment>
+  </data>
+  <data name="Rankings_TipFirstPlace" xml:space="preserve">
+    <value>Primer lugar</value>
+    <comment>Podio de GuiRankings</comment>
+  </data>
+  <data name="Rankings_TipLosses" xml:space="preserve">
+    <value>Derrotas</value>
+    <comment>Tabla de GuiRankings</comment>
+  </data>
+  <data name="Rankings_TipSearch" xml:space="preserve">
+    <value>Buscar</value>
+    <comment>Búsqueda de GuiRankings</comment>
+  </data>
+  <data name="Rankings_TipWinRate" xml:space="preserve">
+    <value>Porcentaje de victorias</value>
+    <comment>Tabla de GuiRankings</comment>
+  </data>
+  <data name="Rankings_TipWins" xml:space="preserve">
+    <value>Victorias</value>
+    <comment>Tabla de GuiRankings</comment>
+  </data>
+  <data name="Rankings_TxtSearchPlaceholder" xml:space="preserve">
+    <value>Busca un jugador</value>
+    <comment>Formulario de GuiRankings</comment>
+  </data>
+  <data name="Rankings_WinsShortFormat" xml:space="preserve">
+    <value>{0}V</value>
+    <comment>Podio de GuiRankings</comment>
+  </data>
+  <data name="Reason_CheatingOrExploits" xml:space="preserve">
+    <value>Trampas</value>
+    <comment>Catálogo de motivos de GuiReportPlayer</comment>
+  </data>
+  <data name="Reason_HarassmentOrThreats" xml:space="preserve">
+    <value>Acoso o amenazas</value>
+    <comment>Catálogo de motivos de GuiReportPlayer</comment>
+  </data>
+  <data name="Reason_OffensiveLanguage" xml:space="preserve">
+    <value>Lenguaje ofensivo</value>
+    <comment>Catálogo de motivos de GuiReportPlayer</comment>
+  </data>
+  <data name="Reason_Spam" xml:space="preserve">
+    <value>Spam</value>
+    <comment>Catálogo de motivos de GuiReportPlayer</comment>
+  </data>
+  <data name="Reconnecting_LblMessage" xml:space="preserve">
+    <value>Se perdió la conexión con el servidor. Estamos intentando volver a conectarte.</value>
+    <comment>Contenido de GuiReconnecting</comment>
+  </data>
+  <data name="Reconnecting_LblTimeRemaining" xml:space="preserve">
+    <value>Tiempo restante: {0}</value>
+    <comment>Contenido de GuiReconnecting</comment>
+  </data>
+  <data name="Reconnecting_LblTitle" xml:space="preserve">
+    <value>Reconectando</value>
+    <comment>Encabezado de GuiReconnecting</comment>
+  </data>
+  <data name="RecoverPassword_BtnSendCode" xml:space="preserve">
+    <value>Enviar código</value>
+    <comment>Acciones de GuiRecoverPassword</comment>
+  </data>
+  <data name="RecoverPassword_CodeSentIfExists" xml:space="preserve">
+    <value>Si esa dirección tiene una cuenta, te enviamos un código</value>
+    <comment>Mensajes del sistema de GuiRecoverPassword</comment>
+  </data>
+  <data name="RecoverPassword_LblEmail" xml:space="preserve">
+    <value>Correo electrónico</value>
+    <comment>Contenido de GuiRecoverPassword</comment>
+  </data>
+  <data name="RecoverPassword_LblInstructions" xml:space="preserve">
+    <value>Escribe el correo de tu cuenta para recibir un código.</value>
+    <comment>Contenido de GuiRecoverPassword</comment>
+  </data>
+  <data name="RecoverPassword_LblTitle" xml:space="preserve">
+    <value>Recuperar contraseña</value>
+    <comment>Encabezado de GuiRecoverPassword</comment>
+  </data>
+  <data name="RecoverPassword_TxtEmailPlaceholder" xml:space="preserve">
+    <value>tu@correo.com</value>
+    <comment>Formulario de GuiRecoverPassword</comment>
+  </data>
+  <data name="ReportPlayer_BtnSubmit" xml:space="preserve">
+    <value>Enviar</value>
+    <comment>Acciones de GuiReportPlayer</comment>
+  </data>
+  <data name="ReportPlayer_LblDescription" xml:space="preserve">
+    <value>Descripción (opcional)</value>
+    <comment>Contenido de GuiReportPlayer</comment>
+  </data>
+  <data name="ReportPlayer_LblTitle" xml:space="preserve">
+    <value>Reportar jugador</value>
+    <comment>Encabezado de GuiReportPlayer</comment>
+  </data>
+  <data name="ReportPlayer_NoCategorySelected" xml:space="preserve">
+    <value>Selecciona un motivo</value>
+    <comment>Mensajes del sistema de GuiReportPlayer</comment>
+  </data>
+  <data name="ReportPlayer_TxtDescriptionPlaceholder" xml:space="preserve">
+    <value>Cuéntanos qué pasó</value>
+    <comment>Formulario de GuiReportPlayer</comment>
+  </data>
+  <data name="Sanctions_EmptyState" xml:space="preserve">
+    <value>No tienes ninguna sanción</value>
+    <comment>Contenido de GuiSanctions</comment>
+  </data>
+  <data name="Sanctions_LblActive" xml:space="preserve">
+    <value>VIGENTE</value>
+    <comment>Indicadores de GuiSanctions</comment>
+  </data>
+  <data name="Sanctions_LblServed" xml:space="preserve">
+    <value>CUMPLIDA</value>
+    <comment>Indicadores de GuiSanctions</comment>
+  </data>
+  <data name="Sanctions_LblServedAt" xml:space="preserve">
+    <value>Cumplida el {0}</value>
+    <comment>Contenido de GuiSanctions</comment>
+  </data>
+  <data name="Sanctions_LblTimeRemaining" xml:space="preserve">
+    <value>Tiempo restante: {0}</value>
+    <comment>Contenido de GuiSanctions</comment>
+  </data>
+  <data name="Search_TxtTagPlaceholder" xml:space="preserve">
+    <value>Busca por etiqueta pública</value>
+    <comment>Formulario (compartida)</comment>
+  </data>
+  <data name="Shared_AppTitle" xml:space="preserve">
+    <value>GIN RUMMY</value>
+    <comment>Marca (compartida)</comment>
+  </data>
+  <data name="Shared_BtnAccept" xml:space="preserve">
+    <value>Aceptar</value>
+    <comment>Acciones (compartida)</comment>
+  </data>
+  <data name="Shared_BtnCancel" xml:space="preserve">
+    <value>Cancelar</value>
+    <comment>Acciones (compartida)</comment>
+  </data>
+  <data name="Shared_BtnClose" xml:space="preserve">
+    <value>Cerrar</value>
+    <comment>Acciones (compartida)</comment>
+  </data>
+  <data name="Shared_BtnCreateAccount" xml:space="preserve">
+    <value>Crear cuenta</value>
+    <comment>Acciones (compartida)</comment>
+  </data>
+  <data name="Shared_BtnDecline" xml:space="preserve">
+    <value>Rechazar</value>
+    <comment>Acciones (compartida)</comment>
+  </data>
+  <data name="Shared_BtnHowToPlay" xml:space="preserve">
+    <value>Cómo jugar</value>
+    <comment>Acciones (compartida)</comment>
+  </data>
+  <data name="Shared_BtnLogIn" xml:space="preserve">
+    <value>Iniciar sesión</value>
+    <comment>Acciones (compartida)</comment>
+  </data>
+  <data name="Shared_BtnLogOut" xml:space="preserve">
+    <value>Cerrar sesión</value>
+    <comment>Acciones (compartida)</comment>
+  </data>
+  <data name="Shared_BtnResendCode" xml:space="preserve">
+    <value>Reenviar código</value>
+    <comment>Acciones (compartida)</comment>
+  </data>
+  <data name="Shared_BtnSave" xml:space="preserve">
+    <value>Guardar</value>
+    <comment>Acciones (compartida)</comment>
+  </data>
+  <data name="Shared_ChkKeepSignedIn" xml:space="preserve">
+    <value>Mantener sesión iniciada</value>
+    <comment>Formulario (compartida)</comment>
+  </data>
+  <data name="Shared_LblOr" xml:space="preserve">
+    <value>o</value>
+    <comment>Contenido (compartida)</comment>
+  </data>
+  <data name="Shared_TabFriends" xml:space="preserve">
+    <value>Amigos</value>
+    <comment>Pestañas (compartida)</comment>
+  </data>
+  <data name="Shared_Timestamp" xml:space="preserve">
+    <value>a las {0}</value>
+    <comment>Formatos (compartida)</comment>
+  </data>
+  <data name="Shared_TipTogglePassword" xml:space="preserve">
+    <value>Mostrar u ocultar la contraseña</value>
+    <comment>Campos y credenciales (compartida)</comment>
+  </data>
+  <data name="SignUp_GuestSessionNotKept" xml:space="preserve">
+    <value>Tu sesión de invitado y su nombre temporal no se conservan</value>
+    <comment>Mensajes del sistema de GuiSignUp</comment>
+  </data>
+  <data name="SignUp_LblConfirmPassword" xml:space="preserve">
+    <value>Confirma tu contraseña</value>
+    <comment>Mensajes del sistema de GuiSignUp</comment>
+  </data>
+  <data name="SignUp_LblCreatingAccount" xml:space="preserve">
+    <value>Creando tu cuenta…</value>
+    <comment>Contenido de GuiSignUp</comment>
+  </data>
+  <data name="SignUp_LblEmail" xml:space="preserve">
+    <value>Correo electrónico</value>
+    <comment>Contenido de GuiSignUp</comment>
+  </data>
+  <data name="SignUp_LblPassword" xml:space="preserve">
+    <value>Contraseña</value>
+    <comment>Contenido de GuiSignUp</comment>
+  </data>
+  <data name="SignUp_LblReqLetter" xml:space="preserve">
+    <value>· Al menos una letra</value>
+    <comment>Contenido de GuiSignUp</comment>
+  </data>
+  <data name="SignUp_LblReqMinLength" xml:space="preserve">
+    <value>· Al menos 8 caracteres</value>
+    <comment>Contenido de GuiSignUp</comment>
+  </data>
+  <data name="SignUp_LblReqNumber" xml:space="preserve">
+    <value>· Al menos un número</value>
+    <comment>Contenido de GuiSignUp</comment>
+  </data>
+  <data name="SignUp_LblSubtitle" xml:space="preserve">
+    <value>Guarda tu perfil, tus amigos y tu historial</value>
+    <comment>Contenido de GuiSignUp</comment>
+  </data>
+  <data name="SignUp_LblTitle" xml:space="preserve">
+    <value>Crear cuenta</value>
+    <comment>Encabezado de GuiSignUp</comment>
+  </data>
+  <data name="SignUp_LblUsername" xml:space="preserve">
+    <value>Nombre de usuario</value>
+    <comment>Contenido de GuiSignUp</comment>
+  </data>
+  <data name="SignUp_TxtEmailPlaceholder" xml:space="preserve">
+    <value>tu@correo.com</value>
+    <comment>Formulario de GuiSignUp</comment>
+  </data>
+  <data name="SignUp_TxtUsernamePlaceholder" xml:space="preserve">
+    <value>Cómo te verán los demás</value>
+    <comment>Formulario de GuiSignUp</comment>
+  </data>
+  <data name="TermsOfService_LblBody" xml:space="preserve">
+    <value>Borrador: aquí van los términos de servicio del juego. Falta el texto que apruebe el equipo. Debe cubrir la conducta esperada en el chat, las sanciones, el manejo de la cuenta y el uso de los datos.</value>
+    <comment>Contenido de GuiTermsOfService</comment>
+  </data>
+  <data name="TermsOfService_LblTitle" xml:space="preserve">
+    <value>Términos de servicio</value>
+    <comment>Encabezado de GuiTermsOfService</comment>
+  </data>
+  <data name="TwoStep_BtnVerify" xml:space="preserve">
+    <value>Verificar</value>
+    <comment>Acciones de GuiTwoStep</comment>
+  </data>
+  <data name="TwoStep_LblCode" xml:space="preserve">
+    <value>Código</value>
+    <comment>Contenido de GuiTwoStep</comment>
+  </data>
+  <data name="TwoStep_LblCodeExpiresIn" xml:space="preserve">
+    <value>El código vence en {0}</value>
+    <comment>Contenido de GuiTwoStep</comment>
+  </data>
+  <data name="TwoStep_LblInstructions" xml:space="preserve">
+    <value>Escribe el código de seis dígitos que enviamos a tu correo.</value>
+    <comment>Contenido de GuiTwoStep</comment>
+  </data>
+  <data name="TwoStep_LblInstructionsEnable" xml:space="preserve">
+    <value>Escribe el código que enviamos a tu correo para activar la verificación en dos pasos.</value>
+    <comment>Contenido de GuiTwoStep</comment>
+  </data>
+  <data name="TwoStep_LblInstructionsPassword" xml:space="preserve">
+    <value>Escribe el código que enviamos a tu correo para confirmar el cambio de contraseña.</value>
+    <comment>Contenido de GuiTwoStep</comment>
+  </data>
+  <data name="TwoStep_LblTitle" xml:space="preserve">
+    <value>Verificación en dos pasos</value>
+    <comment>Encabezado de GuiTwoStep</comment>
+  </data>
+  <data name="VerifyEmail_AlreadyVerified" xml:space="preserve">
+    <value>Tu cuenta ya está verificada</value>
+    <comment>Mensajes del sistema de GuiVerifyEmail</comment>
+  </data>
+  <data name="VerifyEmail_BtnVerify" xml:space="preserve">
+    <value>Verificar</value>
+    <comment>Acciones de GuiVerifyEmail</comment>
+  </data>
+  <data name="VerifyEmail_BtnVerifyLater" xml:space="preserve">
+    <value>Verificar más tarde</value>
+    <comment>Acciones de GuiVerifyEmail</comment>
+  </data>
+  <data name="VerifyEmail_CodeNotSent" xml:space="preserve">
+    <value>Tu cuenta se creó, pero no pudimos enviarte el código. Inténtalo de nuevo en unos minutos.</value>
+    <comment>Mensajes del sistema de GuiVerifyEmail</comment>
+  </data>
+  <data name="VerifyEmail_LblAttemptsLeft" xml:space="preserve">
+    <value>Intentos restantes: {0}</value>
+    <comment>Contenido de GuiVerifyEmail</comment>
+  </data>
+  <data name="VerifyEmail_LblCode" xml:space="preserve">
+    <value>Código</value>
+    <comment>Contenido de GuiVerifyEmail</comment>
+  </data>
+  <data name="VerifyEmail_LblCodeExpiresIn" xml:space="preserve">
+    <value>El código vence en {0}</value>
+    <comment>Contenido de GuiVerifyEmail</comment>
+  </data>
+  <data name="VerifyEmail_LblInstructions" xml:space="preserve">
+    <value>Escribe el código de seis dígitos que enviamos a {0}</value>
+    <comment>Contenido de GuiVerifyEmail</comment>
+  </data>
+  <data name="VerifyEmail_LblResendAvailableIn" xml:space="preserve">
+    <value>Podrás pedir otro código en {0}</value>
+    <comment>Contenido de GuiVerifyEmail</comment>
+  </data>
+  <data name="VerifyEmail_LblTitleNewEmail" xml:space="preserve">
+    <value>Verifica tu correo nuevo</value>
+    <comment>Encabezado de GuiVerifyEmail</comment>
+  </data>
+  <data name="VerifyEmail_LblTitleRecovery" xml:space="preserve">
+    <value>Verifica el código</value>
+    <comment>Encabezado de GuiVerifyEmail</comment>
+  </data>
+  <data name="VerifyEmail_LblTitleSignUp" xml:space="preserve">
+    <value>Verifica tu correo</value>
+    <comment>Encabezado de GuiVerifyEmail</comment>
+  </data>
+  <data name="VerifyEmail_TxtCodePlaceholder" xml:space="preserve">
+    <value>Código de 6 dígitos</value>
+    <comment>Formulario de GuiVerifyEmail</comment>
+  </data>
+</root>

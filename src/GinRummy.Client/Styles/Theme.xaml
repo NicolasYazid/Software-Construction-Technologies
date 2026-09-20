@@ -1,0 +1,262 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:conv="clr-namespace:GinRummy.Client.Converters">
+
+    <conv:EmptyTextToVisibilityConverter x:Key="CnvEmptyTextToVisibility" />
+
+    <!-- Design tokens. Adjust these values against the Figma prototype; every screen
+         reads its colours and typography from here and from nowhere else. -->
+    <SolidColorBrush x:Key="BrsBackground" Color="#FF10241C" />
+    <SolidColorBrush x:Key="BrsSurface" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="BrsPrimary" Color="#FF1F6F4A" />
+    <SolidColorBrush x:Key="BrsPrimaryHover" Color="#FF27865A" />
+    <SolidColorBrush x:Key="BrsOnPrimary" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="BrsAccent" Color="#FFC9A227" />
+    <SolidColorBrush x:Key="BrsText" Color="#FF1B2430" />
+    <SolidColorBrush x:Key="BrsTextMuted" Color="#FF6B7684" />
+    <SolidColorBrush x:Key="BrsTextOnDark" Color="#FFF3F6F4" />
+    <SolidColorBrush x:Key="BrsBorder" Color="#FFD6DBE1" />
+    <SolidColorBrush x:Key="BrsBorderFocused" Color="#FF1F6F4A" />
+    <SolidColorBrush x:Key="BrsDanger" Color="#FFB3261E" />
+    <SolidColorBrush x:Key="BrsFieldBackground" Color="#FFFBFCFD" />
+    <FontFamily x:Key="FntPrimary">Segoe UI</FontFamily>
+
+    <Style x:Key="StyCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsSurface}" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="32,28,32,28" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect BlurRadius="24" ShadowDepth="4" Opacity="0.35" Color="#FF000000" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StyBrand" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
+        <Setter Property="FontSize" Value="40" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{StaticResource BrsAccent}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyHeading" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{StaticResource BrsText}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="StySubtitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTextMuted}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="0,4,0,0" />
+    </Style>
+
+    <Style x:Key="StyLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource BrsText}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="0,14,0,4" />
+    </Style>
+
+    <Style x:Key="StyHint" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTextMuted}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="StyOnDark" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTextOnDark}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyError" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{StaticResource BrsDanger}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="0,12,0,0" />
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <Style x:Key="StyNotice" TargetType="TextBlock" BasedOn="{StaticResource StyHint}">
+        <Setter Property="Margin" Value="0,12,0,0" />
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <Style x:Key="StyPlaceholder" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTextMuted}" />
+        <Setter Property="IsHitTestVisible" Value="False" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="13,0,13,0" />
+    </Style>
+
+    <Style x:Key="StyTextBox" TargetType="TextBox">
+        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{StaticResource BrsText}" />
+        <Setter Property="Background" Value="{StaticResource BrsFieldBackground}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="Padding" Value="12,0,12,0" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="6">
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                      Margin="{TemplateBinding Padding}"
+                                      VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter Property="BorderBrush" Value="{StaticResource BrsBorderFocused}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyPasswordBox" TargetType="PasswordBox">
+        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{StaticResource BrsText}" />
+        <Setter Property="Background" Value="{StaticResource BrsFieldBackground}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="Padding" Value="12,0,12,0" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="PasswordBox">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="6">
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                      Margin="{TemplateBinding Padding}"
+                                      VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter Property="BorderBrush" Value="{StaticResource BrsBorderFocused}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyPrimaryButton" TargetType="Button">
+        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{StaticResource BrsOnPrimary}" />
+        <Setter Property="Background" Value="{StaticResource BrsPrimary}" />
+        <Setter Property="Height" Value="44" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="18,0,18,0">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsPrimaryHover}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StySecondaryButton" TargetType="Button" BasedOn="{StaticResource StyPrimaryButton}">
+        <Setter Property="Foreground" Value="{StaticResource BrsPrimary}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{StaticResource BrsPrimary}"
+                            BorderThickness="1"
+                            CornerRadius="6"
+                            Padding="18,0,18,0">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#141F6F4A" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyLinkButton" TargetType="Button">
+        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{StaticResource BrsPrimary}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <TextBlock Text="{TemplateBinding Content}"
+                               Foreground="{TemplateBinding Foreground}"
+                               FontFamily="{TemplateBinding FontFamily}"
+                               FontSize="{TemplateBinding FontSize}"
+                               TextWrapping="Wrap" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource BrsPrimaryHover}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyLinkButtonOnDark" TargetType="Button" BasedOn="{StaticResource StyLinkButton}">
+        <Setter Property="Foreground" Value="{StaticResource BrsTextOnDark}" />
+        <Setter Property="FontSize" Value="13" />
+    </Style>
+
+    <Style x:Key="StyCheckBox" TargetType="CheckBox">
+        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{StaticResource BrsText}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyComboBox" TargetType="ComboBox">
+        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Height" Value="32" />
+        <Setter Property="MinWidth" Value="190" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+</ResourceDictionary>

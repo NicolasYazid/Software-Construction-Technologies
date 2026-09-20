@@ -1,0 +1,1119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccountBanned_LblMessage" xml:space="preserve">
+    <value>Your account has been permanently banned for serious or repeated violations.</value>
+  </data>
+  <data name="AccountBanned_LblTitle" xml:space="preserve">
+    <value>Account banned</value>
+  </data>
+  <data name="AccountBanned_LnkTermsOfService" xml:space="preserve">
+    <value>Terms of service</value>
+  </data>
+  <data name="AccountCreated_LblMessage" xml:space="preserve">
+    <value>Your email is verified. Log in to enter the lobby.</value>
+  </data>
+  <data name="AccountCreated_LblTitle" xml:space="preserve">
+    <value>Account created</value>
+  </data>
+  <data name="AccountSuspended_LblMessage" xml:space="preserve">
+    <value>Your account is temporarily suspended due to verified reports.</value>
+  </data>
+  <data name="AccountSuspended_LblTimeRemaining" xml:space="preserve">
+    <value>Time remaining: {0}</value>
+  </data>
+  <data name="AccountSuspended_LblTitle" xml:space="preserve">
+    <value>Account suspended</value>
+  </data>
+  <data name="Card_A11yFormat" xml:space="preserve">
+    <value>{0} of {1}</value>
+  </data>
+  <data name="Card_RankAce" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="Card_RankJack" xml:space="preserve">
+    <value>J</value>
+  </data>
+  <data name="Card_RankKing" xml:space="preserve">
+    <value>K</value>
+  </data>
+  <data name="Card_RankQueen" xml:space="preserve">
+    <value>Q</value>
+  </data>
+  <data name="Card_SuitClubs" xml:space="preserve">
+    <value>clubs</value>
+  </data>
+  <data name="Card_SuitDiamonds" xml:space="preserve">
+    <value>diamonds</value>
+  </data>
+  <data name="Card_SuitHearts" xml:space="preserve">
+    <value>hearts</value>
+  </data>
+  <data name="Card_SuitSpades" xml:space="preserve">
+    <value>spades</value>
+  </data>
+  <data name="ConfirmDialog_LblPassword" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="ConfirmDialog_LblTitleForfeit" xml:space="preserve">
+    <value>FORFEIT MATCH</value>
+  </data>
+  <data name="ConfirmDialog_LblTitleLogOut" xml:space="preserve">
+    <value>LOG OUT</value>
+  </data>
+  <data name="ConfirmDialog_LblTitleRemoveFriend" xml:space="preserve">
+    <value>REMOVE FRIEND</value>
+  </data>
+  <data name="ConfirmDialog_LblTitleSocialLinkRemove" xml:space="preserve">
+    <value>REMOVE LINK</value>
+  </data>
+  <data name="ConfirmDialog_LblTitleSocialLinkReplace" xml:space="preserve">
+    <value>REPLACE LINK</value>
+  </data>
+  <data name="ConfirmDialog_LblTitleTwoStepDisable" xml:space="preserve">
+    <value>TURN OFF TWO-STEP VERIFICATION</value>
+  </data>
+  <data name="EditProfile_BtnAddSocialLink" xml:space="preserve">
+    <value>Add social network</value>
+  </data>
+  <data name="EditProfile_BtnChangePhoto" xml:space="preserve">
+    <value>Change photo</value>
+  </data>
+  <data name="EditProfile_BtnRemovePhoto" xml:space="preserve">
+    <value>Remove photo</value>
+  </data>
+  <data name="EditProfile_BtnSocialLinkRemoveConfirm" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="EditProfile_BtnSocialLinkReplaceConfirm" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="EditProfile_BtnUnlink" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="EditProfile_FieldSocialLink" xml:space="preserve">
+    <value>Your social network address</value>
+  </data>
+  <data name="EditProfile_LblBio" xml:space="preserve">
+    <value>Bio</value>
+  </data>
+  <data name="EditProfile_LblBioCounter" xml:space="preserve">
+    <value>{0} characters left</value>
+  </data>
+  <data name="EditProfile_LblImageRequirements" xml:space="preserve">
+    <value>Accepted formats: JPG and PNG. Maximum size: {0}.</value>
+  </data>
+  <data name="EditProfile_LblPlatform" xml:space="preserve">
+    <value>Platform</value>
+  </data>
+  <data name="EditProfile_LblSocialLinks" xml:space="preserve">
+    <value>Social networks</value>
+  </data>
+  <data name="EditProfile_LblSocialUrl" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="EditProfile_LblTitle" xml:space="preserve">
+    <value>Edit profile</value>
+  </data>
+  <data name="EditProfile_LblUsername" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="EditProfile_SocialLinkRemoveConfirm" xml:space="preserve">
+    <value>Do you want to remove this link from your profile?</value>
+  </data>
+  <data name="EditProfile_SocialLinkReplaceConfirm" xml:space="preserve">
+    <value>You already have a link for that network
+Do you want to replace it?</value>
+  </data>
+  <data name="EditProfile_UsernameChanged" xml:space="preserve">
+    <value>Your name was updated</value>
+  </data>
+  <data name="ErrorDialog_BtnRetry" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="ErrorDialog_BtnReturnToMatch" xml:space="preserve">
+    <value>Return to the match</value>
+  </data>
+  <data name="ErrorDialog_LblTitleConnectionLost" xml:space="preserve">
+    <value>CONNECTION LOST</value>
+  </data>
+  <data name="ErrorDialog_LblTitleConnectionRefused" xml:space="preserve">
+    <value>CONNECTION ERROR</value>
+  </data>
+  <data name="ErrorDialog_LblTitleDataNotFound" xml:space="preserve">
+    <value>PLAYER UNAVAILABLE</value>
+  </data>
+  <data name="ErrorDialog_LblTitleLogOutNotRecorded" xml:space="preserve">
+    <value>SESSION CLOSED</value>
+  </data>
+  <data name="ErrorDialog_LblTitlePlayerBusy" xml:space="preserve">
+    <value>YOU ARE ALREADY IN A MATCH</value>
+  </data>
+  <data name="ErrorDialog_LblTitleServiceUnavailable" xml:space="preserve">
+    <value>SERVICE UNAVAILABLE</value>
+  </data>
+  <data name="ErrorDialog_LblTitleSessionClosedElsewhere" xml:space="preserve">
+    <value>SESSION CLOSED ON THIS DEVICE</value>
+  </data>
+  <data name="ErrorDialog_LblTitleSessionExpired" xml:space="preserve">
+    <value>INVALID SESSION</value>
+  </data>
+  <data name="ErrorDialog_LblTitleUnexpected" xml:space="preserve">
+    <value>SOMETHING WENT WRONG</value>
+  </data>
+  <data name="Error_AuthCodeInvalid" xml:space="preserve">
+    <value>The code is not correct</value>
+  </data>
+  <data name="Error_AuthEmailAlreadyRegistered" xml:space="preserve">
+    <value>That email is already registered</value>
+  </data>
+  <data name="Error_AuthEmailNotVerified" xml:space="preserve">
+    <value>Verify your email before logging in</value>
+  </data>
+  <data name="Error_AuthInvalidCredentials" xml:space="preserve">
+    <value>The email or password is incorrect</value>
+  </data>
+  <data name="Error_AuthInvalidCurrentPassword" xml:space="preserve">
+    <value>The current password is not correct</value>
+  </data>
+  <data name="Error_AuthResendLimitReached" xml:space="preserve">
+    <value>Wait a moment before requesting another code</value>
+  </data>
+  <data name="Error_AuthSessionExpired" xml:space="preserve">
+    <value>Your session is no longer valid, please log in again</value>
+  </data>
+  <data name="Error_AuthTooManyAttempts" xml:space="preserve">
+    <value>You have used all your attempts, request a new code</value>
+  </data>
+  <data name="Error_DataNotFound" xml:space="preserve">
+    <value>The player you are looking for is no longer available</value>
+  </data>
+  <data name="Error_GamePlayerBusy" xml:space="preserve">
+    <value>You are already in a match</value>
+  </data>
+  <data name="Error_ModAccountSuspended" xml:space="preserve">
+    <value>Your account is suspended</value>
+  </data>
+  <data name="Error_NetConnectionLost" xml:space="preserve">
+    <value>The connection to the server was lost</value>
+  </data>
+  <data name="Error_NetConnectionRefused" xml:space="preserve">
+    <value>We could not connect to the server.</value>
+  </data>
+  <data name="Error_SysLogOutNotRecorded" xml:space="preserve">
+    <value>We logged you out, but we could not record it</value>
+  </data>
+  <data name="Error_SysServiceUnavailable" xml:space="preserve">
+    <value>The service is unavailable right now.
+Please try again in a few minutes.</value>
+  </data>
+  <data name="Error_SysUnexpected" xml:space="preserve">
+    <value>We could not create your account. Please try again.</value>
+  </data>
+  <data name="Error_ValDisallowedCharacters" xml:space="preserve">
+    <value>There are characters that are not allowed in what you typed</value>
+  </data>
+  <data name="Error_ValFieldLength" xml:space="preserve">
+    <value>The text is too long. Maximum 500 characters.</value>
+  </data>
+  <data name="Error_ValInvalidEmailFormat" xml:space="preserve">
+    <value>Enter a valid email address</value>
+  </data>
+  <data name="Error_ValPasswordMismatch" xml:space="preserve">
+    <value>The passwords do not match</value>
+  </data>
+  <data name="Error_ValRequiredField" xml:space="preserve">
+    <value>Fill in the marked fields</value>
+  </data>
+  <data name="Error_ValUnsupportedImage" xml:space="preserve">
+    <value>That image is not valid</value>
+  </data>
+  <data name="Error_ValWeakPassword" xml:space="preserve">
+    <value>Your password does not meet the requirements</value>
+  </data>
+  <data name="FriendsList_BtnRemoveConfirm" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="FriendsList_EmptyState" xml:space="preserve">
+    <value>You do not have any friends yet.
+Search for a player by their public tag to send them a request.</value>
+  </data>
+  <data name="FriendsList_LblGroupAway" xml:space="preserve">
+    <value>AWAY  {0}</value>
+  </data>
+  <data name="FriendsList_LblGroupOnline" xml:space="preserve">
+    <value>ONLINE  {0}</value>
+  </data>
+  <data name="FriendsList_LblGroupUnavailable" xml:space="preserve">
+    <value>UNAVAILABLE  {0}</value>
+  </data>
+  <data name="FriendsList_RemoveConfirm" xml:space="preserve">
+    <value>Do you want to remove this player from your friends?</value>
+  </data>
+  <data name="GameTable_BtnForfeit" xml:space="preserve">
+    <value>Forfeit</value>
+  </data>
+  <data name="GameTable_BtnForfeitConfirm" xml:space="preserve">
+    <value>Forfeit</value>
+  </data>
+  <data name="GameTable_BtnNextHand" xml:space="preserve">
+    <value>NEXT HAND</value>
+  </data>
+  <data name="GameTable_BtnPass" xml:space="preserve">
+    <value>Pass</value>
+  </data>
+  <data name="GameTable_BtnReturnToLobby" xml:space="preserve">
+    <value>Return to lobby</value>
+  </data>
+  <data name="GameTable_BtnTake" xml:space="preserve">
+    <value>Take</value>
+  </data>
+  <data name="GameTable_ForfeitWarning" xml:space="preserve">
+    <value>If you forfeit, the match counts as a loss</value>
+  </data>
+  <data name="GameTable_LblCardCount" xml:space="preserve">
+    <value>{0} cards</value>
+  </data>
+  <data name="GameTable_LblCardCountOne" xml:space="preserve">
+    <value>1 card</value>
+  </data>
+  <data name="GameTable_LblCardsInStock" xml:space="preserve">
+    <value>Cards in stock</value>
+  </data>
+  <data name="GameTable_LblChat" xml:space="preserve">
+    <value>Match chat</value>
+  </data>
+  <data name="GameTable_LblDeadwood" xml:space="preserve">
+    <value>Deadwood</value>
+  </data>
+  <data name="GameTable_LblDeadwoodCount" xml:space="preserve">
+    <value>{0} DEADWOOD</value>
+  </data>
+  <data name="GameTable_LblDeadwoodInline" xml:space="preserve">
+    <value>Deadwood · {0}</value>
+  </data>
+  <data name="GameTable_LblDefeatReason" xml:space="preserve">
+    <value>Your opponent wins this time.</value>
+  </data>
+  <data name="GameTable_LblDiscard" xml:space="preserve">
+    <value>Discard</value>
+  </data>
+  <data name="GameTable_LblFinalScore" xml:space="preserve">
+    <value>FINAL SCORE
+
+You: {0}   -   Opponent: {1}</value>
+  </data>
+  <data name="GameTable_LblHandHint" xml:space="preserve">
+    <value>Tap a card to select it and drag to reorder</value>
+  </data>
+  <data name="GameTable_LblHandRoleDefended" xml:space="preserve">
+    <value>YOU • DEFENDED</value>
+  </data>
+  <data name="GameTable_LblHandRoleKnocked" xml:space="preserve">
+    <value>{0} • KNOCKED</value>
+  </data>
+  <data name="GameTable_LblHandWinner" xml:space="preserve">
+    <value>{0} WINS THE HAND</value>
+  </data>
+  <data name="GameTable_LblKnockAnnounce" xml:space="preserve">
+    <value>{0} KNOCKED WITH {1} DEADWOOD</value>
+  </data>
+  <data name="GameTable_LblKnockWith" xml:space="preserve">
+    <value>Knock with {0}</value>
+  </data>
+  <data name="GameTable_LblMatch" xml:space="preserve">
+    <value>Match</value>
+  </data>
+  <data name="GameTable_LblMatchLog" xml:space="preserve">
+    <value>Match log</value>
+  </data>
+  <data name="GameTable_LblMeldRun" xml:space="preserve">
+    <value>RUN</value>
+  </data>
+  <data name="GameTable_LblMeldSet" xml:space="preserve">
+    <value>SET</value>
+  </data>
+  <data name="GameTable_LblMinusOpponentDeadwood" xml:space="preserve">
+    <value>Minus {0}'s deadwood</value>
+  </data>
+  <data name="GameTable_LblOpponentHouse" xml:space="preserve">
+    <value>The house</value>
+  </data>
+  <data name="GameTable_LblPaused" xml:space="preserve">
+    <value>Match paused</value>
+  </data>
+  <data name="GameTable_LblPausedHint" xml:space="preserve">
+    <value>Your opponent lost connection. The match resumes when they return or ends if they do not.</value>
+  </data>
+  <data name="GameTable_LblPointsFor" xml:space="preserve">
+    <value>For {0}</value>
+  </data>
+  <data name="GameTable_LblResultDefeat" xml:space="preserve">
+    <value>DEFEAT</value>
+  </data>
+  <data name="GameTable_LblResultVictory" xml:space="preserve">
+    <value>VICTORY</value>
+  </data>
+  <data name="GameTable_LblScoreTarget" xml:space="preserve">
+    <value>SCORE • TARGET {0}</value>
+  </data>
+  <data name="GameTable_LblStock" xml:space="preserve">
+    <value>Stock · {0}</value>
+  </data>
+  <data name="GameTable_LblTarget" xml:space="preserve">
+    <value>Target</value>
+  </data>
+  <data name="GameTable_LblUnmatched" xml:space="preserve">
+    <value>UNMATCHED</value>
+  </data>
+  <data name="GameTable_LblVictoryReasonForfeit" xml:space="preserve">
+    <value>Your opponent forfeited the match</value>
+  </data>
+  <data name="GameTable_LblVictoryReasonTarget" xml:space="preserve">
+    <value>You reached the target score!</value>
+  </data>
+  <data name="GameTable_LblWaiting" xml:space="preserve">
+    <value>Waiting for your move</value>
+  </data>
+  <data name="GameTable_LblYou" xml:space="preserve">
+    <value>You</value>
+  </data>
+  <data name="GameTable_LblYourDeadwood" xml:space="preserve">
+    <value>Your deadwood</value>
+  </data>
+  <data name="GameTable_LblYourHand" xml:space="preserve">
+    <value>Your hand</value>
+  </data>
+  <data name="GameTable_LogDealtFormat" xml:space="preserve">
+    <value>Dealt {0} cards</value>
+  </data>
+  <data name="GameTable_LogDiscardedFormat" xml:space="preserve">
+    <value>Discarded {0}</value>
+  </data>
+  <data name="GameTable_LogDrewFromStock" xml:space="preserve">
+    <value>Drew from the stock</value>
+  </data>
+  <data name="GameTable_LogGin" xml:space="preserve">
+    <value>Gin!</value>
+  </data>
+  <data name="GameTable_LogKnockedFormat" xml:space="preserve">
+    <value>Knocked with {0} deadwood</value>
+  </data>
+  <data name="GameTable_LogPassed" xml:space="preserve">
+    <value>Passed</value>
+  </data>
+  <data name="GameTable_LogTurnedUpFormat" xml:space="preserve">
+    <value>Turned up {0}</value>
+  </data>
+  <data name="GameTable_TxtMessagePlaceholder" xml:space="preserve">
+    <value>Write a message</value>
+  </data>
+  <data name="GuestLobby_ChatDisabled" xml:space="preserve">
+    <value>Create an account to write in the chat</value>
+  </data>
+  <data name="GuestLobby_FriendsDisabled" xml:space="preserve">
+    <value>Create an account to have friends</value>
+  </data>
+  <data name="HouseRules_LblCardHead" xml:space="preserve">
+    <value>House rules</value>
+  </data>
+  <data name="HouseRules_LblFairPlay" xml:space="preserve">
+    <value>Cheating is not allowed. Play fair.</value>
+  </data>
+  <data name="HouseRules_LblGlossaryTitle" xml:space="preserve">
+    <value>Glossary</value>
+  </data>
+  <data name="HouseRules_LblRule01" xml:space="preserve">
+    <value>Each player receives {0} cards. One card is turned face up to start the discard pile.</value>
+  </data>
+  <data name="HouseRules_LblRule02" xml:space="preserve">
+    <value>The non-dealer decides first whether to take that card. If they pass, the dealer decides. If both pass, play starts from the stock.</value>
+  </data>
+  <data name="HouseRules_LblRule03" xml:space="preserve">
+    <value>On your turn you draw one card, from the stock or the discard pile, and discard one.</value>
+  </data>
+  <data name="HouseRules_LblRule04" xml:space="preserve">
+    <value>You cannot discard the same card you just took from the discard pile.</value>
+  </data>
+  <data name="HouseRules_LblRule05" xml:space="preserve">
+    <value>A meld is three or four cards of the same rank, or a run of three or more cards of the same suit.</value>
+  </data>
+  <data name="HouseRules_LblRule06" xml:space="preserve">
+    <value>The ace is worth 1 and always starts the run: A-2-3 is valid and Q-K-A is not.</value>
+  </data>
+  <data name="HouseRules_LblRule07" xml:space="preserve">
+    <value>Deadwood is the sum of your unmatched cards. Face cards and tens are worth 10, and the ace is worth 1.</value>
+  </data>
+  <data name="HouseRules_LblRule08" xml:space="preserve">
+    <value>You can knock when your deadwood is {0} points or less: you discard and lay down your hand.</value>
+  </data>
+  <data name="HouseRules_LblRule09" xml:space="preserve">
+    <value>When you knock, your opponent lays down their melds and may lay off their unmatched cards on yours. You score the deadwood difference.</value>
+  </data>
+  <data name="HouseRules_LblRule10" xml:space="preserve">
+    <value>Gin is knocking with no unmatched cards. It gives a {0}-point bonus and your opponent cannot lay off anything.</value>
+  </data>
+  <data name="HouseRules_LblRule11" xml:space="preserve">
+    <value>If your opponent ends with equal or less deadwood than you, they score the difference plus {0} points.</value>
+  </data>
+  <data name="HouseRules_LblRule12" xml:space="preserve">
+    <value>If {0} cards are left in the stock, the hand is void and no one scores.</value>
+  </data>
+  <data name="HouseRules_LblRule13" xml:space="preserve">
+    <value>The first player to reach {0} points wins the match.</value>
+  </data>
+  <data name="HouseRules_LblRule14" xml:space="preserve">
+    <value>The dealer alternates each hand.</value>
+  </data>
+  <data name="HouseRules_LblRule15" xml:space="preserve">
+    <value>The deck is shuffled at the start of each hand.</value>
+  </data>
+  <data name="HouseRules_LblRule16" xml:space="preserve">
+    <value>Only one card is drawn per turn and the turn always ends with a discard.</value>
+  </data>
+  <data name="HouseRules_LblRule17" xml:space="preserve">
+    <value>Each card can belong to only one meld at a time.</value>
+  </data>
+  <data name="HouseRules_LblRule18" xml:space="preserve">
+    <value>You can reorder your hand at any time; the order does not affect the match.</value>
+  </data>
+  <data name="HouseRules_LblRule19" xml:space="preserve">
+    <value>Forfeiting a match in progress counts as a loss.</value>
+  </data>
+  <data name="HouseRules_LblRule20" xml:space="preserve">
+    <value>The same conduct rules as the lobby apply to the match chat, and violations can lead to sanctions.</value>
+  </data>
+  <data name="HouseRules_LblTerm01" xml:space="preserve">
+    <value>Knock</value>
+  </data>
+  <data name="HouseRules_LblTerm02" xml:space="preserve">
+    <value>Lay off</value>
+  </data>
+  <data name="HouseRules_LblTerm03" xml:space="preserve">
+    <value>Stock</value>
+  </data>
+  <data name="HouseRules_LblTerm04" xml:space="preserve">
+    <value>Discard pile</value>
+  </data>
+  <data name="HouseRules_LblTerm05" xml:space="preserve">
+    <value>Deadwood</value>
+  </data>
+  <data name="HouseRules_LblTerm06" xml:space="preserve">
+    <value>Gin</value>
+  </data>
+  <data name="HouseRules_LblTerm07" xml:space="preserve">
+    <value>Undercut</value>
+  </data>
+  <data name="HouseRules_LblTerm08" xml:space="preserve">
+    <value>Meld</value>
+  </data>
+  <data name="HouseRules_LblTermDefinition01" xml:space="preserve">
+    <value>Laying down your hand when your deadwood is {0} points or less.</value>
+  </data>
+  <data name="HouseRules_LblTermDefinition02" xml:space="preserve">
+    <value>Adding your unmatched cards to the melds your opponent laid down.</value>
+  </data>
+  <data name="HouseRules_LblTermDefinition03" xml:space="preserve">
+    <value>The face-down pile of cards you draw from.</value>
+  </data>
+  <data name="HouseRules_LblTermDefinition04" xml:space="preserve">
+    <value>The face-up pile of cards where you discard.</value>
+  </data>
+  <data name="HouseRules_LblTermDefinition05" xml:space="preserve">
+    <value>The sum of your unmatched cards, the ones that form no meld.</value>
+  </data>
+  <data name="HouseRules_LblTermDefinition06" xml:space="preserve">
+    <value>Knocking with no unmatched cards.</value>
+  </data>
+  <data name="HouseRules_LblTermDefinition07" xml:space="preserve">
+    <value>When the player who did not knock ends with equal or less deadwood.</value>
+  </data>
+  <data name="HouseRules_LblTermDefinition08" xml:space="preserve">
+    <value>Three or four cards of the same rank, or a run of the same suit.</value>
+  </data>
+  <data name="HouseRules_LblTitle" xml:space="preserve">
+    <value>How to play</value>
+  </data>
+  <data name="LobbyChat_BtnCancelChallenge" xml:space="preserve">
+    <value>Cancel challenge</value>
+  </data>
+  <data name="LobbyChat_BtnCancelSearch" xml:space="preserve">
+    <value>Cancel search</value>
+  </data>
+  <data name="LobbyChat_BtnFindMatch" xml:space="preserve">
+    <value>Find match</value>
+  </data>
+  <data name="LobbyChat_BtnProfile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="LobbyChat_BtnRankings" xml:space="preserve">
+    <value>Leaderboard</value>
+  </data>
+  <data name="LobbyChat_ChallengeDeclined" xml:space="preserve">
+    <value>Your challenge was declined</value>
+  </data>
+  <data name="LobbyChat_ChallengeSent" xml:space="preserve">
+    <value>You have challenged this player</value>
+  </data>
+  <data name="LobbyChat_EmptyNoPlayers" xml:space="preserve">
+    <value>No players looking to play.</value>
+  </data>
+  <data name="LobbyChat_LblChallengeReceived" xml:space="preserve">
+    <value>{0} challenged you to a match</value>
+  </data>
+  <data name="LobbyChat_LblChatRules" xml:space="preserve">
+    <value>Be respectful: no racism, sexism, impersonation or threats. Violations can lead to sanctions.</value>
+  </data>
+  <data name="LobbyChat_LblChatRulesTitle" xml:space="preserve">
+    <value>Chat rules</value>
+  </data>
+  <data name="LobbyChat_LblSearchingMatch" xml:space="preserve">
+    <value>LOOKING FOR A MATCH</value>
+  </data>
+  <data name="LobbyChat_LblVersus" xml:space="preserve">
+    <value>vs</value>
+  </data>
+  <data name="LobbyChat_MessageCensored" xml:space="preserve">
+    <value>Message censored</value>
+  </data>
+  <data name="LobbyChat_MniChallenge" xml:space="preserve">
+    <value>Challenge</value>
+  </data>
+  <data name="LobbyChat_MniFriendRequest" xml:space="preserve">
+    <value>Friend request</value>
+  </data>
+  <data name="LobbyChat_MniProfile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="LobbyChat_MniRemoveFriend" xml:space="preserve">
+    <value>Remove friend</value>
+  </data>
+  <data name="LobbyChat_MniReport" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="LobbyChat_NoOpponentAvailable" xml:space="preserve">
+    <value>No opponents available yet. We keep looking.</value>
+  </data>
+  <data name="LobbyChat_TabEveryone" xml:space="preserve">
+    <value>Everyone</value>
+  </data>
+  <data name="LobbyChat_TipMyProfile" xml:space="preserve">
+    <value>My profile</value>
+  </data>
+  <data name="LobbyChat_TipSend" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="LobbyChat_TipSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="LobbyChat_TxtMessagePlaceholder" xml:space="preserve">
+    <value>Write a message</value>
+  </data>
+  <data name="LobbyStatus_LookingToPlay" xml:space="preserve">
+    <value>LOOKING TO PLAY  {0}</value>
+  </data>
+  <data name="LogIn_LblEmail" xml:space="preserve">
+    <value>Email address</value>
+  </data>
+  <data name="LogIn_LblPassword" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="LogIn_LblSubtitle" xml:space="preserve">
+    <value>Good to see you again</value>
+  </data>
+  <data name="LogIn_LblTitle" xml:space="preserve">
+    <value>Log in</value>
+  </data>
+  <data name="LogIn_LnkForgotPassword" xml:space="preserve">
+    <value>Forgot your password?</value>
+  </data>
+  <data name="LogIn_SessionClosedElsewhere" xml:space="preserve">
+    <value>Your account was logged in from another device</value>
+  </data>
+  <data name="LogIn_TxtEmailPlaceholder" xml:space="preserve">
+    <value>you@email.com</value>
+  </data>
+  <data name="MainMenu_BtnExit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="MainMenu_BtnPlayAsGuest" xml:space="preserve">
+    <value>Play as guest</value>
+  </data>
+  <data name="MainMenu_LblLanguage" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="MainMenu_LblTagline" xml:space="preserve">
+    <value>Your move. Your win.</value>
+  </data>
+  <data name="NewPassword_BtnUpdate" xml:space="preserve">
+    <value>Update password</value>
+  </data>
+  <data name="NewPassword_LblConfirmPassword" xml:space="preserve">
+    <value>Repeat the password</value>
+  </data>
+  <data name="NewPassword_LblCurrentPassword" xml:space="preserve">
+    <value>Current password</value>
+  </data>
+  <data name="NewPassword_LblInstructions" xml:space="preserve">
+    <value>Create a secure password.</value>
+  </data>
+  <data name="NewPassword_LblNewPassword" xml:space="preserve">
+    <value>New password</value>
+  </data>
+  <data name="NewPassword_LblTitle" xml:space="preserve">
+    <value>New password</value>
+  </data>
+  <data name="NewPassword_LblTitleChange" xml:space="preserve">
+    <value>Change password</value>
+  </data>
+  <data name="Notifications_LblFriendRequest" xml:space="preserve">
+    <value>{0} sent you a friend request</value>
+  </data>
+  <data name="Notifications_LblTitle" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="Notifications_NoPendingRequests" xml:space="preserve">
+    <value>You have no pending requests</value>
+  </data>
+  <data name="Notifications_TabFriendRequests" xml:space="preserve">
+    <value>Requests</value>
+  </data>
+  <data name="Notifications_TabSanctions" xml:space="preserve">
+    <value>Sanctions</value>
+  </data>
+  <data name="PlayerProfile_BtnAddFriend" xml:space="preserve">
+    <value>Send friend request</value>
+  </data>
+  <data name="PlayerProfile_BtnClose" xml:space="preserve">
+    <value>Close profile</value>
+  </data>
+  <data name="PlayerProfile_BtnEditProfile" xml:space="preserve">
+    <value>Edit profile</value>
+  </data>
+  <data name="PlayerProfile_BtnReport" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="PlayerProfile_GuestHasNoProfile" xml:space="preserve">
+    <value>Guest accounts do not have a profile</value>
+  </data>
+  <data name="PlayerProfile_LblBio" xml:space="preserve">
+    <value>Bio</value>
+  </data>
+  <data name="PlayerProfile_LblMatchesPlayed" xml:space="preserve">
+    <value>Matches played</value>
+  </data>
+  <data name="PlayerProfile_LblScore" xml:space="preserve">
+    <value>Score</value>
+  </data>
+  <data name="PlayerProfile_LblSocialLinks" xml:space="preserve">
+    <value>Social networks</value>
+  </data>
+  <data name="PlayerProfile_LblWinRate" xml:space="preserve">
+    <value>Win rate</value>
+  </data>
+  <data name="PlayerProfile_NoMatchesYet" xml:space="preserve">
+    <value>This player has not played any matches yet</value>
+  </data>
+  <data name="ProfilePanel_BtnChangeEmail" xml:space="preserve">
+    <value>Change email</value>
+  </data>
+  <data name="ProfilePanel_BtnChangePassword" xml:space="preserve">
+    <value>Change password</value>
+  </data>
+  <data name="ProfilePanel_BtnLink" xml:space="preserve">
+    <value>Link</value>
+  </data>
+  <data name="ProfilePanel_BtnTwoStepDisableConfirm" xml:space="preserve">
+    <value>Turn off</value>
+  </data>
+  <data name="ProfilePanel_EmailChanged" xml:space="preserve">
+    <value>Your email was updated</value>
+  </data>
+  <data name="ProfilePanel_LblAudio" xml:space="preserve">
+    <value>Audio and sound</value>
+  </data>
+  <data name="ProfilePanel_LblChangeEmailTitle" xml:space="preserve">
+    <value>Change email</value>
+  </data>
+  <data name="ProfilePanel_LblChatFilter" xml:space="preserve">
+    <value>Chat profanity filter</value>
+  </data>
+  <data name="ProfilePanel_LblChatFilterHint" xml:space="preserve">
+    <value>Blocks insults and sensitive words.</value>
+  </data>
+  <data name="ProfilePanel_LblEmail" xml:space="preserve">
+    <value>Email address</value>
+  </data>
+  <data name="ProfilePanel_LblLanguage" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="ProfilePanel_LblLinkedAccounts" xml:space="preserve">
+    <value>Linked accounts</value>
+  </data>
+  <data name="ProfilePanel_LblMasterVolume" xml:space="preserve">
+    <value>Master volume</value>
+  </data>
+  <data name="ProfilePanel_LblNewEmail" xml:space="preserve">
+    <value>New address</value>
+  </data>
+  <data name="ProfilePanel_LblPassword" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="ProfilePanel_LblTitle" xml:space="preserve">
+    <value>Your profile</value>
+  </data>
+  <data name="ProfilePanel_LblTwoStep" xml:space="preserve">
+    <value>Two-step verification</value>
+  </data>
+  <data name="ProfilePanel_LblTwoStepHint" xml:space="preserve">
+    <value>Asks for a code when you log in.</value>
+  </data>
+  <data name="ProfilePanel_LogOutForfeitWarning" xml:space="preserve">
+    <value>If you log out you forfeit the match and it counts as a loss</value>
+  </data>
+  <data name="ProfilePanel_TwoStepDisableWarning" xml:space="preserve">
+    <value>Your account will be protected by your password only</value>
+  </data>
+  <data name="ProfilePanel_TwoStepDisabled" xml:space="preserve">
+    <value>Two-step verification is turned off</value>
+  </data>
+  <data name="ProfilePanel_TxtNewEmailPlaceholder" xml:space="preserve">
+    <value>you@email.com</value>
+  </data>
+  <data name="Rankings_LblLosses" xml:space="preserve">
+    <value>L</value>
+  </data>
+  <data name="Rankings_LblPlayer" xml:space="preserve">
+    <value>Player</value>
+  </data>
+  <data name="Rankings_LblPosition" xml:space="preserve">
+    <value>Pos.</value>
+  </data>
+  <data name="Rankings_LblRank" xml:space="preserve">
+    <value>Rank</value>
+  </data>
+  <data name="Rankings_LblWinRate" xml:space="preserve">
+    <value>Win %</value>
+  </data>
+  <data name="Rankings_LblWins" xml:space="preserve">
+    <value>W</value>
+  </data>
+  <data name="Rankings_LblYou" xml:space="preserve">
+    <value>(you)</value>
+  </data>
+  <data name="Rankings_LossesShortFormat" xml:space="preserve">
+    <value>{0}L</value>
+  </data>
+  <data name="Rankings_NoMatches" xml:space="preserve">
+    <value>No player matches the search</value>
+  </data>
+  <data name="Rankings_PositionFormat" xml:space="preserve">
+    <value>#{0}</value>
+  </data>
+  <data name="Rankings_TabGlobal" xml:space="preserve">
+    <value>Global</value>
+  </data>
+  <data name="Rankings_TipFirstPlace" xml:space="preserve">
+    <value>First place</value>
+  </data>
+  <data name="Rankings_TipLosses" xml:space="preserve">
+    <value>Losses</value>
+  </data>
+  <data name="Rankings_TipSearch" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Rankings_TipWinRate" xml:space="preserve">
+    <value>Win percentage</value>
+  </data>
+  <data name="Rankings_TipWins" xml:space="preserve">
+    <value>Wins</value>
+  </data>
+  <data name="Rankings_TxtSearchPlaceholder" xml:space="preserve">
+    <value>Search for a player</value>
+  </data>
+  <data name="Rankings_WinsShortFormat" xml:space="preserve">
+    <value>{0}W</value>
+  </data>
+  <data name="Reason_CheatingOrExploits" xml:space="preserve">
+    <value>Cheating</value>
+  </data>
+  <data name="Reason_HarassmentOrThreats" xml:space="preserve">
+    <value>Harassment or threats</value>
+  </data>
+  <data name="Reason_OffensiveLanguage" xml:space="preserve">
+    <value>Offensive language</value>
+  </data>
+  <data name="Reason_Spam" xml:space="preserve">
+    <value>Spam</value>
+  </data>
+  <data name="Reconnecting_LblMessage" xml:space="preserve">
+    <value>The connection to the server was lost. We are trying to reconnect you.</value>
+  </data>
+  <data name="Reconnecting_LblTimeRemaining" xml:space="preserve">
+    <value>Time remaining: {0}</value>
+  </data>
+  <data name="Reconnecting_LblTitle" xml:space="preserve">
+    <value>Reconnecting</value>
+  </data>
+  <data name="RecoverPassword_BtnSendCode" xml:space="preserve">
+    <value>Send code</value>
+  </data>
+  <data name="RecoverPassword_CodeSentIfExists" xml:space="preserve">
+    <value>If that address has an account, we sent it a code</value>
+  </data>
+  <data name="RecoverPassword_LblEmail" xml:space="preserve">
+    <value>Email address</value>
+  </data>
+  <data name="RecoverPassword_LblInstructions" xml:space="preserve">
+    <value>Enter your account email to receive a code.</value>
+  </data>
+  <data name="RecoverPassword_LblTitle" xml:space="preserve">
+    <value>Recover password</value>
+  </data>
+  <data name="RecoverPassword_TxtEmailPlaceholder" xml:space="preserve">
+    <value>you@email.com</value>
+  </data>
+  <data name="ReportPlayer_BtnSubmit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="ReportPlayer_LblDescription" xml:space="preserve">
+    <value>Description (optional)</value>
+  </data>
+  <data name="ReportPlayer_LblTitle" xml:space="preserve">
+    <value>Report player</value>
+  </data>
+  <data name="ReportPlayer_NoCategorySelected" xml:space="preserve">
+    <value>Select a reason</value>
+  </data>
+  <data name="ReportPlayer_TxtDescriptionPlaceholder" xml:space="preserve">
+    <value>Tell us what happened</value>
+  </data>
+  <data name="Sanctions_EmptyState" xml:space="preserve">
+    <value>You have no sanctions</value>
+  </data>
+  <data name="Sanctions_LblActive" xml:space="preserve">
+    <value>ACTIVE</value>
+  </data>
+  <data name="Sanctions_LblServed" xml:space="preserve">
+    <value>SERVED</value>
+  </data>
+  <data name="Sanctions_LblServedAt" xml:space="preserve">
+    <value>Served on {0}</value>
+  </data>
+  <data name="Sanctions_LblTimeRemaining" xml:space="preserve">
+    <value>Time remaining: {0}</value>
+  </data>
+  <data name="Search_TxtTagPlaceholder" xml:space="preserve">
+    <value>Search by public tag</value>
+  </data>
+  <data name="Shared_AppTitle" xml:space="preserve">
+    <value>GIN RUMMY</value>
+  </data>
+  <data name="Shared_BtnAccept" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+  <data name="Shared_BtnCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Shared_BtnClose" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Shared_BtnCreateAccount" xml:space="preserve">
+    <value>Create account</value>
+  </data>
+  <data name="Shared_BtnDecline" xml:space="preserve">
+    <value>Decline</value>
+  </data>
+  <data name="Shared_BtnHowToPlay" xml:space="preserve">
+    <value>How to play</value>
+  </data>
+  <data name="Shared_BtnLogIn" xml:space="preserve">
+    <value>Log in</value>
+  </data>
+  <data name="Shared_BtnLogOut" xml:space="preserve">
+    <value>Log out</value>
+  </data>
+  <data name="Shared_BtnResendCode" xml:space="preserve">
+    <value>Resend code</value>
+  </data>
+  <data name="Shared_BtnSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Shared_ChkKeepSignedIn" xml:space="preserve">
+    <value>Keep me signed in</value>
+  </data>
+  <data name="Shared_LblOr" xml:space="preserve">
+    <value>or</value>
+  </data>
+  <data name="Shared_TabFriends" xml:space="preserve">
+    <value>Friends</value>
+  </data>
+  <data name="Shared_Timestamp" xml:space="preserve">
+    <value>at {0}</value>
+  </data>
+  <data name="Shared_TipTogglePassword" xml:space="preserve">
+    <value>Show or hide password</value>
+  </data>
+  <data name="SignUp_GuestSessionNotKept" xml:space="preserve">
+    <value>Your guest session and its temporary name will not be kept</value>
+  </data>
+  <data name="SignUp_LblConfirmPassword" xml:space="preserve">
+    <value>Confirm your password</value>
+  </data>
+  <data name="SignUp_LblCreatingAccount" xml:space="preserve">
+    <value>Creating your account…</value>
+  </data>
+  <data name="SignUp_LblEmail" xml:space="preserve">
+    <value>Email address</value>
+  </data>
+  <data name="SignUp_LblPassword" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="SignUp_LblReqLetter" xml:space="preserve">
+    <value>· At least one letter</value>
+  </data>
+  <data name="SignUp_LblReqMinLength" xml:space="preserve">
+    <value>· At least 8 characters</value>
+  </data>
+  <data name="SignUp_LblReqNumber" xml:space="preserve">
+    <value>· At least one number</value>
+  </data>
+  <data name="SignUp_LblSubtitle" xml:space="preserve">
+    <value>Keep your profile, your friends and your history</value>
+  </data>
+  <data name="SignUp_LblTitle" xml:space="preserve">
+    <value>Create account</value>
+  </data>
+  <data name="SignUp_LblUsername" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="SignUp_TxtEmailPlaceholder" xml:space="preserve">
+    <value>you@email.com</value>
+  </data>
+  <data name="SignUp_TxtUsernamePlaceholder" xml:space="preserve">
+    <value>How others will see you</value>
+  </data>
+  <data name="TermsOfService_LblBody" xml:space="preserve">
+    <value>Draft: the game's terms of service go here. The text the team approves is still pending. It must cover expected conduct in chat, sanctions, account handling and data use.</value>
+  </data>
+  <data name="TermsOfService_LblTitle" xml:space="preserve">
+    <value>Terms of service</value>
+  </data>
+  <data name="TwoStep_BtnVerify" xml:space="preserve">
+    <value>Verify</value>
+  </data>
+  <data name="TwoStep_LblCode" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="TwoStep_LblCodeExpiresIn" xml:space="preserve">
+    <value>The code expires in {0}</value>
+  </data>
+  <data name="TwoStep_LblInstructions" xml:space="preserve">
+    <value>Enter the six-digit code we sent to your email.</value>
+  </data>
+  <data name="TwoStep_LblInstructionsEnable" xml:space="preserve">
+    <value>Enter the code we sent to your email to turn on two-step verification.</value>
+  </data>
+  <data name="TwoStep_LblInstructionsPassword" xml:space="preserve">
+    <value>Enter the code we sent to your email to confirm the password change.</value>
+  </data>
+  <data name="TwoStep_LblTitle" xml:space="preserve">
+    <value>Two-step verification</value>
+  </data>
+  <data name="VerifyEmail_AlreadyVerified" xml:space="preserve">
+    <value>Your account is already verified</value>
+  </data>
+  <data name="VerifyEmail_BtnVerify" xml:space="preserve">
+    <value>Verify</value>
+  </data>
+  <data name="VerifyEmail_BtnVerifyLater" xml:space="preserve">
+    <value>Verify later</value>
+  </data>
+  <data name="VerifyEmail_CodeNotSent" xml:space="preserve">
+    <value>Your account was created, but we could not send you the code. Please try again in a few minutes.</value>
+  </data>
+  <data name="VerifyEmail_LblAttemptsLeft" xml:space="preserve">
+    <value>Attempts left: {0}</value>
+  </data>
+  <data name="VerifyEmail_LblCode" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="VerifyEmail_LblCodeExpiresIn" xml:space="preserve">
+    <value>The code expires in {0}</value>
+  </data>
+  <data name="VerifyEmail_LblInstructions" xml:space="preserve">
+    <value>Enter the six-digit code we sent to {0}</value>
+  </data>
+  <data name="VerifyEmail_LblResendAvailableIn" xml:space="preserve">
+    <value>You can request another code in {0}</value>
+  </data>
+  <data name="VerifyEmail_LblTitleNewEmail" xml:space="preserve">
+    <value>Verify your new email</value>
+  </data>
+  <data name="VerifyEmail_LblTitleRecovery" xml:space="preserve">
+    <value>Verify the code</value>
+  </data>
+  <data name="VerifyEmail_LblTitleSignUp" xml:space="preserve">
+    <value>Verify your email</value>
+  </data>
+  <data name="VerifyEmail_TxtCodePlaceholder" xml:space="preserve">
+    <value>6-digit code</value>
+  </data>
+</root>

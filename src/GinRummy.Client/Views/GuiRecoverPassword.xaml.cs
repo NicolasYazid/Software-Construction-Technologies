@@ -1,0 +1,35 @@
+﻿using System.Windows;
+
+namespace GinRummy.Client.Views
+{
+    /// <summary>
+    /// Password recovery screen (P07). Implements the first step of CU-08.
+    /// </summary>
+    public partial class GuiRecoverPassword : GuiWindowBase
+    {
+        /// <summary>
+        /// Builds the password recovery screen.
+        /// </summary>
+        public GuiRecoverPassword()
+        {
+            InitializeComponent();
+        }
+
+        private void OnSendCodeClick(object sender, RoutedEventArgs e)
+        {
+            // CU-08 answers the same way whether or not the address has an account, so that
+            // the screen never reveals which addresses are registered.
+            lblCodeSentIfExists.Visibility = Visibility.Visible;
+            GuiVerifyEmail verifyEmail = new GuiVerifyEmail(
+                VerificationPurpose.PasswordRecovery, txtEmail.Text);
+            verifyEmail.Owner = Owner;
+            verifyEmail.Show();
+            Close();
+        }
+
+        private void OnCancelClick(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+    }
+}
