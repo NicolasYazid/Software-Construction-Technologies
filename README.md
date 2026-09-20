@@ -1,131 +1,127 @@
-# GinRummy.Client — GUI internacionalizada (Actividad 2)
+# GinRummy.Client — GUI internacionalizada
 
-Cliente WPF del videojuego Gin Rummy 2D. Cubre el ciclo de cuenta y acceso del prototipo,
-internacionalizado en `es-MX` y `en-US`, y reconstruido contra el archivo de Figma.
+Cliente WPF del videojuego Gin Rummy 2D. Cubre el ciclo de cuenta y acceso, internacionalizado
+en `es-MX` y `en-US`.
 
-Equipo 6 · Tecnologías para la Construcción de Software.
+Equipo 6 · Tecnologías para la Construcción de Software · Universidad Veracruzana.
 
-## Dónde ponerlo
+## Cómo abrirlo
 
-Descomprime la carpeta `GinRummyClient` dentro de tu repositorio:
-
-```
-C:\Users\neptu\Desktop\ESCUELA DESCARGAS\git\Software-Construction-Technologies\
+```bash
+git clone https://github.com/NicolasYazid/Software-Construction-Technologies.git
 ```
 
-Luego abre `GinRummyClient\GinRummy.sln` con Visual Studio 2019 o 2022. Necesitas la carga de
-trabajo **Desarrollo de escritorio de .NET** con el **paquete de destino de .NET Framework 4.8**.
-No hay paquetes NuGet ni dependencias externas.
+Abre `GinRummy.sln` con Visual Studio 2019 o 2022. Necesitas la carga de trabajo **Desarrollo de
+escritorio de .NET** con el **paquete de destino de .NET Framework 4.8**. No hay paquetes NuGet ni
+dependencias externas: el repositorio se compila tal como se clona.
 
-## Alcance congelado
+## Alcance
 
-Nueve de las veintiséis pantallas: **34.6 % por pantallas** y **26.5 % por cadenas** (93 de 351).
+Nueve de las veintiséis pantallas del sistema, que es el 34.6 % por pantallas y el 26.5 % por
+cadenas. Son las del ciclo de cuenta y acceso, así que cubren las operaciones de alta, lectura y
+modificación del jugador.
 
-| Prototipo | Nodo de Figma | Ventana | Caso de uso |
-| :--- | :--- | :--- | :--- |
-| P00 | — | Bloque compartido | Transversal |
-| P01 | `46:1646` | `GuiMainMenu` | Entrada al cliente |
-| P02 | `61:1993` | `GuiSignUp` | CU-01 |
-| P03 | `80:1320` | `GuiVerifyEmail` | CU-09, y la verificación de CU-01, CU-07 y CU-08 |
-| P04 | `83:2301` | `GuiAccountCreated` | Cierre de CU-01 |
-| P05 | `61:2080` | `GuiLogIn` | CU-02 |
-| P06 | `83:2309` | `GuiTwoStep` | CU-02 FA-04, CU-04, CU-06 |
-| P07 | `80:1460` | `GuiRecoverPassword` | CU-08 |
-| P08 | `80:1478` | `GuiNewPassword` | CU-06 y cierre de CU-08 |
+| Pantalla | Ventana | Caso de uso |
+| :--- | :--- | :--- |
+| P00 | Bloque compartido | Transversal |
+| P01 | `GuiMainMenu` | Entrada al cliente y selector de idioma |
+| P02 | `GuiSignUp` | CU-01 |
+| P03 | `GuiVerifyEmail` | CU-09, y la verificación de CU-01, CU-07 y CU-08 |
+| P04 | `GuiAccountCreated` | Cierre de CU-01 |
+| P05 | `GuiLogIn` | CU-02 |
+| P06 | `GuiTwoStep` | CU-02 FA-04, CU-04, CU-06 |
+| P07 | `GuiRecoverPassword` | CU-08 |
+| P08 | `GuiNewPassword` | CU-06 y cierre de CU-08 |
 
-## Qué se tomó del prototipo
+`GuiNewPassword` sirve a dos flujos con una sola ventana: en CU-06 pide la contraseña actual antes
+de la nueva, y en CU-08 la oculta, porque el jugador llega ahí precisamente cuando ya no la
+recuerda. El encabezado y el título de la ventana salen de una clave distinta en cada flujo.
 
-**Los colores, uno por uno.** No hay un solo color inventado. Los tokens de `Styles/Theme.xaml`
-son los valores del archivo: `#E9E9E9` del lienzo del menú, `#F6F6F6` del fondo de las pantallas
-con tarjeta, `#727272` de los títulos y del botón primario, `#9B9B9B` de las etiquetas de campo,
-`#E3E3E3` del borde de los campos, `#8E8E93` del botón grande del menú, `#D9D9D9` del panel
-lateral de ilustración.
+## Diseño
 
-**La geometría.** Cada ventana tiene el tamaño exacto de su marco en Figma, y los márgenes,
-altos y anchos salen de las coordenadas del archivo: campos de 50 px con radio 3 y padding 16 en
-las pantallas con tarjeta, de 48 px con radio 4 y padding 15 en las demás; tarjeta de 471 px con
-separación de 20 entre bloques; botones de 50, 52 y 64 px según la pantalla.
+El prototipo de Figma fue el punto de partida y sigue siendo la referencia de qué pantallas
+existen y qué contiene cada una. **A partir de esta versión el aspecto visual es una decisión del
+equipo y vive en el código, no en el archivo de Figma.** Los identificadores de pantalla (P01 a
+P25) se conservan porque los casos de uso los citan paso por paso; lo que ya no se conserva es la
+obligación de calcar colores, tipografías y coordenadas.
 
-**Los vectores.** Los seis iconos (correo, usuario, candado, ojo, globo y la diana del logotipo)
-se exportaron del archivo con la API de plugins de Figma y se convirtieron a geometría de WPF en
-`Styles/Icons.xaml`. Los datos de trazo son los del prototipo, no se redibujaron a mano.
+Los tokens de color, las familias tipográficas y los estilos de control están centralizados en
+`Styles/Theme.xaml`. Cambiar el aspecto de una pantalla es cambiar un token, nunca tocar el XAML
+de la ventana ni el código.
 
-**Las tipografías.** Van embebidas en `Fonts/` y se cargan por URI de paquete, así que la
-aplicación se ve igual en cualquier máquina sin instalar nada. Oswald es la del prototipo. Ambas
-familias son de licencia SIL Open Font License.
+Las tipografías (Oswald y Source Sans 3, ambas bajo SIL Open Font License) van embebidas en
+`Fonts/` y se cargan por URI de paquete, así que la aplicación se ve igual en cualquier máquina
+sin instalar nada.
 
-**Los nombres de los controles.** El prototipo ya nombra sus capas con las claves del diccionario
-y con los identificadores de control. Los `x:Name` del XAML son esos mismos: `txtEmail`,
-`pwdPassword`, `chkKeepSignedIn`, `lnkForgotPassword`, `btnUpdatePassword`, `cmbLanguage`.
-Coinciden con la columna Control del diccionario y con el estándar de codificación.
+### Pendiente de unificación
 
-## Dos generaciones de diseño en el prototipo
+Las pantallas arrastran dos generaciones de estilos: P01, P02, P03 y P05 usan una paleta y un
+radio de campo, y P04, P06, P07 y P08 usan otros. Está aislado en `Theme.xaml` y se resuelve ahí,
+en los estilos con prefijo `StyPlain`.
 
-Vale la pena que lo sepan porque no es un error de la implementación. P01, P02, P03 y P05 usan
-Source Sans Pro con una paleta afinada (títulos `#727272`, campos con borde `#E3E3E3`, radio 3).
-P04, P06, P07 y P08 son de una generación anterior: usan Inter, títulos `#666666`, bordes
-`#D9D9D9`, radio 4 y botón `#757575`. Cada pantalla quedó como está en el archivo, con dos
-familias de estilos en el tema, para no alterar el diseño. Si deciden unificarlo, el cambio es
-solo en `Theme.xaml`.
+## El fondo líquido del menú
 
-## Desviaciones conscientes
+`Controls/CtlLiquidBackground` dibuja el fondo animado de `GuiMainMenu`. Está escrito desde cero,
+como exige CON-06, y no incorpora código de terceros ni reproduce el fondo de ningún producto
+existente, que es lo que pide el asesor legal (STK-12).
 
-Son cinco, todas documentadas aquí para que nadie las descubra en la revisión.
+**Cómo funciona.** Cada fotograma se calcula en el procesador sobre un mapa de bits pequeño que el
+control estira a su propio tamaño. Por cada píxel se aplica un remolino en coordenadas polares
+cuya fuerza crece hacia el centro, después tres plegados de deformación del dominio con seno y
+coseno, y por último se mezcla la paleta: la banda resultante interpola entre el verde profundo y
+el verde medio, y las crestas suman el verde claro. Un viñeteado oscurece los bordes.
 
-1. **Interletraje.** El prototipo aplica tracking de 0.45 a 1.28 px en los textos en mayúsculas.
-   `TextBlock` de WPF no tiene propiedad de interletraje, así que no se aplicó. La diferencia es
-   de menos de un píxel y medio por carácter.
-2. **Inter.** No existe una versión estática distribuible de Inter para embeber, así que las
-   cuatro pantallas de la generación anterior usan Source Sans 3. La geometría y los colores de
-   esas pantallas sí son los del prototipo.
-3. **Source Sans Pro.** Adobe ya no distribuye los archivos estáticos de Source Sans Pro; se
-   embebió Source Sans 3, que es su sucesor directo y comparte métricas.
-4. **El patrón de cruz del menú.** Las dos capas `_cross` del fondo de P01 se omitieron: son del
-   mismo tono que el lienzo y no se ven en el render del propio prototipo. El borde punteado sí
-   está.
-5. **Las esquinas redondeadas.** Los marcos de Figma tienen radio 30, que es el encuadre del
-   mockup. Las ventanas usan el marco normal de Windows.
+**Por qué en el procesador y no con un shader.** WPF sí admite shaders de píxel, pero el perfil
+`ps_2_0` no da para un efecto de este tamaño y `ps_3_0` solo se dibuja cuando hay render por
+hardware: en una máquina sin GPU, en una máquina virtual o por escritorio remoto, WPF cae a render
+por software y el efecto desaparece sin avisar. Como el sistema tiene que ejecutarse para entrar a
+revisión (CON-12), se prefirió un camino que se ve igual en cualquier equipo. El costo es un hilo
+de procesador mientras el menú está visible, y el control se detiene solo cuando la ventana deja
+de verse o se cierra.
 
-Además, dos elementos del prototipo que se respetaron tal cual: el botón vacío de opciones del
-menú principal existe como caja sin texto porque todavía no tiene caso de uso, y el botón de jugar
-como invitado de P05 está oculto en el archivo, así que no se dibujó.
+**Cómo cambiar la paleta.** Los tres colores son propiedades del control y se fijan desde el XAML
+del menú con los tokens `ClrMenuLiquidDeep`, `ClrMenuLiquidMid` y `ClrMenuLiquidGlow` de
+`Theme.xaml`. La paleta pertenece a la pantalla, no al control, así que el mismo fondo puede
+reutilizarse en el lobby con otros colores sin tocar una línea de código.
 
 ## Cómo funciona la internacionalización
 
 **Los recursos.** `Resources/Strings.resx` tiene las 351 cadenas en `es-MX` y es el archivo
 neutro, declarado con `[assembly: NeutralResourcesLanguage("es-MX")]`, así que viaja dentro del
 ensamblado principal. `Resources/Strings.en-US.resx` compila como ensamblado satélite. Agregar un
-idioma es agregar un `.resx` y una fila en `LocalizationProvider.AvailableCultures`.
+idioma es agregar un `.resx` y una fila en `LocalizationProvider.AvailableCultures`: cero líneas
+de C# modificadas y cero recompilaciones de la lógica, que es lo que exige CON-16.
 
 **El proveedor.** `LocalizationProvider` resuelve cada clave contra el `ResourceManager` de la
 cultura activa, expone un indexador e implementa `INotifyPropertyChanged`. Al cambiar de idioma
 libera la caché y notifica `Item[]`: todos los enlaces de todas las ventanas abiertas se refrescan
 sin reabrir nada.
 
-**Los enlaces.** Cada texto visible usa la forma que fija el estándar del equipo:
+**Los enlaces.** Ningún texto visible está escrito en el XAML. Cada uno usa la forma que fija el
+estándar de codificación del equipo:
 
 ```xml
 <Button x:Name="btnLogIn"
         Content="{Binding [Shared_BtnLogIn], Source={StaticResource Loc}}" />
 ```
 
-Los textos que el prototipo dibuja en mayúsculas pasan por `UpperCaseConverter`, que convierte con
-la cultura activa y no con la invariante, porque la forma mayúscula de una letra depende del
-idioma. El recurso se guarda en su forma natural.
+Los textos que se dibujan en mayúsculas pasan por `UpperCaseConverter`, que convierte con la
+cultura activa y no con la invariante, porque la forma mayúscula de una letra depende del idioma.
+El recurso se guarda siempre en su forma natural.
 
 **Los valores con marcador.** Nada se concatena. `LocalizationProvider.Format` aplica
-`string.Format` con la cultura activa, y las ventanas con contadores o duraciones sobrescriben
-`RefreshFormattedText`, que `GuiWindowBase` invoca en cada cambio de cultura.
+`string.Format` con la cultura activa, y las ventanas con contadores, duraciones o títulos
+dependientes del flujo sobrescriben `RefreshFormattedText`, que `GuiWindowBase` invoca en cada
+cambio de cultura.
 
-**El logotipo.** `CtlBrandMark` lee la clave de marca del diccionario y la parte en su espacio
-para colocar la diana en medio, que es lo que el prototipo hace con espaciado. No hay texto de
-marca escrito en el XAML.
+**El logotipo.** `CtlBrandMark` lee la clave de marca del diccionario y la parte en su espacio para
+colocar el símbolo en medio. No hay texto de marca escrito en el XAML.
 
 ## Cómo probar el cambio de idioma
 
-El selector vive en `GuiMainMenu`, como en el prototipo. El menú es la ventana principal y las
-demás se abren sin bloquearlo, así que puedes cambiar de idioma con otra pantalla abierta y ver el
-refresco en caliente.
+El selector vive en `GuiMainMenu`. El menú es la ventana principal y las demás se abren sin
+bloquearlo, así que puedes cambiar de idioma con otra pantalla abierta y ver el refresco en
+caliente.
 
 1. **Los textos cambian.** Abre una pantalla, vuelve al menú, cambia el idioma y comprueba que la
    pantalla abierta se traduce sin reabrirse.
@@ -133,19 +129,21 @@ refresco en caliente.
 3. **Nada se corta.** El inglés es más corto que el español en casi todas las cadenas, así que el
    caso crítico es el inverso. Vigila `Shared_ChkKeepSignedIn`, `LogIn_LnkForgotPassword`,
    `NewPassword_BtnUpdate` y `VerifyEmail_BtnVerifyLater`.
-4. **La distribución se conserva.** Los anchos son los del prototipo y todo texto lleva
-   `TextWrapping`, así que la expansión crece en alto.
+4. **La distribución se conserva.** Todo texto lleva `TextWrapping`, así que la expansión crece en
+   alto y no recorta.
 5. **Los formatos culturales.** El pie del menú muestra la hora con la clave `Shared_Timestamp`;
    los temporizadores de P03 y P06 corren en vivo. Cambia la cultura y compara.
+6. **Los títulos de ventana.** Están enlazados al recurso igual que el contenido, así que también
+   cambian de idioma. En P08 además cambian según el flujo.
 
 ## Lo que queda fuera
 
-- **23 de las 93 claves del alcance no están cableadas**, y es correcto: doce son claves
-  compartidas de P00 que pertenecen al lobby (P11 en adelante) y once son mensajes que emite el
-  servidor. Las 351 ya están en los dos `.resx`.
-- **La lógica.** Ninguna ventana valida reglas, abre conexiones ni consulta la base de datos. La
-  única comprobación que corre en el cliente es la coincidencia de contraseñas, que es la única
-  que CU-01 FA-04 permite resolver sin enviar nada al servidor.
+- **La lógica.** Ninguna ventana valida reglas de negocio, abre conexiones ni consulta la base de
+  datos. La única comprobación que corre en el cliente es la coincidencia de la contraseña con su
+  confirmación, que es la única que CU-01 FA-04 permite resolver sin enviar nada al servidor.
+- **Las claves de pantallas posteriores.** Los dos `.resx` ya tienen las 351 cadenas del
+  diccionario, pero las que pertenecen al lobby y a la partida no están cableadas todavía porque
+  sus pantallas no existen en esta entrega.
 - **El diseñador de XAML** mostrará los textos en blanco, porque el recurso `Loc` se publica al
   arrancar la aplicación. En ejecución se ven correctamente.
 
@@ -154,15 +152,16 @@ refresco en caliente.
 ```
 GinRummy.sln
 src/GinRummy.Client/
-  App.xaml, App.xaml.cs          Publica el proveedor de localización
-  Properties/AssemblyInfo.cs     Declara es-MX como cultura neutra
-  Fonts/                         Oswald y Source Sans 3 embebidas
-  Resources/Strings.resx         351 cadenas en es-MX (cultura base)
-  Resources/Strings.en-US.resx   351 cadenas en en-US (ensamblado satélite)
-  Localization/                  Proveedor de localización y opciones de cultura
-  Converters/                    Texto guía y mayúsculas por cultura
-  Controls/CtlBrandMark          Logotipo con la diana del prototipo
-  Styles/Theme.xaml              Tokens y estilos de las dos generaciones
-  Styles/Icons.xaml              Vectores exportados de Figma
-  Views/                         GuiWindowBase y las ocho pantallas
+  App.xaml, App.xaml.cs             Publica el proveedor de localizacion
+  Properties/AssemblyInfo.cs        Declara es-MX como cultura neutra
+  Fonts/                            Oswald y Source Sans 3 embebidas
+  Resources/Strings.resx            351 cadenas en es-MX (cultura base)
+  Resources/Strings.en-US.resx      351 cadenas en en-US (ensamblado satelite)
+  Localization/                     Proveedor de localizacion y opciones de cultura
+  Converters/                       Texto guia y mayusculas por cultura
+  Controls/CtlBrandMark             Logotipo de la marca
+  Controls/CtlLiquidBackground      Fondo liquido animado del menu
+  Styles/Theme.xaml                 Tokens de color, tipografia y estilos de control
+  Styles/Icons.xaml                 Vectores de los iconos
+  Views/                            GuiWindowBase y las ocho pantallas
 ```
