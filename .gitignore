@@ -1,1 +1,21 @@
+# Visual Studio
 .vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Salida de compilacion: son artefactos generados, no codigo efectivo (CON-13)
+[Bb]in/
+[Oo]bj/
+
+# Archivos temporales del entorno
+*.cache
+*.tmp
+*.log
+_ReSharper*/
+*.DotSettings.user
+
+# Publicacion
+[Pp]ublish/
+*.publishsettings
