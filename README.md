@@ -1,135 +1,168 @@
 # GinRummy.Client — GUI internacionalizada (Actividad 2)
 
-Cliente WPF del videojuego Gin Rummy 2D. Esta entrega cubre el ciclo de cuenta y acceso
-del prototipo, con la interfaz internacionalizada en `es-MX` y `en-US`.
+Cliente WPF del videojuego Gin Rummy 2D. Cubre el ciclo de cuenta y acceso del prototipo,
+internacionalizado en `es-MX` y `en-US`, y reconstruido contra el archivo de Figma.
 
 Equipo 6 · Tecnologías para la Construcción de Software.
 
-## Cómo abrirlo
+## Dónde ponerlo
 
-1. Abrir `GinRummy.sln` con Visual Studio 2019 o 2022.
-2. Comprobar que está instalada la carga de trabajo **Desarrollo de escritorio de .NET**
-   con el **paquete de destino de .NET Framework 4.8**.
-3. Compilar y ejecutar. El proyecto no usa paquetes NuGet ni dependencias externas.
+Descomprime la carpeta `GinRummyClient` dentro de tu repositorio:
 
-El proyecto es WPF sobre **.NET Framework 4.8**, en formato de proyecto clásico, no SDK.
-No es .NET 8 ni .NET Core.
+```
+C:\Users\neptu\Desktop\ESCUELA DESCARGAS\git\Software-Construction-Technologies\
+```
+
+Luego abre `GinRummyClient\GinRummy.sln` con Visual Studio 2019 o 2022. Necesitas la carga de
+trabajo **Desarrollo de escritorio de .NET** con el **paquete de destino de .NET Framework 4.8**.
+No hay paquetes NuGet ni dependencias externas.
 
 ## Alcance congelado
 
-Nueve de las veintiséis pantallas del prototipo, que son el ciclo completo de cuenta y
-acceso: **34.6 % por pantallas** y **26.5 % por cadenas** (93 de 351).
+Nueve de las veintiséis pantallas: **34.6 % por pantallas** y **26.5 % por cadenas** (93 de 351).
 
-| Pantalla | Ventana | Caso de uso |
-| :--- | :--- | :--- |
-| P00 | Bloque compartido (sin ventana propia) | Transversal |
-| P01 | `GuiMainMenu` | Entrada al cliente |
-| P02 | `GuiSignUp` | CU-01 |
-| P03 | `GuiVerifyEmail` | CU-09, y la verificación de CU-01, CU-07 y CU-08 |
-| P04 | `GuiAccountCreated` | Cierre de CU-01 |
-| P05 | `GuiLogIn` | CU-02 |
-| P06 | `GuiTwoStep` | CU-02 FA-04, CU-04, CU-06 |
-| P07 | `GuiRecoverPassword` | CU-08 |
-| P08 | `GuiNewPassword` | CU-06 y cierre de CU-08 |
+| Prototipo | Nodo de Figma | Ventana | Caso de uso |
+| :--- | :--- | :--- | :--- |
+| P00 | — | Bloque compartido | Transversal |
+| P01 | `46:1646` | `GuiMainMenu` | Entrada al cliente |
+| P02 | `61:1993` | `GuiSignUp` | CU-01 |
+| P03 | `80:1320` | `GuiVerifyEmail` | CU-09, y la verificación de CU-01, CU-07 y CU-08 |
+| P04 | `83:2301` | `GuiAccountCreated` | Cierre de CU-01 |
+| P05 | `61:2080` | `GuiLogIn` | CU-02 |
+| P06 | `83:2309` | `GuiTwoStep` | CU-02 FA-04, CU-04, CU-06 |
+| P07 | `80:1460` | `GuiRecoverPassword` | CU-08 |
+| P08 | `80:1478` | `GuiNewPassword` | CU-06 y cierre de CU-08 |
+
+## Qué se tomó del prototipo
+
+**Los colores, uno por uno.** No hay un solo color inventado. Los tokens de `Styles/Theme.xaml`
+son los valores del archivo: `#E9E9E9` del lienzo del menú, `#F6F6F6` del fondo de las pantallas
+con tarjeta, `#727272` de los títulos y del botón primario, `#9B9B9B` de las etiquetas de campo,
+`#E3E3E3` del borde de los campos, `#8E8E93` del botón grande del menú, `#D9D9D9` del panel
+lateral de ilustración.
+
+**La geometría.** Cada ventana tiene el tamaño exacto de su marco en Figma, y los márgenes,
+altos y anchos salen de las coordenadas del archivo: campos de 50 px con radio 3 y padding 16 en
+las pantallas con tarjeta, de 48 px con radio 4 y padding 15 en las demás; tarjeta de 471 px con
+separación de 20 entre bloques; botones de 50, 52 y 64 px según la pantalla.
+
+**Los vectores.** Los seis iconos (correo, usuario, candado, ojo, globo y la diana del logotipo)
+se exportaron del archivo con la API de plugins de Figma y se convirtieron a geometría de WPF en
+`Styles/Icons.xaml`. Los datos de trazo son los del prototipo, no se redibujaron a mano.
+
+**Las tipografías.** Van embebidas en `Fonts/` y se cargan por URI de paquete, así que la
+aplicación se ve igual en cualquier máquina sin instalar nada. Oswald es la del prototipo. Ambas
+familias son de licencia SIL Open Font License.
+
+**Los nombres de los controles.** El prototipo ya nombra sus capas con las claves del diccionario
+y con los identificadores de control. Los `x:Name` del XAML son esos mismos: `txtEmail`,
+`pwdPassword`, `chkKeepSignedIn`, `lnkForgotPassword`, `btnUpdatePassword`, `cmbLanguage`.
+Coinciden con la columna Control del diccionario y con el estándar de codificación.
+
+## Dos generaciones de diseño en el prototipo
+
+Vale la pena que lo sepan porque no es un error de la implementación. P01, P02, P03 y P05 usan
+Source Sans Pro con una paleta afinada (títulos `#727272`, campos con borde `#E3E3E3`, radio 3).
+P04, P06, P07 y P08 son de una generación anterior: usan Inter, títulos `#666666`, bordes
+`#D9D9D9`, radio 4 y botón `#757575`. Cada pantalla quedó como está en el archivo, con dos
+familias de estilos en el tema, para no alterar el diseño. Si deciden unificarlo, el cambio es
+solo en `Theme.xaml`.
+
+## Desviaciones conscientes
+
+Son cinco, todas documentadas aquí para que nadie las descubra en la revisión.
+
+1. **Interletraje.** El prototipo aplica tracking de 0.45 a 1.28 px en los textos en mayúsculas.
+   `TextBlock` de WPF no tiene propiedad de interletraje, así que no se aplicó. La diferencia es
+   de menos de un píxel y medio por carácter.
+2. **Inter.** No existe una versión estática distribuible de Inter para embeber, así que las
+   cuatro pantallas de la generación anterior usan Source Sans 3. La geometría y los colores de
+   esas pantallas sí son los del prototipo.
+3. **Source Sans Pro.** Adobe ya no distribuye los archivos estáticos de Source Sans Pro; se
+   embebió Source Sans 3, que es su sucesor directo y comparte métricas.
+4. **El patrón de cruz del menú.** Las dos capas `_cross` del fondo de P01 se omitieron: son del
+   mismo tono que el lienzo y no se ven en el render del propio prototipo. El borde punteado sí
+   está.
+5. **Las esquinas redondeadas.** Los marcos de Figma tienen radio 30, que es el encuadre del
+   mockup. Las ventanas usan el marco normal de Windows.
+
+Además, dos elementos del prototipo que se respetaron tal cual: el botón vacío de opciones del
+menú principal existe como caja sin texto porque todavía no tiene caso de uso, y el botón de jugar
+como invitado de P05 está oculto en el archivo, así que no se dibujó.
 
 ## Cómo funciona la internacionalización
 
-**Los recursos.** `Resources/Strings.resx` contiene las 351 cadenas del diccionario en
-`es-MX` y es el archivo neutro: `AssemblyInfo.cs` lo declara con
-`[assembly: NeutralResourcesLanguage("es-MX")]`, de modo que viaja dentro del ensamblado
-principal. `Resources/Strings.en-US.resx` se compila como ensamblado satélite en
-`bin\Debug\en-US\`. Agregar un idioma nuevo es agregar un `.resx` más y una fila en
-`LocalizationProvider.AvailableCultures`: no hay una sola cadena visible en el código de
-las ventanas.
+**Los recursos.** `Resources/Strings.resx` tiene las 351 cadenas en `es-MX` y es el archivo
+neutro, declarado con `[assembly: NeutralResourcesLanguage("es-MX")]`, así que viaja dentro del
+ensamblado principal. `Resources/Strings.en-US.resx` compila como ensamblado satélite. Agregar un
+idioma es agregar un `.resx` y una fila en `LocalizationProvider.AvailableCultures`.
 
-**El proveedor.** `Localization/LocalizationProvider.cs` es un singleton que resuelve cada
-clave contra el `ResourceManager` de la cultura activa. Expone un indexador, que es lo que
-usan los enlaces del XAML, e implementa `INotifyPropertyChanged`. Al cambiar de cultura
-libera los recursos en caché y notifica `Item[]`, con lo que **todos los enlaces de todas
-las ventanas abiertas se refrescan sin reabrir nada**.
+**El proveedor.** `LocalizationProvider` resuelve cada clave contra el `ResourceManager` de la
+cultura activa, expone un indexador e implementa `INotifyPropertyChanged`. Al cambiar de idioma
+libera la caché y notifica `Item[]`: todos los enlaces de todas las ventanas abiertas se refrescan
+sin reabrir nada.
 
-**Los enlaces.** `App.xaml.cs` publica el proveedor como recurso de aplicación bajo la
-clave `Loc`, y cada texto visible se enlaza en la forma que fija el estándar de
-codificación del equipo:
+**Los enlaces.** Cada texto visible usa la forma que fija el estándar del equipo:
 
 ```xml
 <Button x:Name="btnLogIn"
         Content="{Binding [Shared_BtnLogIn], Source={StaticResource Loc}}" />
 ```
 
-**Los títulos de ventana** también se enlazan, con la misma forma.
+Los textos que el prototipo dibuja en mayúsculas pasan por `UpperCaseConverter`, que convierte con
+la cultura activa y no con la invariante, porque la forma mayúscula de una letra depende del
+idioma. El recurso se guarda en su forma natural.
 
-**Los valores con marcador.** Ninguna frase se arma por concatenación.
-`LocalizationProvider.Format` aplica `string.Format` con la cultura activa, y las ventanas
-que muestran contadores o duraciones sobrescriben `RefreshFormattedText`, que `GuiWindowBase`
-invoca en cada cambio de cultura. Las duraciones se formatean con
-`TimeSpan.ToString(formato, CurrentCulture)` y la hora con `DateTime.ToString("t", CurrentCulture)`.
+**Los valores con marcador.** Nada se concatena. `LocalizationProvider.Format` aplica
+`string.Format` con la cultura activa, y las ventanas con contadores o duraciones sobrescriben
+`RefreshFormattedText`, que `GuiWindowBase` invoca en cada cambio de cultura.
 
-**El texto guía de los campos** es una cadena localizada aparte, dibujada en un `TextBlock`
-detrás del campo y gobernada por `EmptyTextToVisibilityConverter`. Nunca sustituye a la
-etiqueta del campo.
-
-## Qué NO entra a los recursos
-
-Se respetó la hoja *No traducibles* del diccionario. En concreto, en estas nueve pantallas:
-
-- La máscara de contraseña la dibuja el `PasswordBox`; no es una cadena.
-- El glifo del botón que muestra u oculta la contraseña se dibuja como contenido gráfico,
-  fuera de toda cadena traducible. El significado viaja en su `ToolTip`, que sí está
-  localizado (`Shared_TipTogglePassword`).
-- Los nombres de las culturas en el selector de idioma van escritos en su propio idioma
-  (`Español (México)`, `English (United States)`) y por eso no se traducen.
-- Las horas, los temporizadores y el contador de intentos son datos numéricos o temporales:
-  se formatean con `CultureInfo` y se mantienen fuera de la cadena.
-- La marca existe como `Shared_AppTitle` por si algún mercado la exigiera, pero vale igual
-  en las dos culturas.
+**El logotipo.** `CtlBrandMark` lee la clave de marca del diccionario y la parte en su espacio
+para colocar la diana en medio, que es lo que el prototipo hace con espaciado. No hay texto de
+marca escrito en el XAML.
 
 ## Cómo probar el cambio de idioma
 
-El selector de idioma vive en `GuiMainMenu` (P01), tal como lo define el prototipo. El menú
-principal es la ventana principal y las demás se abren sin bloquearlo, de modo que se puede
-cambiar de cultura con otra pantalla abierta y comprobar el refresco en caliente.
+El selector vive en `GuiMainMenu`, como en el prototipo. El menú es la ventana principal y las
+demás se abren sin bloquearlo, así que puedes cambiar de idioma con otra pantalla abierta y ver el
+refresco en caliente.
 
-Lista de comprobación, alineada con los puntos de validación de la actividad:
+1. **Los textos cambian.** Abre una pantalla, vuelve al menú, cambia el idioma y comprueba que la
+   pantalla abierta se traduce sin reabrirse.
+2. **No hay textos sin traducir.** Recorre las nueve pantallas en las dos culturas.
+3. **Nada se corta.** El inglés es más corto que el español en casi todas las cadenas, así que el
+   caso crítico es el inverso. Vigila `Shared_ChkKeepSignedIn`, `LogIn_LnkForgotPassword`,
+   `NewPassword_BtnUpdate` y `VerifyEmail_BtnVerifyLater`.
+4. **La distribución se conserva.** Los anchos son los del prototipo y todo texto lleva
+   `TextWrapping`, así que la expansión crece en alto.
+5. **Los formatos culturales.** El pie del menú muestra la hora con la clave `Shared_Timestamp`;
+   los temporizadores de P03 y P06 corren en vivo. Cambia la cultura y compara.
 
-1. **Los textos cambian según la cultura.** Abrir cualquier pantalla, volver al menú,
-   cambiar el idioma y comprobar que la pantalla abierta se traduce sin reabrirse.
-2. **No hay textos sin traducir.** Recorrer las nueve pantallas en las dos culturas.
-3. **Nada se corta.** El inglés es más corto que el español en casi todas las cadenas, así
-   que el caso crítico es el contrario: comprobar `Shared_ChkKeepSignedIn`,
-   `SignUp_LblSubtitle`, `NewPassword_BtnUpdate` y `VerifyEmail_BtnVerifyLater`.
-4. **La distribución se conserva.** Las tarjetas tienen ancho fijo y todo texto lleva
-   `TextWrapping`, así que la expansión crece en alto y no rompe la columna.
-5. **Los formatos culturales.** El pie del menú principal muestra la hora con la clave
-   `Shared_Timestamp`; los temporizadores de P03 y P06 corren en vivo. Cambiar la cultura
-   y comparar el formato de la hora.
+## Lo que queda fuera
 
-## Lo que queda fuera de esta entrega
-
-- **23 de las 93 claves del alcance no están cableadas todavía**, y es correcto que así sea:
-  doce son claves compartidas de P00 que pertenecen a pantallas del lobby (P11 en adelante),
-  y once son mensajes de error que emite el servidor y que se mostrarán en `lblErrorMessage`
-  cuando existan los controladores. Las 351 claves ya están en los dos `.resx`.
-- **La lógica.** Ninguna ventana valida reglas, abre conexiones ni consulta la base de datos.
-  La única comprobación que corre en el cliente es la coincidencia de contraseñas, porque es
-  la única que el CU-01 FA-04 permite resolver sin enviar nada al servidor.
-- **El diseñador de XAML de Visual Studio** mostrará los textos en blanco, porque el recurso
-  `Loc` se publica al arrancar la aplicación. En ejecución se ven correctamente.
-- **Los colores y la tipografía** están centralizados en `Styles/Theme.xaml` como tokens.
-  Hay que ajustarlos contra el prototipo de Figma; el contenido y la estructura de cada
-  pantalla sí salen del catálogo de cadenas.
+- **23 de las 93 claves del alcance no están cableadas**, y es correcto: doce son claves
+  compartidas de P00 que pertenecen al lobby (P11 en adelante) y once son mensajes que emite el
+  servidor. Las 351 ya están en los dos `.resx`.
+- **La lógica.** Ninguna ventana valida reglas, abre conexiones ni consulta la base de datos. La
+  única comprobación que corre en el cliente es la coincidencia de contraseñas, que es la única
+  que CU-01 FA-04 permite resolver sin enviar nada al servidor.
+- **El diseñador de XAML** mostrará los textos en blanco, porque el recurso `Loc` se publica al
+  arrancar la aplicación. En ejecución se ven correctamente.
 
 ## Estructura
 
 ```
 GinRummy.sln
 src/GinRummy.Client/
-  App.xaml, App.xaml.cs            Publica el proveedor de localización
-  Properties/AssemblyInfo.cs       Declara es-MX como cultura neutra
-  Resources/Strings.resx           351 cadenas en es-MX (cultura base)
-  Resources/Strings.en-US.resx     351 cadenas en en-US (ensamblado satélite)
-  Localization/                    Proveedor de localización y opciones de cultura
-  Converters/                      Visibilidad del texto guía
-  Styles/Theme.xaml                Tokens de diseño y estilos
-  Views/                           GuiWindowBase y las ocho pantallas
+  App.xaml, App.xaml.cs          Publica el proveedor de localización
+  Properties/AssemblyInfo.cs     Declara es-MX como cultura neutra
+  Fonts/                         Oswald y Source Sans 3 embebidas
+  Resources/Strings.resx         351 cadenas en es-MX (cultura base)
+  Resources/Strings.en-US.resx   351 cadenas en en-US (ensamblado satélite)
+  Localization/                  Proveedor de localización y opciones de cultura
+  Converters/                    Texto guía y mayúsculas por cultura
+  Controls/CtlBrandMark          Logotipo con la diana del prototipo
+  Styles/Theme.xaml              Tokens y estilos de las dos generaciones
+  Styles/Icons.xaml              Vectores exportados de Figma
+  Views/                         GuiWindowBase y las ocho pantallas
 ```

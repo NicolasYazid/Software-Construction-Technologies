@@ -41,8 +41,8 @@ namespace GinRummy.Client.Localization
             _resourceManager = new ResourceManager(ResourceBaseName, typeof(LocalizationProvider).Assembly);
             _availableCultures = new List<CultureOption>
             {
-                new CultureOption(DefaultCultureCode, "Español (México)"),
-                new CultureOption(AdditionalCultureCode, "English (United States)")
+                new CultureOption(DefaultCultureCode, "Español", "Español (México)"),
+                new CultureOption(AdditionalCultureCode, "English", "English (United States)")
             };
             _currentCulture = CultureInfo.GetCultureInfo(DefaultCultureCode);
             _selectedCulture = _availableCultures[0];

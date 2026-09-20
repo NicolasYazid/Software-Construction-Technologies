@@ -56,6 +56,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\Icons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\CtlBrandMark.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\GuiMainMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -94,6 +102,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\CtlBrandMark.xaml.cs">
+      <DependentUpon>CtlBrandMark.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GuiMainMenu.xaml.cs">
       <DependentUpon>GuiMainMenu.xaml</DependentUpon>
     </Compile>
@@ -121,12 +132,22 @@
     <Compile Include="Localization\LocalizationProvider.cs" />
     <Compile Include="Localization\CultureOption.cs" />
     <Compile Include="Converters\EmptyTextToVisibilityConverter.cs" />
+    <Compile Include="Converters\UpperCaseConverter.cs" />
     <Compile Include="Views\GuiWindowBase.cs" />
     <Compile Include="Views\VerificationPurpose.cs" />
     <Compile Include="Views\TwoStepPurpose.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Fonts\Oswald-Bold.ttf" />
+    <Resource Include="Fonts\Oswald-Regular.ttf" />
+    <Resource Include="Fonts\Oswald-SemiBold.ttf" />
+    <Resource Include="Fonts\SourceSans3-Black.ttf" />
+    <Resource Include="Fonts\SourceSans3-Bold.ttf" />
+    <Resource Include="Fonts\SourceSans3-Regular.ttf" />
+    <Resource Include="Fonts\SourceSans3-Semibold.ttf" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Strings.resx" />

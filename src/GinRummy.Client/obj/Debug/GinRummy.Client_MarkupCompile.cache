@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\neptu\source\repos\GinRummyClient\src\GinRummy.Client\obj\Debug\
+C:\Users\neptu\Desktop\ESCUELA DESCARGAS\git\Software-Construction-Technologies\src\GinRummy.Client\obj\Debug\
 GinRummy.Client
 none
 false
 DEBUG;TRACE
-C:\Users\neptu\source\repos\GinRummyClient\src\GinRummy.Client\App.xaml
-9-1943625286
+C:\Users\neptu\Desktop\ESCUELA DESCARGAS\git\Software-Construction-Technologies\src\GinRummy.Client\App.xaml
+111533285631
 
-161250377467
+18-755579437
 10-823554288
-Styles\Theme.xaml;Views\GuiMainMenu.xaml;Views\GuiSignUp.xaml;Views\GuiVerifyEmail.xaml;Views\GuiAccountCreated.xaml;Views\GuiLogIn.xaml;Views\GuiTwoStep.xaml;Views\GuiRecoverPassword.xaml;Views\GuiNewPassword.xaml;
+Styles\Theme.xaml;Styles\Icons.xaml;Controls\CtlBrandMark.xaml;Views\GuiMainMenu.xaml;Views\GuiSignUp.xaml;Views\GuiVerifyEmail.xaml;Views\GuiAccountCreated.xaml;Views\GuiLogIn.xaml;Views\GuiTwoStep.xaml;Views\GuiRecoverPassword.xaml;Views\GuiNewPassword.xaml;
 
 False
 

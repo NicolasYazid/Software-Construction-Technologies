@@ -1,22 +1,25 @@
 ﻿namespace GinRummy.Client.Localization
 {
     /// <summary>
-    /// One culture offered to the player in the language selector. The display name is
-    /// written in its own language and is therefore never translated.
+    /// One culture offered to the player in the language selector. Both names are written in
+    /// the language they name, and are therefore never translated.
     /// </summary>
     public sealed class CultureOption
     {
         private readonly string _code;
+        private readonly string _shortName;
         private readonly string _displayName;
 
         /// <summary>
         /// Creates a culture option.
         /// </summary>
         /// <param name="code">Culture code, for example es-MX.</param>
-        /// <param name="displayName">Name of the culture written in its own language.</param>
-        public CultureOption(string code, string displayName)
+        /// <param name="shortName">Short name shown in the selector of the main menu.</param>
+        /// <param name="displayName">Full name, used where there is room for it.</param>
+        public CultureOption(string code, string shortName, string displayName)
         {
             _code = code;
+            _shortName = shortName;
             _displayName = displayName;
         }
 
@@ -29,7 +32,15 @@
         }
 
         /// <summary>
-        /// Gets the name of the culture written in its own language.
+        /// Gets the short name shown in the selector, as the prototype draws it.
+        /// </summary>
+        public string ShortName
+        {
+            get { return _shortName; }
+        }
+
+        /// <summary>
+        /// Gets the full name of the culture written in its own language.
         /// </summary>
         public string DisplayName
         {
@@ -37,12 +48,12 @@
         }
 
         /// <summary>
-        /// Returns the display name, which is what the selector shows.
+        /// Returns the short name, which is what the selector shows.
         /// </summary>
-        /// <returns>The name of the culture written in its own language.</returns>
+        /// <returns>The short name of the culture.</returns>
         public override string ToString()
         {
-            return _displayName;
+            return _shortName;
         }
     }
 }

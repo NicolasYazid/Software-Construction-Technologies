@@ -2,51 +2,63 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:views="clr-namespace:GinRummy.Client.Views"
+        xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
         Title="{Binding [VerifyEmail_LblTitleSignUp], Source={StaticResource Loc}}"
-        Height="700" Width="500"
-        WindowStartupLocation="CenterScreen"
+        SizeToContent="WidthAndHeight"
         ResizeMode="NoResize"
-        Background="{StaticResource BrsBackground}"
-        FontFamily="{StaticResource FntPrimary}">
-    <Grid>
-        <Border Style="{StaticResource StyCard}" Width="400">
+        WindowStartupLocation="CenterScreen"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display">
+    <Grid Width="473" Height="407" Background="{StaticResource BrsPageBackground}">
+        <Border Background="{StaticResource BrsSurface}" CornerRadius="4"
+                Margin="2,0,0,0" Padding="34,20,34,20">
             <StackPanel>
 
-                <TextBlock x:Name="lblTitle" Style="{StaticResource StyHeading}" />
-                <TextBlock x:Name="lblInstructions" Style="{StaticResource StySubtitle}" />
+                <TextBlock x:Name="lblTitle" Style="{StaticResource StyCardTitle}" />
+                <TextBlock x:Name="lblInstructions" Style="{StaticResource StyCardSubtitle}"
+                           Width="403" HorizontalAlignment="Left" Margin="0,20,0,0" />
 
-                <TextBlock x:Name="lblCode" Style="{StaticResource StyLabel}"
-                           Text="{Binding [VerifyEmail_LblCode], Source={StaticResource Loc}}" />
-                <Grid>
-                    <TextBox x:Name="txtCode" Style="{StaticResource StyTextBox}" MaxLength="6" />
-                    <TextBlock Style="{StaticResource StyPlaceholder}"
-                               Text="{Binding [VerifyEmail_TxtCodePlaceholder], Source={StaticResource Loc}}"
-                               Visibility="{Binding Text, ElementName=txtCode, Converter={StaticResource CnvEmptyTextToVisibility}}" />
-                </Grid>
+                <Border Style="{StaticResource StyFieldShell}" Width="402"
+                        HorizontalAlignment="Left" Margin="0,20,0,0">
+                    <Grid>
+                        <TextBox x:Name="txtCode" Style="{StaticResource StyFieldInput}" MaxLength="6" />
+                        <TextBlock Style="{StaticResource StyFieldPlaceholder}"
+                                   Text="{Binding [VerifyEmail_TxtCodePlaceholder], Source={StaticResource Loc}}"
+                                   Visibility="{Binding Text, ElementName=txtCode, Converter={StaticResource CnvEmptyTextToVisibility}}" />
+                    </Grid>
+                </Border>
 
-                <TextBlock x:Name="lblCodeExpiresIn" Style="{StaticResource StyHint}" Margin="0,12,0,0" />
-                <TextBlock x:Name="lblAttemptsLeft" Style="{StaticResource StyHint}" Margin="0,4,0,0" />
-                <TextBlock x:Name="lblResendAvailableIn" Style="{StaticResource StyHint}" Margin="0,4,0,0" />
+                <DockPanel Width="402" HorizontalAlignment="Left" Margin="0,20,0,0" LastChildFill="False">
+                    <TextBlock x:Name="lblCodeExpiresIn" Style="{StaticResource StyTimerLabel}"
+                               DockPanel.Dock="Left" />
+                    <Button x:Name="btnResendCode" Style="{StaticResource StyInlineTextButton}"
+                            DockPanel.Dock="Right"
+                            Content="{Binding [Shared_BtnResendCode], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                            Click="OnResendCodeClick" />
+                </DockPanel>
 
-                <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyError}" />
-                <TextBlock x:Name="lblAlreadyVerified" Style="{StaticResource StyNotice}"
+                <TextBlock x:Name="lblAttemptsLeft" Style="{StaticResource StyCardNotice}"
+                           Visibility="Visible" Width="402" HorizontalAlignment="Left" Margin="0,8,0,0" />
+                <TextBlock x:Name="lblResendAvailableIn" Style="{StaticResource StyCardNotice}"
+                           Visibility="Visible" Width="402" HorizontalAlignment="Left" Margin="0,4,0,0" />
+
+                <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyCardError}"
+                           Width="402" HorizontalAlignment="Left" Margin="0,8,0,0" />
+                <TextBlock x:Name="lblAlreadyVerified" Style="{StaticResource StyCardNotice}"
+                           Width="402" HorizontalAlignment="Left" Margin="0,8,0,0"
                            Text="{Binding [VerifyEmail_AlreadyVerified], Source={StaticResource Loc}}" />
-                <TextBlock x:Name="lblCodeNotSent" Style="{StaticResource StyNotice}"
+                <TextBlock x:Name="lblCodeNotSent" Style="{StaticResource StyCardNotice}"
+                           Width="402" HorizontalAlignment="Left" Margin="0,8,0,0"
                            Text="{Binding [VerifyEmail_CodeNotSent], Source={StaticResource Loc}}" />
 
-                <Button x:Name="btnVerify" Style="{StaticResource StyPrimaryButton}"
-                        Margin="0,20,0,0"
-                        Content="{Binding [VerifyEmail_BtnVerify], Source={StaticResource Loc}}"
+                <Button x:Name="btnVerify" Style="{StaticResource StyCardPrimaryButton}"
+                        Width="402" HorizontalAlignment="Left" Margin="0,20,0,0"
+                        Content="{Binding [VerifyEmail_BtnVerify], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
                         Click="OnVerifyClick" />
 
-                <Button x:Name="btnResendCode" Style="{StaticResource StySecondaryButton}"
-                        Margin="0,12,0,0"
-                        Content="{Binding [Shared_BtnResendCode], Source={StaticResource Loc}}"
-                        Click="OnResendCodeClick" />
-
-                <Button x:Name="btnVerifyLater" Style="{StaticResource StyLinkButton}"
-                        Margin="0,14,0,0"
-                        Content="{Binding [VerifyEmail_BtnVerifyLater], Source={StaticResource Loc}}"
+                <Button x:Name="btnVerifyLater" Style="{StaticResource StyCardTextButton}"
+                        Width="402" HorizontalAlignment="Left" Margin="0,20,0,0"
+                        Content="{Binding [VerifyEmail_BtnVerifyLater], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
                         Click="OnVerifyLaterClick" />
 
             </StackPanel>

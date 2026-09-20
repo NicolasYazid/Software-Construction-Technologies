@@ -5,8 +5,8 @@ using System.Windows.Threading;
 namespace GinRummy.Client.Views
 {
     /// <summary>
-    /// Two-step verification screen (P06). Serves CU-02 FA-04, CU-04 and CU-06, each with
-    /// its own instruction key, because one key cannot hold three different values.
+    /// Two-step verification screen (P06). Serves CU-02 FA-04, CU-04 and CU-06, each with its
+    /// own instruction key, because one key cannot hold three different values.
     /// </summary>
     public partial class GuiTwoStep : GuiWindowBase
     {
@@ -85,7 +85,7 @@ namespace GinRummy.Client.Views
 
         private void OnVerifyClick(object sender, RoutedEventArgs e)
         {
-            // The lobby (P11) belongs to a later delivery.
+            // The code is checked on the server. The lobby (P11) belongs to a later delivery.
             Close();
         }
 
@@ -93,11 +93,6 @@ namespace GinRummy.Client.Views
         {
             _codeRemainingTime = TimeSpan.FromSeconds(CodeLifetimeSeconds);
             RefreshFormattedText();
-        }
-
-        private void OnCancelClick(object sender, RoutedEventArgs e)
-        {
-            Close();
         }
 
         private void OnScreenClosed(object sender, EventArgs e)

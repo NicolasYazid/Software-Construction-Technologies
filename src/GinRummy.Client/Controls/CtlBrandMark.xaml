@@ -1,0 +1,9 @@
+﻿<UserControl x:Class="GinRummy.Client.Controls.CtlBrandMark"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock x:Name="lblBrandFirst" Style="{StaticResource StyLogoWordmark}" VerticalAlignment="Center" />
+        <Image x:Name="imgBrandMark" Source="{StaticResource IcoBullseye}" VerticalAlignment="Center" />
+        <TextBlock x:Name="lblBrandSecond" Style="{StaticResource StyLogoWordmark}" VerticalAlignment="Center" />
+    </StackPanel>
+</UserControl>

@@ -26,10 +26,5 @@ namespace GinRummy.Client.Views
             verifyEmail.Show();
             Close();
         }
-
-        private void OnCancelClick(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
     }
 }

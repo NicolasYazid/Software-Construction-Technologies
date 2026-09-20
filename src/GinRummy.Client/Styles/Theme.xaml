@@ -2,183 +2,228 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:conv="clr-namespace:GinRummy.Client.Converters">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Styles/Icons.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
     <conv:EmptyTextToVisibilityConverter x:Key="CnvEmptyTextToVisibility" />
+    <conv:UpperCaseConverter x:Key="CnvUpperCase" />
 
-    <!-- Design tokens. Adjust these values against the Figma prototype; every screen
-         reads its colours and typography from here and from nowhere else. -->
-    <SolidColorBrush x:Key="BrsBackground" Color="#FF10241C" />
+    <!-- ============================================================
+         Tokens tomados del prototipo de Figma (GinRummy, seccion
+         "Inicio y autenticacion"). Los valores son los del archivo.
+         ============================================================ -->
+
+    <FontFamily x:Key="FntDisplay">pack://application:,,,/Fonts/#Oswald</FontFamily>
+    <FontFamily x:Key="FntBody">pack://application:,,,/Fonts/#Source Sans 3</FontFamily>
+
+    <SolidColorBrush x:Key="BrsMenuRoot" Color="#FFF1F1F1" />
+    <SolidColorBrush x:Key="BrsMenuArtwork" Color="#FFE9E9E9" />
+    <SolidColorBrush x:Key="BrsMenuEdge" Color="#999B9B9B" />
+    <SolidColorBrush x:Key="BrsMenuPrimary" Color="#FF8E8E93" />
+    <SolidColorBrush x:Key="BrsOutline" Color="#FF333333" />
+    <SolidColorBrush x:Key="BrsLogo" Color="#FF8E8E93" />
+    <SolidColorBrush x:Key="BrsLogoMark" Color="#FF3B3B3B" />
+
+    <SolidColorBrush x:Key="BrsPageBackground" Color="#FFF6F6F6" />
     <SolidColorBrush x:Key="BrsSurface" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="BrsPrimary" Color="#FF1F6F4A" />
-    <SolidColorBrush x:Key="BrsPrimaryHover" Color="#FF27865A" />
-    <SolidColorBrush x:Key="BrsOnPrimary" Color="#FFFFFFFF" />
-    <SolidColorBrush x:Key="BrsAccent" Color="#FFC9A227" />
-    <SolidColorBrush x:Key="BrsText" Color="#FF1B2430" />
-    <SolidColorBrush x:Key="BrsTextMuted" Color="#FF6B7684" />
-    <SolidColorBrush x:Key="BrsTextOnDark" Color="#FFF3F6F4" />
-    <SolidColorBrush x:Key="BrsBorder" Color="#FFD6DBE1" />
-    <SolidColorBrush x:Key="BrsBorderFocused" Color="#FF1F6F4A" />
+    <SolidColorBrush x:Key="BrsArtworkPanel" Color="#FFD9D9D9" />
+    <SolidColorBrush x:Key="BrsArtworkLogo" Color="#FFCFCFCF" />
+    <SolidColorBrush x:Key="BrsTitle" Color="#FF727272" />
+    <SolidColorBrush x:Key="BrsBody" Color="#FF5E5E5E" />
+    <SolidColorBrush x:Key="BrsMuted" Color="#FF9B9B9B" />
+    <SolidColorBrush x:Key="BrsFieldBorder" Color="#FFE3E3E3" />
+    <SolidColorBrush x:Key="BrsPrimary" Color="#FF727272" />
+    <SolidColorBrush x:Key="BrsCheckBorder" Color="#FF999999" />
     <SolidColorBrush x:Key="BrsDanger" Color="#FFB3261E" />
-    <SolidColorBrush x:Key="BrsFieldBackground" Color="#FFFBFCFD" />
-    <FontFamily x:Key="FntPrimary">Segoe UI</FontFamily>
 
-    <Style x:Key="StyCard" TargetType="Border">
+    <!-- Segunda generacion de pantallas del prototipo: P04, P06, P07 y P08 -->
+    <SolidColorBrush x:Key="BrsPlainTitle" Color="#FF666666" />
+    <SolidColorBrush x:Key="BrsPlainMuted" Color="#FF999999" />
+    <SolidColorBrush x:Key="BrsPlainBorder" Color="#FFD9D9D9" />
+    <SolidColorBrush x:Key="BrsPlainPrimary" Color="#FF757575" />
+
+    <!-- ===================== Menu principal (P01) ===================== -->
+
+    <Style x:Key="StyLogoWordmark" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="128" />
+        <Setter Property="Foreground" Value="{StaticResource BrsLogo}" />
+    </Style>
+
+    <Style x:Key="StyTagline" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="StyMenuButton" TargetType="Button">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsOutline}" />
         <Setter Property="Background" Value="{StaticResource BrsSurface}" />
-        <Setter Property="CornerRadius" Value="12" />
-        <Setter Property="Padding" Value="32,28,32,28" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Effect">
+        <Setter Property="Height" Value="64" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
             <Setter.Value>
-                <DropShadowEffect BlurRadius="24" ShadowDepth="4" Opacity="0.35" Color="#FF000000" />
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{StaticResource BrsOutline}"
+                            BorderThickness="1.5"
+                            CornerRadius="3"
+                            Padding="28,0,28,0">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#FFF4F4F4" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
-    <Style x:Key="StyBrand" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
-        <Setter Property="FontSize" Value="40" />
+    <Style x:Key="StyMenuButtonDisplay" TargetType="Button" BasedOn="{StaticResource StyMenuButton}">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+    </Style>
+
+    <Style x:Key="StyMenuPrimaryButton" TargetType="Button">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontWeight" Value="Black" />
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="Foreground" Value="{StaticResource BrsSurface}" />
+        <Setter Property="Background" Value="{StaticResource BrsMenuPrimary}" />
+        <Setter Property="Height" Value="64" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="3" Padding="28,0,28,0">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#FF9C9CA1" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyPanelCaption" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
         <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="Foreground" Value="{StaticResource BrsAccent}" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
 
-    <Style x:Key="StyHeading" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
-        <Setter Property="FontSize" Value="22" />
+    <!-- ============== Pantallas con tarjeta (P02, P03, P05) ============== -->
+
+    <Style x:Key="StyCardTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
         <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="Foreground" Value="{StaticResource BrsText}" />
+        <Setter Property="FontSize" Value="34" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
 
-    <Style x:Key="StySubtitle" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
-        <Setter Property="FontSize" Value="13" />
-        <Setter Property="Foreground" Value="{StaticResource BrsTextMuted}" />
-        <Setter Property="TextWrapping" Value="Wrap" />
-        <Setter Property="Margin" Value="0,4,0,0" />
-    </Style>
-
-    <Style x:Key="StyLabel" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
-        <Setter Property="FontSize" Value="13" />
-        <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="Foreground" Value="{StaticResource BrsText}" />
-        <Setter Property="TextWrapping" Value="Wrap" />
-        <Setter Property="Margin" Value="0,14,0,4" />
-    </Style>
-
-    <Style x:Key="StyHint" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="Foreground" Value="{StaticResource BrsTextMuted}" />
+    <Style x:Key="StyCardSubtitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="LineHeight" Value="22" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
 
-    <Style x:Key="StyOnDark" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
-        <Setter Property="FontSize" Value="13" />
-        <Setter Property="Foreground" Value="{StaticResource BrsTextOnDark}" />
+    <Style x:Key="StyFieldLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
         <Setter Property="TextWrapping" Value="Wrap" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,0,0,8" />
     </Style>
 
-    <Style x:Key="StyError" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="Foreground" Value="{StaticResource BrsDanger}" />
-        <Setter Property="TextWrapping" Value="Wrap" />
-        <Setter Property="Margin" Value="0,12,0,0" />
-        <Setter Property="Visibility" Value="Collapsed" />
+    <Style x:Key="StyFieldShell" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsSurface}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsFieldBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="3" />
+        <Setter Property="Height" Value="50" />
+        <Setter Property="Padding" Value="16,0,16,0" />
     </Style>
 
-    <Style x:Key="StyNotice" TargetType="TextBlock" BasedOn="{StaticResource StyHint}">
-        <Setter Property="Margin" Value="0,12,0,0" />
-        <Setter Property="Visibility" Value="Collapsed" />
+    <Style x:Key="StyFieldInput" TargetType="TextBox">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="CaretBrush" Value="{StaticResource BrsBody}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="0" />
     </Style>
 
-    <Style x:Key="StyPlaceholder" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
-        <Setter Property="FontSize" Value="13" />
-        <Setter Property="Foreground" Value="{StaticResource BrsTextMuted}" />
+    <Style x:Key="StyFieldPassword" TargetType="PasswordBox">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="CaretBrush" Value="{StaticResource BrsBody}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <Style x:Key="StyFieldPlaceholder" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
         <Setter Property="IsHitTestVisible" Value="False" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Margin" Value="13,0,13,0" />
     </Style>
 
-    <Style x:Key="StyTextBox" TargetType="TextBox">
-        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
-        <Setter Property="FontSize" Value="13" />
-        <Setter Property="Foreground" Value="{StaticResource BrsText}" />
-        <Setter Property="Background" Value="{StaticResource BrsFieldBackground}" />
-        <Setter Property="BorderBrush" Value="{StaticResource BrsBorder}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Height" Value="40" />
-        <Setter Property="Padding" Value="12,0,12,0" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Style x:Key="StyIconButton" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Width" Value="19" />
+        <Setter Property="Height" Value="19" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="TextBox">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="6">
-                        <ScrollViewer x:Name="PART_ContentHost"
-                                      Margin="{TemplateBinding Padding}"
-                                      VerticalAlignment="Center" />
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
-            <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter Property="BorderBrush" Value="{StaticResource BrsBorderFocused}" />
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Opacity" Value="0.65" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="StyPasswordBox" TargetType="PasswordBox">
-        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
-        <Setter Property="FontSize" Value="13" />
-        <Setter Property="Foreground" Value="{StaticResource BrsText}" />
-        <Setter Property="Background" Value="{StaticResource BrsFieldBackground}" />
-        <Setter Property="BorderBrush" Value="{StaticResource BrsBorder}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Height" Value="40" />
-        <Setter Property="Padding" Value="12,0,12,0" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="PasswordBox">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="6">
-                        <ScrollViewer x:Name="PART_ContentHost"
-                                      Margin="{TemplateBinding Padding}"
-                                      VerticalAlignment="Center" />
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter Property="BorderBrush" Value="{StaticResource BrsBorderFocused}" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="StyPrimaryButton" TargetType="Button">
-        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="Foreground" Value="{StaticResource BrsOnPrimary}" />
+    <Style x:Key="StyCardPrimaryButton" TargetType="Button">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Foreground" Value="{StaticResource BrsSurface}" />
         <Setter Property="Background" Value="{StaticResource BrsPrimary}" />
-        <Setter Property="Height" Value="44" />
+        <Setter Property="Height" Value="50" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="18,0,18,0">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="3">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                 </ControlTemplate>
@@ -186,22 +231,26 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource BrsPrimaryHover}" />
+                <Setter Property="Background" Value="#FF828282" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="StySecondaryButton" TargetType="Button" BasedOn="{StaticResource StyPrimaryButton}">
-        <Setter Property="Foreground" Value="{StaticResource BrsPrimary}" />
-        <Setter Property="Background" Value="Transparent" />
+    <Style x:Key="StyCardOutlineButton" TargetType="Button">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Foreground" Value="{StaticResource BrsOutline}" />
+        <Setter Property="Background" Value="{StaticResource BrsSurface}" />
+        <Setter Property="Height" Value="48" />
+        <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{StaticResource BrsPrimary}"
-                            BorderThickness="1"
-                            CornerRadius="6"
-                            Padding="18,0,18,0">
+                            BorderBrush="{StaticResource BrsOutline}"
+                            BorderThickness="1.5"
+                            CornerRadius="3">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                 </ControlTemplate>
@@ -209,54 +258,169 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#141F6F4A" />
+                <Setter Property="Background" Value="#FFF4F4F4" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="StyLinkButton" TargetType="Button">
-        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="Foreground" Value="{StaticResource BrsPrimary}" />
+    <Style x:Key="StyCardTextButton" TargetType="Button">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Height" Value="30" />
         <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <TextBlock Text="{TemplateBinding Content}"
-                               Foreground="{TemplateBinding Foreground}"
-                               FontFamily="{TemplateBinding FontFamily}"
-                               FontSize="{TemplateBinding FontSize}"
-                               TextWrapping="Wrap" />
+                    <Border Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="{StaticResource BrsPrimaryHover}" />
+                <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="StyLinkButtonOnDark" TargetType="Button" BasedOn="{StaticResource StyLinkButton}">
-        <Setter Property="Foreground" Value="{StaticResource BrsTextOnDark}" />
+    <Style x:Key="StyInlineTextButton" TargetType="Button" BasedOn="{StaticResource StyCardTextButton}">
         <Setter Property="FontSize" Value="13" />
+        <Setter Property="Height" Value="16" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
     </Style>
 
-    <Style x:Key="StyCheckBox" TargetType="CheckBox">
-        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="Foreground" Value="{StaticResource BrsText}" />
+    <Style x:Key="StyKeepSignedIn" TargetType="CheckBox">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
-    <Style x:Key="StyComboBox" TargetType="ComboBox">
-        <Setter Property="FontFamily" Value="{StaticResource FntPrimary}" />
+    <Style x:Key="StyDividerLine" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsFieldBorder}" />
+        <Setter Property="Height" Value="1" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyDividerLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="12,0,12,0" />
+    </Style>
+
+    <Style x:Key="StyCardError" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
         <Setter Property="FontSize" Value="13" />
-        <Setter Property="Height" Value="32" />
-        <Setter Property="MinWidth" Value="190" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Foreground" Value="{StaticResource BrsDanger}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <Style x:Key="StyCardNotice" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <Style x:Key="StyTimerLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- ========== Pantallas sin tarjeta (P04, P06, P07, P08) ========== -->
+
+    <Style x:Key="StyPlainTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="Foreground" Value="{StaticResource BrsPlainTitle}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="StyPlainBody" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{StaticResource BrsPlainTitle}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="StyPlainLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="Foreground" Value="{StaticResource BrsPlainMuted}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="StyPlainFieldShell" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsSurface}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsPlainBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Height" Value="48" />
+        <Setter Property="Padding" Value="15,0,15,0" />
+    </Style>
+
+    <Style x:Key="StyPlainInput" TargetType="TextBox" BasedOn="{StaticResource StyFieldInput}">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{StaticResource BrsPlainTitle}" />
+    </Style>
+
+    <Style x:Key="StyPlainPassword" TargetType="PasswordBox" BasedOn="{StaticResource StyFieldPassword}">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{StaticResource BrsPlainTitle}" />
+    </Style>
+
+    <Style x:Key="StyPlainPlaceholder" TargetType="TextBlock" BasedOn="{StaticResource StyFieldPlaceholder}">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{StaticResource BrsPlainMuted}" />
+    </Style>
+
+    <Style x:Key="StyPlainPrimaryButton" TargetType="Button" BasedOn="{StaticResource StyCardPrimaryButton}">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Height" Value="52" />
+        <Setter Property="Background" Value="{StaticResource BrsPlainPrimary}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#FF858585" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyPlainTextButton" TargetType="Button" BasedOn="{StaticResource StyCardTextButton}">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{StaticResource BrsPlainMuted}" />
+    </Style>
+
+    <Style x:Key="StyPlainError" TargetType="TextBlock" BasedOn="{StaticResource StyCardError}">
+        <Setter Property="FontSize" Value="13" />
+    </Style>
+
+    <Style x:Key="StyPlainNotice" TargetType="TextBlock" BasedOn="{StaticResource StyCardNotice}">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{StaticResource BrsPlainMuted}" />
     </Style>
 
 </ResourceDictionary>

@@ -44,15 +44,13 @@ namespace GinRummy.Client.Views
                 }
 
                 lblTitle.Text = Localization.GetText(key);
-                lblCurrentPassword.Visibility = _isChangeFromProfile
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
-                pwdCurrentPassword.Visibility = lblCurrentPassword.Visibility;
             }
         }
 
         private void OnUpdateClick(object sender, RoutedEventArgs e)
         {
+            // Matching the confirmation is the only check the client resolves on its own,
+            // because it sends nothing to the server. The strength rules run on the server.
             bool passwordsMatch = pwdNewPassword.Password == pwdConfirmPassword.Password;
             if (passwordsMatch)
             {
@@ -64,11 +62,6 @@ namespace GinRummy.Client.Views
                 lblErrorMessage.Text = Localization.GetText("Error_ValPasswordMismatch");
                 lblErrorMessage.Visibility = Visibility.Visible;
             }
-        }
-
-        private void OnCancelClick(object sender, RoutedEventArgs e)
-        {
-            Close();
         }
     }
 }
