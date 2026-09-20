@@ -25,6 +25,12 @@
     <SolidColorBrush x:Key="BrsLogo" Color="#FF8E8E93" />
     <SolidColorBrush x:Key="BrsLogoMark" Color="#FF3B3B3B" />
 
+    <!-- Fondo liquido del menu principal (P01). Son Color y no SolidColorBrush
+         porque el control los mezcla canal por canal en cada fotograma. -->
+    <Color x:Key="ClrMenuLiquidDeep">#FF072118</Color>
+    <Color x:Key="ClrMenuLiquidMid">#FF1E6746</Color>
+    <Color x:Key="ClrMenuLiquidGlow">#FF6AD29A</Color>
+
     <SolidColorBrush x:Key="BrsPageBackground" Color="#FFF6F6F6" />
     <SolidColorBrush x:Key="BrsSurface" Color="#FFFFFFFF" />
     <SolidColorBrush x:Key="BrsArtworkPanel" Color="#FFD9D9D9" />
