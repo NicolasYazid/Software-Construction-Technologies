@@ -9,16 +9,29 @@
         WindowStartupLocation="CenterScreen"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display">
-    <Grid Width="938" Height="700" Background="{StaticResource BrsPageBackground}">
+    <!-- The height is not stated: the window declares SizeToContent, so letting the grid grow
+         with the card is what keeps the last button inside it whatever the size of the text. -->
+    <Grid Width="938" Background="{StaticResource BrsPageBackground}">
 
-        <Border Background="{StaticResource BrsArtworkPanel}"
-                HorizontalAlignment="Right" Width="465">
-            <ctl:CtlBrandMark MarkFontSize="46" MarkForeground="{StaticResource BrsArtworkLogo}"
-                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <!-- The height follows the card instead of being measured on its own. The surface of
+             the paint reports the size of its own bitmap, and left free that measure was what
+             stretched the window far past the content. -->
+        <Border HorizontalAlignment="Right" VerticalAlignment="Top" Width="465"
+                ClipToBounds="True"
+                Height="{Binding ActualHeight, ElementName=brdCard}">
+            <Grid>
+                <ctl:CtlPaintBackground DeepColour="{StaticResource ClrArtworkDeep}"
+                                        MidColour="{StaticResource ClrArtworkMid}"
+                                        GlowColour="{StaticResource ClrArtworkGlow}" />
+                <ctl:CtlBrandMark MarkFontSize="46" MarkForeground="{StaticResource BrsMenuLight}"
+                                  Effect="{StaticResource EfxTextShadow}"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Grid>
         </Border>
 
-        <Border Background="{StaticResource BrsSurface}" CornerRadius="4"
-                HorizontalAlignment="Left" Width="471" Margin="2,0,0,0"
+        <Border x:Name="brdCard" Background="{StaticResource BrsSurface}" CornerRadius="4"
+                HorizontalAlignment="Left" VerticalAlignment="Top"
+                Width="471" Margin="2,0,0,0"
                 Padding="34,60,34,30">
             <StackPanel>
 

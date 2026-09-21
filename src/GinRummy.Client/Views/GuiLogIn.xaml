@@ -9,15 +9,27 @@
         WindowStartupLocation="CenterScreen"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display">
-    <Grid Width="938" Height="573" Background="{StaticResource BrsPageBackground}">
+    <!-- The height is not stated: the window declares SizeToContent, so letting the grid grow
+         with the card is what keeps the last button inside it whatever the size of the text. -->
+    <Grid Width="938" Background="{StaticResource BrsPageBackground}">
 
-        <Border Background="{StaticResource BrsArtworkPanel}"
-                HorizontalAlignment="Right" Width="465">
-            <ctl:CtlBrandMark MarkFontSize="46" MarkForeground="{StaticResource BrsArtworkLogo}"
-                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <!-- The height follows the card instead of being measured on its own. The surface of
+             the paint reports the size of its own bitmap, and left free that measure was what
+             stretched the window far past the content. -->
+        <Border HorizontalAlignment="Right" VerticalAlignment="Top" Width="465"
+                Margin="0,14,0,0" ClipToBounds="True"
+                Height="{Binding ActualHeight, ElementName=brdCard}">
+            <Grid>
+                <ctl:CtlPaintBackground DeepColour="{StaticResource ClrArtworkDeep}"
+                                        MidColour="{StaticResource ClrArtworkMid}"
+                                        GlowColour="{StaticResource ClrArtworkGlow}" />
+                <ctl:CtlBrandMark MarkFontSize="46" MarkForeground="{StaticResource BrsMenuLight}"
+                                  Effect="{StaticResource EfxTextShadow}"
+                                  HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Grid>
         </Border>
 
-        <Border Background="{StaticResource BrsSurface}" CornerRadius="4"
+        <Border x:Name="brdCard" Background="{StaticResource BrsSurface}" CornerRadius="4"
                 HorizontalAlignment="Left" VerticalAlignment="Top"
                 Width="471" Margin="2,14,0,0" Padding="34,20,34,30">
             <StackPanel>
@@ -60,15 +72,18 @@
                     </DockPanel>
                 </Border>
 
-                <DockPanel Width="402" HorizontalAlignment="Left" Margin="0,20,0,0" LastChildFill="False">
+                <!-- The two go one above the other and not side by side: together they do not
+                     fit in the width of the field, and in Spanish they are longer still, so
+                     sharing a row cut the link. -->
+                <StackPanel Width="402" HorizontalAlignment="Left" Margin="0,20,0,0">
                     <CheckBox x:Name="chkKeepSignedIn" Style="{StaticResource StyKeepSignedIn}"
-                              DockPanel.Dock="Left"
+                              HorizontalAlignment="Left"
                               Content="{Binding [Shared_ChkKeepSignedIn], Source={StaticResource Loc}}" />
                     <Button x:Name="lnkForgotPassword" Style="{StaticResource StyInlineTextButton}"
-                            DockPanel.Dock="Right"
+                            Margin="0,10,0,0"
                             Content="{Binding [LogIn_LnkForgotPassword], Source={StaticResource Loc}}"
                             Click="OnForgotPasswordClick" />
-                </DockPanel>
+                </StackPanel>
 
                 <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyCardError}"
                            Width="402" HorizontalAlignment="Left" Margin="0,12,0,0" />
