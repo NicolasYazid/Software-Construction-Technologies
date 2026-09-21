@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:conv="clr-namespace:GinRummy.Client.Converters">
+                    xmlns:conv="clr-namespace:GinRummy.Client.Converters"
+                    xmlns:ctl="clr-namespace:GinRummy.Client.Controls">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Styles/Icons.xaml" />
@@ -41,7 +42,11 @@
     <!-- Paleta del menu. Los nombres describen la funcion, no el color, para que
          cambiar de paleta no obligue a renombrar nada. -->
     <SolidColorBrush x:Key="BrsMenuInk" Color="#0B0D0C" />
-    <SolidColorBrush x:Key="BrsMenuPanel" Color="#BF1A1712" />
+    <SolidColorBrush x:Key="BrsMenuPanel" Color="#801A1712" />
+    <!-- Los chips laterales llevan su propio pincel y no el de la barra: son mucho mas
+         pequenos, asi que a igual alfa el fondo se lee a traves de ellos con mas fuerza y
+         pierden cuerpo. -->
+    <SolidColorBrush x:Key="BrsMenuChipPanel" Color="#BF1A1712" />
     <SolidColorBrush x:Key="BrsMenuAccent" Color="#FF8B2C1F" />
     <SolidColorBrush x:Key="BrsMenuAction" Color="#FF3B3F2F" />
     <SolidColorBrush x:Key="BrsMenuEarth" Color="#FF4B3B2A" />
@@ -74,7 +79,7 @@
          reads as one product. Every one of those screens takes its colour from a token, so
          moving the values here is what carries the design across without touching them. -->
     <SolidColorBrush x:Key="BrsPageBackground" Color="#FF072118" />
-    <SolidColorBrush x:Key="BrsSurface" Color="#F21A1712" />
+    <SolidColorBrush x:Key="BrsSurface" Color="#991A1712" />
     <SolidColorBrush x:Key="BrsArtworkPanel" Color="#FF0C2B1E" />
     <SolidColorBrush x:Key="BrsArtworkLogo" Color="#FF1E6746" />
 
@@ -121,42 +126,45 @@
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
 
-    <!-- Boton del menu: cara elevada sobre su propia sombra, contorno grueso y
+    <!-- Boton del menu: cara elevada sobre su propia sombra, esquinas escalonadas y
          hundimiento al presionar. El color lo pone cada variante. -->
     <ControlTemplate x:Key="TplMenuButton" TargetType="Button">
         <Grid>
-            <Border x:Name="brdShadow" Margin="0,7,0,0" CornerRadius="10"
-                    Background="{StaticResource BrsMenuInk}" />
-            <Border x:Name="brdFace" Margin="0,0,0,7" CornerRadius="10"
-                    Background="{TemplateBinding Background}">
+            <ctl:CtlPixelSurface x:Name="pxBase" Margin="0,6,0,0"
+                                 FaceBrush="{StaticResource BrsMenuInk}" />
+            <ctl:CtlPixelSurface x:Name="pxFace" Margin="0,0,0,6"
+                                 FaceBrush="{TemplateBinding Background}">
                 <Grid>
-                    <!-- El realce cubre la cara completa. El relleno lateral lo aporta el
-                         contenido y no el borde, porque con relleno en el borde la capa
-                         quedaba por dentro y dejaba una franja sin oscurecer a cada lado.
-                         Sigue por debajo del contenido, de modo que el texto conserva su
-                         tono en todos los estados. -->
-                    <Border x:Name="brdHighlight" CornerRadius="10"
-                            Background="{StaticResource BrsMenuInk}" Opacity="0" />
+                    <!-- El realce cubre la cara completa y toma su misma forma escalonada, de
+                         modo que al oscurecerse no aparecen esquinas cuadradas sobre los
+                         escalones. Va junto al contenido y no alrededor de el: al ser una capa
+                         con opacidad cero mientras no hay puntero, envolver el contenido lo
+                         volvia invisible tambien. El relleno lateral lo aporta el contenido y
+                         no el borde, porque con relleno en el borde la capa quedaba por dentro
+                         y dejaba una franja sin oscurecer a cada lado. -->
+                    <ctl:CtlPixelSurface x:Name="pxHighlight" Opacity="0"
+                                         FaceBrush="{StaticResource BrsMenuInk}" />
                     <ContentPresenter Margin="14,0,14,0"
                                       Effect="{StaticResource EfxTextRaise}"
                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Grid>
-            </Border>
+            </ctl:CtlPixelSurface>
         </Grid>
         <ControlTemplate.Triggers>
-            <!-- The pointer sinks the face three of the seven pixels it travels when pressed,
-                 so hovering already answers with movement and the press still reads as a
-                 deeper, separate step. The trigger of the press is declared after this one
-                 and therefore wins while both apply. -->
+            <!-- The pointer sinks the face one of the two blocks it travels when pressed, so
+                 hovering already answers with movement and the press still reads as a deeper,
+                 separate step. Both distances are whole blocks, which is what keeps the edge
+                 of the face on the grid while it moves. The trigger of the press is declared
+                 after this one and therefore wins while both apply. -->
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="brdHighlight" Property="Opacity" Value="0.53" />
-                <Setter TargetName="brdFace" Property="Margin" Value="0,3,0,4" />
+                <Setter TargetName="pxHighlight" Property="Opacity" Value="0.53" />
+                <Setter TargetName="pxFace" Property="Margin" Value="0,3,0,3" />
             </Trigger>
             <Trigger Property="IsPressed" Value="True">
-                <Setter TargetName="brdFace" Property="Margin" Value="0,7,0,0" />
+                <Setter TargetName="pxFace" Property="Margin" Value="0,6,0,0" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="brdFace" Property="Opacity" Value="0.45" />
+                <Setter TargetName="pxFace" Property="Opacity" Value="0.45" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -199,32 +207,34 @@
         <Setter Property="Background" Value="{StaticResource BrsMenuAccent}" />
     </Style>
 
-    <Style x:Key="StyMenuBar" TargetType="Border">
-        <Setter Property="Background" Value="{StaticResource BrsMenuPanel}" />
-        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
-        <Setter Property="BorderThickness" Value="0,0,0,8" />
-        <Setter Property="CornerRadius" Value="16" />
+    <!-- The panels take the same stepped surface as the buttons, with a corner of more blocks
+         because they are larger themselves: a panel of this size with the corner of a button
+         reads as square. They are raised over a base of the same shape, which is what gives
+         them their depth now that they carry no border, and they keep the translucent colour,
+         so the paint of the background still shows through them. -->
+    <Style x:Key="StyMenuBar" TargetType="ctl:CtlPixelSurface">
+        <Setter Property="FaceBrush" Value="{StaticResource BrsMenuPanel}" />
+        <Setter Property="BaseBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BaseDepth" Value="4" />
+        <Setter Property="CornerSteps" Value="6" />
         <Setter Property="Padding" Value="14,14,14,14" />
         <Setter Property="Effect" Value="{StaticResource EfxPanelShadow}" />
     </Style>
 
-    <Style x:Key="StyMenuChip" TargetType="Border">
-        <Setter Property="Background" Value="{StaticResource BrsMenuPanel}" />
-        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
-        <Setter Property="BorderThickness" Value="0,0,0,7" />
-        <Setter Property="CornerRadius" Value="12" />
+    <Style x:Key="StyMenuChip" TargetType="ctl:CtlPixelSurface">
+        <Setter Property="FaceBrush" Value="{StaticResource BrsMenuChipPanel}" />
+        <Setter Property="BaseBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BaseDepth" Value="3" />
+        <Setter Property="CornerSteps" Value="5" />
         <Setter Property="Padding" Value="14,12,14,14" />
         <Setter Property="Effect" Value="{StaticResource EfxPanelShadow}" />
     </Style>
 
-    <Style x:Key="StyMenuChipInset" TargetType="Border">
-        <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
-        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
-        <Setter Property="BorderThickness" Value="0,0,0,5" />
-        <Setter Property="CornerRadius" Value="8" />
+    <Style x:Key="StyMenuChipInset" TargetType="ctl:CtlPixelSurface">
+        <Setter Property="FaceBrush" Value="{StaticResource BrsMenuChipFace}" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{StaticResource BrsMenuChipFaceOver}" />
+                <Setter Property="FaceBrush" Value="{StaticResource BrsMenuChipFaceOver}" />
             </Trigger>
         </Style.Triggers>
     </Style>
