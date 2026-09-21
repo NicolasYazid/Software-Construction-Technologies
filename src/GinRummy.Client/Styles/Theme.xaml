@@ -15,13 +15,15 @@
          decision del equipo y vive aqui, no en el archivo de Figma.
          ============================================================ -->
 
-    <!-- Neither of the two pixel families covers the whole alphabet, so both name
-         Pixeloid Sans as the next family in the list. WPF resolves a missing glyph
-         family by family, which keeps the accented letters that STK-13 requires
-         inside a pixel typeface instead of dropping them to a system font. -->
-    <FontFamily x:Key="FntDisplay">pack://application:,,,/Fonts/#Pixelta, pack://application:,,,/Fonts/#Pixeloid Sans</FontFamily>
-    <FontFamily x:Key="FntBody">pack://application:,,,/Fonts/#Pixeloid Sans</FontFamily>
-    <FontFamily x:Key="FntBrand">pack://application:,,,/Fonts/#HigherPixels, pack://application:,,,/Fonts/#Pixeloid Sans</FontFamily>
+    <!-- Cairopixel is the only family of the three that covers the accents, the enye and the
+         inverted marks that STK-13 asks for, so the other two name it as the next family in
+         the list and WPF resolves every missing glyph there. RetroByte in particular carries
+         no accented vowel, so the Spanish labels of the bar are drawn by both families at
+         once, which is visible: its capitals measure 0.56 of the em against the 0.44 of
+         Cairopixel. -->
+    <FontFamily x:Key="FntDisplay">pack://application:,,,/Fonts/#RetroByte, pack://application:,,,/Fonts/#Cairopixel</FontFamily>
+    <FontFamily x:Key="FntBody">pack://application:,,,/Fonts/#Cairopixel</FontFamily>
+    <FontFamily x:Key="FntBrand">pack://application:,,,/Fonts/#HigherPixels, pack://application:,,,/Fonts/#Cairopixel</FontFamily>
 
     <SolidColorBrush x:Key="BrsMenuRoot" Color="#FF072118" />
     <SolidColorBrush x:Key="BrsMenuArtwork" Color="#FFE9E9E9" />

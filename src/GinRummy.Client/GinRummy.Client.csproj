@@ -152,12 +152,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Fonts\Cairopixel-Medium.ttf" />
     <Resource Include="Fonts\HigherPixels-Regular.ttf" />
-    <Resource Include="Fonts\PixeloidSans-Bold.ttf" />
-    <Resource Include="Fonts\PixeloidSans-Regular.ttf" />
-    <Resource Include="Fonts\Pixelta-Regular.ttf" />
+    <Resource Include="Fonts\RetroByte-Medium.ttf" />
     <None Include="Fonts\LICENSES.md" />
-    <None Include="Fonts\OFL-PixeloidSans.txt" />
+    <None Include="Fonts\OFL-Cairopixel.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Strings.resx" />

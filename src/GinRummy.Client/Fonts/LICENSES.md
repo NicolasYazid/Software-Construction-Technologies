@@ -1,29 +1,38 @@
 # Fonts embedded in the client
 
-The four files in this folder are compiled into the assembly as `Resource`, so the
+The three files in this folder are compiled into the assembly as `Resource`, so the
 client renders the same on any machine without installing anything. The three
 typefaces come from different authors and do not share the same terms, so each one
 is recorded here with the terms it was obtained under.
 
-## Pixeloid Sans — `PixeloidSans-Regular.ttf`, `PixeloidSans-Bold.ttf`
+## Cairopixel — `Cairopixel-Medium.ttf`
 
-- Author: GGBotNet, https://ggbot.net/fonts/
-- Licence: SIL Open Font License 1.1, full text in `OFL-PixeloidSans.txt`
+- Author: GGBotNet, https://ggbot.net
+- Licence: SIL Open Font License 1.1, full text in `OFL-Cairopixel.txt`
 - Embedding permissions declared by the file: unrestricted (`fsType` 0)
+- Coverage: 900 glyphs, the whole Latin alphabet with accents included
 
-The licence allows embedding and redistribution, including inside this repository,
-as long as the copyright notice and the licence travel with the font. That is why
-`OFL-PixeloidSans.txt` is part of the project and must not be removed.
+It is the body family and the only one of the three that covers the accented
+vowels, the enye and the inverted marks, so the other two name it as the next
+family in their list. Its em measures 16 design pixels, which makes it render
+without softening at sizes that are multiples of 16. Its capitals measure 0.44 of
+the em, well under the 0.78 of the family it replaces, so every size that uses it
+carries a higher number for the same height on screen.
 
-This is the only family of the three that covers the whole Latin alphabet with
-accents, so it is the one that resolves the characters the other two lack.
+## RetroByte — `RetroByte-Medium.ttf`
 
-## Pixelta — `Pixelta-Regular.ttf`
-
-- Author: Blankids Studio, https://www.blankidsfonts.com
-- Licence: personal use only, commercial use not granted
+- Author: Igor Ovsyannykov
+- Licence: the file declares none
 - Embedding permissions declared by the file: unrestricted (`fsType` 0)
-- Coverage: ASCII only, 89 mapped code points
+- Coverage: 118 glyphs, ASCII only
+
+It is the display family. It carries **no accented vowel, no enye and no opening
+question mark**, so the Spanish labels of the menu are drawn by two families at
+once: RetroByte for the letters it has and Cairopixel for the rest. The difference
+is visible, because the capitals of RetroByte measure 0.56 of the em against the
+0.44 of Cairopixel, and the borrowed letter therefore sits lower and smaller than
+the ones beside it. In Spanish this affects `INICIAR SESIÓN`, `CÓMO JUGAR` and the
+`ESPAÑOL` of the language selector.
 
 ## HigherPixels — `HigherPixels-Regular.ttf`
 
@@ -32,21 +41,30 @@ accents, so it is the one that resolves the characters the other two lack.
 - Embedding permissions declared by the file: editable embedding (`fsType` 8)
 - Coverage: letters and digits, 70 mapped code points, no accents at all
 
-This family is used only by the wordmark, which reads `GIN RUMMY`, so the letters
-it lacks never reach the screen through it.
+It is used only by the wordmark, which reads `GIN RUMMY`, so the letters it lacks
+never reach the screen through it.
 
 ## Consequence for the project
 
-Neither Pixelta nor HigherPixels carries accented letters, an inverted question or
-exclamation mark, or `U+25CF`, which is the character the password field draws. The
-families declared in `Styles/Theme.xaml` therefore name Pixeloid Sans as the next
-family in the list, and WPF resolves each missing glyph there. Without that list
-the accents of STK-13 would fall to a system font and would not look like part of
-the same typeface.
+Only Cairopixel satisfies STK-13 on its own. `FntDisplay` and `FntBrand` are
+declared as family lists with Cairopixel behind them, which keeps every missing
+glyph inside a pixel typeface instead of dropping it to a font of the system, but
+it does not make the two families match.
 
-Neither Pixelta nor HigherPixels grants redistribution in writing. The project is
-academic and produces no income, which is what their terms describe, but if the
-course requires every asset to carry explicit redistribution rights both should be
-replaced by openly licensed pixel families. Pixeloid Sans already in this folder
-can take over the display role, and Silkscreen, Press Start 2P and Pixelify Sans
-are alternatives under the same Open Font License.
+The circle the password field draws by default, `U+25CF`, is in none of the three.
+`StyFieldPassword` therefore states `PasswordChar` as `U+2022`, which Cairopixel
+carries, instead of letting the control ask for a character the font does not have.
+
+Cairopixel ships a single weight, so every style that asked for a bold face now
+states `Normal`. The weight the framework synthesises thickens the strokes by a
+fraction of a pixel, which blurs the square edges these typefaces are chosen for.
+
+`OFL-Cairopixel.txt` must travel with its font: the licence requires each copy to
+carry its copyright notice and its terms, so removing it from the repository would
+break the condition under which Cairopixel may be redistributed.
+
+Neither RetroByte nor HigherPixels grants redistribution in writing, and RetroByte
+carries no licence statement at all. The project is academic and produces no
+income, but if the course requires every asset to carry explicit redistribution
+rights both should be replaced. Cairopixel itself, Silkscreen, Press Start 2P and
+VT323 are pixel families under the Open Font License.
