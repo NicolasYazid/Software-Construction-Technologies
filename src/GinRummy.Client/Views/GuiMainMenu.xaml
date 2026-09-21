@@ -19,7 +19,7 @@
              The paint covers the whole window, so the background of the grid is only seen
              while the first frame is being drawn. -->
         <ctl:CtlPaintBackground x:Name="ctlPaintBackground"
-                                BlockResolution="250" PatternScale="1.3"
+                                BlockResolution="250" PatternScale="1.45"
                                 DeepColour="{StaticResource ClrMenuLiquidDeep}"
                                 MidColour="{StaticResource ClrMenuLiquidMid}"
                                 GlowColour="{StaticResource ClrMenuLiquidGlow}" />

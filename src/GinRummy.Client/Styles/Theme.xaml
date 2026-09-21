@@ -25,7 +25,7 @@
     <FontFamily x:Key="FntBody">pack://application:,,,/Fonts/#Cairopixel</FontFamily>
     <FontFamily x:Key="FntBrand">pack://application:,,,/Fonts/#HigherPixels, pack://application:,,,/Fonts/#Cairopixel</FontFamily>
 
-    <SolidColorBrush x:Key="BrsMenuRoot" Color="#FF072118" />
+    <SolidColorBrush x:Key="BrsMenuRoot" Color="#FF103A28" />
     <SolidColorBrush x:Key="BrsMenuArtwork" Color="#FFE9E9E9" />
     <SolidColorBrush x:Key="BrsMenuEdge" Color="#73FFFFFF" />
     <SolidColorBrush x:Key="BrsMenuPrimary" Color="#FF8E8E93" />
@@ -336,7 +336,8 @@
     <Style x:Key="StyCardTitle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
         <Setter Property="FontWeight" Value="Normal" />
-        <Setter Property="FontSize" Value="36" />
+        <Setter Property="FontSize" Value="44" />
+        <Setter Property="Margin" Value="0,10,0,0" />
         <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
@@ -573,7 +574,8 @@
     <Style x:Key="StyPlainTitle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
         <Setter Property="FontWeight" Value="Normal" />
-        <Setter Property="FontSize" Value="36" />
+        <Setter Property="FontSize" Value="44" />
+        <Setter Property="Margin" Value="0,10,0,0" />
         <Setter Property="Foreground" Value="{StaticResource BrsPlainTitle}" />
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>

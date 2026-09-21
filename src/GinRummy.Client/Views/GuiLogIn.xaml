@@ -17,7 +17,7 @@
              the paint reports the size of its own bitmap, and left free that measure was what
              stretched the window far past the content. -->
         <Border HorizontalAlignment="Right" VerticalAlignment="Top" Width="465"
-                Margin="0,14,0,0" ClipToBounds="True"
+                ClipToBounds="True"
                 Height="{Binding ActualHeight, ElementName=brdCard}">
             <Grid>
                 <ctl:CtlPaintBackground DeepColour="{StaticResource ClrArtworkDeep}"
@@ -31,7 +31,7 @@
 
         <Border x:Name="brdCard" Background="{StaticResource BrsSurface}" CornerRadius="4"
                 HorizontalAlignment="Left" VerticalAlignment="Top"
-                Width="471" Margin="2,14,0,0" Padding="34,20,34,30">
+                Width="471" Margin="2,0,0,0" Padding="34,20,34,30">
             <StackPanel>
 
                 <TextBlock x:Name="lblTitle" Style="{StaticResource StyCardTitle}"
