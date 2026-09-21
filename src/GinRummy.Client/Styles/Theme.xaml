@@ -56,9 +56,9 @@
 
     <!-- Sombras compartidas por los elementos del menu. -->
     <DropShadowEffect x:Key="EfxPanelShadow" Color="#FF0A130E"
-                      BlurRadius="32" ShadowDepth="10" Direction="270" Opacity="0.80" />
+                      BlurRadius="40" ShadowDepth="13" Direction="270" Opacity="0.92" />
     <DropShadowEffect x:Key="EfxTextShadow" Color="#FF0A130E"
-                      BlurRadius="18" ShadowDepth="6" Direction="270" Opacity="0.84" />
+                      BlurRadius="24" ShadowDepth="8" Direction="270" Opacity="0.95" />
 
     <!-- Raised text. The blur is zero on purpose: a blurred shadow reads as a light source
          behind the letter, while an offset copy with a hard edge reads as the same extruded

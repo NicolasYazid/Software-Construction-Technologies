@@ -12,13 +12,14 @@
     <Grid Width="1460" Height="775" Background="{StaticResource BrsMenuRoot}">
 
         <!-- Same paint as the side panel of the other screens, with the greens of the menu.
-             The two numbers only compensate the size of the surface: this window has about
-             twice the diagonal of that panel, so it reaches twice as far into the field for the
-             strokes to measure the same, and it is computed at a higher resolution for the
-             blocks to measure the same as well. The paint covers the whole window, so the
-             background of the grid is only seen while the first frame is being drawn. -->
+             It reaches less far into the field than the panel does, so the spiral comes out
+             larger than the window and only its centre is seen, which is what gives the menu
+             a background and not a picture. The resolution is the one that keeps the blocks
+             measuring the same as on the panel: both come out at about three pixels of screen.
+             The paint covers the whole window, so the background of the grid is only seen
+             while the first frame is being drawn. -->
         <ctl:CtlPaintBackground x:Name="ctlPaintBackground"
-                                BlockResolution="250" PatternScale="2.2"
+                                BlockResolution="250" PatternScale="1.3"
                                 DeepColour="{StaticResource ClrMenuLiquidDeep}"
                                 MidColour="{StaticResource ClrMenuLiquidMid}"
                                 GlowColour="{StaticResource ClrMenuLiquidGlow}" />
