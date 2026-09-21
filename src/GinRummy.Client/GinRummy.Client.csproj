@@ -68,6 +68,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\CtlPaintBackground.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\GuiMainMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -112,6 +116,12 @@
     <Compile Include="Controls\CtlLiquidBackground.xaml.cs">
       <DependentUpon>CtlLiquidBackground.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CtlPaintBackground.xaml.cs">
+      <DependentUpon>CtlPaintBackground.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PaintMix.cs" />
+    <Compile Include="Controls\PaintPalette.cs" />
+    <Compile Include="Controls\PaintFrameRequest.cs" />
     <Compile Include="Controls\LiquidField.cs" />
     <Compile Include="Controls\LiquidFrameRequest.cs" />
     <Compile Include="Controls\LiquidPalette.cs" />
