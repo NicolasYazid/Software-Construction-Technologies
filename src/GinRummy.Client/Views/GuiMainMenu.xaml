@@ -30,7 +30,12 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <ctl:CtlBrandMark x:Name="imgBrand" Grid.Row="0" MarkFontSize="144"
+            <!-- Ocupa las dos filas para centrarse en la ventana entera y no en el hueco que
+                 deja la barra encima de ella, que es lo que lo subia. Los margenes de arriba
+                 y de abajo son iguales, asi que el centro de las dos filas es el de la
+                 ventana. A este tamano no alcanza la barra; el ancho util es el otro limite,
+                 porque por encima de unos 190 toca los margenes laterales. -->
+            <ctl:CtlBrandMark x:Name="imgBrand" Grid.Row="0" Grid.RowSpan="2" MarkFontSize="175"
                               MarkForeground="{StaticResource BrsMenuLight}"
                               Effect="{StaticResource EfxTextShadow}"
                               HorizontalAlignment="Center" VerticalAlignment="Center" />
