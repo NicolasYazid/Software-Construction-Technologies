@@ -43,10 +43,13 @@
          cambiar de paleta no obligue a renombrar nada. -->
     <SolidColorBrush x:Key="BrsMenuInk" Color="#0B0D0C" />
     <SolidColorBrush x:Key="BrsMenuPanel" Color="#801A1712" />
+<<<<<<< Updated upstream
     <!-- Los chips laterales llevan su propio pincel y no el de la barra: son mucho mas
          pequenos, asi que a igual alfa el fondo se lee a traves de ellos con mas fuerza y
          pierden cuerpo. -->
     <SolidColorBrush x:Key="BrsMenuChipPanel" Color="#BF1A1712" />
+=======
+>>>>>>> Stashed changes
     <SolidColorBrush x:Key="BrsMenuAccent" Color="#FF8B2C1F" />
     <SolidColorBrush x:Key="BrsMenuAction" Color="#FF3B3F2F" />
     <SolidColorBrush x:Key="BrsMenuEarth" Color="#FF4B3B2A" />
