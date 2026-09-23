@@ -30,7 +30,6 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-<<<<<<< Updated upstream
             <!-- Ocupa las dos filas para centrarse en la ventana entera y no en el hueco que
                  deja la barra encima de ella, que es lo que lo subia. Los margenes de arriba
                  y de abajo son iguales, asi que el centro de las dos filas es el de la
@@ -40,12 +39,6 @@
                               MarkForeground="{StaticResource BrsMenuLight}"
                               Effect="{StaticResource EfxTextShadow}"
                               Margin="0,0,0,80"
-=======
-            <ctl:CtlBrandMark x:Name="imgBrand" Grid.Row="0" MarkFontSize="170"
-                              MarkForeground="{StaticResource BrsMenuLight}"
-                              Effect="{StaticResource EfxTextShadow}"
-                              Margin="0,0,0,-120"
->>>>>>> Stashed changes
                               HorizontalAlignment="Center" VerticalAlignment="Center" />
 
             <Grid Grid.Row="1">
