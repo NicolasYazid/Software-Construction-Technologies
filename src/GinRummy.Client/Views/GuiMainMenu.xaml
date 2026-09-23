@@ -38,6 +38,7 @@
             <ctl:CtlBrandMark x:Name="imgBrand" Grid.Row="0" Grid.RowSpan="2" MarkFontSize="175"
                               MarkForeground="{StaticResource BrsMenuLight}"
                               Effect="{StaticResource EfxTextShadow}"
+                              Margin="0,0,0,80"
                               HorizontalAlignment="Center" VerticalAlignment="Center" />
 
             <Grid Grid.Row="1">
