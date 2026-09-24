@@ -280,6 +280,10 @@
     <Compile Include="Models\LinkedAccountDto.cs" />
     <Compile Include="Models\AccountSettingsDto.cs" />
     <Compile Include="Models\PlayerProfileDto.cs" />
+    <Compile Include="Models\RankingEntryDto.cs" />
+    <Compile Include="Models\LeaderboardDto.cs" />
+    <Compile Include="Models\GameRulesDto.cs" />
+    <Compile Include="Converters\CultureNumberConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

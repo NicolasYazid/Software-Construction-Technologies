@@ -7,16 +7,25 @@ using GinRummy.Client.Models;
 namespace GinRummy.Client.Services
 {
     /// <summary>
-    /// Supplies the lobby, the notifications and the sanctions with the content the prototype
-    /// draws. It stands in for the services of the server, which the client does not reach
-    /// yet, so that every screen can be walked and reviewed with realistic data. The screens
-    /// take their data only from here, which leaves a single place to replace once the server
-    /// answers.
+    /// Supplies the lobby and the screens it opens with the content the prototype draws. It
+    /// stands in for the services of the server, which the client does not reach yet, so that
+    /// every screen can be walked and reviewed with realistic data. The screens take their data
+    /// only from here, which leaves a single place to replace once the server answers.
     /// </summary>
     public sealed class SampleDataService
     {
         private const string PlayerName = "Player A";
         private const string GuestName = "Guest_4091";
+        private const string OwnRankName = "S";
+        private const int OwnWins = 72;
+        private const int OwnLosses = 52;
+        private const int OwnGlobalPosition = 24;
+        private const int CardsPerHand = 10;
+        private const int KnockThreshold = 10;
+        private const int GinBonus = 25;
+        private const int UndercutBonus = 25;
+        private const int StockCardsToVoid = 2;
+        private const int TargetScore = 100;
 
         /// <summary>
         /// Builds the lobby a registered player finds when entering (P11).
@@ -211,6 +220,75 @@ namespace GinRummy.Client.Services
             return new List<string> { "Discord", "Instagram", "Twitch", "X", "YouTube" };
         }
 
+        /// <summary>
+        /// Builds the leaderboard of every registered player (P18). The player stands beyond
+        /// the rows the table holds, as in CU-19 FA-03.
+        /// </summary>
+        /// <returns>The first places and the row of the player.</returns>
+        public LeaderboardDto GetGlobalLeaderboard()
+        {
+            LeaderboardDto leaderboard = new LeaderboardDto();
+            leaderboard.Entries = new List<RankingEntryDto>
+            {
+                CreateEntry(CreatePlayer("Player Z", "S", false), 182, 41),
+                CreateEntry(CreatePlayer("Player X", "A", false), 176, 52),
+                CreateEntry(CreatePlayer("Player C", "A", false), 164, 58),
+                CreateEntry(CreatePlayer("Player Y", "A", false), 151, 63),
+                CreateEntry(CreatePlayer("Player G", "A", false), 148, 70),
+                CreateEntry(CreatePlayer("Player H", "B", false), 139, 74),
+                CreateEntry(CreatePlayer("Player Q", "B", false), 131, 80),
+                CreateEntry(CreatePlayer("Player R", "C", false), 126, 85),
+                CreateEntry(CreatePlayer("Player M", "C", false), 118, 90),
+                CreateEntry(CreatePlayer("Player N", "C", false), 112, 96)
+            };
+            NumberEntries(leaderboard.Entries);
+            leaderboard.OwnEntry = CreateOwnEntry();
+            leaderboard.OwnEntry.Position = OwnGlobalPosition;
+
+            return leaderboard;
+        }
+
+        /// <summary>
+        /// Builds the leaderboard of the player and their friends (P18, CU-19 FA-01).
+        /// </summary>
+        /// <returns>The friends and the player, with the row of the player among them.</returns>
+        public LeaderboardDto GetFriendsLeaderboard()
+        {
+            LeaderboardDto leaderboard = new LeaderboardDto();
+            leaderboard.OwnEntry = CreateOwnEntry();
+            leaderboard.Entries = new List<RankingEntryDto>
+            {
+                CreateEntry(CreatePlayer("Friend A", "S", true), 158, 49),
+                CreateEntry(CreatePlayer("Friend B", "A", true), 133, 61),
+                CreateEntry(CreatePlayer("Friend C", "B", true), 97, 58),
+                leaderboard.OwnEntry,
+                CreateEntry(CreatePlayer("Friend D", "C", true), 64, 71),
+                CreateEntry(CreatePlayer("Friend Q", "D", true), 51, 44),
+                CreateEntry(CreatePlayer("Friend R", "F", true), 38, 40)
+            };
+            NumberEntries(leaderboard.Entries);
+
+            return leaderboard;
+        }
+
+        /// <summary>
+        /// Builds the values of the game the house rules quote (P19). They come from the
+        /// configuration of the game, which the client does not read yet.
+        /// </summary>
+        /// <returns>The values of the game.</returns>
+        public GameRulesDto GetGameRules()
+        {
+            GameRulesDto rules = new GameRulesDto();
+            rules.CardsPerHand = CardsPerHand;
+            rules.KnockThreshold = KnockThreshold;
+            rules.GinBonus = GinBonus;
+            rules.UndercutBonus = UndercutBonus;
+            rules.StockCardsToVoid = StockCardsToVoid;
+            rules.TargetScore = TargetScore;
+
+            return rules;
+        }
+
         private static PlayerProfileDto CreateProfile(string username, string rankName, string publicTag)
         {
             PlayerProfileDto profile = new PlayerProfileDto();
@@ -242,6 +320,34 @@ namespace GinRummy.Client.Services
             account.IsLinked = isLinked;
 
             return account;
+        }
+
+        private static RankingEntryDto CreateEntry(LobbyPlayerDto player, int wins, int losses)
+        {
+            RankingEntryDto entry = new RankingEntryDto();
+            entry.Username = player.Username;
+            entry.RankName = player.RankName;
+            entry.Wins = wins;
+            entry.Losses = losses;
+            entry.WinRate = (double)wins / (wins + losses);
+
+            return entry;
+        }
+
+        private static RankingEntryDto CreateOwnEntry()
+        {
+            RankingEntryDto entry = CreateEntry(CreatePlayer(PlayerName, OwnRankName, false), OwnWins, OwnLosses);
+            entry.IsOwnEntry = true;
+
+            return entry;
+        }
+
+        private static void NumberEntries(IList<RankingEntryDto> entries)
+        {
+            for (int index = 0; index < entries.Count; index++)
+            {
+                entries[index].Position = index + 1;
+            }
         }
 
         private static List<LobbyPlayerDto> CreateUnavailablePlayers()

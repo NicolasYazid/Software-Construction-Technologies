@@ -218,4 +218,15 @@
         </DrawingImage.Drawing>
     </DrawingImage>
 
+    <DrawingImage x:Key="IcoCrown">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 H24 V24 H0 Z">
+                <GeometryDrawing Brush="#EDE4DC"
+                                 Geometry="F1 M2,4 H5 V7 H2 Z M10,3 H14 V6 H10 Z M19,4 H22 V7 H19 Z M3,7 H5 V11 H3 Z
+                                           M11,6 H13 V11 H11 Z M19,7 H21 V11 H19 Z M5,9 H8 V11 H5 Z M16,9 H19 V11 H16 Z
+                                           M3,11 H21 V16 H3 Z M3,18 H21 V21 H3 Z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
 </ResourceDictionary>

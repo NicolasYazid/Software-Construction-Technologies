@@ -11,6 +11,7 @@
     <conv:UpperCaseConverter x:Key="CnvUpperCase" />
     <BooleanToVisibilityConverter x:Key="CnvBooleanToVisibility" />
     <conv:LocalizedFormatConverter x:Key="CnvLocalizedFormat" />
+    <conv:CultureNumberConverter x:Key="CnvCultureNumber" />
 
     <!-- ============================================================
          Design tokens of the client. The Figma prototype was the
@@ -1702,6 +1703,235 @@
         <Setter Property="StrokeThickness" Value="0" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- ============= Leaderboard and house rules (P18, P19) ============= -->
+
+    <!-- The places of the podium are sunk cards, the same device as the performance of the
+         profile. The first one takes the earth of the menu so that it stands out with a colour
+         the palette already has, and carries the crown instead of its number. -->
+    <Style x:Key="StyPodiumCard" TargetType="Border" BasedOn="{StaticResource StySettingCard}">
+        <Setter Property="Padding" Value="18,14,18,16" />
+        <Setter Property="Margin" Value="6,0,6,0" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Position}" Value="1">
+                <Setter Property="Background" Value="{StaticResource BrsMenuEarth}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyPodiumName" TargetType="TextBlock" BasedOn="{StaticResource StyPlayerName}">
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+    </Style>
+
+    <Style x:Key="StyPodiumPosition" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Position}" Value="1">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyPodiumCrown" TargetType="Image">
+        <Setter Property="Source" Value="{StaticResource IcoCrown}" />
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Position}" Value="1">
+                <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyPodiumStat" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="Margin" Value="0,0,16,0" />
+    </Style>
+
+    <Style x:Key="StyPodiumStatMuted" TargetType="TextBlock" BasedOn="{StaticResource StyPodiumStat}">
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+    </Style>
+
+    <Style x:Key="StyRankingTable" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="0,0,0,4" />
+        <Setter Property="CornerRadius" Value="4" />
+    </Style>
+
+    <Style x:Key="StyRankingHead" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyRankingHeadNumber" TargetType="TextBlock" BasedOn="{StaticResource StyRankingHead}">
+        <Setter Property="TextAlignment" Value="Right" />
+    </Style>
+
+    <!-- The row of the player takes the colour of the chips of the menu (CU-19 step 6). The
+         numbers of a row carry no colour of their own and inherit the one the row sets, so the
+         highlight reaches them without naming any of them. -->
+    <Style x:Key="StyRankingRow" TargetType="Border" BasedOn="{StaticResource StyPlayerRow}">
+        <Setter Property="Padding" Value="20,8,20,8" />
+        <Setter Property="TextElement.Foreground" Value="{StaticResource BrsBody}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsOwnEntry}" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
+                <Setter Property="TextElement.Foreground" Value="{StaticResource BrsMenuLight}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyRankingPosition" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsOwnEntry}" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyRankingName" TargetType="TextBlock" BasedOn="{StaticResource StyPlayerName}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsOwnEntry}" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyRankingYou" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsOwnEntry}" Value="True">
+                <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyRankingCell" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="TextAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- Over the highlighted row the disc of the rank would vanish into the same colour, so it
+         turns to the earth of the menu there. -->
+    <Style x:Key="StyRankingBadge" TargetType="Border" BasedOn="{StaticResource StyRankBadge}">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsOwnEntry}" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsMenuEarth}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyRulesCardHead" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="Margin" Value="0,4,0,0" />
+    </Style>
+
+    <!-- The warning of fair play takes the red of the warnings of the menu, the same one a
+         declined challenge carries in the chat. -->
+    <Style x:Key="StyFairPlayBar" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsMenuWarn}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="0,0,0,4" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="22,12,22,14" />
+    </Style>
+
+    <Style x:Key="StyFairPlayText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <!-- The rules are a flow document because its list draws the numerals itself: they are
+         not strings of the dictionary, and a text that wrote them would have to be
+         translated. The viewer shows no toolbar and no selection, only the scroll. -->
+    <Style x:Key="StyRulesViewer" TargetType="FlowDocumentScrollViewer">
+        <Setter Property="IsToolBarVisible" Value="False" />
+        <Setter Property="IsSelectionEnabled" Value="False" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style x:Key="StyRulesDocument" TargetType="FlowDocument">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="TextAlignment" Value="Left" />
+        <Setter Property="PagePadding" Value="0,0,18,0" />
+    </Style>
+
+    <!-- The numerals take the font and the colour of the list, and the text the ones of its
+         paragraph, which is how the prototype sets the number apart from the rule. -->
+    <Style x:Key="StyRulesList" TargetType="List">
+        <Setter Property="MarkerStyle" Value="Decimal" />
+        <Setter Property="MarkerOffset" Value="14" />
+        <Setter Property="Padding" Value="44,0,0,0" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+    </Style>
+
+    <Style x:Key="StyRuleText" TargetType="Paragraph">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="LineHeight" Value="26" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="Margin" Value="0,0,0,10" />
+    </Style>
+
+    <Style x:Key="StyGlossaryTitle" TargetType="Paragraph">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="Margin" Value="0,20,0,12" />
+    </Style>
+
+    <!-- Each term sits over its definition: the terms differ too much in length to share a
+         column with them. -->
+    <Style x:Key="StyGlossaryTerm" TargetType="Paragraph">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontSize" Value="17" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="Margin" Value="0,0,0,4" />
+    </Style>
+
+    <Style x:Key="StyGlossaryDefinition" TargetType="Paragraph" BasedOn="{StaticResource StyRuleText}">
+        <Setter Property="Margin" Value="0,0,0,14" />
     </Style>
 
 </ResourceDictionary>
