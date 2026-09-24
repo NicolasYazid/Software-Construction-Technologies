@@ -16,6 +16,7 @@ namespace GinRummy.Client.Services
     {
         private const string PlayerName = "Player A";
         private const string GuestName = "Guest_4091";
+        private const string OpponentName = "Player Z";
         private const string OwnRankName = "S";
         private const int OwnWins = 72;
         private const int OwnLosses = 52;
@@ -289,6 +290,140 @@ namespace GinRummy.Client.Services
             return rules;
         }
 
+        /// <summary>
+        /// Builds the table of a match against the player who challenged the lobby (P20), at
+        /// the moment the player decides whether to take the card turned up.
+        /// </summary>
+        /// <returns>The hand of the player, the table, the score, the log and the chat.</returns>
+        public GameTableSnapshotDto GetGameTable()
+        {
+            GameTableSnapshotDto table = new GameTableSnapshotDto();
+            table.PlayerName = PlayerName;
+            table.OpponentName = OpponentName;
+            table.OpponentCardCount = CardsPerHand;
+            table.StockCount = 31;
+            table.DiscardTop = CreateCard(CardRank.Seven, CardSuit.Spades);
+            table.Hand = new List<CardDto>
+            {
+                CreateCard(CardRank.Ten, CardSuit.Spades),
+                CreateCard(CardRank.Three, CardSuit.Hearts),
+                CreateCard(CardRank.Five, CardSuit.Hearts),
+                CreateCard(CardRank.Three, CardSuit.Diamonds),
+                CreateCard(CardRank.Four, CardSuit.Diamonds),
+                CreateCard(CardRank.Eight, CardSuit.Diamonds),
+                CreateCard(CardRank.Ace, CardSuit.Clubs),
+                CreateCard(CardRank.Four, CardSuit.Clubs),
+                CreateCard(CardRank.Seven, CardSuit.Clubs),
+                CreateCard(CardRank.Eight, CardSuit.Clubs)
+            };
+            table.Deadwood = 53;
+            table.TargetScore = TargetScore;
+            table.ChatEntries = new List<ChatMessageDto>
+            {
+                CreateMessage(OpponentName, new TimeSpan(14, 2, 0), "Gl hf!"),
+                CreateMessage(PlayerName, new TimeSpan(14, 3, 0), "You too."),
+                CreateMessage(OpponentName, new TimeSpan(14, 7, 0), "That was a lucky draw."),
+                CreateMessage(PlayerName, new TimeSpan(14, 8, 0), "Just playing the odds.")
+            };
+            MatchLogEntryDto dealt = CreateLogEntry(OpponentName, new TimeSpan(14, 1, 0), MatchLogKind.Dealt);
+            dealt.Amount = CardsPerHand;
+            MatchLogEntryDto turnedUp = CreateLogEntry(OpponentName, new TimeSpan(14, 1, 0), MatchLogKind.TurnedUp);
+            turnedUp.Card = table.DiscardTop;
+            table.MatchLog = new List<MatchLogEntryDto>
+            {
+                dealt,
+                turnedUp,
+                CreateLogEntry(OpponentName, new TimeSpan(14, 2, 0), MatchLogKind.Waiting)
+            };
+
+            return table;
+        }
+
+        /// <summary>
+        /// Builds the close of a hand in which the opponent knocked and the player defended
+        /// (P20), with the groups the prototype draws.
+        /// </summary>
+        /// <returns>The count of the hand and the score afterwards.</returns>
+        public HandResultDto GetHandResult()
+        {
+            HandResultDto result = new HandResultDto();
+            result.WinnerName = OpponentName;
+            result.KnockerName = OpponentName;
+            result.KnockerDeadwood = 1;
+            result.DefenderDeadwood = 15;
+            result.PointsAwarded = 14;
+            result.KnockerMelds = new List<MeldDto>
+            {
+                CreateMeld(
+                    MeldKind.Set,
+                    CreateCard(CardRank.Ten, CardSuit.Spades),
+                    CreateCard(CardRank.Ten, CardSuit.Diamonds),
+                    CreateCard(CardRank.Ten, CardSuit.Hearts)),
+                CreateMeld(
+                    MeldKind.Run,
+                    CreateCard(CardRank.Six, CardSuit.Spades),
+                    CreateCard(CardRank.Seven, CardSuit.Spades),
+                    CreateCard(CardRank.Eight, CardSuit.Spades)),
+                CreateMeld(
+                    MeldKind.Run,
+                    CreateCard(CardRank.Four, CardSuit.Hearts),
+                    CreateCard(CardRank.Five, CardSuit.Hearts),
+                    CreateCard(CardRank.Six, CardSuit.Hearts)),
+                CreateMeld(MeldKind.Unmatched, CreateCard(CardRank.Ace, CardSuit.Hearts))
+            };
+            result.DefenderMelds = new List<MeldDto>
+            {
+                CreateMeld(
+                    MeldKind.Set,
+                    CreateCard(CardRank.Seven, CardSuit.Diamonds),
+                    CreateCard(CardRank.Seven, CardSuit.Hearts),
+                    CreateCard(CardRank.Seven, CardSuit.Clubs)),
+                CreateMeld(
+                    MeldKind.Run,
+                    CreateCard(CardRank.Jack, CardSuit.Spades),
+                    CreateCard(CardRank.Queen, CardSuit.Spades),
+                    CreateCard(CardRank.King, CardSuit.Spades)),
+                CreateMeld(
+                    MeldKind.Unmatched,
+                    CreateCard(CardRank.Six, CardSuit.Diamonds),
+                    CreateCard(CardRank.Six, CardSuit.Clubs),
+                    CreateCard(CardRank.Two, CardSuit.Diamonds),
+                    CreateCard(CardRank.Ace, CardSuit.Spades))
+            };
+            result.PlayerScore = 0;
+            result.OpponentScore = 14;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Builds the result of a finished match (P20) for one of the ways it can end.
+        /// </summary>
+        /// <param name="endReason">Why the match ended.</param>
+        /// <returns>The reason and the final score.</returns>
+        public MatchResultDto GetMatchResult(MatchEndReason endReason)
+        {
+            MatchResultDto result = new MatchResultDto();
+            result.EndReason = endReason;
+            switch (endReason)
+            {
+                case MatchEndReason.OpponentForfeited:
+                    result.PlayerScore = 64;
+                    result.OpponentScore = 43;
+                    break;
+                case MatchEndReason.OpponentReachedTarget:
+                    result.PlayerScore = 85;
+                    result.OpponentScore = TargetScore;
+                    break;
+                default:
+                    result.PlayerScore = TargetScore;
+                    result.OpponentScore = 43;
+                    break;
+            }
+
+            return result;
+        }
+
         private static PlayerProfileDto CreateProfile(string username, string rankName, string publicTag)
         {
             PlayerProfileDto profile = new PlayerProfileDto();
@@ -348,6 +483,34 @@ namespace GinRummy.Client.Services
             {
                 entries[index].Position = index + 1;
             }
+        }
+
+        private static CardDto CreateCard(CardRank rank, CardSuit suit)
+        {
+            CardDto card = new CardDto();
+            card.Rank = rank;
+            card.Suit = suit;
+
+            return card;
+        }
+
+        private static MeldDto CreateMeld(MeldKind kind, params CardDto[] cards)
+        {
+            MeldDto meld = new MeldDto();
+            meld.Kind = kind;
+            meld.Cards = new List<CardDto>(cards);
+
+            return meld;
+        }
+
+        private static MatchLogEntryDto CreateLogEntry(string playerName, TimeSpan timeOfDay, MatchLogKind kind)
+        {
+            MatchLogEntryDto entry = new MatchLogEntryDto();
+            entry.PlayerName = playerName;
+            entry.OccurredAt = DateTime.Today.Add(timeOfDay);
+            entry.Kind = kind;
+
+            return entry;
         }
 
         private static List<LobbyPlayerDto> CreateUnavailablePlayers()

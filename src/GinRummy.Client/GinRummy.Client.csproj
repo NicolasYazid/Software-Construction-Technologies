@@ -178,6 +178,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\GameTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -298,6 +302,20 @@
     <Compile Include="Models\LeaderboardDto.cs" />
     <Compile Include="Models\GameRulesDto.cs" />
     <Compile Include="Converters\CultureNumberConverter.cs" />
+    <Compile Include="Models\CardRank.cs" />
+    <Compile Include="Models\CardSuit.cs" />
+    <Compile Include="Models\CardDto.cs" />
+    <Compile Include="Models\MeldKind.cs" />
+    <Compile Include="Models\MeldDto.cs" />
+    <Compile Include="Models\MatchLogKind.cs" />
+    <Compile Include="Models\MatchLogEntryDto.cs" />
+    <Compile Include="Models\GameTableSnapshotDto.cs" />
+    <Compile Include="Models\HandResultDto.cs" />
+    <Compile Include="Models\MatchEndReason.cs" />
+    <Compile Include="Models\MatchResultDto.cs" />
+    <Compile Include="Converters\CardRankConverter.cs" />
+    <Compile Include="Converters\CardNameConverter.cs" />
+    <Compile Include="Converters\MatchLogConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

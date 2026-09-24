@@ -1,0 +1,192 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:models="clr-namespace:GinRummy.Client.Models">
+
+    <!-- Templates of the game table (P20). They live apart from the theme because they bind to
+         the localization provider, which the application publishes when it starts, after the
+         theme has been loaded; the table merges them into its own resources, and by then the
+         provider exists. -->
+
+    <!-- A card face up. Its rank and its suit are drawn, not written, so the card carries its
+         spoken name for assistive technologies. -->
+    <DataTemplate x:Key="TplCardFace" DataType="{x:Type models:CardDto}">
+        <Border Style="{StaticResource StyCardFace}">
+            <AutomationProperties.Name>
+                <MultiBinding Converter="{StaticResource CnvCardName}">
+                    <Binding />
+                    <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                </MultiBinding>
+            </AutomationProperties.Name>
+            <Grid>
+                <TextBlock Style="{StaticResource StyCardRank}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource CnvCardRank}">
+                            <Binding Path="Rank" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <Image Style="{StaticResource StyCardSuit}" />
+                <Image Style="{StaticResource StyCardSuitCenter}" />
+                <TextBlock Style="{StaticResource StyCardRankTurned}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource CnvCardRank}">
+                            <Binding Path="Rank" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </Grid>
+        </Border>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TplCardFaceLarge" DataType="{x:Type models:CardDto}">
+        <Border Style="{StaticResource StyCardFaceLarge}">
+            <AutomationProperties.Name>
+                <MultiBinding Converter="{StaticResource CnvCardName}">
+                    <Binding />
+                    <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                </MultiBinding>
+            </AutomationProperties.Name>
+            <Grid>
+                <TextBlock Style="{StaticResource StyCardRankLarge}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource CnvCardRank}">
+                            <Binding Path="Rank" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <Image Style="{StaticResource StyCardSuitLarge}" />
+                <Image Style="{StaticResource StyCardSuitCenterLarge}" />
+                <TextBlock Style="{StaticResource StyCardRankTurnedLarge}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource CnvCardRank}">
+                            <Binding Path="Rank" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </Grid>
+        </Border>
+    </DataTemplate>
+
+    <!-- The small card of the groups laid down at the close of a hand keeps only the rank and
+         the suit, as the prototype draws it. -->
+    <DataTemplate x:Key="TplCardFaceMini" DataType="{x:Type models:CardDto}">
+        <Border Style="{StaticResource StyCardFaceMini}">
+            <AutomationProperties.Name>
+                <MultiBinding Converter="{StaticResource CnvCardName}">
+                    <Binding />
+                    <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                </MultiBinding>
+            </AutomationProperties.Name>
+            <Grid>
+                <TextBlock Style="{StaticResource StyCardRankMini}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource CnvCardRank}">
+                            <Binding Path="Rank" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <Image Style="{StaticResource StyCardSuitMini}" />
+            </Grid>
+        </Border>
+    </DataTemplate>
+
+    <!-- The cards of the opponent are only their number: the items carry nothing to show. -->
+    <DataTemplate x:Key="TplCardBack">
+        <Border Style="{StaticResource StyCardBack}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="TplMeld" DataType="{x:Type models:MeldDto}">
+        <StackPanel Margin="0,0,18,0">
+            <ItemsControl ItemsSource="{Binding Cards}" ItemTemplate="{StaticResource TplCardFaceMini}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+            <TextBlock x:Name="lblMeldSet" Style="{StaticResource StyMeldLabel}"
+                       Text="{Binding [GameTable_LblMeldSet], Source={StaticResource Loc}}" />
+            <TextBlock x:Name="lblMeldRun" Style="{StaticResource StyMeldLabel}"
+                       Text="{Binding [GameTable_LblMeldRun], Source={StaticResource Loc}}" />
+            <TextBlock x:Name="lblUnmatched" Style="{StaticResource StyMeldLabel}"
+                       Text="{Binding [GameTable_LblUnmatched], Source={StaticResource Loc}}" />
+        </StackPanel>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Kind}" Value="Set">
+                <Setter TargetName="lblMeldSet" Property="Visibility" Value="Visible" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Kind}" Value="Run">
+                <Setter TargetName="lblMeldRun" Property="Visibility" Value="Visible" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Kind}" Value="Unmatched">
+                <Setter TargetName="lblUnmatched" Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TplMatchLogEntry" DataType="{x:Type models:MatchLogEntryDto}">
+        <Grid Margin="0,8,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Style="{StaticResource StyAvatarSmall}" VerticalAlignment="Top" Margin="0,2,0,0">
+                <Image Style="{StaticResource StyAvatarIconSmall}" />
+            </Border>
+            <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource StyMatchChatAuthor}" Text="{Binding PlayerName}" />
+                    <TextBlock Style="{StaticResource StyMatchChatTime}">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" ConverterParameter="t">
+                                <Binding Path="[Shared_Timestamp]" Source="{StaticResource Loc}" />
+                                <Binding Path="OccurredAt" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </StackPanel>
+                <TextBlock Style="{StaticResource StyMatchLogText}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource CnvMatchLog}">
+                            <Binding />
+                            <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <!-- The chat of the match is narrower than the one of the lobby, so its messages leave out
+         the avatar and keep the author, the time and the text. -->
+    <DataTemplate x:Key="TplMatchChatMessage" DataType="{x:Type models:ChatMessageDto}">
+        <StackPanel Margin="20,6,14,8">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Style="{StaticResource StyMatchChatAuthor}" Text="{Binding AuthorName}" />
+                <TextBlock Style="{StaticResource StyMatchChatTime}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" ConverterParameter="t">
+                            <Binding Path="[Shared_Timestamp]" Source="{StaticResource Loc}" />
+                            <Binding Path="SentAt" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </StackPanel>
+            <TextBlock x:Name="lblChatContent" Style="{StaticResource StyMatchChatContent}" Text="{Binding Content}" />
+            <TextBlock x:Name="lblMessageCensored" Style="{StaticResource StyChatCensored}" FontSize="18"
+                       Text="{Binding [LobbyChat_MessageCensored], Source={StaticResource Loc}}" />
+        </StackPanel>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsCensored}" Value="True">
+                <Setter TargetName="lblChatContent" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="lblMessageCensored" Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+</ResourceDictionary>

@@ -229,4 +229,50 @@
         </DrawingImage.Drawing>
     </DrawingImage>
 
+    <!-- The suits of the cards, drawn on the same grid of twenty-four. The symbols are pictures
+         and not characters of a font, because the dictionary keeps them out of the resources:
+         only their spoken names are text. The red suits take the red of the ink of a card and
+         the black ones its black, since they are always drawn over the light face. -->
+    <DrawingImage x:Key="IcoSuitClubs">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 H24 V24 H0 Z">
+                <GeometryDrawing Brush="#1A1712"
+                                 Geometry="F1 M9,3 H15 V9 H9 Z M8,4 H16 V8 H8 Z M2,10 H9 V15 H2 Z M3,9 H8 V16 H3 Z
+                                           M15,10 H22 V15 H15 Z M16,9 H21 V16 H16 Z M9,9 H15 V14 H9 Z
+                                           M11,14 H13 V20 H11 Z M8,20 H16 V22 H8 Z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="IcoSuitDiamonds">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 H24 V24 H0 Z">
+                <GeometryDrawing Brush="#A33A2A"
+                                 Geometry="F1 M11,2 H13 V4 H15 V7 H17 V10 H19 V14 H17 V17 H15 V20 H13 V22 H11 V20 H9
+                                           V17 H7 V14 H5 V10 H7 V7 H9 V4 H11 Z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="IcoSuitHearts">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 H24 V24 H0 Z">
+                <GeometryDrawing Brush="#A33A2A"
+                                 Geometry="F1 M4,4 H10 V6 H14 V4 H20 V6 H22 V13 H20 V15 H18 V17 H16 V19 H14 V21 H10 V19
+                                           H8 V17 H6 V15 H4 V13 H2 V6 H4 Z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="IcoSuitSpades">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 H24 V24 H0 Z">
+                <GeometryDrawing Brush="#1A1712"
+                                 Geometry="F1 M11,2 H13 V4 H11 Z M9,4 H15 V6 H9 Z M7,6 H17 V8 H7 Z M5,8 H19 V10 H5 Z
+                                           M3,10 H21 V16 H3 Z M5,16 H10 V18 H5 Z M14,16 H19 V18 H14 Z M11,14 H13 V20 H11 Z
+                                           M8,20 H16 V22 H8 Z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
 </ResourceDictionary>

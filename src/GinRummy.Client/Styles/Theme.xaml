@@ -12,6 +12,9 @@
     <BooleanToVisibilityConverter x:Key="CnvBooleanToVisibility" />
     <conv:LocalizedFormatConverter x:Key="CnvLocalizedFormat" />
     <conv:CultureNumberConverter x:Key="CnvCultureNumber" />
+    <conv:CardRankConverter x:Key="CnvCardRank" />
+    <conv:CardNameConverter x:Key="CnvCardName" />
+    <conv:MatchLogConverter x:Key="CnvMatchLog" />
 
     <!-- ============================================================
          Design tokens of the client. The Figma prototype was the
@@ -1932,6 +1935,411 @@
 
     <Style x:Key="StyGlossaryDefinition" TargetType="Paragraph" BasedOn="{StaticResource StyRuleText}">
         <Setter Property="Margin" Value="0,0,0,14" />
+    </Style>
+
+    <!-- ======================== Game table (P20) ======================== -->
+
+    <!-- The table keeps the room of the lobby: the chat and the side panel are its translucent
+         panels, and the cards lie on the green of the page. The faces of the cards take the
+         light of the menu so that they stand out on the green, with the ink of the menu for
+         the black suits and a darker red for the red ones. -->
+    <SolidColorBrush x:Key="BrsCardInkBlack" Color="#FF1A1712" />
+    <SolidColorBrush x:Key="BrsCardInkRed" Color="#FFA33A2A" />
+    <SolidColorBrush x:Key="BrsTableSurface" Color="#33041710" />
+
+    <!-- The back of a card repeats a small check in the two browns of the chips of the menu. -->
+    <DrawingBrush x:Key="BrsCardBack" TileMode="Tile"
+                  Viewport="0,0,8,8" ViewportUnits="Absolute" Viewbox="0,0,8,8" ViewboxUnits="Absolute">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="#FF8A4B2A" Geometry="M0,0 H8 V8 H0 Z" />
+                <GeometryDrawing Brush="#FFA06D51" Geometry="M0,0 H2 V2 H0 Z M4,4 H6 V6 H4 Z" />
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <Style x:Key="StyCardFace" TargetType="Border">
+        <Setter Property="Width" Value="62" />
+        <Setter Property="Height" Value="92" />
+        <Setter Property="Background" Value="{StaticResource BrsMenuLight}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="1,1,1,3" />
+        <Setter Property="CornerRadius" Value="4" />
+    </Style>
+
+    <Style x:Key="StyCardFaceLarge" TargetType="Border" BasedOn="{StaticResource StyCardFace}">
+        <Setter Property="Width" Value="92" />
+        <Setter Property="Height" Value="130" />
+    </Style>
+
+    <Style x:Key="StyCardFaceMini" TargetType="Border" BasedOn="{StaticResource StyCardFace}">
+        <Setter Property="Width" Value="40" />
+        <Setter Property="Height" Value="48" />
+        <Setter Property="Margin" Value="0,0,4,0" />
+    </Style>
+
+    <Style x:Key="StyCardBack" TargetType="Border">
+        <Setter Property="Width" Value="51" />
+        <Setter Property="Height" Value="78" />
+        <Setter Property="Margin" Value="2,0,2,0" />
+        <Setter Property="Background" Value="{StaticResource BrsCardBack}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="1,1,1,3" />
+        <Setter Property="CornerRadius" Value="4" />
+    </Style>
+
+    <Style x:Key="StyCardBackLarge" TargetType="Border" BasedOn="{StaticResource StyCardBack}">
+        <Setter Property="Width" Value="92" />
+        <Setter Property="Height" Value="130" />
+        <Setter Property="Margin" Value="0" />
+    </Style>
+
+    <!-- The place of the discard pile stays drawn when the pile is empty, so that the table
+         does not change its shape when the card is taken. -->
+    <Style x:Key="StyCardSlot" TargetType="Rectangle">
+        <Setter Property="Width" Value="92" />
+        <Setter Property="Height" Value="130" />
+        <Setter Property="Stroke" Value="{StaticResource BrsLobbyRule}" />
+        <Setter Property="StrokeThickness" Value="2" />
+        <Setter Property="StrokeDashArray" Value="3 2" />
+        <Setter Property="RadiusX" Value="4" />
+        <Setter Property="RadiusY" Value="4" />
+    </Style>
+
+    <!-- The rank takes the colour of its suit, as on a printed card. -->
+    <Style x:Key="StyCardRank" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="17" />
+        <Setter Property="Foreground" Value="{StaticResource BrsCardInkBlack}" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Margin" Value="5,3,0,0" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Suit}" Value="Diamonds">
+                <Setter Property="Foreground" Value="{StaticResource BrsCardInkRed}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Suit}" Value="Hearts">
+                <Setter Property="Foreground" Value="{StaticResource BrsCardInkRed}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyCardRankLarge" TargetType="TextBlock" BasedOn="{StaticResource StyCardRank}">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="Margin" Value="8,5,0,0" />
+    </Style>
+
+    <Style x:Key="StyCardRankMini" TargetType="TextBlock" BasedOn="{StaticResource StyCardRank}">
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Margin" Value="4,2,0,0" />
+    </Style>
+
+    <!-- The opposite corner repeats the rank upside down, as a printed card does. -->
+    <Style x:Key="StyCardRankTurned" TargetType="TextBlock" BasedOn="{StaticResource StyCardRank}">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Margin" Value="0,0,5,5" />
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <RotateTransform Angle="180" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StyCardRankTurnedLarge" TargetType="TextBlock" BasedOn="{StaticResource StyCardRankTurned}">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="Margin" Value="0,0,8,7" />
+    </Style>
+
+    <!-- The picture of the suit follows the suit of the card. The sizes are halves and doubles
+         of the grid of twenty-four the symbols are drawn on, which keeps their blocks square. -->
+    <Style x:Key="StyCardSuit" TargetType="Image">
+        <Setter Property="Source" Value="{StaticResource IcoSuitSpades}" />
+        <Setter Property="Width" Value="12" />
+        <Setter Property="Height" Value="12" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Margin" Value="6,25,0,0" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Suit}" Value="Clubs">
+                <Setter Property="Source" Value="{StaticResource IcoSuitClubs}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Suit}" Value="Diamonds">
+                <Setter Property="Source" Value="{StaticResource IcoSuitDiamonds}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Suit}" Value="Hearts">
+                <Setter Property="Source" Value="{StaticResource IcoSuitHearts}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyCardSuitLarge" TargetType="Image" BasedOn="{StaticResource StyCardSuit}">
+        <Setter Property="Margin" Value="10,36,0,0" />
+    </Style>
+
+    <Style x:Key="StyCardSuitMini" TargetType="Image" BasedOn="{StaticResource StyCardSuit}">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Margin" Value="0,0,5,6" />
+    </Style>
+
+    <Style x:Key="StyCardSuitCenter" TargetType="Image" BasedOn="{StaticResource StyCardSuit}">
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,4,0,0" />
+    </Style>
+
+    <Style x:Key="StyCardSuitCenterLarge" TargetType="Image" BasedOn="{StaticResource StyCardSuitCenter}">
+        <Setter Property="Width" Value="48" />
+        <Setter Property="Height" Value="48" />
+    </Style>
+
+    <!-- A card of the hand rises when it is chosen, as a real card does when it is lifted from
+         the fan. -->
+    <Style x:Key="StyHandCard" TargetType="ListBoxItem">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Margin" Value="1,0,1,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <ContentPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <TranslateTransform Y="-14" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- The hand is a single row with no chrome. The room above the cards is the height a
+         chosen card rises, so that it never leaves the list. -->
+    <Style x:Key="StyHandList" TargetType="ListBox">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="AllowDrop" Value="True" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource StyHandCard}" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <Border Background="{TemplateBinding Background}" Padding="0,16,0,0">
+                        <ItemsPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StyTableSurface" TargetType="Rectangle">
+        <Setter Property="Fill" Value="{StaticResource BrsTableSurface}" />
+        <Setter Property="Stroke" Value="{StaticResource BrsLobbyRule}" />
+        <Setter Property="StrokeThickness" Value="2" />
+        <Setter Property="StrokeDashArray" Value="4 3" />
+        <Setter Property="RadiusX" Value="96" />
+        <Setter Property="RadiusY" Value="96" />
+    </Style>
+
+    <Style x:Key="StyTableCaption" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyTablePill" TargetType="Border">
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMuted}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="10,3,10,4" />
+        <Setter Property="Margin" Value="12,0,0,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyTablePillText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+    </Style>
+
+    <Style x:Key="StyTableNote" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyDeadwoodLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyDeadwoodValue" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="52" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="16,0,0,0" />
+    </Style>
+
+    <Style x:Key="StyMatchStatRow" TargetType="DockPanel">
+        <Setter Property="LastChildFill" Value="False" />
+        <Setter Property="Margin" Value="4,7,4,7" />
+    </Style>
+
+    <Style x:Key="StyMatchStatLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyMatchStatValue" TargetType="TextBlock">
+        <Setter Property="DockPanel.Dock" Value="Right" />
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyMatchLogText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="0,2,0,0" />
+    </Style>
+
+    <Style x:Key="StyMatchChatAuthor" TargetType="TextBlock" BasedOn="{StaticResource StyChatAuthor}">
+        <Setter Property="FontSize" Value="15" />
+    </Style>
+
+    <Style x:Key="StyMatchChatTime" TargetType="TextBlock" BasedOn="{StaticResource StyChatTime}">
+        <Setter Property="FontSize" Value="15" />
+    </Style>
+
+    <Style x:Key="StyMatchChatContent" TargetType="TextBlock" BasedOn="{StaticResource StyChatContent}">
+        <Setter Property="FontSize" Value="18" />
+    </Style>
+
+    <!-- Forfeiting counts as a defeat (CU-26), so its button takes the red of the warnings. -->
+    <Style x:Key="StyForfeitButton" TargetType="Button" BasedOn="{StaticResource StyLobbySecondaryButton}">
+        <Setter Property="Background" Value="{StaticResource BrsMenuWarn}" />
+    </Style>
+
+    <!-- The pause, the close of a hand and the result of the match open over the table, which
+         stays in sight under the veil, as the prototype draws them. -->
+    <Style x:Key="StyTableOverlayCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsArtworkPanel}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="0,0,0,4" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="40,28,40,30" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyHandWinnerPill" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsMenuWarn}" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="16,4,16,5" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <Style x:Key="StyHandWinnerText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+    </Style>
+
+    <Style x:Key="StyHandCountRow" TargetType="DockPanel">
+        <Setter Property="LastChildFill" Value="False" />
+        <Setter Property="Margin" Value="0,3,0,3" />
+    </Style>
+
+    <Style x:Key="StyHandCountLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyHandCountValue" TargetType="TextBlock">
+        <Setter Property="DockPanel.Dock" Value="Right" />
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyMeldPanel" TargetType="Border" BasedOn="{StaticResource StySettingCard}">
+        <Setter Property="Padding" Value="16,12,16,10" />
+        <Setter Property="Margin" Value="0,12,0,0" />
+    </Style>
+
+    <Style x:Key="StyMeldPanelTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+    </Style>
+
+    <Style x:Key="StyMeldLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,6,0,0" />
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <Style x:Key="StyResultTitle" TargetType="TextBlock" BasedOn="{StaticResource StyCardTitle}">
+        <Setter Property="FontSize" Value="56" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <Style x:Key="StyResultReason" TargetType="TextBlock" BasedOn="{StaticResource StyDialogMessage}">
+        <Setter Property="Margin" Value="0,6,0,0" />
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <Style x:Key="StyFinalScore" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="Visibility" Value="Collapsed" />
     </Style>
 
 </ResourceDictionary>
