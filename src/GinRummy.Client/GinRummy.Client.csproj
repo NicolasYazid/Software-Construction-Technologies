@@ -170,6 +170,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\GuiRankings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -253,6 +257,9 @@
     </Compile>
     <Compile Include="Views\GuiProfilePanel.xaml.cs">
       <DependentUpon>GuiProfilePanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiRankings.xaml.cs">
+      <DependentUpon>GuiRankings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Localization\LocalizationProvider.cs" />
     <Compile Include="Localization\CultureOption.cs" />
