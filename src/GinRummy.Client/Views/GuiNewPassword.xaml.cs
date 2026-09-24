@@ -89,13 +89,27 @@ namespace GinRummy.Client.Views
             if (passwordsMatch)
             {
                 lblErrorMessage.Visibility = Visibility.Collapsed;
-                Close();
+                ShowNextScreen();
             }
             else
             {
                 lblErrorMessage.Text = Localization.GetText(PasswordMismatchKey);
                 lblErrorMessage.Visibility = Visibility.Visible;
             }
+        }
+
+        private void ShowNextScreen()
+        {
+            // A recovered password ends every session of the account, so the player signs in
+            // again with it (CU-08 step 14). A change made from the profile panel returns to it.
+            if (!_isChangeFromProfile)
+            {
+                GuiLogIn logIn = new GuiLogIn();
+                logIn.Owner = Owner;
+                logIn.Show();
+            }
+
+            Close();
         }
     }
 }
