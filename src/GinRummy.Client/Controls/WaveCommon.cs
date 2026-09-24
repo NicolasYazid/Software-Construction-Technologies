@@ -2,13 +2,11 @@
 
 namespace GinRummy.Client.Controls
 {
-    /// <summary>
-    /// Trigonometry used to build the liquid field. The field needs around ten sine or cosine
-    /// values for every pixel and several hundred thousand pixels for every frame, so the
-    /// values are read from a table built once when the class loads instead of being computed
-    /// one by one. The error against the exact function is far below one level of colour, and
-    /// the frame costs a fraction of what it costs with the library functions.
-    /// </summary>
+    // Trigonometry used to build the paint field. The field needs around ten sine or cosine
+    // values for every pixel and several hundred thousand pixels for every frame, so the
+    // values are read from a table built once when the class loads instead of being computed
+    // one by one. The error against the exact function is far below one level of colour, and
+    // the frame costs a fraction of what it costs with the library functions.
     internal static class WaveCommon
     {
         private const int TableSize = 4096;
@@ -17,13 +15,10 @@ namespace GinRummy.Client.Controls
 
         private static readonly double[] SineTable = BuildSineTable();
 
-        /// <summary>
-        /// Returns the sine of an angle expressed in radians.
-        /// </summary>
-        /// <param name="angle">Angle in radians, of any sign and any size.</param>
-        /// <returns>The sine of the angle.</returns>
         internal static double Sine(double angle)
         {
+            // The angle is folded into a single turn first, so an angle of any sign and any
+            // size lands inside the table.
             double turns = angle / TwoPi;
             turns -= Math.Floor(turns);
 
@@ -36,11 +31,6 @@ namespace GinRummy.Client.Controls
             return low + ((high - low) * fraction);
         }
 
-        /// <summary>
-        /// Returns the cosine of an angle expressed in radians.
-        /// </summary>
-        /// <param name="angle">Angle in radians, of any sign and any size.</param>
-        /// <returns>The cosine of the angle.</returns>
         internal static double Cosine(double angle)
         {
             return Sine(angle + QuarterTurn);

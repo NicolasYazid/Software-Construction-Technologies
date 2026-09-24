@@ -2,11 +2,9 @@ using System.Windows.Media;
 
 namespace GinRummy.Client.Controls
 {
-    /// <summary>
-    /// The three colours of the paint and the mixing of them. It is a value type so that each
-    /// frame carries its own copy and the drawing thread never reads a colour that the
-    /// interface thread is changing at the same time.
-    /// </summary>
+    // The three colours of the paint and the mixing of them. It is a value type so that each
+    // frame carries its own copy and the drawing thread never reads a colour that the
+    // interface thread is changing at the same time.
     internal struct PaintPalette
     {
         private const double ByteRange = 255.0;
@@ -27,12 +25,6 @@ namespace GinRummy.Client.Controls
         private readonly double _glowGreen;
         private readonly double _glowBlue;
 
-        /// <summary>
-        /// Builds the palette from the three colours the screen chooses.
-        /// </summary>
-        /// <param name="deepColour">Colour of the deepest part of the paint.</param>
-        /// <param name="midColour">Colour of the body of the paint.</param>
-        /// <param name="glowColour">Colour of the light of the paint.</param>
         internal PaintPalette(Color deepColour, Color midColour, Color glowColour)
         {
             _deepRed = deepColour.R / ByteRange;
@@ -46,14 +38,9 @@ namespace GinRummy.Client.Controls
             _glowBlue = glowColour.B / ByteRange;
         }
 
-        /// <summary>
-        /// Mixes the three colours with the weights of one point, darkens the result by the
-        /// shade of that point and returns it already packed as the pixel format of the surface
-        /// expects it.
-        /// </summary>
-        /// <param name="mix">Weights of the three colours at that point.</param>
-        /// <param name="shade">One for the centre of the surface and less towards the edge.</param>
-        /// <returns>The colour of the pixel, packed as alpha, red, green and blue.</returns>
+        // The shade is one at the centre of the surface and less towards the edge. The colour
+        // comes back already packed as alpha, red, green and blue, the pixel format the surface
+        // expects, so the drawing loop writes it without converting it again.
         internal int Blend(PaintMix mix, double shade)
         {
             double red = ((_deepRed * mix.DeepWeight)
