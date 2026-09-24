@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
+
 using GinRummy.Client.Localization;
 
 namespace GinRummy.Client.Views

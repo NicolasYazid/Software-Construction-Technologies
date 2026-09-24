@@ -1,9 +1,8 @@
-﻿using System;
-using System.ComponentModel;
-using System.Globalization;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+
 using GinRummy.Client.Localization;
 
 namespace GinRummy.Client.Controls
