@@ -142,6 +142,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\GuiNotifications.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuiSanctions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -204,6 +212,12 @@
     </Compile>
     <Compile Include="Views\GuiReportPlayer.xaml.cs">
       <DependentUpon>GuiReportPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiNotifications.xaml.cs">
+      <DependentUpon>GuiNotifications.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiSanctions.xaml.cs">
+      <DependentUpon>GuiSanctions.xaml</DependentUpon>
     </Compile>
     <Compile Include="Localization\LocalizationProvider.cs" />
     <Compile Include="Localization\CultureOption.cs" />

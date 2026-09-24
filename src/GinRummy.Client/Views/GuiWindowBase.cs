@@ -41,6 +41,21 @@ namespace GinRummy.Client.Views
         {
         }
 
+        /// <summary>
+        /// Opens another screen exactly where this one is and closes this one, for the screens
+        /// of the prototype that read as two views of the same panel.
+        /// </summary>
+        /// <param name="nextScreen">Screen that takes the place of this one.</param>
+        protected void ReplaceInPlace(Window nextScreen)
+        {
+            nextScreen.Owner = Owner;
+            nextScreen.WindowStartupLocation = WindowStartupLocation.Manual;
+            nextScreen.Left = Left;
+            nextScreen.Top = Top;
+            nextScreen.Show();
+            Close();
+        }
+
         private void OnLocalizationChanged(object sender, PropertyChangedEventArgs e)
         {
             RefreshFormattedText();
