@@ -86,7 +86,11 @@
                                 Click="OnTogglePasswordClick">
                             <Image Source="{StaticResource IcoEye}" Width="19" Height="19" />
                         </Button>
-                        <PasswordBox x:Name="pwdPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64" />
+                        <Grid>
+                            <PasswordBox x:Name="pwdPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64" />
+                            <TextBox x:Name="txtPasswordShown" Style="{StaticResource StyFieldInput}" MaxLength="64"
+                                     Visibility="Collapsed" />
+                        </Grid>
                     </DockPanel>
                 </Border>
 
@@ -101,10 +105,14 @@
                                 Style="{StaticResource StyIconButton}"
                                 VerticalAlignment="Center" Margin="12,0,0,0"
                                 ToolTip="{Binding [Shared_TipTogglePassword], Source={StaticResource Loc}}"
-                                Click="OnTogglePasswordClick">
+                                Click="OnToggleConfirmPasswordClick">
                             <Image Source="{StaticResource IcoEye}" Width="19" Height="19" />
                         </Button>
-                        <PasswordBox x:Name="pwdConfirmPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64" />
+                        <Grid>
+                            <PasswordBox x:Name="pwdConfirmPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64" />
+                            <TextBox x:Name="txtConfirmPasswordShown" Style="{StaticResource StyFieldInput}" MaxLength="64"
+                                     Visibility="Collapsed" />
+                        </Grid>
                     </DockPanel>
                 </Border>
 

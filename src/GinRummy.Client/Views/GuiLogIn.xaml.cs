@@ -17,8 +17,7 @@ namespace GinRummy.Client.Views
 
         private void OnTogglePasswordClick(object sender, RoutedEventArgs e)
         {
-            // Showing the password in clear text needs a dedicated control, which belongs to
-            // the delivery that builds the reusable fields.
+            PasswordRevealCommon.Toggle(pwdPassword, txtPasswordShown);
         }
 
         private void OnLogInClick(object sender, RoutedEventArgs e)

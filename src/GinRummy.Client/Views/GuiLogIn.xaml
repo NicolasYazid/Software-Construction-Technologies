@@ -70,7 +70,11 @@
                                 Click="OnTogglePasswordClick">
                             <Image Source="{StaticResource IcoEye}" Width="19" Height="19" />
                         </Button>
-                        <PasswordBox x:Name="pwdPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64" />
+                        <Grid>
+                            <PasswordBox x:Name="pwdPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64" />
+                            <TextBox x:Name="txtPasswordShown" Style="{StaticResource StyFieldInput}" MaxLength="64"
+                                     Visibility="Collapsed" />
+                        </Grid>
                     </DockPanel>
                 </Border>
 
