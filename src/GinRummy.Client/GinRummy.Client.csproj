@@ -114,6 +114,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\GuiTermsOfService.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -158,6 +162,9 @@
     </Compile>
     <Compile Include="Views\GuiAccountSuspended.xaml.cs">
       <DependentUpon>GuiAccountSuspended.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiTermsOfService.xaml.cs">
+      <DependentUpon>GuiTermsOfService.xaml</DependentUpon>
     </Compile>
     <Compile Include="Localization\LocalizationProvider.cs" />
     <Compile Include="Localization\CultureOption.cs" />
