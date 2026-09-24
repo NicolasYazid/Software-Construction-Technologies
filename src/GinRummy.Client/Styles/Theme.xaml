@@ -10,6 +10,7 @@
     <conv:EmptyTextToVisibilityConverter x:Key="CnvEmptyTextToVisibility" />
     <conv:UpperCaseConverter x:Key="CnvUpperCase" />
     <BooleanToVisibilityConverter x:Key="CnvBooleanToVisibility" />
+    <conv:LocalizedFormatConverter x:Key="CnvLocalizedFormat" />
 
     <!-- ============================================================
          Design tokens of the client. The Figma prototype was the
@@ -733,6 +734,692 @@
     <Style x:Key="StyDialogSecondaryButton" TargetType="Button" BasedOn="{StaticResource StyCardOutlineButton}">
         <Setter Property="MinWidth" Value="170" />
         <Setter Property="Height" Value="50" />
+    </Style>
+
+    <!-- ============ Lobby and its panels (P11, P12, P13, P16, P17) ============ -->
+
+    <!-- The lobby is a room of panels over the green of the page. The panels take the
+         translucent brown of the bar of the menu, so the lobby reads as the place the menu
+         opens onto, and the rail takes a darker green so that it frames the room instead of
+         competing with it. -->
+    <SolidColorBrush x:Key="BrsLobbyRail" Color="#FF041710" />
+    <SolidColorBrush x:Key="BrsLobbyRule" Color="#33EDE4DC" />
+    <SolidColorBrush x:Key="BrsLobbyRowOver" Color="#1FEDE4DC" />
+    <SolidColorBrush x:Key="BrsPresenceOnline" Color="#FF6AD29A" />
+
+    <Style x:Key="StyLobbyPanel" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsMenuPanel}" />
+        <Setter Property="CornerRadius" Value="4" />
+    </Style>
+
+    <Style x:Key="StyLobbyWordmark" TargetType="TextBlock" BasedOn="{StaticResource StyLogoWordmark}">
+        <Setter Property="FontSize" Value="40" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyLobbyTagline" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="14,6,0,0" />
+    </Style>
+
+    <!-- The two plain options of the header are text, as in the prototype, and light up on
+         hover like the links of the cards do. -->
+    <Style x:Key="StyLobbyNavButton" TargetType="Button" BasedOn="{StaticResource StyCardTextButton}">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="Height" Value="50" />
+        <Setter Property="Margin" Value="0,0,22,0" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyLobbyActionButton" TargetType="Button" BasedOn="{StaticResource StyCardPrimaryButton}">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="MinWidth" Value="180" />
+    </Style>
+
+    <Style x:Key="StyLobbySecondaryButton" TargetType="Button" BasedOn="{StaticResource StyCardOutlineButton}">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Height" Value="50" />
+        <Setter Property="MinWidth" Value="160" />
+    </Style>
+
+    <!-- The buttons of the rail are squares that darken on hover, the same gesture as the
+         chips of the menu, with room for an icon larger than the one of a field. -->
+    <Style x:Key="StyRailButton" TargetType="Button">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Width" Value="64" />
+        <Setter Property="Height" Value="64" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsMenuChipFaceOver}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyRailIcon" TargetType="Image">
+        <Setter Property="Width" Value="30" />
+        <Setter Property="Height" Value="30" />
+    </Style>
+
+    <!-- The avatar is the one the prototype draws for a player without a picture (CU-27
+         EX-03): a ring around the figure of a person. -->
+    <Style x:Key="StyAvatar" TargetType="Border">
+        <Setter Property="Width" Value="44" />
+        <Setter Property="Height" Value="44" />
+        <Setter Property="CornerRadius" Value="22" />
+        <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMuted}" />
+        <Setter Property="BorderThickness" Value="2" />
+    </Style>
+
+    <Style x:Key="StyAvatarLarge" TargetType="Border" BasedOn="{StaticResource StyAvatar}">
+        <Setter Property="Width" Value="64" />
+        <Setter Property="Height" Value="64" />
+        <Setter Property="CornerRadius" Value="32" />
+    </Style>
+
+    <Style x:Key="StyAvatarSmall" TargetType="Border" BasedOn="{StaticResource StyAvatar}">
+        <Setter Property="Width" Value="26" />
+        <Setter Property="Height" Value="26" />
+        <Setter Property="CornerRadius" Value="13" />
+        <Setter Property="BorderThickness" Value="1.5" />
+    </Style>
+
+    <Style x:Key="StyAvatarIcon" TargetType="Image">
+        <Setter Property="Source" Value="{StaticResource IcoUserLight}" />
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Height" Value="20" />
+    </Style>
+
+    <Style x:Key="StyAvatarIconLarge" TargetType="Image" BasedOn="{StaticResource StyAvatarIcon}">
+        <Setter Property="Width" Value="30" />
+        <Setter Property="Height" Value="30" />
+    </Style>
+
+    <Style x:Key="StyAvatarIconSmall" TargetType="Image" BasedOn="{StaticResource StyAvatarIcon}">
+        <Setter Property="Width" Value="13" />
+        <Setter Property="Height" Value="13" />
+    </Style>
+
+    <Style x:Key="StyPresenceDot" TargetType="Ellipse">
+        <Setter Property="Width" Value="18" />
+        <Setter Property="Height" Value="18" />
+        <Setter Property="Fill" Value="{StaticResource BrsPresenceOnline}" />
+        <Setter Property="Stroke" Value="{StaticResource BrsLobbyRail}" />
+        <Setter Property="StrokeThickness" Value="3" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+    </Style>
+
+    <!-- The rank is a letter of the catalogue of ranks (BD-14) drawn on a disc, as in the
+         prototype. -->
+    <Style x:Key="StyRankBadge" TargetType="Border">
+        <Setter Property="Width" Value="26" />
+        <Setter Property="Height" Value="26" />
+        <Setter Property="CornerRadius" Value="13" />
+        <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyRankBadgeSmall" TargetType="Border" BasedOn="{StaticResource StyRankBadge}">
+        <Setter Property="Width" Value="18" />
+        <Setter Property="Height" Value="18" />
+        <Setter Property="CornerRadius" Value="9" />
+    </Style>
+
+    <Style x:Key="StyRankBadgeText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyRankBadgeTextSmall" TargetType="TextBlock" BasedOn="{StaticResource StyRankBadgeText}">
+        <Setter Property="FontSize" Value="11" />
+    </Style>
+
+    <Style x:Key="StyChatRulesCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsMenuAction}" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="20,14,20,16" />
+    </Style>
+
+    <Style x:Key="StyChatRulesTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+    </Style>
+
+    <Style x:Key="StyChatRulesText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="LineHeight" Value="26" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="0,6,0,0" />
+    </Style>
+
+    <Style x:Key="StyChatAuthor" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+    </Style>
+
+    <Style x:Key="StyChatTime" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="17" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Margin" Value="10,0,0,0" />
+    </Style>
+
+    <Style x:Key="StyChatContent" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="0,4,0,0" />
+    </Style>
+
+    <Style x:Key="StyChatCensored" TargetType="TextBlock" BasedOn="{StaticResource StyChatContent}">
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <!-- The notices of a challenge cross the whole width of the chat, as the prototype draws
+         them, and take the colour of what they mean: the olive of an action for a challenge
+         sent, the red of a warning for one declined and the earth of the chips for one
+         received. -->
+    <Style x:Key="StyChatNotice" TargetType="Border">
+        <Setter Property="Margin" Value="0,8,0,8" />
+        <Setter Property="Padding" Value="20,10,16,10" />
+        <Setter Property="MinHeight" Value="58" />
+        <Setter Property="Background" Value="{StaticResource BrsMenuAction}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Kind}" Value="Declined">
+                <Setter Property="Background" Value="{StaticResource BrsMenuWarn}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Kind}" Value="Received">
+                <Setter Property="Background" Value="{StaticResource BrsMenuEarth}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyChatNoticeText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <Style x:Key="StyNoticeButton" TargetType="Button" BasedOn="{StaticResource StyCardOutlineButton}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="MinWidth" Value="130" />
+        <Setter Property="Margin" Value="10,0,0,0" />
+    </Style>
+
+    <Style x:Key="StyNoticePrimaryButton" TargetType="Button" BasedOn="{StaticResource StyCardPrimaryButton}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="MinWidth" Value="130" />
+        <Setter Property="Margin" Value="10,0,0,0" />
+    </Style>
+
+    <!-- The list of the chat carries no chrome and no selection: it only scrolls. The bar
+         across is disabled so that the messages wrap to the width of the panel. -->
+    <Style x:Key="StyChatListItem" TargetType="ListBoxItem">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <ContentPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StyChatList" TargetType="ListBox">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource StyChatListItem}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <ScrollViewer Focusable="False" CanContentScroll="False"
+                                  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <ItemsPresenter Margin="0,0,6,0" />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StyChatComposer" TargetType="Border">
+        <Setter Property="BorderBrush" Value="{StaticResource BrsLobbyRule}" />
+        <Setter Property="BorderThickness" Value="0,2,0,0" />
+        <Setter Property="Padding" Value="20,16,20,18" />
+    </Style>
+
+    <!-- The state of the search and the block of the chat are cards sunk in the panel, the
+         same device as the fields. -->
+    <Style x:Key="StyLobbyStatusCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="0,0,0,4" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="22,16,18,18" />
+        <Setter Property="Margin" Value="20,4,20,14" />
+    </Style>
+
+    <Style x:Key="StyStatusTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="StyStatusDanger" TargetType="TextBlock" BasedOn="{StaticResource StyStatusTitle}">
+        <Setter Property="Foreground" Value="{StaticResource BrsDanger}" />
+    </Style>
+
+    <Style x:Key="StyStatusText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="0,6,0,0" />
+    </Style>
+
+    <!-- The tabs of a panel show only their headers: the content they switch lives in the
+         window, because both tabs share the search field that sits between them and their
+         lists. -->
+    <Style x:Key="StyPanelTab" TargetType="TabItem">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="Background" Value="{StaticResource BrsMenuNeutral}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Height" Value="46" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{StaticResource BrsMenuInk}" BorderThickness="0,0,0,4">
+                        <ContentPresenter ContentSource="Header"
+                                          HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
+                <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- A tab a guest cannot use still opens, to tell why it is empty (CU-11 FA-02), so it is
+         dimmed instead of disabled. -->
+    <Style x:Key="StyPanelTabDimmed" TargetType="TabItem" BasedOn="{StaticResource StyPanelTab}">
+        <Setter Property="Opacity" Value="0.55" />
+    </Style>
+
+    <Style x:Key="StyPanelTabs" TargetType="TabControl">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource StyPanelTab}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabControl">
+                    <UniformGrid Rows="1" IsItemsHost="True" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StyPanelSearchShell" TargetType="Border" BasedOn="{StaticResource StyFieldShell}">
+        <Setter Property="Height" Value="46" />
+        <Setter Property="Padding" Value="12,0,12,0" />
+    </Style>
+
+    <Style x:Key="StyPanelSearchInput" TargetType="TextBox" BasedOn="{StaticResource StyFieldInput}">
+        <Setter Property="FontSize" Value="18" />
+    </Style>
+
+    <Style x:Key="StyPanelSearchPlaceholder" TargetType="TextBlock" BasedOn="{StaticResource StyFieldPlaceholder}">
+        <Setter Property="FontSize" Value="18" />
+    </Style>
+
+    <Style x:Key="StyGroupHeader" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="Margin" Value="4,18,4,8" />
+    </Style>
+
+    <Style x:Key="StyGroupRule" TargetType="Border">
+        <Setter Property="Height" Value="2" />
+        <Setter Property="Background" Value="{StaticResource BrsLobbyRule}" />
+        <Setter Property="Margin" Value="0,0,0,4" />
+    </Style>
+
+    <Style x:Key="StyPlayerRow" TargetType="Border">
+        <Setter Property="Padding" Value="6,8,8,8" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsLobbyRule}" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsLobbyRowOver}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyPlayerName" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="Margin" Value="12,0,8,0" />
+    </Style>
+
+    <Style x:Key="StyVersusRow" TargetType="Border" BasedOn="{StaticResource StyPlayerRow}">
+        <Setter Property="Padding" Value="4,10,4,10" />
+    </Style>
+
+    <Style x:Key="StyVersusName" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="6,0,4,0" />
+    </Style>
+
+    <Style x:Key="StyVersusLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="8,0,8,0" />
+    </Style>
+
+    <Style x:Key="StyPanelEmpty" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="LineHeight" Value="26" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="6,16,6,8" />
+    </Style>
+
+    <!-- The context menu of a player takes the sunk face of the fields and lights the item
+         under the pointer with the colour of the chips of the menu. The system menu draws a
+         light chrome of its own, hence the templates. -->
+    <Style x:Key="StyPlayerMenuItem" TargetType="MenuItem">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="14,8,22,8" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="MenuItem">
+                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                        <StackPanel Orientation="Horizontal">
+                            <ContentPresenter ContentSource="Icon" Width="16" Height="16"
+                                              Margin="0,0,12,0" VerticalAlignment="Center" />
+                            <ContentPresenter ContentSource="Header" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
+                <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Only a friend can be removed, and only someone who is not a friend yet can receive a
+         request (CU-12, CU-16), so each of those items shows for one kind of player alone. -->
+    <Style x:Key="StyPlayerMenuFriendItem" TargetType="MenuItem" BasedOn="{StaticResource StyPlayerMenuItem}">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFriend}" Value="True">
+                <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyPlayerMenuStrangerItem" TargetType="MenuItem" BasedOn="{StaticResource StyPlayerMenuItem}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFriend}" Value="True">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyPlayerMenu" TargetType="ContextMenu">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource StyPlayerMenuItem}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContextMenu">
+                    <Border Background="{StaticResource BrsFieldFace}" BorderBrush="{StaticResource BrsMenuInk}"
+                            BorderThickness="0,0,0,4" Padding="0,6,0,6" MinWidth="230">
+                        <StackPanel IsItemsHost="True" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- The bar of the system draws its light chrome over every dark panel, so the lists
+         carry a thin one in the colours of the menu. PART_Track is the name the framework
+         requires to find the track, not a naming choice. -->
+    <Style x:Key="StyScrollThumb" TargetType="Thumb">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Border Background="{StaticResource BrsMenuChipFace}" CornerRadius="3" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ScrollBar">
+        <Setter Property="Width" Value="8" />
+        <Setter Property="MinWidth" Value="8" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollBar">
+                    <Border Background="{StaticResource BrsMenuInk}" CornerRadius="3">
+                        <Track x:Name="PART_Track" IsDirectionReversed="True"
+                               Orientation="{TemplateBinding Orientation}">
+                            <Track.Thumb>
+                                <Thumb Style="{StaticResource StyScrollThumb}" />
+                            </Track.Thumb>
+                        </Track>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Orientation" Value="Horizontal">
+                            <Setter TargetName="PART_Track" Property="IsDirectionReversed" Value="False" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Width" Value="Auto" />
+                <Setter Property="MinWidth" Value="0" />
+                <Setter Property="Height" Value="8" />
+                <Setter Property="MinHeight" Value="8" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyPanelTitle" TargetType="TextBlock" BasedOn="{StaticResource StyDialogTitle}">
+        <Setter Property="TextAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyDialogCloseButton" TargetType="Button" BasedOn="{StaticResource StyIconButton}">
+        <Setter Property="Width" Value="36" />
+        <Setter Property="Height" Value="36" />
+    </Style>
+
+    <Style x:Key="StyRequestRow" TargetType="Border">
+        <Setter Property="Padding" Value="0,12,0,12" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsLobbyRule}" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+    </Style>
+
+    <Style x:Key="StyRequestText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="14,0,14,0" />
+    </Style>
+
+    <Style x:Key="StySanctionCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="0,0,0,4" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="20,14,20,16" />
+        <Setter Property="Margin" Value="0,0,0,14" />
+    </Style>
+
+    <Style x:Key="StySanctionBadge" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsDanger}" />
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <Style x:Key="StySanctionBadgeServed" TargetType="TextBlock" BasedOn="{StaticResource StySanctionBadge}">
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+    </Style>
+
+    <Style x:Key="StySanctionReason" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="Margin" Value="0,6,0,0" />
+    </Style>
+
+    <Style x:Key="StySanctionDetail" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <Style x:Key="StyReportedPlayer" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+    </Style>
+
+    <!-- The reasons of a report are exclusive options: a disc ringed with the colour of the
+         muted text, since a sunk edge alone vanished over the dark card, that fills with the
+         light of the menu when it is chosen. -->
+    <Style x:Key="StyReasonRadio" TargetType="RadioButton">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Margin" Value="0,0,0,12" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <StackPanel Orientation="Horizontal" Background="Transparent">
+                        <Border Width="22" Height="22" CornerRadius="11"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{StaticResource BrsCheckBorder}" BorderThickness="2"
+                                VerticalAlignment="Center">
+                            <Ellipse Width="10" Height="10" Fill="{StaticResource BrsMenuLight}"
+                                     Visibility="{TemplateBinding IsChecked,
+                                                  Converter={StaticResource CnvBooleanToVisibility}}" />
+                        </Border>
+                        <ContentPresenter Margin="12,0,0,0" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyFieldArea" TargetType="Border" BasedOn="{StaticResource StyFieldShell}">
+        <Setter Property="Height" Value="120" />
+        <Setter Property="Padding" Value="16,12,16,12" />
+    </Style>
+
+    <Style x:Key="StyFieldAreaInput" TargetType="TextBox" BasedOn="{StaticResource StyFieldInput}">
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="AcceptsReturn" Value="True" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+    </Style>
+
+    <Style x:Key="StyFieldAreaPlaceholder" TargetType="TextBlock" BasedOn="{StaticResource StyFieldPlaceholder}">
+        <Setter Property="VerticalAlignment" Value="Top" />
     </Style>
 
 </ResourceDictionary>

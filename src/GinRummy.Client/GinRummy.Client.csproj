@@ -134,6 +134,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\LobbyTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -204,6 +208,17 @@
     <Compile Include="Views\DurationCommon.cs" />
     <Compile Include="Views\ErrorDialogKind.cs" />
     <Compile Include="Views\ConfirmDialogKind.cs" />
+    <Compile Include="Models\ChatEntryDto.cs" />
+    <Compile Include="Models\ChatMessageDto.cs" />
+    <Compile Include="Models\ChallengeNoticeKind.cs" />
+    <Compile Include="Models\ChallengeNoticeDto.cs" />
+    <Compile Include="Models\LobbyPlayerDto.cs" />
+    <Compile Include="Models\MatchPairDto.cs" />
+    <Compile Include="Models\LobbySnapshotDto.cs" />
+    <Compile Include="Models\FriendRequestDto.cs" />
+    <Compile Include="Models\SanctionDto.cs" />
+    <Compile Include="Services\SampleDataService.cs" />
+    <Compile Include="Converters\LocalizedFormatConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
