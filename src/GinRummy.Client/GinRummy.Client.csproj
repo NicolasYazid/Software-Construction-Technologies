@@ -203,6 +203,7 @@
     <Compile Include="Controls\PaintFrameRequest.cs" />
     <Compile Include="Controls\CtlPixelSurface.cs" />
     <Compile Include="Controls\PixelFrame.cs" />
+    <Compile Include="Controls\PixelShapeCommon.cs" />
     <Compile Include="Controls\WaveCommon.cs" />
     <Compile Include="Views\GuiMainMenu.xaml.cs">
       <DependentUpon>GuiMainMenu.xaml</DependentUpon>

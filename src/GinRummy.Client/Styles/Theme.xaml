@@ -324,7 +324,7 @@
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ToggleButton">
-                                                <Border CornerRadius="6" Background="{TemplateBinding Background}" />
+                                                <Border ctl:PixelShapeCommon.CornerSteps="2" Background="{TemplateBinding Background}" />
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
@@ -352,7 +352,7 @@
                               Margin="0,0,5,0" IsHitTestVisible="False" />
                         <Popup x:Name="PART_Popup" Placement="Bottom" AllowsTransparency="True"
                                IsOpen="{TemplateBinding IsDropDownOpen}" Focusable="False">
-                            <Border Background="{StaticResource BrsMenuDropdown}" CornerRadius="6"
+                            <Border Background="{StaticResource BrsMenuDropdown}" ctl:PixelShapeCommon.CornerSteps="2"
                                     Margin="0,4,0,0" MinWidth="{TemplateBinding ActualWidth}">
                                 <StackPanel IsItemsHost="True" />
                             </Border>
@@ -413,12 +413,13 @@
     <!-- The field is sunk instead of outlined: the border lives only at the bottom and takes
          the colour of the base of the buttons, which is the same device the chips of the menu
          use. The height stays at fifty because the screens place what follows by fixed
-         margins, and changing it would move every row beneath. -->
+         margins, and changing it would move every row beneath. The stepped corners of the
+         buttons are lent to it as a clip, so the field keeps its plain border. -->
     <Style x:Key="StyFieldShell" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsFieldBorder}" />
         <Setter Property="BorderThickness" Value="0,0,0,4" />
-        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="4" />
         <Setter Property="Height" Value="50" />
         <Setter Property="Padding" Value="16,0,16,0" />
     </Style>
@@ -553,7 +554,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="CheckBox">
                     <StackPanel Orientation="Horizontal">
-                        <Border Width="18" Height="18" CornerRadius="4"
+                        <Border Width="18" Height="18" ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="2"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{StaticResource BrsFieldBorder}"
                                 BorderThickness="0,0,0,3"
@@ -652,7 +653,7 @@
         <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsPlainBorder}" />
         <Setter Property="BorderThickness" Value="0,0,0,4" />
-        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="4" />
         <Setter Property="Height" Value="48" />
         <Setter Property="Padding" Value="15,0,15,0" />
     </Style>
@@ -698,7 +699,7 @@
          way the screens with a card do. -->
     <Style x:Key="StyDialogCard" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource BrsSurface}" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="5" />
         <Setter Property="Padding" Value="40,32,40,32" />
     </Style>
 
@@ -757,7 +758,7 @@
 
     <Style x:Key="StyLobbyPanel" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource BrsSurface}" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="5" />
     </Style>
 
     <Style x:Key="StyLobbyWordmark" TargetType="TextBlock" BasedOn="{StaticResource StyLogoWordmark}">
@@ -811,7 +812,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                    <Border Background="{TemplateBinding Background}" ctl:PixelShapeCommon.CornerSteps="4">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                 </ControlTemplate>
@@ -884,7 +885,7 @@
     <Style x:Key="StyRankBadge" TargetType="Border">
         <Setter Property="Width" Value="26" />
         <Setter Property="Height" Value="26" />
-        <Setter Property="CornerRadius" Value="13" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="3" />
         <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
@@ -892,7 +893,7 @@
     <Style x:Key="StyRankBadgeSmall" TargetType="Border" BasedOn="{StaticResource StyRankBadge}">
         <Setter Property="Width" Value="18" />
         <Setter Property="Height" Value="18" />
-        <Setter Property="CornerRadius" Value="9" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="2" />
     </Style>
 
     <Style x:Key="StyRankBadgeText" TargetType="TextBlock">
@@ -910,7 +911,7 @@
 
     <Style x:Key="StyChatRulesCard" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource BrsMenuAction}" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="4" />
         <Setter Property="Padding" Value="20,14,20,16" />
     </Style>
 
@@ -1043,7 +1044,7 @@
         <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
         <Setter Property="BorderThickness" Value="0,0,0,4" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="4" />
         <Setter Property="Padding" Value="22,16,18,18" />
         <Setter Property="Margin" Value="20,4,20,14" />
     </Style>
@@ -1289,7 +1290,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Thumb">
-                    <Border Background="{StaticResource BrsMenuChipFace}" CornerRadius="3" />
+                    <Border Background="{StaticResource BrsMenuChipFace}"
+                            ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="1" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -1301,7 +1303,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ScrollBar">
-                    <Border Background="{StaticResource BrsMenuInk}" CornerRadius="3">
+                    <Border Background="{StaticResource BrsMenuInk}"
+                            ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="1">
                         <Track x:Name="PART_Track" IsDirectionReversed="True"
                                Orientation="{TemplateBinding Orientation}">
                             <Track.Thumb>
@@ -1356,7 +1359,7 @@
         <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
         <Setter Property="BorderThickness" Value="0,0,0,4" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="4" />
         <Setter Property="Padding" Value="20,14,20,16" />
         <Setter Property="Margin" Value="0,0,0,14" />
     </Style>
@@ -1409,13 +1412,16 @@
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
                     <StackPanel Orientation="Horizontal" Background="Transparent">
-                        <Border Width="22" Height="22" CornerRadius="11"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{StaticResource BrsCheckBorder}" BorderThickness="2"
-                                VerticalAlignment="Center">
-                            <Ellipse Width="10" Height="10" Fill="{StaticResource BrsMenuLight}"
-                                     Visibility="{TemplateBinding IsChecked,
-                                                  Converter={StaticResource CnvBooleanToVisibility}}" />
+                        <Border Width="22" Height="22" Padding="2" VerticalAlignment="Center"
+                                Background="{StaticResource BrsCheckBorder}"
+                                ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="4">
+                            <Border Background="{TemplateBinding Background}"
+                                    ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="3">
+                                <Border Width="10" Height="10" Background="{StaticResource BrsMenuLight}"
+                                        ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="1"
+                                        Visibility="{TemplateBinding IsChecked,
+                                                     Converter={StaticResource CnvBooleanToVisibility}}" />
+                            </Border>
                         </Border>
                         <ContentPresenter Margin="12,0,0,0" VerticalAlignment="Center" />
                     </StackPanel>
@@ -1483,7 +1489,7 @@
         <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
         <Setter Property="BorderThickness" Value="0,0,0,4" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="4" />
         <Setter Property="Padding" Value="18,14,16,16" />
     </Style>
 
@@ -1515,11 +1521,12 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
-                    <Border Background="{TemplateBinding Background}" CornerRadius="15"
+                    <Border Background="{TemplateBinding Background}" ctl:PixelShapeCommon.CornerSteps="4"
                             BorderBrush="{StaticResource BrsMenuInk}" BorderThickness="0,0,0,3">
-                        <Ellipse Width="20" Height="20" Margin="5,0,5,0" Fill="{StaticResource BrsMenuLight}">
-                            <Ellipse.Style>
-                                <Style TargetType="Ellipse">
+                        <Border Width="20" Height="20" Margin="5,0,5,0" Background="{StaticResource BrsMenuLight}"
+                                ctl:PixelShapeCommon.CornerSteps="2">
+                            <Border.Style>
+                                <Style TargetType="Border">
                                     <Setter Property="HorizontalAlignment" Value="Left" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsChecked,
@@ -1529,8 +1536,8 @@
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </Ellipse.Style>
-                        </Ellipse>
+                            </Border.Style>
+                        </Border>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -1549,7 +1556,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RepeatButton">
-                    <Border Height="8" CornerRadius="4" Background="{StaticResource BrsMenuChipFace}" />
+                    <Border Height="8" ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="1"
+                            Background="{StaticResource BrsMenuChipFace}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -1570,8 +1578,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Thumb">
-                    <Ellipse Width="22" Height="22" Fill="{StaticResource BrsMenuLight}"
-                             Stroke="{StaticResource BrsMenuInk}" StrokeThickness="3" />
+                    <Border Width="22" Height="22" Padding="3" Background="{StaticResource BrsMenuInk}"
+                            ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="4">
+                        <Border Background="{StaticResource BrsMenuLight}"
+                                ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="3" />
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -1587,7 +1598,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Slider">
                     <Grid>
-                        <Border Height="8" CornerRadius="4" Background="{StaticResource BrsFieldFace}"
+                        <Border Height="8" ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="1"
+                                Background="{StaticResource BrsFieldFace}"
                                 BorderBrush="{StaticResource BrsMenuInk}" BorderThickness="0,0,0,2" />
                         <Track x:Name="PART_Track">
                             <Track.DecreaseRepeatButton>
@@ -1693,7 +1705,7 @@
         <Setter Property="Background" Value="{StaticResource BrsMenuNeutral}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
         <Setter Property="BorderThickness" Value="0,0,0,3" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="3" />
         <Setter Property="Padding" Value="12,6,12,6" />
         <Setter Property="Margin" Value="0,0,10,0" />
     </Style>
@@ -1792,7 +1804,7 @@
         <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
         <Setter Property="BorderThickness" Value="0,0,0,4" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="4" />
     </Style>
 
     <Style x:Key="StyRankingHead" TargetType="TextBlock">
@@ -1888,7 +1900,7 @@
         <Setter Property="Background" Value="{StaticResource BrsMenuWarn}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
         <Setter Property="BorderThickness" Value="0,0,0,4" />
-        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="4" />
         <Setter Property="Padding" Value="22,12,22,14" />
     </Style>
 
@@ -2283,7 +2295,7 @@
         <Setter Property="Background" Value="{StaticResource BrsSurface}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
         <Setter Property="BorderThickness" Value="0,0,0,4" />
-        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="5" />
         <Setter Property="Padding" Value="40,28,40,30" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -2291,7 +2303,7 @@
 
     <Style x:Key="StyHandWinnerPill" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource BrsMenuWarn}" />
-        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="3" />
         <Setter Property="Padding" Value="16,4,16,5" />
         <Setter Property="HorizontalAlignment" Value="Left" />
     </Style>

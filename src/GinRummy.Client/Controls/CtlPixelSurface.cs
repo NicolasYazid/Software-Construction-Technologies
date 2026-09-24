@@ -1,4 +1,3 @@
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -20,13 +19,10 @@ namespace GinRummy.Client.Controls
     /// </summary>
     public class CtlPixelSurface : Decorator
     {
-        private const double DefaultPixelUnit = 3.0;
         private const int DefaultCornerSteps = 4;
         private const int DefaultBaseDepth = 0;
         private const int BothSides = 2;
         private const int FirstBlock = 0;
-        private const int OneRow = 1;
-        private const double Half = 0.5;
         private const double Origin = 0.0;
 
         /// <summary>
@@ -39,7 +35,7 @@ namespace GinRummy.Client.Controls
                 typeof(double),
                 typeof(CtlPixelSurface),
                 new FrameworkPropertyMetadata(
-                    DefaultPixelUnit,
+                    PixelShapeCommon.DefaultPixelUnit,
                     FrameworkPropertyMetadataOptions.AffectsRender));
 
         /// <summary>
@@ -171,14 +167,14 @@ namespace GinRummy.Client.Controls
         {
             base.OnRender(drawingContext);
 
-            PixelFrame frame = MeasureFrame();
+            PixelFrame frame = PixelShapeCommon.MeasureFrame(RenderSize, PixelUnit, CornerSteps);
             if (frame == null)
             {
                 return;
             }
 
             DrawBase(drawingContext, frame);
-            drawingContext.DrawGeometry(FaceBrush, null, BuildShape(frame));
+            drawingContext.DrawGeometry(FaceBrush, null, PixelShapeCommon.BuildShape(frame));
         }
 
         /// <summary>
@@ -258,49 +254,15 @@ namespace GinRummy.Client.Controls
             }
 
             frame.Rows -= depth;
-            Geometry body = BuildShape(frame);
+            Geometry body = PixelShapeCommon.BuildShape(frame);
             frame.OffsetY += depth * frame.Unit;
-            Geometry seat = BuildShape(frame);
+            Geometry seat = PixelShapeCommon.BuildShape(frame);
             frame.OffsetY -= depth * frame.Unit;
 
             drawingContext.DrawGeometry(
                 BaseBrush,
                 null,
                 Geometry.Combine(seat, body, GeometryCombineMode.Exclude, null));
-        }
-
-        // The grid is centred on the surface: the part of a block that does not fit whole is
-        // shared between the two edges instead of piling up on one of them, so a control whose
-        // size is not a multiple of the block is still framed evenly.
-        private PixelFrame MeasureFrame()
-        {
-            PixelFrame frame = null;
-            double unit = PixelUnit;
-            int smallestSide = (BothSides * CornerSteps) + BothSides;
-            int columns = 0;
-            int rows = 0;
-
-            if (unit > Origin)
-            {
-                columns = (int)(RenderSize.Width / unit);
-                rows = (int)(RenderSize.Height / unit);
-            }
-
-            if (columns >= smallestSide && rows >= smallestSide)
-            {
-                frame = new PixelFrame
-                {
-                    Unit = unit,
-                    Columns = columns,
-                    Rows = rows,
-                    Steps = CornerSteps,
-                    Profile = BuildProfile(CornerSteps),
-                    OffsetX = (RenderSize.Width - (columns * unit)) * Half,
-                    OffsetY = (RenderSize.Height - (rows * unit)) * Half
-                };
-            }
-
-            return frame;
         }
 
         // What the base takes along the bottom edge counts as padding: the content belongs to
@@ -314,89 +276,6 @@ namespace GinRummy.Client.Controls
                 padding.Top,
                 padding.Right,
                 padding.Bottom + (BaseDepth * PixelUnit));
-        }
-
-        // The corner follows a quarter of a circle and not a straight diagonal. A diagonal
-        // gives every row the same step, and a shape whose four corners are cut at the same
-        // angle reads as an octagon; the circle gives the first row a wide step and the last
-        // ones none at all, which is how a rounded corner is drawn on a grid of pixels.
-        private static int[] BuildProfile(int steps)
-        {
-            int[] profile = new int[steps + OneRow];
-            double radius = steps;
-
-            for (int row = 0; row < steps; row++)
-            {
-                double height = radius - row - Half;
-                double reach = Math.Sqrt((radius * radius) - (height * height));
-                profile[row] = (int)((radius - reach) + Half);
-            }
-
-            return profile;
-        }
-
-        private static Geometry BuildShape(PixelFrame frame)
-        {
-            StreamGeometry geometry = new StreamGeometry();
-            using (StreamGeometryContext context = geometry.Open())
-            {
-                TracePerimeter(context, frame);
-            }
-
-            geometry.Freeze();
-
-            return geometry;
-        }
-
-        // The four corners are the same profile read in the four directions. Each row of a
-        // corner contributes two moves, one across the row and one through it, so the edge
-        // comes out as a staircase of uneven steps: wide where the circle is flat and narrow
-        // where it turns. Walking the whole perimeter in blocks is what keeps every step
-        // square and on the grid.
-        private static void TracePerimeter(StreamGeometryContext context, PixelFrame frame)
-        {
-            int steps = frame.Steps;
-            int[] profile = frame.Profile;
-            int columns = frame.Columns;
-            int rows = frame.Rows;
-
-            context.BeginFigure(frame.ToPoint(profile[FirstBlock], FirstBlock), true, true);
-            LineTo(context, frame.ToPoint(columns - profile[FirstBlock], FirstBlock));
-
-            for (int row = 0; row < steps; row++)
-            {
-                LineTo(context, frame.ToPoint(columns - profile[row], row + OneRow));
-                LineTo(context, frame.ToPoint(columns - profile[row + OneRow], row + OneRow));
-            }
-
-            LineTo(context, frame.ToPoint(columns, rows - steps));
-
-            for (int row = steps - OneRow; row >= 0; row--)
-            {
-                LineTo(context, frame.ToPoint(columns - profile[row], rows - row - OneRow));
-                LineTo(context, frame.ToPoint(columns - profile[row], rows - row));
-            }
-
-            LineTo(context, frame.ToPoint(profile[FirstBlock], rows));
-
-            for (int row = 0; row < steps; row++)
-            {
-                LineTo(context, frame.ToPoint(profile[row], rows - row - OneRow));
-                LineTo(context, frame.ToPoint(profile[row + OneRow], rows - row - OneRow));
-            }
-
-            LineTo(context, frame.ToPoint(FirstBlock, steps));
-
-            for (int row = steps - OneRow; row >= 0; row--)
-            {
-                LineTo(context, frame.ToPoint(profile[row], row + OneRow));
-                LineTo(context, frame.ToPoint(profile[row], row));
-            }
-        }
-
-        private static void LineTo(StreamGeometryContext context, Point point)
-        {
-            context.LineTo(point, false, false);
         }
 
         private static Size Shrink(Size size, Thickness padding)
