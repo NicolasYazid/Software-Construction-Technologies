@@ -84,12 +84,12 @@
          names, but the values now point at the palette of the menu so that the whole client
          reads as one product. Every one of those screens takes its colour from a token, so
          moving the values here is what carries the design across without touching them.
-         The page and the card are opaque browns. A translucent card read as grey over the
-         white of a new window and as green over the page, so the screens stopped looking like
-         the panels of the menu; the page is one step darker than the card, which is what keeps
-         the card apart from it. -->
-    <SolidColorBrush x:Key="BrsPageBackground" Color="#FF211811" />
-    <SolidColorBrush x:Key="BrsSurface" Color="#FF3A2A1E" />
+         The page and the card share one opaque, muted brown, so every screen with a brown
+         background shows the same brown. A translucent card read as grey over the white of a
+         new window and as green over the page. -->
+    <Color x:Key="ClrBrownBackground">#FF1C1814</Color>
+    <SolidColorBrush x:Key="BrsPageBackground" Color="{StaticResource ClrBrownBackground}" />
+    <SolidColorBrush x:Key="BrsSurface" Color="{StaticResource ClrBrownBackground}" />
     <SolidColorBrush x:Key="BrsArtworkPanel" Color="#FF0C2B1E" />
     <SolidColorBrush x:Key="BrsArtworkLogo" Color="#FF1E6746" />
 
@@ -751,9 +751,6 @@
          green they had over the old page, and the rail takes a darker green so that it frames
          the room instead of competing with it. -->
     <SolidColorBrush x:Key="BrsLobbyRail" Color="#FF041710" />
-    <!-- The floor of the lobby is a brown light enough to read as brown between the panels;
-         the brown of the page is so dark that there it reads as black. -->
-    <SolidColorBrush x:Key="BrsLobbyFloor" Color="#FF2A1F15" />
     <SolidColorBrush x:Key="BrsLobbyGlass" Color="#99103A28" />
     <SolidColorBrush x:Key="BrsLobbyPanel" Color="#FF101C15" />
     <SolidColorBrush x:Key="BrsLobbyRule" Color="#33EDE4DC" />

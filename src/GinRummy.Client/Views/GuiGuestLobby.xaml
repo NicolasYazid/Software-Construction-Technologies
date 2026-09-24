@@ -31,7 +31,7 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid Width="1360" Height="780" Background="{StaticResource BrsLobbyFloor}">
+    <Grid Width="1360" Height="780" Background="{StaticResource BrsPageBackground}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="104" />
             <ColumnDefinition Width="*" />
