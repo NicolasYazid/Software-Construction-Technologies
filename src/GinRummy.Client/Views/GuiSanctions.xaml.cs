@@ -53,13 +53,7 @@ namespace GinRummy.Client.Views
             SampleDataService dataService = new SampleDataService();
             IList<SanctionDto> sanctions = dataService.GetSanctions();
             lstSanctions.ItemsSource = sanctions;
-            Visibility emptyStateVisibility = Visibility.Collapsed;
-            if (sanctions.Count == 0)
-            {
-                emptyStateVisibility = Visibility.Visible;
-            }
-
-            lblEmptyState.Visibility = emptyStateVisibility;
+            lblEmptyState.Visibility = VisibilityCommon.FromCondition(sanctions.Count == 0);
         }
     }
 }

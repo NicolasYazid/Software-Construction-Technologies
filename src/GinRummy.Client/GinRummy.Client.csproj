@@ -254,6 +254,7 @@
     <Compile Include="Models\SanctionDto.cs" />
     <Compile Include="Services\SampleDataService.cs" />
     <Compile Include="Converters\LocalizedFormatConverter.cs" />
+    <Compile Include="Views\VisibilityCommon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -39,8 +39,8 @@ namespace GinRummy.Client.Views
             _countdownTimer.Tick += OnCountdownTick;
             DataContext = lobby;
             lstMessages.ItemsSource = _chatEntries;
-            lblEmptyNoPlayers.Visibility = ToVisibility(lobby.LookingToPlay.Count == 0);
-            lblEmptyState.Visibility = ToVisibility(HasNoFriends(lobby));
+            lblEmptyNoPlayers.Visibility = VisibilityCommon.FromCondition(lobby.LookingToPlay.Count == 0);
+            lblEmptyState.Visibility = VisibilityCommon.FromCondition(HasNoFriends(lobby));
             Loaded += OnScreenLoaded;
             Closed += OnScreenClosed;
         }
@@ -264,17 +264,6 @@ namespace GinRummy.Client.Views
             return lobby.FriendsOnline.Count == 0
                 && lobby.FriendsInMatch.Count == 0
                 && lobby.FriendsUnavailable.Count == 0;
-        }
-
-        private static Visibility ToVisibility(bool isVisible)
-        {
-            Visibility visibility = Visibility.Collapsed;
-            if (isVisible)
-            {
-                visibility = Visibility.Visible;
-            }
-
-            return visibility;
         }
     }
 }

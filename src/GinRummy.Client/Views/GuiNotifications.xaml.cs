@@ -64,13 +64,7 @@ namespace GinRummy.Client.Views
 
         private void RefreshEmptyState()
         {
-            Visibility emptyStateVisibility = Visibility.Collapsed;
-            if (_friendRequests.Count == 0)
-            {
-                emptyStateVisibility = Visibility.Visible;
-            }
-
-            lblNoPendingRequests.Visibility = emptyStateVisibility;
+            lblNoPendingRequests.Visibility = VisibilityCommon.FromCondition(_friendRequests.Count == 0);
         }
     }
 }
