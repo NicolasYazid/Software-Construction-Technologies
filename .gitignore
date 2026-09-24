@@ -5,17 +5,20 @@
 *.userosscache
 *.sln.docstates
 
-# Salida de compilacion: son artefactos generados, no codigo efectivo (CON-13)
+# Build output: generated artifacts, not effective code (CON-13)
 [Bb]in/
 [Oo]bj/
 
-# Archivos temporales del entorno
+# Temporary environment files
 *.cache
 *.tmp
 *.log
 _ReSharper*/
 *.DotSettings.user
 
-# Publicacion
+# Publishing
 [Pp]ublish/
 *.publishsettings
+
+# Restored NuGet packages: regenerated on build, not versioned
+[Pp]ackages/

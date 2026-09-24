@@ -60,7 +60,6 @@ namespace GinRummy.Client.Controls
         private const double PaintKnee = 1.0;
         private const double PaintOuterSlope = 0.15;
         private const double BaseShare = 0.3;
-
         private const double VignetteStart = 0.05;
         private const double VignetteEnd = 1.80;
         private const double VignetteStrength = 0.60;

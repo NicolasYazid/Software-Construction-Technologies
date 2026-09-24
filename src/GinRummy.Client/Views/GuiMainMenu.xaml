@@ -29,7 +29,6 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-
             <!-- Ocupa las dos filas para centrarse en la ventana entera y no en el hueco que
                  deja la barra encima de ella, que es lo que lo subia. Los margenes de arriba
                  y de abajo son iguales, asi que el centro de las dos filas es el de la
@@ -40,7 +39,6 @@
                               Effect="{StaticResource EfxTextShadow}"
                               Margin="0,0,0,80"
                               HorizontalAlignment="Center" VerticalAlignment="Center" />
-
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
