@@ -88,8 +88,8 @@
          white of a new window and as green over the page, so the screens stopped looking like
          the panels of the menu; the page is one step darker than the card, which is what keeps
          the card apart from it. -->
-    <SolidColorBrush x:Key="BrsPageBackground" Color="#FF110F0C" />
-    <SolidColorBrush x:Key="BrsSurface" Color="#FF1A1712" />
+    <SolidColorBrush x:Key="BrsPageBackground" Color="#FF211811" />
+    <SolidColorBrush x:Key="BrsSurface" Color="#FF3A2A1E" />
     <SolidColorBrush x:Key="BrsArtworkPanel" Color="#FF0C2B1E" />
     <SolidColorBrush x:Key="BrsArtworkLogo" Color="#FF1E6746" />
 
@@ -751,6 +751,9 @@
          green they had over the old page, and the rail takes a darker green so that it frames
          the room instead of competing with it. -->
     <SolidColorBrush x:Key="BrsLobbyRail" Color="#FF041710" />
+    <!-- The floor of the lobby is a brown light enough to read as brown between the panels;
+         the brown of the page is so dark that there it reads as black. -->
+    <SolidColorBrush x:Key="BrsLobbyFloor" Color="#FF3A2B1F" />
     <SolidColorBrush x:Key="BrsLobbyPanel" Color="#FF101C15" />
     <SolidColorBrush x:Key="BrsLobbyRule" Color="#33EDE4DC" />
     <SolidColorBrush x:Key="BrsLobbyRowOver" Color="#1FEDE4DC" />
