@@ -15,7 +15,8 @@ namespace GinRummy.Client.Views
     /// Game table screen (P20). Shows a match from the side of one of its players: the hand,
     /// what can be seen of the opponent, the stock and the discard pile, the score, the log of
     /// the match and its chat (CU-17 FA-01). From it the player reads the rules (CU-21 FA-01)
-    /// and forfeits the match (CU-26).
+    /// and forfeits the match (CU-26). Over it open the pause of a match whose opponent lost
+    /// the connection, the close of each hand and the result of the match.
     /// </summary>
     public partial class GuiGameTable : GuiWindowBase
     {
@@ -23,13 +24,26 @@ namespace GinRummy.Client.Views
         private const string CardCountOneKey = "GameTable_LblCardCountOne";
         private const string StockKey = "GameTable_LblStock";
         private const string DeadwoodInlineKey = "GameTable_LblDeadwoodInline";
+        private const string HandWinnerKey = "GameTable_LblHandWinner";
+        private const string KnockWithKey = "GameTable_LblKnockWith";
+        private const string KnockAnnounceKey = "GameTable_LblKnockAnnounce";
+        private const string MinusOpponentDeadwoodKey = "GameTable_LblMinusOpponentDeadwood";
+        private const string PointsForKey = "GameTable_LblPointsFor";
+        private const string HandRoleKnockedKey = "GameTable_LblHandRoleKnocked";
+        private const string DeadwoodCountKey = "GameTable_LblDeadwoodCount";
+        private const string ScoreTargetKey = "GameTable_LblScoreTarget";
+        private const string FinalScoreKey = "GameTable_LblFinalScore";
         private const string CountFormat = "N0";
+        private const string SubtractedFormat = "-#,0;-#,0;0";
+        private const string EarnedFormat = "+#,0;-#,0;0";
 
         private readonly GameTableSnapshotDto _table;
         private readonly ObservableCollection<CardDto> _hand;
         private readonly ObservableCollection<CardDto> _discardPile;
         private readonly ObservableCollection<ChatMessageDto> _chatEntries;
         private readonly ObservableCollection<MatchLogEntryDto> _matchLog;
+        private HandResultDto _handResult;
+        private MatchResultDto _matchResult;
         private Point _dragStart;
         private CardDto _pressedCard;
 
@@ -58,8 +72,58 @@ namespace GinRummy.Client.Views
         }
 
         /// <summary>
-        /// Rebuilds the counters of the table, whose words, separators and case depend on the
-        /// culture.
+        /// Pauses the table while the opponent is disconnected (BD-05). The match resumes when
+        /// the opponent returns, or ends if the opponent does not.
+        /// </summary>
+        public void ShowPaused()
+        {
+            lblPaused.Visibility = Visibility.Visible;
+        }
+
+        /// <summary>
+        /// Takes the pause off the table once the opponent is back.
+        /// </summary>
+        public void HidePaused()
+        {
+            lblPaused.Visibility = Visibility.Collapsed;
+        }
+
+        /// <summary>
+        /// Shows the close of a hand: who wins it, how its points are counted, the groups of both
+        /// hands and the score of the match afterwards.
+        /// </summary>
+        /// <param name="handResult">Count of the hand, as the server closes it.</param>
+        public void ShowHandResult(HandResultDto handResult)
+        {
+            _handResult = handResult;
+            lstKnockerMelds.ItemsSource = handResult.KnockerMelds;
+            lstDefenderMelds.ItemsSource = handResult.DefenderMelds;
+            lblKnockWith.Visibility = Visibility.Visible;
+            RefreshFormattedText();
+        }
+
+        /// <summary>
+        /// Announces the end of the match with its verdict, the reason for it and the final
+        /// score.
+        /// </summary>
+        /// <param name="matchResult">Result of the match, as the server ends it.</param>
+        public void ShowMatchResult(MatchResultDto matchResult)
+        {
+            _matchResult = matchResult;
+            MatchEndReason endReason = matchResult.EndReason;
+            bool isDefeat = endReason == MatchEndReason.OpponentReachedTarget;
+            lblResultVictory.Visibility = VisibilityCommon.FromCondition(!isDefeat);
+            lblResultDefeat.Visibility = VisibilityCommon.FromCondition(isDefeat);
+            lblVictoryReasonTarget.Visibility = VisibilityCommon.FromCondition(endReason == MatchEndReason.PlayerReachedTarget);
+            lblVictoryReasonForfeit.Visibility = VisibilityCommon.FromCondition(endReason == MatchEndReason.OpponentForfeited);
+            lblDefeatReason.Visibility = VisibilityCommon.FromCondition(isDefeat);
+            lblFinalScore.Visibility = Visibility.Visible;
+            RefreshFormattedText();
+        }
+
+        /// <summary>
+        /// Rebuilds the counters of the table, the count of a closed hand and the final score,
+        /// whose words, separators, signs and case depend on the culture.
         /// </summary>
         protected override void RefreshFormattedText()
         {
@@ -72,6 +136,15 @@ namespace GinRummy.Client.Views
             lblOpponentScoreValue.Text = _table.OpponentScore.ToString(CountFormat, culture);
             lblTargetValue.Text = _table.TargetScore.ToString(CountFormat, culture);
             lblCardsInStockValue.Text = _table.StockCount.ToString(CountFormat, culture);
+            if (_handResult != null)
+            {
+                RefreshHandResult(culture);
+            }
+
+            if (_matchResult != null)
+            {
+                lblFinalScore.Text = Localization.Format(FinalScoreKey, _matchResult.PlayerScore, _matchResult.OpponentScore);
+            }
         }
 
         private void OnScreenLoaded(object sender, RoutedEventArgs e)
@@ -162,10 +235,45 @@ namespace GinRummy.Client.Views
             }
         }
 
+        private void OnNextHandClick(object sender, RoutedEventArgs e)
+        {
+            // The score of the match takes the count of the hand, and the table waits for the
+            // server to deal the next one.
+            _table.PlayerScore = _handResult.PlayerScore;
+            _table.OpponentScore = _handResult.OpponentScore;
+            lblKnockWith.Visibility = Visibility.Collapsed;
+            RefreshFormattedText();
+        }
+
+        private void OnReturnToLobbyClick(object sender, RoutedEventArgs e)
+        {
+            ReturnToLobby();
+        }
+
         private void OnScreenClosed(object sender, EventArgs e)
         {
             Loaded -= OnScreenLoaded;
             Closed -= OnScreenClosed;
+        }
+
+        private void RefreshHandResult(CultureInfo culture)
+        {
+            // The names inside the sentences are data and keep their case; the sentences carry
+            // the case of the prototype in the dictionary itself.
+            lblHandWinner.Text = Localization.Format(HandWinnerKey, _handResult.WinnerName);
+            lblKnockWith.Text = Localization.Format(KnockWithKey, _handResult.KnockerDeadwood);
+            lblKnockAnnounce.Text = Localization.Format(KnockAnnounceKey, _handResult.KnockerName, _handResult.KnockerDeadwood);
+            lblYourDeadwoodValue.Text = _handResult.DefenderDeadwood.ToString(CountFormat, culture);
+            lblMinusOpponentDeadwood.Text = Localization.Format(MinusOpponentDeadwoodKey, _handResult.KnockerName);
+            lblOpponentDeadwoodValue.Text = _handResult.KnockerDeadwood.ToString(SubtractedFormat, culture);
+            lblPointsFor.Text = Localization.Format(PointsForKey, _handResult.WinnerName);
+            lblPointsForValue.Text = _handResult.PointsAwarded.ToString(EarnedFormat, culture);
+            lblHandRoleKnocked.Text = Localization.Format(HandRoleKnockedKey, _handResult.KnockerName);
+            lblDeadwoodCount.Text = Localization.Format(DeadwoodCountKey, _handResult.KnockerDeadwood);
+            lblDefenderDeadwoodCount.Text = Localization.Format(DeadwoodCountKey, _handResult.DefenderDeadwood);
+            lblScoreTarget.Text = Localization.Format(ScoreTargetKey, _table.TargetScore);
+            lblHandPlayerScore.Text = _handResult.PlayerScore.ToString(CountFormat, culture);
+            lblHandOpponentScore.Text = _handResult.OpponentScore.ToString(CountFormat, culture);
         }
 
         private void EndDecision()

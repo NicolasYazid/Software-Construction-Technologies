@@ -210,5 +210,133 @@
                          ItemTemplate="{StaticResource TplMatchLogEntry}" />
             </DockPanel>
         </Border>
+
+        <!-- The pause, the close of a hand and the result of the match open over the table, which
+             stays in sight under the veil. Each veil follows the visibility of the label the code
+             switches, since the vocabulary of the standard names no grids. -->
+        <Grid Grid.ColumnSpan="3" Background="{StaticResource BrsOverlay}"
+              Visibility="{Binding Visibility, ElementName=lblPaused}">
+            <Border Style="{StaticResource StyTableOverlayCard}" Width="640">
+                <StackPanel>
+                    <TextBlock x:Name="lblPaused" Style="{StaticResource StyPanelTitle}" Visibility="Collapsed"
+                               Text="{Binding [GameTable_LblPaused], Source={StaticResource Loc}}" />
+                    <TextBlock x:Name="lblPausedHint" Style="{StaticResource StyDialogMessage}" TextAlignment="Left"
+                               Margin="0,14,0,0"
+                               Text="{Binding [GameTable_LblPausedHint], Source={StaticResource Loc}}" />
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <Grid Grid.ColumnSpan="3" Background="{StaticResource BrsOverlay}"
+              Visibility="{Binding Visibility, ElementName=lblKnockWith}">
+            <Border Style="{StaticResource StyTableOverlayCard}" Width="780" Padding="40,24,40,26">
+                <StackPanel>
+                    <Border Style="{StaticResource StyHandWinnerPill}">
+                        <TextBlock x:Name="lblHandWinner" Style="{StaticResource StyHandWinnerText}" />
+                    </Border>
+                    <TextBlock x:Name="lblKnockWith" Style="{StaticResource StyCardTitle}" Visibility="Collapsed" />
+                    <TextBlock x:Name="lblKnockAnnounce" Style="{StaticResource StyTableNote}" HorizontalAlignment="Left"
+                               Margin="0,2,0,12" />
+
+                    <DockPanel Style="{StaticResource StyHandCountRow}">
+                        <TextBlock x:Name="lblYourDeadwoodValue" Style="{StaticResource StyHandCountValue}" />
+                        <TextBlock x:Name="lblYourDeadwood" Style="{StaticResource StyHandCountLabel}"
+                                   Text="{Binding [GameTable_LblYourDeadwood], Source={StaticResource Loc}}" />
+                    </DockPanel>
+                    <DockPanel Style="{StaticResource StyHandCountRow}">
+                        <TextBlock x:Name="lblOpponentDeadwoodValue" Style="{StaticResource StyHandCountValue}" />
+                        <TextBlock x:Name="lblMinusOpponentDeadwood" Style="{StaticResource StyHandCountLabel}" />
+                    </DockPanel>
+                    <Border Style="{StaticResource StyGroupRule}" Margin="0,6,0,6" />
+                    <DockPanel Style="{StaticResource StyHandCountRow}">
+                        <TextBlock x:Name="lblPointsForValue" Style="{StaticResource StyHandCountValue}" FontSize="24" />
+                        <TextBlock x:Name="lblPointsFor" Style="{StaticResource StyHandCountLabel}"
+                                   Foreground="{StaticResource BrsTitle}" />
+                    </DockPanel>
+
+                    <Border Style="{StaticResource StyMeldPanel}">
+                        <StackPanel>
+                            <DockPanel LastChildFill="False" Margin="0,0,0,10">
+                                <TextBlock x:Name="lblDeadwoodCount" DockPanel.Dock="Right"
+                                           Style="{StaticResource StyMeldPanelTitle}" />
+                                <TextBlock x:Name="lblHandRoleKnocked" Style="{StaticResource StyMeldPanelTitle}" />
+                            </DockPanel>
+                            <ItemsControl x:Name="lstKnockerMelds" ItemTemplate="{StaticResource TplMeld}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource StyMeldPanel}">
+                        <StackPanel>
+                            <DockPanel LastChildFill="False" Margin="0,0,0,10">
+                                <TextBlock x:Name="lblDefenderDeadwoodCount" DockPanel.Dock="Right"
+                                           Style="{StaticResource StyMeldPanelTitle}" />
+                                <TextBlock x:Name="lblHandRoleDefended" Style="{StaticResource StyMeldPanelTitle}"
+                                           Text="{Binding [GameTable_LblHandRoleDefended], Source={StaticResource Loc}}" />
+                            </DockPanel>
+                            <ItemsControl x:Name="lstDefenderMelds" ItemTemplate="{StaticResource TplMeld}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+
+                    <TextBlock x:Name="lblScoreTarget" Style="{StaticResource StyMeldPanelTitle}"
+                               Foreground="{StaticResource BrsMuted}" Margin="0,18,0,6" />
+                    <DockPanel Style="{StaticResource StyHandCountRow}">
+                        <TextBlock x:Name="lblHandPlayerScore" Style="{StaticResource StyHandCountValue}" />
+                        <TextBlock Style="{StaticResource StyHandCountLabel}"
+                                   Text="{Binding [GameTable_LblYou], Source={StaticResource Loc}}" />
+                    </DockPanel>
+                    <DockPanel Style="{StaticResource StyHandCountRow}">
+                        <TextBlock x:Name="lblHandOpponentScore" Style="{StaticResource StyHandCountValue}" />
+                        <TextBlock Style="{StaticResource StyHandCountLabel}" Text="{Binding OpponentName}" />
+                    </DockPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,18,0,0">
+                        <Button x:Name="btnNextHand" Style="{StaticResource StyDialogPrimaryButton}"
+                                Content="{Binding [GameTable_BtnNextHand], Source={StaticResource Loc},
+                                          Converter={StaticResource CnvUpperCase}}"
+                                Click="OnNextHandClick" />
+                        <Button Style="{StaticResource StyDialogSecondaryButton}" Margin="16,0,0,0"
+                                Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource Loc},
+                                          Converter={StaticResource CnvUpperCase}}"
+                                Click="OnHowToPlayClick" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <Grid Grid.ColumnSpan="3" Background="{StaticResource BrsOverlay}"
+              Visibility="{Binding Visibility, ElementName=lblFinalScore}">
+            <Border Style="{StaticResource StyTableOverlayCard}" Width="560">
+                <StackPanel>
+                    <TextBlock x:Name="lblResultVictory" Style="{StaticResource StyResultTitle}"
+                               Text="{Binding [GameTable_LblResultVictory], Source={StaticResource Loc}}" />
+                    <TextBlock x:Name="lblResultDefeat" Style="{StaticResource StyResultTitle}"
+                               Text="{Binding [GameTable_LblResultDefeat], Source={StaticResource Loc}}" />
+                    <TextBlock x:Name="lblVictoryReasonTarget" Style="{StaticResource StyResultReason}"
+                               Text="{Binding [GameTable_LblVictoryReasonTarget], Source={StaticResource Loc}}" />
+                    <TextBlock x:Name="lblVictoryReasonForfeit" Style="{StaticResource StyResultReason}"
+                               Text="{Binding [GameTable_LblVictoryReasonForfeit], Source={StaticResource Loc}}" />
+                    <TextBlock x:Name="lblDefeatReason" Style="{StaticResource StyResultReason}"
+                               Text="{Binding [GameTable_LblDefeatReason], Source={StaticResource Loc}}" />
+                    <Border Style="{StaticResource StySettingDivider}" />
+                    <TextBlock x:Name="lblFinalScore" Style="{StaticResource StyFinalScore}" />
+                    <Button x:Name="btnReturnToLobby" Style="{StaticResource StyDialogPrimaryButton}"
+                            HorizontalAlignment="Center" Margin="0,24,0,0"
+                            Content="{Binding [GameTable_BtnReturnToLobby], Source={StaticResource Loc},
+                                      Converter={StaticResource CnvUpperCase}}"
+                            Click="OnReturnToLobbyClick" />
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </views:GuiWindowBase>
