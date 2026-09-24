@@ -158,7 +158,7 @@
              of its title, which the code switches. -->
         <Grid Background="{StaticResource BrsOverlay}"
               Visibility="{Binding Visibility, ElementName=lblChangeEmailTitle}">
-            <Border Style="{StaticResource StyDialogCard}"
+            <Border Style="{StaticResource StyDialogCard}" Background="{StaticResource BrsArtworkPanel}"
                     BorderBrush="{StaticResource BrsMenuInk}" BorderThickness="0,0,0,4"
                     Margin="26,0,26,0" VerticalAlignment="Center">
                 <StackPanel>

@@ -747,17 +747,17 @@
 
     <!-- ============ Lobby and its panels (P11, P12, P13, P16, P17) ============ -->
 
-    <!-- The lobby is a room of panels over the brown of the page. The panels take the brown
-         of the cards, so the lobby reads as the same product as the menu and its screens, and
-         the rail takes a darker brown so that it frames the room instead of competing with
-         it. -->
-    <SolidColorBrush x:Key="BrsLobbyRail" Color="#FF0A0907" />
+    <!-- The lobby is a room of green panels over the brown of the page. The panels keep the
+         green they had over the old page, and the rail takes a darker green so that it frames
+         the room instead of competing with it. -->
+    <SolidColorBrush x:Key="BrsLobbyRail" Color="#FF041710" />
+    <SolidColorBrush x:Key="BrsLobbyPanel" Color="#FF101C15" />
     <SolidColorBrush x:Key="BrsLobbyRule" Color="#33EDE4DC" />
     <SolidColorBrush x:Key="BrsLobbyRowOver" Color="#1FEDE4DC" />
     <SolidColorBrush x:Key="BrsPresenceOnline" Color="#FF6AD29A" />
 
     <Style x:Key="StyLobbyPanel" TargetType="Border">
-        <Setter Property="Background" Value="{StaticResource BrsSurface}" />
+        <Setter Property="Background" Value="{StaticResource BrsLobbyPanel}" />
         <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="5" />
     </Style>
 
@@ -1976,8 +1976,8 @@
     <!-- ======================== Game table (P20) ======================== -->
 
     <!-- The table keeps the room of the lobby: the chat and the side panel are its panels, and
-         the cards lie on a cloth of the green of the artwork, the only part of the room that
-         is not brown, because it is the table and not a panel. The faces of the cards take the
+         the cards lie on a cloth of the green of the artwork, a step lighter than the panels
+         so that it reads as the table. The faces of the cards take the
          light of the menu so that they stand out on the green, with the ink of the menu for
          the black suits and a darker red for the red ones. -->
     <SolidColorBrush x:Key="BrsCardInkBlack" Color="#FF1A1712" />
@@ -2292,7 +2292,7 @@
     <!-- The pause, the close of a hand and the result of the match open over the table, which
          stays in sight under the veil, as the prototype draws them. -->
     <Style x:Key="StyTableOverlayCard" TargetType="Border">
-        <Setter Property="Background" Value="{StaticResource BrsSurface}" />
+        <Setter Property="Background" Value="{StaticResource BrsArtworkPanel}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
         <Setter Property="BorderThickness" Value="0,0,0,4" />
         <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="5" />
