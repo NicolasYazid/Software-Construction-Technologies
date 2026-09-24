@@ -83,9 +83,13 @@
     <!-- The rest of the screens were born from the light prototype and keep their own token
          names, but the values now point at the palette of the menu so that the whole client
          reads as one product. Every one of those screens takes its colour from a token, so
-         moving the values here is what carries the design across without touching them. -->
-    <SolidColorBrush x:Key="BrsPageBackground" Color="#FF072118" />
-    <SolidColorBrush x:Key="BrsSurface" Color="#991A1712" />
+         moving the values here is what carries the design across without touching them.
+         The page and the card are opaque browns. A translucent card read as grey over the
+         white of a new window and as green over the page, so the screens stopped looking like
+         the panels of the menu; the page is one step darker than the card, which is what keeps
+         the card apart from it. -->
+    <SolidColorBrush x:Key="BrsPageBackground" Color="#FF110F0C" />
+    <SolidColorBrush x:Key="BrsSurface" Color="#FF1A1712" />
     <SolidColorBrush x:Key="BrsArtworkPanel" Color="#FF0C2B1E" />
     <SolidColorBrush x:Key="BrsArtworkLogo" Color="#FF1E6746" />
 
@@ -690,8 +694,8 @@
 
     <!-- ========== Dialogs and notices (P09, P10, P22, P23, P24, P25) ========== -->
 
-    <!-- The dialogs sit on the opaque colour of the page and not on the translucent card
-         alone: a translucent surface over the white of a new window reads as grey. -->
+    <!-- The dialogs sit on the page and raise their card over it, one step lighter, the same
+         way the screens with a card do. -->
     <Style x:Key="StyDialogCard" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource BrsSurface}" />
         <Setter Property="CornerRadius" Value="4" />
@@ -742,17 +746,17 @@
 
     <!-- ============ Lobby and its panels (P11, P12, P13, P16, P17) ============ -->
 
-    <!-- The lobby is a room of panels over the green of the page. The panels take the
-         translucent brown of the bar of the menu, so the lobby reads as the place the menu
-         opens onto, and the rail takes a darker green so that it frames the room instead of
-         competing with it. -->
-    <SolidColorBrush x:Key="BrsLobbyRail" Color="#FF041710" />
+    <!-- The lobby is a room of panels over the brown of the page. The panels take the brown
+         of the cards, so the lobby reads as the same product as the menu and its screens, and
+         the rail takes a darker brown so that it frames the room instead of competing with
+         it. -->
+    <SolidColorBrush x:Key="BrsLobbyRail" Color="#FF0A0907" />
     <SolidColorBrush x:Key="BrsLobbyRule" Color="#33EDE4DC" />
     <SolidColorBrush x:Key="BrsLobbyRowOver" Color="#1FEDE4DC" />
     <SolidColorBrush x:Key="BrsPresenceOnline" Color="#FF6AD29A" />
 
     <Style x:Key="StyLobbyPanel" TargetType="Border">
-        <Setter Property="Background" Value="{StaticResource BrsMenuPanel}" />
+        <Setter Property="Background" Value="{StaticResource BrsSurface}" />
         <Setter Property="CornerRadius" Value="4" />
     </Style>
 
@@ -1451,7 +1455,7 @@
     <!-- The change of email opens over the panel and not in a window of its own, because the
          dictionary places its texts in the panel. The veil keeps the panel in sight while it
          is open. -->
-    <SolidColorBrush x:Key="BrsOverlay" Color="#D9041710" />
+    <SolidColorBrush x:Key="BrsOverlay" Color="#D90A0907" />
 
     <Style x:Key="StySettingSection" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
@@ -1959,13 +1963,14 @@
 
     <!-- ======================== Game table (P20) ======================== -->
 
-    <!-- The table keeps the room of the lobby: the chat and the side panel are its translucent
-         panels, and the cards lie on the green of the page. The faces of the cards take the
+    <!-- The table keeps the room of the lobby: the chat and the side panel are its panels, and
+         the cards lie on a cloth of the green of the artwork, the only part of the room that
+         is not brown, because it is the table and not a panel. The faces of the cards take the
          light of the menu so that they stand out on the green, with the ink of the menu for
          the black suits and a darker red for the red ones. -->
     <SolidColorBrush x:Key="BrsCardInkBlack" Color="#FF1A1712" />
     <SolidColorBrush x:Key="BrsCardInkRed" Color="#FFA33A2A" />
-    <SolidColorBrush x:Key="BrsTableSurface" Color="#33041710" />
+    <SolidColorBrush x:Key="BrsTableSurface" Color="#FF0C2B1E" />
 
     <!-- The back of a card repeats a small check in the two browns of the chips of the menu. -->
     <DrawingBrush x:Key="BrsCardBack" TileMode="Tile"
@@ -2275,7 +2280,7 @@
     <!-- The pause, the close of a hand and the result of the match open over the table, which
          stays in sight under the veil, as the prototype draws them. -->
     <Style x:Key="StyTableOverlayCard" TargetType="Border">
-        <Setter Property="Background" Value="{StaticResource BrsArtworkPanel}" />
+        <Setter Property="Background" Value="{StaticResource BrsSurface}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
         <Setter Property="BorderThickness" Value="0,0,0,4" />
         <Setter Property="CornerRadius" Value="6" />
