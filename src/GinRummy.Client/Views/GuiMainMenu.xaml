@@ -29,11 +29,11 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <!-- Ocupa las dos filas para centrarse en la ventana entera y no en el hueco que
-                 deja la barra encima de ella, que es lo que lo subia. Los margenes de arriba
-                 y de abajo son iguales, asi que el centro de las dos filas es el de la
-                 ventana. A este tamano no alcanza la barra; el ancho util es el otro limite,
-                 porque por encima de unos 190 toca los margenes laterales. -->
+            <!-- It spans both rows so that it is centred on the whole window and not on the gap
+                 the bar leaves above it, which is what pushed it up. The top and bottom margins
+                 are equal, so the centre of both rows is the centre of the window. At this size
+                 it does not reach the bar; the usable width is the other limit, because above
+                 about 190 it touches the side margins. -->
             <ctl:CtlBrandMark x:Name="imgBrand" Grid.Row="0" Grid.RowSpan="2" MarkFontSize="175"
                               MarkForeground="{StaticResource BrsMenuLight}"
                               Effect="{StaticResource EfxTextShadow}"

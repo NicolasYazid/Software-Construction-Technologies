@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Vectores exportados del prototipo de Figma con la API de plugins.
-         Los datos de trazo son los del archivo, no se redibujaron a mano. -->
+    <!-- Vectors exported from the Figma prototype through the plugin API. The path data is
+         the one in the file; none of it was redrawn by hand. -->
 
     <DrawingImage x:Key="IcoMail">
         <DrawingImage.Drawing>

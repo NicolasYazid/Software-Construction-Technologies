@@ -1,10 +1,10 @@
 ﻿<UserControl x:Class="GinRummy.Client.Controls.CtlBrandMark"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <!-- Lo que se centra es el conjunto y no la diana. Centrar la diana obliga a repartir por
-         igual el ancho de las dos palabras, y como una es mucho mas larga que la otra el
-         logotipo entero se recuesta contra un lado de la ventana; centrado como bloque los
-         margenes quedan iguales, que es como se lee alineado. -->
+    <!-- The whole set is centred and not the target. Centring the target forces the width of
+         the two words to be shared equally, and since one is much longer than the other the
+         whole wordmark leans against one side of the window; centred as a block, the margins
+         come out equal, which is how it reads as aligned. -->
     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
         <TextBlock x:Name="lblBrandFirst" Style="{StaticResource StyLogoWordmark}" VerticalAlignment="Center" />
         <Image x:Name="imgBrandMark" Source="{StaticResource IcoBullseye}" VerticalAlignment="Center" />

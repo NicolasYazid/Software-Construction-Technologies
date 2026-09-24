@@ -11,9 +11,9 @@
     <conv:UpperCaseConverter x:Key="CnvUpperCase" />
 
     <!-- ============================================================
-         Tokens de diseno del cliente. El prototipo de Figma fue el
-         punto de partida; a partir de la version 2 el diseno es una
-         decision del equipo y vive aqui, no en el archivo de Figma.
+         Design tokens of the client. The Figma prototype was the
+         starting point; from version 2 on, the design is a decision
+         of the team and lives here, not in the Figma file.
          ============================================================ -->
 
     <!-- Cairopixel is the only family of the three that covers the accents, the enye and the
@@ -34,18 +34,18 @@
     <SolidColorBrush x:Key="BrsLogo" Color="#FF8E8E93" />
     <SolidColorBrush x:Key="BrsLogoMark" Color="#FF3B3B3B" />
 
-    <!-- Fondo liquido del menu principal (P01). Son Color y no SolidColorBrush
-         porque el control los mezcla canal por canal en cada fotograma. -->
+    <!-- Background of the main menu (P01). These are Color and not SolidColorBrush because
+         the control blends them channel by channel on every frame. -->
     <Color x:Key="ClrMenuLiquidDeep">#FF072118</Color>
     <Color x:Key="ClrMenuLiquidMid">#FF1E6746</Color>
     <Color x:Key="ClrMenuLiquidGlow">#FF6AD29A</Color>
-    <!-- Paleta del menu. Los nombres describen la funcion, no el color, para que
-         cambiar de paleta no obligue a renombrar nada. -->
+    <!-- Palette of the menu. The names describe the role and not the colour, so that
+         changing the palette does not force renaming anything. -->
     <SolidColorBrush x:Key="BrsMenuInk" Color="#0B0D0C" />
     <SolidColorBrush x:Key="BrsMenuPanel" Color="#801A1712" />
-    <!-- Los chips laterales llevan su propio pincel y no el de la barra: son mucho mas
-         pequenos, asi que a igual alfa el fondo se lee a traves de ellos con mas fuerza y
-         pierden cuerpo. -->
+    <!-- The side chips carry their own brush and not the one of the bar: they are much
+         smaller, so at the same alpha the background reads through them more strongly and
+         they lose body. -->
     <SolidColorBrush x:Key="BrsMenuChipPanel" Color="#BF1A1712" />
     <SolidColorBrush x:Key="BrsMenuAccent" Color="#FF8B2C1F" />
     <SolidColorBrush x:Key="BrsMenuAction" Color="#FF3B3F2F" />
@@ -59,7 +59,7 @@
     <SolidColorBrush x:Key="BrsMenuLight" Color="#FFEDE4DC" />
     <SolidColorBrush x:Key="BrsMenuOnDark" Color="#FFFFFFFF" />
 
-    <!-- Sombras compartidas por los elementos del menu. -->
+    <!-- Shadows shared by the elements of the menu. -->
     <DropShadowEffect x:Key="EfxPanelShadow" Color="#FF0A130E"
                       BlurRadius="40" ShadowDepth="13" Direction="270" Opacity="0.92" />
     <DropShadowEffect x:Key="EfxTextShadow" Color="#FF0A130E"
@@ -98,13 +98,13 @@
     <SolidColorBrush x:Key="BrsCheckBorder" Color="#FFA68F7C" />
     <SolidColorBrush x:Key="BrsDanger" Color="#FFE08A6A" />
 
-    <!-- Segunda generacion de pantallas del prototipo: P04, P06, P07 y P08 -->
+    <!-- Second generation of screens of the prototype: P04, P06, P07 and P08 -->
     <SolidColorBrush x:Key="BrsPlainTitle" Color="#FFEDE4DC" />
     <SolidColorBrush x:Key="BrsPlainMuted" Color="#FFA68F7C" />
     <SolidColorBrush x:Key="BrsPlainBorder" Color="#FF0B0D0C" />
     <SolidColorBrush x:Key="BrsPlainPrimary" Color="#FF3B3F2F" />
 
-    <!-- ===================== Menu principal (P01) ===================== -->
+    <!-- ======================= Main menu (P01) ======================== -->
 
     <!-- The wordmark is the only place that uses FntBrand, and the weight stays normal
          on every pixel family: none of them ships a bold face, and the weight WPF
@@ -126,8 +126,8 @@
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
 
-    <!-- Boton del menu: cara elevada sobre su propia sombra, esquinas escalonadas y
-         hundimiento al presionar. El color lo pone cada variante. -->
+    <!-- Button of the menu: a face raised over its own shadow, stepped corners and a sink
+         when it is pressed. Each variant sets the colour. -->
     <ControlTemplate x:Key="TplMenuButton" TargetType="Button">
         <Grid>
             <ctl:CtlPixelSurface x:Name="pxBase" Margin="0,6,0,0"
@@ -135,13 +135,13 @@
             <ctl:CtlPixelSurface x:Name="pxFace" Margin="0,0,0,6"
                                  FaceBrush="{TemplateBinding Background}">
                 <Grid>
-                    <!-- El realce cubre la cara completa y toma su misma forma escalonada, de
-                         modo que al oscurecerse no aparecen esquinas cuadradas sobre los
-                         escalones. Va junto al contenido y no alrededor de el: al ser una capa
-                         con opacidad cero mientras no hay puntero, envolver el contenido lo
-                         volvia invisible tambien. El relleno lateral lo aporta el contenido y
-                         no el borde, porque con relleno en el borde la capa quedaba por dentro
-                         y dejaba una franja sin oscurecer a cada lado. -->
+                    <!-- The highlight covers the whole face and takes its same stepped shape, so
+                         that no square corners appear over the steps when it darkens. It sits
+                         beside the content and not around it: being a layer with zero opacity
+                         while there is no pointer, wrapping the content made it invisible too.
+                         The side padding comes from the content and not from the surface,
+                         because with padding on the surface the layer stayed inside it and
+                         left a strip on each side without darkening. -->
                     <ctl:CtlPixelSurface x:Name="pxHighlight" Opacity="0"
                                          FaceBrush="{StaticResource BrsMenuInk}" />
                     <ContentPresenter Margin="14,0,14,0"
@@ -266,9 +266,9 @@
         </Setter>
     </Style>
 
-    <!-- El ComboBox del sistema dibuja su propio fondo claro e ignora Background, asi
-         que la lista de idiomas lleva plantilla propia. PART_Popup es el nombre que
-         exige el framework, no una eleccion de nomenclatura. -->
+    <!-- The ComboBox of the system draws its own light background and ignores Background,
+         so the language list carries a template of its own. PART_Popup is the name the
+         framework requires, not a naming choice. -->
     <Style x:Key="StyMenuLanguageBox" TargetType="ComboBox">
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
         <Setter Property="FontWeight" Value="Normal" />
@@ -339,7 +339,7 @@
         <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
 
-    <!-- ============== Pantallas con tarjeta (P02, P03, P05) ============== -->
+    <!-- ============== Screens with a card (P02, P03, P05) ============== -->
 
     <!-- The title of these screens takes the display family, the one the buttons carry, so
          that the heading of a modal reads as part of the same voice as the menu. -->
@@ -579,7 +579,7 @@
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
-    <!-- ========== Pantallas sin tarjeta (P04, P06, P07, P08) ========== -->
+    <!-- ========== Screens without a card (P04, P06, P07, P08) ========== -->
 
     <Style x:Key="StyPlainTitle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
