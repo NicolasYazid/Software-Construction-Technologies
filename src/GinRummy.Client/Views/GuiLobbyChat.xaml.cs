@@ -133,7 +133,12 @@ namespace GinRummy.Client.Views
 
         private void OnPlayerProfileClick(object sender, RoutedEventArgs e)
         {
-            // The profile of another player (P21) arrives with the profile screens.
+            LobbyPlayerDto player = GetMenuPlayer(sender);
+            if (player != null)
+            {
+                SampleDataService dataService = new SampleDataService();
+                ShowProfile(dataService.GetPlayerProfile(player));
+            }
         }
 
         private void OnFriendRequestClick(object sender, RoutedEventArgs e)
@@ -185,17 +190,19 @@ namespace GinRummy.Client.Views
 
         private void OnSettingsClick(object sender, RoutedEventArgs e)
         {
-            // The profile panel (P14) arrives with the profile screens.
+            GuiProfilePanel profilePanel = new GuiProfilePanel();
+            profilePanel.Owner = this;
+            profilePanel.Show();
         }
 
         private void OnMyProfileClick(object sender, RoutedEventArgs e)
         {
-            // The own profile (P21) arrives with the profile screens.
+            ShowOwnProfile();
         }
 
         private void OnProfileClick(object sender, RoutedEventArgs e)
         {
-            // The own profile (P21) arrives with the profile screens.
+            ShowOwnProfile();
         }
 
         private void OnRankingsClick(object sender, RoutedEventArgs e)
@@ -244,6 +251,21 @@ namespace GinRummy.Client.Views
         {
             ChatEntryDto entry = ((FrameworkElement)sender).DataContext as ChatEntryDto;
             _chatEntries.Remove(entry);
+        }
+
+        private void ShowOwnProfile()
+        {
+            // The own profile is the same screen as the one of any other player, opened from
+            // the header (CU-27 FA-02).
+            SampleDataService dataService = new SampleDataService();
+            ShowProfile(dataService.GetOwnProfile());
+        }
+
+        private void ShowProfile(PlayerProfileDto profile)
+        {
+            GuiPlayerProfile playerProfile = new GuiPlayerProfile(profile);
+            playerProfile.Owner = this;
+            playerProfile.ShowDialog();
         }
 
         private void ScrollToLatestEntry()
