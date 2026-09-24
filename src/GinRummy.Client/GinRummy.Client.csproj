@@ -255,6 +255,10 @@
     <Compile Include="Services\SampleDataService.cs" />
     <Compile Include="Converters\LocalizedFormatConverter.cs" />
     <Compile Include="Views\VisibilityCommon.cs" />
+    <Compile Include="Models\SocialLinkDto.cs" />
+    <Compile Include="Models\LinkedAccountDto.cs" />
+    <Compile Include="Models\AccountSettingsDto.cs" />
+    <Compile Include="Models\PlayerProfileDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

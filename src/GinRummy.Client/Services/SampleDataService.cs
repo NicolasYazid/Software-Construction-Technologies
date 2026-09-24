@@ -152,6 +152,98 @@ namespace GinRummy.Client.Services
             };
         }
 
+        /// <summary>
+        /// Builds the settings of the account of the player (P14).
+        /// </summary>
+        /// <returns>The settings as the profile panel shows them.</returns>
+        public AccountSettingsDto GetAccountSettings()
+        {
+            AccountSettingsDto settings = new AccountSettingsDto();
+            settings.Email = "playera@correo.com";
+            settings.IsTwoStepEnabled = true;
+            settings.MasterVolume = 70;
+            settings.IsChatFilterEnabled = false;
+            settings.LinkedAccounts = new List<LinkedAccountDto>
+            {
+                CreateLinkedAccount("Discord", true),
+                CreateLinkedAccount("X", false)
+            };
+
+            return settings;
+        }
+
+        /// <summary>
+        /// Builds the profile of the player who looks at it (P21 and P15).
+        /// </summary>
+        /// <returns>The profile, marked as the own one.</returns>
+        public PlayerProfileDto GetOwnProfile()
+        {
+            PlayerProfileDto profile = CreateProfile(PlayerName, "S", "#PLA-1024");
+            profile.Bio = "Listo para una partida rápida.";
+            profile.SocialLinks.Add(CreateSocialLink("Discord", "discord.gg/playerA"));
+            profile.SocialLinks.Add(CreateSocialLink("X", "x.com/playerA"));
+            profile.IsOwnProfile = true;
+
+            return profile;
+        }
+
+        /// <summary>
+        /// Builds the profile of another player of the lobby (P21).
+        /// </summary>
+        /// <param name="player">Player chosen in the panel of the lobby.</param>
+        /// <returns>The profile, with the relation the panel already knows.</returns>
+        public PlayerProfileDto GetPlayerProfile(LobbyPlayerDto player)
+        {
+            PlayerProfileDto profile = CreateProfile(player.Username, player.RankName, "#PLZ-4821");
+            profile.Bio = "Siempre listo para una partida. Juego casi siempre por las tardes.";
+            profile.SocialLinks.Add(CreateSocialLink("Twitch", "twitch.tv/playerz"));
+            profile.IsFriend = player.IsFriend;
+
+            return profile;
+        }
+
+        /// <summary>
+        /// Lists the platforms a social link can point to, as their catalogue names them.
+        /// </summary>
+        /// <returns>The names of the platforms.</returns>
+        public IList<string> GetPlatforms()
+        {
+            return new List<string> { "Discord", "Instagram", "Twitch", "X", "YouTube" };
+        }
+
+        private static PlayerProfileDto CreateProfile(string username, string rankName, string publicTag)
+        {
+            PlayerProfileDto profile = new PlayerProfileDto();
+            profile.Username = username;
+            profile.RankName = rankName;
+            profile.PublicTag = publicTag;
+            profile.IsOnline = true;
+            profile.SocialLinks = new List<SocialLinkDto>();
+            profile.MatchesPlayed = 124;
+            profile.WinRate = 0.58;
+            profile.Score = 1450;
+
+            return profile;
+        }
+
+        private static SocialLinkDto CreateSocialLink(string platformName, string url)
+        {
+            SocialLinkDto link = new SocialLinkDto();
+            link.PlatformName = platformName;
+            link.Url = url;
+
+            return link;
+        }
+
+        private static LinkedAccountDto CreateLinkedAccount(string platformName, bool isLinked)
+        {
+            LinkedAccountDto account = new LinkedAccountDto();
+            account.PlatformName = platformName;
+            account.IsLinked = isLinked;
+
+            return account;
+        }
+
         private static List<LobbyPlayerDto> CreateUnavailablePlayers()
         {
             return new List<LobbyPlayerDto>

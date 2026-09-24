@@ -1422,4 +1422,286 @@
         <Setter Property="VerticalAlignment" Value="Top" />
     </Style>
 
+    <!-- ================= Profile screens (P14, P15, P21) ================= -->
+
+    <!-- The change of email opens over the panel and not in a window of its own, because the
+         dictionary places its texts in the panel. The veil keeps the panel in sight while it
+         is open. -->
+    <SolidColorBrush x:Key="BrsOverlay" Color="#D9041710" />
+
+    <Style x:Key="StySettingSection" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,0,0,8" />
+    </Style>
+
+    <Style x:Key="StySettingValue" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+    </Style>
+
+    <Style x:Key="StySettingDivider" TargetType="Border">
+        <Setter Property="Height" Value="2" />
+        <Setter Property="Background" Value="{StaticResource BrsLobbyRule}" />
+        <Setter Property="Margin" Value="0,22,0,22" />
+    </Style>
+
+    <Style x:Key="StySettingCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="0,0,0,4" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="18,14,16,16" />
+    </Style>
+
+    <Style x:Key="StySettingTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="StySettingHint" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="0,6,0,0" />
+    </Style>
+
+    <!-- The switches take the colour of the chips of the menu when they are on and the one
+         of the neutral buttons when they are off. The knob moves by a style of its own that
+         reads the state of the switch, so no part of the template needs a name. -->
+    <Style x:Key="StyToggleSwitch" TargetType="ToggleButton">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Width" Value="56" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Background" Value="{StaticResource BrsMenuNeutral}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="15"
+                            BorderBrush="{StaticResource BrsMenuInk}" BorderThickness="0,0,0,3">
+                        <Ellipse Width="20" Height="20" Margin="5,0,5,0" Fill="{StaticResource BrsMenuLight}">
+                            <Ellipse.Style>
+                                <Style TargetType="Ellipse">
+                                    <Setter Property="HorizontalAlignment" Value="Left" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsChecked,
+                                                               RelativeSource={RelativeSource TemplatedParent}}"
+                                                     Value="True">
+                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Ellipse.Style>
+                        </Ellipse>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- The slider shows the part already chosen in the colour of the chips, over a sunk
+         track. PART_Track is the name the framework requires to find the track. -->
+    <Style x:Key="StySliderFill" TargetType="RepeatButton">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border Height="8" CornerRadius="4" Background="{StaticResource BrsMenuChipFace}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StySliderRest" TargetType="RepeatButton">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border Background="Transparent" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StySliderThumb" TargetType="Thumb">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Ellipse Width="22" Height="22" Fill="{StaticResource BrsMenuLight}"
+                             Stroke="{StaticResource BrsMenuInk}" StrokeThickness="3" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StyVolumeSlider" TargetType="Slider">
+        <Setter Property="Minimum" Value="0" />
+        <Setter Property="Maximum" Value="100" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="IsMoveToPointEnabled" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Slider">
+                    <Grid>
+                        <Border Height="8" CornerRadius="4" Background="{StaticResource BrsFieldFace}"
+                                BorderBrush="{StaticResource BrsMenuInk}" BorderThickness="0,0,0,2" />
+                        <Track x:Name="PART_Track">
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton Style="{StaticResource StySliderFill}" Command="Slider.DecreaseLarge" />
+                            </Track.DecreaseRepeatButton>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton Style="{StaticResource StySliderRest}" Command="Slider.IncreaseLarge" />
+                            </Track.IncreaseRepeatButton>
+                            <Track.Thumb>
+                                <Thumb Style="{StaticResource StySliderThumb}" />
+                            </Track.Thumb>
+                        </Track>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StyCenteredTextButton" TargetType="Button" BasedOn="{StaticResource StyInlineTextButton}">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyAvatarProfile" TargetType="Border" BasedOn="{StaticResource StyAvatar}">
+        <Setter Property="Width" Value="112" />
+        <Setter Property="Height" Value="112" />
+        <Setter Property="CornerRadius" Value="56" />
+        <Setter Property="BorderThickness" Value="3" />
+    </Style>
+
+    <Style x:Key="StyAvatarIconProfile" TargetType="Image" BasedOn="{StaticResource StyAvatarIcon}">
+        <Setter Property="Width" Value="52" />
+        <Setter Property="Height" Value="52" />
+    </Style>
+
+    <Style x:Key="StySocialLinkRow" TargetType="Border" BasedOn="{StaticResource StyFieldShell}">
+        <Setter Property="Height" Value="46" />
+        <Setter Property="Margin" Value="0,0,0,10" />
+    </Style>
+
+    <Style x:Key="StySocialPlatform" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,0,12,0" />
+    </Style>
+
+    <Style x:Key="StySocialUrl" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+    </Style>
+
+    <Style x:Key="StyRowTextButton" TargetType="Button" BasedOn="{StaticResource StyCardTextButton}">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="12,0,0,0" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- The public profile (P21) states the name and the numbers of the player at the size
+         of the titles, as the prototype does, and leaves the rest at the size of the body. -->
+    <Style x:Key="StyProfileName" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="40" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyProfileTag" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyProfileSectionTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="Margin" Value="0,20,0,6" />
+    </Style>
+
+    <Style x:Key="StyProfileText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="StySocialChip" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsMenuNeutral}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="0,0,0,3" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="12,6,12,6" />
+        <Setter Property="Margin" Value="0,0,10,0" />
+    </Style>
+
+    <Style x:Key="StySocialChipText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+    </Style>
+
+    <Style x:Key="StyStatCard" TargetType="Border" BasedOn="{StaticResource StySettingCard}">
+        <Setter Property="Padding" Value="22,16,22,18" />
+    </Style>
+
+    <Style x:Key="StyStatLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="StyStatValue" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="40" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="Margin" Value="0,10,0,0" />
+    </Style>
+
+    <Style x:Key="StyPresenceDotInline" TargetType="Ellipse" BasedOn="{StaticResource StyPresenceDot}">
+        <Setter Property="Width" Value="14" />
+        <Setter Property="Height" Value="14" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
 </ResourceDictionary>
