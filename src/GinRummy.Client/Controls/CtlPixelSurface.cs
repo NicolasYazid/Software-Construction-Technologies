@@ -96,24 +96,6 @@ namespace GinRummy.Client.Controls
                     FrameworkPropertyMetadataOptions.AffectsMeasure));
 
         /// <summary>
-        /// Gets or sets the colour of the base the body is raised over.
-        /// </summary>
-        public Brush BaseBrush
-        {
-            get { return (Brush)GetValue(BaseBrushProperty); }
-            set { SetValue(BaseBrushProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets how many blocks the body is raised over its base.
-        /// </summary>
-        public int BaseDepth
-        {
-            get { return (int)GetValue(BaseDepthProperty); }
-            set { SetValue(BaseDepthProperty, value); }
-        }
-
-        /// <summary>
         /// Room left between the border of the surface and its content. A decorator has no
         /// padding of its own, and the content of a panel cannot sit on the steps of the
         /// corners, so the surface declares one and honours it while it measures.
@@ -126,15 +108,6 @@ namespace GinRummy.Client.Controls
                 new FrameworkPropertyMetadata(
                     new Thickness(),
                     FrameworkPropertyMetadataOptions.AffectsMeasure));
-
-        /// <summary>
-        /// Gets or sets the room left between the border of the surface and its content.
-        /// </summary>
-        public Thickness Padding
-        {
-            get { return (Thickness)GetValue(PaddingProperty); }
-            set { SetValue(PaddingProperty, value); }
-        }
 
         /// <summary>
         /// Gets or sets the side of the block the shape is drawn on.
@@ -164,6 +137,33 @@ namespace GinRummy.Client.Controls
         }
 
         /// <summary>
+        /// Gets or sets the colour of the base the body is raised over.
+        /// </summary>
+        public Brush BaseBrush
+        {
+            get { return (Brush)GetValue(BaseBrushProperty); }
+            set { SetValue(BaseBrushProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets how many blocks the body is raised over its base.
+        /// </summary>
+        public int BaseDepth
+        {
+            get { return (int)GetValue(BaseDepthProperty); }
+            set { SetValue(BaseDepthProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the room left between the border of the surface and its content.
+        /// </summary>
+        public Thickness Padding
+        {
+            get { return (Thickness)GetValue(PaddingProperty); }
+            set { SetValue(PaddingProperty, value); }
+        }
+
+        /// <summary>
         /// Draws the surface underneath the content of the control.
         /// </summary>
         /// <param name="drawingContext">Where the shape is drawn.</param>
@@ -179,6 +179,62 @@ namespace GinRummy.Client.Controls
 
             DrawBase(drawingContext, frame);
             drawingContext.DrawGeometry(FaceBrush, null, BuildShape(frame));
+        }
+
+        /// <summary>
+        /// Redraws the shape whenever the layout grants the surface a different size, because
+        /// the shape is measured from that size and not from a fixed picture.
+        /// </summary>
+        /// <param name="info">Size the surface had and size it has now.</param>
+        protected override void OnRenderSizeChanged(SizeChangedInfo info)
+        {
+            base.OnRenderSizeChanged(info);
+            InvalidateVisual();
+        }
+
+        /// <summary>
+        /// Leaves room for the padding around the content and asks for the size the content
+        /// needs plus that room.
+        /// </summary>
+        /// <param name="constraint">Size the parent offers.</param>
+        /// <returns>The size this surface needs.</returns>
+        protected override Size MeasureOverride(Size constraint)
+        {
+            Thickness padding = ResolvePadding();
+            Size needed = new Size(
+                padding.Left + padding.Right,
+                padding.Top + padding.Bottom);
+
+            if (Child != null)
+            {
+                Child.Measure(Shrink(constraint, padding));
+                needed.Width += Child.DesiredSize.Width;
+                needed.Height += Child.DesiredSize.Height;
+            }
+
+            return needed;
+        }
+
+        /// <summary>
+        /// Places the content inside the padding, which leaves the border and the steps of the
+        /// corners clear of it.
+        /// </summary>
+        /// <param name="arrangeSize">Size the parent grants.</param>
+        /// <returns>The size this surface takes.</returns>
+        protected override Size ArrangeOverride(Size arrangeSize)
+        {
+            if (Child != null)
+            {
+                Thickness padding = ResolvePadding();
+                Size inner = Shrink(arrangeSize, padding);
+                Child.Arrange(new Rect(
+                    padding.Left,
+                    padding.Top,
+                    inner.Width,
+                    inner.Height));
+            }
+
+            return arrangeSize;
         }
 
         // The base is the same shape pushed down a few blocks and painted in the dark colour.
@@ -213,17 +269,6 @@ namespace GinRummy.Client.Controls
                 Geometry.Combine(seat, body, GeometryCombineMode.Exclude, null));
         }
 
-        /// <summary>
-        /// Redraws the shape whenever the layout grants the surface a different size, because
-        /// the shape is measured from that size and not from a fixed picture.
-        /// </summary>
-        /// <param name="info">Size the surface had and size it has now.</param>
-        protected override void OnRenderSizeChanged(SizeChangedInfo info)
-        {
-            base.OnRenderSizeChanged(info);
-            InvalidateVisual();
-        }
-
         // The grid is centred on the surface: the part of a block that does not fit whole is
         // shared between the two edges instead of piling up on one of them, so a control whose
         // size is not a multiple of the block is still framed evenly.
@@ -256,6 +301,19 @@ namespace GinRummy.Client.Controls
             }
 
             return frame;
+        }
+
+        // What the base takes along the bottom edge counts as padding: the content belongs to
+        // the body, which is raised over it, so it cannot use that strip.
+        private Thickness ResolvePadding()
+        {
+            Thickness padding = Padding;
+
+            return new Thickness(
+                padding.Left,
+                padding.Top,
+                padding.Right,
+                padding.Bottom + (BaseDepth * PixelUnit));
         }
 
         // The corner follows a quarter of a circle and not a straight diagonal. A diagonal
@@ -339,64 +397,6 @@ namespace GinRummy.Client.Controls
         private static void LineTo(StreamGeometryContext context, Point point)
         {
             context.LineTo(point, false, false);
-        }
-
-        /// <summary>
-        /// Leaves room for the padding around the content and asks for the size the content
-        /// needs plus that room.
-        /// </summary>
-        /// <param name="constraint">Size the parent offers.</param>
-        /// <returns>The size this surface needs.</returns>
-        protected override Size MeasureOverride(Size constraint)
-        {
-            Thickness padding = ResolvePadding();
-            Size needed = new Size(
-                padding.Left + padding.Right,
-                padding.Top + padding.Bottom);
-
-            if (Child != null)
-            {
-                Child.Measure(Shrink(constraint, padding));
-                needed.Width += Child.DesiredSize.Width;
-                needed.Height += Child.DesiredSize.Height;
-            }
-
-            return needed;
-        }
-
-        // What the base takes along the bottom edge counts as padding: the content belongs to
-        // the body, which is raised over it, so it cannot use that strip.
-        private Thickness ResolvePadding()
-        {
-            Thickness padding = Padding;
-
-            return new Thickness(
-                padding.Left,
-                padding.Top,
-                padding.Right,
-                padding.Bottom + (BaseDepth * PixelUnit));
-        }
-
-        /// <summary>
-        /// Places the content inside the padding, which leaves the border and the steps of the
-        /// corners clear of it.
-        /// </summary>
-        /// <param name="arrangeSize">Size the parent grants.</param>
-        /// <returns>The size this surface takes.</returns>
-        protected override Size ArrangeOverride(Size arrangeSize)
-        {
-            if (Child != null)
-            {
-                Thickness padding = ResolvePadding();
-                Size inner = Shrink(arrangeSize, padding);
-                Child.Arrange(new Rect(
-                    padding.Left,
-                    padding.Top,
-                    inner.Width,
-                    inner.Height));
-            }
-
-            return arrangeSize;
         }
 
         private static Size Shrink(Size size, Thickness padding)
