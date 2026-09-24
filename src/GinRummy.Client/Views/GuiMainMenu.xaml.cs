@@ -32,8 +32,9 @@ namespace GinRummy.Client.Views
 
         private void OnPlayAsGuestClick(object sender, RoutedEventArgs e)
         {
-            // The guest lobby (P16) belongs to a later delivery. The button stays wired so
-            // that the navigation of the prototype is complete.
+            GuiGuestLobby guestLobby = new GuiGuestLobby();
+            guestLobby.Owner = this;
+            guestLobby.Show();
         }
 
         private void OnHowToPlayClick(object sender, RoutedEventArgs e)
