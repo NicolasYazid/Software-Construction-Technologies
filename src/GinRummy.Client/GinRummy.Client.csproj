@@ -126,6 +126,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\GuiConfirmDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -180,6 +184,9 @@
     <Compile Include="Views\GuiErrorDialog.xaml.cs">
       <DependentUpon>GuiErrorDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GuiConfirmDialog.xaml.cs">
+      <DependentUpon>GuiConfirmDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Localization\LocalizationProvider.cs" />
     <Compile Include="Localization\CultureOption.cs" />
     <Compile Include="Converters\EmptyTextToVisibilityConverter.cs" />
@@ -189,6 +196,7 @@
     <Compile Include="Views\TwoStepPurpose.cs" />
     <Compile Include="Views\DurationCommon.cs" />
     <Compile Include="Views\ErrorDialogKind.cs" />
+    <Compile Include="Views\ConfirmDialogKind.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
