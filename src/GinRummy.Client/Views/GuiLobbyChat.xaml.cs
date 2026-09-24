@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -21,7 +23,7 @@ namespace GinRummy.Client.Views
 
         private readonly ObservableCollection<ChatEntryDto> _chatEntries;
         private readonly DispatcherTimer _countdownTimer;
-        private readonly string _playerName;
+        private readonly LobbySnapshotDto _lobby;
         private TimeSpan _remainingBanTime;
 
         /// <summary>
@@ -31,16 +33,15 @@ namespace GinRummy.Client.Views
         {
             InitializeComponent();
             SampleDataService dataService = new SampleDataService();
-            LobbySnapshotDto lobby = dataService.GetLobby();
-            _playerName = lobby.PlayerName;
-            _chatEntries = new ObservableCollection<ChatEntryDto>(lobby.ChatEntries);
+            _lobby = dataService.GetLobby();
+            _chatEntries = new ObservableCollection<ChatEntryDto>(_lobby.ChatEntries);
             _countdownTimer = new DispatcherTimer();
             _countdownTimer.Interval = TimeSpan.FromSeconds(TimerIntervalSeconds);
             _countdownTimer.Tick += OnCountdownTick;
-            DataContext = lobby;
+            DataContext = _lobby;
             lstMessages.ItemsSource = _chatEntries;
-            lblEmptyNoPlayers.Visibility = VisibilityCommon.FromCondition(lobby.LookingToPlay.Count == 0);
-            lblEmptyState.Visibility = VisibilityCommon.FromCondition(HasNoFriends(lobby));
+            lblEmptyNoPlayers.Visibility = VisibilityCommon.FromCondition(_lobby.LookingToPlay.Count == 0);
+            lblEmptyState.Visibility = VisibilityCommon.FromCondition(HasNoFriends(_lobby));
             Loaded += OnScreenLoaded;
             Closed += OnScreenClosed;
         }
@@ -137,14 +138,28 @@ namespace GinRummy.Client.Views
             if (player != null)
             {
                 SampleDataService dataService = new SampleDataService();
-                ShowProfile(dataService.GetPlayerProfile(player));
+                PlayerProfileDto profile = dataService.GetPlayerProfile(player);
+                ShowProfile(profile);
+
+                // What the player did from the profile carries back to the row it was opened
+                // from, so the panel and the profile never disagree.
+                player.HasPendingRequest = profile.HasPendingRequest;
+                if (player.IsFriend && !profile.IsFriend)
+                {
+                    RemoveFriend(player.Username);
+                }
             }
         }
 
         private void OnFriendRequestClick(object sender, RoutedEventArgs e)
         {
-            // The request is created by the server (CU-12); the screen has nothing to change
-            // until it answers.
+            // Once the server creates the request, the option turns into the mark of a pending
+            // request, so a second one cannot leave while the first waits (CU-12 step 8).
+            LobbyPlayerDto player = GetMenuPlayer(sender);
+            if (player != null)
+            {
+                player.HasPendingRequest = true;
+            }
         }
 
         private void OnReportClick(object sender, RoutedEventArgs e)
@@ -160,9 +175,14 @@ namespace GinRummy.Client.Views
 
         private void OnRemoveFriendClick(object sender, RoutedEventArgs e)
         {
+            LobbyPlayerDto player = GetMenuPlayer(sender);
             GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.RemoveFriend);
             confirmDialog.Owner = this;
             confirmDialog.ShowDialog();
+            if (player != null && confirmDialog.IsConfirmed)
+            {
+                RemoveFriend(player.Username);
+            }
         }
 
         private void OnCancelChallengeClick(object sender, RoutedEventArgs e)
@@ -239,7 +259,7 @@ namespace GinRummy.Client.Views
             if (content.Length > 0)
             {
                 ChatMessageDto message = new ChatMessageDto();
-                message.AuthorName = _playerName;
+                message.AuthorName = _lobby.PlayerName;
                 message.Content = content;
                 message.SentAt = DateTime.Now;
                 AddChatEntry(message);
@@ -274,6 +294,24 @@ namespace GinRummy.Client.Views
             playerProfile.ShowDialog();
         }
 
+        private void RemoveFriend(string username)
+        {
+            // The friend leaves the friends tab, and wherever else the panel lists it, its menu
+            // stops offering to remove it and offers a request again (CU-16 Post-2 and Post-3).
+            RemoveByName(_lobby.FriendsOnline, username);
+            RemoveByName(_lobby.FriendsUnavailable, username);
+            IEnumerable<LobbyPlayerDto> otherRows = _lobby.LookingToPlay
+                .Concat(_lobby.Online)
+                .Concat(_lobby.Unavailable)
+                .Where(candidate => candidate.Username == username);
+            foreach (LobbyPlayerDto player in otherRows)
+            {
+                player.IsFriend = false;
+            }
+
+            lblEmptyState.Visibility = VisibilityCommon.FromCondition(HasNoFriends(_lobby));
+        }
+
         private void ScrollToLatestEntry()
         {
             if (_chatEntries.Count > 0)
@@ -285,6 +323,15 @@ namespace GinRummy.Client.Views
         private static LobbyPlayerDto GetMenuPlayer(object sender)
         {
             return ((FrameworkElement)sender).DataContext as LobbyPlayerDto;
+        }
+
+        private static void RemoveByName(IList<LobbyPlayerDto> players, string username)
+        {
+            LobbyPlayerDto player = players.FirstOrDefault(candidate => candidate.Username == username);
+            if (player != null)
+            {
+                players.Remove(player);
+            }
         }
 
         private static bool HasNoFriends(LobbySnapshotDto lobby)

@@ -63,6 +63,7 @@ namespace GinRummy.Client.Views
             lblNoMatchesYet.Visibility = VisibilityCommon.FromCondition(isPlayer && !hasMatches);
             btnReport.Visibility = VisibilityCommon.FromCondition(isOther);
             btnAddFriend.Visibility = VisibilityCommon.FromCondition(isOther && !_profile.IsFriend);
+            btnAddFriend.IsEnabled = !_profile.HasPendingRequest;
             btnRemoveFriend.Visibility = VisibilityCommon.FromCondition(isOther && _profile.IsFriend);
             btnEditProfile.Visibility = VisibilityCommon.FromCondition(_profile.IsOwnProfile);
         }
@@ -76,8 +77,10 @@ namespace GinRummy.Client.Views
 
         private void OnAddFriendClick(object sender, RoutedEventArgs e)
         {
-            // The request is created by the server (CU-12 FA-01); the screen has nothing to
-            // change until it answers.
+            // Once the server creates the request, the action stays disabled while it waits
+            // for an answer, so a second one cannot be sent (CU-12 and its EX-07).
+            _profile.HasPendingRequest = true;
+            ApplyRelation();
         }
 
         private void OnRemoveFriendClick(object sender, RoutedEventArgs e)
@@ -85,6 +88,13 @@ namespace GinRummy.Client.Views
             GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.RemoveFriend);
             confirmDialog.Owner = this;
             confirmDialog.ShowDialog();
+
+            // Without the friendship, the profile offers a request again (CU-16 Post-3).
+            if (confirmDialog.IsConfirmed)
+            {
+                _profile.IsFriend = false;
+                ApplyRelation();
+            }
         }
 
         private void OnEditProfileClick(object sender, RoutedEventArgs e)

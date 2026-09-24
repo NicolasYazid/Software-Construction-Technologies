@@ -56,5 +56,10 @@ namespace GinRummy.Client.Models
         /// Gets or sets whether the player is a friend of whoever looks at the profile.
         /// </summary>
         public bool IsFriend { get; set; }
+        /// <summary>
+        /// Gets or sets whether a friend request sent to the player is still waiting for an
+        /// answer, which keeps a second one from being sent (CU-12).
+        /// </summary>
+        public bool HasPendingRequest { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 using GinRummy.Client.Localization;
 using GinRummy.Client.Models;
@@ -63,7 +64,9 @@ namespace GinRummy.Client.Services
             };
             lobby.PlayersInMatchCount = 2;
             lobby.Unavailable = CreateUnavailablePlayers();
-            lobby.FriendsOnline = new List<LobbyPlayerDto>
+            // The groups of friends lose a player when the friendship ends (CU-16), so they
+            // announce it to the panel instead of waiting for the lobby to be loaded again.
+            lobby.FriendsOnline = new ObservableCollection<LobbyPlayerDto>
             {
                 CreatePlayer("Friend A", "S", true),
                 CreatePlayer("Friend B", "A", true),
@@ -75,7 +78,7 @@ namespace GinRummy.Client.Services
                 CreatePair(CreatePlayer("Friend Z", "S", true), CreatePlayer("Friend X", "A", true))
             };
             lobby.FriendsInMatchCount = 2;
-            lobby.FriendsUnavailable = new List<LobbyPlayerDto>
+            lobby.FriendsUnavailable = new ObservableCollection<LobbyPlayerDto>
             {
                 CreatePlayer("Friend Q", "D", true),
                 CreatePlayer("Friend R", "F", true)
@@ -208,6 +211,7 @@ namespace GinRummy.Client.Services
             profile.Bio = "Siempre listo para una partida. Juego casi siempre por las tardes.";
             profile.SocialLinks.Add(CreateSocialLink("Twitch", "twitch.tv/playerz"));
             profile.IsFriend = player.IsFriend;
+            profile.HasPendingRequest = player.HasPendingRequest;
 
             return profile;
         }

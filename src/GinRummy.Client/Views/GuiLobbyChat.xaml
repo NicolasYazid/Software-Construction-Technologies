@@ -86,7 +86,11 @@
                           Click="OnPlayerProfileClick" />
                 <MenuItem x:Name="mniFriendRequest" Style="{StaticResource StyPlayerMenuStrangerItem}"
                           Header="{Binding [LobbyChat_MniFriendRequest], Source={StaticResource Loc}}"
-                          Click="OnFriendRequestClick" />
+                          Click="OnFriendRequestClick">
+                    <MenuItem.Icon>
+                        <Image Source="{StaticResource IcoSend}" Style="{StaticResource StyPendingRequestMark}" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem x:Name="mniReport"
                           Header="{Binding [LobbyChat_MniReport], Source={StaticResource Loc}}"
                           Click="OnReportClick" />

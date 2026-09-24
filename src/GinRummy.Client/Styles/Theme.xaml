@@ -1236,10 +1236,30 @@
         </Style.Triggers>
     </Style>
 
+    <!-- Once the request is sent, the option stays in its place as the mark of a pending
+         request: dimmed, with the icon of a sent message, and unable to send a second one
+         (CU-12 and its EX-07). -->
     <Style x:Key="StyPlayerMenuStrangerItem" TargetType="MenuItem" BasedOn="{StaticResource StyPlayerMenuItem}">
         <Style.Triggers>
             <DataTrigger Binding="{Binding IsFriend}" Value="True">
                 <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding HasPendingRequest}" Value="True">
+                <Setter Property="IsEnabled" Value="False" />
+                <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+                <Setter Property="Cursor" Value="Arrow" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyPendingRequestMark" TargetType="Image">
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Opacity" Value="0.6" />
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding HasPendingRequest}" Value="True">
+                <Setter Property="Visibility" Value="Visible" />
             </DataTrigger>
         </Style.Triggers>
     </Style>
