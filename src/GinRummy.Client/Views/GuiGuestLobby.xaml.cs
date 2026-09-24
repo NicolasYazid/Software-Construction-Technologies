@@ -71,7 +71,9 @@ namespace GinRummy.Client.Views
 
         private void OnHowToPlayClick(object sender, RoutedEventArgs e)
         {
-            // The house rules (P19) arrive with the reference screens.
+            GuiHouseRules houseRules = new GuiHouseRules();
+            houseRules.Owner = this;
+            houseRules.ShowDialog();
         }
 
         private void OnScreenClosed(object sender, EventArgs e)

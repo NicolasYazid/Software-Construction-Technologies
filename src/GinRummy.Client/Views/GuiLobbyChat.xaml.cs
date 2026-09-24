@@ -207,12 +207,16 @@ namespace GinRummy.Client.Views
 
         private void OnRankingsClick(object sender, RoutedEventArgs e)
         {
-            // The leaderboard (P18) arrives with the reference screens.
+            GuiRankings rankings = new GuiRankings();
+            rankings.Owner = this;
+            rankings.ShowDialog();
         }
 
         private void OnHowToPlayClick(object sender, RoutedEventArgs e)
         {
-            // The house rules (P19) arrive with the reference screens.
+            GuiHouseRules houseRules = new GuiHouseRules();
+            houseRules.Owner = this;
+            houseRules.ShowDialog();
         }
 
         private void OnScreenClosed(object sender, EventArgs e)

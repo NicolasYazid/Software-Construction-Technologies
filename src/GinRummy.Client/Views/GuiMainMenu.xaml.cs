@@ -39,7 +39,9 @@ namespace GinRummy.Client.Views
 
         private void OnHowToPlayClick(object sender, RoutedEventArgs e)
         {
-            // The house rules screen (P19) belongs to a later delivery.
+            GuiHouseRules houseRules = new GuiHouseRules();
+            houseRules.Owner = this;
+            houseRules.ShowDialog();
         }
 
         private void OnExitClick(object sender, RoutedEventArgs e)
