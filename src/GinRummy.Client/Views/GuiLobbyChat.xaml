@@ -230,7 +230,19 @@
                             <TextBlock x:Name="lblReasonBan" Style="{StaticResource StyStatusText}" />
                             <TextBlock x:Name="lblTimeRemaining" Style="{StaticResource StyStatusText}" Margin="0,2,0,0" />
                         </StackPanel>
-                        <Border Style="{StaticResource StyFieldShell}">
+                        <!-- A sanction that restricts the chat disables the field (CU-17 EX-08). The
+                             shell dims with it, to the same opacity as a disabled button, so the
+                             field reads as locked and not merely empty. -->
+                        <Border>
+                            <Border.Style>
+                                <Style TargetType="Border" BasedOn="{StaticResource StyFieldShell}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsEnabled, ElementName=txtMessage}" Value="False">
+                                            <Setter Property="Opacity" Value="0.45" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
                             <DockPanel LastChildFill="True">
                                 <Button x:Name="btnSend" DockPanel.Dock="Right" Style="{StaticResource StyIconButton}"
                                         Width="30" Height="30" Margin="12,0,0,0" VerticalAlignment="Center"
