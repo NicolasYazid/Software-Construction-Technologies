@@ -2,7 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- Vectors exported from the Figma prototype through the plugin API. The path data is
-         the one in the file; none of it was redrawn by hand. -->
+         the one in the file; none of it was redrawn by hand. The icons that follow the
+         bullseye are the exception: the prototype writes them as characters of a font, and a
+         character written in XAML would be visible text outside the dictionary, so they are
+         drawn here as paths on the square grid of the pixel typefaces. -->
 
     <DrawingImage x:Key="IcoMail">
         <DrawingImage.Drawing>
@@ -134,6 +137,19 @@
                         <Pen Brush="#8B2C1F" Thickness="20" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
                     </GeometryDrawing.Pen>
                 </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="IcoAlert">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 H48 V48 H0 Z">
+                <GeometryDrawing Brush="#8B2C1F">
+                    <GeometryDrawing.Geometry>
+                        <EllipseGeometry Center="24,24" RadiusX="24" RadiusY="24" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="#EDE4DC" Geometry="M21,10 H27 V30 H21 Z M21,34 H27 V40 H21 Z" />
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>

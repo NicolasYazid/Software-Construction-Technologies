@@ -159,6 +159,7 @@
     <Compile Include="Views\GuiWindowBase.cs" />
     <Compile Include="Views\VerificationPurpose.cs" />
     <Compile Include="Views\TwoStepPurpose.cs" />
+    <Compile Include="Views\DurationCommon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

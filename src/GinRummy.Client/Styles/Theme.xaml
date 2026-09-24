@@ -683,4 +683,56 @@
         <Setter Property="Foreground" Value="{StaticResource BrsPlainMuted}" />
     </Style>
 
+    <!-- ========== Dialogs and notices (P09, P10, P22, P23, P24, P25) ========== -->
+
+    <!-- The dialogs sit on the opaque colour of the page and not on the translucent card
+         alone: a translucent surface over the white of a new window reads as grey. -->
+    <Style x:Key="StyDialogCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsSurface}" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="40,32,40,32" />
+    </Style>
+
+    <!-- The title of a dialog is smaller than the one of a card screen because several of
+         them name a whole action, and at the size of a card title they broke into three
+         lines. -->
+    <Style x:Key="StyDialogTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="30" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="StyDialogMessage" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="LineHeight" Value="28" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <!-- Errors and warnings of consequence take the colour of the errors of the forms, as
+         the prototype paints them red and leaves plain questions in grey. -->
+    <Style x:Key="StyDialogWarning" TargetType="TextBlock" BasedOn="{StaticResource StyDialogMessage}">
+        <Setter Property="Foreground" Value="{StaticResource BrsDanger}" />
+    </Style>
+
+    <!-- The prototype sets the reason and the remaining time in bold. The pixel families have
+         a single weight, so the emphasis is carried by the light colour of the titles. -->
+    <Style x:Key="StyDialogEmphasis" TargetType="TextBlock" BasedOn="{StaticResource StyDialogMessage}">
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+    </Style>
+
+    <Style x:Key="StyDialogPrimaryButton" TargetType="Button" BasedOn="{StaticResource StyCardPrimaryButton}">
+        <Setter Property="MinWidth" Value="170" />
+    </Style>
+
+    <Style x:Key="StyDialogSecondaryButton" TargetType="Button" BasedOn="{StaticResource StyCardOutlineButton}">
+        <Setter Property="MinWidth" Value="170" />
+        <Setter Property="Height" Value="50" />
+    </Style>
+
 </ResourceDictionary>
