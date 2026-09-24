@@ -1,11 +1,8 @@
-﻿using GinRummy.Data.EntityFramework.Persistence;
+﻿using System.Linq;
+
+using GinRummy.Data.EntityFramework.Persistence;
 using GinRummy.Domain.Entities;
 using GinRummy.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GinRummy.Data.EntityFramework.Repositories
 {
@@ -39,6 +36,7 @@ namespace GinRummy.Data.EntityFramework.Repositories
             {
                 foundPlayer = context.Players.FirstOrDefault(player => player.Email == email);
             }
+
             return foundPlayer;
         }
 
