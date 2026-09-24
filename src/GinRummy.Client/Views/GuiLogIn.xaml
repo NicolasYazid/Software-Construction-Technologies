@@ -13,23 +13,24 @@
          with the card is what keeps the last button inside it whatever the size of the text. -->
     <Grid Width="938" Background="{StaticResource BrsPageBackground}">
 
-        <!-- The height follows the card instead of being measured on its own. The surface of
-             the paint reports the size of its own bitmap, and left free that measure was what
-             stretched the window far past the content. -->
-        <Border HorizontalAlignment="Right" VerticalAlignment="Top" Width="465"
-                ClipToBounds="True"
-                Height="{Binding ActualHeight, ElementName=brdCard}">
-            <Grid>
-                <ctl:CtlPaintBackground DeepColour="{StaticResource ClrArtworkDeep}"
+        <!-- The panel stretches to the height of the card instead of being measured on its own.
+             The paint sits inside a canvas, which never reports the size of its children: the
+             surface of the paint reports the size of its own bitmap, and left free that measure
+             was what stretched the window far past the content. -->
+        <Grid HorizontalAlignment="Right" Width="465" ClipToBounds="True">
+            <Canvas>
+                <ctl:CtlPaintBackground Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                                        DeepColour="{StaticResource ClrArtworkDeep}"
                                         MidColour="{StaticResource ClrArtworkMid}"
                                         GlowColour="{StaticResource ClrArtworkGlow}" />
-                <ctl:CtlBrandMark MarkFontSize="46" MarkForeground="{StaticResource BrsMenuLight}"
-                                  Effect="{StaticResource EfxTextShadow}"
-                                  HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </Grid>
-        </Border>
+            </Canvas>
+            <ctl:CtlBrandMark MarkFontSize="46" MarkForeground="{StaticResource BrsMenuLight}"
+                              Effect="{StaticResource EfxTextShadow}"
+                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Grid>
 
-        <Border x:Name="brdCard" Background="{StaticResource BrsSurface}" CornerRadius="4"
+        <Border Background="{StaticResource BrsSurface}" CornerRadius="4"
                 HorizontalAlignment="Left" VerticalAlignment="Top"
                 Width="471" Margin="2,0,0,0" Padding="34,20,34,30">
             <StackPanel>

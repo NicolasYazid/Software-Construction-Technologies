@@ -77,7 +77,6 @@ namespace GinRummy.Client.Views
             }
 
             lblCurrentPassword.Visibility = currentPasswordVisibility;
-            brdCurrentPassword.Visibility = currentPasswordVisibility;
             lblNewPassword.Margin = newPasswordLabelMargin;
         }
 

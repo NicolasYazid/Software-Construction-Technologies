@@ -9,6 +9,7 @@
 
     <conv:EmptyTextToVisibilityConverter x:Key="CnvEmptyTextToVisibility" />
     <conv:UpperCaseConverter x:Key="CnvUpperCase" />
+    <BooleanToVisibilityConverter x:Key="CnvBooleanToVisibility" />
 
     <!-- ============================================================
          Design tokens of the client. The Figma prototype was the
@@ -127,13 +128,43 @@
     </Style>
 
     <!-- Button of the menu: a face raised over its own shadow, stepped corners and a sink
-         when it is pressed. Each variant sets the colour. -->
+         when it is pressed. Each variant sets the colour. The face and the highlight react
+         through styles of their own that read the state of the button, instead of template
+         triggers aimed at them by name, so that no part of the template needs a name outside
+         the prefix vocabulary of the standard. -->
     <ControlTemplate x:Key="TplMenuButton" TargetType="Button">
         <Grid>
-            <ctl:CtlPixelSurface x:Name="pxBase" Margin="0,6,0,0"
+            <ctl:CtlPixelSurface Margin="0,6,0,0"
                                  FaceBrush="{StaticResource BrsMenuInk}" />
-            <ctl:CtlPixelSurface x:Name="pxFace" Margin="0,0,0,6"
-                                 FaceBrush="{TemplateBinding Background}">
+            <ctl:CtlPixelSurface FaceBrush="{TemplateBinding Background}">
+                <ctl:CtlPixelSurface.Style>
+                    <Style TargetType="ctl:CtlPixelSurface">
+                        <Setter Property="Margin" Value="0,0,0,6" />
+                        <Style.Triggers>
+                            <!-- The pointer sinks the face one of the two blocks it travels when
+                                 pressed, so hovering already answers with movement and the press
+                                 still reads as a deeper, separate step. Both distances are whole
+                                 blocks, which is what keeps the edge of the face on the grid
+                                 while it moves. The trigger of the press is declared after this
+                                 one and therefore wins while both apply. -->
+                            <DataTrigger Binding="{Binding IsMouseOver,
+                                                   RelativeSource={RelativeSource TemplatedParent}}"
+                                         Value="True">
+                                <Setter Property="Margin" Value="0,3,0,3" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsPressed,
+                                                   RelativeSource={RelativeSource TemplatedParent}}"
+                                         Value="True">
+                                <Setter Property="Margin" Value="0,6,0,0" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsEnabled,
+                                                   RelativeSource={RelativeSource TemplatedParent}}"
+                                         Value="False">
+                                <Setter Property="Opacity" Value="0.45" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ctl:CtlPixelSurface.Style>
                 <Grid>
                     <!-- The highlight covers the whole face and takes its same stepped shape, so
                          that no square corners appear over the steps when it darkens. It sits
@@ -142,31 +173,26 @@
                          The side padding comes from the content and not from the surface,
                          because with padding on the surface the layer stayed inside it and
                          left a strip on each side without darkening. -->
-                    <ctl:CtlPixelSurface x:Name="pxHighlight" Opacity="0"
-                                         FaceBrush="{StaticResource BrsMenuInk}" />
+                    <ctl:CtlPixelSurface FaceBrush="{StaticResource BrsMenuInk}">
+                        <ctl:CtlPixelSurface.Style>
+                            <Style TargetType="ctl:CtlPixelSurface">
+                                <Setter Property="Opacity" Value="0" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsMouseOver,
+                                                           RelativeSource={RelativeSource TemplatedParent}}"
+                                                 Value="True">
+                                        <Setter Property="Opacity" Value="0.53" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ctl:CtlPixelSurface.Style>
+                    </ctl:CtlPixelSurface>
                     <ContentPresenter Margin="14,0,14,0"
                                       Effect="{StaticResource EfxTextRaise}"
                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Grid>
             </ctl:CtlPixelSurface>
         </Grid>
-        <ControlTemplate.Triggers>
-            <!-- The pointer sinks the face one of the two blocks it travels when pressed, so
-                 hovering already answers with movement and the press still reads as a deeper,
-                 separate step. Both distances are whole blocks, which is what keeps the edge
-                 of the face on the grid while it moves. The trigger of the press is declared
-                 after this one and therefore wins while both apply. -->
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="pxHighlight" Property="Opacity" Value="0.53" />
-                <Setter TargetName="pxFace" Property="Margin" Value="0,3,0,3" />
-            </Trigger>
-            <Trigger Property="IsPressed" Value="True">
-                <Setter TargetName="pxFace" Property="Margin" Value="0,6,0,0" />
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="pxFace" Property="Opacity" Value="0.45" />
-            </Trigger>
-        </ControlTemplate.Triggers>
     </ControlTemplate>
 
     <!-- Every button of the upper row carries this size and every button of the lower row
@@ -248,22 +274,22 @@
         <Setter Property="FontSize" Value="18" />
         <Setter Property="Padding" Value="10,7,10,7" />
         <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBoxItem">
-                    <Border x:Name="brdItem" Background="Transparent"
+                    <Border Background="{TemplateBinding Background}"
                             Padding="{TemplateBinding Padding}">
                         <ContentPresenter />
                     </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsHighlighted" Value="True">
-                            <Setter TargetName="brdItem" Property="Background"
-                                    Value="{StaticResource BrsMenuChipFace}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <!-- The ComboBox of the system draws its own light background and ignores Background,
@@ -281,19 +307,25 @@
                 <ControlTemplate TargetType="ComboBox">
                     <Grid>
                         <ToggleButton Focusable="False" ClickMode="Press"
-                                      IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
-                            <ToggleButton.Template>
-                                <ControlTemplate TargetType="ToggleButton">
-                                    <Border x:Name="brdSelector" CornerRadius="6"
-                                            Background="{StaticResource BrsMenuDropdown}" />
-                                    <ControlTemplate.Triggers>
+                                      IsChecked="{Binding IsDropDownOpen, Mode=TwoWay,
+                                                  RelativeSource={RelativeSource TemplatedParent}}">
+                            <ToggleButton.Style>
+                                <Style TargetType="ToggleButton">
+                                    <Setter Property="Background" Value="{StaticResource BrsMenuDropdown}" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ToggleButton">
+                                                <Border CornerRadius="6" Background="{TemplateBinding Background}" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="brdSelector" Property="Background"
-                                                    Value="{StaticResource BrsMenuDropdownOver}" />
+                                            <Setter Property="Background" Value="{StaticResource BrsMenuDropdownOver}" />
                                         </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </ToggleButton.Template>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
                         </ToggleButton>
                         <!-- The selector shows the name of the language written in its own
                              language, so the widest state is ESPANOL with its tilde. The
@@ -507,28 +539,25 @@
         <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="CheckBox">
                     <StackPanel Orientation="Horizontal">
-                        <Border x:Name="brdBox" Width="18" Height="18" CornerRadius="4"
-                                Background="{StaticResource BrsFieldFace}"
+                        <Border Width="18" Height="18" CornerRadius="4"
+                                Background="{TemplateBinding Background}"
                                 BorderBrush="{StaticResource BrsFieldBorder}"
                                 BorderThickness="0,0,0,3"
                                 VerticalAlignment="Center">
-                            <Path x:Name="pthTick" Data="M2,7 L6,11 L13,3"
+                            <Path Data="M2,7 L6,11 L13,3"
                                   Stroke="{StaticResource BrsMenuLight}" StrokeThickness="2.5"
                                   StrokeStartLineCap="Square" StrokeEndLineCap="Square"
-                                  Visibility="Collapsed" />
+                                  Visibility="{TemplateBinding IsChecked,
+                                               Converter={StaticResource CnvBooleanToVisibility}}" />
                         </Border>
                         <ContentPresenter Margin="9,0,0,0" VerticalAlignment="Center" />
                     </StackPanel>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="brdBox" Property="Background"
-                                    Value="{StaticResource BrsMenuChipFace}" />
-                            <Setter TargetName="pthTick" Property="Visibility" Value="Visible" />
-                        </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
                         </Trigger>
@@ -536,6 +565,11 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <!-- The rule takes the colour of the text it accompanies, not that of the sunk edges:

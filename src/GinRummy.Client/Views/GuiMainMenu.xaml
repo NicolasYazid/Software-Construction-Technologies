@@ -18,8 +18,7 @@
              measuring the same as on the panel: both come out at about three pixels of screen.
              The paint covers the whole window, so the background of the grid is only seen
              while the first frame is being drawn. -->
-        <ctl:CtlPaintBackground x:Name="ctlPaintBackground"
-                                BlockResolution="250" PatternScale="1.45"
+        <ctl:CtlPaintBackground BlockResolution="250" PatternScale="1.45"
                                 DeepColour="{StaticResource ClrMenuLiquidDeep}"
                                 MidColour="{StaticResource ClrMenuLiquidMid}"
                                 GlowColour="{StaticResource ClrMenuLiquidGlow}" />
@@ -34,7 +33,7 @@
                  are equal, so the centre of both rows is the centre of the window. At this size
                  it does not reach the bar; the usable width is the other limit, because above
                  about 190 it touches the side margins. -->
-            <ctl:CtlBrandMark x:Name="imgBrand" Grid.Row="0" Grid.RowSpan="2" MarkFontSize="175"
+            <ctl:CtlBrandMark Grid.Row="0" Grid.RowSpan="2" MarkFontSize="175"
                               MarkForeground="{StaticResource BrsMenuLight}"
                               Effect="{StaticResource EfxTextShadow}"
                               Margin="0,0,0,80"
