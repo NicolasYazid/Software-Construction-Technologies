@@ -154,6 +154,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\GuiGuestLobby.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -225,6 +229,9 @@
     </Compile>
     <Compile Include="Views\GuiLobbyChat.xaml.cs">
       <DependentUpon>GuiLobbyChat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiGuestLobby.xaml.cs">
+      <DependentUpon>GuiGuestLobby.xaml</DependentUpon>
     </Compile>
     <Compile Include="Localization\LocalizationProvider.cs" />
     <Compile Include="Localization\CultureOption.cs" />

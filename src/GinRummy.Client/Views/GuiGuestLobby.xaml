@@ -1,0 +1,221 @@
+﻿<views:GuiWindowBase x:Class="GinRummy.Client.Views.GuiGuestLobby"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:GinRummy.Client.Views"
+        xmlns:models="clr-namespace:GinRummy.Client.Models"
+        Title="{Binding [Shared_AppTitle], Source={StaticResource Loc}}"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Styles/LobbyTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- A guest never challenges nor is challenged (CU-24 EX-07), but the prototype
+                 shows the declined notice in its chat, so that is the only one drawn here. -->
+            <DataTemplate DataType="{x:Type models:ChallengeNoticeDto}">
+                <Border Style="{StaticResource StyChatNotice}">
+                    <TextBlock x:Name="lblChallengeDeclined" Style="{StaticResource StyChatNoticeText}"
+                               Text="{Binding [LobbyChat_ChallengeDeclined], Source={StaticResource Loc}}" />
+                </Border>
+                <DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding Kind}" Value="Declined">
+                        <Setter TargetName="lblChallengeDeclined" Property="Visibility" Value="Visible" />
+                    </DataTrigger>
+                </DataTemplate.Triggers>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Width="1360" Height="780" Background="{StaticResource BrsPageBackground}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="104" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="360" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Rail: a guest has no profile nor settings, only the temporary name the server gave
+             it, which is an identifier and never translated. -->
+        <Border Grid.RowSpan="2" Background="{StaticResource BrsLobbyRail}">
+            <DockPanel LastChildFill="False" Margin="0,20,0,20">
+                <Image DockPanel.Dock="Top" Source="{StaticResource IcoBullseye}" Width="64" Height="64" />
+                <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+                    <Border Style="{StaticResource StyAvatarLarge}" HorizontalAlignment="Center">
+                        <Image Style="{StaticResource StyAvatarIconLarge}" />
+                    </Border>
+                    <TextBlock x:Name="lblGuestName" Style="{StaticResource StyVersusName}"
+                               HorizontalAlignment="Center" Margin="0,10,0,0"
+                               Text="{Binding PlayerName}" />
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- Header -->
+        <Border Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource StyLobbyPanel}"
+                Margin="12,12,12,0" Padding="24,12,16,12">
+            <DockPanel LastChildFill="False">
+                <TextBlock x:Name="lblAppTitle" DockPanel.Dock="Left" Style="{StaticResource StyLobbyWordmark}"
+                           Text="{Binding [Shared_AppTitle], Source={StaticResource Loc}}" />
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button x:Name="btnFindMatch" Style="{StaticResource StyLobbyActionButton}" Margin="0,0,12,0"
+                            Content="{Binding [LobbyChat_BtnFindMatch], Source={StaticResource Loc},
+                                      Converter={StaticResource CnvUpperCase}}"
+                            Click="OnFindMatchClick" />
+                    <Button x:Name="btnLogIn" Style="{StaticResource StyLobbySecondaryButton}" Margin="0,0,12,0"
+                            Content="{Binding [Shared_BtnLogIn], Source={StaticResource Loc},
+                                      Converter={StaticResource CnvUpperCase}}"
+                            Click="OnLogInClick" />
+                    <Button x:Name="btnHowToPlay" Style="{StaticResource StyLobbySecondaryButton}"
+                            Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource Loc},
+                                      Converter={StaticResource CnvUpperCase}}"
+                            Click="OnHowToPlayClick" />
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- Chat: a guest reads it but cannot write in it (CU-17 FA-02). -->
+        <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource StyLobbyPanel}" Margin="12,12,6,12">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Border Style="{StaticResource StyChatRulesCard}" Margin="20,20,20,8">
+                    <StackPanel>
+                        <TextBlock x:Name="lblChatRulesTitle" Style="{StaticResource StyChatRulesTitle}"
+                                   Text="{Binding [LobbyChat_LblChatRulesTitle], Source={StaticResource Loc},
+                                          Converter={StaticResource CnvUpperCase}}" />
+                        <TextBlock x:Name="lblChatRules" Style="{StaticResource StyChatRulesText}"
+                                   Text="{Binding [LobbyChat_LblChatRules], Source={StaticResource Loc}}" />
+                    </StackPanel>
+                </Border>
+
+                <ListBox x:Name="lstMessages" Grid.Row="1" Style="{StaticResource StyChatList}" />
+
+                <!-- The card follows the visibility of its title, as in the lobby of a player. -->
+                <Border Grid.Row="2" Style="{StaticResource StyLobbyStatusCard}"
+                        Visibility="{Binding Visibility, ElementName=lblSearchingMatch}">
+                    <DockPanel LastChildFill="True">
+                        <Button x:Name="btnCancelSearch" DockPanel.Dock="Right" Style="{StaticResource StyNoticeButton}"
+                                VerticalAlignment="Center"
+                                Content="{Binding [LobbyChat_BtnCancelSearch], Source={StaticResource Loc},
+                                          Converter={StaticResource CnvUpperCase}}"
+                                Click="OnCancelSearchClick" />
+                        <StackPanel>
+                            <TextBlock x:Name="lblSearchingMatch" Style="{StaticResource StyStatusTitle}"
+                                       Visibility="Collapsed"
+                                       Text="{Binding [LobbyChat_LblSearchingMatch], Source={StaticResource Loc}}" />
+                            <TextBlock x:Name="lblNoOpponentAvailable" Style="{StaticResource StyStatusText}"
+                                       Text="{Binding [LobbyChat_NoOpponentAvailable], Source={StaticResource Loc}}" />
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+
+                <Border Grid.Row="3" Style="{StaticResource StyChatComposer}">
+                    <Border Style="{StaticResource StyFieldShell}">
+                        <DockPanel LastChildFill="True">
+                            <Button x:Name="btnCreateAccount" DockPanel.Dock="Right"
+                                    Style="{StaticResource StyInlineTextButton}"
+                                    Content="{Binding [Shared_BtnCreateAccount], Source={StaticResource Loc},
+                                              Converter={StaticResource CnvUpperCase}}"
+                                    Click="OnCreateAccountClick" />
+                            <TextBlock x:Name="lblChatDisabled" Style="{StaticResource StyFieldPlaceholder}"
+                                       Text="{Binding [GuestLobby_ChatDisabled], Source={StaticResource Loc}}" />
+                        </DockPanel>
+                    </Border>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Players -->
+        <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource StyLobbyPanel}" Margin="6,12,12,12">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TabControl Style="{StaticResource StyPanelTabs}">
+                    <TabItem x:Name="tabEveryone" IsSelected="True"
+                             Header="{Binding [LobbyChat_TabEveryone], Source={StaticResource Loc},
+                                      Converter={StaticResource CnvUpperCase}}" />
+                    <TabItem x:Name="tabFriends" Style="{StaticResource StyPanelTabDimmed}"
+                             Header="{Binding [Shared_TabFriends], Source={StaticResource Loc},
+                                      Converter={StaticResource CnvUpperCase}}" />
+                </TabControl>
+
+                <Border Grid.Row="1" Style="{StaticResource StyPanelSearchShell}" Margin="14,14,14,4">
+                    <DockPanel LastChildFill="True">
+                        <Image Source="{StaticResource IcoSearch}" Width="20" Height="20"
+                               VerticalAlignment="Center" Margin="0,0,10,0" />
+                        <Grid>
+                            <TextBox x:Name="txtTag" Style="{StaticResource StyPanelSearchInput}" />
+                            <TextBlock Style="{StaticResource StyPanelSearchPlaceholder}"
+                                       Text="{Binding [Search_TxtTagPlaceholder], Source={StaticResource Loc}}"
+                                       Visibility="{Binding Text, ElementName=txtTag,
+                                                    Converter={StaticResource CnvEmptyTextToVisibility}}" />
+                        </Grid>
+                    </DockPanel>
+                </Border>
+
+                <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Margin="0,4,4,8"
+                              Visibility="{Binding IsSelected, ElementName=tabEveryone,
+                                           Converter={StaticResource CnvBooleanToVisibility}}">
+                    <StackPanel Margin="14,0,10,0">
+                        <TextBlock x:Name="lblGroupOnline" Style="{StaticResource StyGroupHeader}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
+                                    <Binding Path="[FriendsList_LblGroupOnline]" Source="{StaticResource Loc}" />
+                                    <Binding Path="Online.Count" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <Border Style="{StaticResource StyGroupRule}" />
+                        <ItemsControl ItemsSource="{Binding Online}" ItemTemplate="{StaticResource TplLobbyPlayer}" />
+
+                        <TextBlock x:Name="lblGroupAway" Style="{StaticResource StyGroupHeader}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
+                                    <Binding Path="[FriendsList_LblGroupAway]" Source="{StaticResource Loc}" />
+                                    <Binding Path="PlayersInMatchCount" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <Border Style="{StaticResource StyGroupRule}" />
+                        <ItemsControl ItemsSource="{Binding MatchesInProgress}" ItemTemplate="{StaticResource TplMatchPair}" />
+
+                        <TextBlock x:Name="lblGroupUnavailable" Style="{StaticResource StyGroupHeader}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
+                                    <Binding Path="[FriendsList_LblGroupUnavailable]" Source="{StaticResource Loc}" />
+                                    <Binding Path="Unavailable.Count" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <Border Style="{StaticResource StyGroupRule}" />
+                        <ItemsControl ItemsSource="{Binding Unavailable}" ItemTemplate="{StaticResource TplLobbyPlayer}" />
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- A guest has no friends (CU-11 FA-02): the tab only says why. -->
+                <TextBlock x:Name="lblFriendsDisabled" Grid.Row="2" Style="{StaticResource StyPanelEmpty}"
+                           Margin="20,12,20,8" VerticalAlignment="Top"
+                           Visibility="{Binding IsSelected, ElementName=tabFriends,
+                                        Converter={StaticResource CnvBooleanToVisibility}}"
+                           Text="{Binding [GuestLobby_FriendsDisabled], Source={StaticResource Loc}}" />
+            </Grid>
+        </Border>
+    </Grid>
+</views:GuiWindowBase>
