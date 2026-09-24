@@ -158,6 +158,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\GuiEditProfile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -232,6 +236,9 @@
     </Compile>
     <Compile Include="Views\GuiGuestLobby.xaml.cs">
       <DependentUpon>GuiGuestLobby.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiEditProfile.xaml.cs">
+      <DependentUpon>GuiEditProfile.xaml</DependentUpon>
     </Compile>
     <Compile Include="Localization\LocalizationProvider.cs" />
     <Compile Include="Localization\CultureOption.cs" />
