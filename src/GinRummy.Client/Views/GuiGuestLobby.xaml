@@ -59,7 +59,7 @@
         </Border>
 
         <!-- Header -->
-        <Border Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource StyLobbyPanel}"
+        <Border Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource StyLobbyGlassPanel}"
                 Margin="12,12,12,0" Padding="24,12,16,12">
             <DockPanel LastChildFill="False">
                 <TextBlock x:Name="lblAppTitle" DockPanel.Dock="Left" Style="{StaticResource StyLobbyWordmark}"
@@ -82,7 +82,7 @@
         </Border>
 
         <!-- Chat: a guest reads it but cannot write in it (CU-17 FA-02). -->
-        <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource StyLobbyPanel}" Margin="12,12,6,12">
+        <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource StyLobbyGlassPanel}" Margin="12,12,6,12">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -139,7 +139,7 @@
         </Border>
 
         <!-- Players -->
-        <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource StyLobbyPanel}" Margin="6,12,12,12">
+        <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource StyLobbyGlassPanel}" Margin="6,12,12,12">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />

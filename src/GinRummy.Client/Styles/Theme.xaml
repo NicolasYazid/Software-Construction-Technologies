@@ -753,7 +753,8 @@
     <SolidColorBrush x:Key="BrsLobbyRail" Color="#FF041710" />
     <!-- The floor of the lobby is a brown light enough to read as brown between the panels;
          the brown of the page is so dark that there it reads as black. -->
-    <SolidColorBrush x:Key="BrsLobbyFloor" Color="#FF3A2B1F" />
+    <SolidColorBrush x:Key="BrsLobbyFloor" Color="#FF2A1F15" />
+    <SolidColorBrush x:Key="BrsLobbyGlass" Color="#99103A28" />
     <SolidColorBrush x:Key="BrsLobbyPanel" Color="#FF101C15" />
     <SolidColorBrush x:Key="BrsLobbyRule" Color="#33EDE4DC" />
     <SolidColorBrush x:Key="BrsLobbyRowOver" Color="#1FEDE4DC" />
@@ -762,6 +763,16 @@
     <Style x:Key="StyLobbyPanel" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource BrsLobbyPanel}" />
         <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="5" />
+    </Style>
+
+    <!-- The panels of the lobbies are the panels of the menu: a translucent face that lets the
+         floor show through, the ink base beneath and the same deep shadow. The face is green so
+         that, over the brown floor, the panel still reads as green. -->
+    <Style x:Key="StyLobbyGlassPanel" TargetType="Border" BasedOn="{StaticResource StyLobbyPanel}">
+        <Setter Property="Background" Value="{StaticResource BrsLobbyGlass}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="0,0,0,4" />
+        <Setter Property="Effect" Value="{StaticResource EfxPanelShadow}" />
     </Style>
 
     <Style x:Key="StyLobbyWordmark" TargetType="TextBlock" BasedOn="{StaticResource StyLogoWordmark}">
