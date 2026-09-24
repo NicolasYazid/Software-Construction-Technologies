@@ -54,13 +54,17 @@ namespace GinRummy.Client.Views
         }
 
         /// <summary>
-        /// Rebuilds the title, the instructions and every value that carries a placeholder.
+        /// Rebuilds the heading, the window title, the instructions and every value that
+        /// carries a placeholder. The title comes from a different key in each flow, so it
+        /// cannot be bound in XAML to a single one.
         /// </summary>
         protected override void RefreshFormattedText()
         {
             if (lblTitle != null)
             {
-                lblTitle.Text = Localization.GetText(ResolveTitleKey());
+                string titleKey = ResolveTitleKey();
+                lblTitle.Text = Localization.GetText(titleKey);
+                Title = Localization.GetText(titleKey);
                 lblInstructions.Text = Localization.Format(
                     "VerifyEmail_LblInstructions", _destinationAddress);
                 lblCodeExpiresIn.Text = Localization.Format(
