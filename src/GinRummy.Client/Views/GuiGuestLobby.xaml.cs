@@ -55,18 +55,12 @@ namespace GinRummy.Client.Views
 
         private void OnLogInClick(object sender, RoutedEventArgs e)
         {
-            GuiLogIn logIn = new GuiLogIn();
-            logIn.Owner = Owner;
-            logIn.Show();
-            Close();
+            NavigateTo(new GuiLogIn());
         }
 
         private void OnCreateAccountClick(object sender, RoutedEventArgs e)
         {
-            GuiSignUp signUp = new GuiSignUp();
-            signUp.Owner = Owner;
-            signUp.Show();
-            Close();
+            NavigateTo(new GuiSignUp());
         }
 
         private void OnHowToPlayClick(object sender, RoutedEventArgs e)

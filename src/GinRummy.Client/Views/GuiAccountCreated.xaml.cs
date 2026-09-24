@@ -17,10 +17,7 @@ namespace GinRummy.Client.Views
 
         private void OnLogInClick(object sender, RoutedEventArgs e)
         {
-            GuiLogIn logIn = new GuiLogIn();
-            logIn.Owner = Owner;
-            logIn.Show();
-            Close();
+            NavigateTo(new GuiLogIn());
         }
     }
 }

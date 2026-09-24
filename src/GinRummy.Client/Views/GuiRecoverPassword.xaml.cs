@@ -20,11 +20,7 @@ namespace GinRummy.Client.Views
             // CU-08 answers the same way whether or not the address has an account, so that
             // the screen never reveals which addresses are registered.
             lblCodeSentIfExists.Visibility = Visibility.Visible;
-            GuiVerifyEmail verifyEmail = new GuiVerifyEmail(
-                VerificationPurpose.PasswordRecovery, txtEmail.Text);
-            verifyEmail.Owner = Owner;
-            verifyEmail.Show();
-            Close();
+            NavigateTo(new GuiVerifyEmail(VerificationPurpose.PasswordRecovery, txtEmail.Text));
         }
     }
 }

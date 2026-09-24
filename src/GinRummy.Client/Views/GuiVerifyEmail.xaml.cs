@@ -115,21 +115,20 @@ namespace GinRummy.Client.Views
         private void OnVerifyClick(object sender, RoutedEventArgs e)
         {
             // The code is checked on the server, as CU-09 requires. The screen only advances
-            // so that the navigation of the prototype can be walked through.
+            // so that the navigation of the prototype can be walked through. A new address
+            // confirmed from the profile panel returns to it (CU-07 step 11).
             if (_purpose == VerificationPurpose.PasswordRecovery)
             {
-                GuiNewPassword newPassword = new GuiNewPassword(false);
-                newPassword.Owner = Owner;
-                newPassword.Show();
+                NavigateTo(new GuiNewPassword(false));
+            }
+            else if (_purpose == VerificationPurpose.AccountSignUp)
+            {
+                NavigateTo(new GuiAccountCreated());
             }
             else
             {
-                GuiAccountCreated accountCreated = new GuiAccountCreated();
-                accountCreated.Owner = Owner;
-                accountCreated.Show();
+                Close();
             }
-
-            Close();
         }
 
         private void OnResendCodeClick(object sender, RoutedEventArgs e)

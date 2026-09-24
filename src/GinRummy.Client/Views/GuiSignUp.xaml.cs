@@ -38,11 +38,7 @@ namespace GinRummy.Client.Views
             if (passwordsMatch)
             {
                 lblErrorMessage.Visibility = Visibility.Collapsed;
-                GuiVerifyEmail verifyEmail = new GuiVerifyEmail(
-                    VerificationPurpose.AccountSignUp, txtEmail.Text);
-                verifyEmail.Owner = Owner;
-                verifyEmail.Show();
-                Close();
+                NavigateTo(new GuiVerifyEmail(VerificationPurpose.AccountSignUp, txtEmail.Text));
             }
             else
             {

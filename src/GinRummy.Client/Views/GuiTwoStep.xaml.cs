@@ -89,12 +89,12 @@ namespace GinRummy.Client.Views
             // the other flows return to the screen that asked for the code.
             if (_purpose == TwoStepPurpose.LogIn)
             {
-                GuiLobbyChat lobbyChat = new GuiLobbyChat();
-                lobbyChat.Owner = Owner;
-                lobbyChat.Show();
+                NavigateTo(new GuiLobbyChat());
             }
-
-            Close();
+            else
+            {
+                Close();
+            }
         }
 
         private void OnResendCodeClick(object sender, RoutedEventArgs e)

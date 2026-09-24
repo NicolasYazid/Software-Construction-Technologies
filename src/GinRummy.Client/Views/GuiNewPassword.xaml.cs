@@ -104,12 +104,12 @@ namespace GinRummy.Client.Views
             // again with it (CU-08 step 14). A change made from the profile panel returns to it.
             if (!_isChangeFromProfile)
             {
-                GuiLogIn logIn = new GuiLogIn();
-                logIn.Owner = Owner;
-                logIn.Show();
+                NavigateTo(new GuiLogIn());
             }
-
-            Close();
+            else
+            {
+                Close();
+            }
         }
     }
 }
