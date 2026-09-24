@@ -57,7 +57,8 @@
 
                 <Button x:Name="btnVerifyLater" Style="{StaticResource StyCardTextButton}"
                         Width="402" HorizontalAlignment="Left" Margin="0,20,0,0"
-                        Content="{Binding [VerifyEmail_BtnVerifyLater], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                        Content="{Binding [VerifyEmail_BtnVerifyLater], Source={StaticResource Loc},
+                                  Converter={StaticResource CnvUpperCase}}"
                         Click="OnVerifyLaterClick" />
 
             </StackPanel>

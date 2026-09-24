@@ -49,7 +49,8 @@
                                      HorizontalAlignment="Left" VerticalAlignment="Center" Width="165">
                     <StackPanel>
                         <TextBlock x:Name="lblProfile" Style="{StaticResource StyMenuChipCaption}"
-                                   Text="{Binding [LobbyChat_BtnProfile], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
+                                   Text="{Binding [LobbyChat_BtnProfile], Source={StaticResource Loc},
+                                          Converter={StaticResource CnvUpperCase}}" />
                         <ctl:CtlPixelSurface Style="{StaticResource StyMenuChipInset}" Height="44" Margin="0,8,0,0">
                             <Image Source="{StaticResource IcoUserLight}" Width="18" Height="18"
                                    HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -69,17 +70,20 @@
                             <Button Grid.Column="0" x:Name="btnCreateAccount"
                                     Background="{StaticResource BrsMenuAction}"
                                     Style="{StaticResource StyMenuButton}" Margin="6,0,6,0"
-                                    Content="{Binding [Shared_BtnCreateAccount], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                                    Content="{Binding [Shared_BtnCreateAccount], Source={StaticResource Loc},
+                                              Converter={StaticResource CnvUpperCase}}"
                                     Click="OnCreateAccountClick" />
                             <Button Grid.Column="1" x:Name="btnLogIn"
                                     Background="{StaticResource BrsMenuAccent}"
                                     Style="{StaticResource StyMenuPrimaryButton}" Margin="6,0,6,0"
-                                    Content="{Binding [Shared_BtnLogIn], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                                    Content="{Binding [Shared_BtnLogIn], Source={StaticResource Loc},
+                                              Converter={StaticResource CnvUpperCase}}"
                                     Click="OnLogInClick" />
                             <Button Grid.Column="2" x:Name="btnPlayAsGuest"
                                     Background="{StaticResource BrsMenuEarth}"
                                     Style="{StaticResource StyMenuButton}" Margin="6,0,6,0"
-                                    Content="{Binding [MainMenu_BtnPlayAsGuest], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                                    Content="{Binding [MainMenu_BtnPlayAsGuest], Source={StaticResource Loc},
+                                              Converter={StaticResource CnvUpperCase}}"
                                     Click="OnPlayAsGuestClick" />
                         </Grid>
                         <Grid HorizontalAlignment="Center" Margin="0,14,0,0">
@@ -90,12 +94,14 @@
                             <Button Grid.Column="0" x:Name="btnHowToPlay"
                                     Background="{StaticResource BrsMenuNeutral}"
                                     Style="{StaticResource StyMenuSmallButton}" Margin="6,0,6,0"
-                                    Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                                    Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource Loc},
+                                              Converter={StaticResource CnvUpperCase}}"
                                     Click="OnHowToPlayClick" />
                             <Button Grid.Column="1" x:Name="btnExit"
                                     Background="{StaticResource BrsMenuWarn}"
                                     Style="{StaticResource StyMenuSmallAltButton}" Margin="6,0,6,0"
-                                    Content="{Binding [MainMenu_BtnExit], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                                    Content="{Binding [MainMenu_BtnExit], Source={StaticResource Loc},
+                                              Converter={StaticResource CnvUpperCase}}"
                                     Click="OnExitClick" />
                         </Grid>
                     </StackPanel>
@@ -105,7 +111,8 @@
                                      HorizontalAlignment="Right" VerticalAlignment="Center" Width="165">
                     <StackPanel>
                         <TextBlock x:Name="lblLanguage" Style="{StaticResource StyMenuChipCaption}"
-                                   Text="{Binding [MainMenu_LblLanguage], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
+                                   Text="{Binding [MainMenu_LblLanguage], Source={StaticResource Loc},
+                                          Converter={StaticResource CnvUpperCase}}" />
                         <ctl:CtlPixelSurface Style="{StaticResource StyMenuChipInset}" Height="44" Margin="0,8,0,0">
                             <DockPanel LastChildFill="True" Margin="6,6,6,6">
                                 <Image Source="{StaticResource IcoGlobe}" Width="17" Height="17"

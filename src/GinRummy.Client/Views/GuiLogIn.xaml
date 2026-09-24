@@ -45,13 +45,14 @@
                            Text="{Binding [LogIn_LblEmail], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
                 <Border Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
-                    <Image Source="{StaticResource IcoMail}" Width="19" Height="19"
-                           VerticalAlignment="Center" Margin="0,0,12,0" />
+                        <Image Source="{StaticResource IcoMail}" Width="19" Height="19"
+                               VerticalAlignment="Center" Margin="0,0,12,0" />
                         <Grid>
                             <TextBox x:Name="txtEmail" Style="{StaticResource StyFieldInput}" />
                             <TextBlock Style="{StaticResource StyFieldPlaceholder}"
                                        Text="{Binding [LogIn_TxtEmailPlaceholder], Source={StaticResource Loc}}"
-                                       Visibility="{Binding Text, ElementName=txtEmail, Converter={StaticResource CnvEmptyTextToVisibility}}" />
+                                       Visibility="{Binding Text, ElementName=txtEmail,
+                                                    Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>
                     </DockPanel>
                 </Border>
@@ -60,15 +61,15 @@
                            Text="{Binding [LogIn_LblPassword], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
                 <Border Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
-                    <Image Source="{StaticResource IcoLock}" Width="19" Height="19"
-                           VerticalAlignment="Center" Margin="0,0,12,0" />
-                    <Button x:Name="btnTogglePassword" DockPanel.Dock="Right"
-                            Style="{StaticResource StyIconButton}"
-                            VerticalAlignment="Center" Margin="12,0,0,0"
-                            ToolTip="{Binding [Shared_TipTogglePassword], Source={StaticResource Loc}}"
-                            Click="OnTogglePasswordClick">
-                        <Image Source="{StaticResource IcoEye}" Width="19" Height="19" />
-                    </Button>
+                        <Image Source="{StaticResource IcoLock}" Width="19" Height="19"
+                               VerticalAlignment="Center" Margin="0,0,12,0" />
+                        <Button x:Name="btnTogglePassword" DockPanel.Dock="Right"
+                                Style="{StaticResource StyIconButton}"
+                                VerticalAlignment="Center" Margin="12,0,0,0"
+                                ToolTip="{Binding [Shared_TipTogglePassword], Source={StaticResource Loc}}"
+                                Click="OnTogglePasswordClick">
+                            <Image Source="{StaticResource IcoEye}" Width="19" Height="19" />
+                        </Button>
                         <PasswordBox x:Name="pwdPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64" />
                     </DockPanel>
                 </Border>
