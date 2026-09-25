@@ -5,20 +5,19 @@ using System.Windows.Media.Imaging;
 namespace GinRummy.Client.Controls
 {
     /// <summary>
-    /// Paints once the backs of the playing cards: the spiral of the backgrounds, still and in
-    /// the reds of the buttons. Each size of card has its own surface with as many blocks as
-    /// fit in it at two pixels each, and the surface is enlarged here block by block, so the
-    /// card shows it at its own size and nothing smooths the blocks.
+    /// Paints once the sprite of the back of the playing cards: the spiral of the backgrounds,
+    /// still and in the reds of the buttons. The blocks are enlarged here, one by one, well past
+    /// the size of any card, so every card only ever shrinks the sprite. Shrinking keeps the
+    /// edges of the blocks sharp at any size of card and any scale of screen, while stretching
+    /// a small surface is what blurred them.
     /// </summary>
     public static class CardBackCommon
     {
-        private const int BlockSize = 2;
+        private const int BlockSize = 4;
         private const int BytesPerPixel = 4;
         private const double DotsPerInch = 96.0;
-        private const int SmallColumns = 24;
-        private const int SmallRows = 37;
-        private const int LargeColumns = 45;
-        private const int LargeRows = 63;
+        private const int Columns = 60;
+        private const int Rows = 84;
         private const double StillMoment = 12.0;
         private const double StillPatternScale = 1.4;
 
@@ -26,32 +25,23 @@ namespace GinRummy.Client.Controls
         private static readonly Color MidRed = Color.FromRgb(139, 44, 31);
         private static readonly Color GlowRed = Color.FromRgb(224, 110, 88);
 
-        private static readonly ImageSource SmallSurface = PaintSurface(SmallColumns, SmallRows);
-        private static readonly ImageSource LargeSurface = PaintSurface(LargeColumns, LargeRows);
+        private static readonly ImageSource PaintedSprite = PaintSprite();
 
         /// <summary>
-        /// Gets the back of the small cards, the ones of the hand of the opponent.
+        /// Gets the sprite of the back shared by every card, whatever its size.
         /// </summary>
-        public static ImageSource Surface
+        public static ImageSource Sprite
         {
-            get { return SmallSurface; }
+            get { return PaintedSprite; }
         }
 
-        /// <summary>
-        /// Gets the back of the large cards, the one of the stock.
-        /// </summary>
-        public static ImageSource Large
-        {
-            get { return LargeSurface; }
-        }
-
-        private static ImageSource PaintSurface(int columns, int rows)
+        private static ImageSource PaintSprite()
         {
             PaintFrameRequest request = new PaintFrameRequest
             {
-                Buffer = new byte[columns * rows * BytesPerPixel],
-                Width = columns,
-                Height = rows,
+                Buffer = new byte[Columns * Rows * BytesPerPixel],
+                Width = Columns,
+                Height = Rows,
                 ElapsedSeconds = StillMoment,
                 PatternScale = StillPatternScale,
                 Palette = new PaintPalette(DeepRed, MidRed, GlowRed)
