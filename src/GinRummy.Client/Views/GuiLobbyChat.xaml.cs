@@ -192,10 +192,10 @@ namespace GinRummy.Client.Views
 
         private void OnAcceptChallengeClick(object sender, RoutedEventArgs e)
         {
-            // Accepting starts the match, and the table takes the place of the lobby until the
-            // match ends (CU-23).
+            // Accepting starts the match, and the table opens over the lobby until the match
+            // ends (CU-23).
             RemoveChatEntry(sender);
-            ReplaceInPlace(new GuiGameTable());
+            OpenOver(new GuiGameTable());
         }
 
         private void OnDeclineChallengeClick(object sender, RoutedEventArgs e)

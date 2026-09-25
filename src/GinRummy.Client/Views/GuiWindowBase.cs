@@ -9,13 +9,14 @@ namespace GinRummy.Client.Views
     /// <summary>
     /// Base window of every screen. It keeps the window subscribed to the culture change so
     /// that the texts built from a format string can be rebuilt, releases the subscription
-    /// when the window closes, and walks the screens of a flow as a single window that takes
-    /// the place of the main menu.
+    /// when the window closes, and places every screen over the window it belongs to: the
+    /// screens of the menu over the menu, the lobby in place of the menu, and the match over
+    /// the lobby.
     /// </summary>
     public class GuiWindowBase : Window
     {
         private readonly LocalizationProvider _localization;
-        private bool _isMenuFlowScreen;
+        private bool _returnsToMenu;
         private bool _isHandingOver;
         private bool _isClosed;
 
@@ -46,25 +47,63 @@ namespace GinRummy.Client.Views
         }
 
         /// <summary>
-        /// Opens a screen of the main menu in its place. The menu hides, so the screen is the
-        /// only window of the client until the flow it starts comes to an end.
+        /// Opens a screen over this one, which stays visible beneath it, as the screens of the
+        /// menu do over the menu and the match does over the lobby.
         /// </summary>
-        /// <param name="nextScreen">Screen that takes the place of the main menu.</param>
-        protected void OpenInPlaceOfMenu(GuiWindowBase nextScreen)
+        /// <param name="nextScreen">Screen that opens over this one.</param>
+        protected void OpenOver(GuiWindowBase nextScreen)
         {
-            nextScreen._isMenuFlowScreen = true;
+            nextScreen.Owner = this;
+            nextScreen.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             nextScreen.Show();
-            Hide();
         }
 
         /// <summary>
-        /// Opens the next screen of the flow and closes this one, so the flow keeps a single
-        /// window and the main menu stays hidden while it lasts.
+        /// Opens the next screen of the flow over the same window this one belongs to and
+        /// closes this one.
         /// </summary>
         /// <param name="nextScreen">Screen that takes the place of this one.</param>
         protected void NavigateTo(GuiWindowBase nextScreen)
         {
-            nextScreen._isMenuFlowScreen = _isMenuFlowScreen;
+            if (nextScreen.Owner == null)
+            {
+                nextScreen.Owner = Owner;
+            }
+
+            _isHandingOver = true;
+            nextScreen.Show();
+            Close();
+        }
+
+        /// <summary>
+        /// Opens a lobby in place of the main menu, which hides until the lobby closes. The
+        /// screen that led to the lobby closes too, unless it is the menu itself.
+        /// </summary>
+        /// <param name="lobby">Lobby the player enters.</param>
+        protected void EnterLobby(GuiWindowBase lobby)
+        {
+            Window mainMenu = Application.Current.MainWindow;
+            lobby._returnsToMenu = true;
+            lobby.Show();
+            mainMenu.Hide();
+
+            if (!ReferenceEquals(this, mainMenu))
+            {
+                _isHandingOver = true;
+                Close();
+            }
+        }
+
+        /// <summary>
+        /// Leaves this screen for the main menu and opens a screen of the menu over it, as a
+        /// guest does when it decides to sign in from its lobby.
+        /// </summary>
+        /// <param name="nextScreen">Screen that opens over the main menu.</param>
+        protected void ReturnToMenuWith(GuiWindowBase nextScreen)
+        {
+            ShowMainMenu();
+            nextScreen.Owner = Application.Current.MainWindow;
+            nextScreen.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             _isHandingOver = true;
             nextScreen.Show();
             Close();
@@ -107,9 +146,9 @@ namespace GinRummy.Client.Views
             _localization.PropertyChanged -= OnLocalizationChanged;
             Closed -= OnWindowClosed;
 
-            // A flow that ends without handing over to another screen, because the player
-            // closed its window or left the lobby, returns to the menu that started it.
-            if (_isMenuFlowScreen && !_isHandingOver)
+            // A lobby that closes without handing over to another screen, because the player
+            // left it, gives its place back to the main menu.
+            if (_returnsToMenu && !_isHandingOver)
             {
                 ShowMainMenu();
             }

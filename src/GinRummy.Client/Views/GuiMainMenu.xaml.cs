@@ -18,17 +18,17 @@ namespace GinRummy.Client.Views
 
         private void OnLogInClick(object sender, RoutedEventArgs e)
         {
-            OpenInPlaceOfMenu(new GuiLogIn());
+            OpenOver(new GuiLogIn());
         }
 
         private void OnCreateAccountClick(object sender, RoutedEventArgs e)
         {
-            OpenInPlaceOfMenu(new GuiSignUp());
+            OpenOver(new GuiSignUp());
         }
 
         private void OnPlayAsGuestClick(object sender, RoutedEventArgs e)
         {
-            OpenInPlaceOfMenu(new GuiGuestLobby());
+            EnterLobby(new GuiGuestLobby());
         }
 
         private void OnHowToPlayClick(object sender, RoutedEventArgs e)

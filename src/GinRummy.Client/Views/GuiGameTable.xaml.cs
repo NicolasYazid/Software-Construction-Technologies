@@ -315,7 +315,7 @@ namespace GinRummy.Client.Views
 
         private void ReturnToLobby()
         {
-            ReplaceInPlace(new GuiLobbyChat());
+            Close();
         }
 
         private string FormatCardCount(int count)

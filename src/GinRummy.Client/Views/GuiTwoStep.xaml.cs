@@ -89,7 +89,7 @@ namespace GinRummy.Client.Views
             // the other flows return to the screen that asked for the code.
             if (_purpose == TwoStepPurpose.LogIn)
             {
-                NavigateTo(new GuiLobbyChat());
+                EnterLobby(new GuiLobbyChat());
             }
             else
             {
