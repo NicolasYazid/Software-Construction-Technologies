@@ -54,7 +54,8 @@
                         <DockPanel LastChildFill="True">
                             <!-- The dictionary gives the button of this chat no tooltip of its own, so it
                                  borrows the one of the chat of the lobby, which does the same. -->
-                            <Button x:Name="btnSend" DockPanel.Dock="Right" Style="{StaticResource StyIconButton}"
+                            <Button x:Name="btnSend" Effect="{StaticResource EfxCardShadow}"
+                                    DockPanel.Dock="Right" Style="{StaticResource StyIconButton}"
                                     Width="28" Height="28" Margin="8,0,0,0" VerticalAlignment="Center"
                                     ToolTip="{Binding [LobbyChat_TipSend], Source={StaticResource Loc}}"
                                     Click="OnSendClick">
@@ -87,7 +88,7 @@
             </Grid.RowDefinitions>
 
             <!-- The name of the opponent is data and keeps the case the player gave it. -->
-            <StackPanel Orientation="Horizontal" Margin="8,0,0,0">
+            <StackPanel Orientation="Horizontal" Margin="8,24,0,0">
                 <TextBlock Style="{StaticResource StyTableCaption}" Text="{Binding OpponentName}" />
                 <Border Style="{StaticResource StyTablePill}">
                     <TextBlock x:Name="lblCardCount" Style="{StaticResource StyTablePillText}" />
@@ -142,7 +143,9 @@
                        Text="{Binding [GameTable_LblHandHint], Source={StaticResource Loc},
                               Converter={StaticResource CnvUpperCase}}" />
 
-            <StackPanel Grid.Row="6" VerticalAlignment="Center">
+            <!-- The count and the actions keep their place at the foot of the table while the
+                 rows above move down to the middle of the room. -->
+            <StackPanel Grid.Row="6" VerticalAlignment="Bottom" Margin="0,0,0,57">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock x:Name="lblDeadwood" Style="{StaticResource StyDeadwoodLabel}"
                                Text="{Binding [GameTable_LblDeadwood], Source={StaticResource Loc},
@@ -157,11 +160,12 @@
                     </TextBlock>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,12,0,0">
-                    <Button x:Name="btnTake" Style="{StaticResource StyLobbyActionButton}" Margin="0,0,16,0"
+                    <Button x:Name="btnTake" Effect="{StaticResource EfxCardShadow}"
+                            Style="{StaticResource StyLobbyActionButton}" Margin="0,0,16,0"
                             Content="{Binding [GameTable_BtnTake], Source={StaticResource Loc},
                                       Converter={StaticResource CnvUpperCase}}"
                             Click="OnTakeClick" />
-                    <Button x:Name="btnPass" Style="{StaticResource StyLobbySecondaryButton}"
+                    <Button x:Name="btnPass" Effect="{StaticResource EfxCardShadow}" Style="{StaticResource StyLobbySecondaryButton}"
                             Content="{Binding [GameTable_BtnPass], Source={StaticResource Loc},
                                       Converter={StaticResource CnvUpperCase}}"
                             Click="OnPassClick" />
@@ -173,11 +177,12 @@
         <Border Grid.Column="2" Style="{StaticResource StyLobbyGlassPanel}" Margin="6,12,12,12">
             <DockPanel Margin="18,4,18,18" LastChildFill="True">
                 <StackPanel DockPanel.Dock="Bottom">
-                    <Button x:Name="btnHowToPlay" Style="{StaticResource StyLobbySecondaryButton}"
+                    <Button x:Name="btnHowToPlay" Effect="{StaticResource EfxCardShadow}" Style="{StaticResource StyLobbySecondaryButton}"
                             Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource Loc},
                                       Converter={StaticResource CnvUpperCase}}"
                             Click="OnHowToPlayClick" />
-                    <Button x:Name="btnForfeit" Style="{StaticResource StyForfeitButton}" Margin="0,12,0,0"
+                    <Button x:Name="btnForfeit" Effect="{StaticResource EfxCardShadow}"
+                            Style="{StaticResource StyForfeitButton}" Margin="0,12,0,0"
                             Content="{Binding [GameTable_BtnForfeit], Source={StaticResource Loc},
                                       Converter={StaticResource CnvUpperCase}}"
                             Click="OnForfeitClick" />
@@ -309,7 +314,7 @@
                     </DockPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="0,18,0,0">
-                        <Button x:Name="btnNextHand" Style="{StaticResource StyDialogPrimaryButton}"
+                        <Button x:Name="btnNextHand" Effect="{StaticResource EfxCardShadow}" Style="{StaticResource StyDialogPrimaryButton}"
                                 Content="{Binding [GameTable_BtnNextHand], Source={StaticResource Loc},
                                           Converter={StaticResource CnvUpperCase}}"
                                 Click="OnNextHandClick" />
@@ -338,7 +343,8 @@
                                Text="{Binding [GameTable_LblDefeatReason], Source={StaticResource Loc}}" />
                     <Border Style="{StaticResource StySettingDivider}" />
                     <TextBlock x:Name="lblFinalScore" Style="{StaticResource StyFinalScore}" />
-                    <Button x:Name="btnReturnToLobby" Style="{StaticResource StyDialogPrimaryButton}"
+                    <Button x:Name="btnReturnToLobby" Effect="{StaticResource EfxCardShadow}"
+                            Style="{StaticResource StyDialogPrimaryButton}"
                             HorizontalAlignment="Center" Margin="0,24,0,0"
                             Content="{Binding [GameTable_BtnReturnToLobby], Source={StaticResource Loc},
                                       Converter={StaticResource CnvUpperCase}}"

@@ -70,6 +70,10 @@
                       BlurRadius="40" ShadowDepth="13" Direction="270" Opacity="0.92" />
     <DropShadowEffect x:Key="EfxTextShadow" Color="#FF0A130E"
                       BlurRadius="24" ShadowDepth="8" Direction="270" Opacity="0.95" />
+    <DropShadowEffect x:Key="EfxSoftShadow" Color="#FF0A130E"
+                      BlurRadius="6" ShadowDepth="2" Direction="270" Opacity="0.9" />
+    <DropShadowEffect x:Key="EfxCardShadow" Color="#FF0A130E"
+                      BlurRadius="10" ShadowDepth="5" Direction="270" Opacity="0.7" />
 
     <!-- Raised text. The blur is zero on purpose: a blurred shadow reads as a light source
          behind the letter, while an offset copy with a hard edge reads as the same extruded
@@ -1984,21 +1988,21 @@
     <!-- ======================== Game table (P20) ======================== -->
 
     <!-- The table keeps the room of the lobby: the chat and the side panel are its panels, and
-         the cards lie on a cloth of the green of the artwork, a step lighter than the panels
-         so that it reads as the table. The faces of the cards take the
+         the cards lie on a translucent cloth raised like the panels, so the paint of the room
+         shows through it. The faces of the cards take the
          light of the menu so that they stand out on the green, with the ink of the menu for
          the black suits and a darker red for the red ones. -->
     <SolidColorBrush x:Key="BrsCardInkBlack" Color="#FF1A1712" />
     <SolidColorBrush x:Key="BrsCardInkRed" Color="#FFA33A2A" />
-    <SolidColorBrush x:Key="BrsTableSurface" Color="#FF0C2B1E" />
+    <SolidColorBrush x:Key="BrsTableSurface" Color="#801A1712" />
 
-    <!-- The back of a card repeats a small check in the two browns of the chips of the menu. -->
+    <!-- The back of a card is the red of the buttons with a small check of gold dots. -->
     <DrawingBrush x:Key="BrsCardBack" TileMode="Tile"
                   Viewport="0,0,8,8" ViewportUnits="Absolute" Viewbox="0,0,8,8" ViewboxUnits="Absolute">
         <DrawingBrush.Drawing>
             <DrawingGroup>
-                <GeometryDrawing Brush="#FF8A4B2A" Geometry="M0,0 H8 V8 H0 Z" />
-                <GeometryDrawing Brush="#FFA06D51" Geometry="M0,0 H2 V2 H0 Z M4,4 H6 V6 H4 Z" />
+                <GeometryDrawing Brush="#FF8B2C1F" Geometry="M0,0 H8 V8 H0 Z" />
+                <GeometryDrawing Brush="#FFD1A954" Geometry="M0,0 H2 V2 H0 Z M4,4 H6 V6 H4 Z" />
             </DrawingGroup>
         </DrawingBrush.Drawing>
     </DrawingBrush>
@@ -2010,6 +2014,7 @@
         <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
         <Setter Property="BorderThickness" Value="1,1,1,3" />
         <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Effect" Value="{StaticResource EfxCardShadow}" />
     </Style>
 
     <Style x:Key="StyCardFaceLarge" TargetType="Border" BasedOn="{StaticResource StyCardFace}">
@@ -2031,6 +2036,7 @@
         <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
         <Setter Property="BorderThickness" Value="1,1,1,3" />
         <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Effect" Value="{StaticResource EfxCardShadow}" />
     </Style>
 
     <Style x:Key="StyCardBackLarge" TargetType="Border" BasedOn="{StaticResource StyCardBack}">
@@ -2199,6 +2205,7 @@
         <Setter Property="StrokeDashArray" Value="4 3" />
         <Setter Property="RadiusX" Value="96" />
         <Setter Property="RadiusY" Value="96" />
+        <Setter Property="Effect" Value="{StaticResource EfxPanelShadow}" />
     </Style>
 
     <Style x:Key="StyTableCaption" TargetType="TextBlock">
@@ -2207,6 +2214,7 @@
         <Setter Property="FontSize" Value="18" />
         <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
         <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Effect" Value="{StaticResource EfxSoftShadow}" />
     </Style>
 
     <Style x:Key="StyTablePill" TargetType="Border">
@@ -2216,6 +2224,7 @@
         <Setter Property="Padding" Value="10,3,10,4" />
         <Setter Property="Margin" Value="12,0,0,0" />
         <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Effect" Value="{StaticResource EfxSoftShadow}" />
     </Style>
 
     <Style x:Key="StyTablePillText" TargetType="TextBlock">
@@ -2229,9 +2238,10 @@
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Effect" Value="{StaticResource EfxSoftShadow}" />
     </Style>
 
     <Style x:Key="StyDeadwoodLabel" TargetType="TextBlock">
@@ -2240,6 +2250,7 @@
         <Setter Property="FontSize" Value="20" />
         <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
         <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Effect" Value="{StaticResource EfxSoftShadow}" />
     </Style>
 
     <Style x:Key="StyDeadwoodValue" TargetType="TextBlock">
@@ -2249,6 +2260,14 @@
         <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Margin" Value="16,0,0,0" />
+        <!-- The digits of the display family sit low in their line, so they are lifted to
+             share the middle line of the label beside them. -->
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <TranslateTransform Y="-7" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Effect" Value="{StaticResource EfxSoftShadow}" />
     </Style>
 
     <Style x:Key="StyMatchStatRow" TargetType="DockPanel">
