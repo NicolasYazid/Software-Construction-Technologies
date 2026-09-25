@@ -12,10 +12,8 @@ namespace GinRummy.Data.EntityFramework.Persistence
     /// </summary>
     public class GinRummyContext : DbContext
     {
-        /// <summary>
-        /// Disables EF's automatic database initializer, because GinRummy_Dev was
-        /// created by the team's own SQL scripts, not by Entity Framework.
-        /// </summary>
+        // EF's automatic database initializer is disabled because GinRummy_Dev was created by
+        // the team's own SQL scripts, not by Entity Framework.
         static GinRummyContext()
         {
             Database.SetInitializer<GinRummyContext>(null);
