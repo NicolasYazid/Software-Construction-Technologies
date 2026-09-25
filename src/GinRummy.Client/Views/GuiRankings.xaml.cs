@@ -37,9 +37,16 @@ namespace GinRummy.Client.Views
             // the constructor already shows the leaderboard of that tab.
             if (IsLoaded)
             {
-                LeaderboardDto leaderboard = tabFriends.IsSelected
-                    ? _dataService.GetFriendsLeaderboard()
-                    : _dataService.GetGlobalLeaderboard();
+                LeaderboardDto leaderboard;
+                if (tabFriends.IsSelected)
+                {
+                    leaderboard = _dataService.GetFriendsLeaderboard();
+                }
+                else
+                {
+                    leaderboard = _dataService.GetGlobalLeaderboard();
+                }
+
                 ShowLeaderboard(leaderboard);
             }
         }

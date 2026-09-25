@@ -5,7 +5,7 @@
         xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
-        ShowsCloseButton="False">
+        HasCloseButton="False">
     <!-- The height is not stated: the window declares SizeToContent, so letting the grid grow
          with the card is what keeps the last button inside it whatever the size of the text. -->
     <Grid Width="938" Background="{StaticResource BrsPageBackground}">

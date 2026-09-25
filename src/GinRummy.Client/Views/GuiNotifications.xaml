@@ -4,7 +4,7 @@
         xmlns:views="clr-namespace:GinRummy.Client.Views"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
-        ShowsCloseButton="False">
+        HasCloseButton="False">
     <!-- The width is the one of the sanctions screen too: both are the two tabs of one panel
          in the prototype, and switching between them must not move anything. -->
     <Grid Width="780" Background="{StaticResource BrsPageBackground}">

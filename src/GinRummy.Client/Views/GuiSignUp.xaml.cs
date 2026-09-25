@@ -34,8 +34,8 @@ namespace GinRummy.Client.Views
             // CON-07 requires.
             string password = PasswordRevealCommon.Read(pwdPassword, txtPasswordShown);
             string confirmation = PasswordRevealCommon.Read(pwdConfirmPassword, txtConfirmPasswordShown);
-            bool passwordsMatch = password == confirmation;
-            if (passwordsMatch)
+            bool isPasswordConfirmed = password == confirmation;
+            if (isPasswordConfirmed)
             {
                 lblErrorMessage.Visibility = Visibility.Collapsed;
                 NavigateTo(new GuiVerifyEmail(VerificationPurpose.AccountSignUp, txtEmail.Text));

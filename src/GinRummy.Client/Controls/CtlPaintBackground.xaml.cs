@@ -227,12 +227,9 @@ namespace GinRummy.Client.Controls
             }
         }
 
-        /// <summary>
-        /// Paints a single frame of the field, with no movement, into the buffer of the
-        /// request, for the places where the paint is a picture and not a background, as the
-        /// back of the cards.
-        /// </summary>
-        /// <param name="request">Buffer, size, reach, moment and palette of the frame.</param>
+        // Paints a single frame of the field, with no movement, into the buffer of the request,
+        // for the places where the paint is a picture and not a background, as the back of the
+        // cards.
         internal static void PaintStillFrame(PaintFrameRequest request)
         {
             request.Geometry = BuildGeometry(request.Width, request.Height, request.PatternScale);
@@ -394,7 +391,7 @@ namespace GinRummy.Client.Controls
             }
 
             _lastFrameSeconds = elapsedSeconds;
-            if (_geometry == null || !_geometry.PatternScale.Equals(PatternScale))
+            if ((_geometry == null) || !_geometry.PatternScale.Equals(PatternScale))
             {
                 _geometry = BuildGeometry(_pixelWidth, _pixelHeight, PatternScale);
             }

@@ -4,7 +4,7 @@
         xmlns:views="clr-namespace:GinRummy.Client.Views"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
-        ShowsCloseButton="False">
+        HasCloseButton="False">
     <Grid Width="520" Background="{StaticResource BrsPageBackground}">
         <Border Style="{StaticResource StyDialogCard}">
             <StackPanel>

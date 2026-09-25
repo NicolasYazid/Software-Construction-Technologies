@@ -27,6 +27,8 @@ namespace GinRummy.Client.Views
         private const string UnsupportedImageKey = "Error_ValUnsupportedImage";
 
         private readonly ObservableCollection<SocialLinkDto> _socialLinks;
+        private SocialLinkDto _linkToRemove;
+        private SocialLinkDto _linkToReplace;
 
         /// <summary>
         /// Builds the screen with the current profile of the player.
@@ -91,16 +93,20 @@ namespace GinRummy.Client.Views
 
         private void OnUnlinkClick(object sender, RoutedEventArgs e)
         {
-            SocialLinkDto link = ((FrameworkElement)sender).DataContext as SocialLinkDto;
+            _linkToRemove = ((FrameworkElement)sender).DataContext as SocialLinkDto;
             GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.SocialLinkRemove);
-            confirmDialog.Closed += (source, arguments) =>
-            {
-                if (confirmDialog.IsConfirmed)
-                {
-                    _socialLinks.Remove(link);
-                }
-            };
+            confirmDialog.Closed += OnUnlinkConfirmClosed;
             ShowModal(confirmDialog);
+        }
+
+        private void OnUnlinkConfirmClosed(object sender, EventArgs e)
+        {
+            if (((GuiConfirmDialog)sender).IsConfirmed)
+            {
+                _socialLinks.Remove(_linkToRemove);
+            }
+
+            _linkToRemove = null;
         }
 
         private void OnSaveClick(object sender, RoutedEventArgs e)
@@ -145,17 +151,22 @@ namespace GinRummy.Client.Views
             }
             else
             {
+                _linkToReplace = existing;
                 GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.SocialLinkReplace);
-                confirmDialog.Closed += (source, arguments) =>
-                {
-                    if (confirmDialog.IsConfirmed)
-                    {
-                        _socialLinks.Remove(existing);
-                        AddSocialLink(platformName);
-                    }
-                };
+                confirmDialog.Closed += OnReplaceLinkConfirmClosed;
                 ShowModal(confirmDialog);
             }
+        }
+
+        private void OnReplaceLinkConfirmClosed(object sender, EventArgs e)
+        {
+            if (((GuiConfirmDialog)sender).IsConfirmed)
+            {
+                _socialLinks.Remove(_linkToReplace);
+                AddSocialLink(_linkToReplace.PlatformName);
+            }
+
+            _linkToReplace = null;
         }
 
         private void AddSocialLink(string platformName)

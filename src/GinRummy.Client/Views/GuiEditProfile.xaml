@@ -5,7 +5,7 @@
         xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
-        ShowsCloseButton="False">
+        HasCloseButton="False">
     <Grid Width="500" Height="780" Background="{StaticResource BrsPageBackground}">
         <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,4,0">
             <StackPanel Margin="40,30,34,32">

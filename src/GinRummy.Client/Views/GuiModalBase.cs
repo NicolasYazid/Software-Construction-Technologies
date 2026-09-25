@@ -27,7 +27,7 @@ namespace GinRummy.Client.Views
         {
             _localization = LocalizationProvider.Instance;
             _localization.PropertyChanged += OnLocalizationChanged;
-            ShowsCloseButton = true;
+            HasCloseButton = true;
             HorizontalAlignment = HorizontalAlignment.Center;
             VerticalAlignment = VerticalAlignment.Center;
             Loaded += OnModalLoaded;
@@ -42,19 +42,14 @@ namespace GinRummy.Client.Views
         /// Gets or sets whether the screen that hosts the modal adds a closing cross to its
         /// corner. The modals that already have a way to close leave it off.
         /// </summary>
-        public bool ShowsCloseButton { get; set; }
+        public bool HasCloseButton { get; set; }
 
-        /// <summary>
-        /// Gets the main screen that hosts the modal while it is open.
-        /// </summary>
         internal GuiWindowBase Host
         {
             get { return _host; }
         }
 
-        /// <summary>
-        /// Gets the layer of the host that holds the modal and the shade behind it.
-        /// </summary>
+        // The layer of the host that holds the modal and the shade behind it.
         internal UIElement Entry { get; private set; }
 
         /// <summary>
@@ -91,11 +86,6 @@ namespace GinRummy.Client.Views
             }
         }
 
-        /// <summary>
-        /// Records the screen that hosts the modal and the layer that holds it.
-        /// </summary>
-        /// <param name="host">Main screen that hosts the modal.</param>
-        /// <param name="entry">Layer of the host that holds the modal.</param>
         internal void AttachTo(GuiWindowBase host, UIElement entry)
         {
             _host = host;

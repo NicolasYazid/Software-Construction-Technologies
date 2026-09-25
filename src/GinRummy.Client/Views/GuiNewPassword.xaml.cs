@@ -84,8 +84,8 @@ namespace GinRummy.Client.Views
             // Matching the confirmation is the only check the client resolves on its own,
             // because it sends nothing to the server. The strength rules and the current
             // password itself are verified on the server, as CU-06 requires.
-            bool passwordsMatch = pwdNewPassword.Password == pwdConfirmPassword.Password;
-            if (passwordsMatch)
+            bool isPasswordConfirmed = pwdNewPassword.Password == pwdConfirmPassword.Password;
+            if (isPasswordConfirmed)
             {
                 lblErrorMessage.Visibility = Visibility.Collapsed;
                 ShowNextScreen();

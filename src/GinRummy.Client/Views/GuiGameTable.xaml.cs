@@ -179,8 +179,8 @@ namespace GinRummy.Client.Views
         {
             // A press that barely moves is a click that chooses the card; only a longer move
             // picks it up to reorder the hand (house rule 18).
-            if (e.LeftButton == MouseButtonState.Pressed && _pressedCard != null
-                && HasLeftClickArea(e.GetPosition(lstHand)))
+            bool isCardPressed = (e.LeftButton == MouseButtonState.Pressed) && (_pressedCard != null);
+            if (isCardPressed && HasLeftClickArea(e.GetPosition(lstHand)))
             {
                 CardDto draggedCard = _pressedCard;
                 _pressedCard = null;
@@ -192,7 +192,8 @@ namespace GinRummy.Client.Views
         {
             CardDto draggedCard = e.Data.GetData(typeof(CardDto)) as CardDto;
             CardDto targetCard = GetCard(e.OriginalSource);
-            if (draggedCard != null && targetCard != null && draggedCard != targetCard)
+            bool isDroppedOnCard = (draggedCard != null) && (targetCard != null);
+            if (isDroppedOnCard && (draggedCard != targetCard))
             {
                 _hand.Move(_hand.IndexOf(draggedCard), _hand.IndexOf(targetCard));
                 lstHand.SelectedItem = draggedCard;
@@ -223,17 +224,18 @@ namespace GinRummy.Client.Views
         private void OnForfeitClick(object sender, RoutedEventArgs e)
         {
             GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.Forfeit);
+            confirmDialog.Closed += OnForfeitConfirmClosed;
+            ShowModal(confirmDialog);
+        }
 
+        private void OnForfeitConfirmClosed(object sender, EventArgs e)
+        {
             // The server records the defeat (CU-26 steps 5 to 7); what the table does is return
             // the player to the lobby, as step 9 does. Cancelling leaves the match as it was.
-            confirmDialog.Closed += (source, arguments) =>
+            if (((GuiConfirmDialog)sender).IsConfirmed)
             {
-                if (confirmDialog.IsConfirmed)
-                {
-                    ReturnToLobby();
-                }
-            };
-            ShowModal(confirmDialog);
+                ReturnToLobby();
+            }
         }
 
         private void OnNextHandClick(object sender, RoutedEventArgs e)

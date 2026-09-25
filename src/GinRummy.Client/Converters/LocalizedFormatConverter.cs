@@ -65,7 +65,7 @@ namespace GinRummy.Client.Converters
         private static object FormatArgument(object argument, string argumentFormat, CultureInfo culture)
         {
             object formatted = argument;
-            if (argument == null || argument == DependencyProperty.UnsetValue)
+            if ((argument == null) || (argument == DependencyProperty.UnsetValue))
             {
                 formatted = string.Empty;
             }

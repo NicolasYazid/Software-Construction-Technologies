@@ -30,7 +30,7 @@ namespace GinRummy.Client.Views
         private readonly LocalizationProvider _localization;
         private readonly List<GuiModalBase> _modals;
         private Grid _modalLayer;
-        private bool _returnsToMenu;
+        private bool _isInPlaceOfMenu;
         private bool _isHandingOver;
         private bool _isClosed;
 
@@ -80,7 +80,7 @@ namespace GinRummy.Client.Views
         {
             Window mainMenu = Application.Current.MainWindow;
             CloseAllModals();
-            lobby._returnsToMenu = true;
+            lobby._isInPlaceOfMenu = true;
             lobby.Show();
             mainMenu.Hide();
 
@@ -91,21 +91,12 @@ namespace GinRummy.Client.Views
             }
         }
 
-        /// <summary>
-        /// Opens the next modal of a flow in the place of the current one.
-        /// </summary>
-        /// <param name="current">Modal that leaves.</param>
-        /// <param name="nextScreen">Modal that takes its place.</param>
         internal void ReplaceModal(GuiModalBase current, GuiModalBase nextScreen)
         {
             ShowModal(nextScreen);
             current.Close();
         }
 
-        /// <summary>
-        /// Takes a closed modal off the window.
-        /// </summary>
-        /// <param name="modal">Modal that closed.</param>
         internal void RemoveModal(GuiModalBase modal)
         {
             _modalLayer.Children.Remove(modal.Entry);
@@ -175,7 +166,7 @@ namespace GinRummy.Client.Views
         private static void ShowMainMenu()
         {
             GuiWindowBase mainMenu = Application.Current.MainWindow as GuiWindowBase;
-            if (mainMenu != null && !mainMenu._isClosed)
+            if ((mainMenu != null) && !mainMenu._isClosed)
             {
                 mainMenu.Show();
                 mainMenu.Activate();
@@ -209,7 +200,7 @@ namespace GinRummy.Client.Views
             frame.VerticalAlignment = modal.VerticalAlignment;
             frame.Effect = (Effect)FindResource(ShadowEffectKey);
             frame.Children.Add(modal);
-            if (modal.ShowsCloseButton)
+            if (modal.HasCloseButton)
             {
                 frame.Children.Add(BuildCloseButton(modal));
             }
@@ -252,7 +243,7 @@ namespace GinRummy.Client.Views
         // Escape closes the modal on top, as the cross of a window used to.
         private void OnWindowPreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape && _modals.Count > 0)
+            if ((e.Key == Key.Escape) && (_modals.Count > 0))
             {
                 _modals[_modals.Count - 1].Close();
                 e.Handled = true;
@@ -269,7 +260,7 @@ namespace GinRummy.Client.Views
 
             // A lobby that closes without handing over to another screen, because the player
             // left it, gives its place back to the main menu.
-            if (_returnsToMenu && !_isHandingOver)
+            if (_isInPlaceOfMenu && !_isHandingOver)
             {
                 ShowMainMenu();
             }

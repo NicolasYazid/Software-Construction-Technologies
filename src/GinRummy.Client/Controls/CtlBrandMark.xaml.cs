@@ -15,6 +15,8 @@ namespace GinRummy.Client.Controls
     /// </summary>
     public partial class CtlBrandMark : UserControl
     {
+        private const double DefaultMarkFontSize = 128.0;
+
         /// <summary>
         /// Size of the wordmark. The symbol scales with it.
         /// </summary>
@@ -23,7 +25,7 @@ namespace GinRummy.Client.Controls
                 "MarkFontSize",
                 typeof(double),
                 typeof(CtlBrandMark),
-                new PropertyMetadata(128.0, OnAppearanceChanged));
+                new PropertyMetadata(DefaultMarkFontSize, OnAppearanceChanged));
 
         /// <summary>
         /// Colour of the wordmark.

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 
 using GinRummy.Client.Models;
@@ -17,6 +18,7 @@ namespace GinRummy.Client.Views
         private const char PasswordMaskFiller = 'x';
 
         private readonly ObservableCollection<LinkedAccountDto> _linkedAccounts;
+        private string _pendingEmail;
 
         /// <summary>
         /// Builds the panel with the current settings of the account.
@@ -61,12 +63,9 @@ namespace GinRummy.Client.Views
             else
             {
                 lblChangeEmailTitle.Visibility = Visibility.Collapsed;
+                _pendingEmail = newEmail;
                 GuiVerifyEmail verifyEmail = new GuiVerifyEmail(VerificationPurpose.EmailChange, newEmail);
-                verifyEmail.Closed += (source, arguments) =>
-                {
-                    lblEmailAddress.Text = newEmail;
-                    lblEmailChanged.Visibility = Visibility.Visible;
-                };
+                verifyEmail.Closed += OnVerifyEmailClosed;
                 ShowModal(verifyEmail);
             }
         }
@@ -123,20 +122,27 @@ namespace GinRummy.Client.Views
         private void DisableTwoStep()
         {
             GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.TwoStepDisable);
-
-            // Cancelling returns the switch to where it was (CU-05 FA-02).
-            confirmDialog.Closed += (source, arguments) =>
-            {
-                if (confirmDialog.IsConfirmed)
-                {
-                    lblTwoStepDisabled.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    tglTwoStep.IsChecked = true;
-                }
-            };
+            confirmDialog.Closed += OnTwoStepDisableConfirmClosed;
             ShowModal(confirmDialog);
+        }
+
+        private void OnVerifyEmailClosed(object sender, EventArgs e)
+        {
+            lblEmailAddress.Text = _pendingEmail;
+            lblEmailChanged.Visibility = Visibility.Visible;
+        }
+
+        private void OnTwoStepDisableConfirmClosed(object sender, EventArgs e)
+        {
+            // Cancelling returns the switch to where it was (CU-05 FA-02).
+            if (((GuiConfirmDialog)sender).IsConfirmed)
+            {
+                lblTwoStepDisabled.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                tglTwoStep.IsChecked = true;
+            }
         }
 
         private void ReplaceLinkedAccount(object sender, bool isLinked)

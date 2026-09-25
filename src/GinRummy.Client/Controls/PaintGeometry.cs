@@ -15,11 +15,8 @@
         }
 
         internal double PatternScale { get; private set; }
-
         internal double[] Reaches { get; private set; }
-
         internal double[] Turns { get; private set; }
-
         internal double[] Shades { get; private set; }
     }
 }

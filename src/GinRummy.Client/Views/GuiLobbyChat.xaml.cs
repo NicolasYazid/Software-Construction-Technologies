@@ -25,6 +25,7 @@ namespace GinRummy.Client.Views
         private readonly DispatcherTimer _countdownTimer;
         private readonly LobbySnapshotDto _lobby;
         private TimeSpan _remainingBanTime;
+        private LobbyPlayerDto _friendToRemove;
 
         /// <summary>
         /// Builds the lobby with the state the player finds when entering.
@@ -174,16 +175,20 @@ namespace GinRummy.Client.Views
 
         private void OnRemoveFriendClick(object sender, RoutedEventArgs e)
         {
-            LobbyPlayerDto player = GetMenuPlayer(sender);
+            _friendToRemove = GetMenuPlayer(sender);
             GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.RemoveFriend);
-            confirmDialog.Closed += (source, arguments) =>
-            {
-                if (player != null && confirmDialog.IsConfirmed)
-                {
-                    RemoveFriend(player.Username);
-                }
-            };
+            confirmDialog.Closed += OnRemoveFriendConfirmClosed;
             ShowModal(confirmDialog);
+        }
+
+        private void OnRemoveFriendConfirmClosed(object sender, EventArgs e)
+        {
+            if ((_friendToRemove != null) && ((GuiConfirmDialog)sender).IsConfirmed)
+            {
+                RemoveFriend(_friendToRemove.Username);
+            }
+
+            _friendToRemove = null;
         }
 
         private void OnCancelChallengeClick(object sender, RoutedEventArgs e)

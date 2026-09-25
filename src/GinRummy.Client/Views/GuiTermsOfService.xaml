@@ -5,7 +5,7 @@
         xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
-        ShowsCloseButton="False">
+        HasCloseButton="False">
     <Grid Width="938" Height="635" Background="{StaticResource BrsPageBackground}">
         <Border Background="{StaticResource BrsSurface}" ctl:PixelShapeCommon.CornerSteps="5" Padding="60,52,60,52">
             <Grid>

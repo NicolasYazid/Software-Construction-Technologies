@@ -28,7 +28,7 @@ namespace GinRummy.Client.Converters
             string result = string.Empty;
             IFormattable number = values.Length > 1 ? values[0] as IFormattable : null;
             CultureInfo activeCulture = values.Length > 1 ? values[1] as CultureInfo : null;
-            if (number != null && activeCulture != null)
+            if ((number != null) && (activeCulture != null))
             {
                 result = number.ToString(parameter as string, activeCulture);
             }

@@ -243,7 +243,7 @@ namespace GinRummy.Client.Controls
         private void DrawBase(DrawingContext drawingContext, PixelFrame frame)
         {
             int depth = BaseDepth;
-            if (BaseBrush == null || depth <= FirstBlock)
+            if ((BaseBrush == null) || (depth <= FirstBlock))
             {
                 return;
             }

@@ -32,7 +32,7 @@ namespace GinRummy.Client.Converters
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             string result = string.Empty;
-            if (values.Length > 0 && values[0] is CardRank rank)
+            if ((values.Length > 0) && (values[0] is CardRank rank))
             {
                 result = ToLabel(rank, LocalizationProvider.Instance);
             }

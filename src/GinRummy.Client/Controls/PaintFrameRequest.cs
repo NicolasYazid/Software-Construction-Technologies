@@ -11,7 +11,6 @@ namespace GinRummy.Client.Controls
         internal double ElapsedSeconds { get; set; }
         internal double PatternScale { get; set; }
         internal PaintPalette Palette { get; set; }
-
         internal PaintGeometry Geometry { get; set; }
     }
 }

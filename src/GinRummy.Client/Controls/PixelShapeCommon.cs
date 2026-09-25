@@ -104,7 +104,7 @@ namespace GinRummy.Client.Controls
                 rows = (int)(size.Height / unit);
             }
 
-            if (columns >= smallestSide && rows >= smallestSide)
+            if ((columns >= smallestSide) && (rows >= smallestSide))
             {
                 frame = new PixelFrame
                 {

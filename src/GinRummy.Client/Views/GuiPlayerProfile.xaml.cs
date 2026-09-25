@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Windows;
 
 using GinRummy.Client.Models;
@@ -84,17 +85,18 @@ namespace GinRummy.Client.Views
         private void OnRemoveFriendClick(object sender, RoutedEventArgs e)
         {
             GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.RemoveFriend);
-
-            // Without the friendship, the profile offers a request again (CU-16 Post-3).
-            confirmDialog.Closed += (source, arguments) =>
-            {
-                if (confirmDialog.IsConfirmed)
-                {
-                    _profile.IsFriend = false;
-                    ApplyRelation();
-                }
-            };
+            confirmDialog.Closed += OnRemoveFriendConfirmClosed;
             ShowModal(confirmDialog);
+        }
+
+        private void OnRemoveFriendConfirmClosed(object sender, EventArgs e)
+        {
+            // Without the friendship, the profile offers a request again (CU-16 Post-3).
+            if (((GuiConfirmDialog)sender).IsConfirmed)
+            {
+                _profile.IsFriend = false;
+                ApplyRelation();
+            }
         }
 
         private void OnEditProfileClick(object sender, RoutedEventArgs e)
