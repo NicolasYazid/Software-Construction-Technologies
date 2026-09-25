@@ -8,7 +8,7 @@ namespace GinRummy.Client.Views
     /// recovery flow reaches this screen precisely when the player no longer knows the
     /// password that is in force.
     /// </summary>
-    public partial class GuiNewPassword : GuiWindowBase
+    public partial class GuiNewPassword : GuiModalBase
     {
         private const string TitleKeyRecovery = "NewPassword_LblTitle";
         private const string TitleKeyChange = "NewPassword_LblTitleChange";
@@ -50,7 +50,6 @@ namespace GinRummy.Client.Views
             {
                 string titleKey = ResolveTitleKey();
                 lblTitle.Text = Localization.GetText(titleKey);
-                Title = Localization.GetText(titleKey);
             }
         }
 

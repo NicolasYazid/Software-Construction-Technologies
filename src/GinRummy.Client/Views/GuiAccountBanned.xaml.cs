@@ -5,7 +5,7 @@ namespace GinRummy.Client.Views
     /// <summary>
     /// Banned account screen (P10). Serves CU-02 EX-05.
     /// </summary>
-    public partial class GuiAccountBanned : GuiWindowBase
+    public partial class GuiAccountBanned : GuiModalBase
     {
         /// <summary>
         /// Builds the screen for a permanent ban.
@@ -28,8 +28,7 @@ namespace GinRummy.Client.Views
         private void OnTermsOfServiceClick(object sender, RoutedEventArgs e)
         {
             GuiTermsOfService termsOfService = new GuiTermsOfService();
-            termsOfService.Owner = this;
-            termsOfService.ShowDialog();
+            ShowModal(termsOfService);
         }
     }
 }

@@ -5,7 +5,7 @@ namespace GinRummy.Client.Views
     /// <summary>
     /// Terms of service screen (P24). Opened from the banned account screen of CU-02 EX-05.
     /// </summary>
-    public partial class GuiTermsOfService : GuiWindowBase
+    public partial class GuiTermsOfService : GuiModalBase
     {
         /// <summary>
         /// Builds the terms of service screen.

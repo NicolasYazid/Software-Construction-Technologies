@@ -10,7 +10,7 @@ namespace GinRummy.Client.Views
     /// for the own one (FA-02) and for the reduced one of a guest (FA-04), and starts CU-12,
     /// CU-16 and CU-18 from its actions.
     /// </summary>
-    public partial class GuiPlayerProfile : GuiWindowBase
+    public partial class GuiPlayerProfile : GuiModalBase
     {
         private const string CountFormat = "N0";
         private const string RateFormat = "P0";
@@ -26,7 +26,6 @@ namespace GinRummy.Client.Views
             InitializeComponent();
             _profile = profile;
             DataContext = profile;
-            Title = profile.Username;
             ApplyRelation();
             RefreshFormattedText();
         }
@@ -71,8 +70,7 @@ namespace GinRummy.Client.Views
         private void OnReportClick(object sender, RoutedEventArgs e)
         {
             GuiReportPlayer reportPlayer = new GuiReportPlayer(_profile.Username);
-            reportPlayer.Owner = this;
-            reportPlayer.ShowDialog();
+            ShowModal(reportPlayer);
         }
 
         private void OnAddFriendClick(object sender, RoutedEventArgs e)
@@ -86,22 +84,23 @@ namespace GinRummy.Client.Views
         private void OnRemoveFriendClick(object sender, RoutedEventArgs e)
         {
             GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.RemoveFriend);
-            confirmDialog.Owner = this;
-            confirmDialog.ShowDialog();
 
             // Without the friendship, the profile offers a request again (CU-16 Post-3).
-            if (confirmDialog.IsConfirmed)
+            confirmDialog.Closed += (source, arguments) =>
             {
-                _profile.IsFriend = false;
-                ApplyRelation();
-            }
+                if (confirmDialog.IsConfirmed)
+                {
+                    _profile.IsFriend = false;
+                    ApplyRelation();
+                }
+            };
+            ShowModal(confirmDialog);
         }
 
         private void OnEditProfileClick(object sender, RoutedEventArgs e)
         {
             GuiEditProfile editProfile = new GuiEditProfile();
-            editProfile.Owner = this;
-            editProfile.ShowDialog();
+            ShowModal(editProfile);
         }
 
         private void OnCloseClick(object sender, RoutedEventArgs e)

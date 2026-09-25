@@ -5,7 +5,7 @@ namespace GinRummy.Client.Views
     /// <summary>
     /// Account created screen (P04). Closes the sign-up flow of CU-01.
     /// </summary>
-    public partial class GuiAccountCreated : GuiWindowBase
+    public partial class GuiAccountCreated : GuiModalBase
     {
         /// <summary>
         /// Builds the account created screen.

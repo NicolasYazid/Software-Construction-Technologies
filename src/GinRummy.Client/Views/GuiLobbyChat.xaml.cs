@@ -168,8 +168,7 @@ namespace GinRummy.Client.Views
             if (player != null)
             {
                 GuiReportPlayer reportPlayer = new GuiReportPlayer(player.Username);
-                reportPlayer.Owner = this;
-                reportPlayer.ShowDialog();
+                ShowModal(reportPlayer);
             }
         }
 
@@ -177,12 +176,14 @@ namespace GinRummy.Client.Views
         {
             LobbyPlayerDto player = GetMenuPlayer(sender);
             GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.RemoveFriend);
-            confirmDialog.Owner = this;
-            confirmDialog.ShowDialog();
-            if (player != null && confirmDialog.IsConfirmed)
+            confirmDialog.Closed += (source, arguments) =>
             {
-                RemoveFriend(player.Username);
-            }
+                if (player != null && confirmDialog.IsConfirmed)
+                {
+                    RemoveFriend(player.Username);
+                }
+            };
+            ShowModal(confirmDialog);
         }
 
         private void OnCancelChallengeClick(object sender, RoutedEventArgs e)
@@ -206,15 +207,13 @@ namespace GinRummy.Client.Views
         private void OnNotificationsClick(object sender, RoutedEventArgs e)
         {
             GuiNotifications notifications = new GuiNotifications();
-            notifications.Owner = this;
-            notifications.Show();
+            ShowModal(notifications);
         }
 
         private void OnSettingsClick(object sender, RoutedEventArgs e)
         {
             GuiProfilePanel profilePanel = new GuiProfilePanel();
-            profilePanel.Owner = this;
-            profilePanel.Show();
+            ShowModal(profilePanel);
         }
 
         private void OnMyProfileClick(object sender, RoutedEventArgs e)
@@ -230,15 +229,13 @@ namespace GinRummy.Client.Views
         private void OnRankingsClick(object sender, RoutedEventArgs e)
         {
             GuiRankings rankings = new GuiRankings();
-            rankings.Owner = this;
-            rankings.ShowDialog();
+            ShowModal(rankings);
         }
 
         private void OnHowToPlayClick(object sender, RoutedEventArgs e)
         {
             GuiHouseRules houseRules = new GuiHouseRules();
-            houseRules.Owner = this;
-            houseRules.ShowDialog();
+            ShowModal(houseRules);
         }
 
         private void OnScreenClosed(object sender, EventArgs e)
@@ -290,8 +287,7 @@ namespace GinRummy.Client.Views
         private void ShowProfile(PlayerProfileDto profile)
         {
             GuiPlayerProfile playerProfile = new GuiPlayerProfile(profile);
-            playerProfile.Owner = this;
-            playerProfile.ShowDialog();
+            ShowModal(playerProfile);
         }
 
         private void RemoveFriend(string username)

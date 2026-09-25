@@ -11,7 +11,7 @@ namespace GinRummy.Client.Views
     /// Notifications screen (P12). Lists the friend requests of CU-13 and answers them through
     /// CU-14 and CU-15. Its second tab is the sanctions screen (P13).
     /// </summary>
-    public partial class GuiNotifications : GuiWindowBase
+    public partial class GuiNotifications : GuiModalBase
     {
         private readonly ObservableCollection<FriendRequestDto> _friendRequests;
 
@@ -34,7 +34,7 @@ namespace GinRummy.Client.Views
             // makes while it loads is not a choice of the player.
             if (IsLoaded && tabSanctions.IsSelected)
             {
-                ReplaceInPlace(new GuiSanctions());
+                NavigateTo(new GuiSanctions());
             }
         }
 

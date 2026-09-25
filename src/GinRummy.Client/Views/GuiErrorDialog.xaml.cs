@@ -6,7 +6,7 @@ namespace GinRummy.Client.Views
     /// Error dialog (P22). Presents the data, network, session and game exceptions that the
     /// use cases send to it, each one with its own title, message and actions.
     /// </summary>
-    public partial class GuiErrorDialog : GuiWindowBase
+    public partial class GuiErrorDialog : GuiModalBase
     {
         private string _titleKey;
         private string _messageKey;
@@ -37,7 +37,6 @@ namespace GinRummy.Client.Views
             if (lblTitle != null)
             {
                 string title = Localization.GetText(_titleKey);
-                Title = title;
                 lblTitle.Text = title;
                 lblMessage.Text = Localization.GetText(_messageKey);
             }

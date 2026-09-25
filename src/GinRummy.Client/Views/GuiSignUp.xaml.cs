@@ -5,7 +5,7 @@ namespace GinRummy.Client.Views
     /// <summary>
     /// Sign-up screen (P02). Implements CU-01.
     /// </summary>
-    public partial class GuiSignUp : GuiWindowBase
+    public partial class GuiSignUp : GuiModalBase
     {
         private const string PasswordMismatchKey = "Error_ValPasswordMismatch";
 

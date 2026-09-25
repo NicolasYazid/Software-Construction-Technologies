@@ -15,7 +15,7 @@ namespace GinRummy.Client.Views
     /// Edit profile screen (P15). Serves CU-28, CU-29, CU-30, CU-31 and CU-32: the picture,
     /// the name, the biography and the social links of the player.
     /// </summary>
-    public partial class GuiEditProfile : GuiWindowBase
+    public partial class GuiEditProfile : GuiModalBase
     {
         private const int MaxBioLength = 500;
         private const long MaxImageBytes = 2L * 1024 * 1024;
@@ -70,7 +70,7 @@ namespace GinRummy.Client.Views
             // a filter is visible text that the dictionary does not carry.
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Filter = ImageFilter;
-            if (fileDialog.ShowDialog(this) == true)
+            if (fileDialog.ShowDialog(Window.GetWindow(this)) == true)
             {
                 ShowPicture(fileDialog.FileName);
             }
@@ -93,12 +93,14 @@ namespace GinRummy.Client.Views
         {
             SocialLinkDto link = ((FrameworkElement)sender).DataContext as SocialLinkDto;
             GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.SocialLinkRemove);
-            confirmDialog.Owner = this;
-            confirmDialog.ShowDialog();
-            if (confirmDialog.IsConfirmed)
+            confirmDialog.Closed += (source, arguments) =>
             {
-                _socialLinks.Remove(link);
-            }
+                if (confirmDialog.IsConfirmed)
+                {
+                    _socialLinks.Remove(link);
+                }
+            };
+            ShowModal(confirmDialog);
         }
 
         private void OnSaveClick(object sender, RoutedEventArgs e)
@@ -134,32 +136,37 @@ namespace GinRummy.Client.Views
         {
             string platformName = cmbPlatform.SelectedItem as string;
             SocialLinkDto existing = FindSocialLink(platformName);
-            bool isSaved = true;
 
             // A profile keeps one link per platform, so a second one replaces the first after
             // asking (CU-31 FA-03).
-            if (existing != null)
+            if (existing == null)
+            {
+                AddSocialLink(platformName);
+            }
+            else
             {
                 GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.SocialLinkReplace);
-                confirmDialog.Owner = this;
-                confirmDialog.ShowDialog();
-                isSaved = confirmDialog.IsConfirmed;
-                if (isSaved)
+                confirmDialog.Closed += (source, arguments) =>
                 {
-                    _socialLinks.Remove(existing);
-                }
+                    if (confirmDialog.IsConfirmed)
+                    {
+                        _socialLinks.Remove(existing);
+                        AddSocialLink(platformName);
+                    }
+                };
+                ShowModal(confirmDialog);
             }
+        }
 
-            if (isSaved)
-            {
-                SocialLinkDto link = new SocialLinkDto();
-                link.PlatformName = platformName;
-                link.Url = txtSocialUrl.Text.Trim();
-                _socialLinks.Add(link);
-                txtSocialUrl.Clear();
-                lblPlatform.Visibility = Visibility.Collapsed;
-                btnAddSocialLink.Visibility = Visibility.Visible;
-            }
+        private void AddSocialLink(string platformName)
+        {
+            SocialLinkDto link = new SocialLinkDto();
+            link.PlatformName = platformName;
+            link.Url = txtSocialUrl.Text.Trim();
+            _socialLinks.Add(link);
+            txtSocialUrl.Clear();
+            lblPlatform.Visibility = Visibility.Collapsed;
+            btnAddSocialLink.Visibility = Visibility.Visible;
         }
 
         private SocialLinkDto FindSocialLink(string platformName)

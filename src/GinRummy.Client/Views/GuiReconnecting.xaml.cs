@@ -8,7 +8,7 @@ namespace GinRummy.Client.Views
     /// Reconnection notice (P25). Opened by CU-26 EX-03 and EX-05 and by the NET-03
     /// exceptions of the rest of the use cases.
     /// </summary>
-    public partial class GuiReconnecting : GuiWindowBase
+    public partial class GuiReconnecting : GuiModalBase
     {
         // The length of the reconnection window is still an open decision of the team; this
         // value only drives the countdown until the server supplies the real one.

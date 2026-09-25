@@ -8,7 +8,7 @@ namespace GinRummy.Client.Views
     /// Two-step verification screen (P06). Serves CU-02 FA-04, CU-04 and CU-06, each with its
     /// own instruction key, because one key cannot hold three different values.
     /// </summary>
-    public partial class GuiTwoStep : GuiWindowBase
+    public partial class GuiTwoStep : GuiModalBase
     {
         private const int CodeLifetimeSeconds = 300;
         private const int TimerIntervalSeconds = 1;

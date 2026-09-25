@@ -14,7 +14,7 @@ namespace GinRummy.Client.Views
     /// ones in force and counts down how long they have left. Its first tab is the
     /// notifications screen (P12).
     /// </summary>
-    public partial class GuiSanctions : GuiWindowBase
+    public partial class GuiSanctions : GuiModalBase
     {
         private const int TimerIntervalSeconds = 1;
 
@@ -62,7 +62,7 @@ namespace GinRummy.Client.Views
         {
             if (IsLoaded && tabFriendRequests.IsSelected)
             {
-                ReplaceInPlace(new GuiNotifications());
+                NavigateTo(new GuiNotifications());
             }
         }
 

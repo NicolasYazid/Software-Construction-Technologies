@@ -14,7 +14,7 @@ namespace GinRummy.Client.Views
     /// among friends (FA-01), the search of a player (FA-02) and the row of the player kept at
     /// the foot of the table when its place lies beyond it (FA-03).
     /// </summary>
-    public partial class GuiRankings : GuiWindowBase
+    public partial class GuiRankings : GuiModalBase
     {
         private const int PodiumSize = 3;
 

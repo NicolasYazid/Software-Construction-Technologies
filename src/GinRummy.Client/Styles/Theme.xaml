@@ -1474,6 +1474,9 @@
          dictionary places its texts in the panel. The veil keeps the panel in sight while it
          is open. -->
     <SolidColorBrush x:Key="BrsOverlay" Color="#D90A0907" />
+    <!-- Shade laid over a main screen while one of its modals is open: the screen stays in
+         sight behind the modal but reads as out of reach. -->
+    <SolidColorBrush x:Key="BrsModalBackdrop" Color="#A60A0907" />
 
     <Style x:Key="StySettingSection" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource FntBody}" />

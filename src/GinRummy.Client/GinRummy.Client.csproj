@@ -285,6 +285,7 @@
     <Compile Include="Localization\CultureOption.cs" />
     <Compile Include="Converters\EmptyTextToVisibilityConverter.cs" />
     <Compile Include="Converters\UpperCaseConverter.cs" />
+    <Compile Include="Views\GuiModalBase.cs" />
     <Compile Include="Views\GuiWindowBase.cs" />
     <Compile Include="Views\VerificationPurpose.cs" />
     <Compile Include="Views\TwoStepPurpose.cs" />

@@ -8,7 +8,7 @@ namespace GinRummy.Client.Views
     /// Suspended account screen (P09). Serves CU-02 EX-04, CU-22 EX-05, CU-23 EX-09 and
     /// CU-33 FA-04.
     /// </summary>
-    public partial class GuiAccountSuspended : GuiWindowBase
+    public partial class GuiAccountSuspended : GuiModalBase
     {
         private const int TimerIntervalSeconds = 1;
         private const string TimeRemainingKey = "AccountSuspended_LblTimeRemaining";

@@ -5,7 +5,7 @@ namespace GinRummy.Client.Views
     /// <summary>
     /// Password recovery screen (P07). Implements the first step of CU-08.
     /// </summary>
-    public partial class GuiRecoverPassword : GuiWindowBase
+    public partial class GuiRecoverPassword : GuiModalBase
     {
         /// <summary>
         /// Builds the password recovery screen.

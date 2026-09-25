@@ -18,12 +18,12 @@ namespace GinRummy.Client.Views
 
         private void OnLogInClick(object sender, RoutedEventArgs e)
         {
-            OpenOver(new GuiLogIn());
+            ShowModal(new GuiLogIn());
         }
 
         private void OnCreateAccountClick(object sender, RoutedEventArgs e)
         {
-            OpenOver(new GuiSignUp());
+            ShowModal(new GuiSignUp());
         }
 
         private void OnPlayAsGuestClick(object sender, RoutedEventArgs e)
@@ -34,8 +34,7 @@ namespace GinRummy.Client.Views
         private void OnHowToPlayClick(object sender, RoutedEventArgs e)
         {
             GuiHouseRules houseRules = new GuiHouseRules();
-            houseRules.Owner = this;
-            houseRules.ShowDialog();
+            ShowModal(houseRules);
         }
 
         private void OnExitClick(object sender, RoutedEventArgs e)

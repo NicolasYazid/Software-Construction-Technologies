@@ -11,7 +11,7 @@ namespace GinRummy.Client.Views
     /// and of password of CU-06, the second factor of CU-04 and CU-05, the language of CU-20
     /// and the closing of the session of CU-03.
     /// </summary>
-    public partial class GuiProfilePanel : GuiWindowBase
+    public partial class GuiProfilePanel : GuiModalBase
     {
         private const int PasswordMaskLength = 10;
         private const char PasswordMaskFiller = 'x';
@@ -62,18 +62,19 @@ namespace GinRummy.Client.Views
             {
                 lblChangeEmailTitle.Visibility = Visibility.Collapsed;
                 GuiVerifyEmail verifyEmail = new GuiVerifyEmail(VerificationPurpose.EmailChange, newEmail);
-                verifyEmail.Owner = this;
-                verifyEmail.ShowDialog();
-                lblEmailAddress.Text = newEmail;
-                lblEmailChanged.Visibility = Visibility.Visible;
+                verifyEmail.Closed += (source, arguments) =>
+                {
+                    lblEmailAddress.Text = newEmail;
+                    lblEmailChanged.Visibility = Visibility.Visible;
+                };
+                ShowModal(verifyEmail);
             }
         }
 
         private void OnChangePasswordClick(object sender, RoutedEventArgs e)
         {
             GuiNewPassword newPassword = new GuiNewPassword(true);
-            newPassword.Owner = this;
-            newPassword.ShowDialog();
+            ShowModal(newPassword);
         }
 
         private void OnTwoStepClick(object sender, RoutedEventArgs e)
@@ -103,7 +104,7 @@ namespace GinRummy.Client.Views
         {
             // Closing the session closes the lobby too, which leaves the player in the main menu
             // that opened it (CU-03 step 5).
-            Window lobby = Owner;
+            GuiWindowBase lobby = Host;
             Close();
             if (lobby != null)
             {
@@ -116,25 +117,26 @@ namespace GinRummy.Client.Views
             // The switch turns on only once the code of CU-04 is confirmed in the verification
             // screen, which is the one that talks to the server.
             GuiTwoStep twoStep = new GuiTwoStep(TwoStepPurpose.EnableTwoStep);
-            twoStep.Owner = this;
-            twoStep.ShowDialog();
+            ShowModal(twoStep);
         }
 
         private void DisableTwoStep()
         {
             GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.TwoStepDisable);
-            confirmDialog.Owner = this;
-            confirmDialog.ShowDialog();
 
             // Cancelling returns the switch to where it was (CU-05 FA-02).
-            if (confirmDialog.IsConfirmed)
+            confirmDialog.Closed += (source, arguments) =>
             {
-                lblTwoStepDisabled.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                tglTwoStep.IsChecked = true;
-            }
+                if (confirmDialog.IsConfirmed)
+                {
+                    lblTwoStepDisabled.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    tglTwoStep.IsChecked = true;
+                }
+            };
+            ShowModal(confirmDialog);
         }
 
         private void ReplaceLinkedAccount(object sender, bool isLinked)

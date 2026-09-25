@@ -6,7 +6,7 @@ namespace GinRummy.Client.Views
     /// Report player dialog (P17). Implements the screen of CU-18: the player picks one reason
     /// of the catalogue, may describe what happened and sends the report.
     /// </summary>
-    public partial class GuiReportPlayer : GuiWindowBase
+    public partial class GuiReportPlayer : GuiModalBase
     {
         /// <summary>
         /// Builds the dialog for the player being reported.

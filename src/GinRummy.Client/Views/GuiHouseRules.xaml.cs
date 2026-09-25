@@ -10,7 +10,7 @@ namespace GinRummy.Client.Views
     /// written into the translated text. It opens over the screen that asked for it and returns
     /// to it when closed.
     /// </summary>
-    public partial class GuiHouseRules : GuiWindowBase
+    public partial class GuiHouseRules : GuiModalBase
     {
         /// <summary>
         /// Builds the screen with the values of the game the rules quote.

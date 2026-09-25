@@ -66,8 +66,7 @@ namespace GinRummy.Client.Views
         private void OnHowToPlayClick(object sender, RoutedEventArgs e)
         {
             GuiHouseRules houseRules = new GuiHouseRules();
-            houseRules.Owner = this;
-            houseRules.ShowDialog();
+            ShowModal(houseRules);
         }
 
         private void OnScreenClosed(object sender, EventArgs e)

@@ -6,7 +6,7 @@ namespace GinRummy.Client.Views
     /// Confirmation dialog (P23). Asks before the destructive actions of CU-03, CU-05, CU-16,
     /// CU-26, CU-31 and CU-32, each one with its own title, warning and confirming button.
     /// </summary>
-    public partial class GuiConfirmDialog : GuiWindowBase
+    public partial class GuiConfirmDialog : GuiModalBase
     {
         private const string MessageStyleKey = "StyDialogMessage";
         private const string WarningStyleKey = "StyDialogWarning";
@@ -48,7 +48,6 @@ namespace GinRummy.Client.Views
             if (lblTitle != null)
             {
                 string title = Localization.GetText(_titleKey);
-                Title = title;
                 lblTitle.Text = title;
                 lblMessage.Text = Localization.GetText(_messageKey);
                 btnConfirm.Content = Localization.GetText(_confirmKey).ToUpper(Localization.CurrentCulture);

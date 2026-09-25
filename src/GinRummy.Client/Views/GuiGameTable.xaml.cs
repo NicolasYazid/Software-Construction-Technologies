@@ -217,22 +217,23 @@ namespace GinRummy.Client.Views
             // The rules open over the table without pausing the match or changing the turn
             // (CU-21 FA-01).
             GuiHouseRules houseRules = new GuiHouseRules();
-            houseRules.Owner = this;
-            houseRules.ShowDialog();
+            ShowModal(houseRules);
         }
 
         private void OnForfeitClick(object sender, RoutedEventArgs e)
         {
             GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.Forfeit);
-            confirmDialog.Owner = this;
-            confirmDialog.ShowDialog();
 
             // The server records the defeat (CU-26 steps 5 to 7); what the table does is return
             // the player to the lobby, as step 9 does. Cancelling leaves the match as it was.
-            if (confirmDialog.IsConfirmed)
+            confirmDialog.Closed += (source, arguments) =>
             {
-                ReturnToLobby();
-            }
+                if (confirmDialog.IsConfirmed)
+                {
+                    ReturnToLobby();
+                }
+            };
+            ShowModal(confirmDialog);
         }
 
         private void OnNextHandClick(object sender, RoutedEventArgs e)

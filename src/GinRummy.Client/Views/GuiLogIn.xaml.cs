@@ -5,7 +5,7 @@ namespace GinRummy.Client.Views
     /// <summary>
     /// Sign-in screen (P05). Implements CU-02.
     /// </summary>
-    public partial class GuiLogIn : GuiWindowBase
+    public partial class GuiLogIn : GuiModalBase
     {
         /// <summary>
         /// Builds the sign-in screen.
