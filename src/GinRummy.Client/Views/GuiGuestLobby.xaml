@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:views="clr-namespace:GinRummy.Client.Views"
         xmlns:models="clr-namespace:GinRummy.Client.Models"
+        xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
         Title="{Binding [Shared_AppTitle], Source={StaticResource Loc}}"
         SizeToContent="WidthAndHeight"
         ResizeMode="CanMinimize"
@@ -31,7 +32,7 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid Width="1360" Height="780" Background="{StaticResource BrsPageBackground}">
+    <Grid Width="1360" Height="780" Background="{StaticResource BrsMenuRoot}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="104" />
             <ColumnDefinition Width="*" />
@@ -41,6 +42,14 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
+        <!-- The paint of the menu, with the same scale, so the panels show it through their
+             translucent face exactly as the panels of the menu do. -->
+        <ctl:CtlPaintBackground Grid.RowSpan="2" Grid.ColumnSpan="3"
+                                BlockResolution="250" PatternScale="1.45"
+                                DeepColour="{StaticResource ClrMenuLiquidDeep}"
+                                MidColour="{StaticResource ClrMenuLiquidMid}"
+                                GlowColour="{StaticResource ClrMenuLiquidGlow}" />
 
         <!-- Rail: a guest has no profile nor settings, only the temporary name the server gave
              it, which is an identifier and never translated. -->

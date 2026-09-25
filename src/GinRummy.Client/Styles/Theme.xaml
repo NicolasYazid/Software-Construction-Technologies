@@ -747,11 +747,9 @@
 
     <!-- ============ Lobby and its panels (P11, P12, P13, P16, P17) ============ -->
 
-    <!-- The lobby is a room of green panels over the brown of the page. The panels keep the
-         green they had over the old page, and the rail takes a darker green so that it frames
-         the room instead of competing with it. -->
+    <!-- The lobbies stand on the moving paint of the menu. The rail takes a dark green so
+         that it frames the room instead of competing with it. -->
     <SolidColorBrush x:Key="BrsLobbyRail" Color="#FF041710" />
-    <SolidColorBrush x:Key="BrsLobbyGlass" Color="#99103A28" />
     <SolidColorBrush x:Key="BrsLobbyPanel" Color="#FF101C15" />
     <SolidColorBrush x:Key="BrsLobbyRule" Color="#33EDE4DC" />
     <SolidColorBrush x:Key="BrsLobbyRowOver" Color="#1FEDE4DC" />
@@ -762,11 +760,10 @@
         <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="5" />
     </Style>
 
-    <!-- The panels of the lobbies are the panels of the menu: a translucent face that lets the
-         floor show through, the ink base beneath and the same deep shadow. The face is green so
-         that, over the brown floor, the panel still reads as green. -->
+    <!-- The panels of the lobbies are the panels of the menu: the same translucent face that
+         lets the paint behind show through, the ink base beneath and the same deep shadow. -->
     <Style x:Key="StyLobbyGlassPanel" TargetType="Border" BasedOn="{StaticResource StyLobbyPanel}">
-        <Setter Property="Background" Value="{StaticResource BrsLobbyGlass}" />
+        <Setter Property="Background" Value="{StaticResource BrsMenuPanel}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
         <Setter Property="BorderThickness" Value="0,0,0,4" />
         <Setter Property="Effect" Value="{StaticResource EfxPanelShadow}" />
