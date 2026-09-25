@@ -11,11 +11,20 @@
         TextOptions.TextFormattingMode="Display">
     <Grid Width="938" Height="607" Background="{StaticResource BrsSurface}">
 
-        <Border Background="{StaticResource BrsArtworkPanel}"
-                HorizontalAlignment="Right" Width="469">
-            <ctl:CtlBrandMark MarkFontSize="46" MarkForeground="{StaticResource BrsArtworkLogo}"
+        <!-- The same painted panel as the one beside the log in, stretched to the height of
+             the screen through the canvas that never reports the size of the paint. -->
+        <Grid HorizontalAlignment="Right" Width="469" ClipToBounds="True">
+            <Canvas>
+                <ctl:CtlPaintBackground Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                                        DeepColour="{StaticResource ClrArtworkDeep}"
+                                        MidColour="{StaticResource ClrArtworkMid}"
+                                        GlowColour="{StaticResource ClrArtworkGlow}" />
+            </Canvas>
+            <ctl:CtlBrandMark MarkFontSize="46" MarkForeground="{StaticResource BrsMenuLight}"
+                              Effect="{StaticResource EfxTextShadow}"
                               HorizontalAlignment="Center" VerticalAlignment="Center" />
-        </Border>
+        </Grid>
 
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top"
                     Width="380" Margin="40,161,0,0">
