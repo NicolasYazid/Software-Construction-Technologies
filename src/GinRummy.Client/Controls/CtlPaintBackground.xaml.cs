@@ -199,30 +199,17 @@ namespace GinRummy.Client.Controls
         }
 
         /// <summary>
-        /// Paints a single frame of the field, with no movement, into a frozen bitmap, for the
-        /// places where the paint is a picture and not a background, as the back of the cards.
+        /// Paints a single frame of the field, with no movement, into the buffer of the
+        /// request, for the places where the paint is a picture and not a background, as the
+        /// back of the cards.
         /// </summary>
-        /// <param name="request">Size, reach, moment and palette of the frame.</param>
-        /// <returns>The frame as a bitmap that every window can share.</returns>
-        internal static BitmapSource PaintStill(PaintFrameRequest request)
+        /// <param name="request">Buffer, size, reach, moment and palette of the frame.</param>
+        internal static void PaintStillFrame(PaintFrameRequest request)
         {
             for (int rowIndex = 0; rowIndex < request.Height; rowIndex++)
             {
                 DrawRow(rowIndex, request);
             }
-
-            BitmapSource still = BitmapSource.Create(
-                request.Width,
-                request.Height,
-                BitmapDotsPerInch,
-                BitmapDotsPerInch,
-                PixelFormats.Pbgra32,
-                null,
-                request.Buffer,
-                request.Width * BytesPerPixel);
-            still.Freeze();
-
-            return still;
         }
 
         private static void OnBlockResolutionChanged(

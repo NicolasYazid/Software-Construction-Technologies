@@ -1997,9 +1997,9 @@
     <SolidColorBrush x:Key="BrsTableSurface" Color="#801A1712" />
 
     <!-- The back of a card is the spiral of the backgrounds, still and in the reds of the
-         buttons, stretched without smoothing so its blocks stay square. -->
-    <ImageBrush x:Key="BrsCardBack" ImageSource="{x:Static ctl:CardBackCommon.Surface}"
-                Stretch="UniformToFill" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+         buttons. Each size of card has its own surface, already at the size of the card. -->
+    <ImageBrush x:Key="BrsCardBack" ImageSource="{x:Static ctl:CardBackCommon.Surface}" Stretch="Fill" />
+    <ImageBrush x:Key="BrsCardBackLarge" ImageSource="{x:Static ctl:CardBackCommon.Large}" Stretch="Fill" />
 
     <Style x:Key="StyCardFace" TargetType="Border">
         <Setter Property="Width" Value="62" />
@@ -2027,6 +2027,7 @@
         <Setter Property="Height" Value="78" />
         <Setter Property="Margin" Value="2,0,2,0" />
         <Setter Property="Background" Value="{StaticResource BrsCardBack}" />
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="NearestNeighbor" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
         <Setter Property="BorderThickness" Value="1,1,1,3" />
         <Setter Property="CornerRadius" Value="4" />
@@ -2034,6 +2035,7 @@
     </Style>
 
     <Style x:Key="StyCardBackLarge" TargetType="Border" BasedOn="{StaticResource StyCardBack}">
+        <Setter Property="Background" Value="{StaticResource BrsCardBackLarge}" />
         <Setter Property="Width" Value="92" />
         <Setter Property="Height" Value="130" />
         <Setter Property="Margin" Value="0" />
