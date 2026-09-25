@@ -199,6 +199,7 @@
       <DependentUpon>CtlPaintBackground.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\PaintMix.cs" />
+    <Compile Include="Controls\CardBackCommon.cs" />
     <Compile Include="Controls\PaintPalette.cs" />
     <Compile Include="Controls\PaintFrameRequest.cs" />
     <Compile Include="Controls\CtlPixelSurface.cs" />

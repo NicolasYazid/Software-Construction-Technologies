@@ -1996,16 +1996,10 @@
     <SolidColorBrush x:Key="BrsCardInkRed" Color="#FFA33A2A" />
     <SolidColorBrush x:Key="BrsTableSurface" Color="#801A1712" />
 
-    <!-- The back of a card is the red of the buttons with a small check of gold dots. -->
-    <DrawingBrush x:Key="BrsCardBack" TileMode="Tile"
-                  Viewport="0,0,8,8" ViewportUnits="Absolute" Viewbox="0,0,8,8" ViewboxUnits="Absolute">
-        <DrawingBrush.Drawing>
-            <DrawingGroup>
-                <GeometryDrawing Brush="#FF8B2C1F" Geometry="M0,0 H8 V8 H0 Z" />
-                <GeometryDrawing Brush="#FFD1A954" Geometry="M0,0 H2 V2 H0 Z M4,4 H6 V6 H4 Z" />
-            </DrawingGroup>
-        </DrawingBrush.Drawing>
-    </DrawingBrush>
+    <!-- The back of a card is the spiral of the backgrounds, still and in the reds of the
+         buttons, stretched without smoothing so its blocks stay square. -->
+    <ImageBrush x:Key="BrsCardBack" ImageSource="{x:Static ctl:CardBackCommon.Surface}"
+                Stretch="UniformToFill" RenderOptions.BitmapScalingMode="NearestNeighbor" />
 
     <Style x:Key="StyCardFace" TargetType="Border">
         <Setter Property="Width" Value="62" />
