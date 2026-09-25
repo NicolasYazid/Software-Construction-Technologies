@@ -23,6 +23,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
+    <Prefer32Bit>false</Prefer32Bit>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -32,6 +33,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
+    <Prefer32Bit>false</Prefer32Bit>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -200,6 +202,7 @@
     </Compile>
     <Compile Include="Controls\PaintMix.cs" />
     <Compile Include="Controls\CardBackCommon.cs" />
+    <Compile Include="Controls\PaintGeometry.cs" />
     <Compile Include="Controls\PaintPalette.cs" />
     <Compile Include="Controls\PaintFrameRequest.cs" />
     <Compile Include="Controls\CtlPixelSurface.cs" />

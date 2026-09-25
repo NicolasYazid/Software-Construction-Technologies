@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 
+using GinRummy.Client.Controls;
 using GinRummy.Client.Localization;
 
 namespace GinRummy.Client.Views
@@ -138,13 +139,16 @@ namespace GinRummy.Client.Views
 
         /// <summary>
         /// Opens a main screen over this one, which stays visible beneath it, as the match
-        /// does over the lobby.
+        /// does over the lobby. The paint of this screen holds still while the other one
+        /// covers it, so the two screens do not animate at the same time.
         /// </summary>
         /// <param name="nextScreen">Screen that opens over this one.</param>
         protected void OpenOver(GuiWindowBase nextScreen)
         {
             nextScreen.Owner = this;
             nextScreen.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            PausePaints(this, true);
+            nextScreen.Closed += (sender, e) => PausePaints(this, false);
             nextScreen.Show();
         }
 
@@ -175,6 +179,24 @@ namespace GinRummy.Client.Views
             {
                 mainMenu.Show();
                 mainMenu.Activate();
+            }
+        }
+
+        private static void PausePaints(DependencyObject root, bool isPaused)
+        {
+            int childCount = VisualTreeHelper.GetChildrenCount(root);
+            for (int childIndex = 0; childIndex < childCount; childIndex++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(root, childIndex);
+                CtlPaintBackground paint = child as CtlPaintBackground;
+                if (paint != null)
+                {
+                    paint.IsPaused = isPaused;
+                }
+                else
+                {
+                    PausePaints(child, isPaused);
+                }
             }
         }
 
