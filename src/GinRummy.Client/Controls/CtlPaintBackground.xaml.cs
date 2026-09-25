@@ -32,6 +32,7 @@ namespace GinRummy.Client.Controls
         private const int AlphaShift = 24;
 
         private const int DefaultShortSide = 150;
+        private const double FrameInterval = 1.0 / 24.0;
         private const double DefaultPatternScale = 1.0;
         private const int MinimumSideInPixels = 2;
         private const double BitmapDotsPerInch = 96.0;
@@ -135,11 +136,14 @@ namespace GinRummy.Client.Controls
 
         private WriteableBitmap _surface;
         private byte[] _frameBuffer;
+        private PaintGeometry _geometry;
         private int _pixelWidth;
         private int _pixelHeight;
         private volatile bool _isDrawing;
         private volatile bool _hasFinishedFrame;
+        private double _lastFrameSeconds;
         private bool _isSubscribedToRendering;
+        private bool _isPaused;
 
         /// <summary>
         /// Builds the control and leaves it stopped until it becomes visible.
@@ -198,6 +202,43 @@ namespace GinRummy.Client.Controls
             set { SetValue(GlowColourProperty, value); }
         }
 
+        /// <summary>
+        /// Gets or sets whether the paint holds its last frame instead of moving, for the
+        /// times another screen covers the one that hosts it.
+        /// </summary>
+        public bool IsPaused
+        {
+            get
+            {
+                return _isPaused;
+            }
+
+            set
+            {
+                _isPaused = value;
+                if (_isPaused)
+                {
+                    StopAnimation();
+                }
+                else if (IsVisible)
+                {
+                    StartAnimation();
+                }
+            }
+        }
+
+        // Paints a single frame of the field, with no movement, into the buffer of the request,
+        // for the places where the paint is a picture and not a background, as the back of the
+        // cards.
+        internal static void PaintStillFrame(PaintFrameRequest request)
+        {
+            request.Geometry = BuildGeometry(request.Width, request.Height, request.PatternScale);
+            for (int rowIndex = 0; rowIndex < request.Height; rowIndex++)
+            {
+                DrawRow(rowIndex, request);
+            }
+        }
+
         private static void OnBlockResolutionChanged(
             DependencyObject source,
             DependencyPropertyChangedEventArgs arguments)
@@ -216,7 +257,7 @@ namespace GinRummy.Client.Controls
 
         private void OnControlVisibilityChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (IsVisible)
+            if (IsVisible && !_isPaused)
             {
                 StartAnimation();
             }
@@ -279,6 +320,7 @@ namespace GinRummy.Client.Controls
             _pixelWidth = Math.Max(MinimumSideInPixels, width);
             _pixelHeight = Math.Max(MinimumSideInPixels, height);
             _frameBuffer = new byte[_pixelWidth * _pixelHeight * BytesPerPixel];
+            _geometry = null;
             _hasFinishedFrame = false;
             _surface = new WriteableBitmap(
                 _pixelWidth,
@@ -340,14 +382,29 @@ namespace GinRummy.Client.Controls
                 return;
             }
 
+            // The paint moves slowly, so two dozen frames a second look as smooth as the rate
+            // of the screen and leave most of the processor to the rest of the client.
+            double elapsedSeconds = _clock.Elapsed.TotalSeconds;
+            if (elapsedSeconds - _lastFrameSeconds < FrameInterval)
+            {
+                return;
+            }
+
+            _lastFrameSeconds = elapsedSeconds;
+            if ((_geometry == null) || !_geometry.PatternScale.Equals(PatternScale))
+            {
+                _geometry = BuildGeometry(_pixelWidth, _pixelHeight, PatternScale);
+            }
+
             PaintFrameRequest request = new PaintFrameRequest
             {
                 Buffer = _frameBuffer,
                 Width = _pixelWidth,
                 Height = _pixelHeight,
-                ElapsedSeconds = _clock.Elapsed.TotalSeconds,
+                ElapsedSeconds = elapsedSeconds,
                 PatternScale = PatternScale,
-                Palette = new PaintPalette(DeepColour, MidColour, GlowColour)
+                Palette = new PaintPalette(DeepColour, MidColour, GlowColour),
+                Geometry = _geometry
             };
 
             _isDrawing = true;
@@ -367,33 +424,59 @@ namespace GinRummy.Client.Controls
             }
         }
 
-        private static void DrawRow(int rowIndex, PaintFrameRequest request)
+        // Measures what each pixel keeps from frame to frame: how far it is from the centre,
+        // the angle it starts turning from, which grows with that distance and is what curves
+        // the strokes, and the shade of the frame.
+        private static PaintGeometry BuildGeometry(int width, int height, double patternScale)
         {
+            PaintGeometry geometry = new PaintGeometry(width * height, patternScale);
+
             // The two axes are divided by the same number so that the field keeps its shape on
             // any proportion of window; dividing each by its own side would flatten the spiral
             // into an ellipse. The centre of the surface is the centre of the spiral.
-            double diagonal = Math.Sqrt((request.Width * request.Width)
-                + (request.Height * request.Height));
-            double reach = diagonal / request.PatternScale;
-            double centreX = request.Width * Half;
-            double centreY = request.Height * Half;
-            double unitY = (rowIndex - centreY) / reach;
+            double diagonal = Math.Sqrt((width * width) + (height * height));
+            double reachScale = diagonal / patternScale;
+            double centreX = width * Half;
+            double centreY = height * Half;
 
             // The frame of shade is measured on the short side and not on the reach of the
             // field, so it falls on the same place of the surface however far the paint reaches
             // into the field and whichever movement is drawn underneath it.
-            double shortSide = Math.Min(request.Width, request.Height);
-            double shadeY = (rowIndex - centreY) / shortSide;
-            int rowStart = rowIndex * request.Width * BytesPerPixel;
+            double shortSide = Math.Min(width, height);
+
+            for (int rowIndex = 0; rowIndex < height; rowIndex++)
+            {
+                double unitY = (rowIndex - centreY) / reachScale;
+                double shadeY = (rowIndex - centreY) / shortSide;
+                for (int columnIndex = 0; columnIndex < width; columnIndex++)
+                {
+                    double unitX = (columnIndex - centreX) / reachScale;
+                    double shadeX = (columnIndex - centreX) / shortSide;
+                    double reach = Math.Sqrt((unitX * unitX) + (unitY * unitY));
+                    int pixel = (rowIndex * width) + columnIndex;
+                    geometry.Reaches[pixel] = reach;
+                    geometry.Turns[pixel] = Math.Atan2(unitY, unitX) + SpinOffset
+                        - (SpinEase * SpinReach * ((SpinAmount * reach) + (Unit - SpinAmount)));
+                    geometry.Shades[pixel] = ComputeShade(Math.Sqrt((shadeX * shadeX) + (shadeY * shadeY)));
+                }
+            }
+
+            return geometry;
+        }
+
+        private static void DrawRow(int rowIndex, PaintFrameRequest request)
+        {
+            PaintGeometry geometry = request.Geometry;
+            double spin = request.ElapsedSeconds * SpinEase * SpinSpeed;
+            int rowStart = rowIndex * request.Width;
 
             for (int columnIndex = 0; columnIndex < request.Width; columnIndex++)
             {
-                double unitX = (columnIndex - centreX) / reach;
-                double shadeX = (columnIndex - centreX) / shortSide;
-                double shade = ComputeShade(Math.Sqrt((shadeX * shadeX) + (shadeY * shadeY)));
-                PaintMix mix = ComputeMix(unitX, unitY, request.ElapsedSeconds);
-                int packed = request.Palette.Blend(mix, shade);
-                WritePixel(request.Buffer, rowStart + (columnIndex * BytesPerPixel), packed);
+                int pixel = rowStart + columnIndex;
+                double turn = geometry.Turns[pixel] + spin;
+                PaintMix mix = ComputeMix(geometry.Reaches[pixel], turn, request.ElapsedSeconds);
+                int packed = request.Palette.Blend(mix, geometry.Shades[pixel]);
+                WritePixel(request.Buffer, pixel * BytesPerPixel, packed);
             }
         }
 
@@ -420,17 +503,11 @@ namespace GinRummy.Client.Controls
             return Clamp(head + tail, Zero, PaintCeiling);
         }
 
-        // The point is first turned around the centre by an angle that grows with its distance,
-        // which is what curves the strokes, and the result is then folded on itself five times.
-        // Each fold displaces the point by a wave that reads the point itself, so the field
-        // never repeats and the seams of a plain swirl disappear.
-        private static PaintMix ComputeMix(double unitX, double unitY, double elapsedSeconds)
+        // The point, already turned around the centre, is folded on itself five times. Each
+        // fold displaces the point by a wave that reads the point itself, so the field never
+        // repeats and the seams of a plain swirl disappear.
+        private static PaintMix ComputeMix(double reach, double turn, double elapsedSeconds)
         {
-            double reach = Math.Sqrt((unitX * unitX) + (unitY * unitY));
-            double turn = Math.Atan2(unitY, unitX)
-                + (elapsedSeconds * SpinEase * SpinSpeed) + SpinOffset
-                - (SpinEase * SpinReach * ((SpinAmount * reach) + (Unit - SpinAmount)));
-
             double fieldX = reach * WaveCommon.Cosine(turn) * FieldZoom;
             double fieldY = reach * WaveCommon.Sine(turn) * FieldZoom;
             double drift = elapsedSeconds * DriftSpeed;
@@ -439,9 +516,9 @@ namespace GinRummy.Client.Controls
 
             for (int foldIndex = 0; foldIndex < FoldCount; foldIndex++)
             {
-                double largest = Math.Max(fieldX, fieldY);
-                foldX += WaveCommon.Sine(largest) + fieldX;
-                foldY += WaveCommon.Sine(largest) + fieldY;
+                double wave = WaveCommon.Sine(Math.Max(fieldX, fieldY));
+                foldX += wave + fieldX;
+                foldY += wave + fieldY;
                 fieldX += FoldStep * WaveCommon.Cosine(
                     FoldPhase + (FoldWeightY * foldY) + (drift * FoldDriftA));
                 fieldY += FoldStep * WaveCommon.Sine(foldX - (FoldDriftB * drift));

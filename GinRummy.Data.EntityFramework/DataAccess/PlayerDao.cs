@@ -1,28 +1,25 @@
-﻿using GinRummy.Data.EntityFramework.Persistence;
-using GinRummy.Domain.Entities;
-using GinRummy.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
-namespace GinRummy.Data.EntityFramework.Repositories
+using GinRummy.Data.EntityFramework.Persistence;
+using GinRummy.Domain.DataAccess;
+using GinRummy.Domain.Entities;
+
+namespace GinRummy.Data.EntityFramework.DataAccess
 {
     /// <summary>
-    /// Fulfils IPlayerRepository using Entity Framework against GinRummy_Dev. Opens
+    /// Fulfils IPlayerDao using Entity Framework against GinRummy_Dev. Opens
     /// a short-lived context per operation, per the team's mandatory use of "using"
     /// for disposable resources.
     /// </summary>
-    public class PlayerRepository : IPlayerRepository
+    public class PlayerDao : IPlayerDao
     {
         private readonly string _connectionStringName;
 
         /// <summary>
-        /// Builds the repository against the given connection string entry.
+        /// Builds the data access object against the given connection string entry.
         /// </summary>
         /// <param name="connectionStringName">Name of the entry in App.config.</param>
-        public PlayerRepository(string connectionStringName)
+        public PlayerDao(string connectionStringName)
         {
             _connectionStringName = connectionStringName;
         }
@@ -39,6 +36,7 @@ namespace GinRummy.Data.EntityFramework.Repositories
             {
                 foundPlayer = context.Players.FirstOrDefault(player => player.Email == email);
             }
+
             return foundPlayer;
         }
 

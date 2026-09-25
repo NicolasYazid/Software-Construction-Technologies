@@ -8,7 +8,7 @@ namespace GinRummy.Client.Views
     /// Two-step verification screen (P06). Serves CU-02 FA-04, CU-04 and CU-06, each with its
     /// own instruction key, because one key cannot hold three different values.
     /// </summary>
-    public partial class GuiTwoStep : GuiWindowBase
+    public partial class GuiTwoStep : GuiModalBase
     {
         private const int CodeLifetimeSeconds = 300;
         private const int TimerIntervalSeconds = 1;
@@ -85,8 +85,16 @@ namespace GinRummy.Client.Views
 
         private void OnVerifyClick(object sender, RoutedEventArgs e)
         {
-            // The code is checked on the server. The lobby (P11) belongs to a later delivery.
-            Close();
+            // The code is checked on the server. A sign-in ends in the lobby (CU-02 step 11);
+            // the other flows return to the screen that asked for the code.
+            if (_purpose == TwoStepPurpose.LogIn)
+            {
+                EnterLobby(new GuiLobbyChat());
+            }
+            else
+            {
+                Close();
+            }
         }
 
         private void OnResendCodeClick(object sender, RoutedEventArgs e)

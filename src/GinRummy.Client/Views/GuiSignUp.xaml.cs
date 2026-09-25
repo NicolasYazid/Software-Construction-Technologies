@@ -5,8 +5,10 @@ namespace GinRummy.Client.Views
     /// <summary>
     /// Sign-up screen (P02). Implements CU-01.
     /// </summary>
-    public partial class GuiSignUp : GuiWindowBase
+    public partial class GuiSignUp : GuiModalBase
     {
+        private const string PasswordMismatchKey = "Error_ValPasswordMismatch";
+
         /// <summary>
         /// Builds the sign-up screen.
         /// </summary>
@@ -17,8 +19,12 @@ namespace GinRummy.Client.Views
 
         private void OnTogglePasswordClick(object sender, RoutedEventArgs e)
         {
-            // Showing the password in clear text needs a dedicated control, which belongs to
-            // the delivery that builds the reusable fields.
+            PasswordRevealCommon.Toggle(pwdPassword, txtPasswordShown);
+        }
+
+        private void OnToggleConfirmPasswordClick(object sender, RoutedEventArgs e)
+        {
+            PasswordRevealCommon.Toggle(pwdConfirmPassword, txtConfirmPasswordShown);
         }
 
         private void OnCreateAccountClick(object sender, RoutedEventArgs e)
@@ -26,19 +32,17 @@ namespace GinRummy.Client.Views
             // CU-01 FA-04 is the only check the specification allows on the client, because
             // it sends nothing to the server. Every other validation runs on the server, as
             // CON-07 requires.
-            bool passwordsMatch = pwdPassword.Password == pwdConfirmPassword.Password;
-            if (passwordsMatch)
+            string password = PasswordRevealCommon.Read(pwdPassword, txtPasswordShown);
+            string confirmation = PasswordRevealCommon.Read(pwdConfirmPassword, txtConfirmPasswordShown);
+            bool isPasswordConfirmed = password == confirmation;
+            if (isPasswordConfirmed)
             {
                 lblErrorMessage.Visibility = Visibility.Collapsed;
-                GuiVerifyEmail verifyEmail = new GuiVerifyEmail(
-                    VerificationPurpose.AccountSignUp, txtEmail.Text);
-                verifyEmail.Owner = Owner;
-                verifyEmail.Show();
-                Close();
+                NavigateTo(new GuiVerifyEmail(VerificationPurpose.AccountSignUp, txtEmail.Text));
             }
             else
             {
-                lblErrorMessage.Text = Localization.GetText("Error_ValPasswordMismatch");
+                lblErrorMessage.Text = Localization.GetText(PasswordMismatchKey);
                 lblErrorMessage.Visibility = Visibility.Visible;
             }
         }

@@ -1,14 +1,25 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Vectores exportados del prototipo de Figma con la API de plugins.
-         Los datos de trazo son los del archivo, no se redibujaron a mano. -->
+    <!-- Vectors exported from the Figma prototype through the plugin API. The path data is
+         the one in the file; none of it was redrawn by hand. The icons that follow the
+         bullseye are the exception: the prototype writes them as characters of a font, and a
+         character written in XAML would be visible text outside the dictionary, so they are
+         drawn here as paths on the square grid of the pixel typefaces. -->
 
     <DrawingImage x:Key="IcoMail">
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 H19 V19 H0 Z">
                 <GeometryDrawing Brush="#9B9B9B"
-                                 Geometry="M9.49994 9.34165C9.93658 9.34165 10.369 9.25565 10.7724 9.08855C11.1758 8.92145 11.5423 8.67654 11.8511 8.36778C12.1598 8.05903 12.4047 7.69248 12.5718 7.28907C12.7389 6.88566 12.8249 6.4533 12.8249 6.01665C12.8249 5.58001 12.7389 5.14764 12.5718 4.74423C12.4047 4.34082 12.1598 3.97428 11.8511 3.66552C11.5423 3.35677 11.1758 3.11185 10.7724 2.94475C10.369 2.77765 9.93658 2.69165 9.49994 2.69165C8.61809 2.69165 7.77236 3.04196 7.1488 3.66552C6.52525 4.28908 6.17494 5.13481 6.17494 6.01665C6.17494 6.8985 6.52525 7.74422 7.1488 8.36778C7.77236 8.99134 8.61809 9.34165 9.49994 9.34165ZM9.49994 10.7667C6.17494 10.7667 3.6416 12.5875 3.6416 14.8833V16.15H15.3583V14.8833C15.3583 12.5875 12.8249 10.7667 9.49994 10.7667Z" />
+                                 Geometry="M9.49994 9.34165C9.93658 9.34165 10.369 9.25565 10.7724 9.08855
+                                           C11.1758 8.92145 11.5423 8.67654 11.8511 8.36778C12.1598 8.05903 12.4047 7.69248 12.5718 7.28907
+                                           C12.7389 6.88566 12.8249 6.4533 12.8249 6.01665C12.8249 5.58001 12.7389 5.14764 12.5718 4.74423
+                                           C12.4047 4.34082 12.1598 3.97428 11.8511 3.66552C11.5423 3.35677 11.1758 3.11185 10.7724 2.94475
+                                           C10.369 2.77765 9.93658 2.69165 9.49994 2.69165C8.61809 2.69165 7.77236 3.04196 7.1488 3.66552
+                                           C6.52525 4.28908 6.17494 5.13481 6.17494 6.01665C6.17494 6.8985 6.52525 7.74422 7.1488 8.36778
+                                           C7.77236 8.99134 8.61809 9.34165 9.49994 9.34165ZM9.49994 10.7667
+                                           C6.17494 10.7667 3.6416 12.5875 3.6416 14.8833V16.15H15.3583V14.8833
+                                           C15.3583 12.5875 12.8249 10.7667 9.49994 10.7667Z" />
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
@@ -17,7 +28,15 @@
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 H19 V19 H0 Z">
                 <GeometryDrawing Brush="#9B9B9B"
-                                 Geometry="M9.50006 9.81666C9.9367 9.81666 10.3691 9.73065 10.7725 9.56356C11.1759 9.39646 11.5424 9.15154 11.8512 8.84279C12.1599 8.53403 12.4049 8.16749 12.572 7.76408C12.7391 7.36067 12.8251 6.9283 12.8251 6.49166C12.8251 6.05501 12.7391 5.62264 12.572 5.21923C12.4049 4.81583 12.1599 4.44928 11.8512 4.14053C11.5424 3.83177 11.1759 3.58685 10.7725 3.41976C10.3691 3.25266 9.9367 3.16666 9.50006 3.16666C8.61821 3.16666 7.77249 3.51697 7.14893 4.14053C6.52537 4.76409 6.17506 5.60981 6.17506 6.49166C6.17506 7.3735 6.52537 8.21923 7.14893 8.84279C7.77249 9.46635 8.61821 9.81666 9.50006 9.81666ZM9.50006 11.2417C6.17506 11.2417 3.64172 13.0625 3.64172 15.3583V16.625H15.3584V15.3583C15.3584 13.0625 12.8251 11.2417 9.50006 11.2417Z" />
+                                 Geometry="M9.50006 9.81666C9.9367 9.81666 10.3691 9.73065 10.7725 9.56356
+                                           C11.1759 9.39646 11.5424 9.15154 11.8512 8.84279C12.1599 8.53403 12.4049 8.16749 12.572 7.76408
+                                           C12.7391 7.36067 12.8251 6.9283 12.8251 6.49166C12.8251 6.05501 12.7391 5.62264 12.572 5.21923
+                                           C12.4049 4.81583 12.1599 4.44928 11.8512 4.14053C11.5424 3.83177 11.1759 3.58685 10.7725 3.41976
+                                           C10.3691 3.25266 9.9367 3.16666 9.50006 3.16666C8.61821 3.16666 7.77249 3.51697 7.14893 4.14053
+                                           C6.52537 4.76409 6.17506 5.60981 6.17506 6.49166C6.17506 7.3735 6.52537 8.21923 7.14893 8.84279
+                                           C7.77249 9.46635 8.61821 9.81666 9.50006 9.81666ZM9.50006 11.2417
+                                           C6.17506 11.2417 3.64172 13.0625 3.64172 15.3583V16.625H15.3584V15.3583
+                                           C15.3584 13.0625 12.8251 11.2417 9.50006 11.2417Z" />
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
@@ -26,7 +45,15 @@
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 H19 V19 H0 Z">
                 <GeometryDrawing Brush="#EDE4DC"
-                                 Geometry="M9.50006 9.81666C9.9367 9.81666 10.3691 9.73065 10.7725 9.56356C11.1759 9.39646 11.5424 9.15154 11.8512 8.84279C12.1599 8.53403 12.4049 8.16749 12.572 7.76408C12.7391 7.36067 12.8251 6.9283 12.8251 6.49166C12.8251 6.05501 12.7391 5.62264 12.572 5.21923C12.4049 4.81583 12.1599 4.44928 11.8512 4.14053C11.5424 3.83177 11.1759 3.58685 10.7725 3.41976C10.3691 3.25266 9.9367 3.16666 9.50006 3.16666C8.61821 3.16666 7.77249 3.51697 7.14893 4.14053C6.52537 4.76409 6.17506 5.60981 6.17506 6.49166C6.17506 7.3735 6.52537 8.21923 7.14893 8.84279C7.77249 9.46635 8.61821 9.81666 9.50006 9.81666ZM9.50006 11.2417C6.17506 11.2417 3.64172 13.0625 3.64172 15.3583V16.625H15.3584V15.3583C15.3584 13.0625 12.8251 11.2417 9.50006 11.2417Z" />
+                                 Geometry="M9.50006 9.81666C9.9367 9.81666 10.3691 9.73065 10.7725 9.56356
+                                           C11.1759 9.39646 11.5424 9.15154 11.8512 8.84279C12.1599 8.53403 12.4049 8.16749 12.572 7.76408
+                                           C12.7391 7.36067 12.8251 6.9283 12.8251 6.49166C12.8251 6.05501 12.7391 5.62264 12.572 5.21923
+                                           C12.4049 4.81583 12.1599 4.44928 11.8512 4.14053C11.5424 3.83177 11.1759 3.58685 10.7725 3.41976
+                                           C10.3691 3.25266 9.9367 3.16666 9.50006 3.16666C8.61821 3.16666 7.77249 3.51697 7.14893 4.14053
+                                           C6.52537 4.76409 6.17506 5.60981 6.17506 6.49166C6.17506 7.3735 6.52537 8.21923 7.14893 8.84279
+                                           C7.77249 9.46635 8.61821 9.81666 9.50006 9.81666ZM9.50006 11.2417
+                                           C6.17506 11.2417 3.64172 13.0625 3.64172 15.3583V16.625H15.3584V15.3583
+                                           C15.3584 13.0625 12.8251 11.2417 9.50006 11.2417Z" />
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
@@ -34,12 +61,16 @@
     <DrawingImage x:Key="IcoLock">
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 H19 V19 H0 Z">
-                <GeometryDrawing Geometry="M13.9334 8.23334H5.06672C4.36715 8.23334 3.80005 8.80044 3.80005 9.5V14.5667C3.80005 15.2662 4.36715 15.8333 5.06672 15.8333H13.9334C14.6329 15.8333 15.2 15.2662 15.2 14.5667V9.5C15.2 8.80044 14.6329 8.23334 13.9334 8.23334Z">
+                <GeometryDrawing Geometry="M13.9334 8.23334H5.06672C4.36715 8.23334 3.80005 8.80044 3.80005 9.5V14.5667
+                                           C3.80005 15.2662 4.36715 15.8333 5.06672 15.8333H13.9334
+                                           C14.6329 15.8333 15.2 15.2662 15.2 14.5667V9.5C15.2 8.80044 14.6329 8.23334 13.9334 8.23334Z">
                     <GeometryDrawing.Pen>
                         <Pen Brush="#9B9B9B" Thickness="1.34583" LineJoin="Round" />
                     </GeometryDrawing.Pen>
                 </GeometryDrawing>
-                <GeometryDrawing Geometry="M6.33337 8.23336V6.17503C6.33337 5.33518 6.667 4.52972 7.26087 3.93586C7.85473 3.34199 8.66019 3.00836 9.50004 3.00836C10.3399 3.00836 11.1453 3.34199 11.7392 3.93586C12.3331 4.52972 12.6667 5.33518 12.6667 6.17503V8.23336">
+                <GeometryDrawing Geometry="M6.33337 8.23336V6.17503C6.33337 5.33518 6.667 4.52972 7.26087 3.93586
+                                           C7.85473 3.34199 8.66019 3.00836 9.50004 3.00836C10.3399 3.00836 11.1453 3.34199 11.7392 3.93586
+                                           C12.3331 4.52972 12.6667 5.33518 12.6667 6.17503V8.23336">
                     <GeometryDrawing.Pen>
                         <Pen Brush="#9B9B9B" Thickness="1.34583" LineJoin="Round" />
                     </GeometryDrawing.Pen>
@@ -51,12 +82,16 @@
     <DrawingImage x:Key="IcoEye">
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 H19 V19 H0 Z">
-                <GeometryDrawing Geometry="M1.97913 9.49999C1.97913 9.49999 4.74996 4.90833 9.49996 4.90833C14.25 4.90833 17.0208 9.49999 17.0208 9.49999C17.0208 9.49999 14.25 14.0917 9.49996 14.0917C4.74996 14.0917 1.97913 9.49999 1.97913 9.49999Z">
+                <GeometryDrawing Geometry="M1.97913 9.49999C1.97913 9.49999 4.74996 4.90833 9.49996 4.90833
+                                           C14.25 4.90833 17.0208 9.49999 17.0208 9.49999C17.0208 9.49999 14.25 14.0917 9.49996 14.0917
+                                           C4.74996 14.0917 1.97913 9.49999 1.97913 9.49999Z">
                     <GeometryDrawing.Pen>
                         <Pen Brush="#9B9B9B" Thickness="1.34583" LineJoin="Round" />
                     </GeometryDrawing.Pen>
                 </GeometryDrawing>
-                <GeometryDrawing Geometry="M9.49993 11.7958C10.7679 11.7958 11.7958 10.7679 11.7958 9.5C11.7958 8.23204 10.7679 7.20416 9.49993 7.20416C8.23198 7.20416 7.2041 8.23204 7.2041 9.5C7.2041 10.7679 8.23198 11.7958 9.49993 11.7958Z">
+                <GeometryDrawing Geometry="M9.49993 11.7958C10.7679 11.7958 11.7958 10.7679 11.7958 9.5
+                                           C11.7958 8.23204 10.7679 7.20416 9.49993 7.20416C8.23198 7.20416 7.2041 8.23204 7.2041 9.5
+                                           C7.2041 10.7679 8.23198 11.7958 9.49993 11.7958Z">
                     <GeometryDrawing.Pen>
                         <Pen Brush="#9B9B9B" Thickness="1.34583" LineJoin="Round" />
                     </GeometryDrawing.Pen>
@@ -68,12 +103,16 @@
     <DrawingImage x:Key="IcoGlobe">
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 H20 V20 H0 Z">
-                <GeometryDrawing Geometry="M9.99996 17.0834C13.912 17.0834 17.0833 13.912 17.0833 10C17.0833 6.088 13.912 2.91669 9.99996 2.91669C6.08794 2.91669 2.91663 6.088 2.91663 10C2.91663 13.912 6.08794 17.0834 9.99996 17.0834Z">
+                <GeometryDrawing Geometry="M9.99996 17.0834C13.912 17.0834 17.0833 13.912 17.0833 10
+                                           C17.0833 6.088 13.912 2.91669 9.99996 2.91669C6.08794 2.91669 2.91663 6.088 2.91663 10
+                                           C2.91663 13.912 6.08794 17.0834 9.99996 17.0834Z">
                     <GeometryDrawing.Pen>
                         <Pen Brush="#EDE4DC" Thickness="1.41667" />
                     </GeometryDrawing.Pen>
                 </GeometryDrawing>
-                <GeometryDrawing Geometry="M2.91663 10H17.0833M9.99996 2.91669C11.8333 4.83335 12.8333 7.33335 12.8333 10C12.8333 12.6667 11.8333 15.1667 9.99996 17.0834C8.16663 15.1667 7.16663 12.6667 7.16663 10C7.16663 7.33335 8.16663 4.83335 9.99996 2.91669Z">
+                <GeometryDrawing Geometry="M2.91663 10H17.0833M9.99996 2.91669C11.8333 4.83335 12.8333 7.33335 12.8333 10
+                                           C12.8333 12.6667 11.8333 15.1667 9.99996 17.0834C8.16663 15.1667 7.16663 12.6667 7.16663 10
+                                           C7.16663 7.33335 8.16663 4.83335 9.99996 2.91669Z">
                     <GeometryDrawing.Pen>
                         <Pen Brush="#EDE4DC" Thickness="1.41667" />
                     </GeometryDrawing.Pen>
@@ -85,16 +124,153 @@
     <DrawingImage x:Key="IcoBullseye">
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 H115 V115 H0 Z">
-                <GeometryDrawing Geometry="M57.5 10C31.2665 10 10 31.2665 10 57.5C10 83.7335 31.2665 105 57.5 105C83.7335 105 105 83.7335 105 57.5C105 31.2665 83.7335 10 57.5 10Z">
+                <GeometryDrawing Geometry="M57.5 10C31.2665 10 10 31.2665 10 57.5C10 83.7335 31.2665 105 57.5 105
+                                           C83.7335 105 105 83.7335 105 57.5C105 31.2665 83.7335 10 57.5 10Z">
                     <GeometryDrawing.Pen>
                         <Pen Brush="#8B2C1F" Thickness="20" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
                     </GeometryDrawing.Pen>
                 </GeometryDrawing>
-                <GeometryDrawing Geometry="M57.5 39.6875C47.6624 39.6875 39.6875 47.6624 39.6875 57.5C39.6875 67.3376 47.6624 75.3125 57.5 75.3125C67.3376 75.3125 75.3125 67.3376 75.3125 57.5C75.3125 47.6624 67.3376 39.6875 57.5 39.6875Z">
+                <GeometryDrawing Geometry="M57.5 39.6875C47.6624 39.6875 39.6875 47.6624 39.6875 57.5
+                                           C39.6875 67.3376 47.6624 75.3125 57.5 75.3125C67.3376 75.3125 75.3125 67.3376 75.3125 57.5
+                                           C75.3125 47.6624 67.3376 39.6875 57.5 39.6875Z">
                     <GeometryDrawing.Pen>
                         <Pen Brush="#8B2C1F" Thickness="20" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
                     </GeometryDrawing.Pen>
                 </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="IcoAlert">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 H48 V48 H0 Z">
+                <GeometryDrawing Brush="#8B2C1F">
+                    <GeometryDrawing.Geometry>
+                        <EllipseGeometry Center="24,24" RadiusX="24" RadiusY="24" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="#EDE4DC" Geometry="M21,10 H27 V30 H21 Z M21,34 H27 V40 H21 Z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <!-- The icons of the lobby and its panels. Each one is a set of blocks on a grid of
+         twenty-four, filled with the non-zero rule so that the blocks may overlap; the hole of
+         the gear is the only block drawn in the opposite direction, which is what empties it. -->
+    <DrawingImage x:Key="IcoSend">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 H24 V24 H0 Z">
+                <GeometryDrawing Brush="#EDE4DC"
+                                 Geometry="F1 M3,3 H7 V5 H11 V7 H15 V9 H19 V11 H21 V13 H19 V15 H15 V17 H11 V19 H7 V21
+                                           H3 V14 H13 V10 H3 Z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="IcoSearch">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 H24 V24 H0 Z">
+                <GeometryDrawing Brush="#A68F7C"
+                                 Geometry="F1 M7,2 H13 V4 H7 Z M5,4 H7 V6 H5 Z M13,4 H15 V6 H13 Z M3,6 H5 V12 H3 Z
+                                           M15,6 H17 V12 H15 Z M5,12 H7 V14 H5 Z M13,12 H15 V14 H13 Z M7,14 H13 V16 H7 Z
+                                           M15,14 H18 V17 H15 Z M17,16 H20 V19 H17 Z M19,18 H22 V21 H19 Z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="IcoBell">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 H24 V24 H0 Z">
+                <GeometryDrawing Brush="#EDE4DC"
+                                 Geometry="F1 M10,2 H14 V4 H10 Z M8,4 H16 V6 H8 Z M6,6 H18 V15 H6 Z M4,15 H20 V18 H4 Z
+                                           M10,19 H14 V22 H10 Z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="IcoGear">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 H24 V24 H0 Z">
+                <GeometryDrawing Brush="#EDE4DC"
+                                 Geometry="F1 M10,2 H14 V6 H10 Z M10,18 H14 V22 H10 Z M2,10 H6 V14 H2 Z M18,10 H22 V14 H18 Z
+                                           M4,4 H8 V8 H4 Z M16,4 H20 V8 H16 Z M4,16 H8 V20 H4 Z M16,16 H20 V20 H16 Z
+                                           M6,6 H18 V18 H6 Z M9,9 V15 H15 V9 Z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="IcoClose">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 H24 V24 H0 Z">
+                <GeometryDrawing Brush="#D8CCC0"
+                                 Geometry="F1 M4,4 H8 V6 H10 V8 H14 V6 H16 V4 H20 V8 H18 V10 H16 V14 H18 V16 H20 V20 H16
+                                           V18 H14 V16 H10 V18 H8 V20 H4 V16 H6 V14 H8 V10 H6 V8 H4 Z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="IcoChallenge">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 H24 V24 H0 Z">
+                <GeometryDrawing Brush="#EDE4DC"
+                                 Geometry="F1 M6,3 H9 V5 H12 V7 H15 V9 H18 V11 H20 V13 H18 V15 H15 V17 H12 V19 H9 V21 H6 Z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="IcoCrown">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 H24 V24 H0 Z">
+                <GeometryDrawing Brush="#EDE4DC"
+                                 Geometry="F1 M2,4 H5 V7 H2 Z M10,3 H14 V6 H10 Z M19,4 H22 V7 H19 Z M3,7 H5 V11 H3 Z
+                                           M11,6 H13 V11 H11 Z M19,7 H21 V11 H19 Z M5,9 H8 V11 H5 Z M16,9 H19 V11 H16 Z
+                                           M3,11 H21 V16 H3 Z M3,18 H21 V21 H3 Z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <!-- The suits of the cards, drawn on the same grid of twenty-four. The symbols are pictures
+         and not characters of a font, because the dictionary keeps them out of the resources:
+         only their spoken names are text. The red suits take the red of the ink of a card and
+         the black ones its black, since they are always drawn over the light face. -->
+    <DrawingImage x:Key="IcoSuitClubs">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 H24 V24 H0 Z">
+                <GeometryDrawing Brush="#1A1712"
+                                 Geometry="F1 M9,3 H15 V9 H9 Z M8,4 H16 V8 H8 Z M2,10 H9 V15 H2 Z M3,9 H8 V16 H3 Z
+                                           M15,10 H22 V15 H15 Z M16,9 H21 V16 H16 Z M9,9 H15 V14 H9 Z
+                                           M11,14 H13 V20 H11 Z M8,20 H16 V22 H8 Z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="IcoSuitDiamonds">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 H24 V24 H0 Z">
+                <GeometryDrawing Brush="#A33A2A"
+                                 Geometry="F1 M11,2 H13 V4 H15 V7 H17 V10 H19 V14 H17 V17 H15 V20 H13 V22 H11 V20 H9
+                                           V17 H7 V14 H5 V10 H7 V7 H9 V4 H11 Z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="IcoSuitHearts">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 H24 V24 H0 Z">
+                <GeometryDrawing Brush="#A33A2A"
+                                 Geometry="F1 M4,4 H10 V6 H14 V4 H20 V6 H22 V13 H20 V15 H18 V17 H16 V19 H14 V21 H10 V19
+                                           H8 V17 H6 V15 H4 V13 H2 V6 H4 Z" />
+            </DrawingGroup>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="IcoSuitSpades">
+        <DrawingImage.Drawing>
+            <DrawingGroup ClipGeometry="M0,0 H24 V24 H0 Z">
+                <GeometryDrawing Brush="#1A1712"
+                                 Geometry="F1 M11,2 H13 V4 H11 Z M9,4 H15 V6 H9 Z M7,6 H17 V8 H7 Z M5,8 H19 V10 H5 Z
+                                           M3,10 H21 V16 H3 Z M5,16 H10 V18 H5 Z M14,16 H19 V18 H14 Z M11,14 H13 V20 H11 Z
+                                           M8,20 H16 V22 H8 Z" />
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>

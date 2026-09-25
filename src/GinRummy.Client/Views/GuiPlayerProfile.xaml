@@ -1,0 +1,149 @@
+﻿<views:GuiModalBase x:Class="GinRummy.Client.Views.GuiPlayerProfile"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:GinRummy.Client.Views"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display"
+        HasCloseButton="False">
+    <Grid Width="980" Background="{StaticResource BrsPageBackground}">
+        <Border Style="{StaticResource StyDialogCard}" Padding="40,34,40,32">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Style="{StaticResource StyAvatarProfile}" VerticalAlignment="Top">
+                        <Image Style="{StaticResource StyAvatarIconProfile}" />
+                    </Border>
+
+                    <StackPanel Grid.Column="1" Margin="30,0,20,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Style="{StaticResource StyProfileName}" Text="{Binding Username}" />
+                            <!-- The badge follows the visibility of its letter, which a guest does
+                                 not have. -->
+                            <Border Style="{StaticResource StyRankBadge}" Margin="16,0,0,0"
+                                    Visibility="{Binding Visibility, ElementName=lblRankName}">
+                                <TextBlock x:Name="lblRankName" Style="{StaticResource StyRankBadgeText}"
+                                           Text="{Binding RankName}" />
+                            </Border>
+                        </StackPanel>
+                        <TextBlock x:Name="lblPublicTag" Style="{StaticResource StyProfileTag}" Margin="0,6,0,0"
+                                   Text="{Binding PublicTag}" />
+                        <!-- The presence has no text of its own in the dictionary: the dot is the
+                             only sign of it until the taxonomy of presence is decided. -->
+                        <Ellipse Margin="2,12,0,0">
+                            <Ellipse.Style>
+                                <Style TargetType="Ellipse" BasedOn="{StaticResource StyPresenceDotInline}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsOnline}" Value="False">
+                                            <Setter Property="Fill" Value="{StaticResource BrsMuted}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Ellipse.Style>
+                        </Ellipse>
+
+                        <TextBlock x:Name="lblGuestHasNoProfile" Style="{StaticResource StyProfileText}"
+                                   Margin="0,20,0,0" Visibility="Collapsed"
+                                   Text="{Binding [PlayerProfile_GuestHasNoProfile], Source={StaticResource Loc}}" />
+
+                        <TextBlock x:Name="lblBio" Style="{StaticResource StyProfileSectionTitle}"
+                                   Text="{Binding [PlayerProfile_LblBio], Source={StaticResource Loc}}" />
+                        <TextBlock Style="{StaticResource StyProfileText}" Text="{Binding Bio}"
+                                   Visibility="{Binding Visibility, ElementName=lblBio}" />
+
+                        <TextBlock x:Name="lblSocialLinks" Style="{StaticResource StyProfileSectionTitle}"
+                                   Text="{Binding [PlayerProfile_LblSocialLinks], Source={StaticResource Loc}}" />
+                        <ItemsControl ItemsSource="{Binding SocialLinks}"
+                                      Visibility="{Binding Visibility, ElementName=lblSocialLinks}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource StySocialChip}" ToolTip="{Binding Url}">
+                                        <TextBlock Style="{StaticResource StySocialChipText}" Text="{Binding PlatformName}" />
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+
+                    <Button x:Name="btnClose" Grid.Column="2" Style="{StaticResource StyLobbyNavButton}"
+                            VerticalAlignment="Top" Margin="0"
+                            Content="{Binding [PlayerProfile_BtnClose], Source={StaticResource Loc},
+                                      Converter={StaticResource CnvUpperCase}}"
+                            Click="OnCloseClick" />
+                </Grid>
+
+                <!-- The cards follow the visibility of their first label, which the code switches
+                     after the matches the player has played (CU-27 FA-01). -->
+                <UniformGrid Grid.Row="1" Columns="3" Margin="0,34,0,0"
+                             Visibility="{Binding Visibility, ElementName=lblMatchesPlayed}">
+                    <Border Style="{StaticResource StyStatCard}" Margin="0,0,12,0">
+                        <StackPanel>
+                            <TextBlock x:Name="lblMatchesPlayed" Style="{StaticResource StyStatLabel}"
+                                       Text="{Binding [PlayerProfile_LblMatchesPlayed], Source={StaticResource Loc}}" />
+                            <TextBlock x:Name="lblMatchesPlayedValue" Style="{StaticResource StyStatValue}" />
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource StyStatCard}" Margin="6,0,6,0">
+                        <StackPanel>
+                            <TextBlock x:Name="lblWinRate" Style="{StaticResource StyStatLabel}"
+                                       Text="{Binding [PlayerProfile_LblWinRate], Source={StaticResource Loc}}" />
+                            <TextBlock x:Name="lblWinRateValue" Style="{StaticResource StyStatValue}" />
+                        </StackPanel>
+                    </Border>
+                    <Border Style="{StaticResource StyStatCard}" Margin="12,0,0,0">
+                        <StackPanel>
+                            <TextBlock x:Name="lblScore" Style="{StaticResource StyStatLabel}"
+                                       Text="{Binding [PlayerProfile_LblScore], Source={StaticResource Loc}}" />
+                            <TextBlock x:Name="lblScoreValue" Style="{StaticResource StyStatValue}" />
+                        </StackPanel>
+                    </Border>
+                </UniformGrid>
+
+                <Border Grid.Row="1" Style="{StaticResource StyStatCard}" Margin="0,34,0,0"
+                        Width="300" HorizontalAlignment="Left"
+                        Visibility="{Binding Visibility, ElementName=lblNoMatchesYet}">
+                    <TextBlock x:Name="lblNoMatchesYet" Style="{StaticResource StyStatLabel}" Visibility="Collapsed"
+                               Foreground="{StaticResource BrsBody}"
+                               Text="{Binding [PlayerProfile_NoMatchesYet], Source={StaticResource Loc}}" />
+                </Border>
+
+                <DockPanel Grid.Row="2" Margin="0,40,0,0" LastChildFill="False">
+                    <Button x:Name="btnReport" DockPanel.Dock="Left" Style="{StaticResource StyInlineTextButton}"
+                            Content="{Binding [PlayerProfile_BtnReport], Source={StaticResource Loc}}"
+                            Click="OnReportClick" />
+                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                        <Button x:Name="btnAddFriend" Style="{StaticResource StyDialogPrimaryButton}"
+                                Content="{Binding [PlayerProfile_BtnAddFriend], Source={StaticResource Loc},
+                                          Converter={StaticResource CnvUpperCase}}"
+                                Click="OnAddFriendClick" />
+                        <!-- The dictionary has no key of this screen for the action, so it borrows
+                             the one of the context menu of the lobby, as its notes allow. -->
+                        <Button x:Name="btnRemoveFriend" Style="{StaticResource StyDialogSecondaryButton}"
+                                Content="{Binding [LobbyChat_MniRemoveFriend], Source={StaticResource Loc},
+                                          Converter={StaticResource CnvUpperCase}}"
+                                Click="OnRemoveFriendClick" />
+                        <Button x:Name="btnEditProfile" Style="{StaticResource StyDialogPrimaryButton}"
+                                Content="{Binding [PlayerProfile_BtnEditProfile], Source={StaticResource Loc},
+                                          Converter={StaticResource CnvUpperCase}}"
+                                Click="OnEditProfileClick" />
+                    </StackPanel>
+                </DockPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</views:GuiModalBase>

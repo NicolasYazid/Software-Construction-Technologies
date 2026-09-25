@@ -1,17 +1,12 @@
 ﻿using GinRummy.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GinRummy.Domain.Repositories
+namespace GinRummy.Domain.DataAccess
 {
     /// <summary>
     /// Contract the game's logic uses to reach Player data, without knowing how or
     /// where it is stored. Infrastructure provides the implementation.
     /// </summary>
-    public interface IPlayerRepository
+    public interface IPlayerDao
     {
         /// <summary>
         /// Finds the player whose email matches, or null when no player has it.

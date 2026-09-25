@@ -23,6 +23,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
+    <Prefer32Bit>false</Prefer32Bit>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -32,6 +33,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
+    <Prefer32Bit>false</Prefer32Bit>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -110,6 +112,82 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\GuiAccountSuspended.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuiTermsOfService.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuiAccountBanned.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuiErrorDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuiConfirmDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuiReconnecting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\LobbyTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuiReportPlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuiNotifications.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuiSanctions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuiLobbyChat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuiGuestLobby.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuiEditProfile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuiPlayerProfile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuiProfilePanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuiRankings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuiHouseRules.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\GameTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GuiGameTable.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -123,10 +201,13 @@
       <DependentUpon>CtlPaintBackground.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\PaintMix.cs" />
+    <Compile Include="Controls\CardBackCommon.cs" />
+    <Compile Include="Controls\PaintGeometry.cs" />
     <Compile Include="Controls\PaintPalette.cs" />
     <Compile Include="Controls\PaintFrameRequest.cs" />
     <Compile Include="Controls\CtlPixelSurface.cs" />
     <Compile Include="Controls\PixelFrame.cs" />
+    <Compile Include="Controls\PixelShapeCommon.cs" />
     <Compile Include="Controls\WaveCommon.cs" />
     <Compile Include="Views\GuiMainMenu.xaml.cs">
       <DependentUpon>GuiMainMenu.xaml</DependentUpon>
@@ -152,13 +233,103 @@
     <Compile Include="Views\GuiNewPassword.xaml.cs">
       <DependentUpon>GuiNewPassword.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GuiAccountSuspended.xaml.cs">
+      <DependentUpon>GuiAccountSuspended.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiTermsOfService.xaml.cs">
+      <DependentUpon>GuiTermsOfService.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiAccountBanned.xaml.cs">
+      <DependentUpon>GuiAccountBanned.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiErrorDialog.xaml.cs">
+      <DependentUpon>GuiErrorDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiConfirmDialog.xaml.cs">
+      <DependentUpon>GuiConfirmDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiReconnecting.xaml.cs">
+      <DependentUpon>GuiReconnecting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiReportPlayer.xaml.cs">
+      <DependentUpon>GuiReportPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiNotifications.xaml.cs">
+      <DependentUpon>GuiNotifications.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiSanctions.xaml.cs">
+      <DependentUpon>GuiSanctions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiLobbyChat.xaml.cs">
+      <DependentUpon>GuiLobbyChat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiGuestLobby.xaml.cs">
+      <DependentUpon>GuiGuestLobby.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiEditProfile.xaml.cs">
+      <DependentUpon>GuiEditProfile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiPlayerProfile.xaml.cs">
+      <DependentUpon>GuiPlayerProfile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiProfilePanel.xaml.cs">
+      <DependentUpon>GuiProfilePanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiRankings.xaml.cs">
+      <DependentUpon>GuiRankings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiHouseRules.xaml.cs">
+      <DependentUpon>GuiHouseRules.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GuiGameTable.xaml.cs">
+      <DependentUpon>GuiGameTable.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Localization\LocalizationProvider.cs" />
     <Compile Include="Localization\CultureOption.cs" />
     <Compile Include="Converters\EmptyTextToVisibilityConverter.cs" />
     <Compile Include="Converters\UpperCaseConverter.cs" />
+    <Compile Include="Views\GuiModalBase.cs" />
     <Compile Include="Views\GuiWindowBase.cs" />
     <Compile Include="Views\VerificationPurpose.cs" />
     <Compile Include="Views\TwoStepPurpose.cs" />
+    <Compile Include="Views\DurationCommon.cs" />
+    <Compile Include="Views\ErrorDialogKind.cs" />
+    <Compile Include="Views\ConfirmDialogKind.cs" />
+    <Compile Include="Models\ChatEntryDto.cs" />
+    <Compile Include="Models\ChatMessageDto.cs" />
+    <Compile Include="Models\ChallengeNoticeKind.cs" />
+    <Compile Include="Models\ChallengeNoticeDto.cs" />
+    <Compile Include="Models\LobbyPlayerDto.cs" />
+    <Compile Include="Models\MatchPairDto.cs" />
+    <Compile Include="Models\LobbySnapshotDto.cs" />
+    <Compile Include="Models\FriendRequestDto.cs" />
+    <Compile Include="Models\SanctionDto.cs" />
+    <Compile Include="Services\SampleDataService.cs" />
+    <Compile Include="Converters\LocalizedFormatConverter.cs" />
+    <Compile Include="Views\VisibilityCommon.cs" />
+    <Compile Include="Models\SocialLinkDto.cs" />
+    <Compile Include="Models\LinkedAccountDto.cs" />
+    <Compile Include="Models\AccountSettingsDto.cs" />
+    <Compile Include="Models\PlayerProfileDto.cs" />
+    <Compile Include="Models\RankingEntryDto.cs" />
+    <Compile Include="Models\LeaderboardDto.cs" />
+    <Compile Include="Models\GameRulesDto.cs" />
+    <Compile Include="Converters\CultureNumberConverter.cs" />
+    <Compile Include="Models\CardRank.cs" />
+    <Compile Include="Models\CardSuit.cs" />
+    <Compile Include="Models\CardDto.cs" />
+    <Compile Include="Models\MeldKind.cs" />
+    <Compile Include="Models\MeldDto.cs" />
+    <Compile Include="Models\MatchLogKind.cs" />
+    <Compile Include="Models\MatchLogEntryDto.cs" />
+    <Compile Include="Models\GameTableSnapshotDto.cs" />
+    <Compile Include="Models\HandResultDto.cs" />
+    <Compile Include="Models\MatchEndReason.cs" />
+    <Compile Include="Models\MatchResultDto.cs" />
+    <Compile Include="Converters\CardRankConverter.cs" />
+    <Compile Include="Converters\CardNameConverter.cs" />
+    <Compile Include="Converters\MatchLogConverter.cs" />
+    <Compile Include="Views\PasswordRevealCommon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

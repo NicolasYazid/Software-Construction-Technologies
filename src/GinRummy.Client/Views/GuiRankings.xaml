@@ -1,0 +1,245 @@
+﻿<views:GuiModalBase x:Class="GinRummy.Client.Views.GuiRankings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:GinRummy.Client.Views"
+        xmlns:models="clr-namespace:GinRummy.Client.Models"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display"
+        HasCloseButton="False">
+    <UserControl.Resources>
+        <!-- The podium and the rows format their numbers inside a template, where no window can
+             rebuild them one by one, so they bind to the culture of the provider as well. -->
+        <DataTemplate x:Key="TplPodiumPlace" DataType="{x:Type models:RankingEntryDto}">
+            <Border Style="{StaticResource StyPodiumCard}">
+                <StackPanel>
+                    <DockPanel LastChildFill="True">
+                        <Image DockPanel.Dock="Right" Style="{StaticResource StyPodiumCrown}"
+                               ToolTip="{Binding [Rankings_TipFirstPlace], Source={StaticResource Loc}}" />
+                        <TextBlock x:Name="lblPodiumPosition" DockPanel.Dock="Right" Style="{StaticResource StyPodiumPosition}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" ConverterParameter="N0">
+                                    <Binding Path="[Rankings_PositionFormat]" Source="{StaticResource Loc}" />
+                                    <Binding Path="Position" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <Border Style="{StaticResource StyAvatar}">
+                            <Image Style="{StaticResource StyAvatarIcon}" />
+                        </Border>
+                        <TextBlock Style="{StaticResource StyPodiumName}" Text="{Binding Username}" />
+                    </DockPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                        <TextBlock x:Name="lblPodiumWins" Style="{StaticResource StyPodiumStat}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" ConverterParameter="N0">
+                                    <Binding Path="[Rankings_WinsShortFormat]" Source="{StaticResource Loc}" />
+                                    <Binding Path="Wins" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock x:Name="lblPodiumLosses" Style="{StaticResource StyPodiumStatMuted}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" ConverterParameter="N0">
+                                    <Binding Path="[Rankings_LossesShortFormat]" Source="{StaticResource Loc}" />
+                                    <Binding Path="Losses" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock Style="{StaticResource StyPodiumStat}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="P0">
+                                    <Binding Path="WinRate" />
+                                    <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <!-- The columns of a row repeat the widths of the head of the table, so that both line
+             up without sharing a grid. -->
+        <DataTemplate x:Key="TplRankingRow" DataType="{x:Type models:RankingEntryDto}">
+            <Border Style="{StaticResource StyRankingRow}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="64" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource StyRankingPosition}">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="N0">
+                                <Binding Path="Position" />
+                                <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <Border Style="{StaticResource StyAvatar}">
+                            <Image Style="{StaticResource StyAvatarIcon}" />
+                        </Border>
+                        <TextBlock Style="{StaticResource StyRankingName}" Text="{Binding Username}" />
+                        <!-- The mark is a string of its own and not a suffix of the name: the
+                             name is data and is never translated. -->
+                        <TextBlock x:Name="lblYou" Style="{StaticResource StyRankingYou}"
+                                   Text="{Binding [Rankings_LblYou], Source={StaticResource Loc},
+                                          Converter={StaticResource CnvUpperCase}}" />
+                    </StackPanel>
+                    <TextBlock Grid.Column="2" Style="{StaticResource StyRankingCell}">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="N0">
+                                <Binding Path="Wins" />
+                                <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <TextBlock Grid.Column="3" Style="{StaticResource StyRankingCell}">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="N0">
+                                <Binding Path="Losses" />
+                                <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <TextBlock Grid.Column="4" Style="{StaticResource StyRankingCell}">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="P0">
+                                <Binding Path="WinRate" />
+                                <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <Border Grid.Column="5" Style="{StaticResource StyRankingBadge}">
+                        <TextBlock Style="{StaticResource StyRankBadgeText}" Text="{Binding RankName}" />
+                    </Border>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid Width="980" Background="{StaticResource BrsPageBackground}">
+        <Border Style="{StaticResource StyDialogCard}" Padding="40,26,40,30">
+            <StackPanel>
+
+                <DockPanel>
+                    <Button DockPanel.Dock="Right" Style="{StaticResource StyDialogCloseButton}" Click="OnCloseClick">
+                        <Image Source="{StaticResource IcoClose}" Width="24" Height="24" />
+                    </Button>
+                    <TextBlock Style="{StaticResource StyPanelTitle}"
+                               Text="{Binding [LobbyChat_BtnRankings], Source={StaticResource Loc},
+                                      Converter={StaticResource CnvUpperCase}}" />
+                </DockPanel>
+
+                <TabControl Style="{StaticResource StyPanelTabs}" Width="360" HorizontalAlignment="Left"
+                            Margin="0,18,0,0" SelectionChanged="OnTabSelectionChanged">
+                    <TabItem x:Name="tabGlobal" IsSelected="True"
+                             Header="{Binding [Rankings_TabGlobal], Source={StaticResource Loc},
+                                      Converter={StaticResource CnvUpperCase}}" />
+                    <TabItem x:Name="tabFriends"
+                             Header="{Binding [Shared_TabFriends], Source={StaticResource Loc},
+                                      Converter={StaticResource CnvUpperCase}}" />
+                </TabControl>
+
+                <!-- The podium holds the first three places whatever the search, as the prototype
+                     keeps it while the table filters. -->
+                <ItemsControl x:Name="lstPodium" Margin="-6,18,-6,0" ItemTemplate="{StaticResource TplPodiumPlace}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1" Columns="3" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+
+                <Border Style="{StaticResource StyRankingTable}" Margin="0,18,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="330" />
+                        </Grid.RowDefinitions>
+
+                        <!-- The right margin of the head adds the width of the scroll bar the
+                             rows always keep, so that every column stays over its values. -->
+                        <Grid Margin="20,12,28,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="64" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="80" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="lblPosition" Style="{StaticResource StyRankingHead}"
+                                       Text="{Binding [Rankings_LblPosition], Source={StaticResource Loc},
+                                              Converter={StaticResource CnvUpperCase}}" />
+                            <TextBlock x:Name="lblPlayer" Grid.Column="1" Style="{StaticResource StyRankingHead}"
+                                       Text="{Binding [Rankings_LblPlayer], Source={StaticResource Loc},
+                                              Converter={StaticResource CnvUpperCase}}" />
+                            <TextBlock x:Name="lblWins" Grid.Column="2" Style="{StaticResource StyRankingHeadNumber}"
+                                       ToolTip="{Binding [Rankings_TipWins], Source={StaticResource Loc}}"
+                                       Text="{Binding [Rankings_LblWins], Source={StaticResource Loc},
+                                              Converter={StaticResource CnvUpperCase}}" />
+                            <TextBlock x:Name="lblLosses" Grid.Column="3" Style="{StaticResource StyRankingHeadNumber}"
+                                       ToolTip="{Binding [Rankings_TipLosses], Source={StaticResource Loc}}"
+                                       Text="{Binding [Rankings_LblLosses], Source={StaticResource Loc},
+                                              Converter={StaticResource CnvUpperCase}}" />
+                            <TextBlock x:Name="lblWinRate" Grid.Column="4" Style="{StaticResource StyRankingHeadNumber}"
+                                       ToolTip="{Binding [Rankings_TipWinRate], Source={StaticResource Loc}}"
+                                       Text="{Binding [Rankings_LblWinRate], Source={StaticResource Loc},
+                                              Converter={StaticResource CnvUpperCase}}" />
+                            <TextBlock x:Name="lblRank" Grid.Column="5" Style="{StaticResource StyRankingHeadNumber}"
+                                       Text="{Binding [Rankings_LblRank], Source={StaticResource Loc},
+                                              Converter={StaticResource CnvUpperCase}}" />
+                        </Grid>
+
+                        <Border Grid.Row="1" Style="{StaticResource StyGroupRule}" Margin="0" />
+
+                        <Grid Grid.Row="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <ScrollViewer VerticalScrollBarVisibility="Visible">
+                                <ItemsControl x:Name="lstRankings" ItemTemplate="{StaticResource TplRankingRow}" />
+                            </ScrollViewer>
+                            <TextBlock x:Name="lblNoMatches" Style="{StaticResource StyPanelEmpty}" Margin="20,16,28,0"
+                                       Visibility="Collapsed"
+                                       Text="{Binding [Rankings_NoMatches], Source={StaticResource Loc}}" />
+
+                            <!-- The row of the player stays at the foot of the table when its place
+                                 lies beyond the rows it holds (CU-19 FA-03). -->
+                            <ItemsControl x:Name="lstOwnEntry" Grid.Row="1" Margin="0,0,8,0"
+                                          ItemTemplate="{StaticResource TplRankingRow}" />
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <Border Style="{StaticResource StyPanelSearchShell}" Margin="0,16,0,0">
+                    <DockPanel LastChildFill="True">
+                        <Button x:Name="btnSearch" DockPanel.Dock="Right" Style="{StaticResource StyIconButton}"
+                                Width="28" Height="28"
+                                ToolTip="{Binding [Rankings_TipSearch], Source={StaticResource Loc}}"
+                                Click="OnSearchClick">
+                            <Image Source="{StaticResource IcoSearch}" Width="20" Height="20" />
+                        </Button>
+                        <Grid>
+                            <TextBox x:Name="txtSearch" Style="{StaticResource StyPanelSearchInput}"
+                                     TextChanged="OnSearchTextChanged" />
+                            <TextBlock Style="{StaticResource StyPanelSearchPlaceholder}"
+                                       Text="{Binding [Rankings_TxtSearchPlaceholder], Source={StaticResource Loc}}"
+                                       Visibility="{Binding Text, ElementName=txtSearch,
+                                                    Converter={StaticResource CnvEmptyTextToVisibility}}" />
+                        </Grid>
+                    </DockPanel>
+                </Border>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</views:GuiModalBase>

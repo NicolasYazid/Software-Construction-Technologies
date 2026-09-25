@@ -1,0 +1,37 @@
+﻿<views:GuiModalBase x:Class="GinRummy.Client.Views.GuiAccountBanned"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:GinRummy.Client.Views"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display"
+        HasCloseButton="False">
+    <Grid Width="520" Background="{StaticResource BrsPageBackground}">
+        <Border Style="{StaticResource StyDialogCard}">
+            <StackPanel>
+
+                <TextBlock x:Name="lblTitle" Style="{StaticResource StyDialogTitle}"
+                           Text="{Binding [AccountBanned_LblTitle], Source={StaticResource Loc}}" />
+                <TextBlock x:Name="lblMessage" Style="{StaticResource StyDialogMessage}"
+                           TextAlignment="Left" Margin="0,20,0,0"
+                           Text="{Binding [AccountBanned_LblMessage], Source={StaticResource Loc}}" />
+
+                <!-- The reason is a value of the catalogue of the database that the server
+                     resolves to the active language, so it arrives as text and has no key. -->
+                <TextBlock x:Name="lblReasonBan" Style="{StaticResource StyDialogEmphasis}"
+                           TextAlignment="Left" Margin="0,8,0,0" />
+
+                <Button x:Name="btnLogOut" Style="{StaticResource StyDialogPrimaryButton}"
+                        Margin="0,24,0,0"
+                        Content="{Binding [Shared_BtnLogOut], Source={StaticResource Loc},
+                                  Converter={StaticResource CnvUpperCase}}"
+                        Click="OnLogOutClick" />
+
+                <Button x:Name="lnkTermsOfService" Style="{StaticResource StyInlineTextButton}"
+                        HorizontalAlignment="Center" Margin="0,14,0,0"
+                        Content="{Binding [AccountBanned_LnkTermsOfService], Source={StaticResource Loc}}"
+                        Click="OnTermsOfServiceClick" />
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</views:GuiModalBase>

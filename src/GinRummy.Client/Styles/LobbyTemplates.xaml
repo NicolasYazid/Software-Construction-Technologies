@@ -1,0 +1,81 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:models="clr-namespace:GinRummy.Client.Models">
+
+    <!-- Templates shared by the lobby of a player (P11) and the one of a guest (P16). They live
+         apart from the theme because they bind to the localization provider, which the
+         application publishes when it starts, after the theme has been loaded; each lobby
+         merges them into its own resources, and by then the provider exists. -->
+
+    <DataTemplate DataType="{x:Type models:ChatMessageDto}">
+        <Grid Margin="20,8,20,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Style="{StaticResource StyAvatar}" VerticalAlignment="Top">
+                <Image Style="{StaticResource StyAvatarIcon}" />
+            </Border>
+            <StackPanel Grid.Column="1" Margin="14,2,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource StyChatAuthor}" Text="{Binding AuthorName}" />
+                    <TextBlock Style="{StaticResource StyChatTime}">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" ConverterParameter="t">
+                                <Binding Path="[Shared_Timestamp]" Source="{StaticResource Loc}" />
+                                <Binding Path="SentAt" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </StackPanel>
+                <TextBlock x:Name="lblChatContent" Style="{StaticResource StyChatContent}" Text="{Binding Content}" />
+                <TextBlock x:Name="lblMessageCensored" Style="{StaticResource StyChatCensored}"
+                           Text="{Binding [LobbyChat_MessageCensored], Source={StaticResource Loc}}" />
+            </StackPanel>
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsCensored}" Value="True">
+                <Setter TargetName="lblChatContent" Property="Visibility" Value="Collapsed" />
+                <Setter TargetName="lblMessageCensored" Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TplLobbyPlayer" DataType="{x:Type models:LobbyPlayerDto}">
+        <Border Style="{StaticResource StyPlayerRow}">
+            <DockPanel LastChildFill="True">
+                <Border DockPanel.Dock="Right" Style="{StaticResource StyRankBadge}">
+                    <TextBlock Style="{StaticResource StyRankBadgeText}" Text="{Binding RankName}" />
+                </Border>
+                <Border Style="{StaticResource StyAvatar}">
+                    <Image Style="{StaticResource StyAvatarIcon}" />
+                </Border>
+                <TextBlock Style="{StaticResource StyPlayerName}" Text="{Binding Username}" />
+            </DockPanel>
+        </Border>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TplVersusPlayer" DataType="{x:Type models:LobbyPlayerDto}">
+        <StackPanel Orientation="Horizontal">
+            <Border Style="{StaticResource StyAvatarSmall}">
+                <Image Style="{StaticResource StyAvatarIconSmall}" />
+            </Border>
+            <TextBlock Style="{StaticResource StyVersusName}" Text="{Binding Username}" />
+            <Border Style="{StaticResource StyRankBadgeSmall}">
+                <TextBlock Style="{StaticResource StyRankBadgeTextSmall}" Text="{Binding RankName}" />
+            </Border>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="TplMatchPair" DataType="{x:Type models:MatchPairDto}">
+        <Border Style="{StaticResource StyVersusRow}">
+            <StackPanel Orientation="Horizontal">
+                <ContentPresenter Content="{Binding FirstPlayer}" ContentTemplate="{StaticResource TplVersusPlayer}" />
+                <TextBlock x:Name="lblVersus" Style="{StaticResource StyVersusLabel}"
+                           Text="{Binding [LobbyChat_LblVersus], Source={StaticResource Loc}}" />
+                <ContentPresenter Content="{Binding SecondPlayer}" ContentTemplate="{StaticResource TplVersusPlayer}" />
+            </StackPanel>
+        </Border>
+    </DataTemplate>
+
+</ResourceDictionary>

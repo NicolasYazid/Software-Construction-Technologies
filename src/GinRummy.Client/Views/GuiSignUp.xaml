@@ -1,35 +1,33 @@
-﻿<views:GuiWindowBase x:Class="GinRummy.Client.Views.GuiSignUp"
+﻿<views:GuiModalBase x:Class="GinRummy.Client.Views.GuiSignUp"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:views="clr-namespace:GinRummy.Client.Views"
         xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
-        Title="{Binding [SignUp_LblTitle], Source={StaticResource Loc}}"
-        SizeToContent="WidthAndHeight"
-        ResizeMode="NoResize"
-        WindowStartupLocation="CenterScreen"
         UseLayoutRounding="True"
-        TextOptions.TextFormattingMode="Display">
+        TextOptions.TextFormattingMode="Display"
+        HasCloseButton="False">
     <!-- The height is not stated: the window declares SizeToContent, so letting the grid grow
          with the card is what keeps the last button inside it whatever the size of the text. -->
     <Grid Width="938" Background="{StaticResource BrsPageBackground}">
 
-        <!-- The height follows the card instead of being measured on its own. The surface of
-             the paint reports the size of its own bitmap, and left free that measure was what
-             stretched the window far past the content. -->
-        <Border HorizontalAlignment="Right" VerticalAlignment="Top" Width="465"
-                ClipToBounds="True"
-                Height="{Binding ActualHeight, ElementName=brdCard}">
-            <Grid>
-                <ctl:CtlPaintBackground DeepColour="{StaticResource ClrArtworkDeep}"
+        <!-- The panel stretches to the height of the card instead of being measured on its own.
+             The paint sits inside a canvas, which never reports the size of its children: the
+             surface of the paint reports the size of its own bitmap, and left free that measure
+             was what stretched the window far past the content. -->
+        <Grid HorizontalAlignment="Right" Width="465" ClipToBounds="True">
+            <Canvas>
+                <ctl:CtlPaintBackground Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                                        Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                                        DeepColour="{StaticResource ClrArtworkDeep}"
                                         MidColour="{StaticResource ClrArtworkMid}"
                                         GlowColour="{StaticResource ClrArtworkGlow}" />
-                <ctl:CtlBrandMark MarkFontSize="46" MarkForeground="{StaticResource BrsMenuLight}"
-                                  Effect="{StaticResource EfxTextShadow}"
-                                  HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </Grid>
-        </Border>
+            </Canvas>
+            <ctl:CtlBrandMark MarkFontSize="46" MarkForeground="{StaticResource BrsMenuLight}"
+                              Effect="{StaticResource EfxTextShadow}"
+                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Grid>
 
-        <Border x:Name="brdCard" Background="{StaticResource BrsSurface}" CornerRadius="4"
+        <Border Background="{StaticResource BrsSurface}" ctl:PixelShapeCommon.CornerSteps="5"
                 HorizontalAlignment="Left" VerticalAlignment="Top"
                 Width="471" Margin="2,0,0,0"
                 Padding="34,60,34,30">
@@ -44,13 +42,14 @@
                            Text="{Binding [SignUp_LblEmail], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
                 <Border Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
-                    <Image Source="{StaticResource IcoMail}" Width="19" Height="19"
-                           VerticalAlignment="Center" Margin="0,0,12,0" />
+                        <Image Source="{StaticResource IcoMail}" Width="19" Height="19"
+                               VerticalAlignment="Center" Margin="0,0,12,0" />
                         <Grid>
                             <TextBox x:Name="txtEmail" Style="{StaticResource StyFieldInput}" />
                             <TextBlock Style="{StaticResource StyFieldPlaceholder}"
                                        Text="{Binding [SignUp_TxtEmailPlaceholder], Source={StaticResource Loc}}"
-                                       Visibility="{Binding Text, ElementName=txtEmail, Converter={StaticResource CnvEmptyTextToVisibility}}" />
+                                       Visibility="{Binding Text, ElementName=txtEmail,
+                                                    Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>
                     </DockPanel>
                 </Border>
@@ -59,13 +58,14 @@
                            Text="{Binding [SignUp_LblUsername], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
                 <Border Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
-                    <Image Source="{StaticResource IcoUser}" Width="19" Height="19"
-                           VerticalAlignment="Center" Margin="0,0,12,0" />
+                        <Image Source="{StaticResource IcoUser}" Width="19" Height="19"
+                               VerticalAlignment="Center" Margin="0,0,12,0" />
                         <Grid>
                             <TextBox x:Name="txtUsername" Style="{StaticResource StyFieldInput}" />
                             <TextBlock Style="{StaticResource StyFieldPlaceholder}"
                                        Text="{Binding [SignUp_TxtUsernamePlaceholder], Source={StaticResource Loc}}"
-                                       Visibility="{Binding Text, ElementName=txtUsername, Converter={StaticResource CnvEmptyTextToVisibility}}" />
+                                       Visibility="{Binding Text, ElementName=txtUsername,
+                                                    Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>
                     </DockPanel>
                 </Border>
@@ -74,33 +74,42 @@
                            Text="{Binding [SignUp_LblPassword], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
                 <Border Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
-                    <Image Source="{StaticResource IcoLock}" Width="19" Height="19"
-                           VerticalAlignment="Center" Margin="0,0,12,0" />
-                    <Button x:Name="btnTogglePassword" DockPanel.Dock="Right"
-                            Style="{StaticResource StyIconButton}"
-                            VerticalAlignment="Center" Margin="12,0,0,0"
-                            ToolTip="{Binding [Shared_TipTogglePassword], Source={StaticResource Loc}}"
-                            Click="OnTogglePasswordClick">
-                        <Image Source="{StaticResource IcoEye}" Width="19" Height="19" />
-                    </Button>
-                        <PasswordBox x:Name="pwdPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64" />
+                        <Image Source="{StaticResource IcoLock}" Width="19" Height="19"
+                               VerticalAlignment="Center" Margin="0,0,12,0" />
+                        <Button x:Name="btnTogglePassword" DockPanel.Dock="Right"
+                                Style="{StaticResource StyIconButton}"
+                                VerticalAlignment="Center" Margin="12,0,0,0"
+                                ToolTip="{Binding [Shared_TipTogglePassword], Source={StaticResource Loc}}"
+                                Click="OnTogglePasswordClick">
+                            <Image Source="{StaticResource IcoEye}" Width="19" Height="19" />
+                        </Button>
+                        <Grid>
+                            <PasswordBox x:Name="pwdPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64" />
+                            <TextBox x:Name="txtPasswordShown" Style="{StaticResource StyFieldInput}" MaxLength="64"
+                                     Visibility="Collapsed" />
+                        </Grid>
                     </DockPanel>
                 </Border>
 
                 <TextBlock x:Name="lblConfirmPassword" Style="{StaticResource StyFieldLabel}" Margin="0,20,0,8"
-                           Text="{Binding [SignUp_LblConfirmPassword], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
+                           Text="{Binding [SignUp_LblConfirmPassword], Source={StaticResource Loc},
+                                  Converter={StaticResource CnvUpperCase}}" />
                 <Border Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
-                    <Image Source="{StaticResource IcoLock}" Width="19" Height="19"
-                           VerticalAlignment="Center" Margin="0,0,12,0" />
-                    <Button x:Name="btnToggleConfirmPassword" DockPanel.Dock="Right"
-                            Style="{StaticResource StyIconButton}"
-                            VerticalAlignment="Center" Margin="12,0,0,0"
-                            ToolTip="{Binding [Shared_TipTogglePassword], Source={StaticResource Loc}}"
-                            Click="OnTogglePasswordClick">
-                        <Image Source="{StaticResource IcoEye}" Width="19" Height="19" />
-                    </Button>
-                        <PasswordBox x:Name="pwdConfirmPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64" />
+                        <Image Source="{StaticResource IcoLock}" Width="19" Height="19"
+                               VerticalAlignment="Center" Margin="0,0,12,0" />
+                        <Button x:Name="btnToggleConfirmPassword" DockPanel.Dock="Right"
+                                Style="{StaticResource StyIconButton}"
+                                VerticalAlignment="Center" Margin="12,0,0,0"
+                                ToolTip="{Binding [Shared_TipTogglePassword], Source={StaticResource Loc}}"
+                                Click="OnToggleConfirmPasswordClick">
+                            <Image Source="{StaticResource IcoEye}" Width="19" Height="19" />
+                        </Button>
+                        <Grid>
+                            <PasswordBox x:Name="pwdConfirmPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64" />
+                            <TextBox x:Name="txtConfirmPasswordShown" Style="{StaticResource StyFieldInput}" MaxLength="64"
+                                     Visibility="Collapsed" />
+                        </Grid>
                     </DockPanel>
                 </Border>
 
@@ -138,4 +147,4 @@
             </StackPanel>
         </Border>
     </Grid>
-</views:GuiWindowBase>
+</views:GuiModalBase>

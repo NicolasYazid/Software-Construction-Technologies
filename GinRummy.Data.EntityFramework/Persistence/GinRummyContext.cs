@@ -1,11 +1,7 @@
-﻿using GinRummy.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using GinRummy.Domain.Entities;
 
 namespace GinRummy.Data.EntityFramework.Persistence
 {
@@ -16,10 +12,8 @@ namespace GinRummy.Data.EntityFramework.Persistence
     /// </summary>
     public class GinRummyContext : DbContext
     {
-        /// <summary>
-        /// Disables EF's automatic database initializer, because GinRummy_Dev was
-        /// created by the team's own SQL scripts, not by Entity Framework.
-        /// </summary>
+        // EF's automatic database initializer is disabled because GinRummy_Dev was created by
+        // the team's own SQL scripts, not by Entity Framework.
         static GinRummyContext()
         {
             Database.SetInitializer<GinRummyContext>(null);

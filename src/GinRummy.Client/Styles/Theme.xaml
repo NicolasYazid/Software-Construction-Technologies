@@ -9,11 +9,17 @@
 
     <conv:EmptyTextToVisibilityConverter x:Key="CnvEmptyTextToVisibility" />
     <conv:UpperCaseConverter x:Key="CnvUpperCase" />
+    <BooleanToVisibilityConverter x:Key="CnvBooleanToVisibility" />
+    <conv:LocalizedFormatConverter x:Key="CnvLocalizedFormat" />
+    <conv:CultureNumberConverter x:Key="CnvCultureNumber" />
+    <conv:CardRankConverter x:Key="CnvCardRank" />
+    <conv:CardNameConverter x:Key="CnvCardName" />
+    <conv:MatchLogConverter x:Key="CnvMatchLog" />
 
     <!-- ============================================================
-         Tokens de diseno del cliente. El prototipo de Figma fue el
-         punto de partida; a partir de la version 2 el diseno es una
-         decision del equipo y vive aqui, no en el archivo de Figma.
+         Design tokens of the client. The Figma prototype was the
+         starting point; from version 2 on, the design is a decision
+         of the team and lives here, not in the Figma file.
          ============================================================ -->
 
     <!-- Cairopixel is the only family of the three that covers the accents, the enye and the
@@ -34,18 +40,18 @@
     <SolidColorBrush x:Key="BrsLogo" Color="#FF8E8E93" />
     <SolidColorBrush x:Key="BrsLogoMark" Color="#FF3B3B3B" />
 
-    <!-- Fondo liquido del menu principal (P01). Son Color y no SolidColorBrush
-         porque el control los mezcla canal por canal en cada fotograma. -->
+    <!-- Background of the main menu (P01). These are Color and not SolidColorBrush because
+         the control blends them channel by channel on every frame. -->
     <Color x:Key="ClrMenuLiquidDeep">#FF072118</Color>
     <Color x:Key="ClrMenuLiquidMid">#FF1E6746</Color>
     <Color x:Key="ClrMenuLiquidGlow">#FF6AD29A</Color>
-    <!-- Paleta del menu. Los nombres describen la funcion, no el color, para que
-         cambiar de paleta no obligue a renombrar nada. -->
+    <!-- Palette of the menu. The names describe the role and not the colour, so that
+         changing the palette does not force renaming anything. -->
     <SolidColorBrush x:Key="BrsMenuInk" Color="#0B0D0C" />
     <SolidColorBrush x:Key="BrsMenuPanel" Color="#801A1712" />
-    <!-- Los chips laterales llevan su propio pincel y no el de la barra: son mucho mas
-         pequenos, asi que a igual alfa el fondo se lee a traves de ellos con mas fuerza y
-         pierden cuerpo. -->
+    <!-- The side chips carry their own brush and not the one of the bar: they are much
+         smaller, so at the same alpha the background reads through them more strongly and
+         they lose body. -->
     <SolidColorBrush x:Key="BrsMenuChipPanel" Color="#BF1A1712" />
     <SolidColorBrush x:Key="BrsMenuAccent" Color="#FF8B2C1F" />
     <SolidColorBrush x:Key="BrsMenuAction" Color="#FF3B3F2F" />
@@ -59,11 +65,15 @@
     <SolidColorBrush x:Key="BrsMenuLight" Color="#FFEDE4DC" />
     <SolidColorBrush x:Key="BrsMenuOnDark" Color="#FFFFFFFF" />
 
-    <!-- Sombras compartidas por los elementos del menu. -->
+    <!-- Shadows shared by the elements of the menu. -->
     <DropShadowEffect x:Key="EfxPanelShadow" Color="#FF0A130E"
                       BlurRadius="40" ShadowDepth="13" Direction="270" Opacity="0.92" />
     <DropShadowEffect x:Key="EfxTextShadow" Color="#FF0A130E"
                       BlurRadius="24" ShadowDepth="8" Direction="270" Opacity="0.95" />
+    <DropShadowEffect x:Key="EfxSoftShadow" Color="#FF0A130E"
+                      BlurRadius="6" ShadowDepth="2" Direction="270" Opacity="0.9" />
+    <DropShadowEffect x:Key="EfxCardShadow" Color="#FF0A130E"
+                      BlurRadius="10" ShadowDepth="5" Direction="270" Opacity="0.7" />
 
     <!-- Raised text. The blur is zero on purpose: a blurred shadow reads as a light source
          behind the letter, while an offset copy with a hard edge reads as the same extruded
@@ -77,9 +87,13 @@
     <!-- The rest of the screens were born from the light prototype and keep their own token
          names, but the values now point at the palette of the menu so that the whole client
          reads as one product. Every one of those screens takes its colour from a token, so
-         moving the values here is what carries the design across without touching them. -->
-    <SolidColorBrush x:Key="BrsPageBackground" Color="#FF072118" />
-    <SolidColorBrush x:Key="BrsSurface" Color="#991A1712" />
+         moving the values here is what carries the design across without touching them.
+         The page and the card share one opaque, muted brown, so every screen with a brown
+         background shows the same brown. A translucent card read as grey over the white of a
+         new window and as green over the page. -->
+    <Color x:Key="ClrBrownBackground">#FF1C1814</Color>
+    <SolidColorBrush x:Key="BrsPageBackground" Color="{StaticResource ClrBrownBackground}" />
+    <SolidColorBrush x:Key="BrsSurface" Color="{StaticResource ClrBrownBackground}" />
     <SolidColorBrush x:Key="BrsArtworkPanel" Color="#FF0C2B1E" />
     <SolidColorBrush x:Key="BrsArtworkLogo" Color="#FF1E6746" />
 
@@ -98,13 +112,13 @@
     <SolidColorBrush x:Key="BrsCheckBorder" Color="#FFA68F7C" />
     <SolidColorBrush x:Key="BrsDanger" Color="#FFE08A6A" />
 
-    <!-- Segunda generacion de pantallas del prototipo: P04, P06, P07 y P08 -->
+    <!-- Second generation of screens of the prototype: P04, P06, P07 and P08 -->
     <SolidColorBrush x:Key="BrsPlainTitle" Color="#FFEDE4DC" />
     <SolidColorBrush x:Key="BrsPlainMuted" Color="#FFA68F7C" />
     <SolidColorBrush x:Key="BrsPlainBorder" Color="#FF0B0D0C" />
     <SolidColorBrush x:Key="BrsPlainPrimary" Color="#FF3B3F2F" />
 
-    <!-- ===================== Menu principal (P01) ===================== -->
+    <!-- ======================= Main menu (P01) ======================== -->
 
     <!-- The wordmark is the only place that uses FntBrand, and the weight stays normal
          on every pixel family: none of them ships a bold face, and the weight WPF
@@ -126,47 +140,72 @@
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
 
-    <!-- Boton del menu: cara elevada sobre su propia sombra, esquinas escalonadas y
-         hundimiento al presionar. El color lo pone cada variante. -->
+    <!-- Button of the menu: a face raised over its own shadow, stepped corners and a sink
+         when it is pressed. Each variant sets the colour. The face and the highlight react
+         through styles of their own that read the state of the button, instead of template
+         triggers aimed at them by name, so that no part of the template needs a name outside
+         the prefix vocabulary of the standard. -->
     <ControlTemplate x:Key="TplMenuButton" TargetType="Button">
         <Grid>
-            <ctl:CtlPixelSurface x:Name="pxBase" Margin="0,6,0,0"
+            <ctl:CtlPixelSurface Margin="0,6,0,0"
                                  FaceBrush="{StaticResource BrsMenuInk}" />
-            <ctl:CtlPixelSurface x:Name="pxFace" Margin="0,0,0,6"
-                                 FaceBrush="{TemplateBinding Background}">
+            <ctl:CtlPixelSurface FaceBrush="{TemplateBinding Background}">
+                <ctl:CtlPixelSurface.Style>
+                    <Style TargetType="ctl:CtlPixelSurface">
+                        <Setter Property="Margin" Value="0,0,0,6" />
+                        <Style.Triggers>
+                            <!-- The pointer sinks the face one of the two blocks it travels when
+                                 pressed, so hovering already answers with movement and the press
+                                 still reads as a deeper, separate step. Both distances are whole
+                                 blocks, which is what keeps the edge of the face on the grid
+                                 while it moves. The trigger of the press is declared after this
+                                 one and therefore wins while both apply. -->
+                            <DataTrigger Binding="{Binding IsMouseOver,
+                                                   RelativeSource={RelativeSource TemplatedParent}}"
+                                         Value="True">
+                                <Setter Property="Margin" Value="0,3,0,3" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsPressed,
+                                                   RelativeSource={RelativeSource TemplatedParent}}"
+                                         Value="True">
+                                <Setter Property="Margin" Value="0,6,0,0" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsEnabled,
+                                                   RelativeSource={RelativeSource TemplatedParent}}"
+                                         Value="False">
+                                <Setter Property="Opacity" Value="0.45" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ctl:CtlPixelSurface.Style>
                 <Grid>
-                    <!-- El realce cubre la cara completa y toma su misma forma escalonada, de
-                         modo que al oscurecerse no aparecen esquinas cuadradas sobre los
-                         escalones. Va junto al contenido y no alrededor de el: al ser una capa
-                         con opacidad cero mientras no hay puntero, envolver el contenido lo
-                         volvia invisible tambien. El relleno lateral lo aporta el contenido y
-                         no el borde, porque con relleno en el borde la capa quedaba por dentro
-                         y dejaba una franja sin oscurecer a cada lado. -->
-                    <ctl:CtlPixelSurface x:Name="pxHighlight" Opacity="0"
-                                         FaceBrush="{StaticResource BrsMenuInk}" />
+                    <!-- The highlight covers the whole face and takes its same stepped shape, so
+                         that no square corners appear over the steps when it darkens. It sits
+                         beside the content and not around it: being a layer with zero opacity
+                         while there is no pointer, wrapping the content made it invisible too.
+                         The side padding comes from the content and not from the surface,
+                         because with padding on the surface the layer stayed inside it and
+                         left a strip on each side without darkening. -->
+                    <ctl:CtlPixelSurface FaceBrush="{StaticResource BrsMenuInk}">
+                        <ctl:CtlPixelSurface.Style>
+                            <Style TargetType="ctl:CtlPixelSurface">
+                                <Setter Property="Opacity" Value="0" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsMouseOver,
+                                                           RelativeSource={RelativeSource TemplatedParent}}"
+                                                 Value="True">
+                                        <Setter Property="Opacity" Value="0.53" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ctl:CtlPixelSurface.Style>
+                    </ctl:CtlPixelSurface>
                     <ContentPresenter Margin="14,0,14,0"
                                       Effect="{StaticResource EfxTextRaise}"
                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Grid>
             </ctl:CtlPixelSurface>
         </Grid>
-        <ControlTemplate.Triggers>
-            <!-- The pointer sinks the face one of the two blocks it travels when pressed, so
-                 hovering already answers with movement and the press still reads as a deeper,
-                 separate step. Both distances are whole blocks, which is what keeps the edge
-                 of the face on the grid while it moves. The trigger of the press is declared
-                 after this one and therefore wins while both apply. -->
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter TargetName="pxHighlight" Property="Opacity" Value="0.53" />
-                <Setter TargetName="pxFace" Property="Margin" Value="0,3,0,3" />
-            </Trigger>
-            <Trigger Property="IsPressed" Value="True">
-                <Setter TargetName="pxFace" Property="Margin" Value="0,6,0,0" />
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="pxFace" Property="Opacity" Value="0.45" />
-            </Trigger>
-        </ControlTemplate.Triggers>
     </ControlTemplate>
 
     <!-- Every button of the upper row carries this size and every button of the lower row
@@ -248,27 +287,27 @@
         <Setter Property="FontSize" Value="18" />
         <Setter Property="Padding" Value="10,7,10,7" />
         <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBoxItem">
-                    <Border x:Name="brdItem" Background="Transparent"
+                    <Border Background="{TemplateBinding Background}"
                             Padding="{TemplateBinding Padding}">
                         <ContentPresenter />
                     </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsHighlighted" Value="True">
-                            <Setter TargetName="brdItem" Property="Background"
-                                    Value="{StaticResource BrsMenuChipFace}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
-    <!-- El ComboBox del sistema dibuja su propio fondo claro e ignora Background, asi
-         que la lista de idiomas lleva plantilla propia. PART_Popup es el nombre que
-         exige el framework, no una eleccion de nomenclatura. -->
+    <!-- The ComboBox of the system draws its own light background and ignores Background,
+         so the language list carries a template of its own. PART_Popup is the name the
+         framework requires, not a naming choice. -->
     <Style x:Key="StyMenuLanguageBox" TargetType="ComboBox">
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
         <Setter Property="FontWeight" Value="Normal" />
@@ -281,19 +320,25 @@
                 <ControlTemplate TargetType="ComboBox">
                     <Grid>
                         <ToggleButton Focusable="False" ClickMode="Press"
-                                      IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
-                            <ToggleButton.Template>
-                                <ControlTemplate TargetType="ToggleButton">
-                                    <Border x:Name="brdSelector" CornerRadius="6"
-                                            Background="{StaticResource BrsMenuDropdown}" />
-                                    <ControlTemplate.Triggers>
+                                      IsChecked="{Binding IsDropDownOpen, Mode=TwoWay,
+                                                  RelativeSource={RelativeSource TemplatedParent}}">
+                            <ToggleButton.Style>
+                                <Style TargetType="ToggleButton">
+                                    <Setter Property="Background" Value="{StaticResource BrsMenuDropdown}" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ToggleButton">
+                                                <Border ctl:PixelShapeCommon.CornerSteps="2" Background="{TemplateBinding Background}" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter TargetName="brdSelector" Property="Background"
-                                                    Value="{StaticResource BrsMenuDropdownOver}" />
+                                            <Setter Property="Background" Value="{StaticResource BrsMenuDropdownOver}" />
                                         </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </ToggleButton.Template>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
                         </ToggleButton>
                         <!-- The selector shows the name of the language written in its own
                              language, so the widest state is ESPANOL with its tilde. The
@@ -311,7 +356,7 @@
                               Margin="0,0,5,0" IsHitTestVisible="False" />
                         <Popup x:Name="PART_Popup" Placement="Bottom" AllowsTransparency="True"
                                IsOpen="{TemplateBinding IsDropDownOpen}" Focusable="False">
-                            <Border Background="{StaticResource BrsMenuDropdown}" CornerRadius="6"
+                            <Border Background="{StaticResource BrsMenuDropdown}" ctl:PixelShapeCommon.CornerSteps="2"
                                     Margin="0,4,0,0" MinWidth="{TemplateBinding ActualWidth}">
                                 <StackPanel IsItemsHost="True" />
                             </Border>
@@ -339,7 +384,7 @@
         <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
 
-    <!-- ============== Pantallas con tarjeta (P02, P03, P05) ============== -->
+    <!-- ============== Screens with a card (P02, P03, P05) ============== -->
 
     <!-- The title of these screens takes the display family, the one the buttons carry, so
          that the heading of a modal reads as part of the same voice as the menu. -->
@@ -372,12 +417,13 @@
     <!-- The field is sunk instead of outlined: the border lives only at the bottom and takes
          the colour of the base of the buttons, which is the same device the chips of the menu
          use. The height stays at fifty because the screens place what follows by fixed
-         margins, and changing it would move every row beneath. -->
+         margins, and changing it would move every row beneath. The stepped corners of the
+         buttons are lent to it as a clip, so the field keeps its plain border. -->
     <Style x:Key="StyFieldShell" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsFieldBorder}" />
         <Setter Property="BorderThickness" Value="0,0,0,4" />
-        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="4" />
         <Setter Property="Height" Value="50" />
         <Setter Property="Padding" Value="16,0,16,0" />
     </Style>
@@ -507,28 +553,25 @@
         <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="CheckBox">
                     <StackPanel Orientation="Horizontal">
-                        <Border x:Name="brdBox" Width="18" Height="18" CornerRadius="4"
-                                Background="{StaticResource BrsFieldFace}"
+                        <Border Width="18" Height="18" ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="2"
+                                Background="{TemplateBinding Background}"
                                 BorderBrush="{StaticResource BrsFieldBorder}"
                                 BorderThickness="0,0,0,3"
                                 VerticalAlignment="Center">
-                            <Path x:Name="pthTick" Data="M2,7 L6,11 L13,3"
+                            <Path Data="M2,7 L6,11 L13,3"
                                   Stroke="{StaticResource BrsMenuLight}" StrokeThickness="2.5"
                                   StrokeStartLineCap="Square" StrokeEndLineCap="Square"
-                                  Visibility="Collapsed" />
+                                  Visibility="{TemplateBinding IsChecked,
+                                               Converter={StaticResource CnvBooleanToVisibility}}" />
                         </Border>
                         <ContentPresenter Margin="9,0,0,0" VerticalAlignment="Center" />
                     </StackPanel>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="brdBox" Property="Background"
-                                    Value="{StaticResource BrsMenuChipFace}" />
-                            <Setter TargetName="pthTick" Property="Visibility" Value="Visible" />
-                        </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
                         </Trigger>
@@ -536,6 +579,11 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <!-- The rule takes the colour of the text it accompanies, not that of the sunk edges:
@@ -579,7 +627,7 @@
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
-    <!-- ========== Pantallas sin tarjeta (P04, P06, P07, P08) ========== -->
+    <!-- ========== Screens without a card (P04, P06, P07, P08) ========== -->
 
     <Style x:Key="StyPlainTitle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
@@ -609,7 +657,7 @@
         <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsPlainBorder}" />
         <Setter Property="BorderThickness" Value="0,0,0,4" />
-        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="4" />
         <Setter Property="Height" Value="48" />
         <Setter Property="Padding" Value="15,0,15,0" />
     </Style>
@@ -647,6 +695,1713 @@
     <Style x:Key="StyPlainNotice" TargetType="TextBlock" BasedOn="{StaticResource StyCardNotice}">
         <Setter Property="FontSize" Value="22" />
         <Setter Property="Foreground" Value="{StaticResource BrsPlainMuted}" />
+    </Style>
+
+    <!-- ========== Dialogs and notices (P09, P10, P22, P23, P24, P25) ========== -->
+
+    <!-- The dialogs sit on the page and raise their card over it, one step lighter, the same
+         way the screens with a card do. -->
+    <Style x:Key="StyDialogCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsSurface}" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="5" />
+        <Setter Property="Padding" Value="40,32,40,32" />
+    </Style>
+
+    <!-- The title of a dialog is smaller than the one of a card screen because several of
+         them name a whole action, and at the size of a card title they broke into three
+         lines. -->
+    <Style x:Key="StyDialogTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="30" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="StyDialogMessage" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="LineHeight" Value="28" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <!-- Errors and warnings of consequence take the colour of the errors of the forms, as
+         the prototype paints them red and leaves plain questions in grey. -->
+    <Style x:Key="StyDialogWarning" TargetType="TextBlock" BasedOn="{StaticResource StyDialogMessage}">
+        <Setter Property="Foreground" Value="{StaticResource BrsDanger}" />
+    </Style>
+
+    <!-- The prototype sets the reason and the remaining time in bold. The pixel families have
+         a single weight, so the emphasis is carried by the light colour of the titles. -->
+    <Style x:Key="StyDialogEmphasis" TargetType="TextBlock" BasedOn="{StaticResource StyDialogMessage}">
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+    </Style>
+
+    <Style x:Key="StyDialogPrimaryButton" TargetType="Button" BasedOn="{StaticResource StyCardPrimaryButton}">
+        <Setter Property="MinWidth" Value="170" />
+    </Style>
+
+    <Style x:Key="StyDialogSecondaryButton" TargetType="Button" BasedOn="{StaticResource StyCardOutlineButton}">
+        <Setter Property="MinWidth" Value="170" />
+        <Setter Property="Height" Value="50" />
+    </Style>
+
+    <!-- ============ Lobby and its panels (P11, P12, P13, P16, P17) ============ -->
+
+    <!-- The lobbies stand on the moving paint of the menu. The rail takes a dark green so
+         that it frames the room instead of competing with it. -->
+    <SolidColorBrush x:Key="BrsLobbyRail" Color="#FF041710" />
+    <SolidColorBrush x:Key="BrsLobbyPanel" Color="#FF101C15" />
+    <SolidColorBrush x:Key="BrsLobbyRule" Color="#33EDE4DC" />
+    <SolidColorBrush x:Key="BrsLobbyRowOver" Color="#1FEDE4DC" />
+    <SolidColorBrush x:Key="BrsPresenceOnline" Color="#FF6AD29A" />
+
+    <Style x:Key="StyLobbyPanel" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsLobbyPanel}" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="5" />
+    </Style>
+
+    <!-- The panels of the lobbies are the panels of the menu: the same translucent face that
+         lets the paint behind show through, the ink base beneath and the same deep shadow. -->
+    <Style x:Key="StyLobbyGlassPanel" TargetType="Border" BasedOn="{StaticResource StyLobbyPanel}">
+        <Setter Property="Background" Value="{StaticResource BrsMenuPanel}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="0,0,0,4" />
+        <Setter Property="Effect" Value="{StaticResource EfxPanelShadow}" />
+    </Style>
+
+    <Style x:Key="StyLobbyWordmark" TargetType="TextBlock" BasedOn="{StaticResource StyLogoWordmark}">
+        <Setter Property="FontSize" Value="40" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyLobbyTagline" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="14,6,0,0" />
+    </Style>
+
+    <!-- The two plain options of the header are text, as in the prototype, and light up on
+         hover like the links of the cards do. -->
+    <Style x:Key="StyLobbyNavButton" TargetType="Button" BasedOn="{StaticResource StyCardTextButton}">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="Height" Value="50" />
+        <Setter Property="Margin" Value="0,0,22,0" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyLobbyActionButton" TargetType="Button" BasedOn="{StaticResource StyCardPrimaryButton}">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="MinWidth" Value="180" />
+    </Style>
+
+    <Style x:Key="StyLobbySecondaryButton" TargetType="Button" BasedOn="{StaticResource StyCardOutlineButton}">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Height" Value="50" />
+        <Setter Property="MinWidth" Value="160" />
+    </Style>
+
+    <!-- The buttons of the rail are squares that darken on hover, the same gesture as the
+         chips of the menu, with room for an icon larger than the one of a field. -->
+    <Style x:Key="StyRailButton" TargetType="Button">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Width" Value="64" />
+        <Setter Property="Height" Value="64" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" ctl:PixelShapeCommon.CornerSteps="4">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsMenuChipFaceOver}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyRailIcon" TargetType="Image">
+        <Setter Property="Width" Value="30" />
+        <Setter Property="Height" Value="30" />
+    </Style>
+
+    <!-- The avatar is the one the prototype draws for a player without a picture (CU-27
+         EX-03): a ring around the figure of a person. -->
+    <Style x:Key="StyAvatar" TargetType="Border">
+        <Setter Property="Width" Value="44" />
+        <Setter Property="Height" Value="44" />
+        <Setter Property="CornerRadius" Value="22" />
+        <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMuted}" />
+        <Setter Property="BorderThickness" Value="2" />
+    </Style>
+
+    <Style x:Key="StyAvatarLarge" TargetType="Border" BasedOn="{StaticResource StyAvatar}">
+        <Setter Property="Width" Value="64" />
+        <Setter Property="Height" Value="64" />
+        <Setter Property="CornerRadius" Value="32" />
+    </Style>
+
+    <Style x:Key="StyAvatarSmall" TargetType="Border" BasedOn="{StaticResource StyAvatar}">
+        <Setter Property="Width" Value="26" />
+        <Setter Property="Height" Value="26" />
+        <Setter Property="CornerRadius" Value="13" />
+        <Setter Property="BorderThickness" Value="1.5" />
+    </Style>
+
+    <Style x:Key="StyAvatarIcon" TargetType="Image">
+        <Setter Property="Source" Value="{StaticResource IcoUserLight}" />
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Height" Value="20" />
+    </Style>
+
+    <Style x:Key="StyAvatarIconLarge" TargetType="Image" BasedOn="{StaticResource StyAvatarIcon}">
+        <Setter Property="Width" Value="30" />
+        <Setter Property="Height" Value="30" />
+    </Style>
+
+    <Style x:Key="StyAvatarIconSmall" TargetType="Image" BasedOn="{StaticResource StyAvatarIcon}">
+        <Setter Property="Width" Value="13" />
+        <Setter Property="Height" Value="13" />
+    </Style>
+
+    <Style x:Key="StyPresenceDot" TargetType="Ellipse">
+        <Setter Property="Width" Value="18" />
+        <Setter Property="Height" Value="18" />
+        <Setter Property="Fill" Value="{StaticResource BrsPresenceOnline}" />
+        <Setter Property="Stroke" Value="{StaticResource BrsLobbyRail}" />
+        <Setter Property="StrokeThickness" Value="3" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+    </Style>
+
+    <!-- The rank is a letter of the catalogue of ranks (BD-14) drawn on a disc, as in the
+         prototype. -->
+    <Style x:Key="StyRankBadge" TargetType="Border">
+        <Setter Property="Width" Value="26" />
+        <Setter Property="Height" Value="26" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="3" />
+        <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyRankBadgeSmall" TargetType="Border" BasedOn="{StaticResource StyRankBadge}">
+        <Setter Property="Width" Value="18" />
+        <Setter Property="Height" Value="18" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="2" />
+    </Style>
+
+    <Style x:Key="StyRankBadgeText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyRankBadgeTextSmall" TargetType="TextBlock" BasedOn="{StaticResource StyRankBadgeText}">
+        <Setter Property="FontSize" Value="11" />
+    </Style>
+
+    <Style x:Key="StyChatRulesCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsMenuAction}" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="4" />
+        <Setter Property="Padding" Value="20,14,20,16" />
+    </Style>
+
+    <Style x:Key="StyChatRulesTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+    </Style>
+
+    <Style x:Key="StyChatRulesText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="LineHeight" Value="26" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="0,6,0,0" />
+    </Style>
+
+    <Style x:Key="StyChatAuthor" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+    </Style>
+
+    <Style x:Key="StyChatTime" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="17" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Margin" Value="10,0,0,0" />
+    </Style>
+
+    <Style x:Key="StyChatContent" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="0,4,0,0" />
+    </Style>
+
+    <Style x:Key="StyChatCensored" TargetType="TextBlock" BasedOn="{StaticResource StyChatContent}">
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <!-- The notices of a challenge cross the whole width of the chat, as the prototype draws
+         them, and take the colour of what they mean: the olive of an action for a challenge
+         sent, the red of a warning for one declined and the earth of the chips for one
+         received. -->
+    <Style x:Key="StyChatNotice" TargetType="Border">
+        <Setter Property="Margin" Value="0,8,0,8" />
+        <Setter Property="Padding" Value="20,10,16,10" />
+        <Setter Property="MinHeight" Value="58" />
+        <Setter Property="Background" Value="{StaticResource BrsMenuAction}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Kind}" Value="Declined">
+                <Setter Property="Background" Value="{StaticResource BrsMenuWarn}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Kind}" Value="Received">
+                <Setter Property="Background" Value="{StaticResource BrsMenuEarth}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyChatNoticeText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <Style x:Key="StyNoticeButton" TargetType="Button" BasedOn="{StaticResource StyCardOutlineButton}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="MinWidth" Value="130" />
+        <Setter Property="Margin" Value="10,0,0,0" />
+    </Style>
+
+    <Style x:Key="StyNoticePrimaryButton" TargetType="Button" BasedOn="{StaticResource StyCardPrimaryButton}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="MinWidth" Value="130" />
+        <Setter Property="Margin" Value="10,0,0,0" />
+    </Style>
+
+    <!-- The list of the chat carries no chrome and no selection: it only scrolls. The bar
+         across is disabled so that the messages wrap to the width of the panel. -->
+    <Style x:Key="StyChatListItem" TargetType="ListBoxItem">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <ContentPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StyChatList" TargetType="ListBox">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource StyChatListItem}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <ScrollViewer Focusable="False" CanContentScroll="False"
+                                  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                        <ItemsPresenter Margin="0,0,6,0" />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StyChatComposer" TargetType="Border">
+        <Setter Property="BorderBrush" Value="{StaticResource BrsLobbyRule}" />
+        <Setter Property="BorderThickness" Value="0,2,0,0" />
+        <Setter Property="Padding" Value="20,16,20,18" />
+    </Style>
+
+    <!-- The state of the search and the block of the chat are cards sunk in the panel, the
+         same device as the fields. -->
+    <Style x:Key="StyLobbyStatusCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="0,0,0,4" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="4" />
+        <Setter Property="Padding" Value="22,16,18,18" />
+        <Setter Property="Margin" Value="20,4,20,14" />
+    </Style>
+
+    <Style x:Key="StyStatusTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="StyStatusDanger" TargetType="TextBlock" BasedOn="{StaticResource StyStatusTitle}">
+        <Setter Property="Foreground" Value="{StaticResource BrsDanger}" />
+    </Style>
+
+    <Style x:Key="StyStatusText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="0,6,0,0" />
+    </Style>
+
+    <!-- The tabs of a panel show only their headers: the content they switch lives in the
+         window, because both tabs share the search field that sits between them and their
+         lists. -->
+    <Style x:Key="StyPanelTab" TargetType="TabItem">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="Background" Value="{StaticResource BrsMenuNeutral}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Height" Value="46" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{StaticResource BrsMenuInk}" BorderThickness="0,0,0,4">
+                        <ContentPresenter ContentSource="Header"
+                                          HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
+                <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- A tab a guest cannot use still opens, to tell why it is empty (CU-11 FA-02), so it is
+         dimmed instead of disabled. -->
+    <Style x:Key="StyPanelTabDimmed" TargetType="TabItem" BasedOn="{StaticResource StyPanelTab}">
+        <Setter Property="Opacity" Value="0.55" />
+    </Style>
+
+    <Style x:Key="StyPanelTabs" TargetType="TabControl">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource StyPanelTab}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabControl">
+                    <UniformGrid Rows="1" IsItemsHost="True" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StyPanelSearchShell" TargetType="Border" BasedOn="{StaticResource StyFieldShell}">
+        <Setter Property="Height" Value="46" />
+        <Setter Property="Padding" Value="12,0,12,0" />
+    </Style>
+
+    <Style x:Key="StyPanelSearchInput" TargetType="TextBox" BasedOn="{StaticResource StyFieldInput}">
+        <Setter Property="FontSize" Value="18" />
+    </Style>
+
+    <Style x:Key="StyPanelSearchPlaceholder" TargetType="TextBlock" BasedOn="{StaticResource StyFieldPlaceholder}">
+        <Setter Property="FontSize" Value="18" />
+    </Style>
+
+    <Style x:Key="StyGroupHeader" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="Margin" Value="4,18,4,8" />
+    </Style>
+
+    <Style x:Key="StyGroupRule" TargetType="Border">
+        <Setter Property="Height" Value="2" />
+        <Setter Property="Background" Value="{StaticResource BrsLobbyRule}" />
+        <Setter Property="Margin" Value="0,0,0,4" />
+    </Style>
+
+    <Style x:Key="StyPlayerRow" TargetType="Border">
+        <Setter Property="Padding" Value="6,8,8,8" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsLobbyRule}" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsLobbyRowOver}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyPlayerName" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="Margin" Value="12,0,8,0" />
+    </Style>
+
+    <Style x:Key="StyVersusRow" TargetType="Border" BasedOn="{StaticResource StyPlayerRow}">
+        <Setter Property="Padding" Value="4,10,4,10" />
+    </Style>
+
+    <Style x:Key="StyVersusName" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="6,0,4,0" />
+    </Style>
+
+    <Style x:Key="StyVersusLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="8,0,8,0" />
+    </Style>
+
+    <Style x:Key="StyPanelEmpty" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="LineHeight" Value="26" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="6,16,6,8" />
+    </Style>
+
+    <!-- The context menu of a player takes the sunk face of the fields and lights the item
+         under the pointer with the colour of the chips of the menu. The system menu draws a
+         light chrome of its own, hence the templates. -->
+    <Style x:Key="StyPlayerMenuItem" TargetType="MenuItem">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="14,8,22,8" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="MenuItem">
+                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                        <StackPanel Orientation="Horizontal">
+                            <ContentPresenter ContentSource="Icon" Width="16" Height="16"
+                                              Margin="0,0,12,0" VerticalAlignment="Center" />
+                            <ContentPresenter ContentSource="Header" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
+                <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Only a friend can be removed, and only someone who is not a friend yet can receive a
+         request (CU-12, CU-16), so each of those items shows for one kind of player alone. -->
+    <Style x:Key="StyPlayerMenuFriendItem" TargetType="MenuItem" BasedOn="{StaticResource StyPlayerMenuItem}">
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFriend}" Value="True">
+                <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Once the request is sent, the option stays in its place as the mark of a pending
+         request: dimmed, with the icon of a sent message, and unable to send a second one
+         (CU-12 and its EX-07). -->
+    <Style x:Key="StyPlayerMenuStrangerItem" TargetType="MenuItem" BasedOn="{StaticResource StyPlayerMenuItem}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsFriend}" Value="True">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding HasPendingRequest}" Value="True">
+                <Setter Property="IsEnabled" Value="False" />
+                <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+                <Setter Property="Cursor" Value="Arrow" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyPendingRequestMark" TargetType="Image">
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Opacity" Value="0.6" />
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding HasPendingRequest}" Value="True">
+                <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyPlayerMenu" TargetType="ContextMenu">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource StyPlayerMenuItem}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContextMenu">
+                    <Border Background="{StaticResource BrsFieldFace}" BorderBrush="{StaticResource BrsMenuInk}"
+                            BorderThickness="0,0,0,4" Padding="0,6,0,6" MinWidth="230">
+                        <StackPanel IsItemsHost="True" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- The bar of the system draws its light chrome over every dark panel, so the lists
+         carry a thin one in the colours of the menu. PART_Track is the name the framework
+         requires to find the track, not a naming choice. -->
+    <Style x:Key="StyScrollThumb" TargetType="Thumb">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Border Background="{StaticResource BrsMenuChipFace}"
+                            ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="1" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="ScrollBar">
+        <Setter Property="Width" Value="8" />
+        <Setter Property="MinWidth" Value="8" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollBar">
+                    <Border Background="{StaticResource BrsMenuInk}"
+                            ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="1">
+                        <Track x:Name="PART_Track" IsDirectionReversed="True"
+                               Orientation="{TemplateBinding Orientation}">
+                            <Track.Thumb>
+                                <Thumb Style="{StaticResource StyScrollThumb}" />
+                            </Track.Thumb>
+                        </Track>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Orientation" Value="Horizontal">
+                            <Setter TargetName="PART_Track" Property="IsDirectionReversed" Value="False" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Width" Value="Auto" />
+                <Setter Property="MinWidth" Value="0" />
+                <Setter Property="Height" Value="8" />
+                <Setter Property="MinHeight" Value="8" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyPanelTitle" TargetType="TextBlock" BasedOn="{StaticResource StyDialogTitle}">
+        <Setter Property="TextAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyDialogCloseButton" TargetType="Button" BasedOn="{StaticResource StyIconButton}">
+        <Setter Property="Width" Value="36" />
+        <Setter Property="Height" Value="36" />
+    </Style>
+
+    <Style x:Key="StyRequestRow" TargetType="Border">
+        <Setter Property="Padding" Value="0,12,0,12" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsLobbyRule}" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+    </Style>
+
+    <Style x:Key="StyRequestText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="14,0,14,0" />
+    </Style>
+
+    <Style x:Key="StySanctionCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="0,0,0,4" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="4" />
+        <Setter Property="Padding" Value="20,14,20,16" />
+        <Setter Property="Margin" Value="0,0,0,14" />
+    </Style>
+
+    <Style x:Key="StySanctionBadge" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsDanger}" />
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <Style x:Key="StySanctionBadgeServed" TargetType="TextBlock" BasedOn="{StaticResource StySanctionBadge}">
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+    </Style>
+
+    <Style x:Key="StySanctionReason" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="Margin" Value="0,6,0,0" />
+    </Style>
+
+    <Style x:Key="StySanctionDetail" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <Style x:Key="StyReportedPlayer" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+    </Style>
+
+    <!-- The reasons of a report are exclusive options: a disc ringed with the colour of the
+         muted text, since a sunk edge alone vanished over the dark card, that fills with the
+         light of the menu when it is chosen. -->
+    <Style x:Key="StyReasonRadio" TargetType="RadioButton">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Margin" Value="0,0,0,12" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+                    <StackPanel Orientation="Horizontal" Background="Transparent">
+                        <Border Width="22" Height="22" Padding="2" VerticalAlignment="Center"
+                                Background="{StaticResource BrsCheckBorder}"
+                                ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="4">
+                            <Border Background="{TemplateBinding Background}"
+                                    ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="3">
+                                <Border Width="10" Height="10" Background="{StaticResource BrsMenuLight}"
+                                        ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="1"
+                                        Visibility="{TemplateBinding IsChecked,
+                                                     Converter={StaticResource CnvBooleanToVisibility}}" />
+                            </Border>
+                        </Border>
+                        <ContentPresenter Margin="12,0,0,0" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyFieldArea" TargetType="Border" BasedOn="{StaticResource StyFieldShell}">
+        <Setter Property="Height" Value="120" />
+        <Setter Property="Padding" Value="16,12,16,12" />
+    </Style>
+
+    <Style x:Key="StyFieldAreaInput" TargetType="TextBox" BasedOn="{StaticResource StyFieldInput}">
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="AcceptsReturn" Value="True" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+    </Style>
+
+    <Style x:Key="StyFieldAreaPlaceholder" TargetType="TextBlock" BasedOn="{StaticResource StyFieldPlaceholder}">
+        <Setter Property="VerticalAlignment" Value="Top" />
+    </Style>
+
+    <!-- ================= Profile screens (P14, P15, P21) ================= -->
+
+    <!-- The change of email opens over the panel and not in a window of its own, because the
+         dictionary places its texts in the panel. The veil keeps the panel in sight while it
+         is open. -->
+    <SolidColorBrush x:Key="BrsOverlay" Color="#D90A0907" />
+    <!-- Shade laid over a main screen while one of its modals is open: the screen stays in
+         sight behind the modal but reads as out of reach. -->
+    <SolidColorBrush x:Key="BrsModalBackdrop" Color="#A60A0907" />
+
+    <Style x:Key="StySettingSection" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,0,0,8" />
+    </Style>
+
+    <Style x:Key="StySettingValue" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+    </Style>
+
+    <Style x:Key="StySettingDivider" TargetType="Border">
+        <Setter Property="Height" Value="2" />
+        <Setter Property="Background" Value="{StaticResource BrsLobbyRule}" />
+        <Setter Property="Margin" Value="0,22,0,22" />
+    </Style>
+
+    <Style x:Key="StySettingCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="0,0,0,4" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="4" />
+        <Setter Property="Padding" Value="18,14,16,16" />
+    </Style>
+
+    <Style x:Key="StySettingTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="StySettingHint" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="0,6,0,0" />
+    </Style>
+
+    <!-- The switches take the colour of the chips of the menu when they are on and the one
+         of the neutral buttons when they are off. The knob moves by a style of its own that
+         reads the state of the switch, so no part of the template needs a name. -->
+    <Style x:Key="StyToggleSwitch" TargetType="ToggleButton">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Width" Value="56" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Background" Value="{StaticResource BrsMenuNeutral}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border Background="{TemplateBinding Background}" ctl:PixelShapeCommon.CornerSteps="4"
+                            BorderBrush="{StaticResource BrsMenuInk}" BorderThickness="0,0,0,3">
+                        <Border Width="20" Height="20" Margin="5,0,5,0" Background="{StaticResource BrsMenuLight}"
+                                ctl:PixelShapeCommon.CornerSteps="2">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="HorizontalAlignment" Value="Left" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsChecked,
+                                                               RelativeSource={RelativeSource TemplatedParent}}"
+                                                     Value="True">
+                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                        </Border>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- The slider shows the part already chosen in the colour of the chips, over a sunk
+         track. PART_Track is the name the framework requires to find the track. -->
+    <Style x:Key="StySliderFill" TargetType="RepeatButton">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border Height="8" ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="1"
+                            Background="{StaticResource BrsMenuChipFace}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StySliderRest" TargetType="RepeatButton">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border Background="Transparent" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StySliderThumb" TargetType="Thumb">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Border Width="22" Height="22" Padding="3" Background="{StaticResource BrsMenuInk}"
+                            ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="4">
+                        <Border Background="{StaticResource BrsMenuLight}"
+                                ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="3" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StyVolumeSlider" TargetType="Slider">
+        <Setter Property="Minimum" Value="0" />
+        <Setter Property="Maximum" Value="100" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="IsMoveToPointEnabled" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Slider">
+                    <Grid>
+                        <Border Height="8" ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="1"
+                                Background="{StaticResource BrsFieldFace}"
+                                BorderBrush="{StaticResource BrsMenuInk}" BorderThickness="0,0,0,2" />
+                        <Track x:Name="PART_Track">
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton Style="{StaticResource StySliderFill}" Command="Slider.DecreaseLarge" />
+                            </Track.DecreaseRepeatButton>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton Style="{StaticResource StySliderRest}" Command="Slider.IncreaseLarge" />
+                            </Track.IncreaseRepeatButton>
+                            <Track.Thumb>
+                                <Thumb Style="{StaticResource StySliderThumb}" />
+                            </Track.Thumb>
+                        </Track>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StyCenteredTextButton" TargetType="Button" BasedOn="{StaticResource StyInlineTextButton}">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyAvatarProfile" TargetType="Border" BasedOn="{StaticResource StyAvatar}">
+        <Setter Property="Width" Value="112" />
+        <Setter Property="Height" Value="112" />
+        <Setter Property="CornerRadius" Value="56" />
+        <Setter Property="BorderThickness" Value="3" />
+    </Style>
+
+    <Style x:Key="StyAvatarIconProfile" TargetType="Image" BasedOn="{StaticResource StyAvatarIcon}">
+        <Setter Property="Width" Value="52" />
+        <Setter Property="Height" Value="52" />
+    </Style>
+
+    <Style x:Key="StySocialLinkRow" TargetType="Border" BasedOn="{StaticResource StyFieldShell}">
+        <Setter Property="Height" Value="46" />
+        <Setter Property="Margin" Value="0,0,0,10" />
+    </Style>
+
+    <Style x:Key="StySocialPlatform" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,0,12,0" />
+    </Style>
+
+    <Style x:Key="StySocialUrl" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+    </Style>
+
+    <Style x:Key="StyRowTextButton" TargetType="Button" BasedOn="{StaticResource StyCardTextButton}">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="12,0,0,0" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- The public profile (P21) states the name and the numbers of the player at the size
+         of the titles, as the prototype does, and leaves the rest at the size of the body. -->
+    <Style x:Key="StyProfileName" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="40" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyProfileTag" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyProfileSectionTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="Margin" Value="0,20,0,6" />
+    </Style>
+
+    <Style x:Key="StyProfileText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="StySocialChip" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsMenuNeutral}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="0,0,0,3" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="3" />
+        <Setter Property="Padding" Value="12,6,12,6" />
+        <Setter Property="Margin" Value="0,0,10,0" />
+    </Style>
+
+    <Style x:Key="StySocialChipText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+    </Style>
+
+    <Style x:Key="StyStatCard" TargetType="Border" BasedOn="{StaticResource StySettingCard}">
+        <Setter Property="Padding" Value="22,16,22,18" />
+    </Style>
+
+    <Style x:Key="StyStatLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style x:Key="StyStatValue" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="40" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="Margin" Value="0,10,0,0" />
+    </Style>
+
+    <Style x:Key="StyPresenceDotInline" TargetType="Ellipse" BasedOn="{StaticResource StyPresenceDot}">
+        <Setter Property="Width" Value="14" />
+        <Setter Property="Height" Value="14" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- ============= Leaderboard and house rules (P18, P19) ============= -->
+
+    <!-- The places of the podium are sunk cards, the same device as the performance of the
+         profile. The first one takes the earth of the menu so that it stands out with a colour
+         the palette already has, and carries the crown instead of its number. -->
+    <Style x:Key="StyPodiumCard" TargetType="Border" BasedOn="{StaticResource StySettingCard}">
+        <Setter Property="Padding" Value="18,14,18,16" />
+        <Setter Property="Margin" Value="6,0,6,0" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Position}" Value="1">
+                <Setter Property="Background" Value="{StaticResource BrsMenuEarth}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyPodiumName" TargetType="TextBlock" BasedOn="{StaticResource StyPlayerName}">
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+    </Style>
+
+    <Style x:Key="StyPodiumPosition" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Position}" Value="1">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyPodiumCrown" TargetType="Image">
+        <Setter Property="Source" Value="{StaticResource IcoCrown}" />
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Position}" Value="1">
+                <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyPodiumStat" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="Margin" Value="0,0,16,0" />
+    </Style>
+
+    <Style x:Key="StyPodiumStatMuted" TargetType="TextBlock" BasedOn="{StaticResource StyPodiumStat}">
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+    </Style>
+
+    <Style x:Key="StyRankingTable" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="0,0,0,4" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="4" />
+    </Style>
+
+    <Style x:Key="StyRankingHead" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyRankingHeadNumber" TargetType="TextBlock" BasedOn="{StaticResource StyRankingHead}">
+        <Setter Property="TextAlignment" Value="Right" />
+    </Style>
+
+    <!-- The row of the player takes the colour of the chips of the menu (CU-19 step 6). The
+         numbers of a row carry no colour of their own and inherit the one the row sets, so the
+         highlight reaches them without naming any of them. -->
+    <Style x:Key="StyRankingRow" TargetType="Border" BasedOn="{StaticResource StyPlayerRow}">
+        <Setter Property="Padding" Value="20,8,20,8" />
+        <Setter Property="TextElement.Foreground" Value="{StaticResource BrsBody}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsOwnEntry}" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
+                <Setter Property="TextElement.Foreground" Value="{StaticResource BrsMenuLight}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyRankingPosition" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsOwnEntry}" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyRankingName" TargetType="TextBlock" BasedOn="{StaticResource StyPlayerName}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsOwnEntry}" Value="True">
+                <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyRankingYou" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsOwnEntry}" Value="True">
+                <Setter Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyRankingCell" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="TextAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- Over the highlighted row the disc of the rank would vanish into the same colour, so it
+         turns to the earth of the menu there. -->
+    <Style x:Key="StyRankingBadge" TargetType="Border" BasedOn="{StaticResource StyRankBadge}">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsOwnEntry}" Value="True">
+                <Setter Property="Background" Value="{StaticResource BrsMenuEarth}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyRulesCardHead" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="Margin" Value="0,4,0,0" />
+    </Style>
+
+    <!-- The warning of fair play takes the red of the warnings of the menu, the same one a
+         declined challenge carries in the chat. -->
+    <Style x:Key="StyFairPlayBar" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsMenuWarn}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="0,0,0,4" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="4" />
+        <Setter Property="Padding" Value="22,12,22,14" />
+    </Style>
+
+    <Style x:Key="StyFairPlayText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <!-- The rules are a flow document because its list draws the numerals itself: they are
+         not strings of the dictionary, and a text that wrote them would have to be
+         translated. The viewer shows no toolbar and no selection, only the scroll. -->
+    <Style x:Key="StyRulesViewer" TargetType="FlowDocumentScrollViewer">
+        <Setter Property="IsToolBarVisible" Value="False" />
+        <Setter Property="IsSelectionEnabled" Value="False" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style x:Key="StyRulesDocument" TargetType="FlowDocument">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="TextAlignment" Value="Left" />
+        <Setter Property="PagePadding" Value="0,0,18,0" />
+    </Style>
+
+    <!-- The numerals take the font and the colour of the list, and the text the ones of its
+         paragraph, which is how the prototype sets the number apart from the rule. -->
+    <Style x:Key="StyRulesList" TargetType="List">
+        <Setter Property="MarkerStyle" Value="Decimal" />
+        <Setter Property="MarkerOffset" Value="14" />
+        <Setter Property="Padding" Value="44,0,0,0" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+    </Style>
+
+    <Style x:Key="StyRuleText" TargetType="Paragraph">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="LineHeight" Value="26" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="Margin" Value="0,0,0,10" />
+    </Style>
+
+    <Style x:Key="StyGlossaryTitle" TargetType="Paragraph">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="Margin" Value="0,20,0,12" />
+    </Style>
+
+    <!-- Each term sits over its definition: the terms differ too much in length to share a
+         column with them. -->
+    <Style x:Key="StyGlossaryTerm" TargetType="Paragraph">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontSize" Value="17" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="Margin" Value="0,0,0,4" />
+    </Style>
+
+    <Style x:Key="StyGlossaryDefinition" TargetType="Paragraph" BasedOn="{StaticResource StyRuleText}">
+        <Setter Property="Margin" Value="0,0,0,14" />
+    </Style>
+
+    <!-- ======================== Game table (P20) ======================== -->
+
+    <!-- The table keeps the room of the lobby: the chat and the side panel are its panels, and
+         the cards lie on a translucent cloth raised like the panels, so the paint of the room
+         shows through it. The faces of the cards take the
+         light of the menu so that they stand out on the green, with the ink of the menu for
+         the black suits and a darker red for the red ones. -->
+    <SolidColorBrush x:Key="BrsCardInkBlack" Color="#FF1A1712" />
+    <SolidColorBrush x:Key="BrsCardInkRed" Color="#FFA33A2A" />
+    <SolidColorBrush x:Key="BrsTableSurface" Color="#801A1712" />
+
+    <!-- The back of a card is a sprite of the spiral of the backgrounds, still and in the reds
+         of the buttons. Every card shrinks the same sprite, so the small ones show the whole
+         spiral with smaller blocks instead of a few large ones. -->
+    <ImageBrush x:Key="BrsCardBack" ImageSource="{x:Static ctl:CardBackCommon.Sprite}" Stretch="UniformToFill" />
+
+    <Style x:Key="StyCardFace" TargetType="Border">
+        <Setter Property="Width" Value="62" />
+        <Setter Property="Height" Value="92" />
+        <Setter Property="Background" Value="{StaticResource BrsMenuLight}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="1,1,1,3" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Effect" Value="{StaticResource EfxCardShadow}" />
+    </Style>
+
+    <Style x:Key="StyCardFaceLarge" TargetType="Border" BasedOn="{StaticResource StyCardFace}">
+        <Setter Property="Width" Value="92" />
+        <Setter Property="Height" Value="130" />
+    </Style>
+
+    <Style x:Key="StyCardFaceMini" TargetType="Border" BasedOn="{StaticResource StyCardFace}">
+        <Setter Property="Width" Value="40" />
+        <Setter Property="Height" Value="48" />
+        <Setter Property="Margin" Value="0,0,4,0" />
+    </Style>
+
+    <Style x:Key="StyCardBack" TargetType="Border">
+        <Setter Property="Width" Value="51" />
+        <Setter Property="Height" Value="78" />
+        <Setter Property="Margin" Value="2,0,2,0" />
+        <Setter Property="Background" Value="{StaticResource BrsCardBack}" />
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="1,1,1,3" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Effect" Value="{StaticResource EfxCardShadow}" />
+    </Style>
+
+    <Style x:Key="StyCardBackLarge" TargetType="Border" BasedOn="{StaticResource StyCardBack}">
+        <Setter Property="Width" Value="92" />
+        <Setter Property="Height" Value="130" />
+        <Setter Property="Margin" Value="0" />
+    </Style>
+
+    <!-- The place of the discard pile stays drawn when the pile is empty, so that the table
+         does not change its shape when the card is taken. -->
+    <Style x:Key="StyCardSlot" TargetType="Rectangle">
+        <Setter Property="Width" Value="92" />
+        <Setter Property="Height" Value="130" />
+        <Setter Property="Stroke" Value="{StaticResource BrsLobbyRule}" />
+        <Setter Property="StrokeThickness" Value="2" />
+        <Setter Property="StrokeDashArray" Value="3 2" />
+        <Setter Property="RadiusX" Value="4" />
+        <Setter Property="RadiusY" Value="4" />
+    </Style>
+
+    <!-- The rank takes the colour of its suit, as on a printed card. -->
+    <Style x:Key="StyCardRank" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="17" />
+        <Setter Property="Foreground" Value="{StaticResource BrsCardInkBlack}" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Margin" Value="5,3,0,0" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Suit}" Value="Diamonds">
+                <Setter Property="Foreground" Value="{StaticResource BrsCardInkRed}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Suit}" Value="Hearts">
+                <Setter Property="Foreground" Value="{StaticResource BrsCardInkRed}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyCardRankLarge" TargetType="TextBlock" BasedOn="{StaticResource StyCardRank}">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="Margin" Value="8,5,0,0" />
+    </Style>
+
+    <Style x:Key="StyCardRankMini" TargetType="TextBlock" BasedOn="{StaticResource StyCardRank}">
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Margin" Value="4,2,0,0" />
+    </Style>
+
+    <!-- The opposite corner repeats the rank upside down, as a printed card does. -->
+    <Style x:Key="StyCardRankTurned" TargetType="TextBlock" BasedOn="{StaticResource StyCardRank}">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Margin" Value="0,0,5,5" />
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <RotateTransform Angle="180" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StyCardRankTurnedLarge" TargetType="TextBlock" BasedOn="{StaticResource StyCardRankTurned}">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="Margin" Value="0,0,8,7" />
+    </Style>
+
+    <!-- The picture of the suit follows the suit of the card. The sizes are halves and doubles
+         of the grid of twenty-four the symbols are drawn on, which keeps their blocks square. -->
+    <Style x:Key="StyCardSuit" TargetType="Image">
+        <Setter Property="Source" Value="{StaticResource IcoSuitSpades}" />
+        <Setter Property="Width" Value="12" />
+        <Setter Property="Height" Value="12" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Margin" Value="6,25,0,0" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Suit}" Value="Clubs">
+                <Setter Property="Source" Value="{StaticResource IcoSuitClubs}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Suit}" Value="Diamonds">
+                <Setter Property="Source" Value="{StaticResource IcoSuitDiamonds}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Suit}" Value="Hearts">
+                <Setter Property="Source" Value="{StaticResource IcoSuitHearts}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="StyCardSuitLarge" TargetType="Image" BasedOn="{StaticResource StyCardSuit}">
+        <Setter Property="Margin" Value="10,36,0,0" />
+    </Style>
+
+    <Style x:Key="StyCardSuitMini" TargetType="Image" BasedOn="{StaticResource StyCardSuit}">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Margin" Value="0,0,5,6" />
+    </Style>
+
+    <Style x:Key="StyCardSuitCenter" TargetType="Image" BasedOn="{StaticResource StyCardSuit}">
+        <Setter Property="Width" Value="24" />
+        <Setter Property="Height" Value="24" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,4,0,0" />
+    </Style>
+
+    <Style x:Key="StyCardSuitCenterLarge" TargetType="Image" BasedOn="{StaticResource StyCardSuitCenter}">
+        <Setter Property="Width" Value="48" />
+        <Setter Property="Height" Value="48" />
+    </Style>
+
+    <!-- A card of the hand rises when it is chosen, as a real card does when it is lifted from
+         the fan. -->
+    <Style x:Key="StyHandCard" TargetType="ListBoxItem">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Margin" Value="1,0,1,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <ContentPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <TranslateTransform Y="-14" />
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- The hand is a single row with no chrome. The room above the cards is the height a
+         chosen card rises, so that it never leaves the list. -->
+    <Style x:Key="StyHandList" TargetType="ListBox">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="AllowDrop" Value="True" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource StyHandCard}" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <Border Background="{TemplateBinding Background}" Padding="0,16,0,0">
+                        <ItemsPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="StyTableSurface" TargetType="Rectangle">
+        <Setter Property="Fill" Value="{StaticResource BrsTableSurface}" />
+        <Setter Property="Stroke" Value="{StaticResource BrsLobbyRule}" />
+        <Setter Property="StrokeThickness" Value="2" />
+        <Setter Property="StrokeDashArray" Value="4 3" />
+        <Setter Property="RadiusX" Value="96" />
+        <Setter Property="RadiusY" Value="96" />
+        <Setter Property="Effect" Value="{StaticResource EfxPanelShadow}" />
+    </Style>
+
+    <Style x:Key="StyTableCaption" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Effect" Value="{StaticResource EfxSoftShadow}" />
+    </Style>
+
+    <Style x:Key="StyTablePill" TargetType="Border">
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMuted}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="10,3,10,4" />
+        <Setter Property="Margin" Value="12,0,0,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Effect" Value="{StaticResource EfxSoftShadow}" />
+    </Style>
+
+    <Style x:Key="StyTablePillText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+    </Style>
+
+    <Style x:Key="StyTableNote" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Effect" Value="{StaticResource EfxSoftShadow}" />
+    </Style>
+
+    <Style x:Key="StyDeadwoodLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Effect" Value="{StaticResource EfxSoftShadow}" />
+    </Style>
+
+    <Style x:Key="StyDeadwoodValue" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="52" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="16,0,0,0" />
+        <!-- The digits of the display family sit low in their line, so they are lifted to
+             share the middle line of the label beside them. -->
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <TranslateTransform Y="-7" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Effect" Value="{StaticResource EfxSoftShadow}" />
+    </Style>
+
+    <Style x:Key="StyMatchStatRow" TargetType="DockPanel">
+        <Setter Property="LastChildFill" Value="False" />
+        <Setter Property="Margin" Value="4,7,4,7" />
+    </Style>
+
+    <Style x:Key="StyMatchStatLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyMatchStatValue" TargetType="TextBlock">
+        <Setter Property="DockPanel.Dock" Value="Right" />
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyMatchLogText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="Margin" Value="0,2,0,0" />
+    </Style>
+
+    <Style x:Key="StyMatchChatAuthor" TargetType="TextBlock" BasedOn="{StaticResource StyChatAuthor}">
+        <Setter Property="FontSize" Value="15" />
+    </Style>
+
+    <Style x:Key="StyMatchChatTime" TargetType="TextBlock" BasedOn="{StaticResource StyChatTime}">
+        <Setter Property="FontSize" Value="15" />
+    </Style>
+
+    <Style x:Key="StyMatchChatContent" TargetType="TextBlock" BasedOn="{StaticResource StyChatContent}">
+        <Setter Property="FontSize" Value="18" />
+    </Style>
+
+    <!-- Forfeiting counts as a defeat (CU-26), so its button takes the red of the warnings. -->
+    <Style x:Key="StyForfeitButton" TargetType="Button" BasedOn="{StaticResource StyLobbySecondaryButton}">
+        <Setter Property="Background" Value="{StaticResource BrsMenuWarn}" />
+    </Style>
+
+    <!-- The pause, the close of a hand and the result of the match open over the table, which
+         stays in sight under the veil, as the prototype draws them. -->
+    <Style x:Key="StyTableOverlayCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsArtworkPanel}" />
+        <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
+        <Setter Property="BorderThickness" Value="0,0,0,4" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="5" />
+        <Setter Property="Padding" Value="40,28,40,30" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyHandWinnerPill" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource BrsMenuWarn}" />
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="3" />
+        <Setter Property="Padding" Value="16,4,16,5" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <Style x:Key="StyHandWinnerText" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+    </Style>
+
+    <Style x:Key="StyHandCountRow" TargetType="DockPanel">
+        <Setter Property="LastChildFill" Value="False" />
+        <Setter Property="Margin" Value="0,3,0,3" />
+    </Style>
+
+    <Style x:Key="StyHandCountLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyHandCountValue" TargetType="TextBlock">
+        <Setter Property="DockPanel.Dock" Value="Right" />
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="StyMeldPanel" TargetType="Border" BasedOn="{StaticResource StySettingCard}">
+        <Setter Property="Padding" Value="16,12,16,10" />
+        <Setter Property="Margin" Value="0,12,0,0" />
+    </Style>
+
+    <Style x:Key="StyMeldPanelTitle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+    </Style>
+
+    <Style x:Key="StyMeldLabel" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,6,0,0" />
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <Style x:Key="StyResultTitle" TargetType="TextBlock" BasedOn="{StaticResource StyCardTitle}">
+        <Setter Property="FontSize" Value="56" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <Style x:Key="StyResultReason" TargetType="TextBlock" BasedOn="{StaticResource StyDialogMessage}">
+        <Setter Property="Margin" Value="0,6,0,0" />
+        <Setter Property="Visibility" Value="Collapsed" />
+    </Style>
+
+    <Style x:Key="StyFinalScore" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="Visibility" Value="Collapsed" />
     </Style>
 
 </ResourceDictionary>

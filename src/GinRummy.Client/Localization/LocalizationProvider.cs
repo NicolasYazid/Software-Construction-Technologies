@@ -96,7 +96,7 @@ namespace GinRummy.Client.Localization
             get { return _selectedCulture; }
             set
             {
-                if (value != null && value != _selectedCulture)
+                if ((value != null) && (value != _selectedCulture))
                 {
                     SetCulture(value.Code);
                 }

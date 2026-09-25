@@ -1,0 +1,42 @@
+﻿<views:GuiModalBase x:Class="GinRummy.Client.Views.GuiConfirmDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:GinRummy.Client.Views"
+        UseLayoutRounding="True"
+        TextOptions.TextFormattingMode="Display"
+        HasCloseButton="False">
+    <Grid Width="560" Background="{StaticResource BrsPageBackground}">
+        <Border Style="{StaticResource StyDialogCard}">
+            <StackPanel>
+
+                <TextBlock x:Name="lblTitle" Style="{StaticResource StyDialogTitle}" />
+                <TextBlock x:Name="lblMessage" Style="{StaticResource StyDialogMessage}" Margin="0,16,0,0" />
+
+                <!-- Only the dialog that turns off the two-step verification asks for the
+                     password, because CU-05 makes the player prove again that the account is
+                     theirs. The field follows the visibility of its label, so the dialog decides
+                     both in a single place. -->
+                <StackPanel Width="320">
+                    <TextBlock x:Name="lblPassword" Style="{StaticResource StyFieldLabel}"
+                               HorizontalAlignment="Center" Margin="0,22,0,8" Visibility="Collapsed"
+                               Text="{Binding [ConfirmDialog_LblPassword], Source={StaticResource Loc},
+                                      Converter={StaticResource CnvUpperCase}}" />
+                    <Border Style="{StaticResource StyFieldShell}"
+                            Visibility="{Binding Visibility, ElementName=lblPassword}">
+                        <PasswordBox x:Name="pwdPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64" />
+                    </Border>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,26,0,0">
+                    <Button x:Name="btnConfirm" Style="{StaticResource StyDialogPrimaryButton}"
+                            Margin="0,0,16,0" Click="OnConfirmClick" />
+                    <Button x:Name="btnCancel" Style="{StaticResource StyDialogSecondaryButton}"
+                            Content="{Binding [Shared_BtnCancel], Source={StaticResource Loc},
+                                      Converter={StaticResource CnvUpperCase}}"
+                            Click="OnCancelClick" />
+                </StackPanel>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</views:GuiModalBase>

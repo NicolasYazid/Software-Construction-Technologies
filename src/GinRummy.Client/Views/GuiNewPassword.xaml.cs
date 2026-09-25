@@ -8,7 +8,7 @@ namespace GinRummy.Client.Views
     /// recovery flow reaches this screen precisely when the player no longer knows the
     /// password that is in force.
     /// </summary>
-    public partial class GuiNewPassword : GuiWindowBase
+    public partial class GuiNewPassword : GuiModalBase
     {
         private const string TitleKeyRecovery = "NewPassword_LblTitle";
         private const string TitleKeyChange = "NewPassword_LblTitleChange";
@@ -50,7 +50,6 @@ namespace GinRummy.Client.Views
             {
                 string titleKey = ResolveTitleKey();
                 lblTitle.Text = Localization.GetText(titleKey);
-                Title = Localization.GetText(titleKey);
             }
         }
 
@@ -77,7 +76,6 @@ namespace GinRummy.Client.Views
             }
 
             lblCurrentPassword.Visibility = currentPasswordVisibility;
-            brdCurrentPassword.Visibility = currentPasswordVisibility;
             lblNewPassword.Margin = newPasswordLabelMargin;
         }
 
@@ -86,16 +84,30 @@ namespace GinRummy.Client.Views
             // Matching the confirmation is the only check the client resolves on its own,
             // because it sends nothing to the server. The strength rules and the current
             // password itself are verified on the server, as CU-06 requires.
-            bool passwordsMatch = pwdNewPassword.Password == pwdConfirmPassword.Password;
-            if (passwordsMatch)
+            bool isPasswordConfirmed = pwdNewPassword.Password == pwdConfirmPassword.Password;
+            if (isPasswordConfirmed)
             {
                 lblErrorMessage.Visibility = Visibility.Collapsed;
-                Close();
+                ShowNextScreen();
             }
             else
             {
                 lblErrorMessage.Text = Localization.GetText(PasswordMismatchKey);
                 lblErrorMessage.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void ShowNextScreen()
+        {
+            // A recovered password ends every session of the account, so the player signs in
+            // again with it (CU-08 step 14). A change made from the profile panel returns to it.
+            if (!_isChangeFromProfile)
+            {
+                NavigateTo(new GuiLogIn());
+            }
+            else
+            {
+                Close();
             }
         }
     }

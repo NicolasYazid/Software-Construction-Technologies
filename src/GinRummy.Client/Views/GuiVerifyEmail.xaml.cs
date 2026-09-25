@@ -9,7 +9,7 @@ namespace GinRummy.Client.Views
     /// CU-07 and CU-08. Every duration and counter it shows is formatted with the active
     /// culture and never written inside the string.
     /// </summary>
-    public partial class GuiVerifyEmail : GuiWindowBase
+    public partial class GuiVerifyEmail : GuiModalBase
     {
         private const int CodeLifetimeSeconds = 600;
         private const int ResendDelaySeconds = 60;
@@ -54,13 +54,16 @@ namespace GinRummy.Client.Views
         }
 
         /// <summary>
-        /// Rebuilds the title, the instructions and every value that carries a placeholder.
+        /// Rebuilds the heading, the window title, the instructions and every value that
+        /// carries a placeholder. The title comes from a different key in each flow, so it
+        /// cannot be bound in XAML to a single one.
         /// </summary>
         protected override void RefreshFormattedText()
         {
             if (lblTitle != null)
             {
-                lblTitle.Text = Localization.GetText(ResolveTitleKey());
+                string titleKey = ResolveTitleKey();
+                lblTitle.Text = Localization.GetText(titleKey);
                 lblInstructions.Text = Localization.Format(
                     "VerifyEmail_LblInstructions", _destinationAddress);
                 lblCodeExpiresIn.Text = Localization.Format(
@@ -111,21 +114,20 @@ namespace GinRummy.Client.Views
         private void OnVerifyClick(object sender, RoutedEventArgs e)
         {
             // The code is checked on the server, as CU-09 requires. The screen only advances
-            // so that the navigation of the prototype can be walked through.
+            // so that the navigation of the prototype can be walked through. A new address
+            // confirmed from the profile panel returns to it (CU-07 step 11).
             if (_purpose == VerificationPurpose.PasswordRecovery)
             {
-                GuiNewPassword newPassword = new GuiNewPassword(false);
-                newPassword.Owner = Owner;
-                newPassword.Show();
+                NavigateTo(new GuiNewPassword(false));
+            }
+            else if (_purpose == VerificationPurpose.AccountSignUp)
+            {
+                NavigateTo(new GuiAccountCreated());
             }
             else
             {
-                GuiAccountCreated accountCreated = new GuiAccountCreated();
-                accountCreated.Owner = Owner;
-                accountCreated.Show();
+                Close();
             }
-
-            Close();
         }
 
         private void OnResendCodeClick(object sender, RoutedEventArgs e)
