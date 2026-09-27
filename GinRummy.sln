@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GinRummy.Domain", "GinRummy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GinRummy.Data.EntityFramework", "GinRummy.Data.EntityFramework\GinRummy.Data.EntityFramework.csproj", "{BC70868E-56FA-4D00-AB04-38DE5E070964}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GinRummy.Security", "GinRummy.Security\GinRummy.Security.csproj", "{8D359981-9BB3-41F6-9360-F599D39E559F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{BC70868E-56FA-4D00-AB04-38DE5E070964}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC70868E-56FA-4D00-AB04-38DE5E070964}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC70868E-56FA-4D00-AB04-38DE5E070964}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D359981-9BB3-41F6-9360-F599D39E559F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D359981-9BB3-41F6-9360-F599D39E559F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D359981-9BB3-41F6-9360-F599D39E559F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D359981-9BB3-41F6-9360-F599D39E559F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
