@@ -51,9 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Persistence\EntityFrameworkUnitOfWork.cs" />
     <Compile Include="Persistence\GinRummyContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DataAccess\PlayerDao.cs" />
+    <Compile Include="Repositories\LocaleRepository.cs" />
+    <Compile Include="Repositories\PlayerRepository.cs" />
+    <Compile Include="Repositories\VerificationCodeRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GinRummy.Domain\GinRummy.Domain.csproj">
