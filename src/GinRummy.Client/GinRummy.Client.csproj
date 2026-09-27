@@ -194,6 +194,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\SignUpController.cs" />
+    <Compile Include="Controllers\SignUpResult.cs" />
     <Compile Include="Controls\CtlBrandMark.xaml.cs">
       <DependentUpon>CtlBrandMark.xaml</DependentUpon>
     </Compile>
@@ -355,6 +357,10 @@
     <ProjectReference Include="..\..\GinRummy.Domain\GinRummy.Domain.csproj">
       <Project>{58dde2c2-10bb-49d9-bd13-0d4afa4445e9}</Project>
       <Name>GinRummy.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GinRummy.Security\GinRummy.Security.csproj">
+      <Project>{8d359981-9bb3-41f6-9360-f599d39e559f}</Project>
+      <Name>GinRummy.Security</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
