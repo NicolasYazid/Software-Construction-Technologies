@@ -41,9 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Locale.cs" />
     <Compile Include="Entities\Player.cs" />
+    <Compile Include="Entities\VerificationCode.cs" />
+    <Compile Include="Entities\VerificationPurpose.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DataAccess\IPlayerDao.cs" />
+    <Compile Include="Repositories\ILocaleRepository.cs" />
+    <Compile Include="Repositories\IPlayerRepository.cs" />
+    <Compile Include="Repositories\IUnitOfWork.cs" />
+    <Compile Include="Repositories\IVerificationCodeHasher.cs" />
+    <Compile Include="Repositories\IVerificationCodeRepository.cs" />
+    <Compile Include="Security\IPasswordHasher.cs" />
+    <Compile Include="Security\IVerificationCodeGenerator.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
