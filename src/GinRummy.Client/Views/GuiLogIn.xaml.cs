@@ -59,16 +59,16 @@ namespace GinRummy.Client.Views
             }
         }
 
-        // Shows the success message on screen. The real flow (creating a session and opening
-        // the lobby) depends on the server and is out of scope for this activity.
+        // On success, the prototype navigates to the lobby, from which the leaderboard is
+        // reached. The full CU-02 (creating a PlayerSession, checking bans and 2FA) is
+        // server-dependent and completed in a later iteration.
         private void ShowSuccess(string username)
         {
-            lblErrorMessage.Visibility = Visibility.Collapsed;
-
-            // TODO: When the server exists, a successful sign-in will create a PlayerSession
-            // and open the lobby (CU-02, step 11). That flow is server-dependent and
-            // completed in a later iteration.
-            MessageBox.Show(Localization.Format(SignInSuccessMessageKey, username));
+            // TODO: full CU-02 (session, bans, 2FA, real lobby data) is server-dependent.
+            GuiLobbyChat lobby = new GuiLobbyChat();
+            lobby.Show();
+            Application.Current.MainWindow = lobby;
+            Close();
         }
 
         // Shows a localized error message on the card.
