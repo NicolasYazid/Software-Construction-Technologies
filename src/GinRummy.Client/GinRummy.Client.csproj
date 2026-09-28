@@ -196,6 +196,7 @@
     </Compile>
     <Compile Include="Controllers\LogInController.cs" />
     <Compile Include="Controllers\LogInResult.cs" />
+    <Compile Include="Controllers\RankingsController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\SignUpResult.cs" />
     <Compile Include="Controls\CtlBrandMark.xaml.cs">

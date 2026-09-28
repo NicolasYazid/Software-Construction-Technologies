@@ -4,15 +4,16 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
+using GinRummy.Client.Controllers;
 using GinRummy.Client.Models;
 using GinRummy.Client.Services;
+using GinRummy.Domain.Entities;
 
 namespace GinRummy.Client.Views
 {
     /// <summary>
-    /// Leaderboard screen (P18). Implements CU-19: the leaderboard of every player, the one
-    /// among friends (FA-01), the search of a player (FA-02) and the row of the player kept at
-    /// the foot of the table when its place lies beyond it (FA-03).
+    /// Leaderboard screen (P18). Implements CU-19. The global tab reads real data through the
+    /// rankings controller; the friends tab still uses sample data until its backend exists.
     /// </summary>
     public partial class GuiRankings : GuiModalBase
     {
@@ -22,13 +23,13 @@ namespace GinRummy.Client.Views
         private LeaderboardDto _leaderboard;
 
         /// <summary>
-        /// Builds the screen with the leaderboard of every player, the tab it opens on.
+        /// Builds the screen with the global leaderboard, the tab it opens on.
         /// </summary>
         public GuiRankings()
         {
             InitializeComponent();
             _dataService = new SampleDataService();
-            ShowLeaderboard(_dataService.GetGlobalLeaderboard());
+            ShowLeaderboard(BuildGlobalLeaderboard());
         }
 
         private void OnTabSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -40,11 +41,13 @@ namespace GinRummy.Client.Views
                 LeaderboardDto leaderboard;
                 if (tabFriends.IsSelected)
                 {
+                    // TODO: The friends leaderboard needs the FriendShip data and the signed-in
+                    // player, both server-dependent. It stays on sample data until then.
                     leaderboard = _dataService.GetFriendsLeaderboard();
                 }
                 else
                 {
-                    leaderboard = _dataService.GetGlobalLeaderboard();
+                    leaderboard = BuildGlobalLeaderboard();
                 }
 
                 ShowLeaderboard(leaderboard);
@@ -66,6 +69,48 @@ namespace GinRummy.Client.Views
         private void OnCloseClick(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        // Reads the real global ranking through the controller and turns each domain entity
+        // into the row shape the view already knows how to display.
+        private LeaderboardDto BuildGlobalLeaderboard()
+        {
+            App application = (App)Application.Current;
+            RankingsController rankingsController = application.CreateRankingsController();
+            IList<PlayerStats> rankedStats = rankingsController.GetGlobalRanking();
+
+            List<RankingEntryDto> entries = new List<RankingEntryDto>();
+            int position = 1;
+            foreach (PlayerStats stats in rankedStats)
+            {
+                entries.Add(ToRankingEntry(stats, position, rankingsController));
+                position++;
+            }
+
+            LeaderboardDto leaderboard = new LeaderboardDto();
+            leaderboard.Entries = entries;
+
+            // TODO: The highlighted own row (CU-19 FA-03) needs the signed-in player, which is
+            // server-dependent. It stays absent until then.
+            leaderboard.OwnEntry = null;
+
+            return leaderboard;
+        }
+
+        // Converts one domain PlayerStats into the view's row DTO. This conversion lives in the
+        // view on purpose: the DTO is a presentation shape, never part of the domain logic.
+        private static RankingEntryDto ToRankingEntry(PlayerStats stats, int position, RankingsController controller)
+        {
+            RankingEntryDto entry = new RankingEntryDto();
+            entry.Position = position;
+            entry.Username = stats.Player.Username;
+            entry.Wins = stats.Wins;
+            entry.Losses = stats.Losses;
+            entry.WinRate = stats.MatchesPlayed == 0 ? 0 : (double)stats.Wins / stats.MatchesPlayed;
+            entry.RankName = controller.ResolveRankName(stats.Score);
+            entry.IsOwnEntry = false;
+
+            return entry;
         }
 
         private void ShowLeaderboard(LeaderboardDto leaderboard)

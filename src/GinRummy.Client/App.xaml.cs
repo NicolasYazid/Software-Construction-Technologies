@@ -55,6 +55,16 @@ namespace GinRummy.Client
         }
 
         /// <summary>
+        /// Builds a rankings controller wired to real, concrete adapters. The screens call
+        /// this instead of constructing anything concrete themselves.
+        /// </summary>
+        /// <returns>A ready-to-use rankings controller.</returns>
+        public RankingsController CreateRankingsController()
+        {
+            return new RankingsController(new RankingRepository(ConnectionStringName));
+        }
+
+        /// <summary>
         /// Publishes the localization provider before the first window is loaded.
         /// </summary>
         /// <param name="e">Startup arguments supplied by the framework.</param>
