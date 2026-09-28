@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\LocaleRepository.cs" />
     <Compile Include="Repositories\PlayerRepository.cs" />
+    <Compile Include="Repositories\RankingRepository.cs" />
     <Compile Include="Repositories\VerificationCodeRepository.cs" />
   </ItemGroup>
   <ItemGroup>

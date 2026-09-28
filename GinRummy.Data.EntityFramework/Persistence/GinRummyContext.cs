@@ -123,8 +123,7 @@ namespace GinRummy.Data.EntityFramework.Persistence
                 .HasColumnName("matches_played")
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
             modelBuilder.Entity<PlayerStats>().HasRequired(stats => stats.Player)
-                .WithMany()
-                .HasForeignKey(stats => stats.PlayerId);
+                .WithOptional();
 
             modelBuilder.Entity<Rank>().ToTable("Rank");
             modelBuilder.Entity<Rank>().HasKey(rank => rank.RankId);
