@@ -1,11 +1,12 @@
-﻿using GinRummy.Domain.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using GinRummy.Domain.Entities;
 
 namespace GinRummy.Data.EntityFramework.Persistence
 {
@@ -49,6 +50,16 @@ namespace GinRummy.Data.EntityFramework.Persistence
         /// Gets or sets the Locale set.
         /// </summary>
         public DbSet<Locale> Locales { get; set; }
+
+        /// <summary>
+        /// Gets or sets the PlayerStats set.
+        /// </summary>
+        public DbSet<PlayerStats> PlayerStats { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Rank set.
+        /// </summary>
+        public DbSet<Rank> Ranks { get; set; }
 
         /// <summary>
         /// Maps the Domain entities to the columns GinRummy_Dev already defines.
@@ -100,6 +111,27 @@ namespace GinRummy.Data.EntityFramework.Persistence
             modelBuilder.Entity<Locale>().Property(locale => locale.LocaleId).HasColumnName("locale_id");
             modelBuilder.Entity<Locale>().Property(locale => locale.LocaleCode).HasColumnName("locale_code");
             modelBuilder.Entity<Locale>().Property(locale => locale.DisplayName).HasColumnName("display_name");
+            modelBuilder.Entity<PlayerStats>().ToTable("PlayerStats");
+            modelBuilder.Entity<PlayerStats>().HasKey(stats => stats.PlayerId);
+            modelBuilder.Entity<PlayerStats>().Property(stats => stats.PlayerId)
+                .HasColumnName("player_id")
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            modelBuilder.Entity<PlayerStats>().Property(stats => stats.Wins).HasColumnName("wins");
+            modelBuilder.Entity<PlayerStats>().Property(stats => stats.Losses).HasColumnName("losses");
+            modelBuilder.Entity<PlayerStats>().Property(stats => stats.Score).HasColumnName("score");
+            modelBuilder.Entity<PlayerStats>().Property(stats => stats.MatchesPlayed)
+                .HasColumnName("matches_played")
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
+            modelBuilder.Entity<PlayerStats>().HasRequired(stats => stats.Player)
+                .WithMany()
+                .HasForeignKey(stats => stats.PlayerId);
+
+            modelBuilder.Entity<Rank>().ToTable("Rank");
+            modelBuilder.Entity<Rank>().HasKey(rank => rank.RankId);
+            modelBuilder.Entity<Rank>().Property(rank => rank.RankId).HasColumnName("rank_id");
+            modelBuilder.Entity<Rank>().Property(rank => rank.Name).HasColumnName("name");
+            modelBuilder.Entity<Rank>().Property(rank => rank.MinimumScore).HasColumnName("minimum_score");
+            modelBuilder.Entity<Rank>().Property(rank => rank.MaximumScore).HasColumnName("maximum_score");
         }
     }
 }
