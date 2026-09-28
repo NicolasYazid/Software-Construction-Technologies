@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="Entities\Locale.cs" />
     <Compile Include="Entities\Player.cs" />
+    <Compile Include="Entities\PlayerStats.cs" />
+    <Compile Include="Entities\Rank.cs" />
     <Compile Include="Entities\VerificationCode.cs" />
     <Compile Include="Entities\VerificationPurpose.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
