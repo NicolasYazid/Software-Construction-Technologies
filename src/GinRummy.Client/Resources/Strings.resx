@@ -1530,4 +1530,16 @@ Tú: {0}   -   Rival: {1}</value>
     <value>Tu código de verificación es: {0}</value>
     <comment>Mensaje temporal de demostración; el envío real por correo llega con el servidor</comment>
   </data>
+  <data name="Error_AuthEmailNotFound" xml:space="preserve">
+    <value>No existe una cuenta con ese correo.</value>
+    <comment>Login: el correo no corresponde a ningún jugador</comment>
+  </data>
+  <data name="Error_AuthWrongPassword" xml:space="preserve">
+    <value>La contraseña es incorrecta.</value>
+    <comment>Login: contraseña incorrecta para un correo existente</comment>
+  </data>
+  <data name="LogIn_DemoSignInSuccess" xml:space="preserve">
+    <value>Inicio de sesión exitoso. ¡Bienvenido, {0}!</value>
+    <comment>Mensaje temporal de demostración; el acceso real al lobby llega con el servidor</comment>
+  </data>
 </root>

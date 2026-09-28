@@ -1178,4 +1178,13 @@ You: {0}   -   Opponent: {1}</value>
   <data name="SignUp_DemoCodeGenerated" xml:space="preserve">
     <value>Your verification code is: {0}</value>
   </data>
+  <data name="Error_AuthEmailNotFound" xml:space="preserve">
+    <value>No account exists with that email.</value>
+  </data>
+  <data name="Error_AuthWrongPassword" xml:space="preserve">
+    <value>The password is incorrect.</value>
+  </data>
+  <data name="LogIn_DemoSignInSuccess" xml:space="preserve">
+    <value>Sign-in successful. Welcome, {0}!</value>
+  </data>
 </root>
