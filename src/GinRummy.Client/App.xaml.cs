@@ -3,6 +3,7 @@
 using GinRummy.Client.Controllers;
 using GinRummy.Client.Localization;
 using GinRummy.Data.EntityFramework.Persistence;
+using GinRummy.Data.EntityFramework.Repositories;
 using GinRummy.Domain.Repositories;
 using GinRummy.Domain.Security;
 using GinRummy.Security;
@@ -39,6 +40,18 @@ namespace GinRummy.Client
                 _passwordHasher,
                 _codeGenerator,
                 _codeHasher);
+        }
+
+        /// <summary>
+        /// Builds a sign-in controller wired to real, concrete adapters. The screens call
+        /// this instead of constructing anything concrete themselves.
+        /// </summary>
+        /// <returns>A ready-to-use sign-in controller.</returns>
+        public LogInController CreateLogInController()
+        {
+            return new LogInController(
+                new PlayerRepository(ConnectionStringName),
+                _passwordHasher);
         }
 
         /// <summary>
