@@ -903,14 +903,49 @@
         <Setter Property="VerticalAlignment" Value="Bottom" />
     </Style>
 
+    <!-- Every rank letter has its own colour, so a rank is told apart at a glance in the
+         leaderboard, the lobby and the profile alike: S pink, A purple, B light blue, C yellow,
+         D light grey, E red and F brown. The light ones carry dark ink on their letter. -->
+    <SolidColorBrush x:Key="BrsRankS" Color="#FFE86FA8" />
+    <SolidColorBrush x:Key="BrsRankA" Color="#FF8A55C9" />
+    <SolidColorBrush x:Key="BrsRankB" Color="#FF6FC3E8" />
+    <SolidColorBrush x:Key="BrsRankC" Color="#FFE8C33F" />
+    <SolidColorBrush x:Key="BrsRankD" Color="#FFBDBDBD" />
+    <SolidColorBrush x:Key="BrsRankE" Color="#FFC73A2E" />
+    <SolidColorBrush x:Key="BrsRankF" Color="#FF6E4326" />
+    <SolidColorBrush x:Key="BrsRankInk" Color="#FF1A1712" />
+
     <!-- The rank is a letter of the catalogue of ranks (BD-14) drawn on a disc, as in the
-         prototype. -->
+         prototype. A letter outside the catalogue keeps the neutral disc. -->
     <Style x:Key="StyRankBadge" TargetType="Border">
         <Setter Property="Width" Value="26" />
         <Setter Property="Height" Value="26" />
         <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="3" />
         <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
         <Setter Property="VerticalAlignment" Value="Center" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding RankName}" Value="S">
+                <Setter Property="Background" Value="{StaticResource BrsRankS}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RankName}" Value="A">
+                <Setter Property="Background" Value="{StaticResource BrsRankA}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RankName}" Value="B">
+                <Setter Property="Background" Value="{StaticResource BrsRankB}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RankName}" Value="C">
+                <Setter Property="Background" Value="{StaticResource BrsRankC}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RankName}" Value="D">
+                <Setter Property="Background" Value="{StaticResource BrsRankD}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RankName}" Value="E">
+                <Setter Property="Background" Value="{StaticResource BrsRankE}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RankName}" Value="F">
+                <Setter Property="Background" Value="{StaticResource BrsRankF}" />
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="StyRankBadgeSmall" TargetType="Border" BasedOn="{StaticResource StyRankBadge}">
@@ -926,6 +961,20 @@
         <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding RankName}" Value="S">
+                <Setter Property="Foreground" Value="{StaticResource BrsRankInk}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RankName}" Value="B">
+                <Setter Property="Foreground" Value="{StaticResource BrsRankInk}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RankName}" Value="C">
+                <Setter Property="Foreground" Value="{StaticResource BrsRankInk}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RankName}" Value="D">
+                <Setter Property="Foreground" Value="{StaticResource BrsRankInk}" />
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="StyRankBadgeTextSmall" TargetType="TextBlock" BasedOn="{StaticResource StyRankBadgeText}">
@@ -1901,15 +1950,10 @@
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
-    <!-- Over the highlighted row the disc of the rank would vanish into the same colour, so it
-         turns to the earth of the menu there. -->
+    <!-- The disc keeps the colour of its rank on the highlighted row too: that colour is never
+         the one of the row, so it no longer needs a colour of its own there. -->
     <Style x:Key="StyRankingBadge" TargetType="Border" BasedOn="{StaticResource StyRankBadge}">
         <Setter Property="HorizontalAlignment" Value="Right" />
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding IsOwnEntry}" Value="True">
-                <Setter Property="Background" Value="{StaticResource BrsMenuEarth}" />
-            </DataTrigger>
-        </Style.Triggers>
     </Style>
 
     <Style x:Key="StyRulesCardHead" TargetType="TextBlock">
