@@ -58,6 +58,7 @@
     <SolidColorBrush x:Key="BrsMenuEarth" Color="#FF4B3B2A" />
     <SolidColorBrush x:Key="BrsMenuNeutral" Color="#FF2C2E30" />
     <SolidColorBrush x:Key="BrsMenuWarn" Color="#FF6B2E2F" />
+    <SolidColorBrush x:Key="BrsMenuSettings" Color="#FF2F4B55" />
     <SolidColorBrush x:Key="BrsMenuChipFace" Color="#FF8A4B2A" />
     <SolidColorBrush x:Key="BrsMenuDropdown" Color="#FFA06D51" />
     <SolidColorBrush x:Key="BrsMenuChipFaceOver" Color="#FF442F1C" />
@@ -267,6 +268,16 @@
         <Setter Property="CornerSteps" Value="5" />
         <Setter Property="Padding" Value="14,12,14,14" />
         <Setter Property="Effect" Value="{StaticResource EfxPanelShadow}" />
+    </Style>
+
+    <!-- The settings chip holds a real button, so it takes the raised face of the buttons of
+         the bar and not the flat inset of the language selector beside it. -->
+    <Style x:Key="StyMenuChipButton" TargetType="Button">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Background" Value="{StaticResource BrsMenuSettings}" />
+        <Setter Property="Height" Value="50" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template" Value="{StaticResource TplMenuButton}" />
     </Style>
 
     <Style x:Key="StyMenuChipInset" TargetType="ctl:CtlPixelSurface">

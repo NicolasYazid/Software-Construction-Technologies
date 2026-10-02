@@ -970,6 +970,10 @@ Tú: {0}   -   Rival: {1}</value>
     <value>Idioma</value>
     <comment>Contenido de GuiMainMenu</comment>
   </data>
+  <data name="MainMenu_LblSettings" xml:space="preserve">
+    <value>Configuración</value>
+    <comment>Contenido de GuiMainMenu</comment>
+  </data>
   <data name="MainMenu_LblTagline" xml:space="preserve">
     <value>Tu jugada. Tu victoria.</value>
     <comment>Contenido de GuiMainMenu</comment>

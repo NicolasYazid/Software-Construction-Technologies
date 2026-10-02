@@ -48,13 +48,14 @@
                 <ctl:CtlPixelSurface Grid.Column="0" Style="{StaticResource StyMenuChip}"
                                      HorizontalAlignment="Left" VerticalAlignment="Center" Width="165">
                     <StackPanel>
-                        <TextBlock x:Name="lblProfile" Style="{StaticResource StyMenuChipCaption}"
-                                   Text="{Binding [LobbyChat_BtnProfile], Source={StaticResource Loc},
+                        <TextBlock x:Name="lblSettings" Style="{StaticResource StyMenuChipCaption}"
+                                   Text="{Binding [MainMenu_LblSettings], Source={StaticResource Loc},
                                           Converter={StaticResource CnvUpperCase}}" />
-                        <ctl:CtlPixelSurface Style="{StaticResource StyMenuChipInset}" Height="44" Margin="0,8,0,0">
-                            <Image Source="{StaticResource IcoUserLight}" Width="18" Height="18"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </ctl:CtlPixelSurface>
+                        <!-- It opens the same settings as the gear of the lobby. -->
+                        <Button x:Name="btnSettings" Style="{StaticResource StyMenuChipButton}" Margin="0,8,0,0"
+                                Click="OnSettingsClick">
+                            <Image Source="{StaticResource IcoGear}" Width="22" Height="22" />
+                        </Button>
                     </StackPanel>
                 </ctl:CtlPixelSurface>
 

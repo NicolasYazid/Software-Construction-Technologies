@@ -758,6 +758,9 @@ You: {0}   -   Opponent: {1}</value>
   <data name="MainMenu_LblLanguage" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="MainMenu_LblSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
   <data name="MainMenu_LblTagline" xml:space="preserve">
     <value>Your move. Your win.</value>
   </data>

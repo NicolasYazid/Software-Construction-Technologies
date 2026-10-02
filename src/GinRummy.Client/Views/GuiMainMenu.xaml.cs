@@ -31,6 +31,11 @@ namespace GinRummy.Client.Views
             EnterLobby(new GuiGuestLobby());
         }
 
+        private void OnSettingsClick(object sender, RoutedEventArgs e)
+        {
+            ShowModal(new GuiProfilePanel());
+        }
+
         private void OnHowToPlayClick(object sender, RoutedEventArgs e)
         {
             GuiHouseRules houseRules = new GuiHouseRules();
