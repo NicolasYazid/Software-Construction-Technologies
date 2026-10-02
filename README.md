@@ -12,8 +12,19 @@ git clone https://github.com/NicolasYazid/Software-Construction-Technologies.git
 ```
 
 Abre `GinRummy.sln` con Visual Studio 2019 o 2022. Necesitas la carga de trabajo **Desarrollo de
-escritorio de .NET** con el **paquete de destino de .NET Framework 4.8**. No hay paquetes NuGet ni
-dependencias externas: el repositorio se compila tal como se clona.
+escritorio de .NET** con el **paquete de destino de .NET Framework 4.8**. Los paquetes NuGet
+(Entity Framework 6.5.2 y Konscious.Security.Cryptography.Argon2) se restauran al compilar.
+
+### Conexión con la base de datos
+
+Las credenciales de la base de datos nunca se versionan. `App.config` lee la cadena de conexión de
+`src/GinRummy.Client/ConnectionStrings.config`, que git ignora, así que cada integrante la crea en su
+máquina:
+
+1. Copia `ConnectionStrings.template.config` como `ConnectionStrings.config`, en la misma carpeta.
+2. Escribe en `Data Source` el nombre de tu instancia (por ejemplo `localhost\SQLEXPRESS`) y en
+   `User ID` y `Password` la cuenta de mínimo privilegio de la aplicación.
+3. Compila. El archivo se copia junto al ejecutable; si falta, la aplicación no puede conectarse.
 
 ## Alcance
 

@@ -22,3 +22,6 @@ _ReSharper*/
 
 # Restored NuGet packages: regenerated on build, not versioned
 [Pp]ackages/
+
+# Local database credentials: copied from ConnectionStrings.template.config, never versioned
+src/GinRummy.Client/ConnectionStrings.config
