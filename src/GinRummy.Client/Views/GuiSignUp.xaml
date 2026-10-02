@@ -40,7 +40,7 @@
 
                 <TextBlock x:Name="lblEmail" Style="{StaticResource StyFieldLabel}" Margin="0,20,0,8"
                            Text="{Binding [SignUp_LblEmail], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
-                <Border Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
+                <ctl:CtlPixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
                         <Image Source="{StaticResource IcoMail}" Width="19" Height="19"
                                VerticalAlignment="Center" Margin="0,0,12,0" />
@@ -52,11 +52,11 @@
                                                     Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>
                     </DockPanel>
-                </Border>
+                </ctl:CtlPixelBorder>
 
                 <TextBlock x:Name="lblUsername" Style="{StaticResource StyFieldLabel}" Margin="0,20,0,8"
                            Text="{Binding [SignUp_LblUsername], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
-                <Border Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
+                <ctl:CtlPixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
                         <Image Source="{StaticResource IcoUser}" Width="19" Height="19"
                                VerticalAlignment="Center" Margin="0,0,12,0" />
@@ -68,11 +68,11 @@
                                                     Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>
                     </DockPanel>
-                </Border>
+                </ctl:CtlPixelBorder>
 
                 <TextBlock x:Name="lblPassword" Style="{StaticResource StyFieldLabel}" Margin="0,20,0,8"
                            Text="{Binding [SignUp_LblPassword], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
-                <Border Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
+                <ctl:CtlPixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
                         <Image Source="{StaticResource IcoLock}" Width="19" Height="19"
                                VerticalAlignment="Center" Margin="0,0,12,0" />
@@ -89,12 +89,12 @@
                                      Visibility="Collapsed" />
                         </Grid>
                     </DockPanel>
-                </Border>
+                </ctl:CtlPixelBorder>
 
                 <TextBlock x:Name="lblConfirmPassword" Style="{StaticResource StyFieldLabel}" Margin="0,20,0,8"
                            Text="{Binding [SignUp_LblConfirmPassword], Source={StaticResource Loc},
                                   Converter={StaticResource CnvUpperCase}}" />
-                <Border Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
+                <ctl:CtlPixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
                         <Image Source="{StaticResource IcoLock}" Width="19" Height="19"
                                VerticalAlignment="Center" Margin="0,0,12,0" />
@@ -111,7 +111,7 @@
                                      Visibility="Collapsed" />
                         </Grid>
                     </DockPanel>
-                </Border>
+                </ctl:CtlPixelBorder>
 
                 <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyCardError}"
                            Width="402" HorizontalAlignment="Left" Margin="0,12,0,0" />

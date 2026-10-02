@@ -1,6 +1,7 @@
 ﻿<views:GuiModalBase x:Class="GinRummy.Client.Views.GuiRankings"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
         xmlns:views="clr-namespace:GinRummy.Client.Views"
         xmlns:models="clr-namespace:GinRummy.Client.Models"
         UseLayoutRounding="True"
@@ -10,7 +11,7 @@
         <!-- The podium and the rows format their numbers inside a template, where no window can
              rebuild them one by one, so they bind to the culture of the provider as well. -->
         <DataTemplate x:Key="TplPodiumPlace" DataType="{x:Type models:RankingEntryDto}">
-            <Border Style="{StaticResource StyPodiumCard}">
+            <ctl:CtlPixelBorder Style="{StaticResource StyPodiumCard}">
                 <StackPanel>
                     <DockPanel LastChildFill="True">
                         <Image DockPanel.Dock="Right" Style="{StaticResource StyPodiumCrown}"
@@ -55,7 +56,7 @@
                         </TextBlock>
                     </StackPanel>
                 </StackPanel>
-            </Border>
+            </ctl:CtlPixelBorder>
         </DataTemplate>
 
         <!-- The columns of a row repeat the widths of the head of the table, so that both line
@@ -155,7 +156,7 @@
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
 
-                <Border Style="{StaticResource StyRankingTable}" Margin="0,18,0,0">
+                <ctl:CtlPixelBorder Style="{StaticResource StyRankingTable}" Margin="0,18,0,0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -218,9 +219,9 @@
                                           ItemTemplate="{StaticResource TplRankingRow}" />
                         </Grid>
                     </Grid>
-                </Border>
+                </ctl:CtlPixelBorder>
 
-                <Border Style="{StaticResource StyPanelSearchShell}" Margin="0,16,0,0">
+                <ctl:CtlPixelBorder Style="{StaticResource StyPanelSearchShell}" Margin="0,16,0,0">
                     <DockPanel LastChildFill="True">
                         <Button x:Name="btnSearch" DockPanel.Dock="Right" Style="{StaticResource StyIconButton}"
                                 Width="28" Height="28"
@@ -237,7 +238,7 @@
                                                     Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>
                     </DockPanel>
-                </Border>
+                </ctl:CtlPixelBorder>
 
             </StackPanel>
         </Border>

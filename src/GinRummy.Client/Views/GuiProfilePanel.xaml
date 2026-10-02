@@ -44,7 +44,7 @@
 
                 <Border Style="{StaticResource StySettingDivider}" />
 
-                <Border Style="{StaticResource StySettingCard}">
+                <ctl:CtlPixelBorder Style="{StaticResource StySettingCard}">
                     <DockPanel LastChildFill="True">
                         <ToggleButton x:Name="tglTwoStep" DockPanel.Dock="Right" Style="{StaticResource StyToggleSwitch}"
                                       VerticalAlignment="Center" Margin="14,0,0,0" Click="OnTwoStepClick" />
@@ -55,7 +55,7 @@
                                        Text="{Binding [ProfilePanel_LblTwoStepHint], Source={StaticResource Loc}}" />
                         </StackPanel>
                     </DockPanel>
-                </Border>
+                </ctl:CtlPixelBorder>
                 <TextBlock x:Name="lblTwoStepDisabled" Style="{StaticResource StyCardNotice}" Margin="0,10,0,0"
                            Text="{Binding [ProfilePanel_TwoStepDisabled], Source={StaticResource Loc}}" />
 
@@ -69,7 +69,7 @@
 
                 <Border Style="{StaticResource StySettingDivider}" />
 
-                <Border Style="{StaticResource StySettingCard}">
+                <ctl:CtlPixelBorder Style="{StaticResource StySettingCard}">
                     <DockPanel LastChildFill="True">
                         <ToggleButton x:Name="tglChatFilter" DockPanel.Dock="Right" Style="{StaticResource StyToggleSwitch}"
                                       VerticalAlignment="Center" Margin="14,0,0,0" />
@@ -80,7 +80,7 @@
                                        Text="{Binding [ProfilePanel_LblChatFilterHint], Source={StaticResource Loc}}" />
                         </StackPanel>
                     </DockPanel>
-                </Border>
+                </ctl:CtlPixelBorder>
 
                 <Border Style="{StaticResource StySettingDivider}" />
 
@@ -164,7 +164,7 @@
                     <TextBlock x:Name="lblNewEmail" Style="{StaticResource StyFieldLabel}" Margin="0,20,0,8"
                                Text="{Binding [ProfilePanel_LblNewEmail], Source={StaticResource Loc}}" />
                     <!-- An address takes at most two hundred and fifty-four characters. -->
-                    <Border Style="{StaticResource StyFieldShell}">
+                    <ctl:CtlPixelBorder Style="{StaticResource StyFieldShell}">
                         <Grid>
                             <TextBox x:Name="txtNewEmail" Style="{StaticResource StyFieldInput}" MaxLength="254" />
                             <TextBlock Style="{StaticResource StyFieldPlaceholder}"
@@ -172,7 +172,7 @@
                                        Visibility="{Binding Text, ElementName=txtNewEmail,
                                                     Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>
-                    </Border>
+                    </ctl:CtlPixelBorder>
                     <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyCardError}" Margin="0,12,0,0"
                                Text="{Binding [Error_ValRequiredField], Source={StaticResource Loc}}" />
                     <UniformGrid Columns="2" Margin="0,24,0,0">

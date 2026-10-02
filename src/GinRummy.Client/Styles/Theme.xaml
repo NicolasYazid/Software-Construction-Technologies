@@ -569,7 +569,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="CheckBox">
                     <StackPanel Orientation="Horizontal">
-                        <Border Width="18" Height="18" ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="2"
+                        <ctl:CtlPixelBorder Width="18" Height="18" ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="2"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{StaticResource BrsFieldBorder}"
                                 BorderThickness="0,0,0,3"
@@ -579,7 +579,7 @@
                                   StrokeStartLineCap="Square" StrokeEndLineCap="Square"
                                   Visibility="{TemplateBinding IsChecked,
                                                Converter={StaticResource CnvBooleanToVisibility}}" />
-                        </Border>
+                        </ctl:CtlPixelBorder>
                         <ContentPresenter Margin="9,0,0,0" VerticalAlignment="Center" />
                     </StackPanel>
                     <ControlTemplate.Triggers>
@@ -1596,7 +1596,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
-                    <Border Background="{TemplateBinding Background}" ctl:PixelShapeCommon.CornerSteps="4"
+                    <ctl:CtlPixelBorder Background="{TemplateBinding Background}" ctl:PixelShapeCommon.CornerSteps="4"
                             BorderBrush="{StaticResource BrsMenuInk}" BorderThickness="0,0,0,3">
                         <Border Width="20" Height="20" Margin="5,0,5,0" Background="{StaticResource BrsMenuLight}"
                                 ctl:PixelShapeCommon.CornerSteps="2">
@@ -1613,7 +1613,7 @@
                                 </Style>
                             </Border.Style>
                         </Border>
-                    </Border>
+                    </ctl:CtlPixelBorder>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -1673,7 +1673,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Slider">
                     <Grid>
-                        <Border Height="8" ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="1"
+                        <ctl:CtlPixelBorder Height="8" ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="1"
                                 Background="{StaticResource BrsFieldFace}"
                                 BorderBrush="{StaticResource BrsMenuInk}" BorderThickness="0,0,0,2" />
                         <Track x:Name="PART_Track">

@@ -1,6 +1,7 @@
 ﻿<views:GuiModalBase x:Class="GinRummy.Client.Views.GuiHouseRules"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
         xmlns:views="clr-namespace:GinRummy.Client.Views"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
@@ -16,11 +17,11 @@
                            Text="{Binding [HouseRules_LblCardHead], Source={StaticResource Loc},
                                   Converter={StaticResource CnvUpperCase}}" />
 
-                <Border Style="{StaticResource StyFairPlayBar}" Margin="0,20,0,0">
+                <ctl:CtlPixelBorder Style="{StaticResource StyFairPlayBar}" Margin="0,20,0,0">
                     <TextBlock x:Name="lblFairPlay" Style="{StaticResource StyFairPlayText}"
                                Text="{Binding [HouseRules_LblFairPlay], Source={StaticResource Loc},
                                       Converter={StaticResource CnvUpperCase}}" />
-                </Border>
+                </ctl:CtlPixelBorder>
 
                 <!-- The texts are runs bound one way: the text of a run is written back by
                      default, and the strings of the dictionary can only be read. The values of

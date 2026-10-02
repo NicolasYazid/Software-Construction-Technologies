@@ -14,7 +14,7 @@
                 <TextBlock x:Name="lblInstructions" Style="{StaticResource StyCardSubtitle}"
                            Width="403" HorizontalAlignment="Left" Margin="0,20,0,0" />
 
-                <Border Style="{StaticResource StyFieldShell}" Width="402"
+                <ctl:CtlPixelBorder Style="{StaticResource StyFieldShell}" Width="402"
                         HorizontalAlignment="Left" Margin="0,20,0,0">
                     <Grid>
                         <TextBox x:Name="txtCode" Style="{StaticResource StyFieldInput}" MaxLength="6" />
@@ -22,7 +22,7 @@
                                    Text="{Binding [VerifyEmail_TxtCodePlaceholder], Source={StaticResource Loc}}"
                                    Visibility="{Binding Text, ElementName=txtCode, Converter={StaticResource CnvEmptyTextToVisibility}}" />
                     </Grid>
-                </Border>
+                </ctl:CtlPixelBorder>
 
                 <DockPanel Width="402" HorizontalAlignment="Left" Margin="0,20,0,0" LastChildFill="False">
                     <TextBlock x:Name="lblCodeExpiresIn" Style="{StaticResource StyTimerLabel}"

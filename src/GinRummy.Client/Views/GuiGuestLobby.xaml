@@ -113,7 +113,7 @@
                 <ListBox x:Name="lstMessages" Grid.Row="1" Style="{StaticResource StyChatList}" />
 
                 <!-- The card follows the visibility of its title, as in the lobby of a player. -->
-                <Border Grid.Row="2" Style="{StaticResource StyLobbyStatusCard}"
+                <ctl:CtlPixelBorder Grid.Row="2" Style="{StaticResource StyLobbyStatusCard}"
                         Visibility="{Binding Visibility, ElementName=lblSearchingMatch}">
                     <DockPanel LastChildFill="True">
                         <Button x:Name="btnCancelSearch" DockPanel.Dock="Right" Style="{StaticResource StyNoticeButton}"
@@ -129,10 +129,10 @@
                                        Text="{Binding [LobbyChat_NoOpponentAvailable], Source={StaticResource Loc}}" />
                         </StackPanel>
                     </DockPanel>
-                </Border>
+                </ctl:CtlPixelBorder>
 
                 <Border Grid.Row="3" Style="{StaticResource StyChatComposer}">
-                    <Border Style="{StaticResource StyFieldShell}">
+                    <ctl:CtlPixelBorder Style="{StaticResource StyFieldShell}">
                         <DockPanel LastChildFill="True">
                             <Button x:Name="btnCreateAccount" DockPanel.Dock="Right"
                                     Style="{StaticResource StyInlineTextButton}"
@@ -142,7 +142,7 @@
                             <TextBlock x:Name="lblChatDisabled" Style="{StaticResource StyFieldPlaceholder}"
                                        Text="{Binding [GuestLobby_ChatDisabled], Source={StaticResource Loc}}" />
                         </DockPanel>
-                    </Border>
+                    </ctl:CtlPixelBorder>
                 </Border>
             </Grid>
         </Border>
@@ -165,7 +165,7 @@
                                       Converter={StaticResource CnvUpperCase}}" />
                 </TabControl>
 
-                <Border Grid.Row="1" Style="{StaticResource StyPanelSearchShell}" Margin="14,14,14,4">
+                <ctl:CtlPixelBorder Grid.Row="1" Style="{StaticResource StyPanelSearchShell}" Margin="14,14,14,4">
                     <DockPanel LastChildFill="True">
                         <Image Source="{StaticResource IcoSearch}" Width="20" Height="20"
                                VerticalAlignment="Center" Margin="0,0,10,0" />
@@ -177,7 +177,7 @@
                                                     Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>
                     </DockPanel>
-                </Border>
+                </ctl:CtlPixelBorder>
 
                 <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Margin="0,4,4,8"
                               Visibility="{Binding IsSelected, ElementName=tabEveryone,

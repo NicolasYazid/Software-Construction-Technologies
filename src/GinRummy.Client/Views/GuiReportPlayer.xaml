@@ -1,6 +1,7 @@
 ﻿<views:GuiModalBase x:Class="GinRummy.Client.Views.GuiReportPlayer"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
         xmlns:views="clr-namespace:GinRummy.Client.Views"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
@@ -31,7 +32,7 @@
                 <TextBlock x:Name="lblDescription" Style="{StaticResource StyFieldLabel}" Margin="0,12,0,8"
                            Text="{Binding [ReportPlayer_LblDescription], Source={StaticResource Loc}}" />
                 <!-- BD-06 limits the description to five hundred characters. -->
-                <Border Style="{StaticResource StyFieldArea}">
+                <ctl:CtlPixelBorder Style="{StaticResource StyFieldArea}">
                     <Grid>
                         <TextBox x:Name="txtDescription" Style="{StaticResource StyFieldAreaInput}" MaxLength="500" />
                         <TextBlock Style="{StaticResource StyFieldAreaPlaceholder}"
@@ -39,7 +40,7 @@
                                    Visibility="{Binding Text, ElementName=txtDescription,
                                                 Converter={StaticResource CnvEmptyTextToVisibility}}" />
                     </Grid>
-                </Border>
+                </ctl:CtlPixelBorder>
 
                 <TextBlock x:Name="lblNoCategorySelected" Style="{StaticResource StyCardError}" Margin="0,12,0,0"
                            Text="{Binding [ReportPlayer_NoCategorySelected], Source={StaticResource Loc}}" />

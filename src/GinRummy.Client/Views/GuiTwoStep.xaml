@@ -33,7 +33,7 @@
                        HorizontalAlignment="Center" Margin="0,32,0,0"
                        Text="{Binding [TwoStep_LblCode], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
 
-            <Border Style="{StaticResource StyPlainFieldShell}" Margin="0,8,0,0">
+            <ctl:CtlPixelBorder Style="{StaticResource StyPlainFieldShell}" Margin="0,8,0,0">
                 <Grid>
                     <TextBox x:Name="txtCode" Style="{StaticResource StyPlainInput}" MaxLength="6"
                              TextAlignment="Center" />
@@ -42,7 +42,7 @@
                                Text="{Binding [VerifyEmail_TxtCodePlaceholder], Source={StaticResource Loc}}"
                                Visibility="{Binding Text, ElementName=txtCode, Converter={StaticResource CnvEmptyTextToVisibility}}" />
                 </Grid>
-            </Border>
+            </ctl:CtlPixelBorder>
 
             <TextBlock x:Name="lblCodeExpiresIn" Style="{StaticResource StyPlainLabel}"
                        HorizontalAlignment="Right" Margin="0,12,0,0" />

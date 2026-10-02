@@ -212,7 +212,7 @@
                 <!-- The card has no name of its own, since the vocabulary of the standard names
                      no borders; it follows the visibility of its title, which is what the code
                      switches. The same holds for the block of the chat below. -->
-                <Border Grid.Row="2" Style="{StaticResource StyLobbyStatusCard}"
+                <ctl:CtlPixelBorder Grid.Row="2" Style="{StaticResource StyLobbyStatusCard}"
                         Visibility="{Binding Visibility, ElementName=lblSearchingMatch}">
                     <DockPanel LastChildFill="True">
                         <Button x:Name="btnCancelSearch" DockPanel.Dock="Right" Style="{StaticResource StyNoticeButton}"
@@ -228,7 +228,7 @@
                                        Text="{Binding [LobbyChat_NoOpponentAvailable], Source={StaticResource Loc}}" />
                         </StackPanel>
                     </DockPanel>
-                </Border>
+                </ctl:CtlPixelBorder>
 
                 <Border Grid.Row="3" Style="{StaticResource StyChatComposer}">
                     <StackPanel>
@@ -292,7 +292,7 @@
                                       Converter={StaticResource CnvUpperCase}}" />
                 </TabControl>
 
-                <Border Grid.Row="1" Style="{StaticResource StyPanelSearchShell}" Margin="14,14,14,4">
+                <ctl:CtlPixelBorder Grid.Row="1" Style="{StaticResource StyPanelSearchShell}" Margin="14,14,14,4">
                     <DockPanel LastChildFill="True">
                         <Image Source="{StaticResource IcoSearch}" Width="20" Height="20"
                                VerticalAlignment="Center" Margin="0,0,10,0" />
@@ -304,7 +304,7 @@
                                                     Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>
                     </DockPanel>
-                </Border>
+                </ctl:CtlPixelBorder>
 
                 <!-- The friends tab repeats two headers of the everyone tab. A name can be
                      registered only once per window, so the names stay on the first ones and

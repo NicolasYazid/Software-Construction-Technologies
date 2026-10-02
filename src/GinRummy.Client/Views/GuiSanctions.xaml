@@ -1,6 +1,7 @@
 ﻿<views:GuiModalBase x:Class="GinRummy.Client.Views.GuiSanctions"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
         xmlns:views="clr-namespace:GinRummy.Client.Views"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
@@ -32,7 +33,7 @@
                         <ItemsControl x:Name="lstSanctions">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Style="{StaticResource StySanctionCard}">
+                                    <ctl:CtlPixelBorder Style="{StaticResource StySanctionCard}">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
@@ -73,7 +74,7 @@
                                                 </TextBlock>
                                             </Grid>
                                         </Grid>
-                                    </Border>
+                                    </ctl:CtlPixelBorder>
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding IsActive}" Value="True">
                                             <Setter TargetName="lblActive" Property="Visibility" Value="Visible" />

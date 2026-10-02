@@ -50,7 +50,7 @@
                          ItemTemplate="{StaticResource TplMatchChatMessage}" />
 
                 <Border Grid.Row="2" Style="{StaticResource StyChatComposer}" Padding="14,14,14,16">
-                    <Border Style="{StaticResource StyPanelSearchShell}">
+                    <ctl:CtlPixelBorder Style="{StaticResource StyPanelSearchShell}">
                         <DockPanel LastChildFill="True">
                             <!-- The dictionary gives the button of this chat no tooltip of its own, so it
                                  borrows the one of the chat of the lobby, which does the same. -->
@@ -70,7 +70,7 @@
                                                         Converter={StaticResource CnvEmptyTextToVisibility}}" />
                             </Grid>
                         </DockPanel>
-                    </Border>
+                    </ctl:CtlPixelBorder>
                 </Border>
             </Grid>
         </Border>
@@ -229,7 +229,7 @@
              switches, since the vocabulary of the standard names no grids. -->
         <Grid Grid.ColumnSpan="3" Background="{StaticResource BrsOverlay}"
               Visibility="{Binding Visibility, ElementName=lblPaused}">
-            <Border Style="{StaticResource StyTableOverlayCard}" Width="640">
+            <ctl:CtlPixelBorder Style="{StaticResource StyTableOverlayCard}" Width="640">
                 <StackPanel>
                     <TextBlock x:Name="lblPaused" Style="{StaticResource StyPanelTitle}" Visibility="Collapsed"
                                Text="{Binding [GameTable_LblPaused], Source={StaticResource Loc}}" />
@@ -237,12 +237,12 @@
                                Margin="0,14,0,0"
                                Text="{Binding [GameTable_LblPausedHint], Source={StaticResource Loc}}" />
                 </StackPanel>
-            </Border>
+            </ctl:CtlPixelBorder>
         </Grid>
 
         <Grid Grid.ColumnSpan="3" Background="{StaticResource BrsOverlay}"
               Visibility="{Binding Visibility, ElementName=lblKnockWith}">
-            <Border Style="{StaticResource StyTableOverlayCard}" Width="780" Padding="40,24,40,26">
+            <ctl:CtlPixelBorder Style="{StaticResource StyTableOverlayCard}" Width="780" Padding="40,24,40,26">
                 <StackPanel>
                     <Border Style="{StaticResource StyHandWinnerPill}">
                         <TextBlock x:Name="lblHandWinner" Style="{StaticResource StyHandWinnerText}" />
@@ -267,7 +267,7 @@
                                    Foreground="{StaticResource BrsTitle}" />
                     </DockPanel>
 
-                    <Border Style="{StaticResource StyMeldPanel}">
+                    <ctl:CtlPixelBorder Style="{StaticResource StyMeldPanel}">
                         <StackPanel>
                             <DockPanel LastChildFill="False" Margin="0,0,0,10">
                                 <TextBlock x:Name="lblDeadwoodCount" DockPanel.Dock="Right"
@@ -282,8 +282,8 @@
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
                         </StackPanel>
-                    </Border>
-                    <Border Style="{StaticResource StyMeldPanel}">
+                    </ctl:CtlPixelBorder>
+                    <ctl:CtlPixelBorder Style="{StaticResource StyMeldPanel}">
                         <StackPanel>
                             <DockPanel LastChildFill="False" Margin="0,0,0,10">
                                 <TextBlock x:Name="lblDefenderDeadwoodCount" DockPanel.Dock="Right"
@@ -299,7 +299,7 @@
                                 </ItemsControl.ItemsPanel>
                             </ItemsControl>
                         </StackPanel>
-                    </Border>
+                    </ctl:CtlPixelBorder>
 
                     <TextBlock x:Name="lblScoreTarget" Style="{StaticResource StyMeldPanelTitle}"
                                Foreground="{StaticResource BrsMuted}" Margin="0,18,0,6" />
@@ -324,12 +324,12 @@
                                 Click="OnHowToPlayClick" />
                     </StackPanel>
                 </StackPanel>
-            </Border>
+            </ctl:CtlPixelBorder>
         </Grid>
 
         <Grid Grid.ColumnSpan="3" Background="{StaticResource BrsOverlay}"
               Visibility="{Binding Visibility, ElementName=lblFinalScore}">
-            <Border Style="{StaticResource StyTableOverlayCard}" Width="560">
+            <ctl:CtlPixelBorder Style="{StaticResource StyTableOverlayCard}" Width="560">
                 <StackPanel>
                     <TextBlock x:Name="lblResultVictory" Style="{StaticResource StyResultTitle}"
                                Text="{Binding [GameTable_LblResultVictory], Source={StaticResource Loc}}" />
@@ -350,7 +350,7 @@
                                       Converter={StaticResource CnvUpperCase}}"
                             Click="OnReturnToLobbyClick" />
                 </StackPanel>
-            </Border>
+            </ctl:CtlPixelBorder>
         </Grid>
     </Grid>
 </views:GuiWindowBase>
