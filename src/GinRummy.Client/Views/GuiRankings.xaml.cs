@@ -78,6 +78,10 @@ namespace GinRummy.Client.Views
             App application = (App)Application.Current;
             RankingsController rankingsController = application.CreateRankingsController();
             IList<PlayerStats> rankedStats = rankingsController.GetGlobalRanking();
+            if (rankingsController.ErrorMessageKey != null)
+            {
+                MessageBox.Show(Localization.GetText(rankingsController.ErrorMessageKey));
+            }
 
             List<RankingEntryDto> entries = new List<RankingEntryDto>();
             int position = 1;

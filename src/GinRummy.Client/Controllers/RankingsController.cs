@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +17,8 @@ namespace GinRummy.Client.Controllers
     /// </summary>
     public class RankingsController
     {
+        private const string ServiceUnavailableMessageKey = "Error_SysServiceUnavailable";
+
         private readonly IRankingRepository _rankingRepository;
         private IList<Rank> _ranks;
 
@@ -29,14 +33,35 @@ namespace GinRummy.Client.Controllers
         }
 
         /// <summary>
-        /// Gets every player's stats ordered from the highest score to the lowest, and loads
-        /// the rank catalog used to name each player's rank.
+        /// Gets the localization key of the error of the last load, or null when it succeeded.
         /// </summary>
-        /// <returns>The ranked stats, each with its player loaded.</returns>
+        public string ErrorMessageKey { get; private set; }
+
+        /// <summary>
+        /// Gets every player's stats ordered from the highest score to the lowest, and loads
+        /// the rank catalog used to name each player's rank. When the database cannot be
+        /// reached, returns an empty list and sets <see cref="ErrorMessageKey"/>.
+        /// </summary>
+        /// <returns>The ranked stats, each with its player loaded, or an empty list.</returns>
         public IList<PlayerStats> GetGlobalRanking()
         {
-            IList<PlayerStats> rankedStats = _rankingRepository.GetStatsRankedByScore();
-            _ranks = _rankingRepository.GetAllRanks();
+            IList<PlayerStats> rankedStats;
+            ErrorMessageKey = null;
+            try
+            {
+                rankedStats = _rankingRepository.GetStatsRankedByScore();
+                _ranks = _rankingRepository.GetAllRanks();
+            }
+            catch (DataException)
+            {
+                rankedStats = new List<PlayerStats>();
+                ErrorMessageKey = ServiceUnavailableMessageKey;
+            }
+            catch (SqlException)
+            {
+                rankedStats = new List<PlayerStats>();
+                ErrorMessageKey = ServiceUnavailableMessageKey;
+            }
 
             return rankedStats;
         }

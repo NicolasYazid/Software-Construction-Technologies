@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
@@ -21,6 +23,7 @@ namespace GinRummy.Client.Controllers
         private const string RequiredFieldMessageKey = "Error_ValRequiredField";
         private const string EmailNotFoundMessageKey = "Error_AuthEmailNotFound";
         private const string WrongPasswordMessageKey = "Error_AuthWrongPassword";
+        private const string ServiceUnavailableMessageKey = "Error_SysServiceUnavailable";
 
         private readonly IPlayerRepository _playerRepository;
         private readonly IPasswordHasher _passwordHasher;
@@ -61,7 +64,7 @@ namespace GinRummy.Client.Controllers
 
             if (result == null)
             {
-                result = Authenticate(email, password);
+                result = AuthenticateSafely(email, password);
             }
 
             return result;
@@ -90,6 +93,27 @@ namespace GinRummy.Client.Controllers
             }
 
             return isValid;
+        }
+
+        // A database that cannot be reached must end in a message on the screen, not in an
+        // exception that leaves the window unresponsive.
+        private LogInResult AuthenticateSafely(string email, string password)
+        {
+            LogInResult result;
+            try
+            {
+                result = Authenticate(email, password);
+            }
+            catch (DataException)
+            {
+                result = LogInResult.Failure(ServiceUnavailableMessageKey);
+            }
+            catch (SqlException)
+            {
+                result = LogInResult.Failure(ServiceUnavailableMessageKey);
+            }
+
+            return result;
         }
 
         // Looks up the player and checks the password, producing the separate messages the

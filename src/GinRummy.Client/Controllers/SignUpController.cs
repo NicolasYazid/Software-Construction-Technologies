@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace GinRummy.Client.Controllers
         private const string WeakPasswordMessageKey = "Error_ValWeakPassword";
         private const string EmailAlreadyRegisteredMessageKey = "Error_AuthEmailAlreadyRegistered";
         private const string UnexpectedErrorMessageKey = "Error_SysUnexpected";
+        private const string ServiceUnavailableMessageKey = "Error_SysServiceUnavailable";
         private const int MinimumPasswordLength = 8;
         private const int VerificationCodeLifetimeMinutes = 10;
         private const int UniqueConstraintViolationErrorNumber = 2627;
@@ -133,26 +135,39 @@ namespace GinRummy.Client.Controllers
             string email, string username, string password, string activeCultureCode)
         {
             SignUpResult result;
-            using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
+            // Opening the unit of work already opens a connection and a transaction, so a
+            // database that cannot be reached fails here, outside the inner handler.
+            try
             {
-                try
+                using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
                 {
-                    if (unitOfWork.Players.FindByEmail(email.Trim().ToLowerInvariant()) != null)
+                    try
                     {
-                        result = SignUpResult.Failure(EmailAlreadyRegisteredMessageKey);
+                        if (unitOfWork.Players.FindByEmail(email.Trim().ToLowerInvariant()) != null)
+                        {
+                            result = SignUpResult.Failure(EmailAlreadyRegisteredMessageKey);
+                        }
+                        else
+                        {
+                            result = SaveNewAccount(unitOfWork, email, username, password, activeCultureCode);
+                        }
                     }
-                    else
+                    catch (DbUpdateException ex)
                     {
-                        result = SaveNewAccount(unitOfWork, email, username, password, activeCultureCode);
+                        unitOfWork.Rollback();
+                        result = IsUniqueEmailViolation(ex)
+                            ? SignUpResult.Failure(EmailAlreadyRegisteredMessageKey)
+                            : SignUpResult.Failure(UnexpectedErrorMessageKey);
                     }
                 }
-                catch (DbUpdateException databaseUpdateException)
-                {
-                    unitOfWork.Rollback();
-                    result = IsUniqueEmailViolation(databaseUpdateException)
-                        ? SignUpResult.Failure(EmailAlreadyRegisteredMessageKey)
-                        : SignUpResult.Failure(UnexpectedErrorMessageKey);
-                }
+            }
+            catch (DataException)
+            {
+                result = SignUpResult.Failure(ServiceUnavailableMessageKey);
+            }
+            catch (SqlException)
+            {
+                result = SignUpResult.Failure(ServiceUnavailableMessageKey);
             }
 
             return result;
