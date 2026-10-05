@@ -49,6 +49,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -215,6 +216,7 @@
     <Compile Include="Controls\PixelFrame.cs" />
     <Compile Include="Controls\PixelShapeCommon.cs" />
     <Compile Include="Controls\WaveCommon.cs" />
+    <Compile Include="Network\RankingsServiceProxy.cs" />
     <Compile Include="Views\GuiMainMenu.xaml.cs">
       <DependentUpon>GuiMainMenu.xaml</DependentUpon>
     </Compile>
@@ -358,6 +360,10 @@
     <EmbeddedResource Include="Resources\Strings.en-US.resx" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\GinRummy.Contracts\GinRummy.Contracts.csproj">
+      <Project>{68290b7b-bb27-4987-a15f-1810e6a24196}</Project>
+      <Name>GinRummy.Contracts</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\GinRummy.Data.EntityFramework\GinRummy.Data.EntityFramework.csproj">
       <Project>{bc70868e-56fa-4d00-ab04-38de5e070964}</Project>
       <Name>GinRummy.Data.EntityFramework</Name>
