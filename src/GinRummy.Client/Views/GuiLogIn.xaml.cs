@@ -48,7 +48,7 @@ namespace GinRummy.Client.Views
 
             if (result.Succeeded)
             {
-                ShowSuccess(result.Username);
+                ShowSuccess();
             }
             else
             {
@@ -56,16 +56,14 @@ namespace GinRummy.Client.Views
             }
         }
 
-        // On success, the prototype navigates to the lobby, from which the leaderboard is
-        // reached. The full CU-02 (creating a PlayerSession, checking bans and 2FA) is
-        // server-dependent and completed in a later iteration.
-        private void ShowSuccess(string username)
+        // The lobby takes the place of the main menu, which stays the main window of the
+        // application while hidden, so that closing the session brings the player back to it
+        // instead of ending the application (CU-03 step 5). The full CU-02 (session, bans and
+        // second factor) is still server-dependent.
+        private void ShowSuccess()
         {
             // TODO: full CU-02 (session, bans, 2FA, real lobby data) is server-dependent.
-            GuiLobbyChat lobby = new GuiLobbyChat();
-            lobby.Show();
-            Application.Current.MainWindow = lobby;
-            Close();
+            EnterLobby(new GuiLobbyChat());
         }
 
         // Shows a localized error message on the card.
