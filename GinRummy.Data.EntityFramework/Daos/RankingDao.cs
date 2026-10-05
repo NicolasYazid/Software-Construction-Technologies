@@ -6,23 +6,23 @@ using System.Text;
 using System.Threading.Tasks;
 
 using GinRummy.Data.EntityFramework.Persistence;
+using GinRummy.Domain.Daos;
 using GinRummy.Domain.Entities;
-using GinRummy.Domain.Repositories;
 
-namespace GinRummy.Data.EntityFramework.Repositories
+namespace GinRummy.Data.EntityFramework.Daos
 {
     /// <summary>
-    /// Fulfils IRankingRepository using Entity Framework against GinRummy_Dev.
+    /// Fulfils IRankingDao using Entity Framework against GinRummy_Dev.
     /// </summary>
-    public class RankingRepository : IRankingRepository
+    public class RankingDao : IRankingDao
     {
         private readonly string _connectionStringName;
 
         /// <summary>
-        /// Builds the repository against the given connection string entry.
+        /// Builds the DAO against the given connection string entry.
         /// </summary>
         /// <param name="connectionStringName">Name of the entry in App.config.</param>
-        public RankingRepository(string connectionStringName)
+        public RankingDao(string connectionStringName)
         {
             _connectionStringName = connectionStringName;
         }

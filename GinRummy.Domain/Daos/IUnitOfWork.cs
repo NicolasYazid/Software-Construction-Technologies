@@ -4,29 +4,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GinRummy.Domain.Repositories
+namespace GinRummy.Domain.Daos
 {
     /// <summary>
-    /// A set of repositories that share one transaction, so their changes are all saved
-    /// together or all discarded together. The repository list grows as new use cases
+    /// A set of DAOs that share one transaction, so their changes are all saved
+    /// together or all discarded together. The DAO list grows as new use cases
     /// need it; Commit, Rollback and disposal stay the same for every use case.
     /// </summary>
     public interface IUnitOfWork : IDisposable
     {
         /// <summary>
-        /// Gets the player repository bound to this unit of work.
+        /// Gets the player DAO bound to this unit of work.
         /// </summary>
-        IPlayerRepository Players { get; }
+        IPlayerDao Players { get; }
 
         /// <summary>
-        /// Gets the verification code repository bound to this unit of work.
+        /// Gets the verification code DAO bound to this unit of work.
         /// </summary>
-        IVerificationCodeRepository VerificationCodes { get; }
+        IVerificationCodeDao VerificationCodes { get; }
 
         /// <summary>
-        /// Gets the locale repository bound to this unit of work.
+        /// Gets the locale DAO bound to this unit of work.
         /// </summary>
-        ILocaleRepository Locales { get; }
+        ILocaleDao Locales { get; }
 
         /// <summary>
         /// Saves every change made through this unit of work as one transaction.

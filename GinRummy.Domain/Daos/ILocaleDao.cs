@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 using GinRummy.Domain.Entities;
 
-namespace GinRummy.Domain.Repositories
+namespace GinRummy.Domain.Daos
 {
     /// <summary>
     /// Contract the game's logic uses to reach the Locale catalog, without knowing how
     /// or where it is stored.
     /// </summary>
-    public interface ILocaleRepository
+    public interface ILocaleDao
     {
         /// <summary>
         /// Finds the locale whose code matches, or null when no locale has it.

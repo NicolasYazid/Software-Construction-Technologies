@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 using GinRummy.Domain.Entities;
 
-namespace GinRummy.Domain.Repositories
+namespace GinRummy.Domain.Daos
 {
     /// <summary>
     /// Contract the game's logic uses to build the leaderboard, without knowing how or
     /// where the data is stored.
     /// </summary>
-    public interface IRankingRepository
+    public interface IRankingDao
     {
         /// <summary>
         /// Gets every player's stats ordered from the highest score to the lowest, each

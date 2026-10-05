@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 using GinRummy.Domain.Entities;
 
-namespace GinRummy.Domain.Repositories
+namespace GinRummy.Domain.Daos
 {
     /// <summary>
     /// Contract the game's logic uses to reach VerificationCode data, without knowing
     /// how or where it is stored.
     /// </summary>
-    public interface IVerificationCodeRepository
+    public interface IVerificationCodeDao
     {
         /// <summary>
         /// Finds the most recently created code for a player and a purpose, or null

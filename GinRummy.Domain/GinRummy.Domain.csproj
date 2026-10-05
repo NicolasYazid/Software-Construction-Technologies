@@ -41,6 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Daos\ILocaleDao.cs" />
+    <Compile Include="Daos\IPlayerDao.cs" />
+    <Compile Include="Daos\IRankingDao.cs" />
+    <Compile Include="Daos\IUnitOfWork.cs" />
+    <Compile Include="Daos\IVerificationCodeDao.cs" />
     <Compile Include="Entities\LeaderboardPosition.cs" />
     <Compile Include="Entities\Locale.cs" />
     <Compile Include="Entities\Player.cs" />
@@ -49,11 +54,6 @@
     <Compile Include="Entities\VerificationCode.cs" />
     <Compile Include="Entities\VerificationPurpose.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\ILocaleRepository.cs" />
-    <Compile Include="Repositories\IPlayerRepository.cs" />
-    <Compile Include="Repositories\IRankingRepository.cs" />
-    <Compile Include="Repositories\IUnitOfWork.cs" />
-    <Compile Include="Repositories\IVerificationCodeRepository.cs" />
     <Compile Include="Security\IPasswordHasher.cs" />
     <Compile Include="Security\IVerificationCodeGenerator.cs" />
     <Compile Include="Security\IVerificationCodeHasher.cs" />

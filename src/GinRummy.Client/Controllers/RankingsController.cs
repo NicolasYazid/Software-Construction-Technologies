@@ -6,8 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using GinRummy.Domain.Daos;
 using GinRummy.Domain.Entities;
-using GinRummy.Domain.Repositories;
 
 namespace GinRummy.Client.Controllers
 {
@@ -19,16 +19,16 @@ namespace GinRummy.Client.Controllers
     {
         private const string ServiceUnavailableMessageKey = "Error_SysServiceUnavailable";
 
-        private readonly IRankingRepository _rankingRepository;
+        private readonly IRankingDao _rankingDao;
         private IList<Rank> _ranks;
 
         /// <summary>
-        /// Builds the controller with the ranking repository the composition root assembled.
+        /// Builds the controller with the ranking DAO the composition root assembled.
         /// </summary>
-        /// <param name="rankingRepository">Repository used to read stats and ranks.</param>
-        public RankingsController(IRankingRepository rankingRepository)
+        /// <param name="rankingDao">DAO used to read stats and ranks.</param>
+        public RankingsController(IRankingDao rankingDao)
         {
-            _rankingRepository = rankingRepository;
+            _rankingDao = rankingDao;
             _ranks = new List<Rank>();
         }
 
@@ -49,8 +49,8 @@ namespace GinRummy.Client.Controllers
             ErrorMessageKey = null;
             try
             {
-                rankedStats = _rankingRepository.GetStatsRankedByScore();
-                _ranks = _rankingRepository.GetAllRanks();
+                rankedStats = _rankingDao.GetStatsRankedByScore();
+                _ranks = _rankingDao.GetAllRanks();
             }
             catch (DataException)
             {

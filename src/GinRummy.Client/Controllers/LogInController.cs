@@ -7,8 +7,8 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
+using GinRummy.Domain.Daos;
 using GinRummy.Domain.Entities;
-using GinRummy.Domain.Repositories;
 using GinRummy.Domain.Security;
 
 namespace GinRummy.Client.Controllers
@@ -25,18 +25,18 @@ namespace GinRummy.Client.Controllers
         private const string WrongPasswordMessageKey = "Error_AuthWrongPassword";
         private const string ServiceUnavailableMessageKey = "Error_SysServiceUnavailable";
 
-        private readonly IPlayerRepository _playerRepository;
+        private readonly IPlayerDao _playerDao;
         private readonly IPasswordHasher _passwordHasher;
 
         /// <summary>
-        /// Builds the controller with the player repository and the password hasher the
+        /// Builds the controller with the player DAO and the password hasher the
         /// composition root already assembled.
         /// </summary>
-        /// <param name="playerRepository">Repository used to look up the player.</param>
+        /// <param name="playerDao">DAO used to look up the player.</param>
         /// <param name="passwordHasher">Adapter that checks the password against its hash.</param>
-        public LogInController(IPlayerRepository playerRepository, IPasswordHasher passwordHasher)
+        public LogInController(IPlayerDao playerDao, IPasswordHasher passwordHasher)
         {
-            _playerRepository = playerRepository;
+            _playerDao = playerDao;
             _passwordHasher = passwordHasher;
         }
 
@@ -121,7 +121,7 @@ namespace GinRummy.Client.Controllers
         private LogInResult Authenticate(string email, string password)
         {
             LogInResult result;
-            Player player = _playerRepository.FindByEmail(email.Trim().ToLowerInvariant());
+            Player player = _playerDao.FindByEmail(email.Trim().ToLowerInvariant());
             if (player == null)
             {
                 result = LogInResult.Failure(EmailNotFoundMessageKey);

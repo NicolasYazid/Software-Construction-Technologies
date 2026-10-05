@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 using GinRummy.Application.UseCases;
 using GinRummy.Contracts;
-using GinRummy.Data.EntityFramework.Repositories;
-using GinRummy.Domain.Repositories;
+using GinRummy.Data.EntityFramework.Daos;
+using GinRummy.Domain.Daos;
 using GinRummy.Domain.Services;
 using GinRummy.Server.Services;
 
@@ -40,9 +40,9 @@ namespace GinRummy.Server
         }
         private static RankingsService ComposeRankingsService()
         {
-            IRankingRepository rankingRepository = new RankingRepository(ConnectionStringName);
+            IRankingDao rankingDao = new RankingDao(ConnectionStringName);
             RankResolver rankResolver = new RankResolver();
-            ViewLeaderboardUseCase useCase = new ViewLeaderboardUseCase(rankingRepository, rankResolver);
+            ViewLeaderboardUseCase useCase = new ViewLeaderboardUseCase(rankingDao, rankResolver);
             RankingsService rankingsService = new RankingsService(useCase);
 
             return rankingsService;

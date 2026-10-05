@@ -2,9 +2,9 @@
 
 using GinRummy.Client.Controllers;
 using GinRummy.Client.Localization;
+using GinRummy.Data.EntityFramework.Daos;
 using GinRummy.Data.EntityFramework.Persistence;
-using GinRummy.Data.EntityFramework.Repositories;
-using GinRummy.Domain.Repositories;
+using GinRummy.Domain.Daos;
 using GinRummy.Domain.Security;
 using GinRummy.Security;
 
@@ -50,7 +50,7 @@ namespace GinRummy.Client
         public LogInController CreateLogInController()
         {
             return new LogInController(
-                new PlayerRepository(ConnectionStringName),
+                new PlayerDao(ConnectionStringName),
                 _passwordHasher);
         }
 
@@ -61,7 +61,7 @@ namespace GinRummy.Client
         /// <returns>A ready-to-use rankings controller.</returns>
         public RankingsController CreateRankingsController()
         {
-            return new RankingsController(new RankingRepository(ConnectionStringName));
+            return new RankingsController(new RankingDao(ConnectionStringName));
         }
 
         /// <summary>

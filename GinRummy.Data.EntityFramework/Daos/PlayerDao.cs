@@ -1,40 +1,40 @@
 ﻿using GinRummy.Data.EntityFramework.Persistence;
+using GinRummy.Domain.Daos;
 using GinRummy.Domain.Entities;
-using GinRummy.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GinRummy.Data.EntityFramework.Repositories
+namespace GinRummy.Data.EntityFramework.Daos
 {
     /// <summary>
-    /// Fulfils IPlayerRepository using Entity Framework against GinRummy_Dev. By default,
+    /// Fulfils IPlayerDao using Entity Framework against GinRummy_Dev. By default,
     /// opens a short-lived context per operation; optionally reuses a context someone else
-    /// already opened, so several repositories can share one transaction.
+    /// already opened, so several DAOs can share one transaction.
     /// </summary>
-    public class PlayerRepository : IPlayerRepository
+    public class PlayerDao : IPlayerDao
     {
         private readonly string _connectionStringName;
         private readonly GinRummyContext _sharedContext;
 
         /// <summary>
-        /// Builds the repository so that each operation opens and closes its own context.
+        /// Builds the DAO so that each operation opens and closes its own context.
         /// </summary>
         /// <param name="connectionStringName">Name of the entry in App.config.</param>
-        public PlayerRepository(string connectionStringName)
+        public PlayerDao(string connectionStringName)
         {
             _connectionStringName = connectionStringName;
         }
 
         /// <summary>
-        /// Builds the repository so that every operation runs on a context someone else
-        /// already opened, so it can share a transaction with other repositories. The
+        /// Builds the DAO so that every operation runs on a context someone else
+        /// already opened, so it can share a transaction with other DAOs. The
         /// caller stays responsible for disposing that context.
         /// </summary>
         /// <param name="sharedContext">Context to reuse instead of opening a new one.</param>
-        public PlayerRepository(GinRummyContext sharedContext)
+        public PlayerDao(GinRummyContext sharedContext)
         {
             _sharedContext = sharedContext;
         }

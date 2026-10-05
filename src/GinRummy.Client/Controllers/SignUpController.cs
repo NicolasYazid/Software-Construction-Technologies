@@ -9,8 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using GinRummy.Client.Localization;
+using GinRummy.Domain.Daos;
 using GinRummy.Domain.Entities;
-using GinRummy.Domain.Repositories;
 using GinRummy.Domain.Security;
 
 namespace GinRummy.Client.Controllers
