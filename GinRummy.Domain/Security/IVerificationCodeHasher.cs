@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GinRummy.Domain.Repositories
+namespace GinRummy.Domain.Security
 {
     /// <summary>
     /// Contract the game's logic uses to hash and check verification codes, without

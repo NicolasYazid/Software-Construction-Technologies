@@ -53,10 +53,10 @@
     <Compile Include="Repositories\IPlayerRepository.cs" />
     <Compile Include="Repositories\IRankingRepository.cs" />
     <Compile Include="Repositories\IUnitOfWork.cs" />
-    <Compile Include="Repositories\IVerificationCodeHasher.cs" />
     <Compile Include="Repositories\IVerificationCodeRepository.cs" />
     <Compile Include="Security\IPasswordHasher.cs" />
     <Compile Include="Security\IVerificationCodeGenerator.cs" />
+    <Compile Include="Security\IVerificationCodeHasher.cs" />
     <Compile Include="Services\RankResolver.cs" />
   </ItemGroup>
   <ItemGroup />
