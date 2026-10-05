@@ -38,6 +38,7 @@ namespace GinRummy.Server
                 Console.ReadLine();
             }
         }
+
         private static RankingsService ComposeRankingsService()
         {
             IRankingDao rankingDao = new RankingDao(ConnectionStringName);
