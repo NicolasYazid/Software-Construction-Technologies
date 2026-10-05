@@ -1,0 +1,51 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.ServiceModel;
+using System.Text;
+using System.Threading.Tasks;
+
+using GinRummy.Application.UseCases;
+using GinRummy.Contracts;
+using GinRummy.Data.EntityFramework.Repositories;
+using GinRummy.Domain.Repositories;
+using GinRummy.Domain.Services;
+using GinRummy.Server.Services;
+
+namespace GinRummy.Server
+{
+    /// <summary>
+    /// Entry point of the server process. It composes the rankings service and hosts it so
+    /// clients can reach it over the network.
+    /// </summary>
+    public class Program
+    {
+        private const string ConnectionStringName = "GinRummyDb";
+        private const string ServiceAddress = "net.tcp://localhost:8000/RankingsService";
+
+        /// <summary>
+        /// Composes the rankings service and keeps it listening until a key is pressed.
+        /// </summary>
+        public static void Main(string[] args)
+        {
+            RankingsService rankingsService = ComposeRankingsService();
+            using (ServiceHost host = new ServiceHost(rankingsService))
+            {
+                host.AddServiceEndpoint(typeof(IRankingService), new NetTcpBinding(), ServiceAddress);
+                host.Open();
+                // The host serves requests on its own threads; block here so the process
+                // stays alive and keeps listening until someone presses Enter.
+                Console.ReadLine();
+            }
+        }
+        private static RankingsService ComposeRankingsService()
+        {
+            IRankingRepository rankingRepository = new RankingRepository(ConnectionStringName);
+            RankResolver rankResolver = new RankResolver();
+            ViewLeaderboardUseCase useCase = new ViewLeaderboardUseCase(rankingRepository, rankResolver);
+            RankingsService rankingsService = new RankingsService(useCase);
+
+            return rankingsService;
+        }
+    }
+}
