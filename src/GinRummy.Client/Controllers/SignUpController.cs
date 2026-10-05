@@ -21,6 +21,7 @@ namespace GinRummy.Client.Controllers
     {
         private const string RequiredFieldMessageKey = "Error_ValRequiredField";
         private const string InvalidEmailMessageKey = "Error_ValInvalidEmailFormat";
+        private const string FieldLengthMessageKey = "Error_ValFieldLength";
         private const string WeakPasswordMessageKey = "Error_ValWeakPassword";
         private const string EmailAlreadyRegisteredMessageKey = "Error_AuthEmailAlreadyRegistered";
         private const string UnexpectedErrorMessageKey = "Error_SysUnexpected";
@@ -56,12 +57,22 @@ namespace GinRummy.Client.Controllers
                 result = SignUpResult.Failure(RequiredFieldMessageKey);
             }
 
-            if (result == null && !IsValidEmailFormat(email))
+            if ((result == null) && IsTooLong(username, Player.MaxUsernameLength))
+            {
+                result = SignUpResult.Failure(FieldLengthMessageKey, Player.MaxUsernameLength);
+            }
+
+            if ((result == null) && IsTooLong(email, Player.MaxEmailLength))
+            {
+                result = SignUpResult.Failure(FieldLengthMessageKey, Player.MaxEmailLength);
+            }
+
+            if ((result == null) && !IsValidEmailFormat(email))
             {
                 result = SignUpResult.Failure(InvalidEmailMessageKey);
             }
 
-            if (result == null && !IsStrongPassword(password))
+            if ((result == null) && !IsStrongPassword(password))
             {
                 result = SignUpResult.Failure(WeakPasswordMessageKey);
             }
@@ -80,6 +91,13 @@ namespace GinRummy.Client.Controllers
             return string.IsNullOrWhiteSpace(email)
                 || string.IsNullOrWhiteSpace(username)
                 || string.IsNullOrWhiteSpace(password);
+        }
+
+        // The database columns cap these fields, and the Player entity refuses a longer value
+        // with an exception; checking first turns that into a message instead of a crash.
+        private static bool IsTooLong(string text, int maximumLength)
+        {
+            return text.Trim().Length > maximumLength;
         }
 
         // FA-02: MailAddress throws FormatException for anything not shaped like an email
@@ -141,6 +159,13 @@ namespace GinRummy.Client.Controllers
                             ? SignUpResult.Failure(EmailAlreadyRegisteredMessageKey)
                             : SignUpResult.Failure(UnexpectedErrorMessageKey);
                     }
+                    catch (ArgumentException)
+                    {
+                        // The entities reject any value the checks above let through; that ends
+                        // the attempt with a message and an untouched database, never a crash.
+                        unitOfWork.Rollback();
+                        result = SignUpResult.Failure(UnexpectedErrorMessageKey);
+                    }
                 }
             }
             catch (DataException)
@@ -191,8 +216,8 @@ namespace GinRummy.Client.Controllers
             SqlException sqlException = databaseUpdateException.InnerException?.InnerException as SqlException;
             if (sqlException != null)
             {
-                isUniqueViolation = sqlException.Number == UniqueConstraintViolationErrorNumber
-                    || sqlException.Number == UniqueIndexViolationErrorNumber;
+                isUniqueViolation = (sqlException.Number == UniqueConstraintViolationErrorNumber)
+                    || (sqlException.Number == UniqueIndexViolationErrorNumber);
             }
 
             return isUniqueViolation;

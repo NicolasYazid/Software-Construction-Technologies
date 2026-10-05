@@ -45,7 +45,7 @@
                         <Image Source="{StaticResource IcoMail}" Width="19" Height="19"
                                VerticalAlignment="Center" Margin="0,0,12,0" />
                         <Grid>
-                            <TextBox x:Name="txtEmail" Style="{StaticResource StyFieldInput}" />
+                            <TextBox x:Name="txtEmail" Style="{StaticResource StyFieldInput}" MaxLength="254" />
                             <TextBlock Style="{StaticResource StyFieldPlaceholder}"
                                        Text="{Binding [SignUp_TxtEmailPlaceholder], Source={StaticResource Loc}}"
                                        Visibility="{Binding Text, ElementName=txtEmail,
@@ -61,7 +61,7 @@
                         <Image Source="{StaticResource IcoUser}" Width="19" Height="19"
                                VerticalAlignment="Center" Margin="0,0,12,0" />
                         <Grid>
-                            <TextBox x:Name="txtUsername" Style="{StaticResource StyFieldInput}" />
+                            <TextBox x:Name="txtUsername" Style="{StaticResource StyFieldInput}" MaxLength="20" />
                             <TextBlock Style="{StaticResource StyFieldPlaceholder}"
                                        Text="{Binding [SignUp_TxtUsernamePlaceholder], Source={StaticResource Loc}}"
                                        Visibility="{Binding Text, ElementName=txtUsername,

@@ -400,8 +400,8 @@ Inténtalo de nuevo en unos minutos.</value>
     <comment>Mensajes del sistema de GuiSignUp</comment>
   </data>
   <data name="Error_ValFieldLength" xml:space="preserve">
-    <value>El texto es demasiado largo. Máximo 500 caracteres.</value>
-    <comment>Mensajes del sistema de GuiEditProfile</comment>
+    <value>El texto es demasiado largo. Máximo {0} caracteres.</value>
+    <comment>Mensajes del sistema de GuiSignUp y GuiEditProfile. {0} = longitud máxima del campo.</comment>
   </data>
   <data name="Error_ValInvalidEmailFormat" xml:space="preserve">
     <value>Escribe una dirección de correo válida</value>

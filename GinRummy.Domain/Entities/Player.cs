@@ -1,28 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 
 namespace GinRummy.Domain.Entities
 {
-    /// <summary>
-    /// A registered player account, mapped to the Player table. Protects its own
-    /// invariants: a player cannot exist without a valid username, email and password hash.
-    /// </summary>
+    // A registered player account, mapped to the Player table. It protects its own invariants:
+    // a player cannot exist without a valid username, email and password hash.
     public class Player
     {
-        private const int MaxUsernameLength = 20;
-        private const int MaxEmailLength = 254;
+        // The same limits as the username and email columns of the Player table, public so that
+        // input validation can check them before an entity is ever built.
+        public const int MaxUsernameLength = 20;
+        public const int MaxEmailLength = 254;
 
-        /// <summary>
-        /// Creates a valid new player. A new account always starts unverified and stamped
-        /// with the current UTC time.
-        /// </summary>
-        /// <param name="username">Display name; required, at most 20 characters.</param>
-        /// <param name="email">Account email; required, at most 254 characters.</param>
-        /// <param name="passwordHash">Hash of the password; required, never plain text.</param>
-        /// <param name="localeId">Locale chosen for the account; must be positive.</param>
+        // A new account always starts unverified and stamped with the current UTC time.
         public Player(string username, string email, string passwordHash, int localeId)
         {
             ValidateUsername(username);
@@ -38,62 +27,27 @@ namespace GinRummy.Domain.Entities
             IsEmailVerified = false;
         }
 
-        /// <summary>
-        /// Parameterless constructor reserved for Entity Framework's materialization; not
-        /// for application code, which must use the validating constructor.
-        /// </summary>
+        // Reserved for the materialization of Entity Framework; application code goes through
+        // the validating constructor.
         protected Player()
         {
         }
 
-        /// <summary>
-        /// Gets the internal, autonumeric identifier.
-        /// </summary>
         public int PlayerId { get; private set; }
-
-        /// <summary>
-        /// Gets the public identifier shown to other players, always PlayerId + 100000.
-        /// Computed by SQL Server; never assigned by the application.
-        /// </summary>
+        // Always PlayerId + 100000, computed by SQL Server and never assigned by the application.
         public int PublicTag { get; private set; }
-
-        /// <summary>
-        /// Gets the display name chosen at registration.
-        /// </summary>
         public string Username { get; private set; }
-
-        /// <summary>
-        /// Gets the account email address, always stored in lower case.
-        /// </summary>
+        // Stored in lower case so that two spellings of the same address never become two accounts.
         public string Email { get; private set; }
-
-        /// <summary>
-        /// Gets the hash of the password. Never the plain text password.
-        /// </summary>
+        // The Argon2id hash in PHC format, never the plain text password.
         public string PasswordHash { get; private set; }
-
-        /// <summary>
-        /// Gets the locale configured for the account.
-        /// </summary>
         public int LocaleId { get; private set; }
-
-        /// <summary>
-        /// Gets the registration date, in UTC.
-        /// </summary>
         public DateTime CreatedAt { get; private set; }
-
-        /// <summary>
-        /// Gets the last sign-in date, in UTC. Null until the first sign-in.
-        /// </summary>
         public DateTime? LastLoginAt { get; private set; }
-
-        /// <summary>
-        /// Gets whether the email address has already been verified.
-        /// </summary>
         public bool IsEmailVerified { get; private set; }
 
-        // A player must always have a non-empty username within the length the database
-        // column allows.
+        // A player must always have a non-empty username within the length the database column
+        // allows.
         private static void ValidateUsername(string username)
         {
             if (string.IsNullOrWhiteSpace(username))
@@ -107,8 +61,8 @@ namespace GinRummy.Domain.Entities
             }
         }
 
-        // A player must always have a non-empty email within the length the database
-        // column allows. Format is checked as input validation before construction.
+        // A player must always have a non-empty email within the length the database column
+        // allows. Its format is checked as input validation before construction.
         private static void ValidateEmail(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -122,7 +76,6 @@ namespace GinRummy.Domain.Entities
             }
         }
 
-        // A player can never be stored without a password hash.
         private static void ValidatePasswordHash(string passwordHash)
         {
             if (string.IsNullOrWhiteSpace(passwordHash))

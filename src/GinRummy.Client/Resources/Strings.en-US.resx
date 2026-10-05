@@ -330,7 +330,7 @@ Please try again in a few minutes.</value>
     <value>There are characters that are not allowed in what you typed</value>
   </data>
   <data name="Error_ValFieldLength" xml:space="preserve">
-    <value>The text is too long. Maximum 500 characters.</value>
+    <value>The text is too long. Maximum {0} characters.</value>
   </data>
   <data name="Error_ValInvalidEmailFormat" xml:space="preserve">
     <value>Enter a valid email address</value>

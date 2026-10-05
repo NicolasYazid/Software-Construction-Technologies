@@ -68,7 +68,7 @@ namespace GinRummy.Client.Views
             }
             else
             {
-                ShowError(result.ErrorMessageKey);
+                ShowError(result);
             }
         }
 
@@ -88,7 +88,25 @@ namespace GinRummy.Client.Views
         // Shows a localized error message on the card.
         private void ShowError(string messageKey)
         {
-            lblErrorMessage.Text = Localization.GetText(messageKey);
+            ShowErrorText(Localization.GetText(messageKey));
+        }
+
+        // A message with a placeholder, such as the maximum length of a field, is filled with the
+        // active culture instead of being shown with the placeholder visible.
+        private void ShowError(SignUpResult result)
+        {
+            string message = Localization.GetText(result.ErrorMessageKey);
+            if (result.ErrorMessageArgument.HasValue)
+            {
+                message = Localization.Format(result.ErrorMessageKey, result.ErrorMessageArgument.Value);
+            }
+
+            ShowErrorText(message);
+        }
+
+        private void ShowErrorText(string message)
+        {
+            lblErrorMessage.Text = message;
             lblErrorMessage.Visibility = Visibility.Visible;
         }
     }
