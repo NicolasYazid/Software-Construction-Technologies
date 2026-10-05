@@ -334,8 +334,8 @@ namespace GinRummy.Client.Views
         {
             Vector distance = position - _dragStart;
 
-            return Math.Abs(distance.X) > SystemParameters.MinimumHorizontalDragDistance
-                || Math.Abs(distance.Y) > SystemParameters.MinimumVerticalDragDistance;
+            return (Math.Abs(distance.X) > SystemParameters.MinimumHorizontalDragDistance)
+                || (Math.Abs(distance.Y) > SystemParameters.MinimumVerticalDragDistance);
         }
 
         private static CardDto GetCard(object source)

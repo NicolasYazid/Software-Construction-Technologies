@@ -113,8 +113,8 @@ namespace GinRummy.Client.Views
         {
             lblUsernameChanged.Visibility = Visibility.Collapsed;
             bool isLinkPending = lblPlatform.Visibility == Visibility.Visible;
-            bool isComplete = txtUsername.Text.Trim().Length > 0
-                && (!isLinkPending || txtSocialUrl.Text.Trim().Length > 0);
+            bool isComplete = (txtUsername.Text.Trim().Length > 0)
+                && (!isLinkPending || (txtSocialUrl.Text.Trim().Length > 0));
             if (isComplete)
             {
                 // The server validates the name, the biography and the address before keeping

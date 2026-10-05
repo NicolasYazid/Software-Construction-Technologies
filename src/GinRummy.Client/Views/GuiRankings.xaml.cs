@@ -134,7 +134,7 @@ namespace GinRummy.Client.Views
 
             // The row of the player is pinned only when the table does not already hold it, so
             // that it never shows twice (CU-19 FA-03).
-            bool isOwnEntryPinned = ownEntry != null
+            bool isOwnEntryPinned = (ownEntry != null)
                 && IsMatch(ownEntry, searchText)
                 && !matches.Contains(ownEntry);
             List<RankingEntryDto> pinnedEntries = new List<RankingEntryDto>();
@@ -145,13 +145,13 @@ namespace GinRummy.Client.Views
 
             lstRankings.ItemsSource = matches;
             lstOwnEntry.ItemsSource = pinnedEntries;
-            lblNoMatches.Visibility = VisibilityCommon.FromCondition(matches.Count == 0 && !isOwnEntryPinned);
+            lblNoMatches.Visibility = VisibilityCommon.FromCondition((matches.Count == 0) && !isOwnEntryPinned);
         }
 
         private static bool IsMatch(RankingEntryDto entry, string searchText)
         {
-            return searchText.Length == 0
-                || entry.Username.IndexOf(searchText, StringComparison.CurrentCultureIgnoreCase) >= 0;
+            return (searchText.Length == 0)
+                || (entry.Username.IndexOf(searchText, StringComparison.CurrentCultureIgnoreCase) >= 0);
         }
     }
 }

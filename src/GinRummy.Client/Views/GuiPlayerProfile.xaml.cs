@@ -58,7 +58,7 @@ namespace GinRummy.Client.Views
             lblRankName.Visibility = VisibilityCommon.FromCondition(isPlayer);
             lblPublicTag.Visibility = VisibilityCommon.FromCondition(isPlayer);
             lblBio.Visibility = VisibilityCommon.FromCondition(isPlayer);
-            lblSocialLinks.Visibility = VisibilityCommon.FromCondition(isPlayer && _profile.SocialLinks.Count > 0);
+            lblSocialLinks.Visibility = VisibilityCommon.FromCondition(isPlayer && (_profile.SocialLinks.Count > 0));
             lblMatchesPlayed.Visibility = VisibilityCommon.FromCondition(isPlayer && hasMatches);
             lblNoMatchesYet.Visibility = VisibilityCommon.FromCondition(isPlayer && !hasMatches);
             btnReport.Visibility = VisibilityCommon.FromCondition(isOther);

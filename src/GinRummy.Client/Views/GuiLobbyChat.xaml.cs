@@ -337,9 +337,9 @@ namespace GinRummy.Client.Views
 
         private static bool HasNoFriends(LobbySnapshotDto lobby)
         {
-            return lobby.FriendsOnline.Count == 0
-                && lobby.FriendsInMatch.Count == 0
-                && lobby.FriendsUnavailable.Count == 0;
+            return (lobby.FriendsOnline.Count == 0)
+                && (lobby.FriendsInMatch.Count == 0)
+                && (lobby.FriendsUnavailable.Count == 0);
         }
     }
 }

@@ -55,7 +55,7 @@ namespace GinRummy.Client.Controllers
                 result = LogInResult.Failure(RequiredFieldMessageKey);
             }
 
-            if (result == null && !IsValidEmailFormat(email))
+            if ((result == null) && !IsValidEmailFormat(email))
             {
                 // An email that is not even shaped like one cannot match any account, so it
                 // is reported the same as an email that does not exist.

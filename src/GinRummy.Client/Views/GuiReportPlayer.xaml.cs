@@ -30,10 +30,10 @@ namespace GinRummy.Client.Views
 
         private void OnSubmitClick(object sender, RoutedEventArgs e)
         {
-            bool isReasonSelected = radReasonOffensiveLanguage.IsChecked == true
-                || radReasonHarassmentOrThreats.IsChecked == true
-                || radReasonCheatingOrExploits.IsChecked == true
-                || radReasonSpam.IsChecked == true;
+            bool isReasonSelected = (radReasonOffensiveLanguage.IsChecked == true)
+                || (radReasonHarassmentOrThreats.IsChecked == true)
+                || (radReasonCheatingOrExploits.IsChecked == true)
+                || (radReasonSpam.IsChecked == true);
             if (isReasonSelected)
             {
                 IsSubmitted = true;
