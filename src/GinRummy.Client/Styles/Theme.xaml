@@ -171,10 +171,14 @@
                                          Value="True">
                                 <Setter Property="Margin" Value="0,6,0,0" />
                             </DataTrigger>
+                            <!-- A button that cannot be used stays sunk as if it were held down,
+                                 so it reads as unavailable through the same movement the player
+                                 already knows from the press. Declared last, it wins over the
+                                 pointer triggers. -->
                             <DataTrigger Binding="{Binding IsEnabled,
                                                    RelativeSource={RelativeSource TemplatedParent}}"
                                          Value="False">
-                                <Setter Property="Opacity" Value="0.45" />
+                                <Setter Property="Margin" Value="0,6,0,0" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -195,6 +199,14 @@
                                     <DataTrigger Binding="{Binding IsMouseOver,
                                                            RelativeSource={RelativeSource TemplatedParent}}"
                                                  Value="True">
+                                        <Setter Property="Opacity" Value="0.53" />
+                                    </DataTrigger>
+                                    <!-- The unavailable button keeps the darkening of the pointer
+                                         as well as the sink of the press, since a disabled
+                                         control never receives the pointer to show it. -->
+                                    <DataTrigger Binding="{Binding IsEnabled,
+                                                           RelativeSource={RelativeSource TemplatedParent}}"
+                                                 Value="False">
                                         <Setter Property="Opacity" Value="0.53" />
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -278,6 +290,12 @@
         <Setter Property="Height" Value="50" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Template" Value="{StaticResource TplMenuButton}" />
+        <Style.Triggers>
+            <!-- The hand promises a click; an unavailable button gives the plain arrow back. -->
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Cursor" Value="Arrow" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="StyMenuChipInset" TargetType="ctl:CtlPixelSurface">

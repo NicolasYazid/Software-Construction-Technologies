@@ -51,8 +51,12 @@
                         <TextBlock x:Name="lblSettings" Style="{StaticResource StyMenuChipCaption}"
                                    Text="{Binding [MainMenu_LblSettings], Source={StaticResource Loc},
                                           Converter={StaticResource CnvUpperCase}}" />
-                        <!-- It opens the same settings as the gear of the lobby. -->
+                        <!-- It opens the same settings as the gear of the lobby, which belong to an
+                             account. The menu is only on screen while nobody is signed in, because
+                             a signed-in player stands in the lobby in its place, so the button
+                             stays unavailable here; the language has its own selector beside it. -->
                         <Button x:Name="btnSettings" Style="{StaticResource StyMenuChipButton}" Margin="0,8,0,0"
+                                IsEnabled="False"
                                 Click="OnSettingsClick">
                             <Image Source="{StaticResource IcoGear}" Width="22" Height="22" />
                         </Button>
