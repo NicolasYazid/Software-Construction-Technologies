@@ -49,5 +49,23 @@ namespace GinRummy.Domain.Entities
         /// two tables.
         /// </summary>
         public virtual Player Player { get; private set; }
+
+        /// <summary>
+        /// Gets the share of matches won, from zero to one. It is zero when no match has been
+        /// played, so the division is never by zero.
+        /// </summary>
+        public double WinRate
+        {
+            get
+            {
+                double winRate = 0d;
+                if (MatchesPlayed > 0)
+                {
+                    winRate = (double)Wins / MatchesPlayed;
+                }
+
+                return winRate;
+            }
+        }
     }
 }

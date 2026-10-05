@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\LeaderboardPosition.cs" />
     <Compile Include="Entities\Locale.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\PlayerStats.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Repositories\IVerificationCodeRepository.cs" />
     <Compile Include="Security\IPasswordHasher.cs" />
     <Compile Include="Security\IVerificationCodeGenerator.cs" />
+    <Compile Include="Services\RankResolver.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
