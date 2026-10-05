@@ -7,9 +7,6 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiAccountCreated : GuiModalBase
     {
-        /// <summary>
-        /// Builds the account created screen.
-        /// </summary>
         public GuiAccountCreated()
         {
             InitializeComponent();

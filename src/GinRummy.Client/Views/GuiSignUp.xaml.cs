@@ -13,9 +13,6 @@ namespace GinRummy.Client.Views
         private const string PasswordMismatchKey = "Error_ValPasswordMismatch";
         private const string DemoCodeMessageKey = "SignUp_DemoCodeGenerated";
 
-        /// <summary>
-        /// Builds the sign-up screen.
-        /// </summary>
         public GuiSignUp()
         {
             InitializeComponent();

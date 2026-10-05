@@ -13,11 +13,9 @@ using GinRummy.Domain.Security;
 
 namespace GinRummy.Client.Controllers
 {
-    /// <summary>
-    /// Orchestrates CU-02 (Sign in) at the scope of this activity: validates the form,
-    /// looks up the player by email, and checks the password. It only reads data, so it
-    /// needs no transaction.
-    /// </summary>
+    // Orchestrates CU-02 (Sign in) at the scope of this activity: validates the form, looks up
+    // the player by email, and checks the password. It only reads data, so it needs no
+    // transaction.
     public class LogInController
     {
         private const string RequiredFieldMessageKey = "Error_ValRequiredField";
@@ -28,24 +26,12 @@ namespace GinRummy.Client.Controllers
         private readonly IPlayerDao _playerDao;
         private readonly IPasswordHasher _passwordHasher;
 
-        /// <summary>
-        /// Builds the controller with the player DAO and the password hasher the
-        /// composition root already assembled.
-        /// </summary>
-        /// <param name="playerDao">DAO used to look up the player.</param>
-        /// <param name="passwordHasher">Adapter that checks the password against its hash.</param>
         public LogInController(IPlayerDao playerDao, IPasswordHasher passwordHasher)
         {
             _playerDao = playerDao;
             _passwordHasher = passwordHasher;
         }
 
-        /// <summary>
-        /// Attempts to sign in with an email and a password, or reports what failed.
-        /// </summary>
-        /// <param name="email">Email written on the form.</param>
-        /// <param name="password">Password written on the form.</param>
-        /// <returns>The outcome of the attempt.</returns>
         public LogInResult SignIn(string email, string password)
         {
             LogInResult result = null;

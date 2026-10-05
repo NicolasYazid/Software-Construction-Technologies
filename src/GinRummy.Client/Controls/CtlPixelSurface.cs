@@ -4,19 +4,16 @@ using System.Windows.Media;
 
 namespace GinRummy.Client.Controls
 {
-    /// <summary>
-    /// Surface that draws the frame of a control as pixel art: the corners are rounded along a
-    /// quarter of a circle stepped in square blocks of the same module the painted background
-    /// is made of, so the button, the panel and the field read as part of the same grid as the
-    /// letters of the pixel typefaces.
-    /// The shape is built from the size the layout grants, which is why no bitmap is needed:
-    /// nothing is stretched, the steps keep their size on a button of any width, and a screen
-    /// of any resolution draws them with the same sharp edge.
-    /// No border is drawn around the body, so a translucent colour keeps showing the background
-    /// of the screen the way a plain panel did. The depth, when it is asked for, is the same
-    /// shape painted underneath and pushed down a few blocks, which is what raises the element
-    /// over its own base. The content of the control is drawn over all of it untouched.
-    /// </summary>
+    // Surface that draws the frame of a control as pixel art: the corners are rounded along a
+    // quarter of a circle stepped in square blocks of the same module the painted background is
+    // made of, so the button, the panel and the field read as part of the same grid as the
+    // letters of the pixel typefaces. The shape is built from the size the layout grants, which
+    // is why no bitmap is needed: nothing is stretched, the steps keep their size on a button
+    // of any width, and a screen of any resolution draws them with the same sharp edge. No
+    // border is drawn around the body, so a translucent colour keeps showing the background of
+    // the screen the way a plain panel did. The depth, when it is asked for, is the same shape
+    // painted underneath and pushed down a few blocks, which is what raises the element over
+    // its own base. The content of the control is drawn over all of it untouched.
     public class CtlPixelSurface : Decorator
     {
         private const int DefaultCornerSteps = 4;
@@ -25,10 +22,6 @@ namespace GinRummy.Client.Controls
         private const int FirstBlock = 0;
         private const double Origin = 0.0;
 
-        /// <summary>
-        /// Side of the block the shape is drawn on. Every measure of the surface is a whole
-        /// number of these, so raising it makes the steps of the corners coarser.
-        /// </summary>
         public static readonly DependencyProperty PixelUnitProperty =
             DependencyProperty.Register(
                 "PixelUnit",
@@ -38,11 +31,8 @@ namespace GinRummy.Client.Controls
                     PixelShapeCommon.DefaultPixelUnit,
                     FrameworkPropertyMetadataOptions.AffectsRender));
 
-        /// <summary>
-        /// Radius of the corner, counted in blocks. It is also how many rows of the corner
-        /// carry a step, so a larger element needs a larger number for its corner to read as
-        /// round rather than square.
-        /// </summary>
+        // The number of steps is also how many rows of the corner carry one, so a larger
+        // element needs a larger number for its corner to read as round rather than square.
         public static readonly DependencyProperty CornerStepsProperty =
             DependencyProperty.Register(
                 "CornerSteps",
@@ -52,11 +42,8 @@ namespace GinRummy.Client.Controls
                     DefaultCornerSteps,
                     FrameworkPropertyMetadataOptions.AffectsRender));
 
-        /// <summary>
-        /// Colour of the body of the surface. It is the only colour that covers the shape, so
-        /// a translucent one lets the background of the screen through, which is what the
-        /// panels of the menu are after.
-        /// </summary>
+        // The face is the only colour that covers the shape, so a translucent one lets the
+        // background of the screen through, which is what the panels of the menu are after.
         public static readonly DependencyProperty FaceBrushProperty =
             DependencyProperty.Register(
                 "FaceBrush",
@@ -66,9 +53,6 @@ namespace GinRummy.Client.Controls
                     null,
                     FrameworkPropertyMetadataOptions.AffectsRender));
 
-        /// <summary>
-        /// Colour of the base the body is raised over. Leaving it unset draws a flat surface.
-        /// </summary>
         public static readonly DependencyProperty BaseBrushProperty =
             DependencyProperty.Register(
                 "BaseBrush",
@@ -78,10 +62,6 @@ namespace GinRummy.Client.Controls
                     null,
                     FrameworkPropertyMetadataOptions.AffectsRender));
 
-        /// <summary>
-        /// How many blocks the body is raised over its base, which is how much of the base is
-        /// seen along the bottom edge.
-        /// </summary>
         public static readonly DependencyProperty BaseDepthProperty =
             DependencyProperty.Register(
                 "BaseDepth",
@@ -91,11 +71,8 @@ namespace GinRummy.Client.Controls
                     DefaultBaseDepth,
                     FrameworkPropertyMetadataOptions.AffectsMeasure));
 
-        /// <summary>
-        /// Room left between the border of the surface and its content. A decorator has no
-        /// padding of its own, and the content of a panel cannot sit on the steps of the
-        /// corners, so the surface declares one and honours it while it measures.
-        /// </summary>
+        // A decorator has no padding of its own, and the content of a panel cannot sit on the
+        // steps of the corners, so the surface declares one and honours it while it measures.
         public static readonly DependencyProperty PaddingProperty =
             DependencyProperty.Register(
                 "Padding",
@@ -105,64 +82,42 @@ namespace GinRummy.Client.Controls
                     new Thickness(),
                     FrameworkPropertyMetadataOptions.AffectsMeasure));
 
-        /// <summary>
-        /// Gets or sets the side of the block the shape is drawn on.
-        /// </summary>
         public double PixelUnit
         {
             get { return (double)GetValue(PixelUnitProperty); }
             set { SetValue(PixelUnitProperty, value); }
         }
 
-        /// <summary>
-        /// Gets or sets how many blocks each corner gives up.
-        /// </summary>
         public int CornerSteps
         {
             get { return (int)GetValue(CornerStepsProperty); }
             set { SetValue(CornerStepsProperty, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the colour of the body of the surface.
-        /// </summary>
         public Brush FaceBrush
         {
             get { return (Brush)GetValue(FaceBrushProperty); }
             set { SetValue(FaceBrushProperty, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the colour of the base the body is raised over.
-        /// </summary>
         public Brush BaseBrush
         {
             get { return (Brush)GetValue(BaseBrushProperty); }
             set { SetValue(BaseBrushProperty, value); }
         }
 
-        /// <summary>
-        /// Gets or sets how many blocks the body is raised over its base.
-        /// </summary>
         public int BaseDepth
         {
             get { return (int)GetValue(BaseDepthProperty); }
             set { SetValue(BaseDepthProperty, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the room left between the border of the surface and its content.
-        /// </summary>
         public Thickness Padding
         {
             get { return (Thickness)GetValue(PaddingProperty); }
             set { SetValue(PaddingProperty, value); }
         }
 
-        /// <summary>
-        /// Draws the surface underneath the content of the control.
-        /// </summary>
-        /// <param name="drawingContext">Where the shape is drawn.</param>
         protected override void OnRender(DrawingContext drawingContext)
         {
             base.OnRender(drawingContext);
@@ -177,23 +132,14 @@ namespace GinRummy.Client.Controls
             drawingContext.DrawGeometry(FaceBrush, null, PixelShapeCommon.BuildShape(frame));
         }
 
-        /// <summary>
-        /// Redraws the shape whenever the layout grants the surface a different size, because
-        /// the shape is measured from that size and not from a fixed picture.
-        /// </summary>
-        /// <param name="info">Size the surface had and size it has now.</param>
+        // Redraws the shape whenever the layout grants the surface a different size, because
+        // the shape is measured from that size and not from a fixed picture.
         protected override void OnRenderSizeChanged(SizeChangedInfo info)
         {
             base.OnRenderSizeChanged(info);
             InvalidateVisual();
         }
 
-        /// <summary>
-        /// Leaves room for the padding around the content and asks for the size the content
-        /// needs plus that room.
-        /// </summary>
-        /// <param name="constraint">Size the parent offers.</param>
-        /// <returns>The size this surface needs.</returns>
         protected override Size MeasureOverride(Size constraint)
         {
             Thickness padding = ResolvePadding();
@@ -211,12 +157,6 @@ namespace GinRummy.Client.Controls
             return needed;
         }
 
-        /// <summary>
-        /// Places the content inside the padding, which leaves the border and the steps of the
-        /// corners clear of it.
-        /// </summary>
-        /// <param name="arrangeSize">Size the parent grants.</param>
-        /// <returns>The size this surface takes.</returns>
         protected override Size ArrangeOverride(Size arrangeSize)
         {
             if (Child != null)

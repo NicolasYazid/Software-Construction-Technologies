@@ -4,13 +4,11 @@ using System.Windows.Media.Imaging;
 
 namespace GinRummy.Client.Controls
 {
-    /// <summary>
-    /// Paints once the sprite of the back of the playing cards: the spiral of the backgrounds,
-    /// still and in the reds of the buttons. The blocks are enlarged here, one by one, well past
-    /// the size of any card, so every card only ever shrinks the sprite. Shrinking keeps the
-    /// edges of the blocks sharp at any size of card and any scale of screen, while stretching
-    /// a small surface is what blurred them.
-    /// </summary>
+    // Paints once the sprite of the back of the playing cards: the spiral of the backgrounds,
+    // still and in the reds of the buttons. The blocks are enlarged here, one by one, well past
+    // the size of any card, so every card only ever shrinks the sprite. Shrinking keeps the
+    // edges of the blocks sharp at any size of card and any scale of screen, while stretching a
+    // small surface is what blurred them.
     public static class CardBackCommon
     {
         private const int BlockSize = 4;
@@ -27,9 +25,6 @@ namespace GinRummy.Client.Controls
 
         private static readonly ImageSource PaintedSprite = PaintSprite();
 
-        /// <summary>
-        /// Gets the sprite of the back shared by every card, whatever its size.
-        /// </summary>
         public static ImageSource Sprite
         {
             get { return PaintedSprite; }

@@ -5,16 +5,14 @@ using System.Windows.Media;
 
 namespace GinRummy.Client.Controls
 {
-    /// <summary>
-    /// Border drawn as pixel art with the same raised depth as the buttons. A plain border
-    /// clipped by PixelShapeCommon painted its bottom border inside the clip, so the dark strip
-    /// ate the last row of the lower corners and the element showed fewer steps below than
-    /// above. This border keeps the face whole and draws the base underneath it instead.
-    /// The outline comes from the attached PixelShapeCommon.CornerSteps and PixelUnit, the
-    /// face from Background, the base from BorderBrush, and the depth from the bottom border
-    /// thickness rounded to whole blocks, so every style written for a plain border keeps
-    /// working unchanged.
-    /// </summary>
+    // Border drawn as pixel art with the same raised depth as the buttons. A plain border
+    // clipped by PixelShapeCommon painted its bottom border inside the clip, so the dark strip
+    // ate the last row of the lower corners and the element showed fewer steps below than
+    // above. This border keeps the face whole and draws the base underneath it instead. The
+    // outline comes from the attached PixelShapeCommon.CornerSteps and PixelUnit, the face from
+    // Background, the base from BorderBrush, and the depth from the bottom border thickness
+    // rounded to whole blocks, so every style written for a plain border keeps working
+    // unchanged.
     public class CtlPixelBorder : Border
     {
         private const int NoDepth = 0;
@@ -22,10 +20,6 @@ namespace GinRummy.Client.Controls
         private const int BothSides = 2;
         private const double NoThickness = 0.0;
 
-        /// <summary>
-        /// Draws the face over its base, both on the stepped outline of the element.
-        /// </summary>
-        /// <param name="drawingContext">Where the shape is drawn.</param>
         protected override void OnRender(DrawingContext drawingContext)
         {
             double unit = PixelShapeCommon.GetPixelUnit(this);
@@ -55,22 +49,16 @@ namespace GinRummy.Client.Controls
             drawingContext.DrawGeometry(Background, null, face);
         }
 
-        /// <summary>
-        /// Redraws the shape whenever the layout grants a different size, because the shape is
-        /// measured from that size and not from a fixed picture.
-        /// </summary>
-        /// <param name="sizeInfo">Size the border had and size it has now.</param>
+        // Redraws the shape whenever the layout grants a different size, because the shape is
+        // measured from that size and not from a fixed picture.
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
             base.OnRenderSizeChanged(sizeInfo);
             InvalidateVisual();
         }
 
-        /// <summary>
-        /// Redraws the shape when the attached outline changes, since those properties do not
-        /// belong to the border and do not ask for a new render by themselves.
-        /// </summary>
-        /// <param name="e">The property that changed and its values.</param>
+        // Redraws the shape when the attached outline changes, since those properties do not
+        // belong to the border and do not ask for a new render by themselves.
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);

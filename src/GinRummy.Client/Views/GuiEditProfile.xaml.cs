@@ -30,9 +30,6 @@ namespace GinRummy.Client.Views
         private SocialLinkDto _linkToRemove;
         private SocialLinkDto _linkToReplace;
 
-        /// <summary>
-        /// Builds the screen with the current profile of the player.
-        /// </summary>
         public GuiEditProfile()
         {
             InitializeComponent();
@@ -48,10 +45,6 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        /// <summary>
-        /// Rebuilds the counter of the biography and the requirements of the picture, which
-        /// carry a placeholder.
-        /// </summary>
         protected override void RefreshFormattedText()
         {
             if (lblBioCounter != null)

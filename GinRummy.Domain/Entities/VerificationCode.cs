@@ -6,20 +6,11 @@ using System.Threading.Tasks;
 
 namespace GinRummy.Domain.Entities
 {
-    /// <summary>
-    /// A one-time code sent to confirm an email address or authorize a sensitive action.
-    /// Protects its own invariants: it cannot expire before it was created, and it always
-    /// starts with zero attempts and unused.
-    /// </summary>
+    // A one-time code sent to confirm an email address or authorize a sensitive action.
+    // Protects its own invariants: it cannot expire before it was created, and it always starts
+    // with zero attempts and unused.
     public class VerificationCode
     {
-        /// <summary>
-        /// Creates a valid new verification code, stamped with the current UTC time.
-        /// </summary>
-        /// <param name="playerId">Player this code is for; must be positive.</param>
-        /// <param name="purpose">Reason this code was generated.</param>
-        /// <param name="codeHash">Hash of the code; required, never the plain code.</param>
-        /// <param name="expiresAt">When the code stops being valid; must be in the future.</param>
         public VerificationCode(int playerId, VerificationPurpose purpose, string codeHash, DateTime expiresAt)
         {
             DateTime creationMoment = DateTime.UtcNow;
@@ -36,52 +27,20 @@ namespace GinRummy.Domain.Entities
             UsedAt = null;
         }
 
-        /// <summary>
-        /// Parameterless constructor reserved for Entity Framework's materialization; not
-        /// for application code, which must use the validating constructor.
-        /// </summary>
+        // Parameterless constructor reserved for Entity Framework's materialization; not for
+        // application code, which must use the validating constructor.
         protected VerificationCode()
         {
         }
 
-        /// <summary>
-        /// Gets the internal, autonumeric identifier.
-        /// </summary>
         public int VerificationCodeId { get; private set; }
-
-        /// <summary>
-        /// Gets the player this code was generated for.
-        /// </summary>
         public int PlayerId { get; private set; }
-
-        /// <summary>
-        /// Gets the reason this code was generated.
-        /// </summary>
         public VerificationPurpose Purpose { get; private set; }
-
-        /// <summary>
-        /// Gets the hash of the code, hex-encoded. Never the plain code itself.
-        /// </summary>
+        // Only the hash is stored, never the plain code itself.
         public string CodeHash { get; private set; }
-
-        /// <summary>
-        /// Gets the moment this code stops being valid, in UTC.
-        /// </summary>
         public DateTime ExpiresAt { get; private set; }
-
-        /// <summary>
-        /// Gets the moment this code was successfully used, in UTC. Null while unused.
-        /// </summary>
         public DateTime? UsedAt { get; private set; }
-
-        /// <summary>
-        /// Gets how many times a wrong code has been entered against this one.
-        /// </summary>
         public int Attempts { get; private set; }
-
-        /// <summary>
-        /// Gets the moment this code was generated, in UTC.
-        /// </summary>
         public DateTime CreatedAt { get; private set; }
 
         // A code must always belong to a real player, referenced by a positive id.

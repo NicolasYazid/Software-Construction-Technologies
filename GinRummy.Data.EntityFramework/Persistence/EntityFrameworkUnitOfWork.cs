@@ -19,10 +19,6 @@ namespace GinRummy.Data.EntityFramework.Persistence
         private readonly ILocaleDao _locales;
         private bool _isDisposed;
 
-        /// <summary>
-        /// Opens one context and one transaction, and binds every DAO to them.
-        /// </summary>
-        /// <param name="connectionStringName">Name of the entry in App.config.</param>
         public EntityFrameworkUnitOfWork(string connectionStringName)
         {
             _context = new GinRummyContext(connectionStringName);
@@ -32,49 +28,31 @@ namespace GinRummy.Data.EntityFramework.Persistence
             _locales = new LocaleDao(_context);
         }
 
-        /// <summary>
-        /// Gets the player DAO bound to this unit of work.
-        /// </summary>
         public IPlayerDao Players
         {
             get { return _players; }
         }
 
-        /// <summary>
-        /// Gets the verification code DAO bound to this unit of work.
-        /// </summary>
         public IVerificationCodeDao VerificationCodes
         {
             get { return _verificationCodes; }
         }
 
-        /// <summary>
-        /// Gets the locale DAO bound to this unit of work.
-        /// </summary>
         public ILocaleDao Locales
         {
             get { return _locales; }
         }
 
-        /// <summary>
-        /// Saves every change made through this unit of work as one transaction.
-        /// </summary>
         public void Commit()
         {
             _transaction.Commit();
         }
 
-        /// <summary>
-        /// Discards every change made through this unit of work.
-        /// </summary>
         public void Rollback()
         {
             _transaction.Rollback();
         }
 
-        /// <summary>
-        /// Frees the transaction and the context.
-        /// </summary>
         public void Dispose()
         {
             if (!_isDisposed)

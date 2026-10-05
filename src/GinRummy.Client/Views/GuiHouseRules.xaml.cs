@@ -12,9 +12,6 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiHouseRules : GuiModalBase
     {
-        /// <summary>
-        /// Builds the screen with the values of the game the rules quote.
-        /// </summary>
         public GuiHouseRules()
         {
             InitializeComponent();

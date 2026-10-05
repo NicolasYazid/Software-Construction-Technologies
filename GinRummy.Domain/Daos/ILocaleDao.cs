@@ -8,17 +8,10 @@ using GinRummy.Domain.Entities;
 
 namespace GinRummy.Domain.Daos
 {
-    /// <summary>
-    /// Contract the game's logic uses to reach the Locale catalog, without knowing how
-    /// or where it is stored.
-    /// </summary>
+    // Contract the game's logic uses to reach the Locale catalog, without knowing how or where
+    // it is stored.
     public interface ILocaleDao
     {
-        /// <summary>
-        /// Finds the locale whose code matches, or null when no locale has it.
-        /// </summary>
-        /// <param name="localeCode">Culture code to search for, such as "es-MX".</param>
-        /// <returns>The matching locale, or null.</returns>
         Locale FindByCode(string localeCode);
     }
 }

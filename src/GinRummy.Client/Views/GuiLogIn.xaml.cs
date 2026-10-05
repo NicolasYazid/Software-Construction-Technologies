@@ -12,9 +12,6 @@ namespace GinRummy.Client.Views
     {
         private const string SignInSuccessMessageKey = "LogIn_DemoSignInSuccess";
 
-        /// <summary>
-        /// Builds the sign-in screen.
-        /// </summary>
         public GuiLogIn()
         {
             InitializeComponent();

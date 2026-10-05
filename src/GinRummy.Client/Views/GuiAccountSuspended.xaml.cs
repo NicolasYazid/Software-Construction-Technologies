@@ -16,12 +16,6 @@ namespace GinRummy.Client.Views
         private readonly DispatcherTimer _countdownTimer;
         private TimeSpan _remainingTime;
 
-        /// <summary>
-        /// Builds the screen for a suspension that is still in force.
-        /// </summary>
-        /// <param name="reasonName">Name of the reason of the ban, already in the active
-        /// language.</param>
-        /// <param name="remainingTime">Time left until the ban expires.</param>
         public GuiAccountSuspended(string reasonName, TimeSpan remainingTime)
         {
             InitializeComponent();
@@ -35,9 +29,6 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        /// <summary>
-        /// Rebuilds the remaining time, which carries a placeholder.
-        /// </summary>
         protected override void RefreshFormattedText()
         {
             if (lblTimeRemaining != null)

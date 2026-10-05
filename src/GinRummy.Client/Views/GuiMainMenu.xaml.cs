@@ -8,9 +8,6 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiMainMenu : GuiWindowBase
     {
-        /// <summary>
-        /// Builds the main menu.
-        /// </summary>
         public GuiMainMenu()
         {
             InitializeComponent();

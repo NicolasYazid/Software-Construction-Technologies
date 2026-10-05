@@ -4,18 +4,12 @@ using System.Windows.Media;
 
 namespace GinRummy.Client.Controls
 {
-    /// <summary>
-    /// Builds the stepped outline that every pixel element of the client shares, and lends it to
-    /// any element as a clip through the CornerSteps attached property. That is how a field, a
-    /// card or the box of a check takes the same corners of square blocks as the buttons
-    /// without changing the element it is made of.
-    /// </summary>
+    // Builds the stepped outline that every pixel element of the client shares, and lends it to
+    // any element as a clip through the CornerSteps attached property. That is how a field, a
+    // card or the box of a check takes the same corners of square blocks as the buttons without
+    // changing the element it is made of.
     public static class PixelShapeCommon
     {
-        /// <summary>
-        /// Side of the block the outline is drawn on when an element does not ask for another.
-        /// It is the one the buttons and the panels of the menu use.
-        /// </summary>
         public const double DefaultPixelUnit = 3.0;
 
         private const int NoSteps = 0;
@@ -25,10 +19,6 @@ namespace GinRummy.Client.Controls
         private const double Half = 0.5;
         private const double Origin = 0.0;
 
-        /// <summary>
-        /// Radius of the corner of the outline that clips the element, counted in blocks. Zero,
-        /// the default, leaves the element as it is.
-        /// </summary>
         public static readonly DependencyProperty CornerStepsProperty =
             DependencyProperty.RegisterAttached(
                 "CornerSteps",
@@ -36,10 +26,7 @@ namespace GinRummy.Client.Controls
                 typeof(PixelShapeCommon),
                 new PropertyMetadata(NoSteps, OnOutlineChanged));
 
-        /// <summary>
-        /// Side of the block of the outline that clips the element. Small elements take a
-        /// smaller block so that their corners still read as round.
-        /// </summary>
+        // Small elements take a smaller block so that their corners still read as round.
         public static readonly DependencyProperty PixelUnitProperty =
             DependencyProperty.RegisterAttached(
                 "PixelUnit",
@@ -47,41 +34,21 @@ namespace GinRummy.Client.Controls
                 typeof(PixelShapeCommon),
                 new PropertyMetadata(DefaultPixelUnit, OnOutlineChanged));
 
-        /// <summary>
-        /// Gets the radius of the corner, in blocks, of the outline that clips the element.
-        /// </summary>
-        /// <param name="element">Element that carries the outline.</param>
-        /// <returns>The radius of the corner in blocks.</returns>
         public static int GetCornerSteps(DependencyObject element)
         {
             return (int)element.GetValue(CornerStepsProperty);
         }
 
-        /// <summary>
-        /// Sets the radius of the corner, in blocks, of the outline that clips the element.
-        /// </summary>
-        /// <param name="element">Element that carries the outline.</param>
-        /// <param name="value">Radius of the corner in blocks.</param>
         public static void SetCornerSteps(DependencyObject element, int value)
         {
             element.SetValue(CornerStepsProperty, value);
         }
 
-        /// <summary>
-        /// Gets the side of the block of the outline that clips the element.
-        /// </summary>
-        /// <param name="element">Element that carries the outline.</param>
-        /// <returns>The side of the block.</returns>
         public static double GetPixelUnit(DependencyObject element)
         {
             return (double)element.GetValue(PixelUnitProperty);
         }
 
-        /// <summary>
-        /// Sets the side of the block of the outline that clips the element.
-        /// </summary>
-        /// <param name="element">Element that carries the outline.</param>
-        /// <param name="value">Side of the block.</param>
         public static void SetPixelUnit(DependencyObject element, double value)
         {
             element.SetValue(PixelUnitProperty, value);

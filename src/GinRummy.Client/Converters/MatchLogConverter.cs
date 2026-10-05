@@ -7,12 +7,10 @@ using GinRummy.Client.Models;
 
 namespace GinRummy.Client.Converters
 {
-    /// <summary>
-    /// Writes an entry of the match log as the sentence of the dictionary for its event, with
-    /// the card or the number the event carries. The first value of the binding is the entry;
-    /// the second is the active culture, bound to the localization provider so that the
-    /// sentence is written again when the culture changes.
-    /// </summary>
+    // Writes an entry of the match log as the sentence of the dictionary for its event, with
+    // the card or the number the event carries. The first value of the binding is the entry;
+    // the second is the active culture, bound to the localization provider so that the sentence
+    // is written again when the culture changes.
     public sealed class MatchLogConverter : IMultiValueConverter
     {
         private const string DealtKey = "GameTable_LogDealtFormat";
@@ -24,15 +22,6 @@ namespace GinRummy.Client.Converters
         private const string GinKey = "GameTable_LogGin";
         private const string WaitingKey = "GameTable_LblWaiting";
 
-        /// <summary>
-        /// Returns the sentence of the entry in the active culture.
-        /// </summary>
-        /// <param name="values">The entry followed by the active culture.</param>
-        /// <param name="targetType">Type requested by the binding.</param>
-        /// <param name="parameter">Not used.</param>
-        /// <param name="culture">Culture supplied by the binding, which is not the active
-        /// one.</param>
-        /// <returns>The sentence, or an empty string while there is no entry.</returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             string result = string.Empty;
@@ -45,14 +34,7 @@ namespace GinRummy.Client.Converters
             return result;
         }
 
-        /// <summary>
-        /// Not supported: an entry of the log is only shown, never written back.
-        /// </summary>
-        /// <param name="value">Not used.</param>
-        /// <param name="targetTypes">Not used.</param>
-        /// <param name="parameter">Not used.</param>
-        /// <param name="culture">Not used.</param>
-        /// <returns>Never returns: the operation is not supported.</returns>
+        // Not supported: an entry of the log is only shown, never written back.
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotSupportedException("An entry of the match log is never written back.");

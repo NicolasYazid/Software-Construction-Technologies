@@ -7,12 +7,9 @@ using Konscious.Security.Cryptography;
 
 namespace GinRummy.Security
 {
-    /// <summary>
-    /// Fulfils IPasswordHasher using Argon2id, with the parameters OWASP recommends
-    /// for interactive login (m=19456 KiB, t=2, p=1). Reads and writes hashes in the
-    /// PHC string format the database already uses, e.g.
-    /// "$argon2id$v=19$m=19456,t=2,p=1$&lt;salt&gt;$&lt;hash&gt;".
-    /// </summary>
+    // Fulfils IPasswordHasher using Argon2id, with the parameters OWASP recommends for
+    // interactive login (m=19456 KiB, t=2, p=1). Reads and writes hashes in the PHC string
+    // format the database already uses, e.g. "$argon2id$v=19$m=19456,t=2,p=1$<salt>$<hash>".
     public class Argon2PasswordHasher : IPasswordHasher
     {
         private const int MemorySizeInKibibytes = 19456;
@@ -27,11 +24,6 @@ namespace GinRummy.Security
         private const string AlgorithmName = "argon2id";
         private const char FieldSeparator = '$';
 
-        /// <summary>
-        /// Produces a hash of the given plain text password, safe to store in place of it.
-        /// </summary>
-        /// <param name="plainTextPassword">The password exactly as the player typed it.</param>
-        /// <returns>An encoded hash that carries its own salt and parameters.</returns>
         public string HashPassword(string plainTextPassword)
         {
             byte[] salt = GenerateSalt();
@@ -41,12 +33,6 @@ namespace GinRummy.Security
             return encodedHash;
         }
 
-        /// <summary>
-        /// Checks whether a plain text password matches a previously stored hash.
-        /// </summary>
-        /// <param name="plainTextPassword">The password exactly as the player typed it.</param>
-        /// <param name="hash">The stored hash to check against.</param>
-        /// <returns>True when the password matches the hash.</returns>
         public bool VerifyPassword(string plainTextPassword, string hash)
         {
             bool passwordMatches = false;

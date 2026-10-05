@@ -24,19 +24,11 @@ namespace GinRummy.Client.Views
         private TimeSpan _resendRemainingTime;
         private int _remainingAttempts;
 
-        /// <summary>
-        /// Builds the screen for the sign-up flow without a known address.
-        /// </summary>
         public GuiVerifyEmail()
             : this(VerificationPurpose.AccountSignUp, string.Empty)
         {
         }
 
-        /// <summary>
-        /// Builds the screen for a given flow.
-        /// </summary>
-        /// <param name="purpose">Reason why the code was requested.</param>
-        /// <param name="destinationAddress">Address the code was sent to.</param>
         public GuiVerifyEmail(VerificationPurpose purpose, string destinationAddress)
         {
             InitializeComponent();
@@ -53,11 +45,8 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        /// <summary>
-        /// Rebuilds the heading, the window title, the instructions and every value that
-        /// carries a placeholder. The title comes from a different key in each flow, so it
-        /// cannot be bound in XAML to a single one.
-        /// </summary>
+        // The title comes from a different key in each flow, so it cannot be bound in XAML to a
+        // single one.
         protected override void RefreshFormattedText()
         {
             if (lblTitle != null)

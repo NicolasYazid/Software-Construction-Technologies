@@ -22,9 +22,6 @@ namespace GinRummy.Client.Views
         private readonly SampleDataService _dataService;
         private LeaderboardDto _leaderboard;
 
-        /// <summary>
-        /// Builds the screen with the global leaderboard, the tab it opens on.
-        /// </summary>
         public GuiRankings()
         {
             InitializeComponent();

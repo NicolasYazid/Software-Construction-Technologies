@@ -11,10 +11,6 @@ namespace GinRummy.Client.Views
         private string _titleKey;
         private string _messageKey;
 
-        /// <summary>
-        /// Builds the dialog for one of the known errors.
-        /// </summary>
-        /// <param name="kind">Error to present.</param>
         public GuiErrorDialog(ErrorDialogKind kind)
         {
             InitializeComponent();
@@ -22,16 +18,9 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        /// <summary>
-        /// Gets whether the player chose the second action (retry, or return to the match)
-        /// instead of closing the dialog.
-        /// </summary>
+        // The second action is retrying or returning to the match, depending on the error.
         public bool IsActionChosen { get; private set; }
 
-        /// <summary>
-        /// Rebuilds the title and the message, which come from a different key for each error
-        /// and therefore cannot be bound in XAML to a single one.
-        /// </summary>
         protected override void RefreshFormattedText()
         {
             if (lblTitle != null)

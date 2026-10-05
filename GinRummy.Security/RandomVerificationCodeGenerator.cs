@@ -10,19 +10,14 @@ using GinRummy.Domain.Security;
 
 namespace GinRummy.Security
 {
-    /// <summary>
-    /// Fulfils IVerificationCodeGenerator using a cryptographically secure random number,
-    /// so a code cannot be predicted the way a plain Random sequence could be.
-    /// </summary>
+    // Fulfils IVerificationCodeGenerator using a cryptographically secure random number, so a
+    // code cannot be predicted the way a plain Random sequence could be.
     public class RandomVerificationCodeGenerator : IVerificationCodeGenerator
     {
         private const int CodeLength = 6;
         private const long CodeUpperBound = 1000000;
 
-        /// <summary>
-        /// Generates a new six-digit code, as a string so a leading zero is never lost.
-        /// </summary>
-        /// <returns>A six-character string of digits.</returns>
+        // Returned as a string so a leading zero is never lost.
         public string GenerateCode()
         {
             byte[] randomBytes = new byte[sizeof(uint)];

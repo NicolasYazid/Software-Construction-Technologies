@@ -15,10 +15,6 @@ namespace GinRummy.Client.Views
         private string _messageKey;
         private string _confirmKey;
 
-        /// <summary>
-        /// Builds the dialog for one of the known actions.
-        /// </summary>
-        /// <param name="kind">Action to confirm.</param>
         public GuiConfirmDialog(ConfirmDialogKind kind)
         {
             InitializeComponent();
@@ -26,23 +22,13 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        /// <summary>
-        /// Gets whether the player confirmed the action.
-        /// </summary>
         public bool IsConfirmed { get; private set; }
 
-        /// <summary>
-        /// Gets the password typed in the dialog that turns off the two-step verification.
-        /// </summary>
         public string EnteredPassword
         {
             get { return pwdPassword.Password; }
         }
 
-        /// <summary>
-        /// Rebuilds the title, the warning and the confirming button, which come from a
-        /// different key for each action and therefore cannot be bound in XAML to a single one.
-        /// </summary>
         protected override void RefreshFormattedText()
         {
             if (lblTitle != null)

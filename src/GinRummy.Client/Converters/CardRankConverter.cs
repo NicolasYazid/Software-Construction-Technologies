@@ -7,12 +7,10 @@ using GinRummy.Client.Models;
 
 namespace GinRummy.Client.Converters
 {
-    /// <summary>
-    /// Writes the rank of a card as its corner shows it: the number for the cards from the two
-    /// to the ten, and the letter of the dictionary for the ace and the face cards. The first
-    /// value of the binding is the rank; the second is the active culture, bound to the
-    /// localization provider so that the letter is resolved again when the culture changes.
-    /// </summary>
+    // Writes the rank of a card as its corner shows it: the number for the cards from the two
+    // to the ten, and the letter of the dictionary for the ace and the face cards. The first
+    // value of the binding is the rank; the second is the active culture, bound to the
+    // localization provider so that the letter is resolved again when the culture changes.
     public sealed class CardRankConverter : IMultiValueConverter
     {
         private const string AceKey = "Card_RankAce";
@@ -20,15 +18,6 @@ namespace GinRummy.Client.Converters
         private const string QueenKey = "Card_RankQueen";
         private const string KingKey = "Card_RankKing";
 
-        /// <summary>
-        /// Returns the text of the rank in the active culture.
-        /// </summary>
-        /// <param name="values">The rank followed by the active culture.</param>
-        /// <param name="targetType">Type requested by the binding.</param>
-        /// <param name="parameter">Not used.</param>
-        /// <param name="culture">Culture supplied by the binding, which is not the active
-        /// one.</param>
-        /// <returns>The text of the rank, or an empty string while there is no rank.</returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             string result = string.Empty;
@@ -40,14 +29,7 @@ namespace GinRummy.Client.Converters
             return result;
         }
 
-        /// <summary>
-        /// Not supported: the rank of a card is only shown, never written back.
-        /// </summary>
-        /// <param name="value">Not used.</param>
-        /// <param name="targetTypes">Not used.</param>
-        /// <param name="parameter">Not used.</param>
-        /// <param name="culture">Not used.</param>
-        /// <returns>Never returns: the operation is not supported.</returns>
+        // Not supported: the rank of a card is only shown, never written back.
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotSupportedException("The rank of a card is never written back.");

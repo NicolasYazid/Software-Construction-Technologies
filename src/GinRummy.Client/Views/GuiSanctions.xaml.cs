@@ -22,9 +22,6 @@ namespace GinRummy.Client.Views
         private IList<SanctionDto> _sanctions;
         private TimeSpan _elapsedTime;
 
-        /// <summary>
-        /// Builds the screen with the sanctions of the player and starts their countdown.
-        /// </summary>
         public GuiSanctions()
         {
             InitializeComponent();
@@ -36,10 +33,8 @@ namespace GinRummy.Client.Views
             _countdownTimer.Start();
         }
 
-        /// <summary>
-        /// Loads the sanctions again, because the name of their reason arrives already
-        /// translated and has to be asked for in the new language (CU-33 step 3).
-        /// </summary>
+        // Loads the sanctions again, because the name of their reason arrives already
+        // translated and has to be asked for in the new language (CU-33 step 3).
         protected override void RefreshFormattedText()
         {
             if (lstSanctions != null)

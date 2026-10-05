@@ -18,18 +18,11 @@ namespace GinRummy.Client.Views
         private readonly TwoStepPurpose _purpose;
         private TimeSpan _codeRemainingTime;
 
-        /// <summary>
-        /// Builds the screen for the sign-in flow.
-        /// </summary>
         public GuiTwoStep()
             : this(TwoStepPurpose.LogIn)
         {
         }
 
-        /// <summary>
-        /// Builds the screen for a given flow.
-        /// </summary>
-        /// <param name="purpose">Reason why the second factor was requested.</param>
         public GuiTwoStep(TwoStepPurpose purpose)
         {
             InitializeComponent();
@@ -43,9 +36,6 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        /// <summary>
-        /// Rebuilds the instructions and the countdown of the code.
-        /// </summary>
         protected override void RefreshFormattedText()
         {
             if (lblInstructions != null)

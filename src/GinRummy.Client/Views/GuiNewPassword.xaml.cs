@@ -19,19 +19,11 @@ namespace GinRummy.Client.Views
 
         private readonly bool _isChangeFromProfile;
 
-        /// <summary>
-        /// Builds the screen for the recovery flow.
-        /// </summary>
         public GuiNewPassword()
             : this(false)
         {
         }
 
-        /// <summary>
-        /// Builds the screen for a given flow.
-        /// </summary>
-        /// <param name="isChangeFromProfile">True when the player changes the password from
-        /// the profile panel, false when the password is being recovered.</param>
         public GuiNewPassword(bool isChangeFromProfile)
         {
             InitializeComponent();
@@ -40,10 +32,8 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        /// <summary>
-        /// Rebuilds the heading and the window title, which come from a different key in each
-        /// flow because one key cannot hold two values.
-        /// </summary>
+        // Rebuilds the heading and the window title, which come from a different key in each
+        // flow because one key cannot hold two values.
         protected override void RefreshFormattedText()
         {
             if (lblTitle != null)

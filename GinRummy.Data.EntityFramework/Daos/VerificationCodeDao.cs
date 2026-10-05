@@ -10,43 +10,24 @@ using GinRummy.Domain.Entities;
 
 namespace GinRummy.Data.EntityFramework.Daos
 {
-    /// <summary>
-    /// Fulfils IVerificationCodeDao using Entity Framework against GinRummy_Dev.
-    /// By default, opens a short-lived context per operation; optionally reuses a context
-    /// someone else already opened, so several DAOs can share one transaction.
-    /// </summary>
+    // Fulfils IVerificationCodeDao using Entity Framework against GinRummy_Dev. By default,
+    // opens a short-lived context per operation; optionally reuses a context someone else
+    // already opened, so several DAOs can share one transaction.
     public class VerificationCodeDao : IVerificationCodeDao
     {
         private readonly string _connectionStringName;
         private readonly GinRummyContext _sharedContext;
 
-        /// <summary>
-        /// Builds the DAO so that each operation opens and closes its own context.
-        /// </summary>
-        /// <param name="connectionStringName">Name of the entry in App.config.</param>
         public VerificationCodeDao(string connectionStringName)
         {
             _connectionStringName = connectionStringName;
         }
 
-        /// <summary>
-        /// Builds the DAO so that every operation runs on a context someone else
-        /// already opened, so it can share a transaction with other DAOs. The
-        /// caller stays responsible for disposing that context.
-        /// </summary>
-        /// <param name="sharedContext">Context to reuse instead of opening a new one.</param>
         public VerificationCodeDao(GinRummyContext sharedContext)
         {
             _sharedContext = sharedContext;
         }
 
-        /// <summary>
-        /// Finds the most recently created code for a player and a purpose, or null
-        /// when none exists.
-        /// </summary>
-        /// <param name="playerId">Player the code belongs to.</param>
-        /// <param name="purpose">Reason the code was generated for.</param>
-        /// <returns>The matching code, or null.</returns>
         public VerificationCode FindMostRecent(int playerId, VerificationPurpose purpose)
         {
             VerificationCode mostRecentCode;
@@ -73,10 +54,6 @@ namespace GinRummy.Data.EntityFramework.Daos
             return mostRecentCode;
         }
 
-        /// <summary>
-        /// Adds a new code and persists it immediately.
-        /// </summary>
-        /// <param name="newVerificationCode">Code to create.</param>
         public void Add(VerificationCode newVerificationCode)
         {
             if (_sharedContext != null)
@@ -94,10 +71,6 @@ namespace GinRummy.Data.EntityFramework.Daos
             }
         }
 
-        /// <summary>
-        /// Adds one to the failed-attempt counter of the given code.
-        /// </summary>
-        /// <param name="verificationCodeId">Code that received a wrong guess.</param>
         public void RegisterFailedAttempt(int verificationCodeId)
         {
             if (_sharedContext != null)
@@ -117,10 +90,6 @@ namespace GinRummy.Data.EntityFramework.Daos
             }
         }
 
-        /// <summary>
-        /// Marks the given code as used, right now.
-        /// </summary>
-        /// <param name="verificationCodeId">Code that was successfully verified.</param>
         public void MarkAsUsed(int verificationCodeId)
         {
             if (_sharedContext != null)

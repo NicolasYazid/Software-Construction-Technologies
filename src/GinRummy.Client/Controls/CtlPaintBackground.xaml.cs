@@ -8,17 +8,14 @@ using System.Windows.Media.Imaging;
 
 namespace GinRummy.Client.Controls
 {
-    /// <summary>
-    /// Animated paint used by the background of the main menu and by the side panel of the
-    /// other screens. The field turns around the centre and is folded on itself several times,
-    /// which breaks the bands into strokes instead of the rings a plain swirl draws.
-    /// It is deliberately computed at a very low resolution and stretched with nearest
-    /// neighbour, so the result is made of visible square blocks. That is what ties it to the
-    /// pixel typefaces of the client, and it also makes each frame cheap: the surface is a few
-    /// thousand pixels, not a few hundred thousand.
-    /// The three colours are properties, so the screen that hosts the control owns the palette
-    /// and the control owns only the movement.
-    /// </summary>
+    // Animated paint used by the background of the main menu and by the side panel of the other
+    // screens. The field turns around the centre and is folded on itself several times, which
+    // breaks the bands into strokes instead of the rings a plain swirl draws. It is
+    // deliberately computed at a very low resolution and stretched with nearest neighbour, so
+    // the result is made of visible square blocks. That is what ties it to the pixel typefaces
+    // of the client, and it also makes each frame cheap: the surface is a few thousand pixels,
+    // not a few hundred thousand. The three colours are properties, so the screen that hosts
+    // the control owns the palette and the control owns only the movement.
     public partial class CtlPaintBackground : UserControl
     {
         private const int BytesPerPixel = 4;
@@ -74,14 +71,9 @@ namespace GinRummy.Client.Controls
         private static readonly Color FallbackMidColour = Color.FromRgb(30, 103, 70);
         private static readonly Color FallbackGlowColour = Color.FromRgb(106, 210, 154);
 
-        /// <summary>
-        /// How much of the field the surface covers. The paint is normalised by the diagonal of
-        /// the surface, so a small panel and a whole window show the same piece of the spiral
-        /// and the strokes therefore come out as many times larger as the window is larger.
-        /// Raising this number reaches further out into the field, which makes the strokes
-        /// smaller: a window with twice the diagonal of a panel needs about twice the scale for
-        /// them to measure the same on screen.
-        /// </summary>
+        // The paint is normalised by the diagonal of the surface, so a small panel and a whole
+        // window show the same piece of the spiral and the strokes therefore come out as many
+        // times larger as the window is larger.
         public static readonly DependencyProperty PatternScaleProperty =
             DependencyProperty.Register(
                 "PatternScale",
@@ -89,12 +81,9 @@ namespace GinRummy.Client.Controls
                 typeof(CtlPaintBackground),
                 new PropertyMetadata(DefaultPatternScale));
 
-        /// <summary>
-        /// Pixels of the short side the paint is computed at. The surface is stretched to the
-        /// size of the control with nearest neighbour, so this number decides how large the
-        /// visible blocks come out: a panel and a whole screen need different values for the
-        /// blocks to measure the same on both.
-        /// </summary>
+        // The surface is stretched to the size of the control with nearest neighbour, so this
+        // number decides how large the visible blocks come out: a panel and a whole screen need
+        // different values for the blocks to measure the same on both.
         public static readonly DependencyProperty BlockResolutionProperty =
             DependencyProperty.Register(
                 "BlockResolution",
@@ -102,9 +91,6 @@ namespace GinRummy.Client.Controls
                 typeof(CtlPaintBackground),
                 new PropertyMetadata(DefaultShortSide, OnBlockResolutionChanged));
 
-        /// <summary>
-        /// Colour of the deepest part of the paint.
-        /// </summary>
         public static readonly DependencyProperty DeepColourProperty =
             DependencyProperty.Register(
                 "DeepColour",
@@ -112,9 +98,6 @@ namespace GinRummy.Client.Controls
                 typeof(CtlPaintBackground),
                 new PropertyMetadata(FallbackDeepColour));
 
-        /// <summary>
-        /// Colour of the body of the paint.
-        /// </summary>
         public static readonly DependencyProperty MidColourProperty =
             DependencyProperty.Register(
                 "MidColour",
@@ -122,9 +105,6 @@ namespace GinRummy.Client.Controls
                 typeof(CtlPaintBackground),
                 new PropertyMetadata(FallbackMidColour));
 
-        /// <summary>
-        /// Colour of the light of the paint.
-        /// </summary>
         public static readonly DependencyProperty GlowColourProperty =
             DependencyProperty.Register(
                 "GlowColour",
@@ -145,9 +125,6 @@ namespace GinRummy.Client.Controls
         private bool _isSubscribedToRendering;
         private bool _isPaused;
 
-        /// <summary>
-        /// Builds the control and leaves it stopped until it becomes visible.
-        /// </summary>
         public CtlPaintBackground()
         {
             InitializeComponent();
@@ -157,55 +134,37 @@ namespace GinRummy.Client.Controls
             Unloaded += OnControlUnloaded;
         }
 
-        /// <summary>
-        /// Gets or sets how much of the field the surface covers.
-        /// </summary>
         public double PatternScale
         {
             get { return (double)GetValue(PatternScaleProperty); }
             set { SetValue(PatternScaleProperty, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the pixels of the short side the paint is computed at.
-        /// </summary>
         public int BlockResolution
         {
             get { return (int)GetValue(BlockResolutionProperty); }
             set { SetValue(BlockResolutionProperty, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the colour of the deepest part of the paint.
-        /// </summary>
         public Color DeepColour
         {
             get { return (Color)GetValue(DeepColourProperty); }
             set { SetValue(DeepColourProperty, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the colour of the body of the paint.
-        /// </summary>
         public Color MidColour
         {
             get { return (Color)GetValue(MidColourProperty); }
             set { SetValue(MidColourProperty, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the colour of the light of the paint.
-        /// </summary>
         public Color GlowColour
         {
             get { return (Color)GetValue(GlowColourProperty); }
             set { SetValue(GlowColourProperty, value); }
         }
 
-        /// <summary>
-        /// Gets or sets whether the paint holds its last frame instead of moving, for the
-        /// times another screen covers the one that hosts it.
-        /// </summary>
+        // The paint holds its last frame while another screen covers the one that hosts it.
         public bool IsPaused
         {
             get

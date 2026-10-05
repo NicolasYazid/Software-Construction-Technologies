@@ -16,9 +16,6 @@ namespace GinRummy.Client.Views
     {
         private readonly IList<ChatEntryDto> _chatEntries;
 
-        /// <summary>
-        /// Builds the lobby with the state the guest finds when entering.
-        /// </summary>
         public GuiGuestLobby()
         {
             InitializeComponent();

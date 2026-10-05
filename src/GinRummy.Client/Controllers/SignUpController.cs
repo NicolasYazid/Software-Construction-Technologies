@@ -15,10 +15,8 @@ using GinRummy.Domain.Security;
 
 namespace GinRummy.Client.Controllers
 {
-    /// <summary>
-    /// Orchestrates CU-01 (Create an account): validates the form, then creates the
-    /// player and its verification code together, so both succeed or neither does.
-    /// </summary>
+    // Orchestrates CU-01 (Create an account): validates the form, then creates the player and
+    // its verification code together, so both succeed or neither does.
     public class SignUpController
     {
         private const string RequiredFieldMessageKey = "Error_ValRequiredField";
@@ -37,14 +35,6 @@ namespace GinRummy.Client.Controllers
         private readonly IVerificationCodeGenerator _codeGenerator;
         private readonly IVerificationCodeHasher _codeHasher;
 
-        /// <summary>
-        /// Builds the controller with a way to open a unit of work and the security
-        /// adapters the composition root already assembled.
-        /// </summary>
-        /// <param name="unitOfWorkFactory">Provides a fresh unit of work per operation.</param>
-        /// <param name="passwordHasher">Adapter that hashes and checks passwords.</param>
-        /// <param name="codeGenerator">Adapter that generates verification codes.</param>
-        /// <param name="codeHasher">Adapter that hashes and checks verification codes.</param>
         public SignUpController(
             Func<IUnitOfWork> unitOfWorkFactory,
             IPasswordHasher passwordHasher,
@@ -57,14 +47,6 @@ namespace GinRummy.Client.Controllers
             _codeHasher = codeHasher;
         }
 
-        /// <summary>
-        /// Creates a new account, or reports which validation failed.
-        /// </summary>
-        /// <param name="email">Email address written on the form.</param>
-        /// <param name="username">Username written on the form.</param>
-        /// <param name="password">Password written on the form.</param>
-        /// <param name="activeCultureCode">Culture code active on the client right now.</param>
-        /// <returns>The outcome of the attempt.</returns>
         public SignUpResult CreateAccount(string email, string username, string password, string activeCultureCode)
         {
             SignUpResult result = null;

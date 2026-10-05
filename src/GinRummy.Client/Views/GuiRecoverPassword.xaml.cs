@@ -7,9 +7,6 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiRecoverPassword : GuiModalBase
     {
-        /// <summary>
-        /// Builds the password recovery screen.
-        /// </summary>
         public GuiRecoverPassword()
         {
             InitializeComponent();

@@ -15,9 +15,6 @@ namespace GinRummy.Client.Views
     {
         private readonly ObservableCollection<FriendRequestDto> _friendRequests;
 
-        /// <summary>
-        /// Builds the screen with the requests that wait for an answer.
-        /// </summary>
         public GuiNotifications()
         {
             InitializeComponent();

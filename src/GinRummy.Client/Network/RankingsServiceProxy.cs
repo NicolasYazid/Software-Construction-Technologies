@@ -13,10 +13,6 @@ namespace GinRummy.Client.Network
     {
         private readonly ChannelFactory<IRankingService> _channelFactory;
 
-        /// <summary>
-        /// Builds the adapter against the server endpoint the composition root provides.
-        /// </summary>
-        /// <param name="serverAddress">The net.tcp address where the server exposes the service.</param>
         public RankingsServiceProxy(string serverAddress)
         {
             NetTcpBinding binding = new NetTcpBinding();
@@ -24,10 +20,6 @@ namespace GinRummy.Client.Network
             _channelFactory = new ChannelFactory<IRankingService>(binding, endpointAddress);
         }
 
-        /// <summary>
-        /// Gets the current leaderboard by asking the server.
-        /// </summary>
-        /// <returns>The ranking rows the server returns.</returns>
         public List<PlayerRankingDto> GetRankings()
         {
             IRankingService channel = _channelFactory.CreateChannel();

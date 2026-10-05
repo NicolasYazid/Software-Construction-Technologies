@@ -27,9 +27,6 @@ namespace GinRummy.Client.Views
         private TimeSpan _remainingBanTime;
         private LobbyPlayerDto _friendToRemove;
 
-        /// <summary>
-        /// Builds the lobby with the state the player finds when entering.
-        /// </summary>
         public GuiLobbyChat()
         {
             InitializeComponent();
@@ -47,13 +44,7 @@ namespace GinRummy.Client.Views
             Closed += OnScreenClosed;
         }
 
-        /// <summary>
-        /// Blocks the chat of a player whose sanction restricts it (CU-17 EX-08). The field
-        /// stays disabled and the remaining time counts down while the ban is in force.
-        /// </summary>
-        /// <param name="reasonName">Name of the reason of the ban, already in the active
-        /// language.</param>
-        /// <param name="remainingTime">Time left until the ban expires.</param>
+        // Blocks the chat of a player whose sanction restricts it (CU-17 EX-08).
         public void ShowChatBlocked(string reasonName, TimeSpan remainingTime)
         {
             lblReasonBan.Text = reasonName;
@@ -65,9 +56,6 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        /// <summary>
-        /// Rebuilds the remaining time of the block of the chat, which carries a placeholder.
-        /// </summary>
         protected override void RefreshFormattedText()
         {
             if (lblTimeRemaining != null)

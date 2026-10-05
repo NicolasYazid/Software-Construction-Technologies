@@ -47,9 +47,6 @@ namespace GinRummy.Client.Views
         private Point _dragStart;
         private CardDto _pressedCard;
 
-        /// <summary>
-        /// Builds the table of the match the player has just entered.
-        /// </summary>
         public GuiGameTable()
         {
             InitializeComponent();
@@ -71,28 +68,18 @@ namespace GinRummy.Client.Views
             Closed += OnScreenClosed;
         }
 
-        /// <summary>
-        /// Pauses the table while the opponent is disconnected (BD-05). The match resumes when
-        /// the opponent returns, or ends if the opponent does not.
-        /// </summary>
+        // The match resumes when the disconnected opponent returns, or ends if the opponent
+        // does not (BD-05).
         public void ShowPaused()
         {
             lblPaused.Visibility = Visibility.Visible;
         }
 
-        /// <summary>
-        /// Takes the pause off the table once the opponent is back.
-        /// </summary>
         public void HidePaused()
         {
             lblPaused.Visibility = Visibility.Collapsed;
         }
 
-        /// <summary>
-        /// Shows the close of a hand: who wins it, how its points are counted, the groups of both
-        /// hands and the score of the match afterwards.
-        /// </summary>
-        /// <param name="handResult">Count of the hand, as the server closes it.</param>
         public void ShowHandResult(HandResultDto handResult)
         {
             _handResult = handResult;
@@ -102,11 +89,6 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        /// <summary>
-        /// Announces the end of the match with its verdict, the reason for it and the final
-        /// score.
-        /// </summary>
-        /// <param name="matchResult">Result of the match, as the server ends it.</param>
         public void ShowMatchResult(MatchResultDto matchResult)
         {
             _matchResult = matchResult;
@@ -121,10 +103,6 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        /// <summary>
-        /// Rebuilds the counters of the table, the count of a closed hand and the final score,
-        /// whose words, separators, signs and case depend on the culture.
-        /// </summary>
         protected override void RefreshFormattedText()
         {
             CultureInfo culture = Localization.CurrentCulture;

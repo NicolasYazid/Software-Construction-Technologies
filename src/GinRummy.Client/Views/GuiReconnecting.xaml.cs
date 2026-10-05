@@ -19,9 +19,6 @@ namespace GinRummy.Client.Views
         private readonly DispatcherTimer _countdownTimer;
         private TimeSpan _remainingTime;
 
-        /// <summary>
-        /// Builds the notice and starts the countdown of the reconnection window.
-        /// </summary>
         public GuiReconnecting()
         {
             InitializeComponent();
@@ -34,9 +31,6 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        /// <summary>
-        /// Rebuilds the remaining time, which carries a placeholder.
-        /// </summary>
         protected override void RefreshFormattedText()
         {
             if (lblTimeRemaining != null)

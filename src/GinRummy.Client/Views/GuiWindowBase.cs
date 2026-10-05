@@ -12,12 +12,10 @@ using GinRummy.Client.Localization;
 
 namespace GinRummy.Client.Views
 {
-    /// <summary>
-    /// Base window of the main screens: the main menu, the lobbies and the match. It keeps the
-    /// window subscribed to the culture change, hosts the modals of the screen inside the
-    /// window itself, over a shade that dims the screen, and places the main screens: the
-    /// lobby in place of the menu and the match over the lobby.
-    /// </summary>
+    // Base window of the main screens: the main menu, the lobbies and the match. It keeps the
+    // window subscribed to the culture change, hosts the modals of the screen inside the window
+    // itself, over a shade that dims the screen, and places the main screens: the lobby in
+    // place of the menu and the match over the lobby.
     public class GuiWindowBase : Window
     {
         private const string BackdropBrushKey = "BrsModalBackdrop";
@@ -34,9 +32,6 @@ namespace GinRummy.Client.Views
         private bool _isHandingOver;
         private bool _isClosed;
 
-        /// <summary>
-        /// Subscribes the window to the culture change and to the key that closes a modal.
-        /// </summary>
         protected GuiWindowBase()
         {
             _localization = LocalizationProvider.Instance;
@@ -46,19 +41,11 @@ namespace GinRummy.Client.Views
             PreviewKeyDown += OnWindowPreviewKeyDown;
         }
 
-        /// <summary>
-        /// Gets the localization provider shared by the whole application.
-        /// </summary>
         protected LocalizationProvider Localization
         {
             get { return _localization; }
         }
 
-        /// <summary>
-        /// Opens a modal inside this window, over the screen and over any modal already open.
-        /// The screen is dimmed behind it and does not take the mouse until the modal closes.
-        /// </summary>
-        /// <param name="modal">Modal to open.</param>
         public void ShowModal(GuiModalBase modal)
         {
             Border backdrop = new Border();
@@ -71,11 +58,6 @@ namespace GinRummy.Client.Views
             modal.AttachTo(this, entry);
         }
 
-        /// <summary>
-        /// Opens a lobby in place of the main menu, which hides until the lobby closes. The
-        /// modals open on this window close, and so does this window unless it is the menu.
-        /// </summary>
-        /// <param name="lobby">Lobby the player enters.</param>
         public void EnterLobby(GuiWindowBase lobby)
         {
             Window mainMenu = Application.Current.MainWindow;
@@ -103,11 +85,8 @@ namespace GinRummy.Client.Views
             _modals.Remove(modal);
         }
 
-        /// <summary>
-        /// Lays the layer of the modals over the content of the window once the window has
-        /// read its content, so the screens need no markup of their own for it.
-        /// </summary>
-        /// <param name="e">Arguments of the event.</param>
+        // Lays the layer of the modals over the content of the window once the window has read
+        // its content, so the screens need no markup of their own for it.
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
@@ -120,20 +99,12 @@ namespace GinRummy.Client.Views
             Content = root;
         }
 
-        /// <summary>
-        /// Rebuilds the texts that are assembled from a format string. Screens that show
-        /// counters, durations or interpolated values override it.
-        /// </summary>
         protected virtual void RefreshFormattedText()
         {
         }
 
-        /// <summary>
-        /// Opens a main screen over this one, which stays visible beneath it, as the match
-        /// does over the lobby. The paint of this screen holds still while the other one
-        /// covers it, so the two screens do not animate at the same time.
-        /// </summary>
-        /// <param name="nextScreen">Screen that opens over this one.</param>
+        // The paint of this screen holds still while the other one covers it, so the two
+        // screens do not animate at the same time.
         protected void OpenOver(GuiWindowBase nextScreen)
         {
             nextScreen.Owner = this;
@@ -143,11 +114,6 @@ namespace GinRummy.Client.Views
             nextScreen.Show();
         }
 
-        /// <summary>
-        /// Leaves this screen for the main menu and opens a modal over it, as a guest does
-        /// when it decides to sign in from its lobby.
-        /// </summary>
-        /// <param name="nextScreen">Modal that opens over the main menu.</param>
         protected void ReturnToMenuWith(GuiModalBase nextScreen)
         {
             GuiWindowBase mainMenu = Application.Current.MainWindow as GuiWindowBase;

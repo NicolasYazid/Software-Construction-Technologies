@@ -7,11 +7,6 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiAccountBanned : GuiModalBase
     {
-        /// <summary>
-        /// Builds the screen for a permanent ban.
-        /// </summary>
-        /// <param name="reasonName">Name of the reason of the ban, already in the active
-        /// language.</param>
         public GuiAccountBanned(string reasonName)
         {
             InitializeComponent();

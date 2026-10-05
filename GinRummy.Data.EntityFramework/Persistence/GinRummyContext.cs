@@ -10,61 +10,28 @@ using GinRummy.Domain.Entities;
 
 namespace GinRummy.Data.EntityFramework.Persistence
 {
-    /// <summary>
-    /// Entity Framework 6 context for GinRummy_Dev. Maps the Domain's POCO entities
-    /// against the tables the SQL scripts already created; EF never creates or
-    /// migrates the schema.
-    /// </summary>
+    // Entity Framework 6 context for GinRummy_Dev. Maps the Domain's POCO entities against the
+    // tables the SQL scripts already created; EF never creates or migrates the schema.
     public class GinRummyContext : DbContext
     {
-        /// <summary>
-        /// Disables EF's automatic database initializer, because GinRummy_Dev was
-        /// created by the team's own SQL scripts, not by Entity Framework.
-        /// </summary>
+        // Disables EF's automatic database initializer, because GinRummy_Dev was created by the
+        // team's own SQL scripts, not by Entity Framework.
         static GinRummyContext()
         {
             Database.SetInitializer<GinRummyContext>(null);
         }
 
-        /// <summary>
-        /// Opens the context against the connection string of the given name, read
-        /// from the calling application's configuration file.
-        /// </summary>
-        /// <param name="connectionStringName">Name of the entry in App.config.</param>
         public GinRummyContext(string connectionStringName)
             : base(connectionStringName)
         {
         }
 
-        /// <summary>
-        /// Gets or sets the Player set.
-        /// </summary>
         public DbSet<Player> Players { get; set; }
-
-        /// <summary>
-        /// Gets or sets the VerificationCode set.
-        /// </summary>
         public DbSet<VerificationCode> VerificationCodes { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Locale set.
-        /// </summary>
         public DbSet<Locale> Locales { get; set; }
-
-        /// <summary>
-        /// Gets or sets the PlayerStats set.
-        /// </summary>
         public DbSet<PlayerStats> PlayerStats { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Rank set.
-        /// </summary>
         public DbSet<Rank> Ranks { get; set; }
 
-        /// <summary>
-        /// Maps the Domain entities to the columns GinRummy_Dev already defines.
-        /// </summary>
-        /// <param name="modelBuilder">Builder EF uses to configure the model.</param>
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Player>().ToTable("Player");

@@ -18,10 +18,6 @@ namespace GinRummy.Client.Views
 
         private readonly PlayerProfileDto _profile;
 
-        /// <summary>
-        /// Builds the screen for one profile.
-        /// </summary>
-        /// <param name="profile">Profile to show, with its relation to the player.</param>
         public GuiPlayerProfile(PlayerProfileDto profile)
         {
             InitializeComponent();
@@ -31,10 +27,8 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        /// <summary>
-        /// Rebuilds the numbers of the performance, whose separators and percent sign depend
-        /// on the culture (CU-20 step 6).
-        /// </summary>
+        // Rebuilds the numbers of the performance, whose separators and percent sign depend on
+        // the culture (CU-20 step 6).
         protected override void RefreshFormattedText()
         {
             if (_profile != null)

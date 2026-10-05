@@ -7,9 +7,6 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiTermsOfService : GuiModalBase
     {
-        /// <summary>
-        /// Builds the terms of service screen.
-        /// </summary>
         public GuiTermsOfService()
         {
             InitializeComponent();

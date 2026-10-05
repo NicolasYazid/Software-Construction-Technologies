@@ -14,18 +14,13 @@ using GinRummy.Server.Services;
 
 namespace GinRummy.Server
 {
-    /// <summary>
-    /// Entry point of the server process. It composes the rankings service and hosts it so
-    /// clients can reach it over the network.
-    /// </summary>
+    // Entry point of the server process. It composes the rankings service and hosts it so
+    // clients can reach it over the network.
     public class Program
     {
         private const string ConnectionStringName = "GinRummyDb";
         private const string ServiceAddress = "net.tcp://localhost:8000/RankingsService";
 
-        /// <summary>
-        /// Composes the rankings service and keeps it listening until a key is pressed.
-        /// </summary>
         public static void Main(string[] args)
         {
             RankingsService rankingsService = ComposeRankingsService();

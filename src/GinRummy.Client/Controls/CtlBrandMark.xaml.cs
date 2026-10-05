@@ -7,19 +7,14 @@ using GinRummy.Client.Localization;
 
 namespace GinRummy.Client.Controls
 {
-    /// <summary>
-    /// Wordmark of the game, as the prototype draws it: the two words of the brand with the
-    /// target symbol between them. The text is not written into the control: it is read from
-    /// the brand key of the dictionary and split on its blank so that the symbol can sit in
-    /// the gap, which is what the prototype does with spacing.
-    /// </summary>
+    // Wordmark of the game, as the prototype draws it: the two words of the brand with the
+    // target symbol between them. The text is not written into the control: it is read from the
+    // brand key of the dictionary and split on its blank so that the symbol can sit in the gap,
+    // which is what the prototype does with spacing.
     public partial class CtlBrandMark : UserControl
     {
         private const double DefaultMarkFontSize = 128.0;
 
-        /// <summary>
-        /// Size of the wordmark. The symbol scales with it.
-        /// </summary>
         public static readonly DependencyProperty MarkFontSizeProperty =
             DependencyProperty.Register(
                 "MarkFontSize",
@@ -27,9 +22,6 @@ namespace GinRummy.Client.Controls
                 typeof(CtlBrandMark),
                 new PropertyMetadata(DefaultMarkFontSize, OnAppearanceChanged));
 
-        /// <summary>
-        /// Colour of the wordmark.
-        /// </summary>
         public static readonly DependencyProperty MarkForegroundProperty =
             DependencyProperty.Register(
                 "MarkForeground",
@@ -43,9 +35,6 @@ namespace GinRummy.Client.Controls
 
         private readonly LocalizationProvider _localization;
 
-        /// <summary>
-        /// Builds the wordmark and keeps it subscribed to the culture change.
-        /// </summary>
         public CtlBrandMark()
         {
             InitializeComponent();
@@ -55,18 +44,12 @@ namespace GinRummy.Client.Controls
             Refresh();
         }
 
-        /// <summary>
-        /// Gets or sets the size of the wordmark.
-        /// </summary>
         public double MarkFontSize
         {
             get { return (double)GetValue(MarkFontSizeProperty); }
             set { SetValue(MarkFontSizeProperty, value); }
         }
 
-        /// <summary>
-        /// Gets or sets the colour of the wordmark.
-        /// </summary>
         public Brush MarkForeground
         {
             get { return (Brush)GetValue(MarkForegroundProperty); }

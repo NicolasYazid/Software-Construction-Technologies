@@ -8,19 +8,12 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiReportPlayer : GuiModalBase
     {
-        /// <summary>
-        /// Builds the dialog for the player being reported.
-        /// </summary>
-        /// <param name="username">Name of the reported player, which is never translated.</param>
         public GuiReportPlayer(string username)
         {
             InitializeComponent();
             lblUsername.Text = username;
         }
 
-        /// <summary>
-        /// Gets whether the player sent the report instead of cancelling it.
-        /// </summary>
         public bool IsSubmitted { get; private set; }
 
         private void OnReasonChecked(object sender, RoutedEventArgs e)

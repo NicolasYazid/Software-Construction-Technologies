@@ -10,16 +10,10 @@ using GinRummy.Security;
 
 namespace GinRummy.Client
 {
-    /// <summary>
-    /// Application entry point and composition root: the single place allowed to know the
-    /// concrete adapters, wiring them to the interfaces the rest of the app depends on.
-    /// </summary>
+    // Application entry point and composition root: the single place allowed to know the
+    // concrete adapters, wiring them to the interfaces the rest of the app depends on.
     public partial class App : Application
     {
-        /// <summary>
-        /// Key under which the localization provider is published. Every binding to
-        /// visible text uses it as its source.
-        /// </summary>
         public const string LocalizationResourceKey = "Loc";
 
         private const string ConnectionStringName = "GinRummyContext";
@@ -28,11 +22,6 @@ namespace GinRummy.Client
         private readonly IVerificationCodeGenerator _codeGenerator = new RandomVerificationCodeGenerator();
         private readonly IVerificationCodeHasher _codeHasher = new Sha256VerificationCodeHasher();
 
-        /// <summary>
-        /// Builds a sign-up controller wired to real, concrete adapters. The screens call
-        /// this instead of constructing anything concrete themselves.
-        /// </summary>
-        /// <returns>A ready-to-use sign-up controller.</returns>
         public SignUpController CreateSignUpController()
         {
             return new SignUpController(
@@ -42,11 +31,6 @@ namespace GinRummy.Client
                 _codeHasher);
         }
 
-        /// <summary>
-        /// Builds a sign-in controller wired to real, concrete adapters. The screens call
-        /// this instead of constructing anything concrete themselves.
-        /// </summary>
-        /// <returns>A ready-to-use sign-in controller.</returns>
         public LogInController CreateLogInController()
         {
             return new LogInController(
@@ -54,20 +38,11 @@ namespace GinRummy.Client
                 _passwordHasher);
         }
 
-        /// <summary>
-        /// Builds a rankings controller wired to real, concrete adapters. The screens call
-        /// this instead of constructing anything concrete themselves.
-        /// </summary>
-        /// <returns>A ready-to-use rankings controller.</returns>
         public RankingsController CreateRankingsController()
         {
             return new RankingsController(new RankingDao(ConnectionStringName));
         }
 
-        /// <summary>
-        /// Publishes the localization provider before the first window is loaded.
-        /// </summary>
-        /// <param name="e">Startup arguments supplied by the framework.</param>
         protected override void OnStartup(StartupEventArgs e)
         {
             Resources[LocalizationResourceKey] = LocalizationProvider.Instance;

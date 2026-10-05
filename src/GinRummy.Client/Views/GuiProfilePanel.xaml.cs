@@ -20,9 +20,6 @@ namespace GinRummy.Client.Views
         private readonly ObservableCollection<LinkedAccountDto> _linkedAccounts;
         private string _pendingEmail;
 
-        /// <summary>
-        /// Builds the panel with the current settings of the account.
-        /// </summary>
         public GuiProfilePanel()
         {
             InitializeComponent();
