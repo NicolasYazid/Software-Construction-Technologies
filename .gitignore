@@ -25,3 +25,4 @@ _ReSharper*/
 
 # Local database credentials: copied from ConnectionStrings.template.config, never versioned
 src/GinRummy.Client/ConnectionStrings.config
+GinRummy.Server/ConnectionStrings.config
