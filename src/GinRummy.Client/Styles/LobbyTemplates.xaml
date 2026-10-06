@@ -44,9 +44,7 @@
     <DataTemplate x:Key="TplLobbyPlayer" DataType="{x:Type models:LobbyPlayerDto}">
         <Border Style="{StaticResource StyPlayerRow}">
             <DockPanel LastChildFill="True">
-                <Border DockPanel.Dock="Right" Style="{StaticResource StyRankBadge}">
-                    <TextBlock Style="{StaticResource StyRankBadgeText}" Text="{Binding RankName}" />
-                </Border>
+                <Label DockPanel.Dock="Right" Style="{StaticResource StyRankBadge}" Content="{Binding RankName}" />
                 <Border Style="{StaticResource StyAvatar}">
                     <Image Style="{StaticResource StyAvatarIcon}" />
                 </Border>
@@ -61,9 +59,7 @@
                 <Image Style="{StaticResource StyAvatarIconSmall}" />
             </Border>
             <TextBlock Style="{StaticResource StyVersusName}" Text="{Binding Username}" />
-            <Border Style="{StaticResource StyRankBadgeSmall}">
-                <TextBlock Style="{StaticResource StyRankBadgeTextSmall}" Text="{Binding RankName}" />
-            </Border>
+            <Label Style="{StaticResource StyRankBadgeSmall}" Content="{Binding RankName}" />
         </StackPanel>
     </DataTemplate>
 

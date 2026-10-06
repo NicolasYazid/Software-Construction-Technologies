@@ -115,9 +115,7 @@
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
-                    <Border Grid.Column="5" Style="{StaticResource StyRankingBadge}">
-                        <TextBlock Style="{StaticResource StyRankBadgeText}" Text="{Binding RankName}" />
-                    </Border>
+                    <Label Grid.Column="5" Style="{StaticResource StyRankingBadge}" Content="{Binding RankName}" />
                 </Grid>
             </Border>
         </DataTemplate>

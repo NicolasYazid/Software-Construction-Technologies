@@ -942,81 +942,107 @@
     </Style>
 
     <!-- Every rank letter has its own colour, so a rank is told apart at a glance in the
-         leaderboard, the lobby and the profile alike: S pink, A purple, B light blue, C yellow,
-         D light grey, E red and F brown. The light ones carry dark ink on their letter. -->
-    <SolidColorBrush x:Key="BrsRankS" Color="#FFE86FA8" />
-    <SolidColorBrush x:Key="BrsRankA" Color="#FF8A55C9" />
-    <SolidColorBrush x:Key="BrsRankB" Color="#FF6FC3E8" />
-    <SolidColorBrush x:Key="BrsRankC" Color="#FFE8C33F" />
-    <SolidColorBrush x:Key="BrsRankD" Color="#FFBDBDBD" />
-    <SolidColorBrush x:Key="BrsRankE" Color="#FFC73A2E" />
-    <SolidColorBrush x:Key="BrsRankF" Color="#FF6E4326" />
-    <SolidColorBrush x:Key="BrsRankInk" Color="#FF1A1712" />
+         leaderboard, the lobby and the profile alike. The colours are muted to sit with the
+         greens and browns of the room, and go from the precious to the plain: S gold, A jade,
+         B steel blue, C copper, D stone, E brick and F umber. The letter and the frame of the
+         badge both take the colour over a dark face, so the brick and the umber are lighter
+         than their names suggest: darker, the letter would sink into the face. -->
+    <SolidColorBrush x:Key="BrsRankS" Color="#FFE0B04A" />
+    <SolidColorBrush x:Key="BrsRankA" Color="#FF7FC29B" />
+    <SolidColorBrush x:Key="BrsRankB" Color="#FF6FA3B8" />
+    <SolidColorBrush x:Key="BrsRankC" Color="#FFC98A4B" />
+    <SolidColorBrush x:Key="BrsRankD" Color="#FF9C9A8E" />
+    <SolidColorBrush x:Key="BrsRankE" Color="#FFD46E55" />
+    <SolidColorBrush x:Key="BrsRankF" Color="#FFA8866A" />
+    <SolidColorBrush x:Key="BrsRankFace" Color="#FF1F1711" />
 
-    <!-- The rank is a letter of the catalogue of ranks (BD-14) drawn on a disc, as in the
-         prototype. A letter outside the catalogue keeps the neutral disc. -->
-    <Style x:Key="StyRankBadge" TargetType="Border">
-        <Setter Property="Width" Value="26" />
-        <Setter Property="Height" Value="26" />
-        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="3" />
+    <!-- The rank is a letter of the catalogue of ranks (BD-14) drawn inside a frame of one
+         block, as a sprite: the frame and the letter carry the colour of the rank and the face
+         is a brown darker than the one of the fields. The badge is two pieces on the same grid
+         of blocks: the frame, ten blocks across, whose corner steps two blocks in and then one,
+         and the face, one block inside it, whose corner steps a single block. Laid one over the
+         other they leave a frame of one block that climbs the corner as a staircase instead of
+         a single notch. Every side is a whole number of blocks, so no step falls between two
+         pixels.
+         The frame stands one block over a copy of itself darkened with the ink of the menu, the
+         same raised face the buttons have, and the letter stands one pixel over a dimmed copy of
+         itself, so both read as carved pieces. The badge is as tall as the frame plus that block.
+         The letter is drawn at 16 pixels because the pixel font draws its letters on a grid of
+         sixteen: at that size every pixel of the letter falls on a pixel of the screen, so no
+         row of the letter is lost or blurred and the letter sits in the centre of the face. The
+         letter and its copy are centred as one piece, and the Padding of the badge is how far
+         the copy drops. A letter outside the catalogue keeps the neutral frame. -->
+    <ControlTemplate x:Key="TplRankBadge" TargetType="Label">
+        <Grid>
+            <Border Height="{TemplateBinding Width}" VerticalAlignment="Bottom"
+                    Background="{TemplateBinding Background}"
+                    ctl:PixelShapeCommon.CornerSteps="4"
+                    ctl:PixelShapeCommon.PixelUnit="{TemplateBinding ctl:PixelShapeCommon.PixelUnit}">
+                <Border Background="{StaticResource BrsMenuInk}" Opacity="0.5" />
+            </Border>
+            <Border Height="{TemplateBinding Width}" VerticalAlignment="Top"
+                    Background="{TemplateBinding Background}" Padding="{TemplateBinding BorderThickness}"
+                    ctl:PixelShapeCommon.CornerSteps="4"
+                    ctl:PixelShapeCommon.PixelUnit="{TemplateBinding ctl:PixelShapeCommon.PixelUnit}">
+                <Border Background="{StaticResource BrsRankFace}"
+                        ctl:PixelShapeCommon.CornerSteps="2"
+                        ctl:PixelShapeCommon.PixelUnit="{TemplateBinding ctl:PixelShapeCommon.PixelUnit}">
+                    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"
+                                   Foreground="{TemplateBinding Background}" Opacity="0.4"
+                                   VerticalAlignment="Top" Margin="{TemplateBinding Padding}" />
+                        <TextBlock Text="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"
+                                   Foreground="{TemplateBinding Background}" VerticalAlignment="Top" />
+                    </Grid>
+                </Border>
+            </Border>
+        </Grid>
+    </ControlTemplate>
+
+    <Style x:Key="StyRankBadge" TargetType="Label">
+        <Setter Property="Template" Value="{StaticResource TplRankBadge}" />
+        <Setter Property="Width" Value="30" />
+        <Setter Property="Height" Value="33" />
+        <Setter Property="BorderThickness" Value="3" />
+        <Setter Property="Padding" Value="0,1,0,0" />
+        <Setter Property="ctl:PixelShapeCommon.PixelUnit" Value="3" />
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontSize" Value="16" />
         <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Style.Triggers>
-            <DataTrigger Binding="{Binding RankName}" Value="S">
+            <Trigger Property="Content" Value="S">
                 <Setter Property="Background" Value="{StaticResource BrsRankS}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding RankName}" Value="A">
+            </Trigger>
+            <Trigger Property="Content" Value="A">
                 <Setter Property="Background" Value="{StaticResource BrsRankA}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding RankName}" Value="B">
+            </Trigger>
+            <Trigger Property="Content" Value="B">
                 <Setter Property="Background" Value="{StaticResource BrsRankB}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding RankName}" Value="C">
+            </Trigger>
+            <Trigger Property="Content" Value="C">
                 <Setter Property="Background" Value="{StaticResource BrsRankC}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding RankName}" Value="D">
+            </Trigger>
+            <Trigger Property="Content" Value="D">
                 <Setter Property="Background" Value="{StaticResource BrsRankD}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding RankName}" Value="E">
+            </Trigger>
+            <Trigger Property="Content" Value="E">
                 <Setter Property="Background" Value="{StaticResource BrsRankE}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding RankName}" Value="F">
+            </Trigger>
+            <Trigger Property="Content" Value="F">
                 <Setter Property="Background" Value="{StaticResource BrsRankF}" />
-            </DataTrigger>
+            </Trigger>
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="StyRankBadgeSmall" TargetType="Border" BasedOn="{StaticResource StyRankBadge}">
-        <Setter Property="Width" Value="18" />
-        <Setter Property="Height" Value="18" />
-        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="2" />
-    </Style>
-
-    <Style x:Key="StyRankBadgeText" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
-        <Setter Property="FontWeight" Value="Normal" />
-        <Setter Property="FontSize" Value="15" />
-        <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding RankName}" Value="S">
-                <Setter Property="Foreground" Value="{StaticResource BrsRankInk}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding RankName}" Value="B">
-                <Setter Property="Foreground" Value="{StaticResource BrsRankInk}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding RankName}" Value="C">
-                <Setter Property="Foreground" Value="{StaticResource BrsRankInk}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding RankName}" Value="D">
-                <Setter Property="Foreground" Value="{StaticResource BrsRankInk}" />
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="StyRankBadgeTextSmall" TargetType="TextBlock" BasedOn="{StaticResource StyRankBadgeText}">
-        <Setter Property="FontSize" Value="11" />
+    <!-- The small badge keeps the same ten blocks across with a block of two pixels, and the
+         same letter, which is the smallest size at which the letter stays sharp. -->
+    <Style x:Key="StyRankBadgeSmall" TargetType="Label" BasedOn="{StaticResource StyRankBadge}">
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Height" Value="22" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="ctl:PixelShapeCommon.PixelUnit" Value="2" />
     </Style>
 
     <!-- The rules sit on the same translucent face and ink base as the panel that holds them, so
@@ -2069,7 +2095,7 @@
 
     <!-- The disc keeps the colour of its rank on the highlighted row too: that colour is never
          the one of the row, so it no longer needs a colour of its own there. -->
-    <Style x:Key="StyRankingBadge" TargetType="Border" BasedOn="{StaticResource StyRankBadge}">
+    <Style x:Key="StyRankingBadge" TargetType="Label" BasedOn="{StaticResource StyRankBadge}">
         <Setter Property="HorizontalAlignment" Value="Right" />
     </Style>
 

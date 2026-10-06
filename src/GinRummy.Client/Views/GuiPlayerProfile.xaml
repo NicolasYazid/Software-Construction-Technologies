@@ -29,13 +29,8 @@
                     <StackPanel Grid.Column="1" Margin="30,0,20,0">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Style="{StaticResource StyProfileName}" Text="{Binding Username}" />
-                            <!-- The badge follows the visibility of its letter, which a guest does
-                                 not have. -->
-                            <Border Style="{StaticResource StyRankBadge}" Margin="16,0,0,0"
-                                    Visibility="{Binding Visibility, ElementName=lblRankName}">
-                                <TextBlock x:Name="lblRankName" Style="{StaticResource StyRankBadgeText}"
-                                           Text="{Binding RankName}" />
-                            </Border>
+                            <Label x:Name="lblRankName" Style="{StaticResource StyRankBadge}" Margin="16,0,0,0"
+                                   Content="{Binding RankName}" />
                         </StackPanel>
                         <TextBlock x:Name="lblPublicTag" Style="{StaticResource StyProfileTag}" Margin="0,6,0,0"
                                    Text="{Binding PublicTag}" />
