@@ -34,7 +34,7 @@
                                 GlowColour="{StaticResource ClrMenuLiquidGlow}" />
 
         <!-- Chat of the match -->
-        <Border Style="{StaticResource StyLobbyGlassPanel}" Margin="12,12,6,12">
+        <ctl:CtlPixelBorder Style="{StaticResource StyLobbyGlassPanel}" Margin="12,12,6,12">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -73,7 +73,7 @@
                     </ctl:CtlPixelBorder>
                 </Border>
             </Grid>
-        </Border>
+        </ctl:CtlPixelBorder>
 
         <!-- Table -->
         <Grid Grid.Column="1" Margin="12,18,12,14">
@@ -174,7 +174,7 @@
         </Grid>
 
         <!-- Score, log and actions of the match -->
-        <Border Grid.Column="2" Style="{StaticResource StyLobbyGlassPanel}" Margin="6,12,12,12">
+        <ctl:CtlPixelBorder Grid.Column="2" Style="{StaticResource StyLobbyGlassPanel}" Margin="6,12,12,12">
             <DockPanel Margin="18,4,18,18" LastChildFill="True">
                 <StackPanel DockPanel.Dock="Bottom">
                     <Button x:Name="btnHowToPlay" Effect="{StaticResource EfxCardShadow}" Style="{StaticResource StyLobbySecondaryButton}"
@@ -222,7 +222,7 @@
                 <ListBox x:Name="lstMatchLog" Style="{StaticResource StyChatList}" Margin="0,4,0,12"
                          ItemTemplate="{StaticResource TplMatchLogEntry}" />
             </DockPanel>
-        </Border>
+        </ctl:CtlPixelBorder>
 
         <!-- The pause, the close of a hand and the result of the match open over the table, which
              stays in sight under the veil. Each veil follows the visibility of the label the code

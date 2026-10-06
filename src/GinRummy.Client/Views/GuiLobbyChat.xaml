@@ -20,7 +20,7 @@
                  handlers belong to this window, so their template lives here and not with the
                  shared ones. -->
             <DataTemplate DataType="{x:Type models:ChallengeNoticeDto}">
-                <Border Style="{StaticResource StyChatNotice}">
+                <ctl:CtlPixelBorder Style="{StaticResource StyChatNotice}">
                     <DockPanel LastChildFill="True">
                         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
                             <Button x:Name="btnCancelChallenge" Style="{StaticResource StyNoticeButton}"
@@ -54,7 +54,7 @@
                             </TextBlock>
                         </Grid>
                     </DockPanel>
-                </Border>
+                </ctl:CtlPixelBorder>
                 <DataTemplate.Triggers>
                     <DataTrigger Binding="{Binding Kind}" Value="Sent">
                         <Setter TargetName="lblChallengeSent" Property="Visibility" Value="Visible" />
@@ -126,7 +126,7 @@
                                 GlowColour="{StaticResource ClrMenuLiquidGlow}" />
 
         <!-- Rail -->
-        <Border Grid.RowSpan="2" Background="{StaticResource BrsLobbyRail}">
+        <ctl:CtlPixelBorder Grid.RowSpan="2" Style="{StaticResource StyLobbyGlassRail}">
             <DockPanel LastChildFill="False" Margin="0,20,0,20">
                 <Image DockPanel.Dock="Top" Source="{StaticResource IcoBullseye}" Width="64" Height="64" />
                 <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center">
@@ -154,11 +154,11 @@
                     </Button>
                 </StackPanel>
             </DockPanel>
-        </Border>
+        </ctl:CtlPixelBorder>
 
         <!-- Header -->
-        <Border Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource StyLobbyGlassPanel}"
-                Margin="12,12,12,0" Padding="24,12,16,12">
+        <ctl:CtlPixelBorder Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource StyLobbyGlassPanel}"
+                            Margin="12,12,12,0" Padding="24,12,16,12">
             <DockPanel LastChildFill="False">
                 <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock x:Name="lblAppTitle" Style="{StaticResource StyLobbyWordmark}"
@@ -185,10 +185,10 @@
                             Click="OnHowToPlayClick" />
                 </StackPanel>
             </DockPanel>
-        </Border>
+        </ctl:CtlPixelBorder>
 
         <!-- Chat -->
-        <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource StyLobbyGlassPanel}" Margin="12,12,6,12">
+        <ctl:CtlPixelBorder Grid.Row="1" Grid.Column="1" Style="{StaticResource StyLobbyGlassPanel}" Margin="12,12,6,12">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -197,7 +197,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Border Style="{StaticResource StyChatRulesCard}" Margin="20,20,20,8">
+                <ctl:CtlPixelBorder Style="{StaticResource StyChatRulesCard}" Margin="20,20,20,8">
                     <StackPanel>
                         <TextBlock x:Name="lblChatRulesTitle" Style="{StaticResource StyChatRulesTitle}"
                                    Text="{Binding [LobbyChat_LblChatRulesTitle], Source={StaticResource Loc},
@@ -205,7 +205,7 @@
                         <TextBlock x:Name="lblChatRules" Style="{StaticResource StyChatRulesText}"
                                    Text="{Binding [LobbyChat_LblChatRules], Source={StaticResource Loc}}" />
                     </StackPanel>
-                </Border>
+                </ctl:CtlPixelBorder>
 
                 <ListBox x:Name="lstMessages" Grid.Row="1" Style="{StaticResource StyChatList}" />
 
@@ -244,7 +244,7 @@
                              field reads as locked and not merely empty. -->
                         <Border>
                             <Border.Style>
-                                <Style TargetType="Border" BasedOn="{StaticResource StyFieldShell}">
+                                <Style TargetType="Border" BasedOn="{StaticResource StyLobbyFieldShell}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsEnabled, ElementName=txtMessage}" Value="False">
                                             <Setter Property="Opacity" Value="0.45" />
@@ -272,10 +272,10 @@
                     </StackPanel>
                 </Border>
             </Grid>
-        </Border>
+        </ctl:CtlPixelBorder>
 
         <!-- Players -->
-        <Border Grid.Row="1" Grid.Column="2" Style="{StaticResource StyLobbyGlassPanel}" Margin="6,12,12,12">
+        <ctl:CtlPixelBorder Grid.Row="1" Grid.Column="2" Style="{StaticResource StyLobbyGlassPanel}" Margin="6,12,12,12">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -283,7 +283,7 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <TabControl Style="{StaticResource StyPanelTabs}">
+                <TabControl Style="{StaticResource StyPanelTabs}" Margin="14,14,14,0">
                     <TabItem x:Name="tabEveryone" IsSelected="True"
                              Header="{Binding [LobbyChat_TabEveryone], Source={StaticResource Loc},
                                       Converter={StaticResource CnvUpperCase}}" />
@@ -396,6 +396,6 @@
                     </StackPanel>
                 </ScrollViewer>
             </Grid>
-        </Border>
+        </ctl:CtlPixelBorder>
     </Grid>
 </views:GuiWindowBase>

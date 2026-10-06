@@ -780,13 +780,17 @@
 
     <!-- ============ Lobby and its panels (P11, P12, P13, P16, P17) ============ -->
 
-    <!-- The lobbies stand on the moving paint of the menu. The rail takes a dark green so
-         that it frames the room instead of competing with it. -->
+    <!-- The lobbies stand on the moving paint of the menu. The dark green rings the presence
+         dot, so the dot stays apart from the avatar it sits on. -->
     <SolidColorBrush x:Key="BrsLobbyRail" Color="#FF041710" />
     <SolidColorBrush x:Key="BrsLobbyPanel" Color="#FF101C15" />
     <SolidColorBrush x:Key="BrsLobbyRule" Color="#33EDE4DC" />
     <SolidColorBrush x:Key="BrsLobbyRowOver" Color="#1FEDE4DC" />
     <SolidColorBrush x:Key="BrsPresenceOnline" Color="#FF6AD29A" />
+    <!-- The fields of the lobbies sit one shade below the face of the switch above them, so the
+         raised tabs and the sunk fields read as two different depths of the same brown. -->
+    <SolidColorBrush x:Key="BrsLobbyFieldFace" Color="#FF231B14" />
+    <SolidColorBrush x:Key="BrsLobbySwitchFace" Color="#FF2A2018" />
 
     <Style x:Key="StyLobbyPanel" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource BrsLobbyPanel}" />
@@ -794,12 +798,28 @@
     </Style>
 
     <!-- The panels of the lobbies are the panels of the menu: the same translucent face that
-         lets the paint behind show through, the ink base beneath and the same deep shadow. -->
+         lets the paint behind show through, the ink base beneath and the same deep shadow. The
+         panels and the cards built on them are drawn by CtlPixelBorder, which keeps the base
+         under the stepped face; a plain border would paint the base inside the clip and break
+         the steps of the lower corners. -->
     <Style x:Key="StyLobbyGlassPanel" TargetType="Border" BasedOn="{StaticResource StyLobbyPanel}">
         <Setter Property="Background" Value="{StaticResource BrsMenuPanel}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
         <Setter Property="BorderThickness" Value="0,0,0,4" />
         <Setter Property="Effect" Value="{StaticResource EfxPanelShadow}" />
+    </Style>
+
+    <!-- The rail is one more panel of the room: it floats with the same gap as the header and
+         the side panels, so its shadow has room to fall on the paint like theirs. -->
+    <Style x:Key="StyLobbyGlassRail" TargetType="Border" BasedOn="{StaticResource StyLobbyGlassPanel}">
+        <Setter Property="Margin" Value="12,12,0,12" />
+    </Style>
+
+    <!-- The cards that live inside a panel keep its translucent face and its ink base, but
+         cast no shadow: a second shadow inside the panel would darken the messages below it. -->
+    <Style x:Key="StyLobbyGlassCard" TargetType="Border" BasedOn="{StaticResource StyLobbyGlassPanel}">
+        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="4" />
+        <Setter Property="Effect" Value="{x:Null}" />
     </Style>
 
     <Style x:Key="StyLobbyWordmark" TargetType="TextBlock" BasedOn="{StaticResource StyLogoWordmark}">
@@ -999,9 +1019,9 @@
         <Setter Property="FontSize" Value="11" />
     </Style>
 
-    <Style x:Key="StyChatRulesCard" TargetType="Border">
-        <Setter Property="Background" Value="{StaticResource BrsMenuAction}" />
-        <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="4" />
+    <!-- The rules sit on the same translucent face and ink base as the panel that holds them, so
+         they read as one more piece of the room and not as a solid patch over it. -->
+    <Style x:Key="StyChatRulesCard" TargetType="Border" BasedOn="{StaticResource StyLobbyGlassCard}">
         <Setter Property="Padding" Value="20,14,20,16" />
     </Style>
 
@@ -1049,23 +1069,18 @@
         <Setter Property="Visibility" Value="Collapsed" />
     </Style>
 
-    <!-- The notices of a challenge cross the whole width of the chat, as the prototype draws
-         them, and take the colour of what they mean: the olive of an action for a challenge
-         sent, the red of a warning for one declined and the earth of the chips for one
-         received. -->
-    <Style x:Key="StyChatNotice" TargetType="Border">
-        <Setter Property="Margin" Value="0,8,0,8" />
+    <!-- The notices of a challenge are cards of glass like the rules of the chat, and line up
+         with them and with the messages, so the chat reads as a single surface. Their glass is
+         tinted dark brown instead of the green of the panel, the brown of the fields of the
+         room, so a challenge stands apart from the rules and the messages around it while the
+         primary button to accept still stands out on the card. -->
+    <SolidColorBrush x:Key="BrsChatNoticeFace" Color="#8C38271B" />
+
+    <Style x:Key="StyChatNotice" TargetType="Border" BasedOn="{StaticResource StyLobbyGlassCard}">
+        <Setter Property="Background" Value="{StaticResource BrsChatNoticeFace}" />
+        <Setter Property="Margin" Value="20,8,20,8" />
         <Setter Property="Padding" Value="20,10,16,10" />
         <Setter Property="MinHeight" Value="58" />
-        <Setter Property="Background" Value="{StaticResource BrsMenuAction}" />
-        <Style.Triggers>
-            <DataTrigger Binding="{Binding Kind}" Value="Declined">
-                <Setter Property="Background" Value="{StaticResource BrsMenuWarn}" />
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Kind}" Value="Received">
-                <Setter Property="Background" Value="{StaticResource BrsMenuEarth}" />
-            </DataTrigger>
-        </Style.Triggers>
     </Style>
 
     <Style x:Key="StyChatNoticeText" TargetType="TextBlock">
@@ -1161,34 +1176,110 @@
 
     <!-- The tabs of a panel show only their headers: the content they switch lives in the
          window, because both tabs share the search field that sits between them and their
-         lists. -->
+         lists. They behave as a switch built from the buttons of the menu: every tab is a face
+         raised over its ink base, and the selected one stays sunk and darkened as a button
+         held down, so exactly one of them reads as pressed at any time. The pointer answers
+         with half the sink and the same darkening, as it does on the buttons.
+         The two tabs touch and read as a single control: each one draws its shape a corner
+         wider than itself towards its neighbour and clips it at its own edge, so only the outer
+         corners keep their steps and the edge they share is straight. The alternation index of
+         the tab control tells the first tab from the second, which is why the switch is meant
+         for two tabs. The header is pushed back by half that width, so it stays centred on the
+         part of the tab that shows. -->
+    <ControlTemplate x:Key="TplPanelTab" TargetType="TabItem">
+        <Grid ClipToBounds="True">
+            <Grid>
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Margin" Value="0,0,-12,0" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding (ItemsControl.AlternationIndex),
+                                                   RelativeSource={RelativeSource TemplatedParent}}"
+                                         Value="1">
+                                <Setter Property="Margin" Value="-12,0,0,0" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <ctl:CtlPixelSurface Margin="0,6,0,0" FaceBrush="{StaticResource BrsMenuInk}" />
+                <ctl:CtlPixelSurface FaceBrush="{TemplateBinding Background}">
+                    <ctl:CtlPixelSurface.Style>
+                        <Style TargetType="ctl:CtlPixelSurface">
+                            <Setter Property="Margin" Value="0,0,0,6" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMouseOver,
+                                                       RelativeSource={RelativeSource TemplatedParent}}"
+                                             Value="True">
+                                    <Setter Property="Margin" Value="0,3,0,3" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsSelected,
+                                                       RelativeSource={RelativeSource TemplatedParent}}"
+                                             Value="True">
+                                    <Setter Property="Margin" Value="0,6,0,0" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ctl:CtlPixelSurface.Style>
+                    <Grid>
+                        <ctl:CtlPixelSurface FaceBrush="{StaticResource BrsMenuInk}">
+                            <ctl:CtlPixelSurface.Style>
+                                <Style TargetType="ctl:CtlPixelSurface">
+                                    <Setter Property="Opacity" Value="0" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver,
+                                                               RelativeSource={RelativeSource TemplatedParent}}"
+                                                     Value="True">
+                                            <Setter Property="Opacity" Value="0.53" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsSelected,
+                                                               RelativeSource={RelativeSource TemplatedParent}}"
+                                                     Value="True">
+                                            <Setter Property="Opacity" Value="0.53" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ctl:CtlPixelSurface.Style>
+                        </ctl:CtlPixelSurface>
+                        <ContentPresenter ContentSource="Header"
+                                          Effect="{StaticResource EfxTextRaiseSmall}"
+                                          HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <ContentPresenter.Style>
+                                <Style TargetType="ContentPresenter">
+                                    <Setter Property="Margin" Value="10,0,22,0" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding (ItemsControl.AlternationIndex),
+                                                               RelativeSource={RelativeSource TemplatedParent}}"
+                                                     Value="1">
+                                            <Setter Property="Margin" Value="22,0,10,0" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ContentPresenter.Style>
+                        </ContentPresenter>
+                    </Grid>
+                </ctl:CtlPixelSurface>
+            </Grid>
+        </Grid>
+    </ControlTemplate>
+
     <Style x:Key="StyPanelTab" TargetType="TabItem">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="FontSize" Value="18" />
         <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
-        <Setter Property="Background" Value="{StaticResource BrsMenuNeutral}" />
+        <Setter Property="Background" Value="{StaticResource BrsLobbySwitchFace}" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Height" Value="46" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="TabItem">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{StaticResource BrsMenuInk}" BorderThickness="0,0,0,4">
-                        <ContentPresenter ContentSource="Header"
-                                          HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Template" Value="{StaticResource TplPanelTab}" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
             </Trigger>
+            <!-- The selected tab cannot be pressed again, so it gives the plain arrow back. -->
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{StaticResource BrsMenuChipFace}" />
                 <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
+                <Setter Property="Cursor" Value="Arrow" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -1201,6 +1292,7 @@
 
     <Style x:Key="StyPanelTabs" TargetType="TabControl">
         <Setter Property="ItemContainerStyle" Value="{StaticResource StyPanelTab}" />
+        <Setter Property="AlternationCount" Value="2" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TabControl">
@@ -1210,7 +1302,11 @@
         </Setter>
     </Style>
 
-    <Style x:Key="StyPanelSearchShell" TargetType="Border" BasedOn="{StaticResource StyFieldShell}">
+    <Style x:Key="StyLobbyFieldShell" TargetType="Border" BasedOn="{StaticResource StyFieldShell}">
+        <Setter Property="Background" Value="{StaticResource BrsLobbyFieldFace}" />
+    </Style>
+
+    <Style x:Key="StyPanelSearchShell" TargetType="Border" BasedOn="{StaticResource StyLobbyFieldShell}">
         <Setter Property="Height" Value="46" />
         <Setter Property="Padding" Value="12,0,12,0" />
     </Style>
@@ -1374,13 +1470,16 @@
     </Style>
 
     <!-- The bar of the system draws its light chrome over every dark panel, so the lists
-         carry a thin one in the colours of the menu. PART_Track is the name the framework
-         requires to find the track, not a naming choice. -->
+         carry a thin one in the colours of the menu. The thumb takes a grey green that stays
+         quiet beside the content instead of the orange of the chips. PART_Track is the name
+         the framework requires to find the track, not a naming choice. -->
+    <SolidColorBrush x:Key="BrsScrollThumb" Color="#FF3D433B" />
+
     <Style x:Key="StyScrollThumb" TargetType="Thumb">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Thumb">
-                    <Border Background="{StaticResource BrsMenuChipFace}"
+                    <Border Background="{StaticResource BrsScrollThumb}"
                             ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="1" />
                 </ControlTemplate>
             </Setter.Value>
