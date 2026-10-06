@@ -1964,6 +1964,13 @@
 
     <!-- ============= Leaderboard and house rules (P18, P19) ============= -->
 
+    <!-- The leaderboard opens over the lobby, so its card takes the dark green of the panels of
+         the lobby instead of the brown of the other dialogs. The podium, the table and the search
+         field keep their brown, as the tabs and the fields do on the panels. -->
+    <Style x:Key="StyRankingDialogCard" TargetType="Border" BasedOn="{StaticResource StyDialogCard}">
+        <Setter Property="Background" Value="{StaticResource BrsLobbyPanel}" />
+    </Style>
+
     <!-- The places of the podium are sunk cards, the same device as the performance of the
          profile. The first one takes the earth of the menu so that it stands out with a colour
          the palette already has, and carries the crown instead of its number. -->

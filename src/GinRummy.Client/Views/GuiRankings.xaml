@@ -121,8 +121,8 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid Width="980" Background="{StaticResource BrsPageBackground}">
-        <Border Style="{StaticResource StyDialogCard}" Padding="40,26,40,30">
+    <Grid Width="980" Background="{StaticResource BrsLobbyPanel}">
+        <Border Style="{StaticResource StyRankingDialogCard}" Padding="40,26,40,30">
             <StackPanel>
 
                 <DockPanel>
