@@ -214,6 +214,7 @@
     <Compile Include="Controls\CtlPixelBorder.cs" />
     <Compile Include="Controls\CtlPixelSurface.cs" />
     <Compile Include="Controls\PixelFrame.cs" />
+    <Compile Include="Controls\OverlayInsetCommon.cs" />
     <Compile Include="Controls\PixelShapeCommon.cs" />
     <Compile Include="Controls\WaveCommon.cs" />
     <Compile Include="Network\RankingsServiceProxy.cs" />

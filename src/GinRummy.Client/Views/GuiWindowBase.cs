@@ -27,6 +27,7 @@ namespace GinRummy.Client.Views
 
         private readonly LocalizationProvider _localization;
         private readonly List<GuiModalBase> _modals;
+        private UIElement _screen;
         private Grid _modalLayer;
         private bool _isInPlaceOfMenu;
         private bool _isHandingOver;
@@ -46,8 +47,16 @@ namespace GinRummy.Client.Views
             get { return _localization; }
         }
 
+        // The paint of the screen holds still while a modal covers it, as it does while another
+        // screen covers it, so the screen and a modal with a paint of its own do not animate at
+        // the same time.
         public void ShowModal(GuiModalBase modal)
         {
+            if (_modals.Count == 0)
+            {
+                PausePaints(_screen, true);
+            }
+
             Border backdrop = new Border();
             backdrop.Background = (Brush)FindResource(BackdropBrushKey);
             Grid entry = new Grid();
@@ -83,6 +92,10 @@ namespace GinRummy.Client.Views
         {
             _modalLayer.Children.Remove(modal.Entry);
             _modals.Remove(modal);
+            if (_modals.Count == 0)
+            {
+                PausePaints(_screen, false);
+            }
         }
 
         // Lays the layer of the modals over the content of the window once the window has read
@@ -90,10 +103,10 @@ namespace GinRummy.Client.Views
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
-            UIElement screen = Content as UIElement;
+            _screen = Content as UIElement;
             Content = null;
             Grid root = new Grid();
-            root.Children.Add(screen);
+            root.Children.Add(_screen);
             _modalLayer = new Grid();
             root.Children.Add(_modalLayer);
             Content = root;

@@ -28,6 +28,7 @@ namespace GinRummy.Client
             "EfxPanelShadow",
             "EfxTextShadow",
             "EfxSoftShadow",
+            "EfxFloatShadow",
             "EfxCardShadow"
         };
 
