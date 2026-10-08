@@ -2,9 +2,9 @@ using System.Windows.Media;
 
 namespace GinRummy.Client.Controls
 {
-    // The three colours of the paint and the mixing of them. It is a value type so that each
-    // frame carries its own copy and the drawing thread never reads a colour that the
-    // interface thread is changing at the same time.
+    // Holds the three colours of the paint and mixes them.
+    // It is a value type so that each frame carries its own copy.
+    // That way the drawing thread never reads a colour that the interface thread is changing at the same time.
     internal struct PaintPalette
     {
         private const double ByteRange = 255.0;
@@ -38,9 +38,9 @@ namespace GinRummy.Client.Controls
             _glowBlue = glowColour.B / ByteRange;
         }
 
-        // The shade is one at the centre of the surface and less towards the edge. The colour
-        // comes back already packed as alpha, red, green and blue, the pixel format the surface
-        // expects, so the drawing loop writes it without converting it again.
+        // The shade is one at the centre of the surface and less towards the edge.
+        // The colour comes back already packed as alpha, red, green and blue, which is the pixel format the surface expects.
+        // The drawing loop therefore writes it without converting it again.
         internal int Blend(PaintMix mix, double shade)
         {
             double red = ((_deepRed * mix.DeepWeight)

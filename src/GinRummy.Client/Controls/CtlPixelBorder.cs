@@ -5,14 +5,13 @@ using System.Windows.Media;
 
 namespace GinRummy.Client.Controls
 {
-    // Border drawn as pixel art with the same raised depth as the buttons. A plain border
-    // clipped by PixelShapeCommon painted its bottom border inside the clip, so the dark strip
-    // ate the last row of the lower corners and the element showed fewer steps below than
-    // above. This border keeps the face whole and draws the base underneath it instead. The
-    // outline comes from the attached PixelShapeCommon.CornerSteps and PixelUnit, the face from
-    // Background, the base from BorderBrush, and the depth from the bottom border thickness
-    // rounded to whole blocks, so every style written for a plain border keeps working
-    // unchanged.
+    // Draws a border as pixel art with the same raised depth as the buttons.
+    // A plain border clipped by PixelShapeCommon painted its bottom border inside the clip.
+    // The dark strip then ate the last row of the lower corners, and the element showed fewer steps below than above.
+    // This border keeps the face whole and draws the base underneath it instead.
+    // The outline comes from the attached PixelShapeCommon.CornerSteps and PixelUnit properties.
+    // The face comes from Background, the base from BorderBrush, and the depth from the bottom border thickness.
+    // The depth is rounded to whole blocks, so every style written for a plain border keeps working unchanged.
     public class CtlPixelBorder : Border
     {
         private const int NoDepth = 0;
@@ -49,16 +48,16 @@ namespace GinRummy.Client.Controls
             drawingContext.DrawGeometry(Background, null, face);
         }
 
-        // Redraws the shape whenever the layout grants a different size, because the shape is
-        // measured from that size and not from a fixed picture.
+        // The shape is measured from the size the layout grants and not from a fixed picture.
+        // It must therefore be drawn again whenever that size changes.
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
             base.OnRenderSizeChanged(sizeInfo);
             InvalidateVisual();
         }
 
-        // Redraws the shape when the attached outline changes, since those properties do not
-        // belong to the border and do not ask for a new render by themselves.
+        // The attached outline properties do not belong to the border.
+        // They do not ask for a new render by themselves, so the shape is invalidated here when they change.
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);
@@ -70,9 +69,9 @@ namespace GinRummy.Client.Controls
             }
         }
 
-        // The bottom border of the styles was measured in device units, and not every one of
-        // them is a whole number of blocks. Rounding keeps the base on the grid, and any declared
-        // border keeps at least one block so that it never vanishes.
+        // The bottom border of the styles was measured in device units, and not every one of them is a whole number of blocks.
+        // Rounding keeps the base on the grid.
+        // Any declared border keeps at least one block so that it never vanishes.
         private int ResolveDepth(double unit)
         {
             int depth = NoDepth;
@@ -85,8 +84,9 @@ namespace GinRummy.Client.Controls
             return depth;
         }
 
-        // A face shorter than its two corners cannot carry them, so such an element is drawn
-        // flat instead of with a broken outline. The limit is the same one CtlPixelSurface uses.
+        // A face shorter than its two corners cannot carry them.
+        // Such an element is drawn flat instead of with a broken outline.
+        // The limit is the same one CtlPixelSurface uses.
         private static bool CanRaise(PixelFrame frame, int depth)
         {
             bool hasDepth = depth > NoDepth;

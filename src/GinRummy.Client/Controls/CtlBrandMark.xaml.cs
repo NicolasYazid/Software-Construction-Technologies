@@ -7,13 +7,16 @@ using GinRummy.Client.Localization;
 
 namespace GinRummy.Client.Controls
 {
-    // Wordmark of the game, as the prototype draws it: the two words of the brand with the
-    // target symbol between them. The text is not written into the control: it is read from the
-    // brand key of the dictionary and split on its blank so that the symbol can sit in the gap,
-    // which is what the prototype does with spacing.
+    // Draws the wordmark of the game the way the prototype does, with the target symbol between the two words of the brand.
+    // The text is not written into the control, because it is read from the brand key of the dictionary.
+    // The text is split on its blank so that the symbol can sit in the gap, which is what the prototype does with spacing.
     public partial class CtlBrandMark : UserControl
     {
         private const double DefaultMarkFontSize = 128.0;
+        private const string BrandResourceKey = "Shared_AppTitle";
+        private const double SymbolRatio = 0.898;
+        private const double SymbolOverlap = -6.0;
+        private const char WordSeparator = ' ';
 
         public static readonly DependencyProperty MarkFontSizeProperty =
             DependencyProperty.Register(
@@ -28,10 +31,6 @@ namespace GinRummy.Client.Controls
                 typeof(Brush),
                 typeof(CtlBrandMark),
                 new PropertyMetadata(Brushes.Gray, OnAppearanceChanged));
-
-        private const string BrandResourceKey = "Shared_AppTitle";
-        private const double SymbolRatio = 0.898;
-        private const double SymbolOverlap = -6.0;
 
         private readonly LocalizationProvider _localization;
 
@@ -75,11 +74,11 @@ namespace GinRummy.Client.Controls
             string brand = _localization.GetText(BrandResourceKey);
             string firstWord = brand;
             string secondWord = string.Empty;
-            int separator = brand.IndexOf(' ');
-            if (separator > 0)
+            int separatorIndex = brand.IndexOf(WordSeparator);
+            if (separatorIndex > 0)
             {
-                firstWord = brand.Substring(0, separator);
-                secondWord = brand.Substring(separator + 1).Trim();
+                firstWord = brand.Substring(0, separatorIndex);
+                secondWord = brand.Substring(separatorIndex + 1).Trim();
             }
 
             lblBrandFirst.Text = firstWord;
