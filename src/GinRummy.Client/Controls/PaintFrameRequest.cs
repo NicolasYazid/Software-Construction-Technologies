@@ -1,8 +1,7 @@
 namespace GinRummy.Client.Controls
 {
-    // Everything one frame of the paint needs is gathered in this single object.
-    // The drawing runs on a background thread and must not read any property of the control.
-    // The interface thread may be writing those properties at the same time.
+    // The drawing runs on a background thread, and WPF lets only the interface thread read the properties of the control.
+    // Everything one frame of the paint needs is therefore copied into this object before the drawing starts.
     internal sealed class PaintFrameRequest
     {
         internal byte[] Buffer { get; set; }

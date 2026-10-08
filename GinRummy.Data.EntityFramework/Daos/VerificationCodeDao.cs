@@ -7,9 +7,6 @@ using GinRummy.Domain.Entities;
 
 namespace GinRummy.Data.EntityFramework.Daos
 {
-    // Fulfils IVerificationCodeDao using Entity Framework against GinRummy_Dev.
-    // By default, it opens a short-lived context per operation.
-    // It can also reuse a context opened elsewhere, so several DAOs can share one transaction.
     public class VerificationCodeDao : IVerificationCodeDao
     {
         private readonly string _connectionStringName;
@@ -20,6 +17,8 @@ namespace GinRummy.Data.EntityFramework.Daos
             _connectionStringName = connectionStringName;
         }
 
+        // The context can come from the caller so that several DAOs take part in one transaction.
+        // Only the contexts this DAO creates are disposed of here; a shared one belongs to its caller.
         public VerificationCodeDao(GinRummyContext sharedContext)
         {
             _sharedContext = sharedContext;
@@ -30,8 +29,6 @@ namespace GinRummy.Data.EntityFramework.Daos
             VerificationCode mostRecentCode;
             if (_sharedContext != null)
             {
-                // The caller owns this context.
-                // It is disposed of when the caller's transaction ends.
                 mostRecentCode = _sharedContext.VerificationCodes
                     .Where(code => (code.PlayerId == playerId) && (code.Purpose == purpose))
                     .OrderByDescending(code => code.CreatedAt)

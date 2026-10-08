@@ -112,8 +112,7 @@ namespace GinRummy.Client.Views
             bool isComplete = hasUsername && (!isLinkPending || hasSocialUrl);
             if (isComplete)
             {
-                // The server validates the name, the biography and the address before keeping them (CU-29, CU-30, CU-31).
-                // The screen shows the result once the server answers.
+                // Only the required fields are checked here because the server validates the rest (CU-29, CU-30, CU-31).
                 if (isLinkPending)
                 {
                     SaveSocialLink();

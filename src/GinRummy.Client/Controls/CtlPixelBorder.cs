@@ -5,13 +5,11 @@ using System.Windows.Media;
 
 namespace GinRummy.Client.Controls
 {
-    // Draws a border as pixel art with the same raised depth as the buttons.
     // A plain border clipped by PixelShapeCommon painted its bottom border inside the clip.
     // The dark strip then ate the last row of the lower corners, and the element showed fewer steps below than above.
     // This border keeps the face whole and draws the base underneath it instead.
-    // The outline comes from the attached PixelShapeCommon.CornerSteps and PixelUnit properties.
-    // The face comes from Background, the base from BorderBrush, and the depth from the bottom border thickness.
-    // The depth is rounded to whole blocks, so every style written for a plain border keeps working unchanged.
+    // The face, the base and the depth reuse Background, BorderBrush and the bottom border thickness.
+    // Every style written for a plain border therefore keeps working unchanged.
     public class CtlPixelBorder : Border
     {
         private const int NoDepth = 0;

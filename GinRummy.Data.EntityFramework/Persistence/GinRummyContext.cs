@@ -5,13 +5,9 @@ using GinRummy.Domain.Entities;
 
 namespace GinRummy.Data.EntityFramework.Persistence
 {
-    // Entity Framework 6 context for GinRummy_Dev.
-    // It maps the Domain's POCO entities against the tables the SQL scripts already created.
-    // EF never creates or migrates the schema.
     public class GinRummyContext : DbContext
     {
-        // GinRummy_Dev was created by the team's own SQL scripts, not by Entity Framework.
-        // That is why EF's automatic database initializer is disabled.
+        // The schema of GinRummy_Dev belongs to the team's SQL scripts, so Entity Framework must never create or migrate it.
         static GinRummyContext()
         {
             Database.SetInitializer<GinRummyContext>(null);

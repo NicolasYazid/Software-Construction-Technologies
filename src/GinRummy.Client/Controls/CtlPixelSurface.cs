@@ -4,14 +4,10 @@ using System.Windows.Media;
 
 namespace GinRummy.Client.Controls
 {
-    // Draws the frame of a control as pixel art.
-    // The corners are rounded along a quarter of a circle stepped in square blocks of the same module as the painted background.
+    // The corners are stepped in square blocks of the same module as the painted background.
     // The button, the panel and the field therefore read as part of the same grid as the letters of the pixel typefaces.
-    // The shape is built from the size the layout grants, which is why no bitmap is needed.
-    // Nothing is stretched, the steps keep their size on a button of any width, and any screen draws them with the same sharp edge.
-    // No border is drawn around the body, so a translucent colour keeps showing the background of the screen like a plain panel.
-    // When a depth is asked for, the same shape is painted underneath and pushed down a few blocks to raise the element over its base.
-    // The content of the control is drawn over all of it untouched.
+    // The shape is built from the size the layout grants instead of a stretched bitmap.
+    // The steps therefore keep their size on a button of any width, and any screen draws them with the same sharp edge.
     public class CtlPixelSurface : Decorator
     {
         private const int DefaultCornerSteps = 4;
@@ -29,7 +25,7 @@ namespace GinRummy.Client.Controls
                     PixelShapeCommon.DefaultPixelUnit,
                     FrameworkPropertyMetadataOptions.AffectsRender));
 
-        // The number of steps is also how many rows of the corner carry one.
+        // The steps are also the radius of the corner in blocks.
         // A larger element therefore needs a larger number for its corner to read as round rather than square.
         public static readonly DependencyProperty CornerStepsProperty =
             DependencyProperty.Register(
@@ -171,12 +167,11 @@ namespace GinRummy.Client.Controls
             return arrangeSize;
         }
 
-        // The base is the same shape pushed down a few blocks and painted in the dark colour.
-        // Both the base and the body are shortened by that amount, so the element keeps the size the layout gave it.
+        // Both the base and the body are shortened by the depth, so the element keeps the size the layout gave it.
         // The depth then shows along the bottom edge instead of growing out of it.
         // Only the part of the base the body does not cover is painted.
         // Painting it whole would leave an opaque layer behind the body, and a translucent colour would be mixed with it.
-        // The frame is left ready for the body, which is drawn right after.
+        // The frame keeps the shortened rows on return, because the body drawn right after must use them.
         private void DrawBase(DrawingContext drawingContext, PixelFrame frame)
         {
             int depth = BaseDepth;

@@ -37,7 +37,6 @@ namespace GinRummy.Client.Views
             NavigateTo(new GuiSignUp());
         }
 
-        // The composition root supplies a ready-made controller, so the screen only runs the use case and reacts to its result.
         private void SignIn()
         {
             string password = PasswordRevealCommon.Read(pwdPassword, txtPasswordShown);
@@ -55,12 +54,11 @@ namespace GinRummy.Client.Views
             }
         }
 
-        // The lobby takes the place of the main menu, which stays the main window of the application while hidden.
-        // Closing the session then brings the player back to the main menu instead of ending the application (CU-03 step 5).
-        // The full CU-02 (session, bans and second factor) is still server-dependent.
+        // The lobby enters in place of the main menu, which stays hidden as the main window of the application.
+        // This way, closing the session returns to the menu instead of ending the application (CU-03 step 5).
         private void ShowSuccess()
         {
-            // TODO: full CU-02 (session, bans, 2FA, real lobby data) is server-dependent.
+            // TODO: Full CU-02 (session, bans, 2FA, real lobby data) is server-dependent.
             EnterLobby(new GuiLobbyChat());
         }
 

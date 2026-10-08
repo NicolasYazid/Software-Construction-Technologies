@@ -10,8 +10,6 @@ using GinRummy.Server.Services;
 
 namespace GinRummy.Server
 {
-    // Entry point of the server process.
-    // It composes the rankings service and hosts it so clients can reach it over the network.
     public class Program
     {
         private const string ConnectionStringName = "GinRummyDb";

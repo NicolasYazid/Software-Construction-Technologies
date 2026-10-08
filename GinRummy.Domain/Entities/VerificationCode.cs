@@ -2,9 +2,6 @@
 
 namespace GinRummy.Domain.Entities
 {
-    // A one-time code sent to confirm an email address or authorize a sensitive action.
-    // It protects its own invariants: it cannot expire before it was created.
-    // It always starts unused and with zero attempts.
     public class VerificationCode
     {
         public VerificationCode(int playerId, VerificationPurpose purpose, string codeHash, DateTime expiresAt)
@@ -23,8 +20,8 @@ namespace GinRummy.Domain.Entities
             UsedAt = null;
         }
 
-        // Reserved for the materialization of Entity Framework.
-        // Application code must use the validating constructor.
+        // Entity Framework needs a parameterless constructor to materialize rows.
+        // It is protected so that application code cannot skip the validating constructor.
         protected VerificationCode()
         {
         }
@@ -32,14 +29,12 @@ namespace GinRummy.Domain.Entities
         public int VerificationCodeId { get; private set; }
         public int PlayerId { get; private set; }
         public VerificationPurpose Purpose { get; private set; }
-        // Only the hash is stored, never the plain code itself.
         public string CodeHash { get; private set; }
         public DateTime ExpiresAt { get; private set; }
         public DateTime? UsedAt { get; private set; }
         public int Attempts { get; private set; }
         public DateTime CreatedAt { get; private set; }
 
-        // A code must always belong to a real player, referenced by a positive id.
         private static void ValidatePlayerId(int playerId)
         {
             if (playerId <= 0)
@@ -48,7 +43,6 @@ namespace GinRummy.Domain.Entities
             }
         }
 
-        // A code is never stored in plain form, so its hash can never be empty.
         private static void ValidateCodeHash(string codeHash)
         {
             if (string.IsNullOrWhiteSpace(codeHash))

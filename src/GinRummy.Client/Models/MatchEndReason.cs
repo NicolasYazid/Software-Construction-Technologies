@@ -1,11 +1,10 @@
 ﻿namespace GinRummy.Client.Models
 {
-    // Reason a match ended, seen from the player who looks at the table.
-    // It decides both the verdict and the sentence that explains it.
+    // The reason is relative to the player who looks at the table, so each player of the same match receives a different one.
     public enum MatchEndReason
     {
         PlayerReachedTarget,
-        // The opponent forfeited the match: a victory (CU-26).
+        // A forfeit of the opponent counts as a victory for the player (CU-26).
         OpponentForfeited,
         OpponentReachedTarget
     }

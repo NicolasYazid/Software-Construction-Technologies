@@ -32,7 +32,6 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        // The heading and the window title come from a different key in each flow because one key cannot hold two values.
         protected override void RefreshFormattedText()
         {
             if (lblTitle != null)
@@ -88,7 +87,6 @@ namespace GinRummy.Client.Views
         private void ShowNextScreen()
         {
             // A recovered password ends every session of the account, so the player signs in again with it (CU-08 step 14).
-            // A change made from the profile panel returns to that panel.
             if (!_isChangeFromProfile)
             {
                 NavigateTo(new GuiLogIn());

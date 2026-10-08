@@ -2,7 +2,6 @@
 
 namespace GinRummy.Client.Models
 {
-    // Entry of the match log.
     // It carries the event and its data, not a sentence, so that the table can write it in the active language.
     public sealed class MatchLogEntryDto
     {

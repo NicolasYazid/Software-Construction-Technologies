@@ -8,8 +8,6 @@ using GinRummy.Domain.Entities;
 
 namespace GinRummy.Client.Controllers
 {
-    // Orchestrates CU-19 (View Leaderboard) at the scope of this activity.
-    // It reads the ranked stats and resolves the rank of each player.
     // It only reads data, so it needs no transaction.
     public class RankingsController
     {

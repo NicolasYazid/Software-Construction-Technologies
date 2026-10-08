@@ -1,7 +1,5 @@
 ﻿namespace GinRummy.Client.Views
 {
-    // The confirmation dialog (P23) asks about these six destructive actions.
-    // Each one fixes the title, the warning and the label of the button that confirms it.
     public enum ConfirmDialogKind
     {
         // Leaving a match in progress, which counts as a defeat (CU-26).

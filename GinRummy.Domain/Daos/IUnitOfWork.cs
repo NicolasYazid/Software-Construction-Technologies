@@ -2,9 +2,7 @@
 
 namespace GinRummy.Domain.Daos
 {
-    // A set of DAOs that share one transaction, so their changes are saved or discarded together.
-    // The DAO list grows as new use cases need it.
-    // Commit, Rollback and disposal stay the same for every use case.
+    // Only the DAOs that a use case already needs are exposed; new ones are added when a use case requires them.
     public interface IUnitOfWork : IDisposable
     {
         IPlayerDao Players { get; }

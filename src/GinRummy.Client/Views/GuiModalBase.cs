@@ -8,9 +8,6 @@ using GinRummy.Client.Localization;
 
 namespace GinRummy.Client.Views
 {
-    // Modals are the smaller screens that open inside a main screen instead of in a window of their own.
-    // The main screen dims itself behind the modal.
-    // The modal keeps itself subscribed to the culture change while it is open.
     public class GuiModalBase : UserControl
     {
         private readonly LocalizationProvider _localization;
@@ -36,7 +33,6 @@ namespace GinRummy.Client.Views
             get { return _host; }
         }
 
-        // The layer of the host that holds the modal and the shade behind it.
         internal UIElement Entry { get; private set; }
 
         protected LocalizationProvider Localization
@@ -96,7 +92,7 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        // The first field of the modal takes the keyboard, as the first field of a window did.
+        // The focus moves to the first field so that a modal keeps the keyboard behavior of the windows it replaced.
         private void OnModalLoaded(object sender, RoutedEventArgs e)
         {
             MoveFocus(new TraversalRequest(FocusNavigationDirection.First));

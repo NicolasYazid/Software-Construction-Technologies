@@ -18,7 +18,6 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        // The second action is retrying or returning to the match, depending on the error.
         public bool IsActionChosen { get; private set; }
 
         protected override void RefreshFormattedText()

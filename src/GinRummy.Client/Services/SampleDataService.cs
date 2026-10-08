@@ -7,7 +7,6 @@ using GinRummy.Client.Models;
 
 namespace GinRummy.Client.Services
 {
-    // Supplies the lobby and the screens it opens with the content the prototype draws.
     // It stands in for the services of the server, which the client does not reach yet.
     // That way every screen can be walked and reviewed with realistic data.
     // The screens take their data only from here, which leaves a single place to replace once the server answers.
@@ -27,7 +26,7 @@ namespace GinRummy.Client.Services
         private const int StockCardsToVoid = 2;
         private const int TargetScore = 100;
 
-        // Builds the lobby a registered player finds when entering (P11).
+        // Its values reproduce the prototype screen P11.
         public LobbySnapshotDto GetLobby()
         {
             LobbySnapshotDto lobby = new LobbySnapshotDto();
@@ -59,8 +58,7 @@ namespace GinRummy.Client.Services
             };
             lobby.PlayersInMatchCount = 2;
             lobby.Unavailable = CreateUnavailablePlayers();
-            // The groups of friends lose a player when the friendship ends (CU-16).
-            // They announce it to the panel instead of waiting for the lobby to be loaded again.
+            // The groups of friends are observable so that the panel drops a player when the friendship ends (CU-16).
             lobby.FriendsOnline = new ObservableCollection<LobbyPlayerDto>
             {
                 CreatePlayer("Friend A", "S", true),
@@ -82,7 +80,7 @@ namespace GinRummy.Client.Services
             return lobby;
         }
 
-        // Builds the lobby a guest finds when entering (P16).
+        // Its values reproduce the prototype screen P16.
         // A guest has no friends, so the groups of friends come empty.
         public LobbySnapshotDto GetGuestLobby()
         {
@@ -121,7 +119,7 @@ namespace GinRummy.Client.Services
             return lobby;
         }
 
-        // Lists the friend requests that wait for the answer of the player (P12).
+        // Its values reproduce the prototype screen P12.
         public IList<FriendRequestDto> GetFriendRequests()
         {
             return new List<FriendRequestDto>
@@ -134,7 +132,7 @@ namespace GinRummy.Client.Services
             };
         }
 
-        // Lists the sanctions of the player (P13), with the name of each reason already in the active language.
+        // Its values reproduce the prototype screen P13.
         public IList<SanctionDto> GetSanctions()
         {
             // The reasons of a ban are a catalogue of the database, translated there (BD-09).
@@ -149,7 +147,7 @@ namespace GinRummy.Client.Services
             };
         }
 
-        // Builds the settings of the account of the player (P14).
+        // Its values reproduce the prototype screen P14.
         public AccountSettingsDto GetAccountSettings()
         {
             AccountSettingsDto settings = new AccountSettingsDto();
@@ -166,7 +164,7 @@ namespace GinRummy.Client.Services
             return settings;
         }
 
-        // Builds the profile of the player who looks at it (P21 and P15).
+        // Its values reproduce the prototype screens P21 and P15.
         public PlayerProfileDto GetOwnProfile()
         {
             PlayerProfileDto profile = CreateProfile(PlayerName, "S", "#PLA-1024");
@@ -178,7 +176,7 @@ namespace GinRummy.Client.Services
             return profile;
         }
 
-        // Builds the profile of another player of the lobby (P21).
+        // Its values reproduce the prototype screen P21.
         public PlayerProfileDto GetPlayerProfile(LobbyPlayerDto player)
         {
             PlayerProfileDto profile = CreateProfile(player.Username, player.RankName, "#PLZ-4821");
@@ -195,7 +193,7 @@ namespace GinRummy.Client.Services
             return new List<string> { "Discord", "Instagram", "Twitch", "X", "YouTube" };
         }
 
-        // Builds the leaderboard of every registered player (P18).
+        // Its values reproduce the prototype screen P18.
         // The player stands beyond the rows the table holds, as in CU-19 FA-03.
         public LeaderboardDto GetGlobalLeaderboard()
         {
@@ -220,7 +218,7 @@ namespace GinRummy.Client.Services
             return leaderboard;
         }
 
-        // Builds the leaderboard of the player and their friends (P18, CU-19 FA-01).
+        // Its values reproduce the prototype screen P18 for the leaderboard of friends (CU-19 FA-01).
         public LeaderboardDto GetFriendsLeaderboard()
         {
             LeaderboardDto leaderboard = new LeaderboardDto();
@@ -240,7 +238,7 @@ namespace GinRummy.Client.Services
             return leaderboard;
         }
 
-        // Builds the values of the game the house rules quote (P19).
+        // Its values reproduce the prototype screen P19.
         public GameRulesDto GetGameRules()
         {
             GameRulesDto rules = new GameRulesDto();
@@ -254,7 +252,7 @@ namespace GinRummy.Client.Services
             return rules;
         }
 
-        // Builds the table of a match against the player who challenged the lobby (P20).
+        // Its values reproduce the prototype screen P20.
         // It shows the moment the player decides whether to take the card turned up.
         public GameTableSnapshotDto GetGameTable()
         {
@@ -300,7 +298,7 @@ namespace GinRummy.Client.Services
             return table;
         }
 
-        // Builds the close of a hand in which the opponent knocked and the player defended (P20), with the groups the prototype draws.
+        // Its values reproduce the prototype screen P20.
         public HandResultDto GetHandResult()
         {
             HandResultDto result = new HandResultDto();
@@ -353,7 +351,7 @@ namespace GinRummy.Client.Services
             return result;
         }
 
-        // Builds the result of a finished match (P20) for one of the ways it can end.
+        // Its values reproduce the prototype screen P20.
         public MatchResultDto GetMatchResult(MatchEndReason endReason)
         {
             MatchResultDto result = new MatchResultDto();

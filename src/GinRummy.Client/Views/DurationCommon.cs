@@ -3,9 +3,7 @@ using System.Globalization;
 
 namespace GinRummy.Client.Views
 {
-    // The countdowns of the screens show their durations in clock form.
-    // The hours are kept whole instead of rolling into days.
-    // The prototype writes a suspension of two days as 47:59:59 and not as one day and a remainder.
+    // The hours are kept whole instead of rolling into days because the prototype writes a suspension of two days as 47:59:59.
     internal static class DurationCommon
     {
         private const string LongFormat = "{0:00}:{1:00}:{2:00}";

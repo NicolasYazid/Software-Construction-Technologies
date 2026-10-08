@@ -1,7 +1,6 @@
 namespace GinRummy.Client.Controls
 {
-    // Holds the weight of each of the three colours of the paint at one point.
-    // The three weights add up to one, so the palette can mix them without normalising anything.
+    // The three weights must add up to one, because the palette mixes them without normalising anything.
     internal struct PaintMix
     {
         private readonly double _deepWeight;

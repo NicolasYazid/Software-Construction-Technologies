@@ -110,7 +110,7 @@ namespace GinRummy.Client.Views
 
         private void EnableTwoStep()
         {
-            // The switch turns on only once the code of CU-04 is confirmed in the verification screen.
+            // Enabling two-step verification requires a confirmed code (CU-04), and that check is left to the verification screen.
             // That screen is the one that talks to the server.
             GuiTwoStep twoStep = new GuiTwoStep(TwoStepPurpose.EnableTwoStep);
             ShowModal(twoStep);

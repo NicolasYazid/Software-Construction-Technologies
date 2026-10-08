@@ -6,9 +6,6 @@ using GinRummy.Domain.Entities;
 
 namespace GinRummy.Data.EntityFramework.Daos
 {
-    // Fulfils ILocaleDao using Entity Framework against GinRummy_Dev.
-    // By default, it opens a short-lived context per operation.
-    // It can also reuse a context opened elsewhere, so it can take part in a shared transaction.
     public class LocaleDao : ILocaleDao
     {
         private readonly string _connectionStringName;
@@ -19,6 +16,8 @@ namespace GinRummy.Data.EntityFramework.Daos
             _connectionStringName = connectionStringName;
         }
 
+        // The context can come from the caller so that several DAOs take part in one transaction.
+        // Only the contexts this DAO creates are disposed of here; a shared one belongs to its caller.
         public LocaleDao(GinRummyContext sharedContext)
         {
             _sharedContext = sharedContext;
@@ -29,8 +28,6 @@ namespace GinRummy.Data.EntityFramework.Daos
             Locale foundLocale;
             if (_sharedContext != null)
             {
-                // The caller owns this context.
-                // It is disposed of when the caller's transaction ends.
                 foundLocale = _sharedContext.Locales.FirstOrDefault(locale => locale.LocaleCode == localeCode);
             }
             else

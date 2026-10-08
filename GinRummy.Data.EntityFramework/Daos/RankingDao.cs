@@ -8,7 +8,6 @@ using GinRummy.Domain.Entities;
 
 namespace GinRummy.Data.EntityFramework.Daos
 {
-    // Fulfils IRankingDao using Entity Framework against GinRummy_Dev.
     public class RankingDao : IRankingDao
     {
         private readonly string _connectionStringName;
@@ -23,8 +22,7 @@ namespace GinRummy.Data.EntityFramework.Daos
             IList<PlayerStats> rankedStats;
             using (GinRummyContext context = new GinRummyContext(_connectionStringName))
             {
-                // Include loads each player together with its stats in one query.
-                // Reading the username later then does not trigger a separate query per row.
+                // The player is loaded eagerly because the context is disposed of before the leaderboard reads each username.
                 rankedStats = context.PlayerStats
                     .Include(stats => stats.Player)
                     .OrderByDescending(stats => stats.Score)

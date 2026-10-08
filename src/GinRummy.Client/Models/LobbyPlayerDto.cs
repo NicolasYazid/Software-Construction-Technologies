@@ -2,9 +2,7 @@
 
 namespace GinRummy.Client.Models
 {
-    // Player as the panel of players of the lobby lists them.
-    // It announces the changes of its relation with whoever looks at the panel.
-    // The context menu that reads them is shared by every row and does not rebuild itself when it opens again on the same one.
+    // It notifies the changes of its relation because the shared context menu does not rebuild itself when it opens again on the same row.
     public sealed class LobbyPlayerDto : INotifyPropertyChanged
     {
         private bool _isFriend;
@@ -12,7 +10,6 @@ namespace GinRummy.Client.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // The name the player chose is never translated.
         public string Username { get; set; }
         public string RankName { get; set; }
 

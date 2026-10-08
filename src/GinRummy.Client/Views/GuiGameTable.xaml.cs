@@ -133,8 +133,7 @@ namespace GinRummy.Client.Views
 
         private void OnTakeClick(object sender, RoutedEventArgs e)
         {
-            // The card turned up goes to the hand, which then owes a discard.
-            // The server checks the move and passes the turn (house rules 2 and 3).
+            // The move is not validated here because the server checks it and passes the turn (house rules 2 and 3).
             CardDto takenCard = _discardPile[0];
             _discardPile.Clear();
             _hand.Add(takenCard);
@@ -155,8 +154,7 @@ namespace GinRummy.Client.Views
 
         private void OnHandPreviewMouseMove(object sender, MouseEventArgs e)
         {
-            // A press that barely moves is a click that chooses the card.
-            // Only a longer move picks the card up to reorder the hand (house rule 18).
+            // The drag waits for the system drag distance so that a short press still chooses the card (house rule 18).
             bool isCardPressed = (e.LeftButton == MouseButtonState.Pressed) && (_pressedCard != null);
             if (isCardPressed && HasLeftClickArea(e.GetPosition(lstHand)))
             {
@@ -207,9 +205,7 @@ namespace GinRummy.Client.Views
 
         private void OnForfeitConfirmClosed(object sender, EventArgs e)
         {
-            // The server records the defeat (CU-26 steps 5 to 7).
-            // The table only returns the player to the lobby, as step 9 does.
-            // Cancelling leaves the match as it was.
+            // The table only returns the player to the lobby (CU-26 step 9) because the server records the defeat (CU-26 steps 5 to 7).
             if (((GuiConfirmDialog)sender).IsConfirmed)
             {
                 ReturnToLobby();
@@ -218,8 +214,7 @@ namespace GinRummy.Client.Views
 
         private void OnNextHandClick(object sender, RoutedEventArgs e)
         {
-            // The score of the match takes the count of the hand.
-            // The table then waits for the server to deal the next hand.
+            // The table only carries the score of the hand into the match because the server deals the next hand.
             _table.PlayerScore = _handResult.PlayerScore;
             _table.OpponentScore = _handResult.OpponentScore;
             lblKnockWith.Visibility = Visibility.Collapsed;
@@ -239,8 +234,8 @@ namespace GinRummy.Client.Views
 
         private void RefreshHandResult(CultureInfo culture)
         {
-            // The names inside the sentences are data and keep their case.
-            // The sentences carry the case of the prototype in the dictionary itself.
+            // These sentences are not converted to uppercase because the names inside them are data and keep their case.
+            // The dictionary itself carries the case of the prototype for the rest of each sentence.
             lblHandWinner.Text = Localization.Format(HandWinnerKey, _handResult.WinnerName);
             lblKnockWith.Text = Localization.Format(KnockWithKey, _handResult.KnockerDeadwood);
             lblKnockAnnounce.Text = Localization.Format(KnockAnnounceKey, _handResult.KnockerName, _handResult.KnockerDeadwood);

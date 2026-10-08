@@ -1,7 +1,5 @@
 ﻿namespace GinRummy.Client.Controllers
 {
-    // Outcome of trying to sign in.
-    // It holds either the username of the signed-in player or the localization key of the message to show.
     public class LogInResult
     {
         private LogInResult(bool succeeded, string errorMessageKey, string username)

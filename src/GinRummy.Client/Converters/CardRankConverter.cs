@@ -7,10 +7,7 @@ using GinRummy.Client.Models;
 
 namespace GinRummy.Client.Converters
 {
-    // Writes the rank of a card as its corner shows it.
-    // The cards from the two to the ten show their number, and the ace and the face cards show the letter of the dictionary.
-    // The first value of the binding is the rank.
-    // The second is the active culture, bound to the localization provider so that the letter is resolved again when the culture changes.
+    // The binding also passes the active culture, which Convert ignores, only so that the letter is resolved when the culture changes.
     public sealed class CardRankConverter : IMultiValueConverter
     {
         private const string AceKey = "Card_RankAce";
@@ -29,13 +26,12 @@ namespace GinRummy.Client.Converters
             return result;
         }
 
-        // Not supported: the rank of a card is only shown, never written back.
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotSupportedException("The rank of a card is never written back.");
         }
 
-        // Shared with the spoken name of a card, which starts with the same text.
+        // It is internal and static because the spoken name of a card reuses this label.
         internal static string ToLabel(CardRank rank, LocalizationProvider localization)
         {
             string label;

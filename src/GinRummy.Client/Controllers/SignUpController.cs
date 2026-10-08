@@ -12,8 +12,6 @@ using GinRummy.Domain.Security;
 
 namespace GinRummy.Client.Controllers
 {
-    // Orchestrates CU-01 (Create an account).
-    // It validates the form, then creates the player and its verification code together, so both succeed or neither does.
     public class SignUpController
     {
         private const string RequiredFieldMessageKey = "Error_ValRequiredField";
@@ -64,7 +62,6 @@ namespace GinRummy.Client.Controllers
             return result;
         }
 
-        // The result stays null while every field passes its check, and holds the first failure otherwise.
         private static SignUpResult ValidateForm(AccountForm form)
         {
             SignUpResult result = null;
@@ -97,7 +94,7 @@ namespace GinRummy.Client.Controllers
             return result;
         }
 
-        // FA-01: none of the three fields may be empty.
+        // None of the three fields may be empty (FA-01).
         private static bool AreAnyFieldsEmpty(string email, string username, string password)
         {
             return string.IsNullOrWhiteSpace(email)
@@ -112,8 +109,7 @@ namespace GinRummy.Client.Controllers
             return text.Trim().Length > maximumLength;
         }
 
-        // FA-02: MailAddress throws FormatException for anything not shaped like an email address.
-        // Building one validates the format without a hand-written regular expression to maintain.
+        // The format of FA-02 is checked with MailAddress instead of a hand-written regular expression the team would have to maintain.
         private static bool IsValidEmailFormat(string email)
         {
             bool isValid;
@@ -130,8 +126,7 @@ namespace GinRummy.Client.Controllers
             return isValid;
         }
 
-        // FA-03: the policy is the draft already shown on GuiSignUp.
-        // A password needs the minimum length, at least one letter and at least one digit.
+        // The policy of FA-03 is the draft that GuiSignUp already shows, so both must change together.
         private static bool IsStrongPassword(string password)
         {
             bool hasMinimumLength = password.Length >= MinimumPasswordLength;
@@ -157,8 +152,7 @@ namespace GinRummy.Client.Controllers
             return isUniqueViolation;
         }
 
-        // Everything here happens through one unit of work.
-        // The player and its code are committed together, or neither is.
+        // The player and its verification code share one unit of work so that both are committed or neither is.
         private SignUpResult CreateAccountRecord(AccountForm form)
         {
             SignUpResult result;
@@ -183,7 +177,6 @@ namespace GinRummy.Client.Controllers
             return result;
         }
 
-        // Any failure after the unit of work is open rolls it back, so the database stays untouched.
         private SignUpResult RegisterAccount(IUnitOfWork unitOfWork, AccountForm form)
         {
             SignUpResult result;
@@ -221,7 +214,6 @@ namespace GinRummy.Client.Controllers
             return result;
         }
 
-        // The player and its verification code are committed at once.
         private SignUpResult SaveNewAccount(IUnitOfWork unitOfWork, AccountForm form)
         {
             Locale locale = unitOfWork.Locales.FindByCode(form.CultureCode)
@@ -247,7 +239,6 @@ namespace GinRummy.Client.Controllers
             return SignUpResult.Success(plainCode);
         }
 
-        // Groups the fields of the sign-up form so that the steps of the registration share them as one value.
         private sealed class AccountForm
         {
             public string Email { get; set; }

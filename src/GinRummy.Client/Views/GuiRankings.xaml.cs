@@ -68,8 +68,6 @@ namespace GinRummy.Client.Views
             Close();
         }
 
-        // Reads the real global ranking through the controller.
-        // Each domain entity is turned into the row shape the view already knows how to display.
         private LeaderboardDto BuildGlobalLeaderboard()
         {
             App application = (App)Application.Current;
@@ -98,9 +96,7 @@ namespace GinRummy.Client.Views
             return leaderboard;
         }
 
-        // Converts one domain PlayerStats into the row DTO of the view.
-        // This conversion lives in the view on purpose, because the DTO is a presentation shape.
-        // The DTO is never part of the domain logic.
+        // This conversion lives in the view because the DTO is a presentation shape that must never enter the domain logic.
         private static RankingEntryDto ToRankingEntry(PlayerStats stats, int position, RankingsController controller)
         {
             RankingEntryDto entry = new RankingEntryDto();

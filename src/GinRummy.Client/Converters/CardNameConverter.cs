@@ -7,10 +7,7 @@ using GinRummy.Client.Models;
 
 namespace GinRummy.Client.Converters
 {
-    // Builds the spoken name of a card, the one assistive technologies read, from the rank and the suit name in the active language.
-    // The symbol of the suit is a drawing and never takes part in it.
-    // The first value of the binding is the card.
-    // The second is the active culture, bound to the localization provider so that the name is rebuilt when the culture changes.
+    // The binding also passes the active culture, which Convert ignores, only so that the name is rebuilt when the culture changes.
     public sealed class CardNameConverter : IMultiValueConverter
     {
         private const string NameFormatKey = "Card_A11yFormat";
@@ -31,13 +28,12 @@ namespace GinRummy.Client.Converters
             return result;
         }
 
-        // Not supported: the name of a card is only shown, never written back.
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotSupportedException("The name of a card is never written back.");
         }
 
-        // Shared with the log of the match, whose entries name the card they speak of.
+        // It is internal and static because the match log names its cards with this same text.
         // The order of the rank and the suit comes from the format, since it changes between languages.
         internal static string ToName(CardDto card, LocalizationProvider localization)
         {

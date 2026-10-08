@@ -1,7 +1,6 @@
 ﻿namespace GinRummy.Client.Models
 {
-    // Rank of a card of the French deck.
-    // The value of each member is the number the card shows, from the ace, which is worth one, to the king.
+    // The value of each member must be the number its corner shows, because the label of the cards from two to ten is that value.
     public enum CardRank
     {
         Ace = 1,

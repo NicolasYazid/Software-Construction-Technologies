@@ -2,9 +2,6 @@
 
 namespace GinRummy.Client.Models
 {
-    // State of a match as the game table shows it to one of its players.
-    // It holds the hand of the player, what can be seen of the opponent, the stock and the discard pile.
-    // It also holds the score, the log and the chat of the match.
     public sealed class GameTableSnapshotDto
     {
         public string PlayerName { get; set; }

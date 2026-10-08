@@ -8,12 +8,9 @@ using System.Windows.Media.Imaging;
 
 namespace GinRummy.Client.Controls
 {
-    // Draws the animated paint used by the background of the main menu and by the side panel of the other screens.
-    // The field turns around the centre and is folded on itself several times.
-    // The folds break the bands into strokes instead of the rings a plain swirl draws.
     // The field is deliberately computed at a very low resolution and stretched with nearest neighbour.
     // The result is therefore made of visible square blocks, which ties it to the pixel typefaces of the client.
-    // It also makes each frame cheap, because the surface is a few thousand pixels and not a few hundred thousand.
+    // It also keeps each frame cheap, because the surface has far fewer pixels than the area the control covers.
     // The three colours are properties, so the hosting screen owns the palette and the control owns only the movement.
     public partial class CtlPaintBackground : UserControl
     {
@@ -71,9 +68,6 @@ namespace GinRummy.Client.Controls
         private static readonly Color FallbackMidColour = Color.FromRgb(30, 103, 70);
         private static readonly Color FallbackGlowColour = Color.FromRgb(106, 210, 154);
 
-        // The paint is normalised by the diagonal of the surface.
-        // A small panel and a whole window therefore show the same piece of the spiral.
-        // The strokes come out as many times larger as the window is larger.
         public static readonly DependencyProperty PatternScaleProperty =
             DependencyProperty.Register(
                 "PatternScale",
@@ -81,8 +75,7 @@ namespace GinRummy.Client.Controls
                 typeof(CtlPaintBackground),
                 new PropertyMetadata(DefaultPatternScale));
 
-        // The surface is stretched to the size of the control with nearest neighbour.
-        // This number therefore decides how large the visible blocks come out.
+        // This number is the short side of the surface in blocks, so it decides how large the visible blocks come out.
         // A panel and a whole screen need different values for the blocks to measure the same on both.
         public static readonly DependencyProperty BlockResolutionProperty =
             DependencyProperty.Register(
@@ -164,7 +157,7 @@ namespace GinRummy.Client.Controls
             set { SetValue(GlowColourProperty, value); }
         }
 
-        // The paint holds its last frame while another screen covers the one that hosts it.
+        // A window covered by another one is still visible for WPF, so the hosting screen pauses the paint itself.
         public bool IsPaused
         {
             get
@@ -186,8 +179,6 @@ namespace GinRummy.Client.Controls
             }
         }
 
-        // Some places use the paint as a still picture and not as a background, such as the back of the cards.
-        // They need a single frame of the field, with no movement, written into the buffer of the request.
         internal static void PaintStillFrame(PaintFrameRequest request)
         {
             request.Geometry = BuildGeometry(request.Width, request.Height, request.PatternScale);
@@ -382,15 +373,14 @@ namespace GinRummy.Client.Controls
             }
         }
 
-        // Each pixel keeps its distance from the centre, its starting angle and its shade from frame to frame.
-        // The starting angle grows with the distance, and that growth is what curves the strokes.
+        // The starting angle grows with the distance from the centre, and that growth is what curves the strokes.
         private static PaintGeometry BuildGeometry(int width, int height, double patternScale)
         {
             PaintGeometry geometry = new PaintGeometry(width * height, patternScale);
 
-            // The two axes are divided by the same number so that the field keeps its shape on any proportion of window.
+            // Both axes are divided by the diagonal so that the field keeps its shape on any proportion of window.
             // Dividing each axis by its own side would flatten the spiral into an ellipse.
-            // The centre of the surface is the centre of the spiral.
+            // A small panel and a whole window therefore show the same piece of the spiral, with strokes that grow with the window.
             double diagonal = Math.Sqrt((width * width) + (height * height));
             double reachScale = diagonal / patternScale;
             double centreX = width * Half;
@@ -398,7 +388,6 @@ namespace GinRummy.Client.Controls
 
             // The frame of shade is measured on the short side and not on the reach of the field.
             // It therefore falls on the same place of the surface however far the paint reaches into the field.
-            // It also stays in place whichever movement is drawn underneath it.
             double shortSide = Math.Min(width, height);
 
             for (int rowIndex = 0; rowIndex < height; rowIndex++)
@@ -449,7 +438,7 @@ namespace GinRummy.Client.Controls
             return Unit - (VignetteStrength * eased);
         }
 
-        // Past the knee the resolution of the paint advances far more slowly.
+        // Past the knee the paint advances far more slowly with the spread.
         // Without this the paint saturates well before the corners of a window as wide as the menu.
         // Everything beyond that radius would then come out as the flat light colour instead of strokes.
         private static double Compress(double spread)
@@ -460,9 +449,8 @@ namespace GinRummy.Client.Controls
             return Clamp(head + tail, Zero, PaintCeiling);
         }
 
-        // The point, already turned around the centre, is folded on itself several times.
-        // Each fold displaces the point by a wave that reads the point itself.
-        // The field therefore never repeats and the seams of a plain swirl disappear.
+        // A plain swirl draws rings with visible seams.
+        // Folding the point on itself by waves that read the point itself breaks them into strokes that do not repeat.
         private static PaintMix ComputeMix(double reach, double turn, double elapsedSeconds)
         {
             double fieldX = reach * WaveCommon.Cosine(turn) * FieldZoom;

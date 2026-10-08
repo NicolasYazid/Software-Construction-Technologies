@@ -36,8 +36,7 @@ namespace GinRummy.Client.Views
 
         private void OnAcceptClick(object sender, RoutedEventArgs e)
         {
-            // The friendship is created by the server (CU-14).
-            // Once the server confirms, the screen only takes the request off the list.
+            // The screen only takes the request off the list because the server creates the friendship (CU-14).
             RemoveRequest(sender);
         }
 

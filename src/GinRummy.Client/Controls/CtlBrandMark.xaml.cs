@@ -7,9 +7,7 @@ using GinRummy.Client.Localization;
 
 namespace GinRummy.Client.Controls
 {
-    // Draws the wordmark of the game the way the prototype does, with the target symbol between the two words of the brand.
-    // The text is not written into the control, because it is read from the brand key of the dictionary.
-    // The text is split on its blank so that the symbol can sit in the gap, which is what the prototype does with spacing.
+    // The brand is split on its blank so that the target symbol sits between its two words, as the prototype draws the wordmark.
     public partial class CtlBrandMark : UserControl
     {
         private const double DefaultMarkFontSize = 128.0;

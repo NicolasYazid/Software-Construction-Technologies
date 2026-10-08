@@ -7,9 +7,7 @@ using GinRummy.Client.Models;
 
 namespace GinRummy.Client.Converters
 {
-    // Writes an entry of the match log as the sentence of the dictionary for its event, with the card or the number it carries.
-    // The first value of the binding is the entry.
-    // The second is the active culture, bound to the localization provider so that the sentence is written again when the culture changes.
+    // The binding also passes the active culture, which Convert ignores, only so that the sentence is rewritten when the culture changes.
     public sealed class MatchLogConverter : IMultiValueConverter
     {
         private const string DealtKey = "GameTable_LogDealtFormat";
@@ -33,7 +31,6 @@ namespace GinRummy.Client.Converters
             return result;
         }
 
-        // Not supported: an entry of the log is only shown, never written back.
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotSupportedException("An entry of the match log is never written back.");

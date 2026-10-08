@@ -2,8 +2,6 @@ using System;
 
 namespace GinRummy.Domain.Entities
 {
-    // A registered player account, mapped to the Player table.
-    // It protects its own invariants: a player cannot exist without a valid username, email and password hash.
     public class Player
     {
         // These are the same limits as the username and email columns of the Player table.
@@ -11,7 +9,6 @@ namespace GinRummy.Domain.Entities
         public const int MaxUsernameLength = 20;
         public const int MaxEmailLength = 254;
 
-        // A new account always starts unverified and stamped with the current UTC time.
         public Player(string username, string email, string passwordHash, int localeId)
         {
             ValidateUsername(username);
@@ -27,8 +24,8 @@ namespace GinRummy.Domain.Entities
             IsEmailVerified = false;
         }
 
-        // Reserved for the materialization of Entity Framework.
-        // Application code goes through the validating constructor.
+        // Entity Framework needs a parameterless constructor to materialize rows.
+        // It is protected so that application code cannot skip the validating constructor.
         protected Player()
         {
         }
@@ -39,14 +36,12 @@ namespace GinRummy.Domain.Entities
         public string Username { get; private set; }
         // Stored in lower case so that two spellings of the same address never become two accounts.
         public string Email { get; private set; }
-        // The Argon2id hash in PHC format, never the plain text password.
         public string PasswordHash { get; private set; }
         public int LocaleId { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public DateTime? LastLoginAt { get; private set; }
         public bool IsEmailVerified { get; private set; }
 
-        // A player must always have a non-empty username within the length the database column allows.
         private static void ValidateUsername(string username)
         {
             if (string.IsNullOrWhiteSpace(username))
@@ -60,8 +55,7 @@ namespace GinRummy.Domain.Entities
             }
         }
 
-        // A player must always have a non-empty email within the length the database column allows.
-        // Its format is checked as input validation before construction.
+        // The email format is checked by input validation before construction, so only the database limits are guarded here.
         private static void ValidateEmail(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -83,7 +77,6 @@ namespace GinRummy.Domain.Entities
             }
         }
 
-        // The locale is a foreign key, so it must reference a real, positive id.
         private static void ValidateLocaleId(int localeId)
         {
             if (localeId <= 0)

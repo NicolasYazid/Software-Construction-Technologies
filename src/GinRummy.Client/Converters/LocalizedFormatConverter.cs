@@ -8,12 +8,8 @@ using GinRummy.Client.Views;
 
 namespace GinRummy.Client.Converters
 {
-    // Builds a visible message from a format string of the dictionary and the values of a data item.
     // It serves the texts drawn inside the rows of a list, which no window can rebuild one by one.
-    // The first value of the binding is the format string.
-    // It is bound to the localization provider so that the message is rebuilt when the culture changes.
-    // The rest of the values are its arguments.
-    // The parameter, when present, is the format applied to every argument that accepts one, such as t for the time of a chat message.
+    // The format string is bound to the localization provider so that the message is rebuilt when the culture changes.
     public sealed class LocalizedFormatConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -38,7 +34,6 @@ namespace GinRummy.Client.Converters
             return result;
         }
 
-        // Not supported: a message built from a format string never writes back.
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotSupportedException("A formatted message is never written back.");

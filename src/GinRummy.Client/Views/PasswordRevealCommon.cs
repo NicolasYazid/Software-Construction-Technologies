@@ -4,8 +4,7 @@ using System.Windows.Controls;
 namespace GinRummy.Client.Views
 {
     // A PasswordBox never draws its characters, so the clear view of a password is a text field laid over it.
-    // The text field holds the value while it is shown and hands it back when the player hides it again.
-    // Only one of the two fields holds the value at a time.
+    // Only one of the two fields holds the value at a time, so the password is never left behind in a hidden text field.
     internal static class PasswordRevealCommon
     {
         internal static void Toggle(PasswordBox passwordField, TextBox clearField)

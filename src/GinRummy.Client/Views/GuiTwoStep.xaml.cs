@@ -75,7 +75,7 @@ namespace GinRummy.Client.Views
 
         private void OnVerifyClick(object sender, RoutedEventArgs e)
         {
-            // The code is checked on the server.
+            // Checking the code belongs to the server, so this screen only advances the navigation of the prototype.
             // A sign-in ends in the lobby (CU-02 step 11), while the other flows return to the screen that asked for the code.
             if (_purpose == TwoStepPurpose.LogIn)
             {

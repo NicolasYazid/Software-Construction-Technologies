@@ -4,10 +4,8 @@ using System.Windows.Media;
 
 namespace GinRummy.Client.Controls
 {
-    // Builds the stepped outline that every pixel element of the client shares.
-    // It lends the outline to any element as a clip through the CornerSteps attached property.
-    // That is how a field, a card or the box of a check takes the same stepped corners as the buttons.
-    // The element it is made of does not need to change.
+    // The outline is lent to any element as a clip through the CornerSteps attached property.
+    // A field, a card or the box of a check therefore takes the stepped corners of the buttons without changing the element it is made of.
     public static class PixelShapeCommon
     {
         public const double DefaultPixelUnit = 3.0;
@@ -54,10 +52,8 @@ namespace GinRummy.Client.Controls
             element.SetValue(PixelUnitProperty, value);
         }
 
-        // The grid is centred on the element.
         // The part of a block that does not fit whole is shared between the two edges instead of piling up on one of them.
         // An element whose size is not a multiple of the block is therefore still framed evenly.
-        // An element too small for its corner gets no frame at all.
         internal static PixelFrame MeasureFrame(Size size, double unit, int steps)
         {
             PixelFrame frame = null;
@@ -104,7 +100,6 @@ namespace GinRummy.Client.Controls
         // The corner follows a quarter of a circle and not a straight diagonal.
         // A diagonal gives every row the same step, and a shape with four corners cut at the same angle reads as an octagon.
         // The circle gives the first row a wide step and the last ones none at all.
-        // That is how a rounded corner is drawn on a grid of pixels.
         private static int[] BuildProfile(int steps)
         {
             int[] profile = new int[steps + OneRow];
@@ -120,10 +115,8 @@ namespace GinRummy.Client.Controls
             return profile;
         }
 
-        // The four corners are the same profile read in the four directions.
-        // Each row of a corner contributes two moves, one across the row and one through it.
-        // The edge therefore comes out as a staircase of uneven steps, wide where the circle is flat and narrow where it turns.
-        // Walking the whole perimeter in blocks is what keeps every step square and on the grid.
+        // The perimeter is walked in whole blocks and only each point is turned into device units.
+        // That keeps every step square and on the grid.
         private static void TracePerimeter(StreamGeometryContext context, PixelFrame frame)
         {
             int steps = frame.Steps;

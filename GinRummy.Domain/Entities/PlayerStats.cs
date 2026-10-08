@@ -1,7 +1,5 @@
 ﻿namespace GinRummy.Domain.Entities
 {
-    // A player's accumulated performance, mapped to the PlayerStats table.
-    // It always belongs to exactly one player.
     public class PlayerStats
     {
         protected PlayerStats()
@@ -15,7 +13,6 @@
         public int MatchesPlayed { get; private set; }
         public virtual Player Player { get; private set; }
 
-        // A player with no matches gets zero, so the division is never by zero.
         public double WinRate
         {
             get

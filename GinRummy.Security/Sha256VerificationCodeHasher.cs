@@ -7,7 +7,6 @@ using GinRummy.Domain.Security;
 
 namespace GinRummy.Security
 {
-    // Fulfils IVerificationCodeHasher using SHA-256.
     // Unlike password hashing, a code needs no salt or slow algorithm.
     // Its whole six-digit space is small enough to brute-force instantly either way.
     // The real defenses are the code's short expiry and its limited number of attempts, not the hash itself.

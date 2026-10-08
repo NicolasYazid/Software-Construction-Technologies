@@ -6,15 +6,13 @@ using GinRummy.Domain.Security;
 
 namespace GinRummy.Security
 {
-    // Fulfils IVerificationCodeGenerator using a cryptographically secure random number.
-    // That way a code cannot be predicted the way a plain Random sequence could be.
+    // A cryptographically secure generator is used instead of Random, whose sequence can be predicted.
     public class RandomVerificationCodeGenerator : IVerificationCodeGenerator
     {
         private const int CodeLength = 6;
         private const long CodeUpperBound = 1000000;
         private const char PaddingDigit = '0';
 
-        // Returned as a string so a leading zero is never lost.
         public string GenerateCode()
         {
             byte[] randomBytes = new byte[sizeof(uint)];

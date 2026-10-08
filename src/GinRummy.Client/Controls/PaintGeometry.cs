@@ -1,9 +1,7 @@
 ﻿namespace GinRummy.Client.Controls
 {
-    // This is the part of the paint that depends only on where a pixel sits and not on the moment.
-    // It holds the distance to the centre, the angle the pixel starts turning from and the shade of the frame.
-    // It is measured once for each size of surface, so every frame only adds the movement.
-    // Once built it is only read, so the drawing threads can share it.
+    // What depends only on where a pixel sits is measured once for each size of surface, so every frame only adds the movement.
+    // The geometry must stay read-only once built, because the rows of a frame are drawn in parallel and share it.
     internal sealed class PaintGeometry
     {
         internal PaintGeometry(int pixelCount, double patternScale)

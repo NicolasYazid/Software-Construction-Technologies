@@ -50,7 +50,6 @@ namespace GinRummy.Client.Views
             Close();
         }
 
-        // The composition root supplies a ready-made controller, so the view never builds its dependencies.
         private void CreateAccount(string password)
         {
             App application = (App)Application.Current;
@@ -88,8 +87,6 @@ namespace GinRummy.Client.Views
             ShowErrorText(Localization.GetText(messageKey));
         }
 
-        // A message with a placeholder, such as the maximum length of a field, is filled with the active culture.
-        // That way the placeholder is never shown to the player.
         private void ShowError(SignUpResult result)
         {
             string message = Localization.GetText(result.ErrorMessageKey);

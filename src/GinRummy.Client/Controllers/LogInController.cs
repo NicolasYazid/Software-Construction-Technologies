@@ -9,8 +9,6 @@ using GinRummy.Domain.Security;
 
 namespace GinRummy.Client.Controllers
 {
-    // Orchestrates CU-02 (Sign in) at the scope of this activity.
-    // It validates the form, looks up the player by email and checks the password.
     // It only reads data, so it needs no transaction.
     public class LogInController
     {
@@ -52,15 +50,14 @@ namespace GinRummy.Client.Controllers
             return result;
         }
 
-        // FA-02: neither field may be empty.
+        // Neither field may be empty (FA-02).
         private static bool AreAnyFieldsEmpty(string email, string password)
         {
             return string.IsNullOrWhiteSpace(email)
                 || string.IsNullOrWhiteSpace(password);
         }
 
-        // MailAddress throws FormatException for anything not shaped like an email address.
-        // Building one validates the format without a hand-written regular expression.
+        // The format is checked with MailAddress instead of a hand-written regular expression that the team would have to maintain.
         private static bool IsValidEmailFormat(string email)
         {
             bool isValid;

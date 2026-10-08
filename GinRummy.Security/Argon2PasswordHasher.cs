@@ -7,10 +7,8 @@ using Konscious.Security.Cryptography;
 
 namespace GinRummy.Security
 {
-    // Fulfils IPasswordHasher using Argon2id with the parameters OWASP recommends for interactive login.
-    // Those parameters are m=19456 KiB, t=2 and p=1.
-    // Hashes are read and written in the PHC string format the database already uses.
-    // An example of that format is "$argon2id$v=19$m=19456,t=2,p=1$<salt>$<hash>".
+    // Argon2id uses the parameters OWASP recommends for interactive login: m=19456 KiB, t=2 and p=1.
+    // Hashes are read and written in the PHC string format the database already stores.
     public class Argon2PasswordHasher : IPasswordHasher
     {
         private const int MemorySizeInKibibytes = 19456;
@@ -60,8 +58,7 @@ namespace GinRummy.Security
             return salt;
         }
 
-        // The same salt and parameters must be used when a password is first hashed and every time it is verified.
-        // Otherwise the output never matches, even for the correct password.
+        // Verification uses the class constants, not the parameters stored in each hash, so changing them breaks every stored password.
         private static byte[] ComputeHash(string plainTextPassword, byte[] salt)
         {
             byte[] passwordBytes = Encoding.UTF8.GetBytes(plainTextPassword);
@@ -78,8 +75,6 @@ namespace GinRummy.Security
             return hash;
         }
 
-        // The salt and the hash are packed with the parameters that produced them.
-        // The result uses the same PHC string format the database already stores.
         private static string Encode(byte[] salt, byte[] hash)
         {
             string saltText = Convert.ToBase64String(salt);

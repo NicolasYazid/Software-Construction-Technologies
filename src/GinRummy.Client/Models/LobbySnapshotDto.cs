@@ -2,8 +2,6 @@
 
 namespace GinRummy.Client.Models
 {
-    // State of the lobby at the moment a player enters it.
-    // It holds the chat so far and the players of the panel, already grouped the way the screen shows them.
     // The counters of the groups of players in a match are sent apart because each row of those groups holds two players.
     public sealed class LobbySnapshotDto
     {

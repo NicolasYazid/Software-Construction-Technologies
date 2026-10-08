@@ -7,8 +7,7 @@ using System.Threading;
 
 namespace GinRummy.Client.Localization
 {
-    // Resolves the visible text of the user interface against the resource file of the active culture.
-    // It notifies the interface when that culture changes, so that every binding refreshes without reopening any window.
+    // It notifies the interface when the culture changes so that every binding refreshes its text without reopening any window.
     public sealed class LocalizationProvider : INotifyPropertyChanged
     {
         public const string DefaultCultureCode = "es-MX";
@@ -40,7 +39,6 @@ namespace GinRummy.Client.Localization
             _selectedCulture = _availableCultures[DefaultCultureIndex];
         }
 
-        // Raised when the active culture changes, so that the bindings re-read their text.
         public event PropertyChangedEventHandler PropertyChanged;
 
         public static LocalizationProvider Instance

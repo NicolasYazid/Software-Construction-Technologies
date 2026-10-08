@@ -1,8 +1,5 @@
 namespace GinRummy.Client.Controllers
 {
-    // Outcome of trying to create an account.
-    // On success it holds the generated verification code.
-    // On failure it holds the localization key of the message to show and, when the message has a placeholder, the value that fills it.
     public class SignUpResult
     {
         private SignUpResult(bool succeeded, string errorMessageKey, string generatedCode)

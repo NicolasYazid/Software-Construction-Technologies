@@ -2,13 +2,9 @@
 
 namespace GinRummy.Client.Controls
 {
-    // Provides the trigonometry used to build the paint field.
-    // The field needs around ten sine or cosine values for every pixel and several hundred thousand pixels for every frame.
-    // The values are therefore read from a table built once when the class loads instead of being computed one by one.
-    // The error against the exact function is far below one level of colour.
-    // The frame costs a fraction of what it costs with the library functions.
-    // The lookup does not call the library either, because the floor and the folding into one turn use a truncation and a mask.
-    // On this framework each call to Math.Floor is a real call, and the field would make dozens of them for every pixel.
+    // The paint field needs dozens of sine and cosine values for every pixel of every frame.
+    // The values are therefore read from a table built once when the class loads instead of calling the library functions.
+    // Interpolating between entries keeps the error against the exact function far below one level of colour.
     internal static class WaveCommon
     {
         private const int TableSize = 4096;
@@ -21,8 +17,9 @@ namespace GinRummy.Client.Controls
 
         internal static double Sine(double angle)
         {
+            // On this framework each call to Math.Floor is a real call, so the floor is taken with a truncation instead.
             // Truncation rounds towards zero, so a negative position steps one entry back to reach its floor.
-            // The mask then folds any number of whole turns into the table, which lets an angle of any sign land inside it.
+            // The mask folds whole turns of either sign into the table, which only works while the size of the table is a power of two.
             double position = angle * StepsPerRadian;
             int wholeSteps = (int)position;
             if (position < wholeSteps)
