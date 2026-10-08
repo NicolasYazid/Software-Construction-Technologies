@@ -2,9 +2,8 @@
 
 namespace GinRummy.Client.Models
 {
-    // Close of a hand in which the opponent knocked and the player defended, as the table
-    // explains it: who wins the hand, how the points are counted, the groups of both hands and
-    // the score of the match afterwards.
+    // Close of a hand in which the opponent knocked and the player defended, as the table explains it.
+    // It holds who wins the hand, how the points are counted, the groups of both hands and the score of the match afterwards.
     public sealed class HandResultDto
     {
         public string WinnerName { get; set; }

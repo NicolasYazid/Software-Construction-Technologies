@@ -3,8 +3,8 @@ using System.ComponentModel;
 
 namespace GinRummy.Client.Models
 {
-    // Sanction of the player as the sanctions screen lists it (CU-33). It announces the changes
-    // of its remaining time, which the screen counts down while it is open.
+    // Sanction of the player as the sanctions screen lists it (CU-33).
+    // It announces the changes of its remaining time, which the screen counts down while it is open.
     public sealed class SanctionDto : INotifyPropertyChanged
     {
         private TimeSpan _remainingTime;
@@ -13,6 +13,7 @@ namespace GinRummy.Client.Models
 
         public string ReasonName { get; set; }
         public bool IsActive { get; set; }
+        public DateTime ServedAt { get; set; }
 
         public TimeSpan RemainingTime
         {
@@ -23,7 +24,5 @@ namespace GinRummy.Client.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(RemainingTime)));
             }
         }
-
-        public DateTime ServedAt { get; set; }
     }
 }

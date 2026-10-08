@@ -8,12 +8,12 @@ using GinRummy.Client.Views;
 
 namespace GinRummy.Client.Converters
 {
-    // Builds a visible message from a format string of the dictionary and the values of a data
-    // item, for the texts drawn inside the rows of a list, which no window can rebuild one by
-    // one. The first value of the binding is the format string, bound to the localization
-    // provider so that the message is rebuilt when the culture changes; the rest are its
-    // arguments. The parameter, when present, is the format applied to every argument that
-    // accepts one, such as t for the time of a chat message.
+    // Builds a visible message from a format string of the dictionary and the values of a data item.
+    // It serves the texts drawn inside the rows of a list, which no window can rebuild one by one.
+    // The first value of the binding is the format string.
+    // It is bound to the localization provider so that the message is rebuilt when the culture changes.
+    // The rest of the values are its arguments.
+    // The parameter, when present, is the format applied to every argument that accepts one, such as t for the time of a chat message.
     public sealed class LocalizedFormatConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -22,8 +22,8 @@ namespace GinRummy.Client.Converters
             string format = values.Length > 1 ? values[0] as string : null;
             if (!string.IsNullOrEmpty(format))
             {
-                // The binding hands over the culture of the language of the element, which WPF
-                // leaves in en-US, so the active one is taken from the provider instead.
+                // The binding hands over the culture of the language of the element, which WPF leaves in en-US.
+                // The active culture is therefore taken from the provider instead.
                 CultureInfo activeCulture = LocalizationProvider.Instance.CurrentCulture;
                 string argumentFormat = parameter as string;
                 object[] arguments = new object[values.Length - 1];
@@ -55,7 +55,7 @@ namespace GinRummy.Client.Converters
             {
                 formatted = DurationCommon.ToClock(duration, culture);
             }
-            else if (!string.IsNullOrEmpty(argumentFormat) && argument is IFormattable formattable)
+            else if (!string.IsNullOrEmpty(argumentFormat) && (argument is IFormattable formattable))
             {
                 formatted = formattable.ToString(argumentFormat, culture);
             }

@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using GinRummy.Domain.Daos;
 using GinRummy.Domain.Entities;
 
 namespace GinRummy.Client.Controllers
 {
-    // Orchestrates CU-19 (View Leaderboard) at this activity's scope: reads the ranked stats
-    // and resolves each player's rank. It only reads data, so it needs no transaction.
+    // Orchestrates CU-19 (View Leaderboard) at the scope of this activity.
+    // It reads the ranked stats and resolves the rank of each player.
+    // It only reads data, so it needs no transaction.
     public class RankingsController
     {
         private const string ServiceUnavailableMessageKey = "Error_SysServiceUnavailable";

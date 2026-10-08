@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GinRummy.Client.Controllers
+﻿namespace GinRummy.Client.Controllers
 {
-    // Outcome of trying to sign in: either the signed-in player's username, or the localization
-    // key of the message to show.
+    // Outcome of trying to sign in.
+    // It holds either the username of the signed-in player or the localization key of the message to show.
     public class LogInResult
     {
         private LogInResult(bool succeeded, string errorMessageKey, string username)

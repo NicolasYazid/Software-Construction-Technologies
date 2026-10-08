@@ -7,10 +7,9 @@ using GinRummy.Client.Models;
 
 namespace GinRummy.Client.Converters
 {
-    // Writes an entry of the match log as the sentence of the dictionary for its event, with
-    // the card or the number the event carries. The first value of the binding is the entry;
-    // the second is the active culture, bound to the localization provider so that the sentence
-    // is written again when the culture changes.
+    // Writes an entry of the match log as the sentence of the dictionary for its event, with the card or the number it carries.
+    // The first value of the binding is the entry.
+    // The second is the active culture, bound to the localization provider so that the sentence is written again when the culture changes.
     public sealed class MatchLogConverter : IMultiValueConverter
     {
         private const string DealtKey = "GameTable_LogDealtFormat";

@@ -7,10 +7,10 @@ using GinRummy.Client.Models;
 
 namespace GinRummy.Client.Services
 {
-    // Supplies the lobby and the screens it opens with the content the prototype draws. It
-    // stands in for the services of the server, which the client does not reach yet, so that
-    // every screen can be walked and reviewed with realistic data. The screens take their data
-    // only from here, which leaves a single place to replace once the server answers.
+    // Supplies the lobby and the screens it opens with the content the prototype draws.
+    // It stands in for the services of the server, which the client does not reach yet.
+    // That way every screen can be walked and reviewed with realistic data.
+    // The screens take their data only from here, which leaves a single place to replace once the server answers.
     public sealed class SampleDataService
     {
         private const string PlayerName = "Player A";
@@ -59,8 +59,8 @@ namespace GinRummy.Client.Services
             };
             lobby.PlayersInMatchCount = 2;
             lobby.Unavailable = CreateUnavailablePlayers();
-            // The groups of friends lose a player when the friendship ends (CU-16), so they
-            // announce it to the panel instead of waiting for the lobby to be loaded again.
+            // The groups of friends lose a player when the friendship ends (CU-16).
+            // They announce it to the panel instead of waiting for the lobby to be loaded again.
             lobby.FriendsOnline = new ObservableCollection<LobbyPlayerDto>
             {
                 CreatePlayer("Friend A", "S", true),
@@ -82,8 +82,8 @@ namespace GinRummy.Client.Services
             return lobby;
         }
 
-        // Builds the lobby a guest finds when entering (P16). A guest has no friends, so the
-        // groups of friends come empty.
+        // Builds the lobby a guest finds when entering (P16).
+        // A guest has no friends, so the groups of friends come empty.
         public LobbySnapshotDto GetGuestLobby()
         {
             LobbySnapshotDto lobby = new LobbySnapshotDto();
@@ -134,13 +134,11 @@ namespace GinRummy.Client.Services
             };
         }
 
-        // Lists the sanctions of the player (P13), with the name of each reason already in the
-        // active language.
+        // Lists the sanctions of the player (P13), with the name of each reason already in the active language.
         public IList<SanctionDto> GetSanctions()
         {
             // The reasons of a ban are a catalogue of the database, translated there (BD-09).
-            // Until it can be reached, the closest names the dictionary already carries stand
-            // in for them.
+            // Until the database can be reached, the closest names the dictionary already carries stand in for them.
             LocalizationProvider localization = LocalizationProvider.Instance;
 
             return new List<SanctionDto>
@@ -197,8 +195,8 @@ namespace GinRummy.Client.Services
             return new List<string> { "Discord", "Instagram", "Twitch", "X", "YouTube" };
         }
 
-        // Builds the leaderboard of every registered player (P18). The player stands beyond the
-        // rows the table holds, as in CU-19 FA-03.
+        // Builds the leaderboard of every registered player (P18).
+        // The player stands beyond the rows the table holds, as in CU-19 FA-03.
         public LeaderboardDto GetGlobalLeaderboard()
         {
             LeaderboardDto leaderboard = new LeaderboardDto();
@@ -256,8 +254,8 @@ namespace GinRummy.Client.Services
             return rules;
         }
 
-        // Builds the table of a match against the player who challenged the lobby (P20), at the
-        // moment the player decides whether to take the card turned up.
+        // Builds the table of a match against the player who challenged the lobby (P20).
+        // It shows the moment the player decides whether to take the card turned up.
         public GameTableSnapshotDto GetGameTable()
         {
             GameTableSnapshotDto table = new GameTableSnapshotDto();
@@ -302,8 +300,7 @@ namespace GinRummy.Client.Services
             return table;
         }
 
-        // Builds the close of a hand in which the opponent knocked and the player defended
-        // (P20), with the groups the prototype draws.
+        // Builds the close of a hand in which the opponent knocked and the player defended (P20), with the groups the prototype draws.
         public HandResultDto GetHandResult()
         {
             HandResultDto result = new HandResultDto();

@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 
 using GinRummy.Domain.Daos;
 using GinRummy.Domain.Entities;
@@ -13,9 +9,9 @@ using GinRummy.Domain.Security;
 
 namespace GinRummy.Client.Controllers
 {
-    // Orchestrates CU-02 (Sign in) at the scope of this activity: validates the form, looks up
-    // the player by email, and checks the password. It only reads data, so it needs no
-    // transaction.
+    // Orchestrates CU-02 (Sign in) at the scope of this activity.
+    // It validates the form, looks up the player by email and checks the password.
+    // It only reads data, so it needs no transaction.
     public class LogInController
     {
         private const string RequiredFieldMessageKey = "Error_ValRequiredField";
@@ -43,8 +39,8 @@ namespace GinRummy.Client.Controllers
 
             if ((result == null) && !IsValidEmailFormat(email))
             {
-                // An email that is not even shaped like one cannot match any account, so it
-                // is reported the same as an email that does not exist.
+                // An email that is not even shaped like one cannot match any account.
+                // It is therefore reported the same as an email that does not exist.
                 result = LogInResult.Failure(EmailNotFoundMessageKey);
             }
 
@@ -63,17 +59,17 @@ namespace GinRummy.Client.Controllers
                 || string.IsNullOrWhiteSpace(password);
         }
 
-        // MailAddress throws FormatException for anything not shaped like an email address,
-        // so it validates the format without a hand-written regular expression.
+        // MailAddress throws FormatException for anything not shaped like an email address.
+        // Building one validates the format without a hand-written regular expression.
         private static bool IsValidEmailFormat(string email)
         {
             bool isValid;
             try
             {
-                MailAddress parsedAddress = new MailAddress(email);
+                _ = new MailAddress(email);
                 isValid = true;
             }
-            catch (System.FormatException)
+            catch (FormatException)
             {
                 isValid = false;
             }
@@ -81,8 +77,8 @@ namespace GinRummy.Client.Controllers
             return isValid;
         }
 
-        // A database that cannot be reached must end in a message on the screen, not in an
-        // exception that leaves the window unresponsive.
+        // A database that cannot be reached must end in a message on the screen.
+        // An unhandled exception would leave the window unresponsive instead.
         private LogInResult AuthenticateSafely(string email, string password)
         {
             LogInResult result;
@@ -102,8 +98,8 @@ namespace GinRummy.Client.Controllers
             return result;
         }
 
-        // Looks up the player and checks the password, producing the separate messages the
-        // activity asks for. Email is normalized to lower case to match how it was stored.
+        // The activity asks for one message for an unknown email and another for a wrong password.
+        // The email is normalized to lower case to match how it was stored.
         private LogInResult Authenticate(string email, string password)
         {
             LogInResult result;

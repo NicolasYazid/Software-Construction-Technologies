@@ -1,7 +1,7 @@
 ﻿namespace GinRummy.Client.Models
 {
-    // Reason a match ended, seen from the player who looks at the table. It decides both the
-    // verdict and the sentence that explains it.
+    // Reason a match ended, seen from the player who looks at the table.
+    // It decides both the verdict and the sentence that explains it.
     public enum MatchEndReason
     {
         PlayerReachedTarget,

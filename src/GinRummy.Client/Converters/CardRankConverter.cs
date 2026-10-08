@@ -7,10 +7,10 @@ using GinRummy.Client.Models;
 
 namespace GinRummy.Client.Converters
 {
-    // Writes the rank of a card as its corner shows it: the number for the cards from the two
-    // to the ten, and the letter of the dictionary for the ace and the face cards. The first
-    // value of the binding is the rank; the second is the active culture, bound to the
-    // localization provider so that the letter is resolved again when the culture changes.
+    // Writes the rank of a card as its corner shows it.
+    // The cards from the two to the ten show their number, and the ace and the face cards show the letter of the dictionary.
+    // The first value of the binding is the rank.
+    // The second is the active culture, bound to the localization provider so that the letter is resolved again when the culture changes.
     public sealed class CardRankConverter : IMultiValueConverter
     {
         private const string AceKey = "Card_RankAce";

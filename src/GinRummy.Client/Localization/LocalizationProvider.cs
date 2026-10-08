@@ -7,9 +7,8 @@ using System.Threading;
 
 namespace GinRummy.Client.Localization
 {
-    // Resolves the visible text of the user interface against the resource file of the active
-    // culture, and notifies the interface when that culture changes so that every binding
-    // refreshes without reopening any window.
+    // Resolves the visible text of the user interface against the resource file of the active culture.
+    // It notifies the interface when that culture changes, so that every binding refreshes without reopening any window.
     public sealed class LocalizationProvider : INotifyPropertyChanged
     {
         public const string DefaultCultureCode = "es-MX";
@@ -20,8 +19,9 @@ namespace GinRummy.Client.Localization
         private const string IndexerPropertyName = "Item[]";
         private const string CurrentCulturePropertyName = "CurrentCulture";
         private const string SelectedCulturePropertyName = "SelectedCulture";
+        private const int DefaultCultureIndex = 0;
 
-        private static readonly LocalizationProvider SingleInstance = new LocalizationProvider();
+        private static readonly LocalizationProvider _singleInstance = new LocalizationProvider();
 
         private readonly ResourceManager _resourceManager;
         private readonly List<CultureOption> _availableCultures;
@@ -37,7 +37,7 @@ namespace GinRummy.Client.Localization
                 new CultureOption(AdditionalCultureCode, "English", "English (United States)")
             };
             _currentCulture = CultureInfo.GetCultureInfo(DefaultCultureCode);
-            _selectedCulture = _availableCultures[0];
+            _selectedCulture = _availableCultures[DefaultCultureIndex];
         }
 
         // Raised when the active culture changes, so that the bindings re-read their text.
@@ -45,7 +45,7 @@ namespace GinRummy.Client.Localization
 
         public static LocalizationProvider Instance
         {
-            get { return SingleInstance; }
+            get { return _singleInstance; }
         }
 
         public string this[string resourceKey]
@@ -105,8 +105,7 @@ namespace GinRummy.Client.Localization
             return text;
         }
 
-        // Visible messages are never assembled by concatenation, because word order changes
-        // between languages.
+        // Visible messages are never assembled by concatenation, because the word order changes between languages.
         public string Format(string resourceKey, params object[] arguments)
         {
             return string.Format(_currentCulture, GetText(resourceKey), arguments);
@@ -114,16 +113,16 @@ namespace GinRummy.Client.Localization
 
         private CultureOption FindOption(string cultureCode)
         {
-            CultureOption found = _availableCultures[0];
+            CultureOption foundOption = _availableCultures[DefaultCultureIndex];
             foreach (CultureOption option in _availableCultures)
             {
                 if (string.Equals(option.Code, cultureCode, StringComparison.OrdinalIgnoreCase))
                 {
-                    found = option;
+                    foundOption = option;
                 }
             }
 
-            return found;
+            return foundOption;
         }
 
         private void RaisePropertyChanged(string propertyName)

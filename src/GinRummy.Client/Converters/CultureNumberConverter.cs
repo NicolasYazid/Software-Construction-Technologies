@@ -4,11 +4,11 @@ using System.Windows.Data;
 
 namespace GinRummy.Client.Converters
 {
-    // Formats a number of a data item with the active culture, for the counters and the
-    // percentages drawn inside the rows of a list, whose separators and percent sign change
-    // with the culture (CU-20 step 6). The first value of the binding is the number; the second
-    // is the active culture, bound to the localization provider so that the number is formatted
-    // again when the culture changes. The parameter is the numeric format, such as N0 or P0.
+    // Formats a number of a data item with the active culture, for the counters and percentages drawn inside the rows of a list.
+    // Their separators and percent sign change with the culture (CU-20 step 6).
+    // The first value of the binding is the number.
+    // The second is the active culture, bound to the localization provider so that the number is formatted again when the culture changes.
+    // The parameter is the numeric format, such as N0 or P0.
     public sealed class CultureNumberConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)

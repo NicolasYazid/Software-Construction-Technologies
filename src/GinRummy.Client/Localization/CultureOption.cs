@@ -1,7 +1,7 @@
 ﻿namespace GinRummy.Client.Localization
 {
-    // One culture offered to the player in the language selector. Both names are written in the
-    // language they name, and are therefore never translated.
+    // One culture offered to the player in the language selector.
+    // Both names are written in the language they name, and are therefore never translated.
     public sealed class CultureOption
     {
         private readonly string _code;

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 
 using GinRummy.Client.Localization;
 using GinRummy.Domain.Daos;
@@ -15,8 +12,8 @@ using GinRummy.Domain.Security;
 
 namespace GinRummy.Client.Controllers
 {
-    // Orchestrates CU-01 (Create an account): validates the form, then creates the player and
-    // its verification code together, so both succeed or neither does.
+    // Orchestrates CU-01 (Create an account).
+    // It validates the form, then creates the player and its verification code together, so both succeed or neither does.
     public class SignUpController
     {
         private const string RequiredFieldMessageKey = "Error_ValRequiredField";
@@ -50,36 +47,51 @@ namespace GinRummy.Client.Controllers
 
         public SignUpResult CreateAccount(string email, string username, string password, string activeCultureCode)
         {
+            AccountForm form = new AccountForm
+            {
+                Email = email,
+                Username = username,
+                Password = password,
+                CultureCode = activeCultureCode
+            };
+            SignUpResult result = ValidateForm(form);
+
+            if (result == null)
+            {
+                result = CreateAccountRecord(form);
+            }
+
+            return result;
+        }
+
+        // The result stays null while every field passes its check, and holds the first failure otherwise.
+        private static SignUpResult ValidateForm(AccountForm form)
+        {
             SignUpResult result = null;
 
-            if (AreAnyFieldsEmpty(email, username, password))
+            if (AreAnyFieldsEmpty(form.Email, form.Username, form.Password))
             {
                 result = SignUpResult.Failure(RequiredFieldMessageKey);
             }
 
-            if ((result == null) && IsTooLong(username, Player.MaxUsernameLength))
+            if ((result == null) && IsTooLong(form.Username, Player.MaxUsernameLength))
             {
                 result = SignUpResult.Failure(FieldLengthMessageKey, Player.MaxUsernameLength);
             }
 
-            if ((result == null) && IsTooLong(email, Player.MaxEmailLength))
+            if ((result == null) && IsTooLong(form.Email, Player.MaxEmailLength))
             {
                 result = SignUpResult.Failure(FieldLengthMessageKey, Player.MaxEmailLength);
             }
 
-            if ((result == null) && !IsValidEmailFormat(email))
+            if ((result == null) && !IsValidEmailFormat(form.Email))
             {
                 result = SignUpResult.Failure(InvalidEmailMessageKey);
             }
 
-            if ((result == null) && !IsStrongPassword(password))
+            if ((result == null) && !IsStrongPassword(form.Password))
             {
                 result = SignUpResult.Failure(WeakPasswordMessageKey);
-            }
-
-            if (result == null)
-            {
-                result = CreateAccountRecord(email, username, password, activeCultureCode);
             }
 
             return result;
@@ -93,21 +105,21 @@ namespace GinRummy.Client.Controllers
                 || string.IsNullOrWhiteSpace(password);
         }
 
-        // The database columns cap these fields, and the Player entity refuses a longer value
-        // with an exception; checking first turns that into a message instead of a crash.
+        // The database columns cap these fields, and the Player entity refuses a longer value with an exception.
+        // Checking first turns that exception into a message instead of a crash.
         private static bool IsTooLong(string text, int maximumLength)
         {
             return text.Trim().Length > maximumLength;
         }
 
-        // FA-02: MailAddress throws FormatException for anything not shaped like an email
-        // address, so it validates without a hand-written regular expression to maintain.
+        // FA-02: MailAddress throws FormatException for anything not shaped like an email address.
+        // Building one validates the format without a hand-written regular expression to maintain.
         private static bool IsValidEmailFormat(string email)
         {
             bool isValid;
             try
             {
-                MailAddress parsedAddress = new MailAddress(email);
+                _ = new MailAddress(email);
                 isValid = true;
             }
             catch (FormatException)
@@ -118,8 +130,8 @@ namespace GinRummy.Client.Controllers
             return isValid;
         }
 
-        // FA-03: the draft policy already shown on GuiSignUp — at least 8 characters,
-        // at least one letter, at least one digit.
+        // FA-03: the policy is the draft already shown on GuiSignUp.
+        // A password needs the minimum length, at least one letter and at least one digit.
         private static bool IsStrongPassword(string password)
         {
             bool hasMinimumLength = password.Length >= MinimumPasswordLength;
@@ -129,43 +141,34 @@ namespace GinRummy.Client.Controllers
             return hasMinimumLength && hasLetter && hasDigit;
         }
 
-        // Everything here happens through one unit of work: the player and its code are
-        // both committed together, or neither is.
-        private SignUpResult CreateAccountRecord(
-            string email, string username, string password, string activeCultureCode)
+        // EF6 wraps the SqlException in two layers, under the DbUpdateException and its InnerException.
+        // SQL Server raises error 2627 for a UNIQUE KEY violation and error 2601 for a duplicate key in a unique index.
+        // Either one may come back, depending on the constraint.
+        private static bool IsUniqueEmailViolation(DbUpdateException databaseUpdateException)
+        {
+            bool isUniqueViolation = false;
+            SqlException sqlException = databaseUpdateException.InnerException?.InnerException as SqlException;
+            if (sqlException != null)
+            {
+                isUniqueViolation = (sqlException.Number == UniqueConstraintViolationErrorNumber)
+                    || (sqlException.Number == UniqueIndexViolationErrorNumber);
+            }
+
+            return isUniqueViolation;
+        }
+
+        // Everything here happens through one unit of work.
+        // The player and its code are committed together, or neither is.
+        private SignUpResult CreateAccountRecord(AccountForm form)
         {
             SignUpResult result;
-            // Opening the unit of work already opens a connection and a transaction, so a
-            // database that cannot be reached fails here, outside the inner handler.
+            // Opening the unit of work already opens a connection and a transaction.
+            // A database that cannot be reached therefore fails here, outside the handler of the unit of work.
             try
             {
                 using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
                 {
-                    try
-                    {
-                        if (unitOfWork.Players.FindByEmail(email.Trim().ToLowerInvariant()) != null)
-                        {
-                            result = SignUpResult.Failure(EmailAlreadyRegisteredMessageKey);
-                        }
-                        else
-                        {
-                            result = SaveNewAccount(unitOfWork, email, username, password, activeCultureCode);
-                        }
-                    }
-                    catch (DbUpdateException ex)
-                    {
-                        unitOfWork.Rollback();
-                        result = IsUniqueEmailViolation(ex)
-                            ? SignUpResult.Failure(EmailAlreadyRegisteredMessageKey)
-                            : SignUpResult.Failure(UnexpectedErrorMessageKey);
-                    }
-                    catch (ArgumentException)
-                    {
-                        // The entities reject any value the checks above let through; that ends
-                        // the attempt with a message and an untouched database, never a crash.
-                        unitOfWork.Rollback();
-                        result = SignUpResult.Failure(UnexpectedErrorMessageKey);
-                    }
+                    result = RegisterAccount(unitOfWork, form);
                 }
             }
             catch (DataException)
@@ -180,17 +183,54 @@ namespace GinRummy.Client.Controllers
             return result;
         }
 
-        // Creates the player and its verification code, then commits both at once.
-        private SignUpResult SaveNewAccount(
-            IUnitOfWork unitOfWork, string email, string username, string password, string activeCultureCode)
+        // Any failure after the unit of work is open rolls it back, so the database stays untouched.
+        private SignUpResult RegisterAccount(IUnitOfWork unitOfWork, AccountForm form)
         {
-            Locale locale = unitOfWork.Locales.FindByCode(activeCultureCode)
+            SignUpResult result;
+            try
+            {
+                if (unitOfWork.Players.FindByEmail(form.Email.Trim().ToLowerInvariant()) != null)
+                {
+                    result = SignUpResult.Failure(EmailAlreadyRegisteredMessageKey);
+                }
+                else
+                {
+                    result = SaveNewAccount(unitOfWork, form);
+                }
+            }
+            catch (DbUpdateException ex)
+            {
+                unitOfWork.Rollback();
+                if (IsUniqueEmailViolation(ex))
+                {
+                    result = SignUpResult.Failure(EmailAlreadyRegisteredMessageKey);
+                }
+                else
+                {
+                    result = SignUpResult.Failure(UnexpectedErrorMessageKey);
+                }
+            }
+            catch (ArgumentException)
+            {
+                // The entities reject any value that the checks above let through.
+                // The attempt then ends with a message and an untouched database instead of a crash.
+                unitOfWork.Rollback();
+                result = SignUpResult.Failure(UnexpectedErrorMessageKey);
+            }
+
+            return result;
+        }
+
+        // The player and its verification code are committed at once.
+        private SignUpResult SaveNewAccount(IUnitOfWork unitOfWork, AccountForm form)
+        {
+            Locale locale = unitOfWork.Locales.FindByCode(form.CultureCode)
                 ?? unitOfWork.Locales.FindByCode(LocalizationProvider.DefaultCultureCode);
 
             Player newPlayer = new Player(
-                username,
-                email,
-                _passwordHasher.HashPassword(password),
+                form.Username,
+                form.Email,
+                _passwordHasher.HashPassword(form.Password),
                 locale.LocaleId);
             unitOfWork.Players.Add(newPlayer);
 
@@ -207,20 +247,13 @@ namespace GinRummy.Client.Controllers
             return SignUpResult.Success(plainCode);
         }
 
-        // EF6 wraps a SQL Server error in two layers: DbUpdateException -> InnerException
-        // -> the real SqlException. Error 2627 is a UNIQUE KEY violation, 2601 a duplicate
-        // key in a unique index — SQL Server may raise either depending on the constraint.
-        private static bool IsUniqueEmailViolation(DbUpdateException databaseUpdateException)
+        // Groups the fields of the sign-up form so that the steps of the registration share them as one value.
+        private sealed class AccountForm
         {
-            bool isUniqueViolation = false;
-            SqlException sqlException = databaseUpdateException.InnerException?.InnerException as SqlException;
-            if (sqlException != null)
-            {
-                isUniqueViolation = (sqlException.Number == UniqueConstraintViolationErrorNumber)
-                    || (sqlException.Number == UniqueIndexViolationErrorNumber);
-            }
-
-            return isUniqueViolation;
+            public string Email { get; set; }
+            public string Username { get; set; }
+            public string Password { get; set; }
+            public string CultureCode { get; set; }
         }
     }
 }

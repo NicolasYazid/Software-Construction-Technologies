@@ -4,9 +4,9 @@ using System.Windows.Data;
 
 namespace GinRummy.Client.Converters
 {
-    // Converts visible text to upper case for the controls the prototype defines that way. The
-    // conversion runs with the active culture and never with the invariant one, because the
-    // upper case form of a letter depends on the language.
+    // Converts visible text to upper case for the controls the prototype defines that way.
+    // The conversion runs with the active culture and never with the invariant one.
+    // The upper case form of a letter depends on the language.
     public sealed class UpperCaseConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

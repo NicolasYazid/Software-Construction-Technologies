@@ -2,9 +2,9 @@
 
 namespace GinRummy.Client.Models
 {
-    // Player as the panel of players of the lobby lists them. It announces the changes of its
-    // relation with whoever looks at the panel, because the context menu that reads them is
-    // shared by every row and does not rebuild itself when it opens again on the same one.
+    // Player as the panel of players of the lobby lists them.
+    // It announces the changes of its relation with whoever looks at the panel.
+    // The context menu that reads them is shared by every row and does not rebuild itself when it opens again on the same one.
     public sealed class LobbyPlayerDto : INotifyPropertyChanged
     {
         private bool _isFriend;
@@ -26,8 +26,7 @@ namespace GinRummy.Client.Models
             }
         }
 
-        // A request still waiting for an answer turns the option of the menu into the mark of a
-        // pending request (CU-12).
+        // A request still waiting for an answer turns the option of the menu into the mark of a pending request (CU-12).
         public bool HasPendingRequest
         {
             get { return _hasPendingRequest; }

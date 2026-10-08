@@ -2,8 +2,8 @@
 
 namespace GinRummy.Client.Models
 {
-    // Public profile of a player (CU-27), or the reduced one of a guest, as the profile screen
-    // shows it. The relation to whoever looks at it decides the actions the screen offers.
+    // Public profile of a player (CU-27), or the reduced one of a guest, as the profile screen shows it.
+    // The relation to whoever looks at it decides the actions the screen offers.
     public sealed class PlayerProfileDto
     {
         public string Username { get; set; }
