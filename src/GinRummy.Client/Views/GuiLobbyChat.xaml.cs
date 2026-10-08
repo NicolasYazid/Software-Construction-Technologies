@@ -97,8 +97,7 @@ namespace GinRummy.Client.Views
 
         private void OnFindMatchClick(object sender, RoutedEventArgs e)
         {
-            // Until the server pairs the players, the search stays in the state of CU-22 FA-03,
-            // which is the one the prototype draws.
+            // The search stays in the state of CU-22 FA-03, the one the prototype draws, until the server pairs the players.
             lblSearchingMatch.Visibility = Visibility.Visible;
             btnFindMatch.IsEnabled = false;
         }
@@ -131,8 +130,7 @@ namespace GinRummy.Client.Views
                 PlayerProfileDto profile = dataService.GetPlayerProfile(player);
                 ShowProfile(profile);
 
-                // What the player did from the profile carries back to the row it was opened
-                // from, so the panel and the profile never disagree.
+                // Changes made in the profile are copied back to the row it was opened from so the panel and the profile never disagree.
                 player.HasPendingRequest = profile.HasPendingRequest;
                 if (player.IsFriend && !profile.IsFriend)
                 {
@@ -143,8 +141,7 @@ namespace GinRummy.Client.Views
 
         private void OnFriendRequestClick(object sender, RoutedEventArgs e)
         {
-            // Once the server creates the request, the option turns into the mark of a pending
-            // request, so a second one cannot leave while the first waits (CU-12 step 8).
+            // The option turns into the pending request mark so a second request cannot be sent while the first one waits (CU-12 step 8).
             LobbyPlayerDto player = GetMenuPlayer(sender);
             if (player != null)
             {
@@ -187,8 +184,7 @@ namespace GinRummy.Client.Views
 
         private void OnAcceptChallengeClick(object sender, RoutedEventArgs e)
         {
-            // Accepting starts the match, and the table opens over the lobby until the match
-            // ends (CU-23).
+            // Accepting starts the match, and the table opens over the lobby until the match ends (CU-23).
             RemoveChatEntry(sender);
             OpenOver(new GuiGameTable());
         }
@@ -244,9 +240,8 @@ namespace GinRummy.Client.Views
         {
             string content = txtMessage.Text.Trim();
 
-            // An empty message is not sent and shows no error (CU-17 FA-03). The server relays
-            // every other one to the lobby; until it answers, the screen shows its own message
-            // so that the chat can be walked.
+            // An empty message is not sent and shows no error (CU-17 FA-03).
+            // Until the server relays messages to the lobby, the screen shows its own message so the chat flow can be walked through.
             if (content.Length > 0)
             {
                 ChatMessageDto message = new ChatMessageDto();
@@ -272,8 +267,7 @@ namespace GinRummy.Client.Views
 
         private void ShowOwnProfile()
         {
-            // The own profile is the same screen as the one of any other player, opened from
-            // the header (CU-27 FA-02).
+            // The own profile reuses the profile screen of any other player, opened from the header (CU-27 FA-02).
             SampleDataService dataService = new SampleDataService();
             ShowProfile(dataService.GetOwnProfile());
         }
@@ -286,8 +280,8 @@ namespace GinRummy.Client.Views
 
         private void RemoveFriend(string username)
         {
-            // The friend leaves the friends tab, and wherever else the panel lists it, its menu
-            // stops offering to remove it and offers a request again (CU-16 Post-2 and Post-3).
+            // The friend leaves the friends tab, as CU-16 Post-2 and Post-3 require.
+            // Every other row that lists the player offers a friend request again instead of the removal.
             RemoveByName(_lobby.FriendsOnline, username);
             RemoveByName(_lobby.FriendsUnavailable, username);
             IEnumerable<LobbyPlayerDto> otherRows = _lobby.LookingToPlay

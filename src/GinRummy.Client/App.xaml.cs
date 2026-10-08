@@ -12,8 +12,7 @@ using GinRummy.Security;
 
 namespace GinRummy.Client
 {
-    // Application entry point and composition root: the single place allowed to know the
-    // concrete adapters, wiring them to the interfaces the rest of the app depends on.
+    // This composition root is the only place allowed to know the concrete adapters, so the rest of the app depends on interfaces.
     public partial class App : Application
     {
         public const string LocalizationResourceKey = "Loc";
@@ -69,17 +68,16 @@ namespace GinRummy.Client
             base.OnStartup(e);
         }
 
-        // WPF reports tier 0 when no graphics hardware is drawing the window. Without it, the
-        // blur of every shadow is computed by the processor and grows with its radius, so the
-        // radius is shortened on those machines only; the hard-edged raised text needs no blur
-        // and keeps its value.
+        // WPF reports tier 0 when no graphics hardware is drawing the window.
+        // On those machines the processor computes every shadow blur, at a cost that grows with its radius.
+        // The radius is therefore shortened on those machines only.
+        // The hard-edged raised text shadow has no blur, so it is left out of the shortened keys.
         private static bool IsSoftwareRendering()
         {
             return (RenderCapability.Tier >> RenderingTierShift) == SoftwareRenderingTier;
         }
 
-        // The shared instances are edited in place, before the first window is created, so
-        // every element that already points at them by key picks up the shorter blur.
+        // The shared instances are edited in place before any window exists, so every element using them by key gets the shorter blur.
         private void ShortenShadowBlur()
         {
             foreach (string shadowKey in BlurredShadowKeys)
@@ -92,9 +90,7 @@ namespace GinRummy.Client
             }
         }
 
-        // Builds a fresh unit of work each time one is requested. This is the factory the
-        // controllers receive as Func<IUnitOfWork>, so each operation gets its own context
-        // and transaction.
+        // The controllers receive a factory instead of a unit of work so each operation gets its own context and transaction.
         private IUnitOfWork CreateUnitOfWork()
         {
             return new EntityFrameworkUnitOfWork(ConnectionStringName);

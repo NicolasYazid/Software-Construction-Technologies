@@ -12,10 +12,8 @@ using GinRummy.Client.Localization;
 
 namespace GinRummy.Client.Views
 {
-    // Base window of the main screens: the main menu, the lobbies and the match. It keeps the
-    // window subscribed to the culture change, hosts the modals of the screen inside the window
-    // itself, over a shade that dims the screen, and places the main screens: the lobby in
-    // place of the menu and the match over the lobby.
+    // Modals open inside the window over a dimming shade instead of in windows of their own.
+    // The lobby takes the place of the main menu, while the match opens over the lobby.
     public class GuiWindowBase : Window
     {
         private const string BackdropBrushKey = "BrsModalBackdrop";
@@ -47,9 +45,6 @@ namespace GinRummy.Client.Views
             get { return _localization; }
         }
 
-        // The paint of the screen holds still while a modal covers it, as it does while another
-        // screen covers it, so the screen and a modal with a paint of its own do not animate at
-        // the same time.
         public void ShowModal(GuiModalBase modal)
         {
             if (_modals.Count == 0)
@@ -98,8 +93,7 @@ namespace GinRummy.Client.Views
             }
         }
 
-        // Lays the layer of the modals over the content of the window once the window has read
-        // its content, so the screens need no markup of their own for it.
+        // The modal layer is added in code once WPF has loaded the content, so the screens need no markup of their own for it.
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
@@ -116,8 +110,6 @@ namespace GinRummy.Client.Views
         {
         }
 
-        // The paint of this screen holds still while the other one covers it, so the two
-        // screens do not animate at the same time.
         protected void OpenOver(GuiWindowBase nextScreen)
         {
             nextScreen.Owner = this;
@@ -140,8 +132,7 @@ namespace GinRummy.Client.Views
             Close();
         }
 
-        // The main menu is the main window of the application, so it is found there and not
-        // passed from screen to screen.
+        // The main menu is looked up as the application main window instead of being passed from screen to screen.
         private static void ShowMainMenu()
         {
             GuiWindowBase mainMenu = Application.Current.MainWindow as GuiWindowBase;
@@ -152,6 +143,7 @@ namespace GinRummy.Client.Views
             }
         }
 
+        // A covered screen pauses its paint while a modal or another screen is over it, so two paints never animate at the same time.
         private static void PausePaints(DependencyObject root, bool isPaused)
         {
             int childCount = VisualTreeHelper.GetChildrenCount(root);
@@ -170,8 +162,6 @@ namespace GinRummy.Client.Views
             }
         }
 
-        // The modal sits in a frame of its own size that carries the shadow and, for the
-        // modals without a way to close of their own, the closing cross in its corner.
         private Grid BuildFrame(GuiModalBase modal)
         {
             Grid frame = new Grid();
@@ -219,7 +209,7 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        // Escape closes the modal on top, as the cross of a window used to.
+        // Escape closes the top modal to keep the behavior modals had when they were windows of their own.
         private void OnWindowPreviewKeyDown(object sender, KeyEventArgs e)
         {
             if ((e.Key == Key.Escape) && (_modals.Count > 0))
@@ -237,8 +227,7 @@ namespace GinRummy.Client.Views
             PreviewKeyDown -= OnWindowPreviewKeyDown;
             Closed -= OnWindowClosed;
 
-            // A lobby that closes without handing over to another screen, because the player
-            // left it, gives its place back to the main menu.
+            // A lobby the player closes, instead of handing it over to another screen, gives its place back to the main menu.
             if (_isInPlaceOfMenu && !_isHandingOver)
             {
                 ShowMainMenu();

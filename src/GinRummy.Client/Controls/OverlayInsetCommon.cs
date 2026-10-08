@@ -5,12 +5,8 @@ using System.Windows.Media;
 
 namespace GinRummy.Client.Controls
 {
-    // Lets a list run under the glass cards that float over it in the same panel, so the cards
-    // show the messages through their translucent face. The list keeps at its top and at its
-    // bottom as much room as the cards cover there, which is what lets the first and the last
-    // message be scrolled clear of them. The room is measured from the cards themselves every
-    // time the layout changes, so a card that grows with its text, or one that comes and goes,
-    // moves the room with it.
+    // The list is padded by the area the cards cover at its top and bottom so the first and last messages can be scrolled clear of them.
+    // The padding is measured on every layout pass because a card can grow with its text or appear and disappear.
     public static class OverlayInsetCommon
     {
         private const double Half = 0.5;
@@ -24,7 +20,7 @@ namespace GinRummy.Client.Controls
                 typeof(OverlayInsetCommon),
                 new PropertyMetadata(false, OnIsInsetChanged));
 
-        // The handler is kept on the list itself, so it can be taken off the same list later.
+        // A static class has no instance state, so each list stores its own handler to be able to unsubscribe it later.
         private static readonly DependencyProperty LayoutHandlerProperty =
             DependencyProperty.RegisterAttached(
                 "LayoutHandler",
@@ -32,6 +28,7 @@ namespace GinRummy.Client.Controls
                 typeof(OverlayInsetCommon),
                 new PropertyMetadata(null));
 
+        // WPF resolves an attached property from XAML through static Get and Set accessors, so these cannot be a property.
         public static bool GetIsInset(DependencyObject element)
         {
             return (bool)element.GetValue(IsInsetProperty);
@@ -42,9 +39,8 @@ namespace GinRummy.Client.Controls
             element.SetValue(IsInsetProperty, value);
         }
 
-        // Bringing the newest message into view stops as soon as the message shows, which leaves
-        // it under a card at the foot of the list; scrolling to the end shows the room kept below
-        // it as well.
+        // ScrollIntoView is not used because it stops as soon as the newest message shows, leaving it under the bottom card.
+        // Scrolling the viewer to the end also reveals the padding kept below that message.
         public static void ScrollToEnd(DependencyObject list)
         {
             ScrollViewer viewer = FindScrollViewer(list);
@@ -75,9 +71,7 @@ namespace GinRummy.Client.Controls
             }
         }
 
-        // A card counts for the top when its middle lies above the middle of the list, and for
-        // the bottom otherwise. The margins of the card belong to the room it takes, so the gap
-        // between the card and the first message matches the one the panel already leaves.
+        // Card margins count as covered area so the gap between a card and the nearest message matches the one the panel leaves.
         private static void ApplyInset(Control list)
         {
             Panel parent = VisualTreeHelper.GetParent(list) as Panel;
@@ -91,8 +85,7 @@ namespace GinRummy.Client.Controls
                 foreach (UIElement child in parent.Children)
                 {
                     FrameworkElement card = child as FrameworkElement;
-                    bool isCard = (card != null) && !ReferenceEquals(card, list) && card.IsVisible;
-                    if (isCard)
+                    if (IsFloatingCard(card, list))
                     {
                         Rect bounds = BoundsIn(card, parent);
                         double cardTop = bounds.Top - card.Margin.Top;
@@ -114,8 +107,12 @@ namespace GinRummy.Client.Controls
             }
         }
 
-        // The room is written only when it changes: writing it asks for a new layout, and the
-        // layout that follows measures the same room and leaves it alone.
+        private static bool IsFloatingCard(FrameworkElement card, Control list)
+        {
+            return (card != null) && !ReferenceEquals(card, list) && card.IsVisible;
+        }
+
+        // The padding is written only when it changes, because each write triggers a new layout pass that runs this measurement again.
         private static void SetRoom(Control list, double top, double bottom)
         {
             Thickness current = list.Padding;

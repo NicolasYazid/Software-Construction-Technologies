@@ -39,8 +39,7 @@ namespace GinRummy.Client.Views
 
         private void OnFindMatchClick(object sender, RoutedEventArgs e)
         {
-            // Until the server pairs the players, the search stays in the state of CU-22 FA-03,
-            // which is the one the prototype draws.
+            // The search stays in the state of CU-22 FA-03, the one the prototype draws, until the server pairs the players.
             lblSearchingMatch.Visibility = Visibility.Visible;
             btnFindMatch.IsEnabled = false;
         }
