@@ -30,8 +30,8 @@ namespace GinRummy.Client.Views
 
         private void OnCreateAccountClick(object sender, RoutedEventArgs e)
         {
-            // CU-01 FA-04: matching the password with its confirmation is the only check the
-            // client may resolve on its own. Every other validation runs inside the controller.
+            // Matching the password with its confirmation is the only check the client may resolve on its own (CU-01 FA-04).
+            // Every other validation runs inside the controller.
             string password = PasswordRevealCommon.Read(pwdPassword, txtPasswordShown);
             string confirmation = PasswordRevealCommon.Read(pwdConfirmPassword, txtConfirmPasswordShown);
             bool isPasswordConfirmed = password == confirmation;
@@ -50,8 +50,7 @@ namespace GinRummy.Client.Views
             Close();
         }
 
-        // Asks the composition root for a ready-made controller, runs the use case, and
-        // reacts to its result.
+        // The composition root supplies a ready-made controller, so the view never builds its dependencies.
         private void CreateAccount(string password)
         {
             App application = (App)Application.Current;
@@ -72,27 +71,25 @@ namespace GinRummy.Client.Views
             }
         }
 
-        // Shows the generated code on screen, standing in for the email delivery that is out
-        // of scope without a server, then moves on to the verification screen.
+        // The generated code is shown on screen in place of the email delivery, which is out of scope without a server.
         private void ShowGeneratedCodeAndContinue(string generatedCode)
         {
             lblErrorMessage.Visibility = Visibility.Collapsed;
             MessageBox.Show(Localization.Format(DemoCodeMessageKey, generatedCode));
 
-            // TODO: When the server exists, the code will be delivered by email and the
-            // verification screen will check the typed code against the stored hash and mark
-            // the account verified. That loop is server-dependent and completed later.
+            // TODO: When the server exists, the code will be delivered by email.
+            // The verification screen will then check the typed code against the stored hash and mark the account verified.
+            // That loop is server-dependent and will be completed later.
             NavigateTo(new GuiVerifyEmail(VerificationPurpose.AccountSignUp, txtEmail.Text));
         }
 
-        // Shows a localized error message on the card.
         private void ShowError(string messageKey)
         {
             ShowErrorText(Localization.GetText(messageKey));
         }
 
-        // A message with a placeholder, such as the maximum length of a field, is filled with the
-        // active culture instead of being shown with the placeholder visible.
+        // A message with a placeholder, such as the maximum length of a field, is filled with the active culture.
+        // That way the placeholder is never shown to the player.
         private void ShowError(SignUpResult result)
         {
             string message = Localization.GetText(result.ErrorMessageKey);

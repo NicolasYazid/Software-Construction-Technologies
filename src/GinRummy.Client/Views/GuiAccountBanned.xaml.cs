@@ -15,8 +15,8 @@ namespace GinRummy.Client.Views
 
         private void OnLogOutClick(object sender, RoutedEventArgs e)
         {
-            // A banned account never gets a session (CU-02 EX-05), so leaving only takes the
-            // player back to the screen that opened this one.
+            // A banned account never gets a session (CU-02 EX-05).
+            // Leaving only takes the player back to the screen that opened this one.
             Close();
         }
 

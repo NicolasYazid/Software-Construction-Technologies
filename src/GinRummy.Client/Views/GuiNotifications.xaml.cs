@@ -26,9 +26,8 @@ namespace GinRummy.Client.Views
 
         private void OnTabSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // The two tabs are two screens of the prototype, so choosing the other one opens
-            // it in the same place instead of switching a panel. The selection the tab control
-            // makes while it loads is not a choice of the player.
+            // The two tabs are two screens of the prototype, so choosing the other tab opens its screen here instead of switching a panel.
+            // The selection the tab control makes while it loads is not a choice of the player.
             if (IsLoaded && tabSanctions.IsSelected)
             {
                 NavigateTo(new GuiSanctions());
@@ -37,8 +36,8 @@ namespace GinRummy.Client.Views
 
         private void OnAcceptClick(object sender, RoutedEventArgs e)
         {
-            // The friendship is created by the server (CU-14); what the screen does once it
-            // confirms is take the request off the list.
+            // The friendship is created by the server (CU-14).
+            // Once the server confirms, the screen only takes the request off the list.
             RemoveRequest(sender);
         }
 

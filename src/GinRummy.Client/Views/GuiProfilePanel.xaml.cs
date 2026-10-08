@@ -51,8 +51,8 @@ namespace GinRummy.Client.Views
         {
             string newEmail = txtNewEmail.Text.Trim();
 
-            // Only the empty field is caught here (CU-07 FA-02); the format and the uniqueness
-            // of the address are checked by the server before the code is sent.
+            // Only the empty field is caught here (CU-07 FA-02).
+            // The server checks the format and the uniqueness of the address before it sends the code.
             if (newEmail.Length == 0)
             {
                 lblErrorMessage.Visibility = Visibility.Visible;
@@ -98,8 +98,8 @@ namespace GinRummy.Client.Views
 
         private void OnLogOutClick(object sender, RoutedEventArgs e)
         {
-            // Closing the session closes the lobby too, which leaves the player in the main menu
-            // that opened it (CU-03 step 5).
+            // Closing the session closes the lobby too (CU-03 step 5).
+            // That leaves the player in the main menu that opened the lobby.
             GuiWindowBase lobby = Host;
             Close();
             if (lobby != null)
@@ -110,8 +110,8 @@ namespace GinRummy.Client.Views
 
         private void EnableTwoStep()
         {
-            // The switch turns on only once the code of CU-04 is confirmed in the verification
-            // screen, which is the one that talks to the server.
+            // The switch turns on only once the code of CU-04 is confirmed in the verification screen.
+            // That screen is the one that talks to the server.
             GuiTwoStep twoStep = new GuiTwoStep(TwoStepPurpose.EnableTwoStep);
             ShowModal(twoStep);
         }

@@ -75,8 +75,8 @@ namespace GinRummy.Client.Views
 
         private void OnVerifyClick(object sender, RoutedEventArgs e)
         {
-            // The code is checked on the server. A sign-in ends in the lobby (CU-02 step 11);
-            // the other flows return to the screen that asked for the code.
+            // The code is checked on the server.
+            // A sign-in ends in the lobby (CU-02 step 11), while the other flows return to the screen that asked for the code.
             if (_purpose == TwoStepPurpose.LogIn)
             {
                 EnterLobby(new GuiLobbyChat());

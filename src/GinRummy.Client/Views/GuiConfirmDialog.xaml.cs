@@ -40,50 +40,72 @@ namespace GinRummy.Client.Views
             }
         }
 
-        // The prototype paints red the warnings of an action with consequences for the account
-        // or the match, and leaves in grey the plain questions about the profile.
         private void ApplyKind(ConfirmDialogKind kind)
+        {
+            switch (kind)
+            {
+                case ConfirmDialogKind.Forfeit:
+                    SetTextKeys("ConfirmDialog_LblTitleForfeit", "GameTable_ForfeitWarning", "GameTable_BtnForfeitConfirm");
+                    break;
+                case ConfirmDialogKind.LogOut:
+                    SetTextKeys("ConfirmDialog_LblTitleLogOut", "ProfilePanel_LogOutForfeitWarning", "Shared_BtnLogOut");
+                    break;
+                case ConfirmDialogKind.SocialLinkRemove:
+                    SetTextKeys(
+                        "ConfirmDialog_LblTitleSocialLinkRemove",
+                        "EditProfile_SocialLinkRemoveConfirm",
+                        "EditProfile_BtnSocialLinkRemoveConfirm");
+                    break;
+                case ConfirmDialogKind.SocialLinkReplace:
+                    SetTextKeys(
+                        "ConfirmDialog_LblTitleSocialLinkReplace",
+                        "EditProfile_SocialLinkReplaceConfirm",
+                        "EditProfile_BtnSocialLinkReplaceConfirm");
+                    break;
+                case ConfirmDialogKind.TwoStepDisable:
+                    ApplyTwoStepDisableKind();
+                    break;
+                default:
+                    SetTextKeys("ConfirmDialog_LblTitleRemoveFriend", "FriendsList_RemoveConfirm", "FriendsList_BtnRemoveConfirm");
+                    break;
+            }
+
+            lblMessage.Style = (Style)FindResource(ResolveMessageStyleKey(kind));
+        }
+
+        private void ApplyTwoStepDisableKind()
+        {
+            SetTextKeys(
+                "ConfirmDialog_LblTitleTwoStepDisable",
+                "ProfilePanel_TwoStepDisableWarning",
+                "ProfilePanel_BtnTwoStepDisableConfirm");
+            lblPassword.Visibility = Visibility.Visible;
+        }
+
+        private void SetTextKeys(string titleKey, string messageKey, string confirmKey)
+        {
+            _titleKey = titleKey;
+            _messageKey = messageKey;
+            _confirmKey = confirmKey;
+        }
+
+        // The prototype paints red the warnings of an action with consequences for the account or the match.
+        // The plain questions about the profile stay in grey.
+        private static string ResolveMessageStyleKey(ConfirmDialogKind kind)
         {
             string messageStyleKey = MessageStyleKey;
             switch (kind)
             {
                 case ConfirmDialogKind.Forfeit:
-                    _titleKey = "ConfirmDialog_LblTitleForfeit";
-                    _messageKey = "GameTable_ForfeitWarning";
-                    _confirmKey = "GameTable_BtnForfeitConfirm";
-                    messageStyleKey = WarningStyleKey;
-                    break;
                 case ConfirmDialogKind.LogOut:
-                    _titleKey = "ConfirmDialog_LblTitleLogOut";
-                    _messageKey = "ProfilePanel_LogOutForfeitWarning";
-                    _confirmKey = "Shared_BtnLogOut";
-                    messageStyleKey = WarningStyleKey;
-                    break;
-                case ConfirmDialogKind.SocialLinkRemove:
-                    _titleKey = "ConfirmDialog_LblTitleSocialLinkRemove";
-                    _messageKey = "EditProfile_SocialLinkRemoveConfirm";
-                    _confirmKey = "EditProfile_BtnSocialLinkRemoveConfirm";
-                    break;
-                case ConfirmDialogKind.SocialLinkReplace:
-                    _titleKey = "ConfirmDialog_LblTitleSocialLinkReplace";
-                    _messageKey = "EditProfile_SocialLinkReplaceConfirm";
-                    _confirmKey = "EditProfile_BtnSocialLinkReplaceConfirm";
-                    break;
                 case ConfirmDialogKind.TwoStepDisable:
-                    _titleKey = "ConfirmDialog_LblTitleTwoStepDisable";
-                    _messageKey = "ProfilePanel_TwoStepDisableWarning";
-                    _confirmKey = "ProfilePanel_BtnTwoStepDisableConfirm";
                     messageStyleKey = WarningStyleKey;
-                    lblPassword.Visibility = Visibility.Visible;
                     break;
                 default:
-                    _titleKey = "ConfirmDialog_LblTitleRemoveFriend";
-                    _messageKey = "FriendsList_RemoveConfirm";
-                    _confirmKey = "FriendsList_BtnRemoveConfirm";
                     break;
             }
 
-            lblMessage.Style = (Style)FindResource(messageStyleKey);
+            return messageStyleKey;
         }
 
         private void OnConfirmClick(object sender, RoutedEventArgs e)

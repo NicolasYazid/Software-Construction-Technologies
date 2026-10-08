@@ -36,44 +36,51 @@ namespace GinRummy.Client.Views
             switch (kind)
             {
                 case ErrorDialogKind.ConnectionRefused:
-                    _titleKey = "ErrorDialog_LblTitleConnectionRefused";
-                    _messageKey = "Error_NetConnectionRefused";
-                    btnRetry.Visibility = Visibility.Visible;
+                    ApplyConnectionRefusedKind();
                     break;
                 case ErrorDialogKind.Unexpected:
-                    _titleKey = "ErrorDialog_LblTitleUnexpected";
-                    _messageKey = "Error_SysUnexpected";
+                    SetTextKeys("ErrorDialog_LblTitleUnexpected", "Error_SysUnexpected");
                     break;
                 case ErrorDialogKind.ConnectionLost:
-                    _titleKey = "ErrorDialog_LblTitleConnectionLost";
-                    _messageKey = "Error_NetConnectionLost";
+                    SetTextKeys("ErrorDialog_LblTitleConnectionLost", "Error_NetConnectionLost");
                     break;
                 case ErrorDialogKind.SessionExpired:
-                    _titleKey = "ErrorDialog_LblTitleSessionExpired";
-                    _messageKey = "Error_AuthSessionExpired";
+                    SetTextKeys("ErrorDialog_LblTitleSessionExpired", "Error_AuthSessionExpired");
                     break;
                 case ErrorDialogKind.LogOutNotRecorded:
-                    _titleKey = "ErrorDialog_LblTitleLogOutNotRecorded";
-                    _messageKey = "Error_SysLogOutNotRecorded";
+                    SetTextKeys("ErrorDialog_LblTitleLogOutNotRecorded", "Error_SysLogOutNotRecorded");
                     break;
                 case ErrorDialogKind.SessionClosedElsewhere:
-                    _titleKey = "ErrorDialog_LblTitleSessionClosedElsewhere";
-                    _messageKey = "LogIn_SessionClosedElsewhere";
+                    SetTextKeys("ErrorDialog_LblTitleSessionClosedElsewhere", "LogIn_SessionClosedElsewhere");
                     break;
                 case ErrorDialogKind.PlayerBusy:
-                    _titleKey = "ErrorDialog_LblTitlePlayerBusy";
-                    _messageKey = "Error_GamePlayerBusy";
-                    btnReturnToMatch.Visibility = Visibility.Visible;
+                    ApplyPlayerBusyKind();
                     break;
                 case ErrorDialogKind.DataNotFound:
-                    _titleKey = "ErrorDialog_LblTitleDataNotFound";
-                    _messageKey = "Error_DataNotFound";
+                    SetTextKeys("ErrorDialog_LblTitleDataNotFound", "Error_DataNotFound");
                     break;
                 default:
-                    _titleKey = "ErrorDialog_LblTitleServiceUnavailable";
-                    _messageKey = "Error_SysServiceUnavailable";
+                    SetTextKeys("ErrorDialog_LblTitleServiceUnavailable", "Error_SysServiceUnavailable");
                     break;
             }
+        }
+
+        private void ApplyConnectionRefusedKind()
+        {
+            SetTextKeys("ErrorDialog_LblTitleConnectionRefused", "Error_NetConnectionRefused");
+            btnRetry.Visibility = Visibility.Visible;
+        }
+
+        private void ApplyPlayerBusyKind()
+        {
+            SetTextKeys("ErrorDialog_LblTitlePlayerBusy", "Error_GamePlayerBusy");
+            btnReturnToMatch.Visibility = Visibility.Visible;
+        }
+
+        private void SetTextKeys(string titleKey, string messageKey)
+        {
+            _titleKey = titleKey;
+            _messageKey = messageKey;
         }
 
         private void OnActionClick(object sender, RoutedEventArgs e)

@@ -33,8 +33,8 @@ namespace GinRummy.Client.Views
             _countdownTimer.Start();
         }
 
-        // Loads the sanctions again, because the name of their reason arrives already
-        // translated and has to be asked for in the new language (CU-33 step 3).
+        // Loads the sanctions again, because the name of their reason arrives already translated.
+        // The name has to be asked for again in the new language (CU-33 step 3).
         protected override void RefreshFormattedText()
         {
             if (lstSanctions != null)
@@ -75,9 +75,8 @@ namespace GinRummy.Client.Views
 
         private void LoadSanctions()
         {
-            // A change of language loads the sanctions again with the time they had when the
-            // screen opened, so the time already counted is taken off to keep the countdown
-            // where it was.
+            // A change of language loads the sanctions again with the time they had when the screen opened.
+            // The time already counted is taken off so that the countdown stays where it was.
             SampleDataService dataService = new SampleDataService();
             _sanctions = dataService.GetSanctions();
             foreach (SanctionDto sanction in _sanctions)

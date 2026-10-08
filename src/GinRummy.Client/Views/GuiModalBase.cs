@@ -8,9 +8,9 @@ using GinRummy.Client.Localization;
 
 namespace GinRummy.Client.Views
 {
-    // Base of every modal: the smaller screens that open inside a main screen instead of in a
-    // window of their own. The main screen dims itself behind the modal, and the modal keeps
-    // itself subscribed to the culture change while it is open.
+    // Modals are the smaller screens that open inside a main screen instead of in a window of their own.
+    // The main screen dims itself behind the modal.
+    // The modal keeps itself subscribed to the culture change while it is open.
     public class GuiModalBase : UserControl
     {
         private readonly LocalizationProvider _localization;

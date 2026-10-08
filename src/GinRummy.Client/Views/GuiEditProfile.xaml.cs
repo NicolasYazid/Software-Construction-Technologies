@@ -18,7 +18,9 @@ namespace GinRummy.Client.Views
     public partial class GuiEditProfile : GuiModalBase
     {
         private const int MaxBioLength = 500;
-        private const long MaxImageBytes = 2L * 1024 * 1024;
+        private const long BytesPerMegabyte = 1024L * 1024L;
+        private const long MaxImageMegabytes = 2L;
+        private const long MaxImageBytes = MaxImageMegabytes * BytesPerMegabyte;
         private const string MaxImageSizeText = "2 MB";
         private const string ImageFilter = "*.jpg;*.jpeg;*.png|*.jpg;*.jpeg;*.png";
         private const string BioCounterKey = "EditProfile_LblBioCounter";
@@ -61,8 +63,7 @@ namespace GinRummy.Client.Views
 
         private void OnChangePhotoClick(object sender, RoutedEventArgs e)
         {
-            // The filter shows only the patterns and no description, because the description of
-            // a filter is visible text that the dictionary does not carry.
+            // The filter shows only the patterns because a filter description is visible text that the dictionary does not carry.
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Filter = ImageFilter;
             if (fileDialog.ShowDialog(Window.GetWindow(this)) == true)
@@ -106,12 +107,13 @@ namespace GinRummy.Client.Views
         {
             lblUsernameChanged.Visibility = Visibility.Collapsed;
             bool isLinkPending = lblPlatform.Visibility == Visibility.Visible;
-            bool isComplete = (txtUsername.Text.Trim().Length > 0)
-                && (!isLinkPending || (txtSocialUrl.Text.Trim().Length > 0));
+            bool hasUsername = txtUsername.Text.Trim().Length > 0;
+            bool hasSocialUrl = txtSocialUrl.Text.Trim().Length > 0;
+            bool isComplete = hasUsername && (!isLinkPending || hasSocialUrl);
             if (isComplete)
             {
-                // The server validates the name, the biography and the address before keeping
-                // them (CU-29, CU-30, CU-31); the screen shows the result once it answers.
+                // The server validates the name, the biography and the address before keeping them (CU-29, CU-30, CU-31).
+                // The screen shows the result once the server answers.
                 if (isLinkPending)
                 {
                     SaveSocialLink();
@@ -136,8 +138,7 @@ namespace GinRummy.Client.Views
             string platformName = cmbPlatform.SelectedItem as string;
             SocialLinkDto existing = FindSocialLink(platformName);
 
-            // A profile keeps one link per platform, so a second one replaces the first after
-            // asking (CU-31 FA-03).
+            // A profile keeps one link per platform, so a second link replaces the first after confirmation (CU-31 FA-03).
             if (existing == null)
             {
                 AddSocialLink(platformName);
@@ -196,8 +197,7 @@ namespace GinRummy.Client.Views
                 picture = LoadPicture(path);
             }
 
-            // A file too large or that cannot be decoded as an image keeps the current picture
-            // (CU-28 EX-01).
+            // A file that is too large or cannot be decoded as an image keeps the current picture (CU-28 EX-01).
             if (picture == null)
             {
                 ShowError(UnsupportedImageKey);

@@ -32,8 +32,7 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        // Rebuilds the heading and the window title, which come from a different key in each
-        // flow because one key cannot hold two values.
+        // The heading and the window title come from a different key in each flow because one key cannot hold two values.
         protected override void RefreshFormattedText()
         {
             if (lblTitle != null)
@@ -71,9 +70,8 @@ namespace GinRummy.Client.Views
 
         private void OnUpdateClick(object sender, RoutedEventArgs e)
         {
-            // Matching the confirmation is the only check the client resolves on its own,
-            // because it sends nothing to the server. The strength rules and the current
-            // password itself are verified on the server, as CU-06 requires.
+            // Matching the confirmation is the only check the client resolves on its own, because it sends nothing to the server.
+            // The strength rules and the current password itself are verified on the server, as CU-06 requires.
             bool isPasswordConfirmed = pwdNewPassword.Password == pwdConfirmPassword.Password;
             if (isPasswordConfirmed)
             {
@@ -89,8 +87,8 @@ namespace GinRummy.Client.Views
 
         private void ShowNextScreen()
         {
-            // A recovered password ends every session of the account, so the player signs in
-            // again with it (CU-08 step 14). A change made from the profile panel returns to it.
+            // A recovered password ends every session of the account, so the player signs in again with it (CU-08 step 14).
+            // A change made from the profile panel returns to that panel.
             if (!_isChangeFromProfile)
             {
                 NavigateTo(new GuiLogIn());

@@ -51,8 +51,8 @@ namespace GinRummy.Client.Views
 
         private void OnLogOutClick(object sender, RoutedEventArgs e)
         {
-            // A suspended account never gets a session (CU-02 EX-04), so leaving only takes
-            // the player back to the screen that opened this one.
+            // A suspended account never gets a session (CU-02 EX-04).
+            // Leaving only takes the player back to the screen that opened this one.
             Close();
         }
 

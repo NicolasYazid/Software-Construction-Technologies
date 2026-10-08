@@ -31,15 +31,15 @@ namespace GinRummy.Client.Views
 
         private void OnTabSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // The selection the tab control makes while it loads is not a choice of the player:
-            // the constructor already shows the leaderboard of that tab.
+            // The tab control also raises a selection while it loads, which is not a choice of the player.
+            // The constructor already shows the leaderboard of that tab.
             if (IsLoaded)
             {
                 LeaderboardDto leaderboard;
                 if (tabFriends.IsSelected)
                 {
-                    // TODO: The friends leaderboard needs the FriendShip data and the signed-in
-                    // player, both server-dependent. It stays on sample data until then.
+                    // TODO: The friends leaderboard needs the FriendShip data and the signed-in player, both server-dependent.
+                    // It stays on sample data until then.
                     leaderboard = _dataService.GetFriendsLeaderboard();
                 }
                 else
@@ -58,8 +58,8 @@ namespace GinRummy.Client.Views
 
         private void OnSearchClick(object sender, RoutedEventArgs e)
         {
-            // The table already filters while the player types, so the icon only takes them to
-            // the field.
+            // The table already filters while the player types.
+            // The icon therefore only takes the player to the field.
             txtSearch.Focus();
         }
 
@@ -68,8 +68,8 @@ namespace GinRummy.Client.Views
             Close();
         }
 
-        // Reads the real global ranking through the controller and turns each domain entity
-        // into the row shape the view already knows how to display.
+        // Reads the real global ranking through the controller.
+        // Each domain entity is turned into the row shape the view already knows how to display.
         private LeaderboardDto BuildGlobalLeaderboard()
         {
             App application = (App)Application.Current;
@@ -91,15 +91,16 @@ namespace GinRummy.Client.Views
             LeaderboardDto leaderboard = new LeaderboardDto();
             leaderboard.Entries = entries;
 
-            // TODO: The highlighted own row (CU-19 FA-03) needs the signed-in player, which is
-            // server-dependent. It stays absent until then.
+            // TODO: The highlighted own row (CU-19 FA-03) needs the signed-in player, which is server-dependent.
+            // It stays absent until then.
             leaderboard.OwnEntry = null;
 
             return leaderboard;
         }
 
-        // Converts one domain PlayerStats into the view's row DTO. This conversion lives in the
-        // view on purpose: the DTO is a presentation shape, never part of the domain logic.
+        // Converts one domain PlayerStats into the row DTO of the view.
+        // This conversion lives in the view on purpose, because the DTO is a presentation shape.
+        // The DTO is never part of the domain logic.
         private static RankingEntryDto ToRankingEntry(PlayerStats stats, int position, RankingsController controller)
         {
             RankingEntryDto entry = new RankingEntryDto();
@@ -129,8 +130,8 @@ namespace GinRummy.Client.Views
                 .Where(entry => IsMatch(entry, searchText))
                 .ToList();
 
-            // The row of the player is pinned only when the table does not already hold it, so
-            // that it never shows twice (CU-19 FA-03).
+            // The row of the player is pinned only when the table does not already hold it (CU-19 FA-03).
+            // That way the row never shows twice.
             bool isOwnEntryPinned = (ownEntry != null)
                 && IsMatch(ownEntry, searchText)
                 && !matches.Contains(ownEntry);

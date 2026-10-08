@@ -36,6 +36,7 @@ namespace GinRummy.Client.Views
         private const string CountFormat = "N0";
         private const string SubtractedFormat = "-#,0;-#,0;0";
         private const string EarnedFormat = "+#,0;-#,0;0";
+        private const int SingleCardCount = 1;
 
         private readonly GameTableSnapshotDto _table;
         private readonly ObservableCollection<CardDto> _hand;
@@ -68,8 +69,7 @@ namespace GinRummy.Client.Views
             Closed += OnScreenClosed;
         }
 
-        // The match resumes when the disconnected opponent returns, or ends if the opponent
-        // does not (BD-05).
+        // The match resumes when the disconnected opponent returns, or ends if the opponent does not (BD-05).
         public void ShowPaused()
         {
             lblPaused.Visibility = Visibility.Visible;
@@ -133,8 +133,8 @@ namespace GinRummy.Client.Views
 
         private void OnTakeClick(object sender, RoutedEventArgs e)
         {
-            // The card turned up goes to the hand, which then owes a discard. The server checks
-            // the move and passes the turn (house rules 2 and 3).
+            // The card turned up goes to the hand, which then owes a discard.
+            // The server checks the move and passes the turn (house rules 2 and 3).
             CardDto takenCard = _discardPile[0];
             _discardPile.Clear();
             _hand.Add(takenCard);
@@ -155,8 +155,8 @@ namespace GinRummy.Client.Views
 
         private void OnHandPreviewMouseMove(object sender, MouseEventArgs e)
         {
-            // A press that barely moves is a click that chooses the card; only a longer move
-            // picks it up to reorder the hand (house rule 18).
+            // A press that barely moves is a click that chooses the card.
+            // Only a longer move picks the card up to reorder the hand (house rule 18).
             bool isCardPressed = (e.LeftButton == MouseButtonState.Pressed) && (_pressedCard != null);
             if (isCardPressed && HasLeftClickArea(e.GetPosition(lstHand)))
             {
@@ -193,8 +193,7 @@ namespace GinRummy.Client.Views
 
         private void OnHowToPlayClick(object sender, RoutedEventArgs e)
         {
-            // The rules open over the table without pausing the match or changing the turn
-            // (CU-21 FA-01).
+            // The rules open over the table without pausing the match or changing the turn (CU-21 FA-01).
             GuiHouseRules houseRules = new GuiHouseRules();
             ShowModal(houseRules);
         }
@@ -208,8 +207,9 @@ namespace GinRummy.Client.Views
 
         private void OnForfeitConfirmClosed(object sender, EventArgs e)
         {
-            // The server records the defeat (CU-26 steps 5 to 7); what the table does is return
-            // the player to the lobby, as step 9 does. Cancelling leaves the match as it was.
+            // The server records the defeat (CU-26 steps 5 to 7).
+            // The table only returns the player to the lobby, as step 9 does.
+            // Cancelling leaves the match as it was.
             if (((GuiConfirmDialog)sender).IsConfirmed)
             {
                 ReturnToLobby();
@@ -218,8 +218,8 @@ namespace GinRummy.Client.Views
 
         private void OnNextHandClick(object sender, RoutedEventArgs e)
         {
-            // The score of the match takes the count of the hand, and the table waits for the
-            // server to deal the next one.
+            // The score of the match takes the count of the hand.
+            // The table then waits for the server to deal the next hand.
             _table.PlayerScore = _handResult.PlayerScore;
             _table.OpponentScore = _handResult.OpponentScore;
             lblKnockWith.Visibility = Visibility.Collapsed;
@@ -239,8 +239,8 @@ namespace GinRummy.Client.Views
 
         private void RefreshHandResult(CultureInfo culture)
         {
-            // The names inside the sentences are data and keep their case; the sentences carry
-            // the case of the prototype in the dictionary itself.
+            // The names inside the sentences are data and keep their case.
+            // The sentences carry the case of the prototype in the dictionary itself.
             lblHandWinner.Text = Localization.Format(HandWinnerKey, _handResult.WinnerName);
             lblKnockWith.Text = Localization.Format(KnockWithKey, _handResult.KnockerDeadwood);
             lblKnockAnnounce.Text = Localization.Format(KnockAnnounceKey, _handResult.KnockerName, _handResult.KnockerDeadwood);
@@ -259,8 +259,7 @@ namespace GinRummy.Client.Views
 
         private void EndDecision()
         {
-            // Hidden and not collapsed, so that the table keeps its shape while it waits for the
-            // opponent.
+            // The buttons are hidden and not collapsed, so that the table keeps its shape while it waits for the opponent.
             btnTake.Visibility = Visibility.Hidden;
             btnPass.Visibility = Visibility.Hidden;
             RefreshFormattedText();
@@ -270,8 +269,8 @@ namespace GinRummy.Client.Views
         {
             string content = txtMessage.Text.Trim();
 
-            // As in the lobby, an empty message is not sent (CU-17 FA-03), and the server relays
-            // the rest; until it answers, the table shows the message of the player.
+            // As in the lobby, an empty message is not sent (CU-17 FA-03).
+            // The server relays the rest, and until it answers the table shows the message of the player.
             if (content.Length > 0)
             {
                 ChatMessageDto message = new ChatMessageDto();
@@ -301,26 +300,33 @@ namespace GinRummy.Client.Views
 
         private string FormatCardCount(int count)
         {
-            // Spanish and English only change the word for a single card, but the dictionary
-            // keeps it as a key of its own so that a language with more forms can add them.
-            string key = count == 1 ? CardCountOneKey : CardCountKey;
+            // Spanish and English only change the word for a single card.
+            // The dictionary keeps that form as a key of its own so that a language with more forms can add them.
+            string key = count == SingleCardCount ? CardCountOneKey : CardCountKey;
+            string formattedCount = Localization.Format(key, count).ToUpper(Localization.CurrentCulture);
 
-            return Localization.Format(key, count).ToUpper(Localization.CurrentCulture);
+            return formattedCount;
         }
 
         private bool HasLeftClickArea(Point position)
         {
             Vector distance = position - _dragStart;
-
-            return (Math.Abs(distance.X) > SystemParameters.MinimumHorizontalDragDistance)
+            bool hasLeftClickArea = (Math.Abs(distance.X) > SystemParameters.MinimumHorizontalDragDistance)
                 || (Math.Abs(distance.Y) > SystemParameters.MinimumVerticalDragDistance);
+
+            return hasLeftClickArea;
         }
 
         private static CardDto GetCard(object source)
         {
             FrameworkElement element = source as FrameworkElement;
+            CardDto card = null;
+            if (element != null)
+            {
+                card = element.DataContext as CardDto;
+            }
 
-            return element != null ? element.DataContext as CardDto : null;
+            return card;
         }
 
         private static void ScrollToLatest(ListBox list)

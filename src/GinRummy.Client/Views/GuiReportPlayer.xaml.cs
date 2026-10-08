@@ -23,10 +23,11 @@ namespace GinRummy.Client.Views
 
         private void OnSubmitClick(object sender, RoutedEventArgs e)
         {
-            bool isReasonSelected = (radReasonOffensiveLanguage.IsChecked == true)
-                || (radReasonHarassmentOrThreats.IsChecked == true)
-                || (radReasonCheatingOrExploits.IsChecked == true)
+            bool isAbuseReasonSelected = (radReasonOffensiveLanguage.IsChecked == true)
+                || (radReasonHarassmentOrThreats.IsChecked == true);
+            bool isMisconductReasonSelected = (radReasonCheatingOrExploits.IsChecked == true)
                 || (radReasonSpam.IsChecked == true);
+            bool isReasonSelected = isAbuseReasonSelected || isMisconductReasonSelected;
             if (isReasonSelected)
             {
                 IsSubmitted = true;

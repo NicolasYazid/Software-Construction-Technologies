@@ -14,8 +14,8 @@ namespace GinRummy.Client.Views
 
         private void OnSendCodeClick(object sender, RoutedEventArgs e)
         {
-            // CU-08 answers the same way whether or not the address has an account, so that
-            // the screen never reveals which addresses are registered.
+            // CU-08 answers the same way whether or not the address has an account.
+            // That way the screen never reveals which addresses are registered.
             lblCodeSentIfExists.Visibility = Visibility.Visible;
             NavigateTo(new GuiVerifyEmail(VerificationPurpose.PasswordRecovery, txtEmail.Text));
         }

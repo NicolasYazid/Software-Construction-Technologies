@@ -45,8 +45,8 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        // The title comes from a different key in each flow, so it cannot be bound in XAML to a
-        // single one.
+        // The title comes from a different key in each flow.
+        // That is why it cannot be bound in XAML to a single key.
         protected override void RefreshFormattedText()
         {
             if (lblTitle != null)
@@ -102,9 +102,9 @@ namespace GinRummy.Client.Views
 
         private void OnVerifyClick(object sender, RoutedEventArgs e)
         {
-            // The code is checked on the server, as CU-09 requires. The screen only advances
-            // so that the navigation of the prototype can be walked through. A new address
-            // confirmed from the profile panel returns to it (CU-07 step 11).
+            // The code is checked on the server, as CU-09 requires.
+            // The screen only advances so that the navigation of the prototype can be walked through.
+            // A new address confirmed from the profile panel returns to that panel (CU-07 step 11).
             if (_purpose == VerificationPurpose.PasswordRecovery)
             {
                 NavigateTo(new GuiNewPassword(false));

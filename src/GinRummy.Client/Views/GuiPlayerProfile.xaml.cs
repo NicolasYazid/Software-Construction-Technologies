@@ -27,8 +27,7 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        // Rebuilds the numbers of the performance, whose separators and percent sign depend on
-        // the culture (CU-20 step 6).
+        // The separators and the percent sign of the performance numbers depend on the culture (CU-20 step 6).
         protected override void RefreshFormattedText()
         {
             if (_profile != null)
@@ -46,8 +45,8 @@ namespace GinRummy.Client.Views
             bool isOther = isPlayer && !_profile.IsOwnProfile;
             bool hasMatches = _profile.MatchesPlayed > 0;
 
-            // A guest has no profile of its own: only its temporary name and its presence are
-            // shown (CU-27 FA-04). A profile without links leaves out its section (FA-03).
+            // A guest has no profile of its own, so only its temporary name and its presence are shown (CU-27 FA-04).
+            // A profile without links leaves out its section (FA-03).
             lblGuestHasNoProfile.Visibility = VisibilityCommon.FromCondition(_profile.IsGuest);
             lblRankName.Visibility = VisibilityCommon.FromCondition(isPlayer);
             lblPublicTag.Visibility = VisibilityCommon.FromCondition(isPlayer);
@@ -70,8 +69,8 @@ namespace GinRummy.Client.Views
 
         private void OnAddFriendClick(object sender, RoutedEventArgs e)
         {
-            // Once the server creates the request, the action stays disabled while it waits
-            // for an answer, so a second one cannot be sent (CU-12 and its EX-07).
+            // Once the server creates the request, the action stays disabled while it waits for an answer.
+            // This keeps a second request from being sent (CU-12 and its EX-07).
             _profile.HasPendingRequest = true;
             ApplyRelation();
         }

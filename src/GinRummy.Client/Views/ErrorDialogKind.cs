@@ -1,7 +1,7 @@
 ﻿namespace GinRummy.Client.Views
 {
-    // The nine errors the error dialog (P22) knows how to present. Each one fixes the title,
-    // the message and whether a second action is offered beside the one that closes it.
+    // The error dialog (P22) knows how to present these nine errors.
+    // Each one fixes the title, the message and whether a second action is offered beside the one that closes it.
     public enum ErrorDialogKind
     {
         ServiceUnavailable,

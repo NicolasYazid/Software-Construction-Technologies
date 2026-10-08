@@ -10,8 +10,8 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiReconnecting : GuiModalBase
     {
-        // The length of the reconnection window is still an open decision of the team; this
-        // value only drives the countdown until the server supplies the real one.
+        // The length of the reconnection window is still an open decision of the team.
+        // This value only drives the countdown until the server supplies the real one.
         private const int ReconnectionWindowSeconds = 60;
         private const int TimerIntervalSeconds = 1;
         private const string TimeRemainingKey = "Reconnecting_LblTimeRemaining";
