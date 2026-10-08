@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GinRummy.Domain.Entities
 {
     // A one-time code sent to confirm an email address or authorize a sensitive action.
-    // Protects its own invariants: it cannot expire before it was created, and it always starts
-    // with zero attempts and unused.
+    // It protects its own invariants: it cannot expire before it was created.
+    // It always starts unused and with zero attempts.
     public class VerificationCode
     {
         public VerificationCode(int playerId, VerificationPurpose purpose, string codeHash, DateTime expiresAt)
@@ -27,8 +23,8 @@ namespace GinRummy.Domain.Entities
             UsedAt = null;
         }
 
-        // Parameterless constructor reserved for Entity Framework's materialization; not for
-        // application code, which must use the validating constructor.
+        // Reserved for the materialization of Entity Framework.
+        // Application code must use the validating constructor.
         protected VerificationCode()
         {
         }
@@ -61,8 +57,7 @@ namespace GinRummy.Domain.Entities
             }
         }
 
-        // A code that expires at or before the moment it was created would be born
-        // already invalid, which must never happen.
+        // A code that expires at or before the moment it was created would be born already invalid.
         private static void ValidateExpiry(DateTime expiresAt, DateTime creationMoment)
         {
             if (expiresAt <= creationMoment)

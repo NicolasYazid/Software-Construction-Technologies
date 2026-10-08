@@ -1,17 +1,14 @@
-﻿using GinRummy.Data.EntityFramework.Persistence;
+﻿using System.Linq;
+
+using GinRummy.Data.EntityFramework.Persistence;
 using GinRummy.Domain.Daos;
 using GinRummy.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GinRummy.Data.EntityFramework.Daos
 {
-    // Fulfils IPlayerDao using Entity Framework against GinRummy_Dev. By default, opens a
-    // short-lived context per operation; optionally reuses a context someone else already
-    // opened, so several DAOs can share one transaction.
+    // Fulfils IPlayerDao using Entity Framework against GinRummy_Dev.
+    // By default, it opens a short-lived context per operation.
+    // It can also reuse a context opened elsewhere, so several DAOs can share one transaction.
     public class PlayerDao : IPlayerDao
     {
         private readonly string _connectionStringName;
@@ -32,8 +29,8 @@ namespace GinRummy.Data.EntityFramework.Daos
             Player foundPlayer;
             if (_sharedContext != null)
             {
-                // Not wrapped in using: the caller opened this context and stays
-                // responsible for closing it.
+                // The caller owns this context.
+                // It is disposed of when the caller's transaction ends.
                 foundPlayer = _sharedContext.Players.FirstOrDefault(player => player.Email == email);
             }
             else

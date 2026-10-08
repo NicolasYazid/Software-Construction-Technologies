@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using GinRummy.Data.EntityFramework.Persistence;
 using GinRummy.Domain.Daos;
@@ -26,8 +23,8 @@ namespace GinRummy.Data.EntityFramework.Daos
             IList<PlayerStats> rankedStats;
             using (GinRummyContext context = new GinRummyContext(_connectionStringName))
             {
-                // Include loads each player together with its stats in one query, so reading
-                // the username later does not trigger a separate query per row.
+                // Include loads each player together with its stats in one query.
+                // Reading the username later then does not trigger a separate query per row.
                 rankedStats = context.PlayerStats
                     .Include(stats => stats.Player)
                     .OrderByDescending(stats => stats.Score)

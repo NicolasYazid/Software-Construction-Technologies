@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GinRummy.Domain.Entities
+﻿namespace GinRummy.Domain.Entities
 {
-    // A language and region the game can display, mapped to the Locale table. The game's code
-    // only ever reads this catalog; it never creates or edits a locale.
+    // A language and region the game can display, mapped to the Locale table.
+    // The game's code only ever reads this catalog and never creates or edits a locale.
     public class Locale
     {
         protected Locale()

@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using GinRummy.Domain.Entities;
 
 namespace GinRummy.Data.EntityFramework.Persistence
 {
-    // Entity Framework 6 context for GinRummy_Dev. Maps the Domain's POCO entities against the
-    // tables the SQL scripts already created; EF never creates or migrates the schema.
+    // Entity Framework 6 context for GinRummy_Dev.
+    // It maps the Domain's POCO entities against the tables the SQL scripts already created.
+    // EF never creates or migrates the schema.
     public class GinRummyContext : DbContext
     {
-        // Disables EF's automatic database initializer, because GinRummy_Dev was created by the
-        // team's own SQL scripts, not by Entity Framework.
+        // GinRummy_Dev was created by the team's own SQL scripts, not by Entity Framework.
+        // That is why EF's automatic database initializer is disabled.
         static GinRummyContext()
         {
             Database.SetInitializer<GinRummyContext>(null);
@@ -55,6 +51,7 @@ namespace GinRummy.Data.EntityFramework.Persistence
                 .HasColumnName("last_login_at");
             modelBuilder.Entity<Player>().Property(player => player.IsEmailVerified)
                 .HasColumnName("is_email_verified");
+
             modelBuilder.Entity<VerificationCode>().ToTable("VerificationCode");
             modelBuilder.Entity<VerificationCode>().HasKey(verificationCode => verificationCode.VerificationCodeId);
             modelBuilder.Entity<VerificationCode>().Property(verificationCode => verificationCode.VerificationCodeId)
@@ -73,11 +70,13 @@ namespace GinRummy.Data.EntityFramework.Persistence
                 .HasColumnName("attempts");
             modelBuilder.Entity<VerificationCode>().Property(verificationCode => verificationCode.CreatedAt)
                 .HasColumnName("created_at");
+
             modelBuilder.Entity<Locale>().ToTable("Locale");
             modelBuilder.Entity<Locale>().HasKey(locale => locale.LocaleId);
             modelBuilder.Entity<Locale>().Property(locale => locale.LocaleId).HasColumnName("locale_id");
             modelBuilder.Entity<Locale>().Property(locale => locale.LocaleCode).HasColumnName("locale_code");
             modelBuilder.Entity<Locale>().Property(locale => locale.DisplayName).HasColumnName("display_name");
+
             modelBuilder.Entity<PlayerStats>().ToTable("PlayerStats");
             modelBuilder.Entity<PlayerStats>().HasKey(stats => stats.PlayerId);
             modelBuilder.Entity<PlayerStats>().Property(stats => stats.PlayerId)

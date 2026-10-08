@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using GinRummy.Domain.Daos;
 using GinRummy.Domain.Entities;
@@ -61,8 +58,9 @@ namespace GinRummy.Application.UseCases
             return leaderboard;
         }
 
-        // The leaderboard orders by wins first (CU-19); score, losses and username only
-        // break ties. The DAO's own order by score is intentionally overridden here.
+        // CU-19 orders the leaderboard by wins first.
+        // Score, losses and username only break ties.
+        // The DAO's own order by score is intentionally overridden here.
         private IList<PlayerStats> OrderByLeaderboardRules(IList<PlayerStats> stats)
         {
             IList<PlayerStats> orderedStats = stats

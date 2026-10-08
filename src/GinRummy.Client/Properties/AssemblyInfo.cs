@@ -9,8 +9,9 @@ using System.Windows;
 [assembly: AssemblyProduct("Gin Rummy 2D")]
 [assembly: ComVisible(false)]
 
-// The base culture of the project is es-MX, so Strings.resx holds the Spanish text
-// and ships inside the main assembly. Strings.en-US.resx builds a satellite assembly.
+// The base culture of the project is es-MX, so Strings.resx holds the Spanish text.
+// That neutral resource ships inside the main assembly.
+// Strings.en-US.resx builds a satellite assembly.
 [assembly: NeutralResourcesLanguage("es-MX")]
 
 [assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]

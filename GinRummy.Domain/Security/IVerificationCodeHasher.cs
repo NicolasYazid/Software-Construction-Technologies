@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GinRummy.Domain.Security
+﻿namespace GinRummy.Domain.Security
 {
-    // Contract the game's logic uses to hash and check verification codes, without knowing
-    // which algorithm is behind it.
+    // Contract the game's logic uses to hash and check verification codes.
+    // The logic does not need to know which algorithm is behind it.
     public interface IVerificationCodeHasher
     {
         string ComputeHash(string code);

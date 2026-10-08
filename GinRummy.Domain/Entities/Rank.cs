@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GinRummy.Domain.Entities
+﻿namespace GinRummy.Domain.Entities
 {
-    // A rank tier, mapped to the Rank table. A player's rank is the tier whose score range
-    // contains the player's score.
+    // A rank tier, mapped to the Rank table.
+    // A player's rank is the tier whose score range contains the player's score.
     public class Rank
     {
         protected Rank()

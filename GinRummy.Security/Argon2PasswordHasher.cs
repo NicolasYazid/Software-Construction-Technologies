@@ -7,9 +7,10 @@ using Konscious.Security.Cryptography;
 
 namespace GinRummy.Security
 {
-    // Fulfils IPasswordHasher using Argon2id, with the parameters OWASP recommends for
-    // interactive login (m=19456 KiB, t=2, p=1). Reads and writes hashes in the PHC string
-    // format the database already uses, e.g. "$argon2id$v=19$m=19456,t=2,p=1$<salt>$<hash>".
+    // Fulfils IPasswordHasher using Argon2id with the parameters OWASP recommends for interactive login.
+    // Those parameters are m=19456 KiB, t=2 and p=1.
+    // Hashes are read and written in the PHC string format the database already uses.
+    // An example of that format is "$argon2id$v=19$m=19456,t=2,p=1$<salt>$<hash>".
     public class Argon2PasswordHasher : IPasswordHasher
     {
         private const int MemorySizeInKibibytes = 19456;
@@ -47,8 +48,7 @@ namespace GinRummy.Security
             return passwordMatches;
         }
 
-        // Builds a fresh, random salt for a new password. A new salt every time is what
-        // makes two players with the same password end up with different stored hashes.
+        // A new salt every time makes two players with the same password end up with different stored hashes.
         private static byte[] GenerateSalt()
         {
             byte[] salt = new byte[SaltSizeInBytes];
@@ -60,9 +60,8 @@ namespace GinRummy.Security
             return salt;
         }
 
-        // Runs Argon2id itself. The same salt and the same parameters must be used both
-        // when a password is first hashed and every time it is later verified, or the
-        // output will never match, even for the correct password.
+        // The same salt and parameters must be used when a password is first hashed and every time it is verified.
+        // Otherwise the output never matches, even for the correct password.
         private static byte[] ComputeHash(string plainTextPassword, byte[] salt)
         {
             byte[] passwordBytes = Encoding.UTF8.GetBytes(plainTextPassword);
@@ -79,8 +78,8 @@ namespace GinRummy.Security
             return hash;
         }
 
-        // Packs the salt and the hash together with the parameters used to produce them,
-        // in the same PHC string format the database already stores.
+        // The salt and the hash are packed with the parameters that produced them.
+        // The result uses the same PHC string format the database already stores.
         private static string Encode(byte[] salt, byte[] hash)
         {
             string saltText = Convert.ToBase64String(salt);
@@ -98,10 +97,8 @@ namespace GinRummy.Security
             return encodedHash;
         }
 
-        // Reads the salt and the hash back out of a PHC-format string. Returns false,
-        // instead of throwing, when the stored value does not have the expected shape —
-        // a corrupt or unrelated value should mean "this login attempt fails", not crash
-        // the sign-in screen.
+        // A stored value without the expected shape returns false instead of throwing.
+        // A corrupt or unrelated value should only make the login attempt fail, not crash the sign-in screen.
         private static bool TryDecode(string encodedHash, out byte[] salt, out byte[] hash)
         {
             bool decoded = false;
@@ -125,9 +122,8 @@ namespace GinRummy.Security
             return decoded;
         }
 
-        // Compares every byte, without stopping at the first difference, so the time
-        // this takes does not reveal how many leading bytes matched. See the note on
-        // timing attacks above.
+        // Every byte is compared without stopping at the first difference, as a defense against timing attacks.
+        // The time the comparison takes then does not depend on how many leading bytes matched.
         private static bool AreEqual(byte[] first, byte[] second)
         {
             int difference = first.Length ^ second.Length;
@@ -137,7 +133,9 @@ namespace GinRummy.Security
                 difference |= first[index] ^ second[index];
             }
 
-            return difference == 0;
+            bool areEqual = (difference == 0);
+
+            return areEqual;
         }
     }
 }

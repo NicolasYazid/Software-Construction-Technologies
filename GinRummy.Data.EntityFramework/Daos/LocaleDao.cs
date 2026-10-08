@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 using GinRummy.Data.EntityFramework.Persistence;
 using GinRummy.Domain.Daos;
@@ -10,9 +6,9 @@ using GinRummy.Domain.Entities;
 
 namespace GinRummy.Data.EntityFramework.Daos
 {
-    // Fulfils ILocaleDao using Entity Framework against GinRummy_Dev. By default, opens a
-    // short-lived context per operation; optionally reuses a context someone else already
-    // opened, so it can take part in a shared transaction.
+    // Fulfils ILocaleDao using Entity Framework against GinRummy_Dev.
+    // By default, it opens a short-lived context per operation.
+    // It can also reuse a context opened elsewhere, so it can take part in a shared transaction.
     public class LocaleDao : ILocaleDao
     {
         private readonly string _connectionStringName;
@@ -33,8 +29,8 @@ namespace GinRummy.Data.EntityFramework.Daos
             Locale foundLocale;
             if (_sharedContext != null)
             {
-                // Not wrapped in using: the caller opened this context and stays
-                // responsible for closing it.
+                // The caller owns this context.
+                // It is disposed of when the caller's transaction ends.
                 foundLocale = _sharedContext.Locales.FirstOrDefault(locale => locale.LocaleCode == localeCode);
             }
             else

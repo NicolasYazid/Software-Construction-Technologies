@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GinRummy.Domain.Security
+﻿namespace GinRummy.Domain.Security
 {
-    // Contract the game's logic uses to obtain a new verification code, without knowing how it
-    // is generated.
+    // Contract the game's logic uses to obtain a new verification code.
+    // The logic does not need to know how the code is generated.
     public interface IVerificationCodeGenerator
     {
         // Returned as a string so a leading zero is never lost.

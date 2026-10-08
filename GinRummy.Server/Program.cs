@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
 
 using GinRummy.Application.UseCases;
 using GinRummy.Contracts;
@@ -14,8 +10,8 @@ using GinRummy.Server.Services;
 
 namespace GinRummy.Server
 {
-    // Entry point of the server process. It composes the rankings service and hosts it so
-    // clients can reach it over the network.
+    // Entry point of the server process.
+    // It composes the rankings service and hosts it so clients can reach it over the network.
     public class Program
     {
         private const string ConnectionStringName = "GinRummyDb";
@@ -28,8 +24,8 @@ namespace GinRummy.Server
             {
                 host.AddServiceEndpoint(typeof(IRankingService), new NetTcpBinding(), ServiceAddress);
                 host.Open();
-                // The host serves requests on its own threads; block here so the process
-                // stays alive and keeps listening until someone presses Enter.
+                // The host serves requests on its own threads.
+                // Blocking here keeps the process alive and listening until someone presses Enter.
                 Console.ReadLine();
             }
         }

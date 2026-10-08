@@ -1,21 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 using GinRummy.Domain.Security;
 
 namespace GinRummy.Security
 {
-    // Fulfils IVerificationCodeHasher using SHA-256. Unlike password hashing, a code needs no
-    // salt or slow algorithm: its whole six-digit space is small enough to brute-force
-    // instantly either way, so the real defenses are the code's short expiry and its limited
-    // number of attempts, not the hash itself.
+    // Fulfils IVerificationCodeHasher using SHA-256.
+    // Unlike password hashing, a code needs no salt or slow algorithm.
+    // Its whole six-digit space is small enough to brute-force instantly either way.
+    // The real defenses are the code's short expiry and its limited number of attempts, not the hash itself.
     public class Sha256VerificationCodeHasher : IVerificationCodeHasher
     {
+        private const int HexCharactersPerByte = 2;
+        private const string HexByteFormat = "x2";
+
         public string ComputeHash(string code)
         {
             string hexHash;
@@ -37,14 +37,13 @@ namespace GinRummy.Security
             return codeMatches;
         }
 
-        // Turns raw hash bytes into the same lowercase hex text the database column
-        // stores, two hex characters per byte.
+        // The database column stores the hash as lowercase hex text, two hex characters per byte.
         private static string ToHexString(byte[] bytes)
         {
-            StringBuilder hexBuilder = new StringBuilder(bytes.Length * 2);
+            StringBuilder hexBuilder = new StringBuilder(bytes.Length * HexCharactersPerByte);
             foreach (byte currentByte in bytes)
             {
-                hexBuilder.Append(currentByte.ToString("x2", CultureInfo.InvariantCulture));
+                hexBuilder.Append(currentByte.ToString(HexByteFormat, CultureInfo.InvariantCulture));
             }
 
             string hexText = hexBuilder.ToString();
@@ -52,8 +51,8 @@ namespace GinRummy.Security
             return hexText;
         }
 
-        // Compares every character without stopping at the first difference, for the
-        // same timing-attack reason already explained for passwords.
+        // Every character is compared without stopping at the first difference, as a defense against timing attacks.
+        // The time the comparison takes then does not depend on how many leading characters matched.
         private static bool AreEqual(string first, string second)
         {
             int difference = first.Length ^ second.Length;
@@ -63,7 +62,9 @@ namespace GinRummy.Security
                 difference |= first[index] ^ second[index];
             }
 
-            return difference == 0;
+            bool areEqual = (difference == 0);
+
+            return areEqual;
         }
     }
 }

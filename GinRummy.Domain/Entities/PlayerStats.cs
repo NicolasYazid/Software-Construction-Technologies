@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GinRummy.Domain.Entities
+﻿namespace GinRummy.Domain.Entities
 {
-    // A player's accumulated performance, mapped to the PlayerStats table. It always belongs to
-    // exactly one player.
+    // A player's accumulated performance, mapped to the PlayerStats table.
+    // It always belongs to exactly one player.
     public class PlayerStats
     {
         protected PlayerStats()

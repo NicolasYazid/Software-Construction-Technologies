@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 
 using GinRummy.Data.EntityFramework.Daos;
 using GinRummy.Domain.Daos;
@@ -14,34 +9,20 @@ namespace GinRummy.Data.EntityFramework.Persistence
     {
         private readonly GinRummyContext _context;
         private readonly DbContextTransaction _transaction;
-        private readonly IPlayerDao _players;
-        private readonly IVerificationCodeDao _verificationCodes;
-        private readonly ILocaleDao _locales;
         private bool _isDisposed;
 
         public EntityFrameworkUnitOfWork(string connectionStringName)
         {
             _context = new GinRummyContext(connectionStringName);
             _transaction = _context.Database.BeginTransaction();
-            _players = new PlayerDao(_context);
-            _verificationCodes = new VerificationCodeDao(_context);
-            _locales = new LocaleDao(_context);
+            Players = new PlayerDao(_context);
+            VerificationCodes = new VerificationCodeDao(_context);
+            Locales = new LocaleDao(_context);
         }
 
-        public IPlayerDao Players
-        {
-            get { return _players; }
-        }
-
-        public IVerificationCodeDao VerificationCodes
-        {
-            get { return _verificationCodes; }
-        }
-
-        public ILocaleDao Locales
-        {
-            get { return _locales; }
-        }
+        public IPlayerDao Players { get; private set; }
+        public IVerificationCodeDao VerificationCodes { get; private set; }
+        public ILocaleDao Locales { get; private set; }
 
         public void Commit()
         {
