@@ -1131,7 +1131,7 @@ Tú: {0}   -   Rival: {1}</value>
     <comment>Contenido de GuiProfilePanel</comment>
   </data>
   <data name="ProfilePanel_LblTitle" xml:space="preserve">
-    <value>Tu perfil</value>
+    <value>Configuración</value>
     <comment>Encabezado de GuiProfilePanel</comment>
   </data>
   <data name="ProfilePanel_LblTwoStep" xml:space="preserve">

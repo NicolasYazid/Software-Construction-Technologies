@@ -6,8 +6,8 @@
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
         HasCloseButton="False">
-    <Grid Width="980" Background="{StaticResource BrsPageBackground}">
-        <Border Style="{StaticResource StyDialogCard}" Padding="40,34,40,32">
+    <Grid Width="980">
+        <ContentControl Style="{StaticResource StyLobbyDialog}" Padding="40,34,40,32">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -32,21 +32,23 @@
                             <Label x:Name="lblRankName" Style="{StaticResource StyRankBadge}" Margin="16,0,0,0"
                                    Content="{Binding RankName}" />
                         </StackPanel>
-                        <TextBlock x:Name="lblPublicTag" Style="{StaticResource StyProfileTag}" Margin="0,6,0,0"
-                                   Text="{Binding PublicTag}" />
-                        <!-- The presence has no text of its own in the dictionary: the dot is the
-                             only sign of it until the taxonomy of presence is decided. -->
-                        <Ellipse Margin="2,12,0,0">
-                            <Ellipse.Style>
-                                <Style TargetType="Ellipse" BasedOn="{StaticResource StyPresenceDotInline}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsOnline}" Value="False">
-                                            <Setter Property="Fill" Value="{StaticResource BrsMuted}" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Ellipse.Style>
-                        </Ellipse>
+                        <!-- The presence has no text of its own in the dictionary: the dot beside the
+                             tag is the only sign of it until the taxonomy of presence is decided. -->
+                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                            <TextBlock x:Name="lblPublicTag" Style="{StaticResource StyProfileTag}"
+                                       Text="{Binding PublicTag}" />
+                            <Ellipse Margin="14,0,0,0">
+                                <Ellipse.Style>
+                                    <Style TargetType="Ellipse" BasedOn="{StaticResource StyPresenceDotInline}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsOnline}" Value="False">
+                                                <Setter Property="Fill" Value="{StaticResource BrsMuted}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Ellipse.Style>
+                            </Ellipse>
+                        </StackPanel>
 
                         <TextBlock x:Name="lblGuestHasNoProfile" Style="{StaticResource StyProfileText}"
                                    Margin="0,20,0,0" Visibility="Collapsed"
@@ -77,7 +79,7 @@
                     </StackPanel>
 
                     <Button x:Name="btnClose" Grid.Column="2" Style="{StaticResource StyLobbyNavButton}"
-                            VerticalAlignment="Top" Margin="0"
+                            VerticalAlignment="Top" Margin="0" FontSize="22"
                             Content="{Binding [PlayerProfile_BtnClose], Source={StaticResource Loc},
                                       Converter={StaticResource CnvUpperCase}}"
                             Click="OnCloseClick" />
@@ -120,26 +122,30 @@
 
                 <DockPanel Grid.Row="2" Margin="0,40,0,0" LastChildFill="False">
                     <Button x:Name="btnReport" DockPanel.Dock="Left" Style="{StaticResource StyInlineTextButton}"
+                            FontSize="24"
                             Content="{Binding [PlayerProfile_BtnReport], Source={StaticResource Loc}}"
                             Click="OnReportClick" />
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                         <Button x:Name="btnAddFriend" Style="{StaticResource StyDialogPrimaryButton}"
+                                Background="{StaticResource BrsMenuEarth}" FontSize="22"
                                 Content="{Binding [PlayerProfile_BtnAddFriend], Source={StaticResource Loc},
                                           Converter={StaticResource CnvUpperCase}}"
                                 Click="OnAddFriendClick" />
                         <!-- The dictionary has no key of this screen for the action, so it borrows
                              the one of the context menu of the lobby, as its notes allow. -->
                         <Button x:Name="btnRemoveFriend" Style="{StaticResource StyDialogSecondaryButton}"
+                                FontSize="22"
                                 Content="{Binding [LobbyChat_MniRemoveFriend], Source={StaticResource Loc},
                                           Converter={StaticResource CnvUpperCase}}"
                                 Click="OnRemoveFriendClick" />
                         <Button x:Name="btnEditProfile" Style="{StaticResource StyDialogPrimaryButton}"
+                                FontSize="22"
                                 Content="{Binding [PlayerProfile_BtnEditProfile], Source={StaticResource Loc},
                                           Converter={StaticResource CnvUpperCase}}"
                                 Click="OnEditProfileClick" />
                     </StackPanel>
                 </DockPanel>
             </Grid>
-        </Border>
+        </ContentControl>
     </Grid>
 </views:GuiModalBase>

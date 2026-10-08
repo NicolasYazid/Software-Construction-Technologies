@@ -6,8 +6,10 @@
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
         HasCloseButton="False">
-    <Grid Width="500" Height="780" Background="{StaticResource BrsPageBackground}">
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,0,4,0">
+    <!-- The editor is drawn like the settings: a dialog of the room, shorter than the windows
+         that open it so its four edges stay in sight; what does not fit scrolls inside it. -->
+    <ContentControl Width="500" Height="700" Style="{StaticResource StyLobbyDialog}" Padding="0">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,8,4,8">
             <StackPanel Margin="40,30,34,32">
 
                 <TextBlock x:Name="lblTitle" Style="{StaticResource StyPanelTitle}" HorizontalAlignment="Center"
@@ -36,13 +38,13 @@
                 <TextBlock x:Name="lblUsername" Style="{StaticResource StyFieldLabel}" Margin="0,24,0,8"
                            Text="{Binding [EditProfile_LblUsername], Source={StaticResource Loc}}" />
                 <!-- The database limits the name to twenty characters. -->
-                <ctl:CtlPixelBorder Style="{StaticResource StyFieldShell}">
+                <ctl:CtlPixelBorder Style="{StaticResource StyGlassFieldShell}">
                     <TextBox x:Name="txtUsername" Style="{StaticResource StyFieldInput}" MaxLength="20" />
                 </ctl:CtlPixelBorder>
 
                 <TextBlock x:Name="lblBio" Style="{StaticResource StyFieldLabel}" Margin="0,20,0,8"
                            Text="{Binding [EditProfile_LblBio], Source={StaticResource Loc}}" />
-                <ctl:CtlPixelBorder Style="{StaticResource StyFieldArea}">
+                <ctl:CtlPixelBorder Style="{StaticResource StyGlassFieldArea}">
                     <TextBox x:Name="txtBio" Style="{StaticResource StyFieldAreaInput}"
                              TextChanged="OnBioTextChanged" />
                 </ctl:CtlPixelBorder>
@@ -74,20 +76,18 @@
                     <TextBlock x:Name="lblPlatform" Style="{StaticResource StyFieldLabel}" Margin="0,6,0,8"
                                Visibility="Collapsed"
                                Text="{Binding [EditProfile_LblPlatform], Source={StaticResource Loc}}" />
-                    <ctl:CtlPixelSurface Style="{StaticResource StyMenuChipInset}" Height="44" Width="220"
-                                         HorizontalAlignment="Left">
-                        <ComboBox x:Name="cmbPlatform" Style="{StaticResource StyMenuLanguageBox}" Margin="6,6,6,6">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </ctl:CtlPixelSurface>
+                    <ComboBox x:Name="cmbPlatform" Style="{StaticResource StyMenuLanguageBox}" Width="220"
+                              HorizontalAlignment="Left">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                     <TextBlock x:Name="lblSocialUrl" Style="{StaticResource StyFieldLabel}" Margin="0,16,0,8"
                                Text="{Binding [EditProfile_LblSocialUrl], Source={StaticResource Loc}}" />
                     <!-- The database limits the address to two hundred and fifty-five characters. -->
-                    <ctl:CtlPixelBorder Style="{StaticResource StyFieldShell}">
+                    <ctl:CtlPixelBorder Style="{StaticResource StyGlassFieldShell}">
                         <Grid>
                             <TextBox x:Name="txtSocialUrl" Style="{StaticResource StyFieldInput}" MaxLength="255" />
                             <TextBlock x:Name="lblFieldSocialLink" Style="{StaticResource StyFieldPlaceholder}"
@@ -118,5 +118,5 @@
 
             </StackPanel>
         </ScrollViewer>
-    </Grid>
+    </ContentControl>
 </views:GuiModalBase>

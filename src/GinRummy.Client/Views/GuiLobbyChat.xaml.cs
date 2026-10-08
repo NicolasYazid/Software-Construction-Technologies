@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 
+using GinRummy.Client.Controls;
 using GinRummy.Client.Models;
 using GinRummy.Client.Services;
 
@@ -305,7 +306,7 @@ namespace GinRummy.Client.Views
         {
             if (_chatEntries.Count > 0)
             {
-                lstMessages.ScrollIntoView(_chatEntries[_chatEntries.Count - 1]);
+                OverlayInsetCommon.ScrollToEnd(lstMessages);
             }
         }
 

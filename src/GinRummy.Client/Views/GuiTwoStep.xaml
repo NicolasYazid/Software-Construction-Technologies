@@ -37,10 +37,24 @@
                 <Grid>
                     <TextBox x:Name="txtCode" Style="{StaticResource StyPlainInput}" MaxLength="6"
                              TextAlignment="Center" />
-                    <TextBlock Style="{StaticResource StyPlainPlaceholder}" TextAlignment="Center"
-                               HorizontalAlignment="Center"
-                               Text="{Binding [VerifyEmail_TxtCodePlaceholder], Source={StaticResource Loc}}"
-                               Visibility="{Binding Text, ElementName=txtCode, Converter={StaticResource CnvEmptyTextToVisibility}}" />
+                    <!-- The code is centred, so the caret of the empty field stands in the middle of
+                         the hint; the hint steps aside while the field holds the focus. -->
+                    <TextBlock TextAlignment="Center" HorizontalAlignment="Center"
+                               Text="{Binding [VerifyEmail_TxtCodePlaceholder], Source={StaticResource Loc}}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource StyPlainPlaceholder}">
+                                <Setter Property="Margin" Value="0" />
+                                <Setter Property="Visibility"
+                                        Value="{Binding Text, ElementName=txtCode,
+                                                Converter={StaticResource CnvEmptyTextToVisibility}}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsKeyboardFocused, ElementName=txtCode}" Value="True">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </Grid>
             </ctl:CtlPixelBorder>
 

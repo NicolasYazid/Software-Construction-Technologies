@@ -4,8 +4,7 @@
         xmlns:views="clr-namespace:GinRummy.Client.Views"
         xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
         UseLayoutRounding="True"
-        TextOptions.TextFormattingMode="Display"
-        HasCloseButton="False">
+        TextOptions.TextFormattingMode="Display">
     <!-- The height is not stated: the window declares SizeToContent, so letting the grid grow
          with the card is what keeps the last button inside it whatever the size of the text. -->
     <Grid Width="938" Background="{StaticResource BrsPageBackground}">
@@ -30,15 +29,15 @@
         <Border Background="{StaticResource BrsSurface}" ctl:PixelShapeCommon.CornerSteps="5"
                 HorizontalAlignment="Left" VerticalAlignment="Top"
                 Width="471" Margin="2,0,0,0"
-                Padding="34,60,34,30">
+                Padding="34,20,34,22">
             <StackPanel>
 
                 <TextBlock x:Name="lblTitle" Style="{StaticResource StyCardTitle}"
                            Text="{Binding [SignUp_LblTitle], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
-                <TextBlock x:Name="lblSubtitle" Style="{StaticResource StyCardSubtitle}" Margin="0,16,0,0"
+                <TextBlock x:Name="lblSubtitle" Style="{StaticResource StyCardSubtitle}" Margin="0,10,0,0"
                            Text="{Binding [SignUp_LblSubtitle], Source={StaticResource Loc}}" />
 
-                <TextBlock x:Name="lblEmail" Style="{StaticResource StyFieldLabel}" Margin="0,20,0,8"
+                <TextBlock x:Name="lblEmail" Style="{StaticResource StyFieldLabel}" Margin="0,12,0,8"
                            Text="{Binding [SignUp_LblEmail], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
                 <ctl:CtlPixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
@@ -54,7 +53,7 @@
                     </DockPanel>
                 </ctl:CtlPixelBorder>
 
-                <TextBlock x:Name="lblUsername" Style="{StaticResource StyFieldLabel}" Margin="0,20,0,8"
+                <TextBlock x:Name="lblUsername" Style="{StaticResource StyFieldLabel}" Margin="0,12,0,8"
                            Text="{Binding [SignUp_LblUsername], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
                 <ctl:CtlPixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
@@ -70,7 +69,7 @@
                     </DockPanel>
                 </ctl:CtlPixelBorder>
 
-                <TextBlock x:Name="lblPassword" Style="{StaticResource StyFieldLabel}" Margin="0,20,0,8"
+                <TextBlock x:Name="lblPassword" Style="{StaticResource StyFieldLabel}" Margin="0,12,0,8"
                            Text="{Binding [SignUp_LblPassword], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
                 <ctl:CtlPixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
@@ -91,7 +90,7 @@
                     </DockPanel>
                 </ctl:CtlPixelBorder>
 
-                <TextBlock x:Name="lblConfirmPassword" Style="{StaticResource StyFieldLabel}" Margin="0,20,0,8"
+                <TextBlock x:Name="lblConfirmPassword" Style="{StaticResource StyFieldLabel}" Margin="0,12,0,8"
                            Text="{Binding [SignUp_LblConfirmPassword], Source={StaticResource Loc},
                                   Converter={StaticResource CnvUpperCase}}" />
                 <ctl:CtlPixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
@@ -122,7 +121,7 @@
                            Width="402" HorizontalAlignment="Left" Margin="0,12,0,0"
                            Text="{Binding [SignUp_LblCreatingAccount], Source={StaticResource Loc}}" />
 
-                <StackPanel Margin="0,12,0,0">
+                <StackPanel Margin="0,10,0,0">
                     <TextBlock x:Name="lblReqMinLength" Style="{StaticResource StyCardNotice}"
                                Visibility="Visible" Width="402" HorizontalAlignment="Left"
                                Text="{Binding [SignUp_LblReqMinLength], Source={StaticResource Loc}}" />
@@ -135,12 +134,12 @@
                 </StackPanel>
 
                 <Button x:Name="btnCreateAccount" Style="{StaticResource StyCardPrimaryButton}"
-                        Width="402" HorizontalAlignment="Left" Margin="0,20,0,0"
+                        Width="402" HorizontalAlignment="Left" Margin="0,14,0,0"
                         Content="{Binding [Shared_BtnCreateAccount], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
                         Click="OnCreateAccountClick" />
 
                 <Button x:Name="btnCancel" Style="{StaticResource StyCardTextButton}"
-                        Width="402" HorizontalAlignment="Left" Margin="0,20,0,0"
+                        Width="402" HorizontalAlignment="Left" Margin="0,14,0,0"
                         Content="{Binding [Shared_BtnCancel], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
                         Click="OnCancelClick" />
 

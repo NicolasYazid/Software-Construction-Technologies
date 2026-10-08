@@ -879,7 +879,7 @@ You: {0}   -   Opponent: {1}</value>
     <value>Password</value>
   </data>
   <data name="ProfilePanel_LblTitle" xml:space="preserve">
-    <value>Your profile</value>
+    <value>Settings</value>
   </data>
   <data name="ProfilePanel_LblTwoStep" xml:space="preserve">
     <value>Two-step verification</value>
