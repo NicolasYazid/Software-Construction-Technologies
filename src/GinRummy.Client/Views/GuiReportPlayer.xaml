@@ -32,7 +32,7 @@
                 <TextBlock x:Name="lblDescription" Style="{StaticResource StyFieldLabel}" Margin="0,12,0,8"
                            Text="{Binding [ReportPlayer_LblDescription], Source={StaticResource Loc}}" />
                 <!-- BD-06 limits the description to five hundred characters. -->
-                <ctl:CtlPixelBorder Style="{StaticResource StyFieldArea}">
+                <ctl:PixelBorder Style="{StaticResource StyFieldArea}">
                     <Grid>
                         <TextBox x:Name="txtDescription" Style="{StaticResource StyFieldAreaInput}" MaxLength="500" />
                         <TextBlock Style="{StaticResource StyFieldAreaPlaceholder}"
@@ -40,7 +40,7 @@
                                    Visibility="{Binding Text, ElementName=txtDescription,
                                                 Converter={StaticResource CnvEmptyTextToVisibility}}" />
                     </Grid>
-                </ctl:CtlPixelBorder>
+                </ctl:PixelBorder>
 
                 <TextBlock x:Name="lblNoCategorySelected" Style="{StaticResource StyCardError}" Margin="0,12,0,0"
                            Text="{Binding [ReportPlayer_NoCategorySelected], Source={StaticResource Loc}}" />

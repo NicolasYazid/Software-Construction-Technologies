@@ -8,7 +8,7 @@ namespace GinRummy.Client.Controls
     // The button, the panel and the field therefore read as part of the same grid as the letters of the pixel typefaces.
     // The shape is built from the size the layout grants instead of a stretched bitmap.
     // The steps therefore keep their size on a button of any width, and any screen draws them with the same sharp edge.
-    public class CtlPixelSurface : Decorator
+    public class PixelSurface : Decorator
     {
         private const int DefaultCornerSteps = 4;
         private const int DefaultBaseDepth = 0;
@@ -20,7 +20,7 @@ namespace GinRummy.Client.Controls
             DependencyProperty.Register(
                 "PixelUnit",
                 typeof(double),
-                typeof(CtlPixelSurface),
+                typeof(PixelSurface),
                 new FrameworkPropertyMetadata(
                     PixelShapeCommon.DefaultPixelUnit,
                     FrameworkPropertyMetadataOptions.AffectsRender));
@@ -31,7 +31,7 @@ namespace GinRummy.Client.Controls
             DependencyProperty.Register(
                 "CornerSteps",
                 typeof(int),
-                typeof(CtlPixelSurface),
+                typeof(PixelSurface),
                 new FrameworkPropertyMetadata(
                     DefaultCornerSteps,
                     FrameworkPropertyMetadataOptions.AffectsRender));
@@ -42,7 +42,7 @@ namespace GinRummy.Client.Controls
             DependencyProperty.Register(
                 "FaceBrush",
                 typeof(Brush),
-                typeof(CtlPixelSurface),
+                typeof(PixelSurface),
                 new FrameworkPropertyMetadata(
                     null,
                     FrameworkPropertyMetadataOptions.AffectsRender));
@@ -51,7 +51,7 @@ namespace GinRummy.Client.Controls
             DependencyProperty.Register(
                 "BaseBrush",
                 typeof(Brush),
-                typeof(CtlPixelSurface),
+                typeof(PixelSurface),
                 new FrameworkPropertyMetadata(
                     null,
                     FrameworkPropertyMetadataOptions.AffectsRender));
@@ -60,7 +60,7 @@ namespace GinRummy.Client.Controls
             DependencyProperty.Register(
                 "BaseDepth",
                 typeof(int),
-                typeof(CtlPixelSurface),
+                typeof(PixelSurface),
                 new FrameworkPropertyMetadata(
                     DefaultBaseDepth,
                     FrameworkPropertyMetadataOptions.AffectsMeasure));
@@ -71,7 +71,7 @@ namespace GinRummy.Client.Controls
             DependencyProperty.Register(
                 "Padding",
                 typeof(Thickness),
-                typeof(CtlPixelSurface),
+                typeof(PixelSurface),
                 new FrameworkPropertyMetadata(
                     new Thickness(),
                     FrameworkPropertyMetadataOptions.AffectsMeasure));

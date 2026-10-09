@@ -40,7 +40,7 @@ namespace GinRummy.Client.Controls
                 Palette = new PaintPalette(DeepRed, MidRed, GlowRed)
             };
 
-            CtlPaintBackground.PaintStillFrame(request);
+            PaintedBackground.PaintStillFrame(request);
 
             return Enlarge(request);
         }

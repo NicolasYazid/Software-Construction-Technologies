@@ -1,5 +1,7 @@
 using System;
 
+using GinRummy.Domain.Dtos;
+
 namespace GinRummy.Domain.Entities
 {
     public class Player
@@ -9,17 +11,18 @@ namespace GinRummy.Domain.Entities
         public const int MaxUsernameLength = 20;
         public const int MaxEmailLength = 254;
 
-        public Player(string username, string email, string passwordHash, int localeId)
+        public Player(NewPlayerDto newPlayer)
         {
-            ValidateUsername(username);
-            ValidateEmail(email);
-            ValidatePasswordHash(passwordHash);
-            ValidateLocaleId(localeId);
+            ValidateNewPlayer(newPlayer);
+            ValidateUsername(newPlayer.Username);
+            ValidateEmail(newPlayer.Email);
+            ValidatePasswordHash(newPlayer.PasswordHash);
+            ValidateLocaleId(newPlayer.LocaleId);
 
-            Username = username.Trim();
-            Email = email.Trim().ToLowerInvariant();
-            PasswordHash = passwordHash;
-            LocaleId = localeId;
+            Username = newPlayer.Username.Trim();
+            Email = newPlayer.Email.Trim().ToLowerInvariant();
+            PasswordHash = newPlayer.PasswordHash;
+            LocaleId = newPlayer.LocaleId;
             CreatedAt = DateTime.UtcNow;
             IsEmailVerified = false;
         }
@@ -41,6 +44,14 @@ namespace GinRummy.Domain.Entities
         public DateTime CreatedAt { get; private set; }
         public DateTime? LastLoginAt { get; private set; }
         public bool IsEmailVerified { get; private set; }
+
+        private static void ValidateNewPlayer(NewPlayerDto newPlayer)
+        {
+            if (newPlayer == null)
+            {
+                throw new ArgumentNullException(nameof(newPlayer));
+            }
+        }
 
         private static void ValidateUsername(string username)
         {

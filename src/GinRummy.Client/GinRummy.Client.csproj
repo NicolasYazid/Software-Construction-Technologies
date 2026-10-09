@@ -46,6 +46,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EntityFramework.6.5.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=3.1.32.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Logging.Abstractions.3.1.32\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -73,11 +76,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\CtlBrandMark.xaml">
+    <Page Include="Controls\BrandMark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\CtlPaintBackground.xaml">
+    <Page Include="Controls\PaintedBackground.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -195,24 +198,27 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\AccountForm.cs" />
+    <Compile Include="Controllers\AccountSecurity.cs" />
+    <Compile Include="Controllers\EditProfileController.cs" />
     <Compile Include="Controllers\LogInController.cs" />
     <Compile Include="Controllers\LogInResult.cs" />
     <Compile Include="Controllers\RankingsController.cs" />
     <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\SignUpResult.cs" />
-    <Compile Include="Controls\CtlBrandMark.xaml.cs">
-      <DependentUpon>CtlBrandMark.xaml</DependentUpon>
+    <Compile Include="Controls\BrandMark.xaml.cs">
+      <DependentUpon>BrandMark.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\CtlPaintBackground.xaml.cs">
-      <DependentUpon>CtlPaintBackground.xaml</DependentUpon>
+    <Compile Include="Controls\PaintedBackground.xaml.cs">
+      <DependentUpon>PaintedBackground.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\PaintMix.cs" />
     <Compile Include="Controls\CardBackCommon.cs" />
     <Compile Include="Controls\PaintGeometry.cs" />
     <Compile Include="Controls\PaintPalette.cs" />
     <Compile Include="Controls\PaintFrameRequest.cs" />
-    <Compile Include="Controls\CtlPixelBorder.cs" />
-    <Compile Include="Controls\CtlPixelSurface.cs" />
+    <Compile Include="Controls\PixelBorder.cs" />
+    <Compile Include="Controls\PixelSurface.cs" />
     <Compile Include="Controls\PixelFrame.cs" />
     <Compile Include="Controls\OverlayInsetCommon.cs" />
     <Compile Include="Controls\PixelShapeCommon.cs" />
@@ -295,6 +301,8 @@
     </Compile>
     <Compile Include="Localization\LocalizationProvider.cs" />
     <Compile Include="Localization\CultureOption.cs" />
+    <Compile Include="Logging\FileLogger.cs" />
+    <Compile Include="Logging\FileLoggerFactory.cs" />
     <Compile Include="Converters\EmptyTextToVisibilityConverter.cs" />
     <Compile Include="Converters\UpperCaseConverter.cs" />
     <Compile Include="Views\GuiModalBase.cs" />

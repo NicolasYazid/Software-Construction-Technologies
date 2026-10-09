@@ -31,9 +31,9 @@ namespace GinRummy.Security
         public bool VerifyCode(string code, string hash)
         {
             string candidateHash = ComputeHash(code);
-            bool codeMatches = AreEqual(candidateHash, hash);
+            bool isCodeValid = AreEqual(candidateHash, hash);
 
-            return codeMatches;
+            return isCodeValid;
         }
 
         // The database column stores the hash as lowercase hex text, two hex characters per byte.
@@ -61,9 +61,9 @@ namespace GinRummy.Security
                 difference |= first[index] ^ second[index];
             }
 
-            bool areEqual = (difference == 0);
+            bool isEqual = (difference == 0);
 
-            return areEqual;
+            return isEqual;
         }
     }
 }

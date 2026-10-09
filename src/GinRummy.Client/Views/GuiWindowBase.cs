@@ -150,7 +150,7 @@ namespace GinRummy.Client.Views
             for (int childIndex = 0; childIndex < childCount; childIndex++)
             {
                 DependencyObject child = VisualTreeHelper.GetChild(root, childIndex);
-                CtlPaintBackground paint = child as CtlPaintBackground;
+                PaintedBackground paint = child as PaintedBackground;
                 if (paint != null)
                 {
                     paint.IsPaused = isPaused;

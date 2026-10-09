@@ -10,7 +10,7 @@ namespace GinRummy.Client.Controls
     // This border keeps the face whole and draws the base underneath it instead.
     // The face, the base and the depth reuse Background, BorderBrush and the bottom border thickness.
     // Every style written for a plain border therefore keeps working unchanged.
-    public class CtlPixelBorder : Border
+    public class PixelBorder : Border
     {
         private const int NoDepth = 0;
         private const int MinimumDepth = 1;
@@ -84,7 +84,7 @@ namespace GinRummy.Client.Controls
 
         // A face shorter than its two corners cannot carry them.
         // Such an element is drawn flat instead of with a broken outline.
-        // The limit is the same one CtlPixelSurface uses.
+        // The limit is the same one PixelSurface uses.
         private static bool CanRaise(PixelFrame frame, int depth)
         {
             bool hasDepth = depth > NoDepth;

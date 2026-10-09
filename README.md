@@ -20,6 +20,7 @@ WebSockets are not used.
 | Server | Console host that publishes the leaderboard service with WCF over `net.tcp`. The client does not call it yet. |
 | Database access | The client still reaches the database directly through Entity Framework for the three flows above. This is temporary: the target is that only the server holds a connection string. |
 | Game rules | Not implemented yet. The game table works on sample data. |
+| Logging | The client writes its log to `%LOCALAPPDATA%\GinRummy\client.log` through `ILogger<T>`. The server does not log yet. |
 | Automated tests | None yet. The course requires at least 300. |
 
 ## Solution layout
@@ -48,8 +49,9 @@ project. The only places that know the concrete classes are the composition root
 - SQL Server in mixed authentication mode. The application never connects with Windows
   authentication or with an administrative account.
 
-NuGet packages (Entity Framework 6.5.2 and Konscious.Security.Cryptography.Argon2 1.3.1) are
-restored on build; the `packages/` folder is not versioned.
+NuGet packages (Entity Framework 6.5.2, Konscious.Security.Cryptography.Argon2 1.3.1 and
+Microsoft.Extensions.Logging.Abstractions 3.1.32) are restored on build; the `packages/` folder
+is not versioned.
 
 ## Database
 
@@ -113,10 +115,10 @@ entry in `LocalizationProvider.AvailableCultures`, then rebuilding the client.
 
 - `Styles/Theme.xaml` centralizes colours, typefaces and control styles. A screen changes its
   look through these tokens, not through its own XAML or code.
-- `Controls/CtlPaintBackground` draws the animated background of the menu and of some side
+- `Controls/PaintedBackground` draws the animated background of the menu and of some side
   panels. It is written from scratch, as required by CON-06, and computes each frame on the
   processor so that it renders the same with or without hardware acceleration.
-- `Controls/CtlPixelSurface`, `Controls/CtlPixelBorder` and `Controls/PixelShapeCommon` draw
+- `Controls/PixelSurface`, `Controls/PixelBorder` and `Controls/PixelShapeCommon` draw
   the stepped pixel corners shared by buttons, panels, fields and cards.
 - `Controls/CardBackCommon` paints the back of the cards once and every card reuses it.
 - The typefaces and their terms are listed in `Fonts/LICENSES.md`. RetroByte declares no
@@ -124,10 +126,23 @@ entry in `LocalizationProvider.AvailableCultures`, then rebuilding the client.
 
 ## Conventions
 
-- Code follows the team's C# coding standard (version 6). `.editorconfig` applies the
+- Code follows the team's C# coding standard (version 8). `.editorconfig` applies the
   formatting and naming rules that Visual Studio can check.
+- Every `catch` block that handles a failure without propagating it records it through the
+  `ILogger<T>` that the class receives in its constructor.
 - Each window documents in its summary the prototype screen (Pxx) and the use cases (CU-xx) it
   implements.
 - Commit messages follow the form `type(scope): description` in English, for example
   `feat(client): open the lobby after a successful sign-in`. Build output, restored packages
   and local configuration are never committed.
+
+## Pending work
+
+These parts of the implemented use cases depend on the server and are not done yet:
+
+- CU-02: the session, the ban and suspension checks and the two-step verification after a
+  successful sign-in.
+- CU-01: delivering the verification code by email and checking the typed code against its
+  stored hash. Until then the code is shown on screen.
+- CU-19: the friends leaderboard, which still uses sample data, and the highlighted row of the
+  signed-in player.

@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using GinRummy.Client.Controllers;
 using GinRummy.Client.Models;
 using GinRummy.Client.Services;
-using GinRummy.Domain.Entities;
 
 namespace GinRummy.Client.Views
 {
@@ -26,7 +25,7 @@ namespace GinRummy.Client.Views
         {
             InitializeComponent();
             _dataService = new SampleDataService();
-            ShowLeaderboard(BuildGlobalLeaderboard());
+            ShowLeaderboard(LoadGlobalLeaderboard());
         }
 
         private void OnTabSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -38,13 +37,12 @@ namespace GinRummy.Client.Views
                 LeaderboardDto leaderboard;
                 if (tabFriends.IsSelected)
                 {
-                    // TODO: The friends leaderboard needs the FriendShip data and the signed-in player, both server-dependent.
-                    // It stays on sample data until then.
+                    // The friends leaderboard stays on sample data because the friendships and the signed-in player come from the server.
                     leaderboard = _dataService.GetFriendsLeaderboard();
                 }
                 else
                 {
-                    leaderboard = BuildGlobalLeaderboard();
+                    leaderboard = LoadGlobalLeaderboard();
                 }
 
                 ShowLeaderboard(leaderboard);
@@ -68,47 +66,17 @@ namespace GinRummy.Client.Views
             Close();
         }
 
-        private LeaderboardDto BuildGlobalLeaderboard()
+        private LeaderboardDto LoadGlobalLeaderboard()
         {
             App application = (App)Application.Current;
             RankingsController rankingsController = application.CreateRankingsController();
-            IList<PlayerStats> rankedStats = rankingsController.GetGlobalRanking();
+            LeaderboardDto leaderboard = rankingsController.GetGlobalLeaderboard();
             if (rankingsController.ErrorMessageKey != null)
             {
                 MessageBox.Show(Localization.GetText(rankingsController.ErrorMessageKey));
             }
 
-            List<RankingEntryDto> entries = new List<RankingEntryDto>();
-            int position = 1;
-            foreach (PlayerStats stats in rankedStats)
-            {
-                entries.Add(ToRankingEntry(stats, position, rankingsController));
-                position++;
-            }
-
-            LeaderboardDto leaderboard = new LeaderboardDto();
-            leaderboard.Entries = entries;
-
-            // TODO: The highlighted own row (CU-19 FA-03) needs the signed-in player, which is server-dependent.
-            // It stays absent until then.
-            leaderboard.OwnEntry = null;
-
             return leaderboard;
-        }
-
-        // This conversion lives in the view because the DTO is a presentation shape that must never enter the domain logic.
-        private static RankingEntryDto ToRankingEntry(PlayerStats stats, int position, RankingsController controller)
-        {
-            RankingEntryDto entry = new RankingEntryDto();
-            entry.Position = position;
-            entry.Username = stats.Player.Username;
-            entry.Wins = stats.Wins;
-            entry.Losses = stats.Losses;
-            entry.WinRate = stats.MatchesPlayed == 0 ? 0 : (double)stats.Wins / stats.MatchesPlayed;
-            entry.RankName = controller.ResolveRankName(stats.Score);
-            entry.IsOwnEntry = false;
-
-            return entry;
         }
 
         private void ShowLeaderboard(LeaderboardDto leaderboard)

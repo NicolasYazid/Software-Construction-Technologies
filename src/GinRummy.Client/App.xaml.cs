@@ -1,14 +1,18 @@
-﻿using System.Windows;
+﻿using System;
+using System.IO;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 
 using GinRummy.Client.Controllers;
 using GinRummy.Client.Localization;
+using GinRummy.Client.Logging;
 using GinRummy.Data.EntityFramework.Daos;
 using GinRummy.Data.EntityFramework.Persistence;
 using GinRummy.Domain.Daos;
 using GinRummy.Domain.Security;
 using GinRummy.Security;
+using Microsoft.Extensions.Logging;
 
 namespace GinRummy.Client
 {
@@ -18,6 +22,8 @@ namespace GinRummy.Client
         public const string LocalizationResourceKey = "Loc";
 
         private const string ConnectionStringName = "GinRummyContext";
+        private const string LogFolderName = "GinRummy";
+        private const string LogFileName = "client.log";
         private const int RenderingTierShift = 16;
         private const int SoftwareRenderingTier = 0;
         private const double SoftwareBlurScale = 0.3;
@@ -31,29 +37,48 @@ namespace GinRummy.Client
             "EfxCardShadow"
         };
 
-        private readonly IPasswordHasher _passwordHasher = new Argon2PasswordHasher();
+        private readonly ILoggerFactory _loggerFactory;
+        private readonly IPasswordHasher _passwordHasher;
         private readonly IVerificationCodeGenerator _codeGenerator = new RandomVerificationCodeGenerator();
         private readonly IVerificationCodeHasher _codeHasher = new Sha256VerificationCodeHasher();
+
+        // Debug entries are kept while the client is in development because they record why an input was rejected.
+        public App()
+        {
+            string logFilePath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                LogFolderName,
+                LogFileName);
+            _loggerFactory = new FileLoggerFactory(logFilePath, LogLevel.Debug);
+            _passwordHasher = new Argon2PasswordHasher(_loggerFactory.CreateLogger<Argon2PasswordHasher>());
+        }
 
         public SignUpController CreateSignUpController()
         {
             return new SignUpController(
                 CreateUnitOfWork,
-                _passwordHasher,
-                _codeGenerator,
-                _codeHasher);
+                new AccountSecurity(_passwordHasher, _codeGenerator, _codeHasher),
+                _loggerFactory.CreateLogger<SignUpController>());
         }
 
         public LogInController CreateLogInController()
         {
             return new LogInController(
                 new PlayerDao(ConnectionStringName),
-                _passwordHasher);
+                _passwordHasher,
+                _loggerFactory.CreateLogger<LogInController>());
         }
 
         public RankingsController CreateRankingsController()
         {
-            return new RankingsController(new RankingDao(ConnectionStringName));
+            return new RankingsController(
+                new RankingDao(ConnectionStringName),
+                _loggerFactory.CreateLogger<RankingsController>());
+        }
+
+        public EditProfileController CreateEditProfileController()
+        {
+            return new EditProfileController(_loggerFactory.CreateLogger<EditProfileController>());
         }
 
         protected override void OnStartup(StartupEventArgs e)

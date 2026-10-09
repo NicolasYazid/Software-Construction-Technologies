@@ -20,7 +20,7 @@
                  handlers belong to this window, so their template lives here and not with the
                  shared ones. -->
             <DataTemplate DataType="{x:Type models:ChallengeNoticeDto}">
-                <ctl:CtlPixelBorder Style="{StaticResource StyChatNotice}">
+                <ctl:PixelBorder Style="{StaticResource StyChatNotice}">
                     <DockPanel LastChildFill="True">
                         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
                             <Button x:Name="btnCancelChallenge" Style="{StaticResource StyNoticeButton}"
@@ -54,7 +54,7 @@
                             </TextBlock>
                         </Grid>
                     </DockPanel>
-                </ctl:CtlPixelBorder>
+                </ctl:PixelBorder>
                 <DataTemplate.Triggers>
                     <DataTrigger Binding="{Binding Kind}" Value="Sent">
                         <Setter TargetName="lblChallengeSent" Property="Visibility" Value="Visible" />
@@ -119,14 +119,14 @@
 
         <!-- The paint of the menu, with the same scale, so the panels show it through their
              translucent face exactly as the panels of the menu do. -->
-        <ctl:CtlPaintBackground Grid.RowSpan="2" Grid.ColumnSpan="3"
+        <ctl:PaintedBackground Grid.RowSpan="2" Grid.ColumnSpan="3"
                                 BlockResolution="250" PatternScale="1.45"
                                 DeepColour="{StaticResource ClrMenuLiquidDeep}"
                                 MidColour="{StaticResource ClrMenuLiquidMid}"
                                 GlowColour="{StaticResource ClrMenuLiquidGlow}" />
 
         <!-- Rail -->
-        <ctl:CtlPixelBorder Grid.RowSpan="2" Style="{StaticResource StyLobbyGlassRail}">
+        <ctl:PixelBorder Grid.RowSpan="2" Style="{StaticResource StyLobbyGlassRail}">
             <DockPanel LastChildFill="False" Margin="0,20,0,20">
                 <Image DockPanel.Dock="Top" Source="{StaticResource IcoBullseye}" Width="64" Height="64" />
                 <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center">
@@ -154,10 +154,10 @@
                     </Button>
                 </StackPanel>
             </DockPanel>
-        </ctl:CtlPixelBorder>
+        </ctl:PixelBorder>
 
         <!-- Header -->
-        <ctl:CtlPixelBorder Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource StyLobbyGlassPanel}"
+        <ctl:PixelBorder Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource StyLobbyGlassPanel}"
                             Margin="12,12,12,0" Padding="24,12,16,12">
             <DockPanel LastChildFill="False">
                 <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center">
@@ -185,10 +185,10 @@
                             Click="OnHowToPlayClick" />
                 </StackPanel>
             </DockPanel>
-        </ctl:CtlPixelBorder>
+        </ctl:PixelBorder>
 
         <!-- Chat -->
-        <ctl:CtlPixelBorder Grid.Row="1" Grid.Column="1" Style="{StaticResource StyLobbyGlassPanel}" Margin="12,12,6,12">
+        <ctl:PixelBorder Grid.Row="1" Grid.Column="1" Style="{StaticResource StyLobbyGlassPanel}" Margin="12,12,6,12">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -202,7 +202,7 @@
                 <ListBox x:Name="lstMessages" Grid.RowSpan="3" Style="{StaticResource StyChatList}"
                          ctl:OverlayInsetCommon.IsInset="True" />
 
-                <ctl:CtlPixelBorder Style="{StaticResource StyChatRulesCard}" Margin="20,20,20,8">
+                <ctl:PixelBorder Style="{StaticResource StyChatRulesCard}" Margin="20,20,20,8">
                     <StackPanel>
                         <TextBlock x:Name="lblChatRulesTitle" Style="{StaticResource StyChatRulesTitle}"
                                    Text="{Binding [LobbyChat_LblChatRulesTitle], Source={StaticResource Loc},
@@ -210,12 +210,12 @@
                         <TextBlock x:Name="lblChatRules" Style="{StaticResource StyChatRulesText}"
                                    Text="{Binding [LobbyChat_LblChatRules], Source={StaticResource Loc}}" />
                     </StackPanel>
-                </ctl:CtlPixelBorder>
+                </ctl:PixelBorder>
 
                 <!-- The card has no name of its own, since the vocabulary of the standard names
                      no borders; it follows the visibility of its title, which is what the code
                      switches. The same holds for the block of the chat below. -->
-                <ctl:CtlPixelBorder Grid.Row="2" Style="{StaticResource StyLobbyStatusCard}"
+                <ctl:PixelBorder Grid.Row="2" Style="{StaticResource StyLobbyStatusCard}"
                         Visibility="{Binding Visibility, ElementName=lblSearchingMatch}">
                     <DockPanel LastChildFill="True">
                         <Button x:Name="btnCancelSearch" DockPanel.Dock="Right" Style="{StaticResource StyNoticeButton}"
@@ -231,7 +231,7 @@
                                        Text="{Binding [LobbyChat_NoOpponentAvailable], Source={StaticResource Loc}}" />
                         </StackPanel>
                     </DockPanel>
-                </ctl:CtlPixelBorder>
+                </ctl:PixelBorder>
 
                 <Border Grid.Row="3" Style="{StaticResource StyChatComposer}">
                     <StackPanel>
@@ -275,10 +275,10 @@
                     </StackPanel>
                 </Border>
             </Grid>
-        </ctl:CtlPixelBorder>
+        </ctl:PixelBorder>
 
         <!-- Players -->
-        <ctl:CtlPixelBorder Grid.Row="1" Grid.Column="2" Style="{StaticResource StyLobbyGlassPanel}" Margin="6,12,12,12">
+        <ctl:PixelBorder Grid.Row="1" Grid.Column="2" Style="{StaticResource StyLobbyGlassPanel}" Margin="6,12,12,12">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -295,7 +295,7 @@
                                       Converter={StaticResource CnvUpperCase}}" />
                 </TabControl>
 
-                <ctl:CtlPixelBorder Grid.Row="1" Style="{StaticResource StyPanelSearchShell}" Margin="14,14,14,4">
+                <ctl:PixelBorder Grid.Row="1" Style="{StaticResource StyPanelSearchShell}" Margin="14,14,14,4">
                     <DockPanel LastChildFill="True">
                         <Image Source="{StaticResource IcoSearch}" Width="20" Height="20"
                                VerticalAlignment="Center" Margin="0,0,10,0" />
@@ -307,7 +307,7 @@
                                                     Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>
                     </DockPanel>
-                </ctl:CtlPixelBorder>
+                </ctl:PixelBorder>
 
                 <!-- The friends tab repeats two headers of the everyone tab. A name can be
                      registered only once per window, so the names stay on the first ones and
@@ -399,6 +399,6 @@
                     </StackPanel>
                 </ScrollViewer>
             </Grid>
-        </ctl:CtlPixelBorder>
+        </ctl:PixelBorder>
     </Grid>
 </views:GuiWindowBase>

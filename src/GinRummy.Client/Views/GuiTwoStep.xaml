@@ -11,13 +11,13 @@
              the screen through the canvas that never reports the size of the paint. -->
         <Grid HorizontalAlignment="Right" Width="469" ClipToBounds="True">
             <Canvas>
-                <ctl:CtlPaintBackground Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                <ctl:PaintedBackground Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Canvas}}"
                                         Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Canvas}}"
                                         DeepColour="{StaticResource ClrArtworkDeep}"
                                         MidColour="{StaticResource ClrArtworkMid}"
                                         GlowColour="{StaticResource ClrArtworkGlow}" />
             </Canvas>
-            <ctl:CtlBrandMark MarkFontSize="46" MarkForeground="{StaticResource BrsMenuLight}"
+            <ctl:BrandMark MarkFontSize="46" MarkForeground="{StaticResource BrsMenuLight}"
                               Effect="{StaticResource EfxTextShadow}"
                               HorizontalAlignment="Center" VerticalAlignment="Center" />
         </Grid>
@@ -33,7 +33,7 @@
                        HorizontalAlignment="Center" Margin="0,32,0,0"
                        Text="{Binding [TwoStep_LblCode], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
 
-            <ctl:CtlPixelBorder Style="{StaticResource StyPlainFieldShell}" Margin="0,8,0,0">
+            <ctl:PixelBorder Style="{StaticResource StyPlainFieldShell}" Margin="0,8,0,0">
                 <Grid>
                     <TextBox x:Name="txtCode" Style="{StaticResource StyPlainInput}" MaxLength="6"
                              TextAlignment="Center" />
@@ -56,7 +56,7 @@
                         </TextBlock.Style>
                     </TextBlock>
                 </Grid>
-            </ctl:CtlPixelBorder>
+            </ctl:PixelBorder>
 
             <TextBlock x:Name="lblCodeExpiresIn" Style="{StaticResource StyPlainLabel}"
                        HorizontalAlignment="Right" Margin="0,12,0,0" />

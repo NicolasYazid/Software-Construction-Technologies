@@ -17,11 +17,11 @@
                            Text="{Binding [HouseRules_LblCardHead], Source={StaticResource Loc},
                                   Converter={StaticResource CnvUpperCase}}" />
 
-                <ctl:CtlPixelBorder Style="{StaticResource StyFairPlayBar}" Margin="0,20,0,0">
+                <ctl:PixelBorder Style="{StaticResource StyFairPlayBar}" Margin="0,20,0,0">
                     <TextBlock x:Name="lblFairPlay" Style="{StaticResource StyFairPlayText}"
                                Text="{Binding [HouseRules_LblFairPlay], Source={StaticResource Loc},
                                       Converter={StaticResource CnvUpperCase}}" />
-                </ctl:CtlPixelBorder>
+                </ctl:PixelBorder>
 
                 <!-- The texts are runs bound one way: the text of a run is written back by
                      default, and the strings of the dictionary can only be read. The values of

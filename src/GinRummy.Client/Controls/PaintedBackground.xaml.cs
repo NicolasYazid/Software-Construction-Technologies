@@ -12,7 +12,7 @@ namespace GinRummy.Client.Controls
     // The result is therefore made of visible square blocks, which ties it to the pixel typefaces of the client.
     // It also keeps each frame cheap, because the surface has far fewer pixels than the area the control covers.
     // The three colours are properties, so the hosting screen owns the palette and the control owns only the movement.
-    public partial class CtlPaintBackground : UserControl
+    public partial class PaintedBackground : UserControl
     {
         private const int BytesPerPixel = 4;
         private const int BlueOffset = 0;
@@ -72,7 +72,7 @@ namespace GinRummy.Client.Controls
             DependencyProperty.Register(
                 "PatternScale",
                 typeof(double),
-                typeof(CtlPaintBackground),
+                typeof(PaintedBackground),
                 new PropertyMetadata(DefaultPatternScale));
 
         // This number is the short side of the surface in blocks, so it decides how large the visible blocks come out.
@@ -81,28 +81,28 @@ namespace GinRummy.Client.Controls
             DependencyProperty.Register(
                 "BlockResolution",
                 typeof(int),
-                typeof(CtlPaintBackground),
+                typeof(PaintedBackground),
                 new PropertyMetadata(DefaultShortSide, OnBlockResolutionChanged));
 
         public static readonly DependencyProperty DeepColourProperty =
             DependencyProperty.Register(
                 "DeepColour",
                 typeof(Color),
-                typeof(CtlPaintBackground),
+                typeof(PaintedBackground),
                 new PropertyMetadata(FallbackDeepColour));
 
         public static readonly DependencyProperty MidColourProperty =
             DependencyProperty.Register(
                 "MidColour",
                 typeof(Color),
-                typeof(CtlPaintBackground),
+                typeof(PaintedBackground),
                 new PropertyMetadata(FallbackMidColour));
 
         public static readonly DependencyProperty GlowColourProperty =
             DependencyProperty.Register(
                 "GlowColour",
                 typeof(Color),
-                typeof(CtlPaintBackground),
+                typeof(PaintedBackground),
                 new PropertyMetadata(FallbackGlowColour));
 
         private readonly Stopwatch _clock;
@@ -118,7 +118,7 @@ namespace GinRummy.Client.Controls
         private bool _isSubscribedToRendering;
         private bool _isPaused;
 
-        public CtlPaintBackground()
+        public PaintedBackground()
         {
             InitializeComponent();
             _clock = new Stopwatch();
@@ -192,7 +192,7 @@ namespace GinRummy.Client.Controls
             DependencyObject source,
             DependencyPropertyChangedEventArgs arguments)
         {
-            CtlPaintBackground control = source as CtlPaintBackground;
+            PaintedBackground control = source as PaintedBackground;
             if (control != null)
             {
                 control.CreateSurface(control.RenderSize);

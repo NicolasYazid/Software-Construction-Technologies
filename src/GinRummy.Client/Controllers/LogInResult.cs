@@ -2,14 +2,14 @@
 {
     public class LogInResult
     {
-        private LogInResult(bool succeeded, string errorMessageKey, string username)
+        private LogInResult(bool isSuccessful, string errorMessageKey, string username)
         {
-            Succeeded = succeeded;
+            IsSuccessful = isSuccessful;
             ErrorMessageKey = errorMessageKey;
             Username = username;
         }
 
-        public bool Succeeded { get; }
+        public bool IsSuccessful { get; }
         public string ErrorMessageKey { get; }
         public string Username { get; }
 

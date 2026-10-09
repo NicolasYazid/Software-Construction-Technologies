@@ -8,7 +8,7 @@ using GinRummy.Client.Localization;
 namespace GinRummy.Client.Controls
 {
     // The brand is split on its blank so that the target symbol sits between its two words, as the prototype draws the wordmark.
-    public partial class CtlBrandMark : UserControl
+    public partial class BrandMark : UserControl
     {
         private const double DefaultMarkFontSize = 128.0;
         private const string BrandResourceKey = "Shared_AppTitle";
@@ -20,19 +20,19 @@ namespace GinRummy.Client.Controls
             DependencyProperty.Register(
                 "MarkFontSize",
                 typeof(double),
-                typeof(CtlBrandMark),
+                typeof(BrandMark),
                 new PropertyMetadata(DefaultMarkFontSize, OnAppearanceChanged));
 
         public static readonly DependencyProperty MarkForegroundProperty =
             DependencyProperty.Register(
                 "MarkForeground",
                 typeof(Brush),
-                typeof(CtlBrandMark),
+                typeof(BrandMark),
                 new PropertyMetadata(Brushes.Gray, OnAppearanceChanged));
 
         private readonly LocalizationProvider _localization;
 
-        public CtlBrandMark()
+        public BrandMark()
         {
             InitializeComponent();
             _localization = LocalizationProvider.Instance;
@@ -55,7 +55,7 @@ namespace GinRummy.Client.Controls
 
         private static void OnAppearanceChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
-            CtlBrandMark mark = source as CtlBrandMark;
+            BrandMark mark = source as BrandMark;
             if (mark != null)
             {
                 mark.Refresh();

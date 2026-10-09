@@ -38,16 +38,16 @@
                 <TextBlock x:Name="lblUsername" Style="{StaticResource StyFieldLabel}" Margin="0,24,0,8"
                            Text="{Binding [EditProfile_LblUsername], Source={StaticResource Loc}}" />
                 <!-- The database limits the name to twenty characters. -->
-                <ctl:CtlPixelBorder Style="{StaticResource StyGlassFieldShell}">
+                <ctl:PixelBorder Style="{StaticResource StyGlassFieldShell}">
                     <TextBox x:Name="txtUsername" Style="{StaticResource StyFieldInput}" MaxLength="20" />
-                </ctl:CtlPixelBorder>
+                </ctl:PixelBorder>
 
                 <TextBlock x:Name="lblBio" Style="{StaticResource StyFieldLabel}" Margin="0,20,0,8"
                            Text="{Binding [EditProfile_LblBio], Source={StaticResource Loc}}" />
-                <ctl:CtlPixelBorder Style="{StaticResource StyGlassFieldArea}">
+                <ctl:PixelBorder Style="{StaticResource StyGlassFieldArea}">
                     <TextBox x:Name="txtBio" Style="{StaticResource StyFieldAreaInput}"
                              TextChanged="OnBioTextChanged" />
-                </ctl:CtlPixelBorder>
+                </ctl:PixelBorder>
                 <TextBlock x:Name="lblBioCounter" Style="{StaticResource StySettingHint}" />
 
                 <TextBlock x:Name="lblSocialLinks" Style="{StaticResource StyFieldLabel}" Margin="0,22,0,10"
@@ -56,7 +56,7 @@
                 <ItemsControl x:Name="lstSocialLinks">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <ctl:CtlPixelBorder Style="{StaticResource StySocialLinkRow}">
+                            <ctl:PixelBorder Style="{StaticResource StySocialLinkRow}">
                                 <DockPanel LastChildFill="True">
                                     <Button x:Name="btnUnlink" DockPanel.Dock="Right" Style="{StaticResource StyRowTextButton}"
                                             Content="{Binding [EditProfile_BtnUnlink], Source={StaticResource Loc},
@@ -65,7 +65,7 @@
                                     <TextBlock Style="{StaticResource StySocialPlatform}" Text="{Binding PlatformName}" />
                                     <TextBlock Style="{StaticResource StySocialUrl}" Text="{Binding Url}" />
                                 </DockPanel>
-                            </ctl:CtlPixelBorder>
+                            </ctl:PixelBorder>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -87,7 +87,7 @@
                     <TextBlock x:Name="lblSocialUrl" Style="{StaticResource StyFieldLabel}" Margin="0,16,0,8"
                                Text="{Binding [EditProfile_LblSocialUrl], Source={StaticResource Loc}}" />
                     <!-- The database limits the address to two hundred and fifty-five characters. -->
-                    <ctl:CtlPixelBorder Style="{StaticResource StyGlassFieldShell}">
+                    <ctl:PixelBorder Style="{StaticResource StyGlassFieldShell}">
                         <Grid>
                             <TextBox x:Name="txtSocialUrl" Style="{StaticResource StyFieldInput}" MaxLength="255" />
                             <TextBlock x:Name="lblFieldSocialLink" Style="{StaticResource StyFieldPlaceholder}"
@@ -95,7 +95,7 @@
                                        Visibility="{Binding Text, ElementName=txtSocialUrl,
                                                     Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>
-                    </ctl:CtlPixelBorder>
+                    </ctl:PixelBorder>
                 </StackPanel>
 
                 <Button x:Name="btnAddSocialLink" Style="{StaticResource StyCardOutlineButton}" Margin="0,12,0,0"

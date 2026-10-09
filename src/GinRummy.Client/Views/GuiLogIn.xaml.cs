@@ -10,8 +10,6 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiLogIn : GuiModalBase
     {
-        private const string SignInSuccessMessageKey = "LogIn_DemoSignInSuccess";
-
         public GuiLogIn()
         {
             InitializeComponent();
@@ -44,7 +42,7 @@ namespace GinRummy.Client.Views
             LogInController logInController = application.CreateLogInController();
             LogInResult result = logInController.SignIn(txtEmail.Text, password);
 
-            if (result.Succeeded)
+            if (result.IsSuccessful)
             {
                 ShowSuccess();
             }
@@ -56,9 +54,9 @@ namespace GinRummy.Client.Views
 
         // The lobby enters in place of the main menu, which stays hidden as the main window of the application.
         // This way, closing the session returns to the menu instead of ending the application (CU-03 step 5).
+        // The session, the ban checks and the two-step verification of CU-02 are not applied because they belong to the server.
         private void ShowSuccess()
         {
-            // TODO: Full CU-02 (session, bans, 2FA, real lobby data) is server-dependent.
             EnterLobby(new GuiLobbyChat());
         }
 

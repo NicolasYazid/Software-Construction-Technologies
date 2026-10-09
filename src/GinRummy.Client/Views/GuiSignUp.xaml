@@ -15,13 +15,13 @@
              was what stretched the window far past the content. -->
         <Grid HorizontalAlignment="Right" Width="465" ClipToBounds="True">
             <Canvas>
-                <ctl:CtlPaintBackground Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                <ctl:PaintedBackground Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Canvas}}"
                                         Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Canvas}}"
                                         DeepColour="{StaticResource ClrArtworkDeep}"
                                         MidColour="{StaticResource ClrArtworkMid}"
                                         GlowColour="{StaticResource ClrArtworkGlow}" />
             </Canvas>
-            <ctl:CtlBrandMark MarkFontSize="46" MarkForeground="{StaticResource BrsMenuLight}"
+            <ctl:BrandMark MarkFontSize="46" MarkForeground="{StaticResource BrsMenuLight}"
                               Effect="{StaticResource EfxTextShadow}"
                               HorizontalAlignment="Center" VerticalAlignment="Center" />
         </Grid>
@@ -39,7 +39,7 @@
 
                 <TextBlock x:Name="lblEmail" Style="{StaticResource StyFieldLabel}" Margin="0,12,0,8"
                            Text="{Binding [SignUp_LblEmail], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
-                <ctl:CtlPixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
+                <ctl:PixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
                         <Image Source="{StaticResource IcoMail}" Width="19" Height="19"
                                VerticalAlignment="Center" Margin="0,0,12,0" />
@@ -51,11 +51,11 @@
                                                     Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>
                     </DockPanel>
-                </ctl:CtlPixelBorder>
+                </ctl:PixelBorder>
 
                 <TextBlock x:Name="lblUsername" Style="{StaticResource StyFieldLabel}" Margin="0,12,0,8"
                            Text="{Binding [SignUp_LblUsername], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
-                <ctl:CtlPixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
+                <ctl:PixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
                         <Image Source="{StaticResource IcoUser}" Width="19" Height="19"
                                VerticalAlignment="Center" Margin="0,0,12,0" />
@@ -67,11 +67,11 @@
                                                     Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>
                     </DockPanel>
-                </ctl:CtlPixelBorder>
+                </ctl:PixelBorder>
 
                 <TextBlock x:Name="lblPassword" Style="{StaticResource StyFieldLabel}" Margin="0,12,0,8"
                            Text="{Binding [SignUp_LblPassword], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
-                <ctl:CtlPixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
+                <ctl:PixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
                         <Image Source="{StaticResource IcoLock}" Width="19" Height="19"
                                VerticalAlignment="Center" Margin="0,0,12,0" />
@@ -88,12 +88,12 @@
                                      Visibility="Collapsed" />
                         </Grid>
                     </DockPanel>
-                </ctl:CtlPixelBorder>
+                </ctl:PixelBorder>
 
                 <TextBlock x:Name="lblConfirmPassword" Style="{StaticResource StyFieldLabel}" Margin="0,12,0,8"
                            Text="{Binding [SignUp_LblConfirmPassword], Source={StaticResource Loc},
                                   Converter={StaticResource CnvUpperCase}}" />
-                <ctl:CtlPixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
+                <ctl:PixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
                         <Image Source="{StaticResource IcoLock}" Width="19" Height="19"
                                VerticalAlignment="Center" Margin="0,0,12,0" />
@@ -110,7 +110,7 @@
                                      Visibility="Collapsed" />
                         </Grid>
                     </DockPanel>
-                </ctl:CtlPixelBorder>
+                </ctl:PixelBorder>
 
                 <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyCardError}"
                            Width="402" HorizontalAlignment="Left" Margin="0,12,0,0" />

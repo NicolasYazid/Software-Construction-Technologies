@@ -22,10 +22,10 @@
                                HorizontalAlignment="Center" Margin="0,22,0,8" Visibility="Collapsed"
                                Text="{Binding [ConfirmDialog_LblPassword], Source={StaticResource Loc},
                                       Converter={StaticResource CnvUpperCase}}" />
-                    <ctl:CtlPixelBorder Style="{StaticResource StyFieldShell}"
+                    <ctl:PixelBorder Style="{StaticResource StyFieldShell}"
                             Visibility="{Binding Visibility, ElementName=lblPassword}">
                         <PasswordBox x:Name="pwdPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64" />
-                    </ctl:CtlPixelBorder>
+                    </ctl:PixelBorder>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,26,0,0">

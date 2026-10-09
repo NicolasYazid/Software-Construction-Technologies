@@ -156,11 +156,11 @@
          the prefix vocabulary of the standard. -->
     <ControlTemplate x:Key="TplMenuButton" TargetType="Button">
         <Grid>
-            <ctl:CtlPixelSurface Margin="0,6,0,0"
+            <ctl:PixelSurface Margin="0,6,0,0"
                                  FaceBrush="{StaticResource BrsMenuInk}" />
-            <ctl:CtlPixelSurface FaceBrush="{TemplateBinding Background}">
-                <ctl:CtlPixelSurface.Style>
-                    <Style TargetType="ctl:CtlPixelSurface">
+            <ctl:PixelSurface FaceBrush="{TemplateBinding Background}">
+                <ctl:PixelSurface.Style>
+                    <Style TargetType="ctl:PixelSurface">
                         <Setter Property="Margin" Value="0,0,0,6" />
                         <Style.Triggers>
                             <!-- The pointer sinks the face one of the two blocks it travels when
@@ -190,7 +190,7 @@
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </ctl:CtlPixelSurface.Style>
+                </ctl:PixelSurface.Style>
                 <Grid>
                     <!-- The highlight covers the whole face and takes its same stepped shape, so
                          that no square corners appear over the steps when it darkens. It sits
@@ -199,9 +199,9 @@
                          The side padding comes from the content and not from the surface,
                          because with padding on the surface the layer stayed inside it and
                          left a strip on each side without darkening. -->
-                    <ctl:CtlPixelSurface FaceBrush="{StaticResource BrsMenuInk}">
-                        <ctl:CtlPixelSurface.Style>
-                            <Style TargetType="ctl:CtlPixelSurface">
+                    <ctl:PixelSurface FaceBrush="{StaticResource BrsMenuInk}">
+                        <ctl:PixelSurface.Style>
+                            <Style TargetType="ctl:PixelSurface">
                                 <Setter Property="Opacity" Value="0" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsMouseOver,
@@ -219,13 +219,13 @@
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </ctl:CtlPixelSurface.Style>
-                    </ctl:CtlPixelSurface>
+                        </ctl:PixelSurface.Style>
+                    </ctl:PixelSurface>
                     <ContentPresenter Margin="14,0,14,0"
                                       Effect="{StaticResource EfxTextRaise}"
                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Grid>
-            </ctl:CtlPixelSurface>
+            </ctl:PixelSurface>
         </Grid>
     </ControlTemplate>
 
@@ -272,7 +272,7 @@
          reads as square. They are raised over a base of the same shape, which is what gives
          them their depth now that they carry no border, and they keep the translucent colour,
          so the paint of the background still shows through them. -->
-    <Style x:Key="StyMenuBar" TargetType="ctl:CtlPixelSurface">
+    <Style x:Key="StyMenuBar" TargetType="ctl:PixelSurface">
         <Setter Property="FaceBrush" Value="{StaticResource BrsMenuPanel}" />
         <Setter Property="BaseBrush" Value="{StaticResource BrsMenuInk}" />
         <Setter Property="BaseDepth" Value="4" />
@@ -281,7 +281,7 @@
         <Setter Property="Effect" Value="{StaticResource EfxPanelShadow}" />
     </Style>
 
-    <Style x:Key="StyMenuChip" TargetType="ctl:CtlPixelSurface">
+    <Style x:Key="StyMenuChip" TargetType="ctl:PixelSurface">
         <Setter Property="FaceBrush" Value="{StaticResource BrsMenuChipPanel}" />
         <Setter Property="BaseBrush" Value="{StaticResource BrsMenuInk}" />
         <Setter Property="BaseDepth" Value="3" />
@@ -388,10 +388,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBox">
                     <Grid ClipToBounds="True">
-                        <ctl:CtlPixelSurface Margin="0,6,0,0" FaceBrush="{StaticResource BrsMenuInk}" />
-                        <ctl:CtlPixelSurface FaceBrush="{TemplateBinding Background}">
-                            <ctl:CtlPixelSurface.Style>
-                                <Style TargetType="ctl:CtlPixelSurface">
+                        <ctl:PixelSurface Margin="0,6,0,0" FaceBrush="{StaticResource BrsMenuInk}" />
+                        <ctl:PixelSurface FaceBrush="{TemplateBinding Background}">
+                            <ctl:PixelSurface.Style>
+                                <Style TargetType="ctl:PixelSurface">
                                     <Setter Property="Margin" Value="0,0,0,6" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsMouseOver,
@@ -406,11 +406,11 @@
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </ctl:CtlPixelSurface.Style>
+                            </ctl:PixelSurface.Style>
                             <Grid>
-                                <ctl:CtlPixelSurface FaceBrush="{StaticResource BrsMenuInk}">
-                                    <ctl:CtlPixelSurface.Style>
-                                        <Style TargetType="ctl:CtlPixelSurface">
+                                <ctl:PixelSurface FaceBrush="{StaticResource BrsMenuInk}">
+                                    <ctl:PixelSurface.Style>
+                                        <Style TargetType="ctl:PixelSurface">
                                             <Setter Property="Opacity" Value="0" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsMouseOver,
@@ -425,8 +425,8 @@
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
-                                    </ctl:CtlPixelSurface.Style>
-                                </ctl:CtlPixelSurface>
+                                    </ctl:PixelSurface.Style>
+                                </ctl:PixelSurface>
                                 <!-- The selector shows the name of the language written in its
                                      own language, so the widest state is ESPANOL with its tilde,
                                      and the margins leave room for it beside the icon and the
@@ -471,7 +471,7 @@
                                                       ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" />
                                 </DockPanel>
                             </Grid>
-                        </ctl:CtlPixelSurface>
+                        </ctl:PixelSurface>
                         <!-- The toggle is an invisible layer over the whole selector that opens
                              and closes the list; the drawing beneath reads the state of the
                              selector itself. -->
@@ -488,12 +488,12 @@
                                IsOpen="{TemplateBinding IsDropDownOpen}" Focusable="False">
                             <Grid ClipToBounds="True"
                                   Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
-                                <ctl:CtlPixelBorder Margin="0,-6,0,0" Padding="0,6,0,0"
+                                <ctl:PixelBorder Margin="0,-6,0,0" Padding="0,6,0,0"
                                                     Background="{StaticResource BrsFieldFace}"
                                                     BorderBrush="{StaticResource BrsMenuInk}" BorderThickness="0,0,0,6"
                                                     ctl:PixelShapeCommon.CornerSteps="4">
                                     <StackPanel IsItemsHost="True" />
-                                </ctl:CtlPixelBorder>
+                                </ctl:PixelBorder>
                             </Grid>
                         </Popup>
                     </Grid>
@@ -705,11 +705,11 @@
                 <ControlTemplate TargetType="CheckBox">
                     <StackPanel Orientation="Horizontal">
                         <Grid Width="22" Height="26" VerticalAlignment="Center">
-                            <ctl:CtlPixelSurface Margin="0,4,0,0" PixelUnit="2" CornerSteps="2"
+                            <ctl:PixelSurface Margin="0,4,0,0" PixelUnit="2" CornerSteps="2"
                                                  FaceBrush="{StaticResource BrsMenuInk}" />
-                            <ctl:CtlPixelSurface PixelUnit="2" CornerSteps="2" FaceBrush="{TemplateBinding Background}">
-                                <ctl:CtlPixelSurface.Style>
-                                    <Style TargetType="ctl:CtlPixelSurface">
+                            <ctl:PixelSurface PixelUnit="2" CornerSteps="2" FaceBrush="{TemplateBinding Background}">
+                                <ctl:PixelSurface.Style>
+                                    <Style TargetType="ctl:PixelSurface">
                                         <Setter Property="Margin" Value="0,0,0,4" />
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding IsMouseOver,
@@ -729,12 +729,12 @@
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
-                                </ctl:CtlPixelSurface.Style>
+                                </ctl:PixelSurface.Style>
                                 <Grid>
-                                    <ctl:CtlPixelSurface PixelUnit="2" CornerSteps="2"
+                                    <ctl:PixelSurface PixelUnit="2" CornerSteps="2"
                                                          FaceBrush="{StaticResource BrsMenuInk}">
-                                        <ctl:CtlPixelSurface.Style>
-                                            <Style TargetType="ctl:CtlPixelSurface">
+                                        <ctl:PixelSurface.Style>
+                                            <Style TargetType="ctl:PixelSurface">
                                                 <Setter Property="Opacity" Value="0" />
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding IsMouseOver,
@@ -749,8 +749,8 @@
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
-                                        </ctl:CtlPixelSurface.Style>
-                                    </ctl:CtlPixelSurface>
+                                        </ctl:PixelSurface.Style>
+                                    </ctl:PixelSurface>
                                     <Path Width="14" Height="10" HorizontalAlignment="Center" VerticalAlignment="Center"
                                           Fill="{StaticResource BrsMenuLight}"
                                           Effect="{StaticResource EfxTextRaiseSmall}"
@@ -760,7 +760,7 @@
                                           Visibility="{TemplateBinding IsChecked,
                                                        Converter={StaticResource CnvBooleanToVisibility}}" />
                                 </Grid>
-                            </ctl:CtlPixelSurface>
+                            </ctl:PixelSurface>
                         </Grid>
                         <ContentPresenter Margin="10,0,0,0" VerticalAlignment="Center" />
                     </StackPanel>
@@ -966,7 +966,7 @@
 
     <!-- The panels of the lobbies are the panels of the menu: the same translucent face that
          lets the paint behind show through, the ink base beneath and the same deep shadow. The
-         panels and the cards built on them are drawn by CtlPixelBorder, which keeps the base
+         panels and the cards built on them are drawn by PixelBorder, which keeps the base
          under the stepped face; a plain border would paint the base inside the clip and break
          the steps of the lower corners. -->
     <Style x:Key="StyLobbyGlassPanel" TargetType="Border" BasedOn="{StaticResource StyLobbyPanel}">
@@ -1014,10 +1014,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <ctl:CtlPixelBorder Style="{StaticResource StyLobbyDialogCard}" Padding="0">
+                    <ctl:PixelBorder Style="{StaticResource StyLobbyDialogCard}" Padding="0">
                         <Grid>
                             <Canvas>
-                                <ctl:CtlPaintBackground BlockResolution="200" PatternScale="1.45"
+                                <ctl:PaintedBackground BlockResolution="200" PatternScale="1.45"
                                                         Width="{Binding ActualWidth,
                                                                 RelativeSource={RelativeSource AncestorType=Canvas}}"
                                                         Height="{Binding ActualHeight,
@@ -1029,7 +1029,7 @@
                             <Border Background="{StaticResource BrsMenuPanel}" />
                             <ContentPresenter Margin="{TemplateBinding Padding}" />
                         </Grid>
-                    </ctl:CtlPixelBorder>
+                    </ctl:PixelBorder>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -1444,10 +1444,10 @@
                         </Style.Triggers>
                     </Style>
                 </Grid.Style>
-                <ctl:CtlPixelSurface Margin="0,6,0,0" FaceBrush="{StaticResource BrsMenuInk}" />
-                <ctl:CtlPixelSurface FaceBrush="{TemplateBinding Background}">
-                    <ctl:CtlPixelSurface.Style>
-                        <Style TargetType="ctl:CtlPixelSurface">
+                <ctl:PixelSurface Margin="0,6,0,0" FaceBrush="{StaticResource BrsMenuInk}" />
+                <ctl:PixelSurface FaceBrush="{TemplateBinding Background}">
+                    <ctl:PixelSurface.Style>
+                        <Style TargetType="ctl:PixelSurface">
                             <Setter Property="Margin" Value="0,0,0,6" />
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsMouseOver,
@@ -1462,11 +1462,11 @@
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </ctl:CtlPixelSurface.Style>
+                    </ctl:PixelSurface.Style>
                     <Grid>
-                        <ctl:CtlPixelSurface FaceBrush="{StaticResource BrsMenuInk}">
-                            <ctl:CtlPixelSurface.Style>
-                                <Style TargetType="ctl:CtlPixelSurface">
+                        <ctl:PixelSurface FaceBrush="{StaticResource BrsMenuInk}">
+                            <ctl:PixelSurface.Style>
+                                <Style TargetType="ctl:PixelSurface">
                                     <Setter Property="Opacity" Value="0" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsMouseOver,
@@ -1481,8 +1481,8 @@
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
-                            </ctl:CtlPixelSurface.Style>
-                        </ctl:CtlPixelSurface>
+                            </ctl:PixelSurface.Style>
+                        </ctl:PixelSurface>
                         <ContentPresenter ContentSource="Header"
                                           Effect="{StaticResource EfxTextRaiseSmall}"
                                           HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -1500,7 +1500,7 @@
                             </ContentPresenter.Style>
                         </ContentPresenter>
                     </Grid>
-                </ctl:CtlPixelSurface>
+                </ctl:PixelSurface>
             </Grid>
         </Grid>
     </ControlTemplate>
@@ -1971,7 +1971,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
-                    <ctl:CtlPixelBorder Background="{TemplateBinding Background}" ctl:PixelShapeCommon.CornerSteps="4"
+                    <ctl:PixelBorder Background="{TemplateBinding Background}" ctl:PixelShapeCommon.CornerSteps="4"
                             BorderBrush="{StaticResource BrsMenuInk}" BorderThickness="0,0,0,3">
                         <Border Width="20" Height="20" Margin="5,0,5,0" Background="{StaticResource BrsMenuLight}"
                                 ctl:PixelShapeCommon.CornerSteps="2">
@@ -1988,7 +1988,7 @@
                                 </Style>
                             </Border.Style>
                         </Border>
-                    </ctl:CtlPixelBorder>
+                    </ctl:PixelBorder>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -2048,7 +2048,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Slider">
                     <Grid>
-                        <ctl:CtlPixelBorder Height="8" ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="1"
+                        <ctl:PixelBorder Height="8" ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="1"
                                 Background="{StaticResource BrsLobbyFieldFace}"
                                 BorderBrush="{StaticResource BrsMenuInk}" BorderThickness="0,0,0,2" />
                         <Track x:Name="PART_Track">

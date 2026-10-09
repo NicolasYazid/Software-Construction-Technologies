@@ -33,7 +33,7 @@
                         <ItemsControl x:Name="lstSanctions">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <ctl:CtlPixelBorder Style="{StaticResource StySanctionCard}">
+                                    <ctl:PixelBorder Style="{StaticResource StySanctionCard}">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*" />
@@ -74,7 +74,7 @@
                                                 </TextBlock>
                                             </Grid>
                                         </Grid>
-                                    </ctl:CtlPixelBorder>
+                                    </ctl:PixelBorder>
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding IsActive}" Value="True">
                                             <Setter TargetName="lblActive" Property="Visibility" Value="Visible" />

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
+using GinRummy.Client.Controllers;
 using GinRummy.Client.Models;
 using GinRummy.Client.Services;
 using Microsoft.Win32;
@@ -18,9 +18,6 @@ namespace GinRummy.Client.Views
     public partial class GuiEditProfile : GuiModalBase
     {
         private const int MaxBioLength = 500;
-        private const long BytesPerMegabyte = 1024L * 1024L;
-        private const long MaxImageMegabytes = 2L;
-        private const long MaxImageBytes = MaxImageMegabytes * BytesPerMegabyte;
         private const string MaxImageSizeText = "2 MB";
         private const string ImageFilter = "*.jpg;*.jpeg;*.png|*.jpg;*.jpeg;*.png";
         private const string BioCounterKey = "EditProfile_LblBioCounter";
@@ -189,12 +186,9 @@ namespace GinRummy.Client.Views
 
         private void ShowPicture(string path)
         {
-            FileInfo file = new FileInfo(path);
-            BitmapImage picture = null;
-            if (file.Length <= MaxImageBytes)
-            {
-                picture = LoadPicture(path);
-            }
+            App application = (App)Application.Current;
+            EditProfileController editProfileController = application.CreateEditProfileController();
+            BitmapImage picture = editProfileController.LoadPicture(path);
 
             // A file that is too large or cannot be decoded as an image keeps the current picture (CU-28 EX-01).
             if (picture == null)
@@ -206,28 +200,6 @@ namespace GinRummy.Client.Views
                 HideError();
                 imgProfilePicture.Source = picture;
             }
-        }
-
-        private static BitmapImage LoadPicture(string path)
-        {
-            BitmapImage picture = new BitmapImage();
-            try
-            {
-                picture.BeginInit();
-                picture.CacheOption = BitmapCacheOption.OnLoad;
-                picture.UriSource = new Uri(path);
-                picture.EndInit();
-            }
-            catch (NotSupportedException)
-            {
-                picture = null;
-            }
-            catch (FileFormatException)
-            {
-                picture = null;
-            }
-
-            return picture;
         }
 
         private void ShowError(string messageKey)

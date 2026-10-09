@@ -2,14 +2,14 @@ namespace GinRummy.Client.Controllers
 {
     public class SignUpResult
     {
-        private SignUpResult(bool succeeded, string errorMessageKey, string generatedCode)
+        private SignUpResult(bool isSuccessful, string errorMessageKey, string generatedCode)
         {
-            Succeeded = succeeded;
+            IsSuccessful = isSuccessful;
             ErrorMessageKey = errorMessageKey;
             GeneratedCode = generatedCode;
         }
 
-        public bool Succeeded { get; }
+        public bool IsSuccessful { get; }
         public string ErrorMessageKey { get; }
         public int? ErrorMessageArgument { get; private set; }
         public string GeneratedCode { get; }

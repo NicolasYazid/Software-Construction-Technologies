@@ -90,13 +90,13 @@ namespace GinRummy.Client.Controls
                         Rect bounds = BoundsIn(card, parent);
                         double cardTop = bounds.Top - card.Margin.Top;
                         double cardBottom = bounds.Bottom + card.Margin.Bottom;
-                        bool overlapsList = (cardBottom > listBounds.Top) && (cardTop < listBounds.Bottom);
+                        bool isOverlappingList = (cardBottom > listBounds.Top) && (cardTop < listBounds.Bottom);
                         bool isAbove = (bounds.Top + (bounds.Height * Half)) < listMiddle;
-                        if (overlapsList && isAbove)
+                        if (isOverlappingList && isAbove)
                         {
                             top = Math.Max(top, cardBottom - listBounds.Top);
                         }
-                        else if (overlapsList)
+                        else if (isOverlappingList)
                         {
                             bottom = Math.Max(bottom, listBounds.Bottom - cardTop);
                         }

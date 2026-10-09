@@ -18,7 +18,7 @@
              measuring the same as on the panel: both come out at about three pixels of screen.
              The paint covers the whole window, so the background of the grid is only seen
              while the first frame is being drawn. -->
-        <ctl:CtlPaintBackground BlockResolution="250" PatternScale="1.45"
+        <ctl:PaintedBackground BlockResolution="250" PatternScale="1.45"
                                 DeepColour="{StaticResource ClrMenuLiquidDeep}"
                                 MidColour="{StaticResource ClrMenuLiquidMid}"
                                 GlowColour="{StaticResource ClrMenuLiquidGlow}" />
@@ -33,7 +33,7 @@
                  are equal, so the centre of both rows is the centre of the window. At this size
                  it does not reach the bar; the usable width is the other limit, because above
                  about 190 it touches the side margins. -->
-            <ctl:CtlBrandMark Grid.Row="0" Grid.RowSpan="2" MarkFontSize="175"
+            <ctl:BrandMark Grid.Row="0" Grid.RowSpan="2" MarkFontSize="175"
                               MarkForeground="{StaticResource BrsMenuLight}"
                               Effect="{StaticResource EfxTextShadow}"
                               Margin="0,0,0,80"
@@ -45,7 +45,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <ctl:CtlPixelSurface Grid.Column="0" Style="{StaticResource StyMenuChip}"
+                <ctl:PixelSurface Grid.Column="0" Style="{StaticResource StyMenuChip}"
                                      HorizontalAlignment="Left" VerticalAlignment="Center" Width="165">
                     <StackPanel>
                         <TextBlock x:Name="lblSettings" Style="{StaticResource StyMenuChipCaption}"
@@ -61,9 +61,9 @@
                             <Image Source="{StaticResource IcoGear}" Width="22" Height="22" />
                         </Button>
                     </StackPanel>
-                </ctl:CtlPixelSurface>
+                </ctl:PixelSurface>
 
-                <ctl:CtlPixelSurface Grid.Column="1" Style="{StaticResource StyMenuBar}"
+                <ctl:PixelSurface Grid.Column="1" Style="{StaticResource StyMenuBar}"
                                      HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel Grid.IsSharedSizeScope="True">
                         <Grid HorizontalAlignment="Center">
@@ -110,9 +110,9 @@
                                     Click="OnExitClick" />
                         </Grid>
                     </StackPanel>
-                </ctl:CtlPixelSurface>
+                </ctl:PixelSurface>
 
-                <ctl:CtlPixelSurface Grid.Column="2" Style="{StaticResource StyMenuChip}"
+                <ctl:PixelSurface Grid.Column="2" Style="{StaticResource StyMenuChip}"
                                      HorizontalAlignment="Right" VerticalAlignment="Center" Width="165">
                     <StackPanel>
                         <TextBlock x:Name="lblLanguage" Style="{StaticResource StyMenuChipCaption}"
@@ -130,7 +130,7 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
                     </StackPanel>
-                </ctl:CtlPixelSurface>
+                </ctl:PixelSurface>
 
             </Grid>
 

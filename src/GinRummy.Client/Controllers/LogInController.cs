@@ -6,6 +6,7 @@ using System.Net.Mail;
 using GinRummy.Domain.Daos;
 using GinRummy.Domain.Entities;
 using GinRummy.Domain.Security;
+using Microsoft.Extensions.Logging;
 
 namespace GinRummy.Client.Controllers
 {
@@ -19,11 +20,13 @@ namespace GinRummy.Client.Controllers
 
         private readonly IPlayerDao _playerDao;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly ILogger<LogInController> _logger;
 
-        public LogInController(IPlayerDao playerDao, IPasswordHasher passwordHasher)
+        public LogInController(IPlayerDao playerDao, IPasswordHasher passwordHasher, ILogger<LogInController> logger)
         {
             _playerDao = playerDao;
             _passwordHasher = passwordHasher;
+            _logger = logger;
         }
 
         public LogInResult SignIn(string email, string password)
@@ -58,7 +61,7 @@ namespace GinRummy.Client.Controllers
         }
 
         // The format is checked with MailAddress instead of a hand-written regular expression that the team would have to maintain.
-        private static bool IsValidEmailFormat(string email)
+        private bool IsValidEmailFormat(string email)
         {
             bool isValid;
             try
@@ -66,8 +69,9 @@ namespace GinRummy.Client.Controllers
                 _ = new MailAddress(email);
                 isValid = true;
             }
-            catch (FormatException)
+            catch (FormatException ex)
             {
+                _logger.LogDebug(ex, "A sign-in email was rejected because it does not have a valid format.");
                 isValid = false;
             }
 
@@ -83,12 +87,14 @@ namespace GinRummy.Client.Controllers
             {
                 result = Authenticate(email, password);
             }
-            catch (DataException)
+            catch (DataException ex)
             {
+                _logger.LogError(ex, "The database could not be reached to sign in a player.");
                 result = LogInResult.Failure(ServiceUnavailableMessageKey);
             }
-            catch (SqlException)
+            catch (SqlException ex)
             {
+                _logger.LogError(ex, "The database could not be reached to sign in a player.");
                 result = LogInResult.Failure(ServiceUnavailableMessageKey);
             }
 

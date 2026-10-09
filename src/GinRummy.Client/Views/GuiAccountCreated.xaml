@@ -11,13 +11,13 @@
              the screen through the canvas that never reports the size of the paint. -->
         <Grid HorizontalAlignment="Right" Width="469" ClipToBounds="True">
             <Canvas>
-                <ctl:CtlPaintBackground Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                <ctl:PaintedBackground Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Canvas}}"
                                         Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Canvas}}"
                                         DeepColour="{StaticResource ClrArtworkDeep}"
                                         MidColour="{StaticResource ClrArtworkMid}"
                                         GlowColour="{StaticResource ClrArtworkGlow}" />
             </Canvas>
-            <ctl:CtlBrandMark MarkFontSize="46" MarkForeground="{StaticResource BrsMenuLight}"
+            <ctl:BrandMark MarkFontSize="46" MarkForeground="{StaticResource BrsMenuLight}"
                               Effect="{StaticResource EfxTextShadow}"
                               HorizontalAlignment="Center" VerticalAlignment="Center" />
         </Grid>

@@ -11,7 +11,7 @@
         <!-- The podium and the rows format their numbers inside a template, where no window can
              rebuild them one by one, so they bind to the culture of the provider as well. -->
         <DataTemplate x:Key="TplPodiumPlace" DataType="{x:Type models:RankingEntryDto}">
-            <ctl:CtlPixelBorder Style="{StaticResource StyPodiumCard}">
+            <ctl:PixelBorder Style="{StaticResource StyPodiumCard}">
                 <StackPanel>
                     <DockPanel LastChildFill="True">
                         <Image DockPanel.Dock="Right" Style="{StaticResource StyPodiumCrown}"
@@ -56,7 +56,7 @@
                         </TextBlock>
                     </StackPanel>
                 </StackPanel>
-            </ctl:CtlPixelBorder>
+            </ctl:PixelBorder>
         </DataTemplate>
 
         <!-- The columns of a row repeat the widths of the head of the table, so that both line
@@ -154,7 +154,7 @@
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
 
-                <ctl:CtlPixelBorder Style="{StaticResource StyRankingTable}" Margin="0,18,0,0">
+                <ctl:PixelBorder Style="{StaticResource StyRankingTable}" Margin="0,18,0,0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -217,9 +217,9 @@
                                           ItemTemplate="{StaticResource TplRankingRow}" />
                         </Grid>
                     </Grid>
-                </ctl:CtlPixelBorder>
+                </ctl:PixelBorder>
 
-                <ctl:CtlPixelBorder Style="{StaticResource StyPanelSearchShell}" Margin="0,16,0,0">
+                <ctl:PixelBorder Style="{StaticResource StyPanelSearchShell}" Margin="0,16,0,0">
                     <DockPanel LastChildFill="True">
                         <Button x:Name="btnSearch" DockPanel.Dock="Right" Style="{StaticResource StyIconButton}"
                                 Width="28" Height="28"
@@ -236,7 +236,7 @@
                                                     Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>
                     </DockPanel>
-                </ctl:CtlPixelBorder>
+                </ctl:PixelBorder>
 
             </StackPanel>
         </ContentControl>

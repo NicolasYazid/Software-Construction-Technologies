@@ -46,6 +46,8 @@
     <Compile Include="Daos\IRankingDao.cs" />
     <Compile Include="Daos\IUnitOfWork.cs" />
     <Compile Include="Daos\IVerificationCodeDao.cs" />
+    <Compile Include="Dtos\NewPlayerDto.cs" />
+    <Compile Include="Dtos\NewVerificationCodeDto.cs" />
     <Compile Include="Entities\LeaderboardPosition.cs" />
     <Compile Include="Entities\Locale.cs" />
     <Compile Include="Entities\Player.cs" />

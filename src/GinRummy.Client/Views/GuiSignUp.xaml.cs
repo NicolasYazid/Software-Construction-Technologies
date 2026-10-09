@@ -52,15 +52,18 @@ namespace GinRummy.Client.Views
 
         private void CreateAccount(string password)
         {
+            AccountForm form = new AccountForm
+            {
+                Email = txtEmail.Text,
+                Username = txtUsername.Text,
+                Password = password,
+                CultureCode = Localization.CurrentCulture.Name
+            };
             App application = (App)Application.Current;
             SignUpController signUpController = application.CreateSignUpController();
-            SignUpResult result = signUpController.CreateAccount(
-                txtEmail.Text,
-                txtUsername.Text,
-                password,
-                Localization.CurrentCulture.Name);
+            SignUpResult result = signUpController.CreateAccount(form);
 
-            if (result.Succeeded)
+            if (result.IsSuccessful)
             {
                 ShowGeneratedCodeAndContinue(result.GeneratedCode);
             }
@@ -71,14 +74,11 @@ namespace GinRummy.Client.Views
         }
 
         // The generated code is shown on screen in place of the email delivery, which is out of scope without a server.
+        // For the same reason GuiVerifyEmail does not compare the typed code with the stored hash, so the account stays unverified.
         private void ShowGeneratedCodeAndContinue(string generatedCode)
         {
             lblErrorMessage.Visibility = Visibility.Collapsed;
             MessageBox.Show(Localization.Format(DemoCodeMessageKey, generatedCode));
-
-            // TODO: When the server exists, the code will be delivered by email.
-            // The verification screen will then check the typed code against the stored hash and mark the account verified.
-            // That loop is server-dependent and will be completed later.
             NavigateTo(new GuiVerifyEmail(VerificationPurpose.AccountSignUp, txtEmail.Text));
         }
 

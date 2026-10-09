@@ -70,9 +70,9 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <ctl:CtlPixelBorder Style="{StaticResource StySocialChip}" ToolTip="{Binding Url}">
+                                    <ctl:PixelBorder Style="{StaticResource StySocialChip}" ToolTip="{Binding Url}">
                                         <TextBlock Style="{StaticResource StySocialChipText}" Text="{Binding PlatformName}" />
-                                    </ctl:CtlPixelBorder>
+                                    </ctl:PixelBorder>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
@@ -89,36 +89,36 @@
                      after the matches the player has played (CU-27 FA-01). -->
                 <UniformGrid Grid.Row="1" Columns="3" Margin="0,34,0,0"
                              Visibility="{Binding Visibility, ElementName=lblMatchesPlayed}">
-                    <ctl:CtlPixelBorder Style="{StaticResource StyStatCard}" Margin="0,0,12,0">
+                    <ctl:PixelBorder Style="{StaticResource StyStatCard}" Margin="0,0,12,0">
                         <StackPanel>
                             <TextBlock x:Name="lblMatchesPlayed" Style="{StaticResource StyStatLabel}"
                                        Text="{Binding [PlayerProfile_LblMatchesPlayed], Source={StaticResource Loc}}" />
                             <TextBlock x:Name="lblMatchesPlayedValue" Style="{StaticResource StyStatValue}" />
                         </StackPanel>
-                    </ctl:CtlPixelBorder>
-                    <ctl:CtlPixelBorder Style="{StaticResource StyStatCard}" Margin="6,0,6,0">
+                    </ctl:PixelBorder>
+                    <ctl:PixelBorder Style="{StaticResource StyStatCard}" Margin="6,0,6,0">
                         <StackPanel>
                             <TextBlock x:Name="lblWinRate" Style="{StaticResource StyStatLabel}"
                                        Text="{Binding [PlayerProfile_LblWinRate], Source={StaticResource Loc}}" />
                             <TextBlock x:Name="lblWinRateValue" Style="{StaticResource StyStatValue}" />
                         </StackPanel>
-                    </ctl:CtlPixelBorder>
-                    <ctl:CtlPixelBorder Style="{StaticResource StyStatCard}" Margin="12,0,0,0">
+                    </ctl:PixelBorder>
+                    <ctl:PixelBorder Style="{StaticResource StyStatCard}" Margin="12,0,0,0">
                         <StackPanel>
                             <TextBlock x:Name="lblScore" Style="{StaticResource StyStatLabel}"
                                        Text="{Binding [PlayerProfile_LblScore], Source={StaticResource Loc}}" />
                             <TextBlock x:Name="lblScoreValue" Style="{StaticResource StyStatValue}" />
                         </StackPanel>
-                    </ctl:CtlPixelBorder>
+                    </ctl:PixelBorder>
                 </UniformGrid>
 
-                <ctl:CtlPixelBorder Grid.Row="1" Style="{StaticResource StyStatCard}" Margin="0,34,0,0"
+                <ctl:PixelBorder Grid.Row="1" Style="{StaticResource StyStatCard}" Margin="0,34,0,0"
                         Width="300" HorizontalAlignment="Left"
                         Visibility="{Binding Visibility, ElementName=lblNoMatchesYet}">
                     <TextBlock x:Name="lblNoMatchesYet" Style="{StaticResource StyStatLabel}" Visibility="Collapsed"
                                Foreground="{StaticResource BrsBody}"
                                Text="{Binding [PlayerProfile_NoMatchesYet], Source={StaticResource Loc}}" />
-                </ctl:CtlPixelBorder>
+                </ctl:PixelBorder>
 
                 <DockPanel Grid.Row="2" Margin="0,40,0,0" LastChildFill="False">
                     <Button x:Name="btnReport" DockPanel.Dock="Left" Style="{StaticResource StyInlineTextButton}"

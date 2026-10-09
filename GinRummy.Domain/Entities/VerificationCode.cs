@@ -1,20 +1,23 @@
 ﻿using System;
 
+using GinRummy.Domain.Dtos;
+
 namespace GinRummy.Domain.Entities
 {
     public class VerificationCode
     {
-        public VerificationCode(int playerId, VerificationPurpose purpose, string codeHash, DateTime expiresAt)
+        public VerificationCode(NewVerificationCodeDto newCode)
         {
             DateTime creationMoment = DateTime.UtcNow;
-            ValidatePlayerId(playerId);
-            ValidateCodeHash(codeHash);
-            ValidateExpiry(expiresAt, creationMoment);
+            ValidateNewCode(newCode);
+            ValidatePlayerId(newCode.PlayerId);
+            ValidateCodeHash(newCode.CodeHash);
+            ValidateExpiry(newCode.ExpiresAt, creationMoment);
 
-            PlayerId = playerId;
-            Purpose = purpose;
-            CodeHash = codeHash;
-            ExpiresAt = expiresAt;
+            PlayerId = newCode.PlayerId;
+            Purpose = newCode.Purpose;
+            CodeHash = newCode.CodeHash;
+            ExpiresAt = newCode.ExpiresAt;
             CreatedAt = creationMoment;
             Attempts = 0;
             UsedAt = null;
@@ -34,6 +37,14 @@ namespace GinRummy.Domain.Entities
         public DateTime? UsedAt { get; private set; }
         public int Attempts { get; private set; }
         public DateTime CreatedAt { get; private set; }
+
+        private static void ValidateNewCode(NewVerificationCodeDto newCode)
+        {
+            if (newCode == null)
+            {
+                throw new ArgumentNullException(nameof(newCode));
+            }
+        }
 
         private static void ValidatePlayerId(int playerId)
         {

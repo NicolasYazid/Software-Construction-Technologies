@@ -4,6 +4,7 @@ using System.Text;
 
 using GinRummy.Domain.Security;
 using Konscious.Security.Cryptography;
+using Microsoft.Extensions.Logging;
 
 namespace GinRummy.Security
 {
@@ -23,6 +24,13 @@ namespace GinRummy.Security
         private const string AlgorithmName = "argon2id";
         private const char FieldSeparator = '$';
 
+        private readonly ILogger<Argon2PasswordHasher> _logger;
+
+        public Argon2PasswordHasher(ILogger<Argon2PasswordHasher> logger)
+        {
+            _logger = logger;
+        }
+
         public string HashPassword(string plainTextPassword)
         {
             byte[] salt = GenerateSalt();
@@ -34,16 +42,16 @@ namespace GinRummy.Security
 
         public bool VerifyPassword(string plainTextPassword, string hash)
         {
-            bool passwordMatches = false;
+            bool isPasswordValid = false;
             byte[] storedSalt;
             byte[] storedHash;
             if (TryDecode(hash, out storedSalt, out storedHash))
             {
                 byte[] candidateHash = ComputeHash(plainTextPassword, storedSalt);
-                passwordMatches = AreEqual(candidateHash, storedHash);
+                isPasswordValid = AreEqual(candidateHash, storedHash);
             }
 
-            return passwordMatches;
+            return isPasswordValid;
         }
 
         // A new salt every time makes two players with the same password end up with different stored hashes.
@@ -92,31 +100,6 @@ namespace GinRummy.Security
             return encodedHash;
         }
 
-        // A stored value without the expected shape returns false instead of throwing.
-        // A corrupt or unrelated value should only make the login attempt fail, not crash the sign-in screen.
-        private static bool TryDecode(string encodedHash, out byte[] salt, out byte[] hash)
-        {
-            bool decoded = false;
-            salt = null;
-            hash = null;
-            string[] fields = encodedHash.Split(FieldSeparator);
-            if (fields.Length == ExpectedFieldCount)
-            {
-                try
-                {
-                    salt = Convert.FromBase64String(fields[SaltFieldIndex]);
-                    hash = Convert.FromBase64String(fields[HashFieldIndex]);
-                    decoded = true;
-                }
-                catch (FormatException)
-                {
-                    decoded = false;
-                }
-            }
-
-            return decoded;
-        }
-
         // Every byte is compared without stopping at the first difference, as a defense against timing attacks.
         // The time the comparison takes then does not depend on how many leading bytes matched.
         private static bool AreEqual(byte[] first, byte[] second)
@@ -128,9 +111,34 @@ namespace GinRummy.Security
                 difference |= first[index] ^ second[index];
             }
 
-            bool areEqual = (difference == 0);
+            bool isEqual = (difference == 0);
 
-            return areEqual;
+            return isEqual;
+        }
+
+        // A stored value without the expected shape returns false instead of throwing.
+        // A corrupt or unrelated value should only make the login attempt fail, not crash the sign-in screen.
+        private bool TryDecode(string encodedHash, out byte[] salt, out byte[] hash)
+        {
+            bool isDecoded = false;
+            salt = null;
+            hash = null;
+            string[] fields = encodedHash.Split(FieldSeparator);
+            if (fields.Length == ExpectedFieldCount)
+            {
+                try
+                {
+                    salt = Convert.FromBase64String(fields[SaltFieldIndex]);
+                    hash = Convert.FromBase64String(fields[HashFieldIndex]);
+                    isDecoded = true;
+                }
+                catch (FormatException ex)
+                {
+                    _logger.LogError(ex, "A stored password hash has a salt or hash field that is not valid Base64.");
+                }
+            }
+
+            return isDecoded;
         }
     }
 }
