@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using GinRummy.Domain.Daos;
 using GinRummy.Domain.Entities;
+using GinRummy.Domain.Repositories;
 using GinRummy.Domain.Services;
 
 namespace GinRummy.Application.UseCases
@@ -15,18 +15,18 @@ namespace GinRummy.Application.UseCases
     {
         private const int FirstPlace = 1;
 
-        private readonly IRankingDao _rankingDao;
+        private readonly IRankingRepository _rankingRepository;
         private readonly RankResolver _rankResolver;
 
         /// <summary>
-        /// Builds the use case with the ranking DAO and the rank resolver the
+        /// Builds the use case with the ranking repository and the rank resolver the
         /// composition root assembled.
         /// </summary>
-        /// <param name="rankingDao">DAO used to read stats and ranks.</param>
+        /// <param name="rankingRepository">Repository used to read stats and ranks.</param>
         /// <param name="rankResolver">Domain rule that resolves a score into its rank.</param>
-        public ViewLeaderboardUseCase(IRankingDao rankingDao, RankResolver rankResolver)
+        public ViewLeaderboardUseCase(IRankingRepository rankingRepository, RankResolver rankResolver)
         {
-            _rankingDao = rankingDao;
+            _rankingRepository = rankingRepository;
             _rankResolver = rankResolver;
         }
 
@@ -36,8 +36,8 @@ namespace GinRummy.Application.UseCases
         /// <returns>The leaderboard positions; empty when there are no players.</returns>
         public IReadOnlyList<LeaderboardPosition> GetLeaderboard()
         {
-            IList<PlayerStats> stats = _rankingDao.GetStatsRankedByScore();
-            IList<Rank> ranks = _rankingDao.GetAllRanks();
+            IList<PlayerStats> stats = _rankingRepository.GetStatsRankedByScore();
+            IList<Rank> ranks = _rankingRepository.GetAllRanks();
             IReadOnlyList<LeaderboardPosition> leaderboard = BuildLeaderboard(stats, ranks);
 
             return leaderboard;
@@ -60,7 +60,7 @@ namespace GinRummy.Application.UseCases
 
         // CU-19 orders the leaderboard by wins first.
         // Score, losses and username only break ties.
-        // The DAO's own order by score is intentionally overridden here.
+        // The repository's own order by score is intentionally overridden here.
         private IList<PlayerStats> OrderByLeaderboardRules(IList<PlayerStats> stats)
         {
             IList<PlayerStats> orderedStats = stats

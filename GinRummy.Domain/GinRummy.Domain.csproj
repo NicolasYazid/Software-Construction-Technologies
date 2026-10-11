@@ -41,11 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Daos\ILocaleDao.cs" />
-    <Compile Include="Daos\IPlayerDao.cs" />
-    <Compile Include="Daos\IRankingDao.cs" />
-    <Compile Include="Daos\IUnitOfWork.cs" />
-    <Compile Include="Daos\IVerificationCodeDao.cs" />
+    <Compile Include="Repositories\ILocaleRepository.cs" />
+    <Compile Include="Repositories\IPlayerRepository.cs" />
+    <Compile Include="Repositories\IRankingRepository.cs" />
+    <Compile Include="Repositories\IUnitOfWork.cs" />
+    <Compile Include="Repositories\IVerificationCodeRepository.cs" />
     <Compile Include="Dtos\NewPlayerDto.cs" />
     <Compile Include="Dtos\NewVerificationCodeDto.cs" />
     <Compile Include="Entities\LeaderboardPosition.cs" />

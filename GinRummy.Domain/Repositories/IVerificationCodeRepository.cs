@@ -1,8 +1,8 @@
 ﻿using GinRummy.Domain.Entities;
 
-namespace GinRummy.Domain.Daos
+namespace GinRummy.Domain.Repositories
 {
-    public interface IVerificationCodeDao
+    public interface IVerificationCodeRepository
     {
         VerificationCode FindMostRecent(int playerId, VerificationPurpose purpose);
 

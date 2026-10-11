@@ -2,24 +2,24 @@
 using System.Linq;
 
 using GinRummy.Data.EntityFramework.Persistence;
-using GinRummy.Domain.Daos;
 using GinRummy.Domain.Entities;
+using GinRummy.Domain.Repositories;
 
-namespace GinRummy.Data.EntityFramework.Daos
+namespace GinRummy.Data.EntityFramework.Repositories
 {
-    public class VerificationCodeDao : IVerificationCodeDao
+    public class VerificationCodeRepository : IVerificationCodeRepository
     {
         private readonly string _connectionStringName;
         private readonly GinRummyContext _sharedContext;
 
-        public VerificationCodeDao(string connectionStringName)
+        public VerificationCodeRepository(string connectionStringName)
         {
             _connectionStringName = connectionStringName;
         }
 
-        // The context can come from the caller so that several DAOs take part in one transaction.
-        // Only the contexts this DAO creates are disposed of here; a shared one belongs to its caller.
-        public VerificationCodeDao(GinRummyContext sharedContext)
+        // The context can come from the caller so that several repositories take part in one transaction.
+        // Only the contexts this repository creates are disposed of here; a shared one belongs to its caller.
+        public VerificationCodeRepository(GinRummyContext sharedContext)
         {
             _sharedContext = sharedContext;
         }

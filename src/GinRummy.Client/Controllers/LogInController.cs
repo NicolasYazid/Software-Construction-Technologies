@@ -3,8 +3,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Net.Mail;
 
-using GinRummy.Domain.Daos;
 using GinRummy.Domain.Entities;
+using GinRummy.Domain.Repositories;
 using GinRummy.Domain.Security;
 using Microsoft.Extensions.Logging;
 
@@ -18,13 +18,13 @@ namespace GinRummy.Client.Controllers
         private const string WrongPasswordMessageKey = "Error_AuthWrongPassword";
         private const string ServiceUnavailableMessageKey = "Error_SysServiceUnavailable";
 
-        private readonly IPlayerDao _playerDao;
+        private readonly IPlayerRepository _playerRepository;
         private readonly IPasswordHasher _passwordHasher;
         private readonly ILogger<LogInController> _logger;
 
-        public LogInController(IPlayerDao playerDao, IPasswordHasher passwordHasher, ILogger<LogInController> logger)
+        public LogInController(IPlayerRepository playerRepository, IPasswordHasher passwordHasher, ILogger<LogInController> logger)
         {
-            _playerDao = playerDao;
+            _playerRepository = playerRepository;
             _passwordHasher = passwordHasher;
             _logger = logger;
         }
@@ -106,7 +106,7 @@ namespace GinRummy.Client.Controllers
         private LogInResult Authenticate(string email, string password)
         {
             LogInResult result;
-            Player player = _playerDao.FindByEmail(email.Trim().ToLowerInvariant());
+            Player player = _playerRepository.FindByEmail(email.Trim().ToLowerInvariant());
             if (player == null)
             {
                 result = LogInResult.Failure(EmailNotFoundMessageKey);

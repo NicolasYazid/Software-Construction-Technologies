@@ -2,9 +2,9 @@
 
 using GinRummy.Domain.Entities;
 
-namespace GinRummy.Domain.Daos
+namespace GinRummy.Domain.Repositories
 {
-    public interface IRankingDao
+    public interface IRankingRepository
     {
         IList<PlayerStats> GetStatsRankedByScore();
 

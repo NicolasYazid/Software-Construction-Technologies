@@ -7,9 +7,9 @@ using System.Windows.Media.Effects;
 using GinRummy.Client.Controllers;
 using GinRummy.Client.Localization;
 using GinRummy.Client.Logging;
-using GinRummy.Data.EntityFramework.Daos;
 using GinRummy.Data.EntityFramework.Persistence;
-using GinRummy.Domain.Daos;
+using GinRummy.Data.EntityFramework.Repositories;
+using GinRummy.Domain.Repositories;
 using GinRummy.Domain.Security;
 using GinRummy.Security;
 using Microsoft.Extensions.Logging;
@@ -64,7 +64,7 @@ namespace GinRummy.Client
         public LogInController CreateLogInController()
         {
             return new LogInController(
-                new PlayerDao(ConnectionStringName),
+                new PlayerRepository(ConnectionStringName),
                 _passwordHasher,
                 _loggerFactory.CreateLogger<LogInController>());
         }
@@ -72,7 +72,7 @@ namespace GinRummy.Client
         public RankingsController CreateRankingsController()
         {
             return new RankingsController(
-                new RankingDao(ConnectionStringName),
+                new RankingRepository(ConnectionStringName),
                 _loggerFactory.CreateLogger<RankingsController>());
         }
 

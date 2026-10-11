@@ -1,8 +1,8 @@
 ﻿using GinRummy.Domain.Entities;
 
-namespace GinRummy.Domain.Daos
+namespace GinRummy.Domain.Repositories
 {
-    public interface IPlayerDao
+    public interface IPlayerRepository
     {
         Player FindByEmail(string email);
 

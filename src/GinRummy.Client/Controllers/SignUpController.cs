@@ -6,9 +6,9 @@ using System.Linq;
 using System.Net.Mail;
 
 using GinRummy.Client.Localization;
-using GinRummy.Domain.Daos;
 using GinRummy.Domain.Dtos;
 using GinRummy.Domain.Entities;
+using GinRummy.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 
 namespace GinRummy.Client.Controllers

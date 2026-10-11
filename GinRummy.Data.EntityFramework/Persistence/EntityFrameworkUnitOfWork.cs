@@ -1,7 +1,7 @@
 ﻿using System.Data.Entity;
 
-using GinRummy.Data.EntityFramework.Daos;
-using GinRummy.Domain.Daos;
+using GinRummy.Data.EntityFramework.Repositories;
+using GinRummy.Domain.Repositories;
 
 namespace GinRummy.Data.EntityFramework.Persistence
 {
@@ -15,14 +15,14 @@ namespace GinRummy.Data.EntityFramework.Persistence
         {
             _context = new GinRummyContext(connectionStringName);
             _transaction = _context.Database.BeginTransaction();
-            Players = new PlayerDao(_context);
-            VerificationCodes = new VerificationCodeDao(_context);
-            Locales = new LocaleDao(_context);
+            Players = new PlayerRepository(_context);
+            VerificationCodes = new VerificationCodeRepository(_context);
+            Locales = new LocaleRepository(_context);
         }
 
-        public IPlayerDao Players { get; private set; }
-        public IVerificationCodeDao VerificationCodes { get; private set; }
-        public ILocaleDao Locales { get; private set; }
+        public IPlayerRepository Players { get; private set; }
+        public IVerificationCodeRepository VerificationCodes { get; private set; }
+        public ILocaleRepository Locales { get; private set; }
 
         public void Commit()
         {

@@ -1,24 +1,24 @@
 ﻿using System.Linq;
 
 using GinRummy.Data.EntityFramework.Persistence;
-using GinRummy.Domain.Daos;
 using GinRummy.Domain.Entities;
+using GinRummy.Domain.Repositories;
 
-namespace GinRummy.Data.EntityFramework.Daos
+namespace GinRummy.Data.EntityFramework.Repositories
 {
-    public class LocaleDao : ILocaleDao
+    public class LocaleRepository : ILocaleRepository
     {
         private readonly string _connectionStringName;
         private readonly GinRummyContext _sharedContext;
 
-        public LocaleDao(string connectionStringName)
+        public LocaleRepository(string connectionStringName)
         {
             _connectionStringName = connectionStringName;
         }
 
-        // The context can come from the caller so that several DAOs take part in one transaction.
-        // Only the contexts this DAO creates are disposed of here; a shared one belongs to its caller.
-        public LocaleDao(GinRummyContext sharedContext)
+        // The context can come from the caller so that several repositories take part in one transaction.
+        // Only the contexts this repository creates are disposed of here; a shared one belongs to its caller.
+        public LocaleRepository(GinRummyContext sharedContext)
         {
             _sharedContext = sharedContext;
         }

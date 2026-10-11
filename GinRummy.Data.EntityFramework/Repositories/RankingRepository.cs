@@ -3,16 +3,16 @@ using System.Data.Entity;
 using System.Linq;
 
 using GinRummy.Data.EntityFramework.Persistence;
-using GinRummy.Domain.Daos;
 using GinRummy.Domain.Entities;
+using GinRummy.Domain.Repositories;
 
-namespace GinRummy.Data.EntityFramework.Daos
+namespace GinRummy.Data.EntityFramework.Repositories
 {
-    public class RankingDao : IRankingDao
+    public class RankingRepository : IRankingRepository
     {
         private readonly string _connectionStringName;
 
-        public RankingDao(string connectionStringName)
+        public RankingRepository(string connectionStringName)
         {
             _connectionStringName = connectionStringName;
         }

@@ -4,8 +4,8 @@ using System.Data.SqlClient;
 using System.Linq;
 
 using GinRummy.Client.Models;
-using GinRummy.Domain.Daos;
 using GinRummy.Domain.Entities;
+using GinRummy.Domain.Repositories;
 using Microsoft.Extensions.Logging;
 
 namespace GinRummy.Client.Controllers
@@ -16,13 +16,13 @@ namespace GinRummy.Client.Controllers
         private const string ServiceUnavailableMessageKey = "Error_SysServiceUnavailable";
         private const int FirstPosition = 1;
 
-        private readonly IRankingDao _rankingDao;
+        private readonly IRankingRepository _rankingRepository;
         private readonly ILogger<RankingsController> _logger;
         private IList<Rank> _ranks;
 
-        public RankingsController(IRankingDao rankingDao, ILogger<RankingsController> logger)
+        public RankingsController(IRankingRepository rankingRepository, ILogger<RankingsController> logger)
         {
-            _rankingDao = rankingDao;
+            _rankingRepository = rankingRepository;
             _logger = logger;
             _ranks = new List<Rank>();
         }
@@ -55,8 +55,8 @@ namespace GinRummy.Client.Controllers
             ErrorMessageKey = null;
             try
             {
-                rankedStats = _rankingDao.GetStatsRankedByScore();
-                _ranks = _rankingDao.GetAllRanks();
+                rankedStats = _rankingRepository.GetStatsRankedByScore();
+                _ranks = _rankingRepository.GetAllRanks();
             }
             catch (DataException ex)
             {

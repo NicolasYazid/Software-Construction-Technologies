@@ -27,16 +27,16 @@ WebSockets are not used.
 
 | Project | Path | Responsibility |
 | :--- | :--- | :--- |
-| `GinRummy.Domain` | `GinRummy.Domain/` | Entities, DAO and security ports, rank resolution. Depends on no other project. |
+| `GinRummy.Domain` | `GinRummy.Domain/` | Entities, repository and security ports, rank resolution. Depends on no other project. |
 | `GinRummy.Application` | `GinRummy.Application/` | Use cases. Today only `ViewLeaderboardUseCase`. |
 | `GinRummy.Contracts` | `GinRummy.Contracts/` | WCF service contracts and their data contracts, shared by client and server. |
-| `GinRummy.Data.EntityFramework` | `GinRummy.Data.EntityFramework/` | Entity Framework 6 adapter: context, DAOs and unit of work. |
+| `GinRummy.Data.EntityFramework` | `GinRummy.Data.EntityFramework/` | Entity Framework 6 adapter: context, repositories and unit of work. |
 | `GinRummy.Security` | `GinRummy.Security/` | Argon2id password hashing, verification code generation and SHA-256 code hashing. |
 | `GinRummy.Server` | `GinRummy.Server/` | Composition root of the server and WCF host. |
 | `GinRummy.Client` | `src/GinRummy.Client/` | WPF client: windows, modals, controllers, localization, styles and drawing controls. |
 
 The code is organized as ports and adapters: the domain declares the interfaces it needs
-(`IPlayerDao`, `IPasswordHasher`, ...) and each technology implements them in its own
+(`IPlayerRepository`, `IPasswordHasher`, ...) and each technology implements them in its own
 project. The only places that know the concrete classes are the composition roots,
 `GinRummy.Server/Program.cs` and `src/GinRummy.Client/App.xaml.cs`.
 
@@ -126,7 +126,7 @@ entry in `LocalizationProvider.AvailableCultures`, then rebuilding the client.
 
 ## Conventions
 
-- Code follows the team's C# coding standard (version 8). `.editorconfig` applies the
+- Code follows the team's C# coding standard (version 9). `.editorconfig` applies the
   formatting and naming rules that Visual Studio can check.
 - Every `catch` block that handles a failure without propagating it records it through the
   `ILogger<T>` that the class receives in its constructor.

@@ -1,8 +1,8 @@
 ﻿using GinRummy.Domain.Entities;
 
-namespace GinRummy.Domain.Daos
+namespace GinRummy.Domain.Repositories
 {
-    public interface ILocaleDao
+    public interface ILocaleRepository
     {
         Locale FindByCode(string localeCode);
     }
