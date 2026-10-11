@@ -1,18 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
 
 using GinRummy.Domain.Security;
 
 namespace GinRummy.Security
 {
-    // A cryptographically secure generator is used instead of Random, whose sequence can be predicted.
+    /// <summary>
+    /// Fulfils IVerificationCodeGenerator using a cryptographically secure random number,
+    /// so a code cannot be predicted the way a plain Random sequence could be.
+    /// </summary>
     public class RandomVerificationCodeGenerator : IVerificationCodeGenerator
     {
         private const int CodeLength = 6;
         private const long CodeUpperBound = 1000000;
-        private const char PaddingDigit = '0';
 
+        /// <summary>
+        /// Generates a new six-digit code, as a string so a leading zero is never lost.
+        /// </summary>
+        /// <returns>A six-character string of digits.</returns>
         public string GenerateCode()
         {
             byte[] randomBytes = new byte[sizeof(uint)];
@@ -23,10 +33,11 @@ namespace GinRummy.Security
 
             uint randomNumber = BitConverter.ToUInt32(randomBytes, 0);
 
-            // A tiny bias, well under one in four billion, exists because 2^32 is not a multiple of 1,000,000.
-            // It does not matter for a six-digit code that expires in minutes and is rate-limited by Attempts.
+            // A tiny bias (well under one in four billion) exists because 2^32 does not
+            // divide evenly into 1,000,000. It does not matter for a six-digit code that
+            // expires in minutes and is rate-limited by Attempts.
             long codeValue = randomNumber % CodeUpperBound;
-            string code = codeValue.ToString(CultureInfo.InvariantCulture).PadLeft(CodeLength, PaddingDigit);
+            string code = codeValue.ToString(CultureInfo.InvariantCulture).PadLeft(CodeLength, '0');
 
             return code;
         }

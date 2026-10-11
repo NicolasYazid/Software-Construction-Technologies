@@ -6,7 +6,6 @@ using System.Linq;
 using System.Net.Mail;
 
 using GinRummy.Client.Localization;
-using GinRummy.Domain.Dtos;
 using GinRummy.Domain.Entities;
 using GinRummy.Domain.Repositories;
 using Microsoft.Extensions.Logging;
@@ -22,6 +21,9 @@ namespace GinRummy.Client.Controllers
         private const string EmailAlreadyRegisteredMessageKey = "Error_AuthEmailAlreadyRegistered";
         private const string UnexpectedErrorMessageKey = "Error_SysUnexpected";
         private const string ServiceUnavailableMessageKey = "Error_SysServiceUnavailable";
+        // The same limits as the username and email columns of the Player table.
+        private const int MaxUsernameLength = 20;
+        private const int MaxEmailLength = 254;
         private const int MinimumPasswordLength = 8;
         private const int VerificationCodeLifetimeMinutes = 10;
         private const int UniqueConstraintViolationErrorNumber = 2627;
@@ -103,14 +105,14 @@ namespace GinRummy.Client.Controllers
                 result = SignUpResult.Failure(RequiredFieldMessageKey);
             }
 
-            if ((result == null) && IsTooLong(form.Username, Player.MaxUsernameLength))
+            if ((result == null) && IsTooLong(form.Username, MaxUsernameLength))
             {
-                result = SignUpResult.Failure(FieldLengthMessageKey, Player.MaxUsernameLength);
+                result = SignUpResult.Failure(FieldLengthMessageKey, MaxUsernameLength);
             }
 
-            if ((result == null) && IsTooLong(form.Email, Player.MaxEmailLength))
+            if ((result == null) && IsTooLong(form.Email, MaxEmailLength))
             {
-                result = SignUpResult.Failure(FieldLengthMessageKey, Player.MaxEmailLength);
+                result = SignUpResult.Failure(FieldLengthMessageKey, MaxEmailLength);
             }
 
             if ((result == null) && !IsValidEmailFormat(form.Email))
@@ -225,25 +227,20 @@ namespace GinRummy.Client.Controllers
             Locale locale = unitOfWork.Locales.FindByCode(form.CultureCode)
                 ?? unitOfWork.Locales.FindByCode(LocalizationProvider.DefaultCultureCode);
 
-            NewPlayerDto newPlayerData = new NewPlayerDto
-            {
-                Username = form.Username,
-                Email = form.Email,
-                PasswordHash = _accountSecurity.PasswordHasher.HashPassword(form.Password),
-                LocaleId = locale.LocaleId
-            };
-            Player newPlayer = new Player(newPlayerData);
+            Player newPlayer = new Player(
+                form.Username,
+                form.Email,
+                _accountSecurity.PasswordHasher.HashPassword(form.Password),
+                locale.LocaleId);
             unitOfWork.Players.Add(newPlayer);
 
             string plainCode = _accountSecurity.CodeGenerator.GenerateCode();
-            NewVerificationCodeDto newCodeData = new NewVerificationCodeDto
-            {
-                PlayerId = newPlayer.PlayerId,
-                Purpose = VerificationPurpose.CreateAccount,
-                CodeHash = _accountSecurity.CodeHasher.ComputeHash(plainCode),
-                ExpiresAt = DateTime.UtcNow.AddMinutes(VerificationCodeLifetimeMinutes)
-            };
-            unitOfWork.VerificationCodes.Add(new VerificationCode(newCodeData));
+            VerificationCode newCode = new VerificationCode(
+                newPlayer.PlayerId,
+                VerificationPurpose.CreateAccount,
+                _accountSecurity.CodeHasher.ComputeHash(plainCode),
+                DateTime.UtcNow.AddMinutes(VerificationCodeLifetimeMinutes));
+            unitOfWork.VerificationCodes.Add(newCode);
 
             unitOfWork.Commit();
 

@@ -50,7 +50,7 @@ namespace GinRummy.Client
                 LogFolderName,
                 LogFileName);
             _loggerFactory = new FileLoggerFactory(logFilePath, LogLevel.Debug);
-            _passwordHasher = new Argon2PasswordHasher(_loggerFactory.CreateLogger<Argon2PasswordHasher>());
+            _passwordHasher = new Argon2PasswordHasher();
         }
 
         public SignUpController CreateSignUpController()
