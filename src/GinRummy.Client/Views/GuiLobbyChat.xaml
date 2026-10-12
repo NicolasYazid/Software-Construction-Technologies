@@ -75,7 +75,7 @@
                  the row it was opened on and not from the place where it is declared. -->
             <ContextMenu x:Key="CtxPlayerActions" Style="{StaticResource StyPlayerMenu}"
                          DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
-                <MenuItem x:Name="mniChallenge"
+                <MenuItem x:Name="mniChallenge" Style="{StaticResource StyPlayerMenuChallengeItem}"
                           Header="{Binding [LobbyChat_MniChallenge], Source={StaticResource Loc}}"
                           Click="OnChallengeClick">
                     <MenuItem.Icon>

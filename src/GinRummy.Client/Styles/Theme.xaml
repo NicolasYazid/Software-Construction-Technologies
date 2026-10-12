@@ -1628,20 +1628,24 @@
         <Setter Property="Margin" Value="6,16,6,8" />
     </Style>
 
-    <!-- The context menu of a player takes the sunk face of the fields and lights the item
-         under the pointer with the colour of what is chosen. The system menu draws a light
-         chrome of its own, hence the templates. -->
+    <!-- The context menu of a player is built like the table of the leaderboard: a glass card
+         over the room, rows split by the same thin rule, and the item under the pointer lit
+         with the glass green of the own row, so the room keeps showing through it. The rule
+         sits above each item and the menu hides the first one, because the last item changes
+         with the kind of player while the first one is always there. The system menu draws a
+         light chrome of its own, hence the templates. -->
     <Style x:Key="StyPlayerMenuItem" TargetType="MenuItem">
         <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
-        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontSize" Value="24" />
         <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Padding" Value="14,8,22,8" />
+        <Setter Property="Padding" Value="16,10,26,10" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="MenuItem">
-                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"
+                            BorderBrush="{StaticResource BrsLobbyRule}" BorderThickness="0,1,0,0">
                         <StackPanel Orientation="Horizontal">
                             <ContentPresenter ContentSource="Icon" Width="16" Height="16"
                                               Margin="0,0,12,0" VerticalAlignment="Center" />
@@ -1653,10 +1657,16 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsHighlighted" Value="True">
-                <Setter Property="Background" Value="{StaticResource BrsHighlight}" />
+                <Setter Property="Background" Value="{StaticResource BrsHighlightGlass}" />
                 <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
             </Trigger>
         </Style.Triggers>
+    </Style>
+
+    <!-- Challenging is the action the menu exists for, so it takes the face of the titles and
+         stands apart from the other items. -->
+    <Style x:Key="StyPlayerMenuChallengeItem" TargetType="MenuItem" BasedOn="{StaticResource StyPlayerMenuItem}">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
     </Style>
 
     <!-- Only a friend can be removed, and only someone who is not a friend yet can receive a
@@ -1698,15 +1708,37 @@
         </Style.Triggers>
     </Style>
 
+    <!-- The shadow of the panels is too wide for a small menu. This one is shorter, and the
+         margin of the menu gives it room inside the popup, which cuts anything drawn beyond
+         its bounds. -->
+    <DropShadowEffect x:Key="EfxPlayerMenuShadow" Color="#FF0A130E"
+                      BlurRadius="20" ShadowDepth="8" Direction="270" Opacity="0.9" />
+
     <Style x:Key="StyPlayerMenu" TargetType="ContextMenu">
         <Setter Property="ItemContainerStyle" Value="{StaticResource StyPlayerMenuItem}" />
+        <Setter Property="HasDropShadow" Value="False" />
+        <!-- The offsets undo the margin left for the shadow, so the menu still opens at the
+             pointer. -->
+        <Setter Property="HorizontalOffset" Value="-20" />
+        <Setter Property="VerticalOffset" Value="-12" />
         <Setter Property="Template">
             <Setter.Value>
+                <!-- The inner border repeats the stepped outline of the face and carries no
+                     padding, so a lit first or last item fills the face up to its stepped corners
+                     instead of covering them or leaving a bare strip. The layout keeps the four
+                     units of the bottom border free, while the ink base PixelBorder draws is one
+                     block of three, so the margin of -1 makes the inner border end exactly where
+                     the face ends and lets both outlines share the same blocks. -->
                 <ControlTemplate TargetType="ContextMenu">
-                    <Border Background="{StaticResource BrsFieldFace}" BorderBrush="{StaticResource BrsMenuInk}"
-                            BorderThickness="0,0,0,4" Padding="0,6,0,6" MinWidth="230">
-                        <StackPanel IsItemsHost="True" />
-                    </Border>
+                    <ctl:PixelBorder Style="{StaticResource StyLobbyGlassCard}" MinWidth="260" Margin="20,12,20,28"
+                                     Effect="{StaticResource EfxPlayerMenuShadow}">
+                        <Border Background="Transparent" Margin="0,0,0,-1"
+                                ctl:PixelShapeCommon.CornerSteps="4">
+                            <Grid ClipToBounds="True">
+                                <StackPanel IsItemsHost="True" Margin="0,-1,0,0" />
+                            </Grid>
+                        </Border>
+                    </ctl:PixelBorder>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
