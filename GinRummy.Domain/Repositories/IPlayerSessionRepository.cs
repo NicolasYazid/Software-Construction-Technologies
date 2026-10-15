@@ -5,8 +5,8 @@ using GinRummy.Domain.Entities;
 namespace GinRummy.Domain.Repositories
 {
     /// <summary>
-    /// Contract the game's logic uses to reach registered players' sessions, without knowing
-    /// how or where they are stored. Guest sessions are added together with their entity.
+    /// Contract the game's logic uses to reach the sessions of registered players and of guests, without
+    /// knowing how or where they are stored.
     /// </summary>
     public interface IPlayerSessionRepository
     {
@@ -38,5 +38,18 @@ namespace GinRummy.Domain.Repositories
         /// <param name="endedAt">Moment the session ended, in UTC.</param>
         /// <exception cref="InvalidOperationException">Thrown when the session does not exist.</exception>
         void End(int playerSessionId, DateTime endedAt);
+
+        /// <summary>
+        /// Finds a guest session by its identifier, or null when it does not exist.
+        /// </summary>
+        /// <param name="guestSessionId">Identifier of the guest session.</param>
+        /// <returns>The matching guest session, or null.</returns>
+        GuestSession FindGuestById(int guestSessionId);
+
+        /// <summary>
+        /// Adds a new guest session and persists it immediately.
+        /// </summary>
+        /// <param name="newGuest">Guest session to create.</param>
+        void AddGuest(GuestSession newGuest);
     }
 }

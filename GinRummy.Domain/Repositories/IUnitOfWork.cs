@@ -54,6 +54,16 @@ namespace GinRummy.Domain.Repositories
         IMessageRepository Messages { get; }
 
         /// <summary>
+        /// Gets the challenge repository bound to this unit of work.
+        /// </summary>
+        IChallengeRepository Challenges { get; }
+
+        /// <summary>
+        /// Gets the match and match history repository bound to this unit of work.
+        /// </summary>
+        IGameRepository Games { get; }
+
+        /// <summary>
         /// Saves every change made through this unit of work as one transaction, including
         /// changes made by calling methods on entities the repositories returned.
         /// </summary>

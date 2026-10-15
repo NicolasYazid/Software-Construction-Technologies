@@ -77,5 +77,25 @@ namespace GinRummy.Data.EntityFramework.Repositories
             session.End(endedAt);
             _context.SaveChanges();
         }
+
+        /// <summary>
+        /// Finds a guest session by its identifier, or null when it does not exist.
+        /// </summary>
+        /// <param name="guestSessionId">Identifier of the guest session.</param>
+        /// <returns>The matching guest session, or null.</returns>
+        public GuestSession FindGuestById(int guestSessionId)
+        {
+            return _context.GuestSessions.FirstOrDefault(guest => guest.GuestSessionId == guestSessionId);
+        }
+
+        /// <summary>
+        /// Adds a new guest session and persists it immediately.
+        /// </summary>
+        /// <param name="newGuest">Guest session to create.</param>
+        public void AddGuest(GuestSession newGuest)
+        {
+            _context.GuestSessions.Add(newGuest);
+            _context.SaveChanges();
+        }
     }
 }

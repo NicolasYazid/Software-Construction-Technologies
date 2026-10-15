@@ -22,6 +22,8 @@ namespace GinRummy.Data.EntityFramework.Persistence
         private readonly IFriendRepository _friends;
         private readonly IModerationRepository _moderation;
         private readonly IMessageRepository _messages;
+        private readonly IChallengeRepository _challenges;
+        private readonly IGameRepository _games;
         private bool _isDisposed;
 
         /// <summary>
@@ -40,6 +42,8 @@ namespace GinRummy.Data.EntityFramework.Persistence
             _friends = new FriendRepository(_context);
             _moderation = new ModerationRepository(_context);
             _messages = new MessageRepository(_context);
+            _challenges = new ChallengeRepository(_context);
+            _games = new GameRepository(_context);
         }
 
         /// <summary>
@@ -104,6 +108,22 @@ namespace GinRummy.Data.EntityFramework.Persistence
         public IMessageRepository Messages
         {
             get { return _messages; }
+        }
+
+        /// <summary>
+        /// Gets the challenge repository bound to this unit of work.
+        /// </summary>
+        public IChallengeRepository Challenges
+        {
+            get { return _challenges; }
+        }
+
+        /// <summary>
+        /// Gets the match and match history repository bound to this unit of work.
+        /// </summary>
+        public IGameRepository Games
+        {
+            get { return _games; }
         }
 
         /// <summary>

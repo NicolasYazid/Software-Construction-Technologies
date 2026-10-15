@@ -142,6 +142,31 @@ namespace GinRummy.Data.EntityFramework.Persistence
         public DbSet<ReasonBan> ReasonBans { get; set; }
 
         /// <summary>
+        /// Gets or sets the GuestSession set.
+        /// </summary>
+        public DbSet<GuestSession> GuestSessions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the GameSession set.
+        /// </summary>
+        public DbSet<GameSession> GameSessions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the GameParticipant set.
+        /// </summary>
+        public DbSet<GameParticipant> GameParticipants { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Challenge set.
+        /// </summary>
+        public DbSet<Challenge> Challenges { get; set; }
+
+        /// <summary>
+        /// Gets or sets the GameHistory set.
+        /// </summary>
+        public DbSet<GameHistory> GameHistories { get; set; }
+
+        /// <summary>
         /// Registers one configuration per entity. The translation tables (RankLocale,
         /// ReportCategoryLocale, ReasonBanLocale and ProhibitedWordLocale) have no set of
         /// their own because they are always reached through their parent.
@@ -150,9 +175,14 @@ namespace GinRummy.Data.EntityFramework.Persistence
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Configurations.Add(new BanConfiguration());
+            modelBuilder.Configurations.Add(new ChallengeConfiguration());
             modelBuilder.Configurations.Add(new EmailConfiguration());
             modelBuilder.Configurations.Add(new FriendRequestConfiguration());
             modelBuilder.Configurations.Add(new FriendShipConfiguration());
+            modelBuilder.Configurations.Add(new GameHistoryConfiguration());
+            modelBuilder.Configurations.Add(new GameParticipantConfiguration());
+            modelBuilder.Configurations.Add(new GameSessionConfiguration());
+            modelBuilder.Configurations.Add(new GuestSessionConfiguration());
             modelBuilder.Configurations.Add(new LocaleConfiguration());
             modelBuilder.Configurations.Add(new MessageConfiguration());
             modelBuilder.Configurations.Add(new PlatformConfiguration());
