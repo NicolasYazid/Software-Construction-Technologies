@@ -1,43 +1,74 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.ServiceModel;
-using System.Text;
-using System.Threading.Tasks;
+using System.ServiceModel.Description;
+using System.ServiceModel.Dispatcher;
 
 using GinRummy.Application.UseCases;
-using GinRummy.Contracts;
 using GinRummy.Data.EntityFramework.Repositories;
 using GinRummy.Domain.Repositories;
 using GinRummy.Domain.Services;
+using GinRummy.Server.Hosting;
+using GinRummy.Server.Logging;
 using GinRummy.Server.Services;
+
+using Microsoft.Extensions.Logging;
 
 namespace GinRummy.Server
 {
     /// <summary>
-    /// Entry point of the server process. It composes the rankings service and hosts it so
-    /// clients can reach it over the network.
+    /// Entry point and composition root of the server process. Each service gets its own host,
+    /// built from the system.serviceModel section of App.config, so a failure in one service
+    /// stays in that service.
     /// </summary>
     public class Program
     {
         private const string ConnectionStringName = "GinRummyDb";
-        private const string ServiceAddress = "net.tcp://localhost:8000/RankingsService";
+        private const string LogFolderName = "Logs";
+        private const string LogFileName = "GinRummy.Server.log";
 
         /// <summary>
-        /// Composes the rankings service and keeps it listening until a key is pressed.
+        /// Composes and opens every service and keeps them listening until Enter is pressed.
         /// </summary>
+        /// <param name="args">Command line arguments; not used.</param>
         public static void Main(string[] args)
         {
-            RankingsService rankingsService = ComposeRankingsService();
-            using (ServiceHost host = new ServiceHost(rankingsService))
+            using (ILoggerFactory loggerFactory = new FileLoggerFactory(BuildLogFilePath(), LogLevel.Information))
             {
-                host.AddServiceEndpoint(typeof(IRankingService), new NetTcpBinding(), ServiceAddress);
-                host.Open();
-                // The host serves requests on its own threads; block here so the process
+                IErrorHandler faultShield = new FaultShieldErrorHandler(loggerFactory.CreateLogger<FaultShieldErrorHandler>());
+                IServiceBehavior faultShieldBehavior = new FaultShieldBehavior(faultShield);
+                ServiceHostGroup hostGroup = new ServiceHostGroup(loggerFactory.CreateLogger<ServiceHostGroup>());
+
+                hostGroup.Add(CreateIsolatedHost(typeof(RankingsService), ComposeRankingsService, faultShieldBehavior));
+
+                hostGroup.OpenAll();
+                // The hosts serve requests on their own threads; block here so the process
                 // stays alive and keeps listening until someone presses Enter.
                 Console.ReadLine();
+                hostGroup.CloseAll();
             }
         }
+
+        // The address, binding, timeouts and throttling come from App.config, so the code holds no network values.
+        private static ServiceHost CreateIsolatedHost(
+            Type serviceType,
+            Func<object> createInstance,
+            IServiceBehavior faultShieldBehavior)
+        {
+            ServiceHost host = new ServiceHost(serviceType);
+            host.Description.Behaviors.Add(new InstanceFactoryBehavior(createInstance));
+            host.Description.Behaviors.Add(faultShieldBehavior);
+
+            return host;
+        }
+
+        private static string BuildLogFilePath()
+        {
+            string logFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, LogFolderName);
+
+            return Path.Combine(logFolder, LogFileName);
+        }
+
         private static RankingsService ComposeRankingsService()
         {
             IRankingRepository rankingRepository = new RankingRepository(ConnectionStringName);
