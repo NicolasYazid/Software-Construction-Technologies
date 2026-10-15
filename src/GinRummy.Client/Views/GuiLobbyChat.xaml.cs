@@ -154,8 +154,10 @@ namespace GinRummy.Client.Views
             LobbyPlayerDto player = GetMenuPlayer(sender);
             if (player != null)
             {
-                GuiReportPlayer reportPlayer = new GuiReportPlayer(player.Username);
-                ShowModal(reportPlayer);
+                ReportNoticeDto notice = new ReportNoticeDto();
+                notice.PlayerName = player.Username;
+                notice.SentAt = DateTime.Now;
+                AddChatEntry(notice);
             }
         }
 

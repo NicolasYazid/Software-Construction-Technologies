@@ -7,8 +7,10 @@
          application publishes when it starts, after the theme has been loaded; each lobby
          merges them into its own resources, and by then the provider exists. -->
 
+    <!-- The messages sit further in than the cards that float over them, so an avatar passing
+         under a card never shows through the stepped corners of the card. -->
     <DataTemplate DataType="{x:Type models:ChatMessageDto}">
-        <Grid Margin="20,8,20,8">
+        <Grid Margin="30,8,30,8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />

@@ -1258,11 +1258,17 @@
         <Setter Property="ctl:PixelShapeCommon.PixelUnit" Value="2" />
     </Style>
 
-    <!-- The rules sit on the same translucent face and ink base as the panel that holds them, so
-         they read as one more piece of the room and not as a solid patch over it. The messages
-         run under them, so they cast the deep shadow of the panels over the messages and read
-         as floating above the list. -->
+    <!-- The notices of a challenge keep the glass of the panels, so they read as one more piece
+         of the room. The cards that frame the chat, its rules, the state of the search and the
+         confirmation of a report, take the face of the pressed tab of the side panel: the face
+         of the switch under the ink at the opacity of a press. They read apart from the
+         challenges and stay solid over the messages that scroll under them. -->
+    <SolidColorBrush x:Key="BrsChatCardFace" Color="#FF1A1612" />
+
+    <!-- The messages run under the rules, so the rules cast the deep shadow of the panels over
+         the messages and read as floating above the list. -->
     <Style x:Key="StyChatRulesCard" TargetType="Border" BasedOn="{StaticResource StyLobbyGlassCard}">
+        <Setter Property="Background" Value="{StaticResource BrsChatCardFace}" />
         <Setter Property="Padding" Value="20,14,20,16" />
         <Setter Property="Effect" Value="{StaticResource EfxFloatShadow}" />
     </Style>
@@ -1311,18 +1317,20 @@
         <Setter Property="Visibility" Value="Collapsed" />
     </Style>
 
-    <!-- The notices of a challenge are cards of glass like the rules of the chat, and line up
-         with them and with the messages, so the chat reads as a single surface. Their glass is
-         tinted dark brown instead of the green of the panel, the brown of the fields of the
-         room, so a challenge stands apart from the rules and the messages around it while the
-         primary button to accept still stands out on the card. -->
-    <SolidColorBrush x:Key="BrsChatNoticeFace" Color="#8C38271B" />
-
+    <!-- The notices of a challenge line up with the rules on both sides, so the chat reads as a
+         single surface. The rules float over the whole list, while a notice lives inside it,
+         left of the scroll bar of eight units and the padding of six the list keeps for it;
+         the right margin is therefore those fourteen units shorter than the one of the rules. -->
     <Style x:Key="StyChatNotice" TargetType="Border" BasedOn="{StaticResource StyLobbyGlassCard}">
-        <Setter Property="Background" Value="{StaticResource BrsChatNoticeFace}" />
-        <Setter Property="Margin" Value="20,8,20,8" />
+        <Setter Property="Margin" Value="20,8,6,8" />
         <Setter Property="Padding" Value="20,10,16,10" />
         <Setter Property="MinHeight" Value="58" />
+    </Style>
+
+    <!-- The confirmation of a report is a message of the system and not a challenge, so it takes
+         the brown of the cards that frame the chat. -->
+    <Style x:Key="StyChatInfoNotice" TargetType="Border" BasedOn="{StaticResource StyChatNotice}">
+        <Setter Property="Background" Value="{StaticResource BrsChatCardFace}" />
     </Style>
 
     <Style x:Key="StyChatNoticeText" TargetType="TextBlock">
@@ -1364,7 +1372,9 @@
     </Style>
 
     <!-- The padding is the room kept around the messages inside the scroll, which is how the
-         lobbies leave space for the cards that float over the list. -->
+         lobbies leave space for the cards that float over the list. The bar always shows, so
+         the width the notices take inside the list never changes and they stay aligned with
+         the cards that float over it. -->
     <Style x:Key="StyChatList" TargetType="ListBox">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
@@ -1374,7 +1384,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ListBox">
                     <ScrollViewer Focusable="False" CanContentScroll="False"
-                                  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                  HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible">
                         <ItemsPresenter Margin="{TemplateBinding Padding}" />
                     </ScrollViewer>
                 </ControlTemplate>
@@ -1392,6 +1402,7 @@
          same piece that holds the rules of the chat, and float over the messages with the same
          shadow. -->
     <Style x:Key="StyLobbyStatusCard" TargetType="Border" BasedOn="{StaticResource StyLobbyGlassCard}">
+        <Setter Property="Background" Value="{StaticResource BrsChatCardFace}" />
         <Setter Property="Padding" Value="22,16,18,18" />
         <Setter Property="Margin" Value="20,4,20,14" />
         <Setter Property="Effect" Value="{StaticResource EfxFloatShadow}" />
@@ -1855,53 +1866,14 @@
         <Setter Property="Visibility" Value="Collapsed" />
     </Style>
 
-    <Style x:Key="StyReportedPlayer" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
-        <Setter Property="FontWeight" Value="Normal" />
-        <Setter Property="FontSize" Value="22" />
-        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
-    </Style>
-
-    <!-- The reasons of a report are exclusive options: a disc ringed with the colour of the
-         muted text, since a sunk edge alone vanished over the dark card, that fills with the
-         light of the menu when it is chosen. -->
-    <Style x:Key="StyReasonRadio" TargetType="RadioButton">
+    <!-- Once the report is received, the action of the profile gives way to this confirmation,
+         in the light of the body text so it reads as a state and not as one more action. -->
+    <Style x:Key="StyReportReceived" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
-        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontSize" Value="24" />
         <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
-        <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Margin" Value="0,0,0,12" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="RadioButton">
-                    <StackPanel Orientation="Horizontal" Background="Transparent">
-                        <Border Width="22" Height="22" Padding="2" VerticalAlignment="Center"
-                                Background="{StaticResource BrsCheckBorder}"
-                                ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="4">
-                            <Border Background="{TemplateBinding Background}"
-                                    ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="3">
-                                <Border Width="10" Height="10" Background="{StaticResource BrsMenuLight}"
-                                        ctl:PixelShapeCommon.PixelUnit="2" ctl:PixelShapeCommon.CornerSteps="1"
-                                        Visibility="{TemplateBinding IsChecked,
-                                                     Converter={StaticResource CnvBooleanToVisibility}}" />
-                            </Border>
-                        </Border>
-                        <ContentPresenter Margin="12,0,0,0" VerticalAlignment="Center" />
-                    </StackPanel>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsChecked" Value="True">
-                <Setter Property="Background" Value="{StaticResource BrsHighlight}" />
-            </Trigger>
-        </Style.Triggers>
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Visibility" Value="Collapsed" />
     </Style>
 
     <Style x:Key="StyFieldArea" TargetType="Border" BasedOn="{StaticResource StyFieldShell}">
@@ -2229,15 +2201,17 @@
     <!-- ============= Leaderboard and house rules (P18, P19) ============= -->
 
     <!-- The places of the podium are glass cards, the same device as the performance of the
-         profile. The first one takes the brown glass of the notices of the lobby, so that it
-         stands out with a colour the room already has, and carries the crown instead of its
-         number. -->
+         profile. The first one takes a glass tinted with the brown of the fields of the room,
+         so that it stands out with a colour the room already has, and carries the crown
+         instead of its number. -->
+    <SolidColorBrush x:Key="BrsPodiumLeadFace" Color="#8C38271B" />
+
     <Style x:Key="StyPodiumCard" TargetType="Border" BasedOn="{StaticResource StySettingCard}">
         <Setter Property="Padding" Value="18,14,18,16" />
         <Setter Property="Margin" Value="6,0,6,0" />
         <Style.Triggers>
             <DataTrigger Binding="{Binding Position}" Value="1">
-                <Setter Property="Background" Value="{StaticResource BrsChatNoticeFace}" />
+                <Setter Property="Background" Value="{StaticResource BrsPodiumLeadFace}" />
             </DataTrigger>
         </Style.Triggers>
     </Style>

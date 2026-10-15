@@ -906,6 +906,9 @@ Tú: {0}   -   Rival: {1}</value>
     <value>Aún no hay rivales disponibles. Seguimos buscando.</value>
     <comment>Mensajes del sistema de GuiLobbyChat</comment>
   </data>
+  <data name="LobbyChat_ReportReceived" xml:space="preserve">
+    <value>Recibimos tu reporte sobre {0}</value>
+  </data>
   <data name="LobbyChat_TabEveryone" xml:space="preserve">
     <value>Todos</value>
     <comment>Pestañas (compartida)</comment>
@@ -1053,6 +1056,9 @@ Tú: {0}   -   Rival: {1}</value>
   <data name="PlayerProfile_LblMatchesPlayed" xml:space="preserve">
     <value>Partidas jugadas</value>
     <comment>Contenido de GuiPlayerProfile</comment>
+  </data>
+  <data name="PlayerProfile_LblReportReceived" xml:space="preserve">
+    <value>Recibimos tu reporte</value>
   </data>
   <data name="PlayerProfile_LblScore" xml:space="preserve">
     <value>Puntuación</value>
@@ -1281,26 +1287,6 @@ Tú: {0}   -   Rival: {1}</value>
   <data name="RecoverPassword_TxtEmailPlaceholder" xml:space="preserve">
     <value>tu@correo.com</value>
     <comment>Formulario de GuiRecoverPassword</comment>
-  </data>
-  <data name="ReportPlayer_BtnSubmit" xml:space="preserve">
-    <value>Enviar</value>
-    <comment>Acciones de GuiReportPlayer</comment>
-  </data>
-  <data name="ReportPlayer_LblDescription" xml:space="preserve">
-    <value>Descripción (opcional)</value>
-    <comment>Contenido de GuiReportPlayer</comment>
-  </data>
-  <data name="ReportPlayer_LblTitle" xml:space="preserve">
-    <value>Reportar jugador</value>
-    <comment>Encabezado de GuiReportPlayer</comment>
-  </data>
-  <data name="ReportPlayer_NoCategorySelected" xml:space="preserve">
-    <value>Selecciona un motivo</value>
-    <comment>Mensajes del sistema de GuiReportPlayer</comment>
-  </data>
-  <data name="ReportPlayer_TxtDescriptionPlaceholder" xml:space="preserve">
-    <value>Cuéntanos qué pasó</value>
-    <comment>Formulario de GuiReportPlayer</comment>
   </data>
   <data name="Sanctions_EmptyState" xml:space="preserve">
     <value>No tienes ninguna sanción</value>

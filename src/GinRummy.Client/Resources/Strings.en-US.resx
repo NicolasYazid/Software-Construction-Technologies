@@ -710,6 +710,9 @@ You: {0}   -   Opponent: {1}</value>
   <data name="LobbyChat_NoOpponentAvailable" xml:space="preserve">
     <value>No opponents available yet. We keep looking.</value>
   </data>
+  <data name="LobbyChat_ReportReceived" xml:space="preserve">
+    <value>We received your report about {0}</value>
+  </data>
   <data name="LobbyChat_TabEveryone" xml:space="preserve">
     <value>Everyone</value>
   </data>
@@ -820,6 +823,9 @@ You: {0}   -   Opponent: {1}</value>
   </data>
   <data name="PlayerProfile_LblMatchesPlayed" xml:space="preserve">
     <value>Matches played</value>
+  </data>
+  <data name="PlayerProfile_LblReportReceived" xml:space="preserve">
+    <value>We received your report</value>
   </data>
   <data name="PlayerProfile_LblScore" xml:space="preserve">
     <value>Score</value>
@@ -991,21 +997,6 @@ You: {0}   -   Opponent: {1}</value>
   </data>
   <data name="RecoverPassword_TxtEmailPlaceholder" xml:space="preserve">
     <value>you@email.com</value>
-  </data>
-  <data name="ReportPlayer_BtnSubmit" xml:space="preserve">
-    <value>Submit</value>
-  </data>
-  <data name="ReportPlayer_LblDescription" xml:space="preserve">
-    <value>Description (optional)</value>
-  </data>
-  <data name="ReportPlayer_LblTitle" xml:space="preserve">
-    <value>Report player</value>
-  </data>
-  <data name="ReportPlayer_NoCategorySelected" xml:space="preserve">
-    <value>Select a reason</value>
-  </data>
-  <data name="ReportPlayer_TxtDescriptionPlaceholder" xml:space="preserve">
-    <value>Tell us what happened</value>
   </data>
   <data name="Sanctions_EmptyState" xml:space="preserve">
     <value>You have no sanctions</value>

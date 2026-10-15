@@ -54,7 +54,8 @@ namespace GinRummy.Client.Views
             lblSocialLinks.Visibility = VisibilityCommon.FromCondition(isPlayer && (_profile.SocialLinks.Count > 0));
             lblMatchesPlayed.Visibility = VisibilityCommon.FromCondition(isPlayer && hasMatches);
             lblNoMatchesYet.Visibility = VisibilityCommon.FromCondition(isPlayer && !hasMatches);
-            btnReport.Visibility = VisibilityCommon.FromCondition(isOther);
+            btnReport.Visibility = VisibilityCommon.FromCondition(isOther && !_profile.HasReported);
+            lblReportReceived.Visibility = VisibilityCommon.FromCondition(isOther && _profile.HasReported);
             btnAddFriend.Visibility = VisibilityCommon.FromCondition(isOther && !_profile.IsFriend);
             btnAddFriend.IsEnabled = !_profile.HasPendingRequest;
             btnRemoveFriend.Visibility = VisibilityCommon.FromCondition(isOther && _profile.IsFriend);
@@ -63,8 +64,8 @@ namespace GinRummy.Client.Views
 
         private void OnReportClick(object sender, RoutedEventArgs e)
         {
-            GuiReportPlayer reportPlayer = new GuiReportPlayer(_profile.Username);
-            ShowModal(reportPlayer);
+            _profile.HasReported = true;
+            ApplyRelation();
         }
 
         private void OnAddFriendClick(object sender, RoutedEventArgs e)

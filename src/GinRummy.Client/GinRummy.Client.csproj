@@ -144,10 +144,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GuiReportPlayer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\GuiNotifications.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -266,9 +262,6 @@
     <Compile Include="Views\GuiReconnecting.xaml.cs">
       <DependentUpon>GuiReconnecting.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GuiReportPlayer.xaml.cs">
-      <DependentUpon>GuiReportPlayer.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\GuiNotifications.xaml.cs">
       <DependentUpon>GuiNotifications.xaml</DependentUpon>
     </Compile>
@@ -316,6 +309,7 @@
     <Compile Include="Models\ChatMessageDto.cs" />
     <Compile Include="Models\ChallengeNoticeKind.cs" />
     <Compile Include="Models\ChallengeNoticeDto.cs" />
+    <Compile Include="Models\ReportNoticeDto.cs" />
     <Compile Include="Models\LobbyPlayerDto.cs" />
     <Compile Include="Models\MatchPairDto.cs" />
     <Compile Include="Models\LobbySnapshotDto.cs" />

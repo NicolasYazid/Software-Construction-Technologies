@@ -71,6 +71,19 @@
                 </DataTemplate.Triggers>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type models:ReportNoticeDto}">
+                <ctl:PixelBorder Style="{StaticResource StyChatInfoNotice}">
+                    <TextBlock Style="{StaticResource StyChatNoticeText}" Visibility="Visible">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
+                                <Binding Path="[LobbyChat_ReportReceived]" Source="{StaticResource Loc}" />
+                                <Binding Path="PlayerName" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </ctl:PixelBorder>
+            </DataTemplate>
+
             <!-- One menu serves every row of the panel. Being shared, it takes the player from
                  the row it was opened on and not from the place where it is declared. -->
             <ContextMenu x:Key="CtxPlayerActions" Style="{StaticResource StyPlayerMenu}"
