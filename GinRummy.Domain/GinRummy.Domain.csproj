@@ -71,10 +71,17 @@
     <Compile Include="Entities\VerificationCode.cs" />
     <Compile Include="Entities\VerificationPurpose.cs" />
     <Compile Include="Entities\Warning.cs" />
+    <Compile Include="Infrastructure\IClock.cs" />
+    <Compile Include="Infrastructure\IEmailSender.cs" />
+    <Compile Include="Infrastructure\IProfilePictureStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IFriendRepository.cs" />
     <Compile Include="Repositories\ILocaleRepository.cs" />
+    <Compile Include="Repositories\IMessageRepository.cs" />
+    <Compile Include="Repositories\IModerationRepository.cs" />
     <Compile Include="Repositories\IPlayerAccountRepository.cs" />
     <Compile Include="Repositories\IPlayerRepository.cs" />
+    <Compile Include="Repositories\IPlayerSessionRepository.cs" />
     <Compile Include="Repositories\IRankingRepository.cs" />
     <Compile Include="Repositories\IUnitOfWork.cs" />
     <Compile Include="Repositories\IVerificationCodeHasher.cs" />
@@ -82,6 +89,8 @@
     <Compile Include="Security\IPasswordHasher.cs" />
     <Compile Include="Security\IVerificationCodeGenerator.cs" />
     <Compile Include="Services\RankResolver.cs" />
+    <Compile Include="Services\VerificationCodeChecker.cs" />
+    <Compile Include="Services\VerificationCodeCheckResult.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -17,19 +17,31 @@ namespace GinRummy.Domain.Entities
         private const int MaxUsernameLength = 20;
 
         /// <summary>
-        /// Creates a valid new player, stamped with the current UTC time. The chat filter
-        /// starts enabled.
+        /// Creates a valid new player, stamped with the current UTC time. Kept for callers
+        /// that have no clock yet; code that has one should pass the moment explicitly.
         /// </summary>
         /// <param name="username">Display name; required, at most 20 characters.</param>
         /// <param name="localeId">Locale chosen by the player; must be positive.</param>
         public Player(string username, int localeId)
+            : this(username, localeId, DateTime.UtcNow)
+        {
+        }
+
+        /// <summary>
+        /// Creates a valid new player registered at the given moment. The chat filter starts
+        /// enabled.
+        /// </summary>
+        /// <param name="username">Display name; required, at most 20 characters.</param>
+        /// <param name="localeId">Locale chosen by the player; must be positive.</param>
+        /// <param name="createdAt">Moment of registration, in UTC.</param>
+        public Player(string username, int localeId, DateTime createdAt)
         {
             ValidateUsername(username);
             ValidateLocaleId(localeId);
 
             Username = username.Trim();
             LocaleId = localeId;
-            CreatedAt = DateTime.UtcNow;
+            CreatedAt = createdAt;
             IsChatFilterEnabled = true;
         }
 
