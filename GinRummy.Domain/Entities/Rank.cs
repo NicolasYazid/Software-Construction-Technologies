@@ -17,6 +17,7 @@ namespace GinRummy.Domain.Entities
         /// </summary>
         protected Rank()
         {
+            Translations = new List<RankLocale>();
         }
 
         /// <summary>
@@ -25,7 +26,7 @@ namespace GinRummy.Domain.Entities
         public int RankId { get; private set; }
 
         /// <summary>
-        /// Gets the display name of the rank, such as "Bronce" or "Oro".
+        /// Gets the display name of the rank, such as "S" or "A".
         /// </summary>
         public string Name { get; private set; }
 
@@ -38,5 +39,27 @@ namespace GinRummy.Domain.Entities
         /// Gets the highest score that belongs to this rank.
         /// </summary>
         public int MaximumScore { get; private set; }
+
+        /// <summary>
+        /// Gets the names of the rank in each language.
+        /// </summary>
+        public virtual ICollection<RankLocale> Translations { get; private set; }
+
+        /// <summary>
+        /// Gets the name of the rank in the given language.
+        /// </summary>
+        /// <param name="localeId">Identifier of the language.</param>
+        /// <returns>The translated name, or the base name when that language has no translation.</returns>
+        public string GetNameFor(int localeId)
+        {
+            RankLocale translation = Translations.FirstOrDefault(candidate => candidate.LocaleId == localeId);
+            string name = Name;
+            if (translation != null)
+            {
+                name = translation.Name;
+            }
+
+            return name;
+        }
     }
 }

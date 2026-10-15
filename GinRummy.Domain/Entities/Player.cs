@@ -8,16 +8,17 @@ namespace GinRummy.Domain.Entities
 {
     /// <summary>
     /// A player as the game knows them, mapped to the Player table: the name, the public
-    /// tag and the locale. The credentials of a registered player live in its
-    /// PlayerAccount. Protects its own invariants: a player cannot exist without a valid
-    /// username and locale.
+    /// tag, the locale and the chat filter preference. The credentials of a registered
+    /// player live in its PlayerAccount. Protects its own invariants: a player cannot exist
+    /// without a valid username and locale.
     /// </summary>
     public class Player
     {
         private const int MaxUsernameLength = 20;
 
         /// <summary>
-        /// Creates a valid new player, stamped with the current UTC time.
+        /// Creates a valid new player, stamped with the current UTC time. The chat filter
+        /// starts enabled.
         /// </summary>
         /// <param name="username">Display name; required, at most 20 characters.</param>
         /// <param name="localeId">Locale chosen by the player; must be positive.</param>
@@ -29,6 +30,7 @@ namespace GinRummy.Domain.Entities
             Username = username.Trim();
             LocaleId = localeId;
             CreatedAt = DateTime.UtcNow;
+            IsChatFilterEnabled = true;
         }
 
         /// <summary>
@@ -51,7 +53,8 @@ namespace GinRummy.Domain.Entities
         public int PublicTag { get; private set; }
 
         /// <summary>
-        /// Gets the display name chosen at registration.
+        /// Gets the display name chosen by the player. It is not unique; the public tag tells
+        /// players with the same name apart.
         /// </summary>
         public string Username { get; private set; }
 
@@ -64,6 +67,33 @@ namespace GinRummy.Domain.Entities
         /// Gets the registration date, in UTC.
         /// </summary>
         public DateTime CreatedAt { get; private set; }
+
+        /// <summary>
+        /// Gets whether the player wants prohibited words hidden in the messages they read.
+        /// </summary>
+        public bool IsChatFilterEnabled { get; private set; }
+
+        /// <summary>
+        /// Replaces the display name.
+        /// </summary>
+        /// <param name="username">New display name; required, at most 20 characters.</param>
+        public void ChangeUsername(string username)
+        {
+            ValidateUsername(username);
+
+            Username = username.Trim();
+        }
+
+        /// <summary>
+        /// Replaces the locale configured for the player.
+        /// </summary>
+        /// <param name="localeId">Identifier of the new locale; must be positive.</param>
+        public void ChangeLocale(int localeId)
+        {
+            ValidateLocaleId(localeId);
+
+            LocaleId = localeId;
+        }
 
         // A player must always have a non-empty username within the length the database
         // column allows.

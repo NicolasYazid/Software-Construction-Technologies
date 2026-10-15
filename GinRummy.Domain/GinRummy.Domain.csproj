@@ -41,14 +41,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Ban.cs" />
+    <Compile Include="Entities\Email.cs" />
+    <Compile Include="Entities\EmailDeliveryStatus.cs" />
+    <Compile Include="Entities\FriendRequest.cs" />
+    <Compile Include="Entities\FriendShip.cs" />
     <Compile Include="Entities\LeaderboardPosition.cs" />
     <Compile Include="Entities\Locale.cs" />
+    <Compile Include="Entities\Message.cs" />
+    <Compile Include="Entities\MessageChannel.cs" />
+    <Compile Include="Entities\Platform.cs" />
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\PlayerAccount.cs" />
+    <Compile Include="Entities\PlayerProfile.cs" />
+    <Compile Include="Entities\PlayerSession.cs" />
     <Compile Include="Entities\PlayerStats.cs" />
+    <Compile Include="Entities\ProhibitedWord.cs" />
+    <Compile Include="Entities\ProhibitedWordLocale.cs" />
     <Compile Include="Entities\Rank.cs" />
+    <Compile Include="Entities\RankLocale.cs" />
+    <Compile Include="Entities\ReasonBan.cs" />
+    <Compile Include="Entities\ReasonBanLocale.cs" />
+    <Compile Include="Entities\Report.cs" />
+    <Compile Include="Entities\ReportCategory.cs" />
+    <Compile Include="Entities\ReportCategoryLocale.cs" />
+    <Compile Include="Entities\ReportStatus.cs" />
+    <Compile Include="Entities\RestrictionScope.cs" />
+    <Compile Include="Entities\SocialMedia.cs" />
     <Compile Include="Entities\VerificationCode.cs" />
     <Compile Include="Entities\VerificationPurpose.cs" />
+    <Compile Include="Entities\Warning.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ILocaleRepository.cs" />
     <Compile Include="Repositories\IPlayerAccountRepository.cs" />

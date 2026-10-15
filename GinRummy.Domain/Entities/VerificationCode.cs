@@ -8,8 +8,8 @@ namespace GinRummy.Domain.Entities
 {
     /// <summary>
     /// A one-time code sent to confirm an email address or authorize a sensitive action.
-    /// Protects its own invariants: it cannot expire before it was created, and it always
-    /// starts with zero attempts and unused.
+    /// Protects its own invariants: it cannot expire before it was created, it always
+    /// starts with zero attempts and unused, and it can be used only once.
     /// </summary>
     public class VerificationCode
     {
@@ -83,6 +83,29 @@ namespace GinRummy.Domain.Entities
         /// Gets the moment this code was generated, in UTC.
         /// </summary>
         public DateTime CreatedAt { get; private set; }
+
+        /// <summary>
+        /// Counts one more wrong code entered against this one.
+        /// </summary>
+        public void RegisterFailedAttempt()
+        {
+            Attempts++;
+        }
+
+        /// <summary>
+        /// Marks the code as used so it cannot confirm anything else.
+        /// </summary>
+        /// <param name="usedAt">Moment the code was successfully entered, in UTC.</param>
+        /// <exception cref="InvalidOperationException">Thrown when the code was already used.</exception>
+        public void MarkAsUsed(DateTime usedAt)
+        {
+            if (UsedAt.HasValue)
+            {
+                throw new InvalidOperationException("The verification code was already used.");
+            }
+
+            UsedAt = usedAt;
+        }
 
         // A code must always belong to a real player, referenced by a positive id.
         private static void ValidatePlayerId(int playerId)

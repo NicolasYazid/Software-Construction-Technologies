@@ -18,7 +18,7 @@ namespace GinRummy.Domain.Entities
 
         /// <summary>
         /// Creates a valid new account for a player that is already stored. A new account
-        /// always starts unverified.
+        /// always starts unverified and without two-step verification.
         /// </summary>
         /// <param name="playerId">Identifier of the player that owns the account; must be positive.</param>
         /// <param name="email">Account email; required, at most 254 characters.</param>
@@ -30,9 +30,10 @@ namespace GinRummy.Domain.Entities
             ValidatePasswordHash(passwordHash);
 
             PlayerId = playerId;
-            Email = email.Trim().ToLowerInvariant();
+            Email = NormalizeEmail(email);
             PasswordHash = passwordHash;
             IsEmailVerified = false;
+            IsTwoFactorEnabled = false;
         }
 
         /// <summary>
@@ -70,10 +71,71 @@ namespace GinRummy.Domain.Entities
         public bool IsEmailVerified { get; private set; }
 
         /// <summary>
+        /// Gets whether signing in also requires a code sent by email.
+        /// </summary>
+        public bool IsTwoFactorEnabled { get; private set; }
+
+        /// <summary>
         /// Gets the player that owns the account, loaded from the relationship between the
         /// two tables.
         /// </summary>
         public virtual Player Player { get; private set; }
+
+        /// <summary>
+        /// Marks the email address as verified.
+        /// </summary>
+        public void MarkEmailVerified()
+        {
+            IsEmailVerified = true;
+        }
+
+        /// <summary>
+        /// Records the moment of the last successful sign-in.
+        /// </summary>
+        /// <param name="loggedInAt">Moment the player signed in, in UTC.</param>
+        public void RegisterLogin(DateTime loggedInAt)
+        {
+            LastLoginAt = loggedInAt;
+        }
+
+        /// <summary>
+        /// Replaces the password hash.
+        /// </summary>
+        /// <param name="passwordHash">Hash of the new password; required, never plain text.</param>
+        public void ChangePasswordHash(string passwordHash)
+        {
+            ValidatePasswordHash(passwordHash);
+
+            PasswordHash = passwordHash;
+        }
+
+        /// <summary>
+        /// Replaces the email address. The new address was already proven to belong to the
+        /// player, so the account stays verified.
+        /// </summary>
+        /// <param name="email">New account email; required, at most 254 characters.</param>
+        public void ChangeEmail(string email)
+        {
+            ValidateEmail(email);
+
+            Email = NormalizeEmail(email);
+        }
+
+        /// <summary>
+        /// Turns on two-step verification.
+        /// </summary>
+        public void EnableTwoFactor()
+        {
+            IsTwoFactorEnabled = true;
+        }
+
+        /// <summary>
+        /// Turns off two-step verification.
+        /// </summary>
+        public void DisableTwoFactor()
+        {
+            IsTwoFactorEnabled = false;
+        }
 
         // The key of the account is the key of a player that already exists.
         private static void ValidatePlayerId(int playerId)
@@ -106,6 +168,14 @@ namespace GinRummy.Domain.Entities
             {
                 throw new ArgumentException("Password hash is required.", nameof(passwordHash));
             }
+        }
+
+        // The column is unique, so the same address in different case must be the same value.
+        private static string NormalizeEmail(string email)
+        {
+            string normalizedEmail = email.Trim().ToLowerInvariant();
+
+            return normalizedEmail;
         }
     }
 }

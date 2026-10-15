@@ -12,8 +12,26 @@ namespace GinRummy.Domain.Entities
     /// </summary>
     public class PlayerStats
     {
+        private const int InitialScore = 1000;
+
         /// <summary>
-        /// Parameterless constructor reserved for Entity Framework's materialization.
+        /// Creates the stats every new account starts with: no wins, no losses and the
+        /// initial score.
+        /// </summary>
+        /// <param name="playerId">Identifier of the account the stats belong to; must be positive.</param>
+        public PlayerStats(int playerId)
+        {
+            ValidatePlayerId(playerId);
+
+            PlayerId = playerId;
+            Wins = 0;
+            Losses = 0;
+            Score = InitialScore;
+        }
+
+        /// <summary>
+        /// Parameterless constructor reserved for Entity Framework's materialization; not
+        /// for application code, which must use the validating constructor.
         /// </summary>
         protected PlayerStats()
         {
@@ -65,6 +83,15 @@ namespace GinRummy.Domain.Entities
                 }
 
                 return winRate;
+            }
+        }
+
+        // The stats of an account are keyed by the account, which must already exist.
+        private static void ValidatePlayerId(int playerId)
+        {
+            if (playerId <= 0)
+            {
+                throw new ArgumentException("Player id must be positive.", nameof(playerId));
             }
         }
     }
