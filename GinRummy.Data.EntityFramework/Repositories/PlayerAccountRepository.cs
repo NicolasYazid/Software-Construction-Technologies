@@ -72,6 +72,34 @@ namespace GinRummy.Data.EntityFramework.Repositories
         }
 
         /// <summary>
+        /// Finds the account of a player, with its player loaded, or null when the player has
+        /// no account.
+        /// </summary>
+        /// <param name="playerId">Identifier of the player that owns the account.</param>
+        /// <returns>The matching account, or null.</returns>
+        public PlayerAccount FindByPlayerId(int playerId)
+        {
+            PlayerAccount foundAccount;
+            if (_sharedContext != null)
+            {
+                foundAccount = _sharedContext.PlayerAccounts
+                    .Include(account => account.Player)
+                    .FirstOrDefault(account => account.PlayerId == playerId);
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    foundAccount = context.PlayerAccounts
+                        .Include(account => account.Player)
+                        .FirstOrDefault(account => account.PlayerId == playerId);
+                }
+            }
+
+            return foundAccount;
+        }
+
+        /// <summary>
         /// Adds a new account and persists it immediately.
         /// </summary>
         /// <param name="newAccount">Account to create.</param>

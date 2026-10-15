@@ -51,12 +51,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\BanConfiguration.cs" />
+    <Compile Include="Configurations\EmailConfiguration.cs" />
+    <Compile Include="Configurations\FriendRequestConfiguration.cs" />
+    <Compile Include="Configurations\FriendShipConfiguration.cs" />
+    <Compile Include="Configurations\LocaleConfiguration.cs" />
+    <Compile Include="Configurations\MessageConfiguration.cs" />
+    <Compile Include="Configurations\PlatformConfiguration.cs" />
+    <Compile Include="Configurations\PlayerAccountConfiguration.cs" />
+    <Compile Include="Configurations\PlayerConfiguration.cs" />
+    <Compile Include="Configurations\PlayerProfileConfiguration.cs" />
+    <Compile Include="Configurations\PlayerSessionConfiguration.cs" />
+    <Compile Include="Configurations\PlayerStatsConfiguration.cs" />
+    <Compile Include="Configurations\ProhibitedWordConfiguration.cs" />
+    <Compile Include="Configurations\ProhibitedWordLocaleConfiguration.cs" />
+    <Compile Include="Configurations\RankConfiguration.cs" />
+    <Compile Include="Configurations\RankLocaleConfiguration.cs" />
+    <Compile Include="Configurations\ReasonBanConfiguration.cs" />
+    <Compile Include="Configurations\ReasonBanLocaleConfiguration.cs" />
+    <Compile Include="Configurations\ReportCategoryConfiguration.cs" />
+    <Compile Include="Configurations\ReportCategoryLocaleConfiguration.cs" />
+    <Compile Include="Configurations\ReportConfiguration.cs" />
+    <Compile Include="Configurations\ReportStatusConfiguration.cs" />
+    <Compile Include="Configurations\SocialMediaConfiguration.cs" />
+    <Compile Include="Configurations\VerificationCodeConfiguration.cs" />
+    <Compile Include="Configurations\WarningConfiguration.cs" />
     <Compile Include="Persistence\EntityFrameworkUnitOfWork.cs" />
     <Compile Include="Persistence\GinRummyContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\FriendRepository.cs" />
     <Compile Include="Repositories\LocaleRepository.cs" />
+    <Compile Include="Repositories\MessageRepository.cs" />
+    <Compile Include="Repositories\ModerationRepository.cs" />
     <Compile Include="Repositories\PlayerAccountRepository.cs" />
     <Compile Include="Repositories\PlayerRepository.cs" />
+    <Compile Include="Repositories\PlayerSessionRepository.cs" />
     <Compile Include="Repositories\RankingRepository.cs" />
     <Compile Include="Repositories\VerificationCodeRepository.cs" />
   </ItemGroup>

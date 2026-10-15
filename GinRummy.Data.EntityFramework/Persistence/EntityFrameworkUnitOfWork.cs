@@ -18,6 +18,10 @@ namespace GinRummy.Data.EntityFramework.Persistence
         private readonly IPlayerAccountRepository _playerAccounts;
         private readonly IVerificationCodeRepository _verificationCodes;
         private readonly ILocaleRepository _locales;
+        private readonly IPlayerSessionRepository _playerSessions;
+        private readonly IFriendRepository _friends;
+        private readonly IModerationRepository _moderation;
+        private readonly IMessageRepository _messages;
         private bool _isDisposed;
 
         /// <summary>
@@ -32,6 +36,10 @@ namespace GinRummy.Data.EntityFramework.Persistence
             _playerAccounts = new PlayerAccountRepository(_context);
             _verificationCodes = new VerificationCodeRepository(_context);
             _locales = new LocaleRepository(_context);
+            _playerSessions = new PlayerSessionRepository(_context);
+            _friends = new FriendRepository(_context);
+            _moderation = new ModerationRepository(_context);
+            _messages = new MessageRepository(_context);
         }
 
         /// <summary>
@@ -67,10 +75,44 @@ namespace GinRummy.Data.EntityFramework.Persistence
         }
 
         /// <summary>
-        /// Saves every change made through this unit of work as one transaction.
+        /// Gets the player session repository bound to this unit of work.
+        /// </summary>
+        public IPlayerSessionRepository PlayerSessions
+        {
+            get { return _playerSessions; }
+        }
+
+        /// <summary>
+        /// Gets the friend request and friendship repository bound to this unit of work.
+        /// </summary>
+        public IFriendRepository Friends
+        {
+            get { return _friends; }
+        }
+
+        /// <summary>
+        /// Gets the report, warning and ban repository bound to this unit of work.
+        /// </summary>
+        public IModerationRepository Moderation
+        {
+            get { return _moderation; }
+        }
+
+        /// <summary>
+        /// Gets the chat message repository bound to this unit of work.
+        /// </summary>
+        public IMessageRepository Messages
+        {
+            get { return _messages; }
+        }
+
+        /// <summary>
+        /// Saves every change made through this unit of work as one transaction, including
+        /// changes made by calling methods on entities the repositories returned.
         /// </summary>
         public void Commit()
         {
+            _context.SaveChanges();
             _transaction.Commit();
         }
 

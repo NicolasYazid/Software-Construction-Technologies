@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using GinRummy.Data.EntityFramework.Configurations;
 using GinRummy.Domain.Entities;
 
 namespace GinRummy.Data.EntityFramework.Persistence
@@ -47,14 +47,14 @@ namespace GinRummy.Data.EntityFramework.Persistence
         public DbSet<PlayerAccount> PlayerAccounts { get; set; }
 
         /// <summary>
-        /// Gets or sets the VerificationCode set.
+        /// Gets or sets the PlayerProfile set.
         /// </summary>
-        public DbSet<VerificationCode> VerificationCodes { get; set; }
+        public DbSet<PlayerProfile> PlayerProfiles { get; set; }
 
         /// <summary>
-        /// Gets or sets the Locale set.
+        /// Gets or sets the PlayerSession set.
         /// </summary>
-        public DbSet<Locale> Locales { get; set; }
+        public DbSet<PlayerSession> PlayerSessions { get; set; }
 
         /// <summary>
         /// Gets or sets the PlayerStats set.
@@ -62,87 +62,118 @@ namespace GinRummy.Data.EntityFramework.Persistence
         public DbSet<PlayerStats> PlayerStats { get; set; }
 
         /// <summary>
+        /// Gets or sets the SocialMedia set.
+        /// </summary>
+        public DbSet<SocialMedia> SocialMedias { get; set; }
+
+        /// <summary>
+        /// Gets or sets the VerificationCode set.
+        /// </summary>
+        public DbSet<VerificationCode> VerificationCodes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Email set.
+        /// </summary>
+        public DbSet<Email> Emails { get; set; }
+
+        /// <summary>
+        /// Gets or sets the FriendRequest set.
+        /// </summary>
+        public DbSet<FriendRequest> FriendRequests { get; set; }
+
+        /// <summary>
+        /// Gets or sets the FriendShip set.
+        /// </summary>
+        public DbSet<FriendShip> FriendShips { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Report set.
+        /// </summary>
+        public DbSet<Report> Reports { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Warning set.
+        /// </summary>
+        public DbSet<Warning> Warnings { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Ban set.
+        /// </summary>
+        public DbSet<Ban> Bans { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Message set.
+        /// </summary>
+        public DbSet<Message> Messages { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ProhibitedWord set.
+        /// </summary>
+        public DbSet<ProhibitedWord> ProhibitedWords { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Locale set.
+        /// </summary>
+        public DbSet<Locale> Locales { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Platform set.
+        /// </summary>
+        public DbSet<Platform> Platforms { get; set; }
+
+        /// <summary>
         /// Gets or sets the Rank set.
         /// </summary>
         public DbSet<Rank> Ranks { get; set; }
 
         /// <summary>
-        /// Maps the Domain entities to the columns GinRummy_Dev already defines.
+        /// Gets or sets the ReportCategory set.
+        /// </summary>
+        public DbSet<ReportCategory> ReportCategories { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ReportStatus set.
+        /// </summary>
+        public DbSet<ReportStatus> ReportStatuses { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ReasonBan set.
+        /// </summary>
+        public DbSet<ReasonBan> ReasonBans { get; set; }
+
+        /// <summary>
+        /// Registers one configuration per entity. The translation tables (RankLocale,
+        /// ReportCategoryLocale, ReasonBanLocale and ProhibitedWordLocale) have no set of
+        /// their own because they are always reached through their parent.
         /// </summary>
         /// <param name="modelBuilder">Builder EF uses to configure the model.</param>
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Player>().ToTable("Player");
-            modelBuilder.Entity<Player>().HasKey(player => player.PlayerId);
-            modelBuilder.Entity<Player>().Property(player => player.PlayerId)
-                .HasColumnName("player_id");
-            modelBuilder.Entity<Player>().Property(player => player.PublicTag)
-                .HasColumnName("public_tag")
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
-            modelBuilder.Entity<Player>().Property(player => player.Username)
-                .HasColumnName("username");
-            modelBuilder.Entity<Player>().Property(player => player.LocaleId)
-                .HasColumnName("locale_id");
-            modelBuilder.Entity<Player>().Property(player => player.CreatedAt)
-                .HasColumnName("created_at");
-            modelBuilder.Entity<PlayerAccount>().ToTable("PlayerAccount");
-            modelBuilder.Entity<PlayerAccount>().HasKey(account => account.PlayerId);
-            modelBuilder.Entity<PlayerAccount>().Property(account => account.PlayerId)
-                .HasColumnName("player_id")
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            modelBuilder.Entity<PlayerAccount>().Property(account => account.Email)
-                .HasColumnName("email");
-            modelBuilder.Entity<PlayerAccount>().Property(account => account.PasswordHash)
-                .HasColumnName("password");
-            modelBuilder.Entity<PlayerAccount>().Property(account => account.LastLoginAt)
-                .HasColumnName("last_login_at");
-            modelBuilder.Entity<PlayerAccount>().Property(account => account.IsEmailVerified)
-                .HasColumnName("is_email_verified");
-            modelBuilder.Entity<PlayerAccount>().HasRequired(account => account.Player)
-                .WithOptional();
-            modelBuilder.Entity<VerificationCode>().ToTable("VerificationCode");
-            modelBuilder.Entity<VerificationCode>().HasKey(verificationCode => verificationCode.VerificationCodeId);
-            modelBuilder.Entity<VerificationCode>().Property(verificationCode => verificationCode.VerificationCodeId)
-                .HasColumnName("verification_code_id");
-            modelBuilder.Entity<VerificationCode>().Property(verificationCode => verificationCode.PlayerId)
-                .HasColumnName("player_id");
-            modelBuilder.Entity<VerificationCode>().Property(verificationCode => verificationCode.Purpose)
-                .HasColumnName("purpose_id");
-            modelBuilder.Entity<VerificationCode>().Property(verificationCode => verificationCode.CodeHash)
-                .HasColumnName("code_hash");
-            modelBuilder.Entity<VerificationCode>().Property(verificationCode => verificationCode.ExpiresAt)
-                .HasColumnName("expires_at");
-            modelBuilder.Entity<VerificationCode>().Property(verificationCode => verificationCode.UsedAt)
-                .HasColumnName("used_at");
-            modelBuilder.Entity<VerificationCode>().Property(verificationCode => verificationCode.Attempts)
-                .HasColumnName("attempts");
-            modelBuilder.Entity<VerificationCode>().Property(verificationCode => verificationCode.CreatedAt)
-                .HasColumnName("created_at");
-            modelBuilder.Entity<Locale>().ToTable("Locale");
-            modelBuilder.Entity<Locale>().HasKey(locale => locale.LocaleId);
-            modelBuilder.Entity<Locale>().Property(locale => locale.LocaleId).HasColumnName("locale_id");
-            modelBuilder.Entity<Locale>().Property(locale => locale.LocaleCode).HasColumnName("locale_code");
-            modelBuilder.Entity<Locale>().Property(locale => locale.DisplayName).HasColumnName("display_name");
-            modelBuilder.Entity<PlayerStats>().ToTable("PlayerStats");
-            modelBuilder.Entity<PlayerStats>().HasKey(stats => stats.PlayerId);
-            modelBuilder.Entity<PlayerStats>().Property(stats => stats.PlayerId)
-                .HasColumnName("player_id")
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-            modelBuilder.Entity<PlayerStats>().Property(stats => stats.Wins).HasColumnName("wins");
-            modelBuilder.Entity<PlayerStats>().Property(stats => stats.Losses).HasColumnName("losses");
-            modelBuilder.Entity<PlayerStats>().Property(stats => stats.Score).HasColumnName("score");
-            modelBuilder.Entity<PlayerStats>().Property(stats => stats.MatchesPlayed)
-                .HasColumnName("matches_played")
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
-            modelBuilder.Entity<PlayerStats>().HasRequired(stats => stats.Player)
-                .WithOptional();
-
-            modelBuilder.Entity<Rank>().ToTable("Rank");
-            modelBuilder.Entity<Rank>().HasKey(rank => rank.RankId);
-            modelBuilder.Entity<Rank>().Property(rank => rank.RankId).HasColumnName("rank_id");
-            modelBuilder.Entity<Rank>().Property(rank => rank.Name).HasColumnName("name");
-            modelBuilder.Entity<Rank>().Property(rank => rank.MinimumScore).HasColumnName("minimum_score");
-            modelBuilder.Entity<Rank>().Property(rank => rank.MaximumScore).HasColumnName("maximum_score");
+            modelBuilder.Configurations.Add(new BanConfiguration());
+            modelBuilder.Configurations.Add(new EmailConfiguration());
+            modelBuilder.Configurations.Add(new FriendRequestConfiguration());
+            modelBuilder.Configurations.Add(new FriendShipConfiguration());
+            modelBuilder.Configurations.Add(new LocaleConfiguration());
+            modelBuilder.Configurations.Add(new MessageConfiguration());
+            modelBuilder.Configurations.Add(new PlatformConfiguration());
+            modelBuilder.Configurations.Add(new PlayerConfiguration());
+            modelBuilder.Configurations.Add(new PlayerAccountConfiguration());
+            modelBuilder.Configurations.Add(new PlayerProfileConfiguration());
+            modelBuilder.Configurations.Add(new PlayerSessionConfiguration());
+            modelBuilder.Configurations.Add(new PlayerStatsConfiguration());
+            modelBuilder.Configurations.Add(new ProhibitedWordConfiguration());
+            modelBuilder.Configurations.Add(new ProhibitedWordLocaleConfiguration());
+            modelBuilder.Configurations.Add(new RankConfiguration());
+            modelBuilder.Configurations.Add(new RankLocaleConfiguration());
+            modelBuilder.Configurations.Add(new ReasonBanConfiguration());
+            modelBuilder.Configurations.Add(new ReasonBanLocaleConfiguration());
+            modelBuilder.Configurations.Add(new ReportConfiguration());
+            modelBuilder.Configurations.Add(new ReportCategoryConfiguration());
+            modelBuilder.Configurations.Add(new ReportCategoryLocaleConfiguration());
+            modelBuilder.Configurations.Add(new ReportStatusConfiguration());
+            modelBuilder.Configurations.Add(new SocialMediaConfiguration());
+            modelBuilder.Configurations.Add(new VerificationCodeConfiguration());
+            modelBuilder.Configurations.Add(new WarningConfiguration());
         }
     }
 }

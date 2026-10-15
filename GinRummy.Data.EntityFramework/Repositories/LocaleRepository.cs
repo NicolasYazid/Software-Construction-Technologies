@@ -64,5 +64,50 @@ namespace GinRummy.Data.EntityFramework.Repositories
 
             return foundLocale;
         }
+
+        /// <summary>
+        /// Finds the locale whose identifier matches, or null when no locale has it.
+        /// </summary>
+        /// <param name="localeId">Identifier of the locale.</param>
+        /// <returns>The matching locale, or null.</returns>
+        public Locale FindById(int localeId)
+        {
+            Locale foundLocale;
+            if (_sharedContext != null)
+            {
+                foundLocale = _sharedContext.Locales.FirstOrDefault(locale => locale.LocaleId == localeId);
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    foundLocale = context.Locales.FirstOrDefault(locale => locale.LocaleId == localeId);
+                }
+            }
+
+            return foundLocale;
+        }
+
+        /// <summary>
+        /// Gets every locale the game supports.
+        /// </summary>
+        /// <returns>The locales, ordered by identifier.</returns>
+        public IList<Locale> GetAll()
+        {
+            IList<Locale> locales;
+            if (_sharedContext != null)
+            {
+                locales = _sharedContext.Locales.OrderBy(locale => locale.LocaleId).ToList();
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    locales = context.Locales.OrderBy(locale => locale.LocaleId).ToList();
+                }
+            }
+
+            return locales;
+        }
     }
 }

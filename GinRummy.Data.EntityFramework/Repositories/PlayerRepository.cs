@@ -40,6 +40,52 @@ namespace GinRummy.Data.EntityFramework.Repositories
         }
 
         /// <summary>
+        /// Finds a player by its internal identifier, or null when it does not exist.
+        /// </summary>
+        /// <param name="playerId">Identifier of the player.</param>
+        /// <returns>The matching player, or null.</returns>
+        public Player FindById(int playerId)
+        {
+            Player foundPlayer;
+            if (_sharedContext != null)
+            {
+                foundPlayer = _sharedContext.Players.FirstOrDefault(player => player.PlayerId == playerId);
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    foundPlayer = context.Players.FirstOrDefault(player => player.PlayerId == playerId);
+                }
+            }
+
+            return foundPlayer;
+        }
+
+        /// <summary>
+        /// Finds a player by the public tag other players see, or null when no player has it.
+        /// </summary>
+        /// <param name="publicTag">Public tag to search for.</param>
+        /// <returns>The matching player, or null.</returns>
+        public Player FindByPublicTag(int publicTag)
+        {
+            Player foundPlayer;
+            if (_sharedContext != null)
+            {
+                foundPlayer = _sharedContext.Players.FirstOrDefault(player => player.PublicTag == publicTag);
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    foundPlayer = context.Players.FirstOrDefault(player => player.PublicTag == publicTag);
+                }
+            }
+
+            return foundPlayer;
+        }
+
+        /// <summary>
         /// Adds a new player and persists it immediately, so its identifier is known
         /// right after the call.
         /// </summary>

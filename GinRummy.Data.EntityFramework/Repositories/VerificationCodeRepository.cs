@@ -95,6 +95,28 @@ namespace GinRummy.Data.EntityFramework.Repositories
         }
 
         /// <summary>
+        /// Records the email sent to deliver a verification code, whether the delivery worked
+        /// or failed, and persists it immediately.
+        /// </summary>
+        /// <param name="newEmail">Email to record.</param>
+        public void AddEmail(Email newEmail)
+        {
+            if (_sharedContext != null)
+            {
+                _sharedContext.Emails.Add(newEmail);
+                _sharedContext.SaveChanges();
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    context.Emails.Add(newEmail);
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        /// <summary>
         /// Adds one to the failed-attempt counter of the given code.
         /// </summary>
         /// <param name="verificationCodeId">Code that received a wrong guess.</param>

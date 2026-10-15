@@ -36,6 +36,7 @@ namespace GinRummy.Domain.Repositories
         /// </summary>
         /// <param name="playerSessionId">Session to end.</param>
         /// <param name="endedAt">Moment the session ended, in UTC.</param>
+        /// <exception cref="InvalidOperationException">Thrown when the session does not exist.</exception>
         void End(int playerSessionId, DateTime endedAt);
     }
 }

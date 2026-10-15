@@ -34,7 +34,28 @@ namespace GinRummy.Domain.Repositories
         ILocaleRepository Locales { get; }
 
         /// <summary>
-        /// Saves every change made through this unit of work as one transaction.
+        /// Gets the player session repository bound to this unit of work.
+        /// </summary>
+        IPlayerSessionRepository PlayerSessions { get; }
+
+        /// <summary>
+        /// Gets the friend request and friendship repository bound to this unit of work.
+        /// </summary>
+        IFriendRepository Friends { get; }
+
+        /// <summary>
+        /// Gets the report, warning and ban repository bound to this unit of work.
+        /// </summary>
+        IModerationRepository Moderation { get; }
+
+        /// <summary>
+        /// Gets the chat message repository bound to this unit of work.
+        /// </summary>
+        IMessageRepository Messages { get; }
+
+        /// <summary>
+        /// Saves every change made through this unit of work as one transaction, including
+        /// changes made by calling methods on entities the repositories returned.
         /// </summary>
         void Commit();
 

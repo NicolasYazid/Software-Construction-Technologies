@@ -22,6 +22,14 @@ namespace GinRummy.Domain.Repositories
         PlayerAccount FindByEmail(string email);
 
         /// <summary>
+        /// Finds the account of a player, with its player loaded, or null when the player has
+        /// no account.
+        /// </summary>
+        /// <param name="playerId">Identifier of the player that owns the account.</param>
+        /// <returns>The matching account, or null.</returns>
+        PlayerAccount FindByPlayerId(int playerId);
+
+        /// <summary>
         /// Adds a new account and persists it immediately.
         /// </summary>
         /// <param name="newAccount">Account to create.</param>

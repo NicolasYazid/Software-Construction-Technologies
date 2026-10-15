@@ -30,6 +30,13 @@ namespace GinRummy.Domain.Repositories
         void Add(VerificationCode newVerificationCode);
 
         /// <summary>
+        /// Records the email sent to deliver a verification code, whether the delivery worked
+        /// or failed, and persists it immediately.
+        /// </summary>
+        /// <param name="newEmail">Email to record.</param>
+        void AddEmail(Email newEmail);
+
+        /// <summary>
         /// Adds one to the failed-attempt counter of the given code.
         /// </summary>
         /// <param name="verificationCodeId">Code that received a wrong guess.</param>
