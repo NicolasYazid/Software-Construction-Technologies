@@ -18,13 +18,13 @@ namespace GinRummy.Client.Controllers
         private const string WrongPasswordMessageKey = "Error_AuthWrongPassword";
         private const string ServiceUnavailableMessageKey = "Error_SysServiceUnavailable";
 
-        private readonly IPlayerRepository _playerRepository;
+        private readonly IPlayerAccountRepository _accountRepository;
         private readonly IPasswordHasher _passwordHasher;
         private readonly ILogger<LogInController> _logger;
 
-        public LogInController(IPlayerRepository playerRepository, IPasswordHasher passwordHasher, ILogger<LogInController> logger)
+        public LogInController(IPlayerAccountRepository accountRepository, IPasswordHasher passwordHasher, ILogger<LogInController> logger)
         {
-            _playerRepository = playerRepository;
+            _accountRepository = accountRepository;
             _passwordHasher = passwordHasher;
             _logger = logger;
         }
@@ -106,18 +106,18 @@ namespace GinRummy.Client.Controllers
         private LogInResult Authenticate(string email, string password)
         {
             LogInResult result;
-            Player player = _playerRepository.FindByEmail(email.Trim().ToLowerInvariant());
-            if (player == null)
+            PlayerAccount account = _accountRepository.FindByEmail(email.Trim().ToLowerInvariant());
+            if (account == null)
             {
                 result = LogInResult.Failure(EmailNotFoundMessageKey);
             }
-            else if (!_passwordHasher.VerifyPassword(password, player.PasswordHash))
+            else if (!_passwordHasher.VerifyPassword(password, account.PasswordHash))
             {
                 result = LogInResult.Failure(WrongPasswordMessageKey);
             }
             else
             {
-                result = LogInResult.Success(player.Username);
+                result = LogInResult.Success(account.Player.Username);
             }
 
             return result;

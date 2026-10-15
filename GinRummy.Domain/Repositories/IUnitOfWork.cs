@@ -19,6 +19,11 @@ namespace GinRummy.Domain.Repositories
         IPlayerRepository Players { get; }
 
         /// <summary>
+        /// Gets the player account repository bound to this unit of work.
+        /// </summary>
+        IPlayerAccountRepository PlayerAccounts { get; }
+
+        /// <summary>
         /// Gets the verification code repository bound to this unit of work.
         /// </summary>
         IVerificationCodeRepository VerificationCodes { get; }

@@ -64,7 +64,7 @@ namespace GinRummy.Client
         public LogInController CreateLogInController()
         {
             return new LogInController(
-                new PlayerRepository(ConnectionStringName),
+                new PlayerAccountRepository(ConnectionStringName),
                 _passwordHasher,
                 _loggerFactory.CreateLogger<LogInController>());
         }

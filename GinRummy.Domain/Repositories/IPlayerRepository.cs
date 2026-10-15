@@ -14,14 +14,8 @@ namespace GinRummy.Domain.Repositories
     public interface IPlayerRepository
     {
         /// <summary>
-        /// Finds the player whose email matches, or null when no player has it.
-        /// </summary>
-        /// <param name="email">Email address to search for.</param>
-        /// <returns>The matching player, or null.</returns>
-        Player FindByEmail(string email);
-
-        /// <summary>
-        /// Adds a new player and persists it immediately.
+        /// Adds a new player and persists it immediately, so its identifier is known
+        /// right after the call.
         /// </summary>
         /// <param name="newPlayer">Player to create.</param>
         void Add(Player newPlayer);

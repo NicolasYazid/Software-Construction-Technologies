@@ -7,35 +7,28 @@ using System.Threading.Tasks;
 namespace GinRummy.Domain.Entities
 {
     /// <summary>
-    /// A registered player account, mapped to the Player table. Protects its own
-    /// invariants: a player cannot exist without a valid username, email and password hash.
+    /// A player as the game knows them, mapped to the Player table: the name, the public
+    /// tag and the locale. The credentials of a registered player live in its
+    /// PlayerAccount. Protects its own invariants: a player cannot exist without a valid
+    /// username and locale.
     /// </summary>
     public class Player
     {
         private const int MaxUsernameLength = 20;
-        private const int MaxEmailLength = 254;
 
         /// <summary>
-        /// Creates a valid new player. A new account always starts unverified and stamped
-        /// with the current UTC time.
+        /// Creates a valid new player, stamped with the current UTC time.
         /// </summary>
         /// <param name="username">Display name; required, at most 20 characters.</param>
-        /// <param name="email">Account email; required, at most 254 characters.</param>
-        /// <param name="passwordHash">Hash of the password; required, never plain text.</param>
-        /// <param name="localeId">Locale chosen for the account; must be positive.</param>
-        public Player(string username, string email, string passwordHash, int localeId)
+        /// <param name="localeId">Locale chosen by the player; must be positive.</param>
+        public Player(string username, int localeId)
         {
             ValidateUsername(username);
-            ValidateEmail(email);
-            ValidatePasswordHash(passwordHash);
             ValidateLocaleId(localeId);
 
             Username = username.Trim();
-            Email = email.Trim().ToLowerInvariant();
-            PasswordHash = passwordHash;
             LocaleId = localeId;
             CreatedAt = DateTime.UtcNow;
-            IsEmailVerified = false;
         }
 
         /// <summary>
@@ -63,17 +56,7 @@ namespace GinRummy.Domain.Entities
         public string Username { get; private set; }
 
         /// <summary>
-        /// Gets the account email address, always stored in lower case.
-        /// </summary>
-        public string Email { get; private set; }
-
-        /// <summary>
-        /// Gets the hash of the password. Never the plain text password.
-        /// </summary>
-        public string PasswordHash { get; private set; }
-
-        /// <summary>
-        /// Gets the locale configured for the account.
+        /// Gets the locale configured for the player.
         /// </summary>
         public int LocaleId { get; private set; }
 
@@ -81,16 +64,6 @@ namespace GinRummy.Domain.Entities
         /// Gets the registration date, in UTC.
         /// </summary>
         public DateTime CreatedAt { get; private set; }
-
-        /// <summary>
-        /// Gets the last sign-in date, in UTC. Null until the first sign-in.
-        /// </summary>
-        public DateTime? LastLoginAt { get; private set; }
-
-        /// <summary>
-        /// Gets whether the email address has already been verified.
-        /// </summary>
-        public bool IsEmailVerified { get; private set; }
 
         // A player must always have a non-empty username within the length the database
         // column allows.
@@ -104,30 +77,6 @@ namespace GinRummy.Domain.Entities
             if (username.Trim().Length > MaxUsernameLength)
             {
                 throw new ArgumentException("Username is too long.", nameof(username));
-            }
-        }
-
-        // A player must always have a non-empty email within the length the database
-        // column allows. Format is checked as input validation before construction.
-        private static void ValidateEmail(string email)
-        {
-            if (string.IsNullOrWhiteSpace(email))
-            {
-                throw new ArgumentException("Email is required.", nameof(email));
-            }
-
-            if (email.Trim().Length > MaxEmailLength)
-            {
-                throw new ArgumentException("Email is too long.", nameof(email));
-            }
-        }
-
-        // A player can never be stored without a password hash.
-        private static void ValidatePasswordHash(string passwordHash)
-        {
-            if (string.IsNullOrWhiteSpace(passwordHash))
-            {
-                throw new ArgumentException("Password hash is required.", nameof(passwordHash));
             }
         }
 

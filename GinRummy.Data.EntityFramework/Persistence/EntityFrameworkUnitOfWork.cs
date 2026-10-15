@@ -15,6 +15,7 @@ namespace GinRummy.Data.EntityFramework.Persistence
         private readonly GinRummyContext _context;
         private readonly DbContextTransaction _transaction;
         private readonly IPlayerRepository _players;
+        private readonly IPlayerAccountRepository _playerAccounts;
         private readonly IVerificationCodeRepository _verificationCodes;
         private readonly ILocaleRepository _locales;
         private bool _isDisposed;
@@ -28,6 +29,7 @@ namespace GinRummy.Data.EntityFramework.Persistence
             _context = new GinRummyContext(connectionStringName);
             _transaction = _context.Database.BeginTransaction();
             _players = new PlayerRepository(_context);
+            _playerAccounts = new PlayerAccountRepository(_context);
             _verificationCodes = new VerificationCodeRepository(_context);
             _locales = new LocaleRepository(_context);
         }
@@ -38,6 +40,14 @@ namespace GinRummy.Data.EntityFramework.Persistence
         public IPlayerRepository Players
         {
             get { return _players; }
+        }
+
+        /// <summary>
+        /// Gets the player account repository bound to this unit of work.
+        /// </summary>
+        public IPlayerAccountRepository PlayerAccounts
+        {
+            get { return _playerAccounts; }
         }
 
         /// <summary>

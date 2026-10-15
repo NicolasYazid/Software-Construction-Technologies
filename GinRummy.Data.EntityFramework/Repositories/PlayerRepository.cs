@@ -40,32 +40,8 @@ namespace GinRummy.Data.EntityFramework.Repositories
         }
 
         /// <summary>
-        /// Finds the player whose email matches, or null when no player has it.
-        /// </summary>
-        /// <param name="email">Email address to search for.</param>
-        /// <returns>The matching player, or null.</returns>
-        public Player FindByEmail(string email)
-        {
-            Player foundPlayer;
-            if (_sharedContext != null)
-            {
-                // Not wrapped in using: the caller opened this context and stays
-                // responsible for closing it.
-                foundPlayer = _sharedContext.Players.FirstOrDefault(player => player.Email == email);
-            }
-            else
-            {
-                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
-                {
-                    foundPlayer = context.Players.FirstOrDefault(player => player.Email == email);
-                }
-            }
-
-            return foundPlayer;
-        }
-
-        /// <summary>
-        /// Adds a new player and persists it immediately.
+        /// Adds a new player and persists it immediately, so its identifier is known
+        /// right after the call.
         /// </summary>
         /// <param name="newPlayer">Player to create.</param>
         public void Add(Player newPlayer)

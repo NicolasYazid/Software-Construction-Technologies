@@ -42,6 +42,11 @@ namespace GinRummy.Data.EntityFramework.Persistence
         public DbSet<Player> Players { get; set; }
 
         /// <summary>
+        /// Gets or sets the PlayerAccount set.
+        /// </summary>
+        public DbSet<PlayerAccount> PlayerAccounts { get; set; }
+
+        /// <summary>
         /// Gets or sets the VerificationCode set.
         /// </summary>
         public DbSet<VerificationCode> VerificationCodes { get; set; }
@@ -76,18 +81,25 @@ namespace GinRummy.Data.EntityFramework.Persistence
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
             modelBuilder.Entity<Player>().Property(player => player.Username)
                 .HasColumnName("username");
-            modelBuilder.Entity<Player>().Property(player => player.Email)
-                .HasColumnName("email");
-            modelBuilder.Entity<Player>().Property(player => player.PasswordHash)
-                .HasColumnName("password");
             modelBuilder.Entity<Player>().Property(player => player.LocaleId)
                 .HasColumnName("locale_id");
             modelBuilder.Entity<Player>().Property(player => player.CreatedAt)
                 .HasColumnName("created_at");
-            modelBuilder.Entity<Player>().Property(player => player.LastLoginAt)
+            modelBuilder.Entity<PlayerAccount>().ToTable("PlayerAccount");
+            modelBuilder.Entity<PlayerAccount>().HasKey(account => account.PlayerId);
+            modelBuilder.Entity<PlayerAccount>().Property(account => account.PlayerId)
+                .HasColumnName("player_id")
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            modelBuilder.Entity<PlayerAccount>().Property(account => account.Email)
+                .HasColumnName("email");
+            modelBuilder.Entity<PlayerAccount>().Property(account => account.PasswordHash)
+                .HasColumnName("password");
+            modelBuilder.Entity<PlayerAccount>().Property(account => account.LastLoginAt)
                 .HasColumnName("last_login_at");
-            modelBuilder.Entity<Player>().Property(player => player.IsEmailVerified)
+            modelBuilder.Entity<PlayerAccount>().Property(account => account.IsEmailVerified)
                 .HasColumnName("is_email_verified");
+            modelBuilder.Entity<PlayerAccount>().HasRequired(account => account.Player)
+                .WithOptional();
             modelBuilder.Entity<VerificationCode>().ToTable("VerificationCode");
             modelBuilder.Entity<VerificationCode>().HasKey(verificationCode => verificationCode.VerificationCodeId);
             modelBuilder.Entity<VerificationCode>().Property(verificationCode => verificationCode.VerificationCodeId)

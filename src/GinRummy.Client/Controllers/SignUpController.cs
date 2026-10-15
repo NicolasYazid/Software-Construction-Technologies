@@ -21,7 +21,7 @@ namespace GinRummy.Client.Controllers
         private const string EmailAlreadyRegisteredMessageKey = "Error_AuthEmailAlreadyRegistered";
         private const string UnexpectedErrorMessageKey = "Error_SysUnexpected";
         private const string ServiceUnavailableMessageKey = "Error_SysServiceUnavailable";
-        // The same limits as the username and email columns of the Player table.
+        // The same limits as the username column of Player and the email column of PlayerAccount.
         private const int MaxUsernameLength = 20;
         private const int MaxEmailLength = 254;
         private const int MinimumPasswordLength = 8;
@@ -178,7 +178,7 @@ namespace GinRummy.Client.Controllers
             SignUpResult result;
             try
             {
-                if (unitOfWork.Players.FindByEmail(form.Email.Trim().ToLowerInvariant()) != null)
+                if (unitOfWork.PlayerAccounts.FindByEmail(form.Email.Trim().ToLowerInvariant()) != null)
                 {
                     result = SignUpResult.Failure(EmailAlreadyRegisteredMessageKey);
                 }
@@ -227,12 +227,14 @@ namespace GinRummy.Client.Controllers
             Locale locale = unitOfWork.Locales.FindByCode(form.CultureCode)
                 ?? unitOfWork.Locales.FindByCode(LocalizationProvider.DefaultCultureCode);
 
-            Player newPlayer = new Player(
-                form.Username,
-                form.Email,
-                _accountSecurity.PasswordHasher.HashPassword(form.Password),
-                locale.LocaleId);
+            Player newPlayer = new Player(form.Username, locale.LocaleId);
             unitOfWork.Players.Add(newPlayer);
+
+            PlayerAccount newAccount = new PlayerAccount(
+                newPlayer.PlayerId,
+                form.Email,
+                _accountSecurity.PasswordHasher.HashPassword(form.Password));
+            unitOfWork.PlayerAccounts.Add(newAccount);
 
             string plainCode = _accountSecurity.CodeGenerator.GenerateCode();
             VerificationCode newCode = new VerificationCode(
