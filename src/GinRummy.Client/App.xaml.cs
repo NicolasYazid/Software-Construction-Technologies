@@ -4,14 +4,10 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 
-using GinRummy.Client.Controllers;
 using GinRummy.Client.Localization;
 using GinRummy.Client.Logging;
-using GinRummy.Data.EntityFramework.Persistence;
-using GinRummy.Data.EntityFramework.Repositories;
-using GinRummy.Domain.Repositories;
-using GinRummy.Domain.Security;
-using GinRummy.Security;
+using GinRummy.Client.RankingsServiceReference;
+using GinRummy.Client.ViewModels;
 using Microsoft.Extensions.Logging;
 
 namespace GinRummy.Client
@@ -21,7 +17,6 @@ namespace GinRummy.Client
     {
         public const string LocalizationResourceKey = "Loc";
 
-        private const string ConnectionStringName = "GinRummyContext";
         private const string LogFolderName = "GinRummy";
         private const string LogFileName = "client.log";
         private const int RenderingTierShift = 16;
@@ -38,9 +33,6 @@ namespace GinRummy.Client
         };
 
         private readonly ILoggerFactory _loggerFactory;
-        private readonly IPasswordHasher _passwordHasher;
-        private readonly IVerificationCodeGenerator _codeGenerator = new RandomVerificationCodeGenerator();
-        private readonly IVerificationCodeHasher _codeHasher = new Sha256VerificationCodeHasher();
 
         // Debug entries are kept while the client is in development because they record why an input was rejected.
         public App()
@@ -50,35 +42,13 @@ namespace GinRummy.Client
                 LogFolderName,
                 LogFileName);
             _loggerFactory = new FileLoggerFactory(logFilePath, LogLevel.Debug);
-            _passwordHasher = new Argon2PasswordHasher();
         }
 
-        public SignUpController CreateSignUpController()
+        public RankingsViewModel CreateRankingsViewModel()
         {
-            return new SignUpController(
-                CreateUnitOfWork,
-                new AccountSecurity(_passwordHasher, _codeGenerator, _codeHasher),
-                _loggerFactory.CreateLogger<SignUpController>());
-        }
-
-        public LogInController CreateLogInController()
-        {
-            return new LogInController(
-                new PlayerAccountRepository(ConnectionStringName),
-                _passwordHasher,
-                _loggerFactory.CreateLogger<LogInController>());
-        }
-
-        public RankingsController CreateRankingsController()
-        {
-            return new RankingsController(
-                new RankingRepository(ConnectionStringName),
-                _loggerFactory.CreateLogger<RankingsController>());
-        }
-
-        public EditProfileController CreateEditProfileController()
-        {
-            return new EditProfileController(_loggerFactory.CreateLogger<EditProfileController>());
+            return new RankingsViewModel(
+                new RankingServiceClient(),
+                _loggerFactory.CreateLogger<RankingsViewModel>());
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -113,12 +83,6 @@ namespace GinRummy.Client
                     shadow.BlurRadius = shadow.BlurRadius * SoftwareBlurScale;
                 }
             }
-        }
-
-        // The controllers receive a factory instead of a unit of work so each operation gets its own context and transaction.
-        private IUnitOfWork CreateUnitOfWork()
-        {
-            return new EntityFrameworkUnitOfWork(ConnectionStringName);
         }
     }
 }
