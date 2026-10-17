@@ -1,7 +1,5 @@
 ﻿using System.Windows;
 
-using GinRummy.Client.Controllers;
-
 namespace GinRummy.Client.Views
 {
     /// <summary>
@@ -11,7 +9,6 @@ namespace GinRummy.Client.Views
     public partial class GuiSignUp : GuiModalBase
     {
         private const string PasswordMismatchKey = "Error_ValPasswordMismatch";
-        private const string DemoCodeMessageKey = "SignUp_DemoCodeGenerated";
 
         public GuiSignUp()
         {
@@ -31,7 +28,7 @@ namespace GinRummy.Client.Views
         private void OnCreateAccountClick(object sender, RoutedEventArgs e)
         {
             // Matching the password with its confirmation is the only check the client may resolve on its own (CU-01 FA-04).
-            // Every other validation runs inside the controller.
+            // Every other validation belongs to the server.
             string password = PasswordRevealCommon.Read(pwdPassword, txtPasswordShown);
             string confirmation = PasswordRevealCommon.Read(pwdConfirmPassword, txtConfirmPasswordShown);
             bool isPasswordConfirmed = password == confirmation;
@@ -41,7 +38,7 @@ namespace GinRummy.Client.Views
             }
             else
             {
-                CreateAccount(password);
+                // TODO: pendiente migrar a WCF. The account creation stays inactive until the server exposes the CU-01 service.
             }
         }
 
@@ -50,52 +47,9 @@ namespace GinRummy.Client.Views
             Close();
         }
 
-        private void CreateAccount(string password)
-        {
-            AccountForm form = new AccountForm
-            {
-                Email = txtEmail.Text,
-                Username = txtUsername.Text,
-                Password = password,
-                CultureCode = Localization.CurrentCulture.Name
-            };
-            App application = (App)Application.Current;
-            SignUpController signUpController = application.CreateSignUpController();
-            SignUpResult result = signUpController.CreateAccount(form);
-
-            if (result.IsSuccessful)
-            {
-                ShowGeneratedCodeAndContinue(result.GeneratedCode);
-            }
-            else
-            {
-                ShowError(result);
-            }
-        }
-
-        // The generated code is shown on screen in place of the email delivery, which is out of scope without a server.
-        // For the same reason GuiVerifyEmail does not compare the typed code with the stored hash, so the account stays unverified.
-        private void ShowGeneratedCodeAndContinue(string generatedCode)
-        {
-            lblErrorMessage.Visibility = Visibility.Collapsed;
-            MessageBox.Show(Localization.Format(DemoCodeMessageKey, generatedCode));
-            NavigateTo(new GuiVerifyEmail(VerificationPurpose.AccountSignUp, txtEmail.Text));
-        }
-
         private void ShowError(string messageKey)
         {
             ShowErrorText(Localization.GetText(messageKey));
-        }
-
-        private void ShowError(SignUpResult result)
-        {
-            string message = Localization.GetText(result.ErrorMessageKey);
-            if (result.ErrorMessageArgument.HasValue)
-            {
-                message = Localization.Format(result.ErrorMessageKey, result.ErrorMessageArgument.Value);
-            }
-
-            ShowErrorText(message);
         }
 
         private void ShowErrorText(string message)

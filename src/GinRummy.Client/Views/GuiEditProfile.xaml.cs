@@ -2,9 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 
-using GinRummy.Client.Controllers;
 using GinRummy.Client.Models;
 using GinRummy.Client.Services;
 using Microsoft.Win32;
@@ -23,7 +21,6 @@ namespace GinRummy.Client.Views
         private const string BioCounterKey = "EditProfile_LblBioCounter";
         private const string ImageRequirementsKey = "EditProfile_LblImageRequirements";
         private const string RequiredFieldKey = "Error_ValRequiredField";
-        private const string UnsupportedImageKey = "Error_ValUnsupportedImage";
 
         private readonly ObservableCollection<SocialLinkDto> _socialLinks;
         private SocialLinkDto _linkToRemove;
@@ -186,20 +183,7 @@ namespace GinRummy.Client.Views
 
         private void ShowPicture(string path)
         {
-            App application = (App)Application.Current;
-            EditProfileController editProfileController = application.CreateEditProfileController();
-            BitmapImage picture = editProfileController.LoadPicture(path);
-
-            // A file that is too large or cannot be decoded as an image keeps the current picture (CU-28 EX-01).
-            if (picture == null)
-            {
-                ShowError(UnsupportedImageKey);
-            }
-            else
-            {
-                HideError();
-                imgProfilePicture.Source = picture;
-            }
+            // TODO: pendiente migrar a WCF. The picture stays unchanged until the server exposes the CU-28 service.
         }
 
         private void ShowError(string messageKey)
