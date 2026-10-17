@@ -4,13 +4,14 @@
         xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
         xmlns:views="clr-namespace:GinRummy.Client.Views"
         xmlns:models="clr-namespace:GinRummy.Client.Models"
+        xmlns:contracts="clr-namespace:GinRummy.Contracts;assembly=GinRummy.Contracts"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
         HasCloseButton="False">
     <UserControl.Resources>
         <!-- The podium and the rows format their numbers inside a template, where no window can
              rebuild them one by one, so they bind to the culture of the provider as well. -->
-        <DataTemplate x:Key="TplPodiumPlace" DataType="{x:Type models:RankingEntryDto}">
+        <DataTemplate x:Key="TplPodiumPlace" DataType="{x:Type contracts:PlayerRankingDto}">
             <ctl:PixelBorder Style="{StaticResource StyPodiumCard}">
                 <StackPanel>
                     <DockPanel LastChildFill="True">
@@ -61,7 +62,7 @@
 
         <!-- The columns of a row repeat the widths of the head of the table, so that both line
              up without sharing a grid. -->
-        <DataTemplate x:Key="TplRankingRow" DataType="{x:Type models:RankingEntryDto}">
+        <DataTemplate x:Key="TplRankingRow" DataType="{x:Type contracts:PlayerRankingDto}">
             <Border Style="{StaticResource StyRankingRow}">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -146,8 +147,8 @@
 
                 <!-- The podium holds the first three places whatever the search, as the prototype
                      keeps it while the table filters. -->
-                <ItemsControl x:Name="lstPodium" Margin="-6,18,-6,0" ItemTemplate="{StaticResource TplPodiumPlace}">
-                    <ItemsControl.ItemsPanel>
+                <ItemsControl x:Name="lstPodium" Margin="-6,18,-6,0" ItemsSource="{Binding Podium}" ItemTemplate="{StaticResource TplPodiumPlace}">
+                        <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Rows="1" Columns="3" />
                         </ItemsPanelTemplate>
@@ -205,7 +206,7 @@
                             </Grid.RowDefinitions>
 
                             <ScrollViewer VerticalScrollBarVisibility="Visible">
-                                <ItemsControl x:Name="lstRankings" ItemTemplate="{StaticResource TplRankingRow}" />
+                                <ItemsControl x:Name="lstRankings" ItemsSource="{Binding Rankings}" ItemTemplate="{StaticResource TplRankingRow}" />
                             </ScrollViewer>
                             <TextBlock x:Name="lblNoMatches" Style="{StaticResource StyPanelEmpty}" Margin="20,16,28,0"
                                        Visibility="Collapsed"
