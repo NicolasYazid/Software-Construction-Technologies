@@ -15,7 +15,7 @@ namespace GinRummy.Server.Services
     /// Implements the rankings network contract. It delegates the leaderboard logic to the
     /// View Leaderboard use case and turns each position into the row the client shows.
     /// </summary>
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class RankingsService : IRankingService
     {
         private readonly ViewLeaderboardUseCase _viewLeaderboardUseCase;

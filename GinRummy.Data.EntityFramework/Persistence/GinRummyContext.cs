@@ -28,12 +28,17 @@ namespace GinRummy.Data.EntityFramework.Persistence
 
         /// <summary>
         /// Opens the context against the connection string of the given name, read
-        /// from the calling application's configuration file.
+        /// from the calling application's configuration file. Related entities are loaded
+        /// only when a query asks for them with Include.
         /// </summary>
         /// <param name="connectionStringName">Name of the entry in App.config.</param>
         public GinRummyContext(string connectionStringName)
             : base(connectionStringName)
         {
+            // Navigation properties load only through Include. Lazy loading would run queries after
+            // the unit of work disposed the context, and a proxy is a type WCF cannot serialize.
+            Configuration.LazyLoadingEnabled = false;
+            Configuration.ProxyCreationEnabled = false;
         }
 
         /// <summary>

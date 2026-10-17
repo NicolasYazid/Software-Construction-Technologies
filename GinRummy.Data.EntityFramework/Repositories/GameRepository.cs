@@ -59,6 +59,22 @@ namespace GinRummy.Data.EntityFramework.Repositories
         }
 
         /// <summary>
+        /// Finds the match a guest takes part in that is not over, or null when there is none.
+        /// It is what lets a guest return to the table after losing the connection.
+        /// </summary>
+        /// <param name="guestSessionId">Guest session to look for.</param>
+        /// <returns>The open match with its participants, or null.</returns>
+        public GameSession FindOpenByGuestSessionId(int guestSessionId)
+        {
+            string finished = GameState.Finished.ToString();
+
+            return _context.GameSessions
+                .Include(gameSession => gameSession.Participants)
+                .FirstOrDefault(gameSession => (gameSession.GameStateName != finished)
+                    && gameSession.Participants.Any(participant => participant.GuestSessionId == guestSessionId));
+        }
+
+        /// <summary>
         /// Adds a new match and persists it immediately.
         /// </summary>
         /// <param name="newGameSession">Match to create.</param>
