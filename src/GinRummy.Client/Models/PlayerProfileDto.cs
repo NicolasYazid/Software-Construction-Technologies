@@ -7,7 +7,6 @@ namespace GinRummy.Client.Models
         public string Username { get; set; }
         public string PublicTag { get; set; }
         public string RankName { get; set; }
-        public bool IsOnline { get; set; }
         public string Bio { get; set; }
         public IList<SocialLinkDto> SocialLinks { get; set; }
         public int MatchesPlayed { get; set; }

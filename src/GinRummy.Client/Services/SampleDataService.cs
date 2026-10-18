@@ -381,7 +381,6 @@ namespace GinRummy.Client.Services
             profile.Username = username;
             profile.RankName = rankName;
             profile.PublicTag = publicTag;
-            profile.IsOnline = true;
             profile.SocialLinks = new List<SocialLinkDto>();
             profile.MatchesPlayed = 124;
             profile.WinRate = 0.58;

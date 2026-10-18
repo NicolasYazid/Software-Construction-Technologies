@@ -45,7 +45,7 @@ namespace GinRummy.Client.Views
             bool isOther = isPlayer && !_profile.IsOwnProfile;
             bool hasMatches = _profile.MatchesPlayed > 0;
 
-            // A guest has no profile of its own, so only its temporary name and its presence are shown (CU-27 FA-04).
+            // A guest has no profile of its own, so only its temporary name is shown (CU-27 FA-04).
             // A profile without links leaves out its section (CU-27 FA-03).
             lblGuestHasNoProfile.Visibility = VisibilityCommon.FromCondition(_profile.IsGuest);
             lblRankName.Visibility = VisibilityCommon.FromCondition(isPlayer);

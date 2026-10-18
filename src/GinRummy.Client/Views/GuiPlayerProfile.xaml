@@ -32,23 +32,8 @@
                             <Label x:Name="lblRankName" Style="{StaticResource StyRankBadge}" Margin="16,0,0,0"
                                    Content="{Binding RankName}" />
                         </StackPanel>
-                        <!-- The presence has no text of its own in the dictionary: the dot beside the
-                             tag is the only sign of it until the taxonomy of presence is decided. -->
-                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                            <TextBlock x:Name="lblPublicTag" Style="{StaticResource StyProfileTag}"
-                                       Text="{Binding PublicTag}" />
-                            <Ellipse Margin="14,0,0,0">
-                                <Ellipse.Style>
-                                    <Style TargetType="Ellipse" BasedOn="{StaticResource StyPresenceDotInline}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsOnline}" Value="False">
-                                                <Setter Property="Fill" Value="{StaticResource BrsMuted}" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Ellipse.Style>
-                            </Ellipse>
-                        </StackPanel>
+                        <TextBlock x:Name="lblPublicTag" Style="{StaticResource StyProfileTag}" Margin="0,8,0,0"
+                                   Text="{Binding PublicTag}" />
 
                         <TextBlock x:Name="lblGuestHasNoProfile" Style="{StaticResource StyProfileText}"
                                    Margin="0,20,0,0" Visibility="Collapsed"
