@@ -8,8 +8,8 @@ namespace GinRummy.Client.Views
 {
     /// <summary>
     /// Profile screen of a player (P21). Implements CU-27 for the profile of another player,
-    /// for the own one (FA-02) and for the reduced one of a guest (FA-04), and starts CU-12,
-    /// CU-16 and CU-18 from its actions.
+    /// for the own one (FA-02) and for the reduced one of a guest (FA-04), and starts CU-12
+    /// and CU-16 from its actions.
     /// </summary>
     public partial class GuiPlayerProfile : GuiModalBase
     {
@@ -54,18 +54,10 @@ namespace GinRummy.Client.Views
             lblSocialLinks.Visibility = VisibilityCommon.FromCondition(isPlayer && (_profile.SocialLinks.Count > 0));
             lblMatchesPlayed.Visibility = VisibilityCommon.FromCondition(isPlayer && hasMatches);
             lblNoMatchesYet.Visibility = VisibilityCommon.FromCondition(isPlayer && !hasMatches);
-            btnReport.Visibility = VisibilityCommon.FromCondition(isOther && !_profile.HasReported);
-            lblReportReceived.Visibility = VisibilityCommon.FromCondition(isOther && _profile.HasReported);
             btnAddFriend.Visibility = VisibilityCommon.FromCondition(isOther && !_profile.IsFriend);
             btnAddFriend.IsEnabled = !_profile.HasPendingRequest;
             btnRemoveFriend.Visibility = VisibilityCommon.FromCondition(isOther && _profile.IsFriend);
             btnEditProfile.Visibility = VisibilityCommon.FromCondition(_profile.IsOwnProfile);
-        }
-
-        private void OnReportClick(object sender, RoutedEventArgs e)
-        {
-            _profile.HasReported = true;
-            ApplyRelation();
         }
 
         private void OnAddFriendClick(object sender, RoutedEventArgs e)

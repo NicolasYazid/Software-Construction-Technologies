@@ -15,7 +15,7 @@ namespace GinRummy.Client.Views
     /// <summary>
     /// Lobby of a registered player (P11). Hosts the chat of CU-17, the search for a match of
     /// CU-22 and the challenges of CU-23, CU-24 and CU-25, and holds the panel of players from
-    /// which CU-10, CU-11, CU-12, CU-16, CU-18 and CU-27 start.
+    /// which CU-10, CU-11, CU-12, CU-16 and CU-27 start.
     /// </summary>
     public partial class GuiLobbyChat : GuiWindowBase
     {
@@ -146,18 +146,6 @@ namespace GinRummy.Client.Views
             if (player != null)
             {
                 player.HasPendingRequest = true;
-            }
-        }
-
-        private void OnReportClick(object sender, RoutedEventArgs e)
-        {
-            LobbyPlayerDto player = GetMenuPlayer(sender);
-            if (player != null)
-            {
-                ReportNoticeDto notice = new ReportNoticeDto();
-                notice.PlayerName = player.Username;
-                notice.SentAt = DateTime.Now;
-                AddChatEntry(notice);
             }
         }
 

@@ -18,7 +18,5 @@ namespace GinRummy.Client.Models
         public bool IsFriend { get; set; }
         // A request still waiting for an answer keeps a second one from being sent (CU-12).
         public bool HasPendingRequest { get; set; }
-        // A report asks nothing of the player, so once it is received the action gives way to its confirmation (CU-18).
-        public bool HasReported { get; set; }
     }
 }

@@ -898,16 +898,9 @@ Tú: {0}   -   Rival: {1}</value>
     <value>Eliminar amigo</value>
     <comment>Menú contextual de GuiLobbyChat</comment>
   </data>
-  <data name="LobbyChat_MniReport" xml:space="preserve">
-    <value>Reportar</value>
-    <comment>Menú contextual de GuiLobbyChat</comment>
-  </data>
   <data name="LobbyChat_NoOpponentAvailable" xml:space="preserve">
     <value>Aún no hay rivales disponibles. Seguimos buscando.</value>
     <comment>Mensajes del sistema de GuiLobbyChat</comment>
-  </data>
-  <data name="LobbyChat_ReportReceived" xml:space="preserve">
-    <value>Recibimos tu reporte sobre {0}</value>
   </data>
   <data name="LobbyChat_TabEveryone" xml:space="preserve">
     <value>Todos</value>
@@ -1041,10 +1034,6 @@ Tú: {0}   -   Rival: {1}</value>
     <value>Editar perfil</value>
     <comment>Acciones de GuiPlayerProfile</comment>
   </data>
-  <data name="PlayerProfile_BtnReport" xml:space="preserve">
-    <value>Reportar</value>
-    <comment>Acciones de GuiPlayerProfile</comment>
-  </data>
   <data name="PlayerProfile_GuestHasNoProfile" xml:space="preserve">
     <value>Las cuentas de invitado no tienen perfil</value>
     <comment>Mensajes del sistema de GuiPlayerProfile</comment>
@@ -1056,9 +1045,6 @@ Tú: {0}   -   Rival: {1}</value>
   <data name="PlayerProfile_LblMatchesPlayed" xml:space="preserve">
     <value>Partidas jugadas</value>
     <comment>Contenido de GuiPlayerProfile</comment>
-  </data>
-  <data name="PlayerProfile_LblReportReceived" xml:space="preserve">
-    <value>Recibimos tu reporte</value>
   </data>
   <data name="PlayerProfile_LblScore" xml:space="preserve">
     <value>Puntuación</value>
@@ -1238,19 +1224,19 @@ Tú: {0}   -   Rival: {1}</value>
   </data>
   <data name="Reason_CheatingOrExploits" xml:space="preserve">
     <value>Trampas</value>
-    <comment>Catálogo de motivos de GuiReportPlayer</comment>
+    <comment>Catálogo de motivos de sanción</comment>
   </data>
   <data name="Reason_HarassmentOrThreats" xml:space="preserve">
     <value>Acoso o amenazas</value>
-    <comment>Catálogo de motivos de GuiReportPlayer</comment>
+    <comment>Catálogo de motivos de sanción</comment>
   </data>
   <data name="Reason_OffensiveLanguage" xml:space="preserve">
     <value>Lenguaje ofensivo</value>
-    <comment>Catálogo de motivos de GuiReportPlayer</comment>
+    <comment>Catálogo de motivos de sanción</comment>
   </data>
   <data name="Reason_Spam" xml:space="preserve">
     <value>Spam</value>
-    <comment>Catálogo de motivos de GuiReportPlayer</comment>
+    <comment>Catálogo de motivos de sanción</comment>
   </data>
   <data name="Reconnecting_LblMessage" xml:space="preserve">
     <value>Se perdió la conexión con el servidor. Estamos intentando volver a conectarte.</value>

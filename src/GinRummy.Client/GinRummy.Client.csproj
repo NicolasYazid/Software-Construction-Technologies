@@ -304,7 +304,6 @@
     <Compile Include="Models\ChatMessageDto.cs" />
     <Compile Include="Models\ChallengeNoticeKind.cs" />
     <Compile Include="Models\ChallengeNoticeDto.cs" />
-    <Compile Include="Models\ReportNoticeDto.cs" />
     <Compile Include="Models\LobbyPlayerDto.cs" />
     <Compile Include="Models\MatchPairDto.cs" />
     <Compile Include="Models\LobbySnapshotDto.cs" />

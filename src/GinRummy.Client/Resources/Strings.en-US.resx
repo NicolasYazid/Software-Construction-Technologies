@@ -704,14 +704,8 @@ You: {0}   -   Opponent: {1}</value>
   <data name="LobbyChat_MniRemoveFriend" xml:space="preserve">
     <value>Remove friend</value>
   </data>
-  <data name="LobbyChat_MniReport" xml:space="preserve">
-    <value>Report</value>
-  </data>
   <data name="LobbyChat_NoOpponentAvailable" xml:space="preserve">
     <value>No opponents available yet. We keep looking.</value>
-  </data>
-  <data name="LobbyChat_ReportReceived" xml:space="preserve">
-    <value>We received your report about {0}</value>
   </data>
   <data name="LobbyChat_TabEveryone" xml:space="preserve">
     <value>Everyone</value>
@@ -812,9 +806,6 @@ You: {0}   -   Opponent: {1}</value>
   <data name="PlayerProfile_BtnEditProfile" xml:space="preserve">
     <value>Edit profile</value>
   </data>
-  <data name="PlayerProfile_BtnReport" xml:space="preserve">
-    <value>Report</value>
-  </data>
   <data name="PlayerProfile_GuestHasNoProfile" xml:space="preserve">
     <value>Guest accounts do not have a profile</value>
   </data>
@@ -823,9 +814,6 @@ You: {0}   -   Opponent: {1}</value>
   </data>
   <data name="PlayerProfile_LblMatchesPlayed" xml:space="preserve">
     <value>Matches played</value>
-  </data>
-  <data name="PlayerProfile_LblReportReceived" xml:space="preserve">
-    <value>We received your report</value>
   </data>
   <data name="PlayerProfile_LblScore" xml:space="preserve">
     <value>Score</value>

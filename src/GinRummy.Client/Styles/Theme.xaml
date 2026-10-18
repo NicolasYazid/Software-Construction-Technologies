@@ -1259,8 +1259,8 @@
     </Style>
 
     <!-- The notices of a challenge keep the glass of the panels, so they read as one more piece
-         of the room. The cards that frame the chat, its rules, the state of the search and the
-         confirmation of a report, take the face of the pressed tab of the side panel: the face
+         of the room. The cards that frame the chat, its rules and the state of the search take
+         the face of the pressed tab of the side panel: the face
          of the switch under the ink at the opacity of a press. They read apart from the
          challenges and stay solid over the messages that scroll under them. -->
     <SolidColorBrush x:Key="BrsChatCardFace" Color="#FF1A1612" />
@@ -1325,12 +1325,6 @@
         <Setter Property="Margin" Value="20,8,6,8" />
         <Setter Property="Padding" Value="20,10,16,10" />
         <Setter Property="MinHeight" Value="58" />
-    </Style>
-
-    <!-- The confirmation of a report is a message of the system and not a challenge, so it takes
-         the brown of the cards that frame the chat. -->
-    <Style x:Key="StyChatInfoNotice" TargetType="Border" BasedOn="{StaticResource StyChatNotice}">
-        <Setter Property="Background" Value="{StaticResource BrsChatCardFace}" />
     </Style>
 
     <Style x:Key="StyChatNoticeText" TargetType="TextBlock">
@@ -1862,16 +1856,6 @@
         <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
         <Setter Property="FontSize" Value="20" />
         <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Visibility" Value="Collapsed" />
-    </Style>
-
-    <!-- Once the report is received, the action of the profile gives way to this confirmation,
-         in the light of the body text so it reads as a state and not as one more action. -->
-    <Style x:Key="StyReportReceived" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
-        <Setter Property="FontSize" Value="24" />
-        <Setter Property="Foreground" Value="{StaticResource BrsBody}" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Visibility" Value="Collapsed" />
     </Style>

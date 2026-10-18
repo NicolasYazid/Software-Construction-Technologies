@@ -121,12 +121,6 @@
                 </ctl:PixelBorder>
 
                 <DockPanel Grid.Row="2" Margin="0,40,0,0" LastChildFill="False">
-                    <Button x:Name="btnReport" DockPanel.Dock="Left" Style="{StaticResource StyInlineTextButton}"
-                            FontSize="24"
-                            Content="{Binding [PlayerProfile_BtnReport], Source={StaticResource Loc}}"
-                            Click="OnReportClick" />
-                    <TextBlock x:Name="lblReportReceived" DockPanel.Dock="Left" Style="{StaticResource StyReportReceived}"
-                               Text="{Binding [PlayerProfile_LblReportReceived], Source={StaticResource Loc}}" />
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                         <Button x:Name="btnAddFriend" Style="{StaticResource StyDialogPrimaryButton}"
                                 Background="{StaticResource BrsMenuEarth}" FontSize="22"
