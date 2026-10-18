@@ -354,8 +354,8 @@ Please try again in a few minutes.</value>
     <value>You do not have any friends yet.
 Search for a player by their public tag to send them a request.</value>
   </data>
-  <data name="FriendsList_LblGroupAway" xml:space="preserve">
-    <value>AWAY  {0}</value>
+  <data name="FriendsList_LblGroupInMatch" xml:space="preserve">
+    <value>ON MATCH  {0}</value>
   </data>
   <data name="FriendsList_LblGroupOnline" xml:space="preserve">
     <value>ONLINE  {0}</value>

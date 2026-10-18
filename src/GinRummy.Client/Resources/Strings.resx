@@ -432,8 +432,8 @@ Inténtalo de nuevo en unos minutos.</value>
 Busca a un jugador por su etiqueta pública para enviarle una solicitud.</value>
     <comment>Contenido de GuiLobbyChat</comment>
   </data>
-  <data name="FriendsList_LblGroupAway" xml:space="preserve">
-    <value>AUSENTES  {0}</value>
+  <data name="FriendsList_LblGroupInMatch" xml:space="preserve">
+    <value>EN PARTIDA  {0}</value>
     <comment>Tabla y grupos (compartida)</comment>
   </data>
   <data name="FriendsList_LblGroupOnline" xml:space="preserve">

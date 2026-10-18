@@ -197,10 +197,10 @@
                         <Border Style="{StaticResource StyGroupRule}" />
                         <ItemsControl ItemsSource="{Binding Online}" ItemTemplate="{StaticResource TplLobbyPlayer}" />
 
-                        <TextBlock x:Name="lblGroupAway" Style="{StaticResource StyGroupHeader}">
+                        <TextBlock x:Name="lblGroupInMatch" Style="{StaticResource StyGroupHeader}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
-                                    <Binding Path="[FriendsList_LblGroupAway]" Source="{StaticResource Loc}" />
+                                    <Binding Path="[FriendsList_LblGroupInMatch]" Source="{StaticResource Loc}" />
                                     <Binding Path="PlayersInMatchCount" />
                                 </MultiBinding>
                             </TextBlock.Text>

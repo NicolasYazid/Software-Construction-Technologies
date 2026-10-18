@@ -327,10 +327,10 @@
                         <TextBlock x:Name="lblEmptyNoPlayers" Style="{StaticResource StyPanelEmpty}" Visibility="Collapsed"
                                    Text="{Binding [LobbyChat_EmptyNoPlayers], Source={StaticResource Loc}}" />
 
-                        <TextBlock x:Name="lblGroupAway" Style="{StaticResource StyGroupHeader}">
+                        <TextBlock x:Name="lblGroupInMatch" Style="{StaticResource StyGroupHeader}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
-                                    <Binding Path="[FriendsList_LblGroupAway]" Source="{StaticResource Loc}" />
+                                    <Binding Path="[FriendsList_LblGroupInMatch]" Source="{StaticResource Loc}" />
                                     <Binding Path="PlayersInMatchCount" />
                                 </MultiBinding>
                             </TextBlock.Text>
@@ -371,7 +371,7 @@
                         <TextBlock Style="{StaticResource StyGroupHeader}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
-                                    <Binding Path="[FriendsList_LblGroupAway]" Source="{StaticResource Loc}" />
+                                    <Binding Path="[FriendsList_LblGroupInMatch]" Source="{StaticResource Loc}" />
                                     <Binding Path="FriendsInMatchCount" />
                                 </MultiBinding>
                             </TextBlock.Text>
