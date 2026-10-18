@@ -71,6 +71,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ConnectionStrings.config" Condition="Exists('ConnectionStrings.config')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="ConnectionStrings.template.config" />
     <None Include="packages.config" />
   </ItemGroup>
