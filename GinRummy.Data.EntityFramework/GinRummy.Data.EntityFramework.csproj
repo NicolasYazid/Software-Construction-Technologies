@@ -74,10 +74,6 @@
     <Compile Include="Configurations\RankLocaleConfiguration.cs" />
     <Compile Include="Configurations\ReasonBanConfiguration.cs" />
     <Compile Include="Configurations\ReasonBanLocaleConfiguration.cs" />
-    <Compile Include="Configurations\ReportCategoryConfiguration.cs" />
-    <Compile Include="Configurations\ReportCategoryLocaleConfiguration.cs" />
-    <Compile Include="Configurations\ReportConfiguration.cs" />
-    <Compile Include="Configurations\ReportStatusConfiguration.cs" />
     <Compile Include="Configurations\SocialMediaConfiguration.cs" />
     <Compile Include="Configurations\VerificationCodeConfiguration.cs" />
     <Compile Include="Configurations\WarningConfiguration.cs" />

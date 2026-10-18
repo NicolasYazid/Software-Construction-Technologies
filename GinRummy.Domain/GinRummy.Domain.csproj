@@ -69,10 +69,6 @@
     <Compile Include="Entities\RankLocale.cs" />
     <Compile Include="Entities\ReasonBan.cs" />
     <Compile Include="Entities\ReasonBanLocale.cs" />
-    <Compile Include="Entities\Report.cs" />
-    <Compile Include="Entities\ReportCategory.cs" />
-    <Compile Include="Entities\ReportCategoryLocale.cs" />
-    <Compile Include="Entities\ReportStatus.cs" />
     <Compile Include="Entities\RestrictionScope.cs" />
     <Compile Include="Entities\SocialMedia.cs" />
     <Compile Include="Entities\VerificationCode.cs" />

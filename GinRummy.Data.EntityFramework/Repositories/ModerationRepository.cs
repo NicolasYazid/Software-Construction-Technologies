@@ -29,28 +29,6 @@ namespace GinRummy.Data.EntityFramework.Repositories
         }
 
         /// <summary>
-        /// Gets the report categories a player can choose from, each with its translations.
-        /// </summary>
-        /// <returns>The categories.</returns>
-        public IList<ReportCategory> GetReportCategories()
-        {
-            return _context.ReportCategories
-                .Include(category => category.Translations)
-                .OrderBy(category => category.ReportCategoryId)
-                .ToList();
-        }
-
-        /// <summary>
-        /// Finds a report status by its name, or null when the catalog has no such status.
-        /// </summary>
-        /// <param name="name">Name of the status, such as ReportStatus.PendingName.</param>
-        /// <returns>The matching status, or null.</returns>
-        public ReportStatus FindReportStatusByName(string name)
-        {
-            return _context.ReportStatuses.FirstOrDefault(status => status.Name == name);
-        }
-
-        /// <summary>
         /// Finds a sanction reason by its identifier, or null when it does not exist.
         /// </summary>
         /// <param name="reasonBanId">Identifier of the reason.</param>
@@ -60,35 +38,6 @@ namespace GinRummy.Data.EntityFramework.Repositories
             return _context.ReasonBans
                 .Include(reason => reason.Translations)
                 .FirstOrDefault(reason => reason.ReasonBanId == reasonBanId);
-        }
-
-        /// <summary>
-        /// Adds a new report and persists it immediately, so its identifier is known right
-        /// after the call and a warning can reference it.
-        /// </summary>
-        /// <param name="newReport">Report to create.</param>
-        public void AddReport(Report newReport)
-        {
-            _context.Reports.Add(newReport);
-            _context.SaveChanges();
-        }
-
-        /// <summary>
-        /// Moves a report to another status and persists the change.
-        /// </summary>
-        /// <param name="reportId">Report to update.</param>
-        /// <param name="reportStatusId">Status the report moves to.</param>
-        /// <exception cref="InvalidOperationException">Thrown when the report does not exist.</exception>
-        public void ChangeReportStatus(int reportId, int reportStatusId)
-        {
-            Report report = _context.Reports.FirstOrDefault(found => found.ReportId == reportId);
-            if (report == null)
-            {
-                throw new InvalidOperationException("The report does not exist.");
-            }
-
-            report.ChangeStatus(reportStatusId);
-            _context.SaveChanges();
         }
 
         /// <summary>

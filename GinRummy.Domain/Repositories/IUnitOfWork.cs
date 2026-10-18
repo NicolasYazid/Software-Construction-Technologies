@@ -44,7 +44,7 @@ namespace GinRummy.Domain.Repositories
         IFriendRepository Friends { get; }
 
         /// <summary>
-        /// Gets the report, warning and ban repository bound to this unit of work.
+        /// Gets the warning and ban repository bound to this unit of work.
         /// </summary>
         IModerationRepository Moderation { get; }
 

@@ -4,7 +4,7 @@ namespace GinRummy.Domain.Entities
 {
     /// <summary>
     /// A chat message, mapped to the Message table. The text is stored exactly as the player
-    /// wrote it, because reports are verified against it. Protects its own invariants: a
+    /// wrote it, because moderation checks it. Protects its own invariants: a
     /// lobby message belongs to no match and a match message belongs to one.
     /// </summary>
     public class Message
@@ -93,7 +93,7 @@ namespace GinRummy.Domain.Entities
         }
 
         // An empty message is never stored, and the text must fit the column. The text is not
-        // trimmed so the evidence of a report stays as the author wrote it.
+        // trimmed so it stays as the author wrote it.
         private static void ValidateContent(string content)
         {
             if (string.IsNullOrWhiteSpace(content))

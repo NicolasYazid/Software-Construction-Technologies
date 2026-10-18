@@ -92,11 +92,6 @@ namespace GinRummy.Data.EntityFramework.Persistence
         public DbSet<FriendShip> FriendShips { get; set; }
 
         /// <summary>
-        /// Gets or sets the Report set.
-        /// </summary>
-        public DbSet<Report> Reports { get; set; }
-
-        /// <summary>
         /// Gets or sets the Warning set.
         /// </summary>
         public DbSet<Warning> Warnings { get; set; }
@@ -132,16 +127,6 @@ namespace GinRummy.Data.EntityFramework.Persistence
         public DbSet<Rank> Ranks { get; set; }
 
         /// <summary>
-        /// Gets or sets the ReportCategory set.
-        /// </summary>
-        public DbSet<ReportCategory> ReportCategories { get; set; }
-
-        /// <summary>
-        /// Gets or sets the ReportStatus set.
-        /// </summary>
-        public DbSet<ReportStatus> ReportStatuses { get; set; }
-
-        /// <summary>
         /// Gets or sets the ReasonBan set.
         /// </summary>
         public DbSet<ReasonBan> ReasonBans { get; set; }
@@ -173,7 +158,7 @@ namespace GinRummy.Data.EntityFramework.Persistence
 
         /// <summary>
         /// Registers one configuration per entity. The translation tables (RankLocale,
-        /// ReportCategoryLocale, ReasonBanLocale and ProhibitedWordLocale) have no set of
+        /// ReasonBanLocale and ProhibitedWordLocale) have no set of
         /// their own because they are always reached through their parent.
         /// </summary>
         /// <param name="modelBuilder">Builder EF uses to configure the model.</param>
@@ -202,10 +187,6 @@ namespace GinRummy.Data.EntityFramework.Persistence
             modelBuilder.Configurations.Add(new RankLocaleConfiguration());
             modelBuilder.Configurations.Add(new ReasonBanConfiguration());
             modelBuilder.Configurations.Add(new ReasonBanLocaleConfiguration());
-            modelBuilder.Configurations.Add(new ReportConfiguration());
-            modelBuilder.Configurations.Add(new ReportCategoryConfiguration());
-            modelBuilder.Configurations.Add(new ReportCategoryLocaleConfiguration());
-            modelBuilder.Configurations.Add(new ReportStatusConfiguration());
             modelBuilder.Configurations.Add(new SocialMediaConfiguration());
             modelBuilder.Configurations.Add(new VerificationCodeConfiguration());
             modelBuilder.Configurations.Add(new WarningConfiguration());
