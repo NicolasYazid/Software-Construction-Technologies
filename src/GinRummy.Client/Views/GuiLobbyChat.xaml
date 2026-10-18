@@ -97,6 +97,34 @@
                           Click="OnRemoveFriendClick" />
             </ContextMenu>
 
+            <!-- A message has a single action, to be reported, and its menu is the one of a player in
+                 look. It takes the message from the row it was opened on, as the shared menu above does. -->
+            <ContextMenu x:Key="CtxMessageActions" Style="{StaticResource StyPlayerMenu}"
+                         DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                <MenuItem x:Name="mniReport" Style="{StaticResource StyMessageMenuItem}"
+                          Header="{Binding [LobbyChat_MniReport], Source={StaticResource Loc}}">
+                    <MenuItem.Icon>
+                        <Image Source="{StaticResource IcoAlert}" Width="16" Height="16" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </ContextMenu>
+
+            <!-- The face of the row is transparent so that the whole row answers the right click and
+                 not only the text and the avatar. Which rows open the menu is decided in the code. -->
+            <Style x:Key="StyChatMessageHost" TargetType="ListBoxItem" BasedOn="{StaticResource StyChatListItem}">
+                <Setter Property="ContextMenu" Value="{StaticResource CtxMessageActions}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Border Background="Transparent">
+                                <ContentPresenter />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <EventSetter Event="ContextMenuOpening" Handler="OnMessageMenuOpening" />
+            </Style>
+
             <Style x:Key="StyPlayerMenuHost" TargetType="ContentPresenter">
                 <Setter Property="ContextMenu" Value="{StaticResource CtxPlayerActions}" />
             </Style>
@@ -197,6 +225,7 @@
                 <!-- The messages run under the rules and the state of the search, which float over
                      them as glass cards; the list keeps room for both at its ends. -->
                 <ListBox x:Name="lstMessages" Grid.RowSpan="3" Style="{StaticResource StyChatList}"
+                         ItemContainerStyle="{StaticResource StyChatMessageHost}"
                          ctl:OverlayInsetCommon.IsInset="True" />
 
                 <ctl:PixelBorder Style="{StaticResource StyChatRulesCard}" Margin="20,20,20,8">

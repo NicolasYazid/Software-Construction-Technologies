@@ -704,6 +704,9 @@ You: {0}   -   Opponent: {1}</value>
   <data name="LobbyChat_MniRemoveFriend" xml:space="preserve">
     <value>Remove friend</value>
   </data>
+  <data name="LobbyChat_MniReport" xml:space="preserve">
+    <value>Report</value>
+  </data>
   <data name="LobbyChat_NoOpponentAvailable" xml:space="preserve">
     <value>No opponents available yet. We keep looking.</value>
   </data>

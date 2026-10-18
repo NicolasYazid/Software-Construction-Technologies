@@ -898,6 +898,10 @@ Tú: {0}   -   Rival: {1}</value>
     <value>Eliminar amigo</value>
     <comment>Menú contextual de GuiLobbyChat</comment>
   </data>
+  <data name="LobbyChat_MniReport" xml:space="preserve">
+    <value>Reportar</value>
+    <comment>Menú contextual de GuiLobbyChat</comment>
+  </data>
   <data name="LobbyChat_NoOpponentAvailable" xml:space="preserve">
     <value>Aún no hay rivales disponibles. Seguimos buscando.</value>
     <comment>Mensajes del sistema de GuiLobbyChat</comment>

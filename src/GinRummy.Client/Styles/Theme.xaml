@@ -1674,6 +1674,12 @@
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
     </Style>
 
+    <!-- The menu of a message offers a single action, which is the reason the menu exists, so its
+         item takes the face of the titles just as the challenge does in the menu of a player. -->
+    <Style x:Key="StyMessageMenuItem" TargetType="MenuItem" BasedOn="{StaticResource StyPlayerMenuItem}">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+    </Style>
+
     <!-- Only a friend can be removed, and only someone who is not a friend yet can receive a
          request (CU-12, CU-16), so each of those items shows for one kind of player alone. -->
     <Style x:Key="StyPlayerMenuFriendItem" TargetType="MenuItem" BasedOn="{StaticResource StyPlayerMenuItem}">

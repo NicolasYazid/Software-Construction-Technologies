@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -165,6 +166,13 @@ namespace GinRummy.Client.Views
             }
 
             _friendToRemove = null;
+        }
+
+        private void OnMessageMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            // Only the messages of other players can be reported, so the notices and the own messages open no menu.
+            ChatMessageDto message = ((FrameworkElement)sender).DataContext as ChatMessageDto;
+            e.Handled = (message == null) || (message.AuthorName == _lobby.PlayerName);
         }
 
         private void OnCancelChallengeClick(object sender, RoutedEventArgs e)
