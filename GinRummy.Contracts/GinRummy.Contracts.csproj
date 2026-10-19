@@ -43,6 +43,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ServiceFault.cs" />
+    <Compile Include="Common\ServiceFaultCode.cs" />
+    <Compile Include="Common\SessionRequest.cs" />
+    <Compile Include="Game\CardDto.cs" />
+    <Compile Include="Game\CardRank.cs" />
+    <Compile Include="Game\CardSuit.cs" />
+    <Compile Include="Game\GameTableDto.cs" />
+    <Compile Include="Game\HandOutcome.cs" />
+    <Compile Include="Game\HandResultDto.cs" />
+    <Compile Include="Game\IGameCallback.cs" />
+    <Compile Include="Game\IGameService.cs" />
+    <Compile Include="Game\JoinTableRequest.cs" />
+    <Compile Include="Game\MatchEndReason.cs" />
+    <Compile Include="Game\MatchResultDto.cs" />
+    <Compile Include="Game\MeldDto.cs" />
+    <Compile Include="Game\MeldKind.cs" />
+    <Compile Include="Game\MoveRejectedDto.cs" />
+    <Compile Include="Game\MoveRejectionCode.cs" />
+    <Compile Include="Game\OpponentMoveDto.cs" />
+    <Compile Include="Game\OpponentMoveKind.cs" />
+    <Compile Include="Game\TurnDto.cs" />
+    <Compile Include="Game\TurnPhase.cs" />
     <Compile Include="IRankingService.cs" />
     <Compile Include="PlayerRankingDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
