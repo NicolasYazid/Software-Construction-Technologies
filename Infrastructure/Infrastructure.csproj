@@ -7,8 +7,8 @@
     <ProjectGuid>32e60735-b97c-4cee-b3db-731e14b5742f</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Infrastructure</RootNamespace>
-    <AssemblyName>Infrastructure</AssemblyName>
+    <RootNamespace>GinRummy.Infrastructure</RootNamespace>
+    <AssemblyName>GinRummy.Infrastructure</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -47,8 +47,15 @@
     <Reference Include="System.Xml"/>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Email\SmtpEmailSender.cs" />
+    <Compile Include="Email\SmtpSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GinRummy.Domain\GinRummy.Domain.csproj">
+      <Project>{58dde2c2-10bb-49d9-bd13-0d4afa4445e9}</Project>
+      <Name>GinRummy.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
  </Project>

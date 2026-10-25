@@ -27,3 +27,6 @@ _ReSharper*/
 src/GinRummy.Client/ConnectionStrings.config
 GinRummy.Server/ConnectionStrings.config
 GinRummy.ServerHost/ConnectionStrings.config
+
+# Mail service credentials: copied from SmtpSettings.template.config, never versioned
+SmtpSettings.config

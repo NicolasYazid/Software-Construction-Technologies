@@ -75,6 +75,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="ConnectionStrings.template.config" />
+    <None Include="SmtpSettings.config" Condition="Exists('SmtpSettings.config')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="SmtpSettings.template.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +101,10 @@
     <ProjectReference Include="..\GinRummy.Security\GinRummy.Security.csproj">
       <Project>{8d359981-9bb3-41f6-9360-f599d39e559f}</Project>
       <Name>GinRummy.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
+      <Project>{32e60735-b97c-4cee-b3db-731e14b5742f}</Project>
+      <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
