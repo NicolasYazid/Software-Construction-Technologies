@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -49,20 +50,19 @@ namespace GinRummy.Security
         /// <returns>True when the password matches the hash.</returns>
         public bool VerifyPassword(string plainTextPassword, string hash)
         {
-            bool passwordMatches = false;
+            bool isPasswordValid = false;
             byte[] storedSalt;
             byte[] storedHash;
             if (TryDecode(hash, out storedSalt, out storedHash))
             {
                 byte[] candidateHash = ComputeHash(plainTextPassword, storedSalt);
-                passwordMatches = AreEqual(candidateHash, storedHash);
+                isPasswordValid = AreEqual(candidateHash, storedHash);
             }
 
-            return passwordMatches;
+            return isPasswordValid;
         }
 
-        // Builds a fresh, random salt for a new password. A new salt every time is what
-        // makes two players with the same password end up with different stored hashes.
+        // A new salt for every password makes two players with the same password end up with different stored hashes.
         private static byte[] GenerateSalt()
         {
             byte[] salt = new byte[SaltSizeInBytes];
@@ -74,9 +74,8 @@ namespace GinRummy.Security
             return salt;
         }
 
-        // Runs Argon2id itself. The same salt and the same parameters must be used both
-        // when a password is first hashed and every time it is later verified, or the
-        // output will never match, even for the correct password.
+        // The same salt and parameters must be used when a password is hashed and every time it is verified.
+        // Otherwise the output never matches, even for the correct password.
         private static byte[] ComputeHash(string plainTextPassword, byte[] salt)
         {
             byte[] passwordBytes = Encoding.UTF8.GetBytes(plainTextPassword);
@@ -93,13 +92,13 @@ namespace GinRummy.Security
             return hash;
         }
 
-        // Packs the salt and the hash together with the parameters used to produce them,
-        // in the same PHC string format the database already stores.
+        // The parameters travel with the salt and the hash in the PHC string format the database already stores.
         private static string Encode(byte[] salt, byte[] hash)
         {
             string saltText = Convert.ToBase64String(salt);
             string hashText = Convert.ToBase64String(hash);
             string encodedHash = string.Format(
+                CultureInfo.InvariantCulture,
                 "${0}$v={1}$m={2},t={3},p={4}${5}${6}",
                 AlgorithmName,
                 ArgonVersion,
@@ -112,13 +111,10 @@ namespace GinRummy.Security
             return encodedHash;
         }
 
-        // Reads the salt and the hash back out of a PHC-format string. Returns false,
-        // instead of throwing, when the stored value does not have the expected shape —
-        // a corrupt or unrelated value should mean "this login attempt fails", not crash
-        // the sign-in screen.
+        // A stored value without the expected shape means that the sign-in fails, not that the screen crashes.
         private static bool TryDecode(string encodedHash, out byte[] salt, out byte[] hash)
         {
-            bool decoded = false;
+            bool isDecoded = false;
             salt = null;
             hash = null;
             string[] fields = encodedHash.Split(FieldSeparator);
@@ -128,20 +124,19 @@ namespace GinRummy.Security
                 {
                     salt = Convert.FromBase64String(fields[SaltFieldIndex]);
                     hash = Convert.FromBase64String(fields[HashFieldIndex]);
-                    decoded = true;
+                    isDecoded = true;
                 }
                 catch (FormatException)
                 {
-                    decoded = false;
+                    isDecoded = false;
                 }
             }
 
-            return decoded;
+            return isDecoded;
         }
 
-        // Compares every byte, without stopping at the first difference, so the time
-        // this takes does not reveal how many leading bytes matched. See the note on
-        // timing attacks above.
+        // Every byte is compared without stopping at the first difference.
+        // The time the comparison takes therefore does not reveal how many leading bytes matched.
         private static bool AreEqual(byte[] first, byte[] second)
         {
             int difference = first.Length ^ second.Length;
