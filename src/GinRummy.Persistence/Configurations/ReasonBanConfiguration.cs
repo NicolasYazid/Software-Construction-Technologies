@@ -22,12 +22,12 @@ namespace GinRummy.Persistence.Configurations
                 .HasColumnName("name")
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(100);
+                .HasMaxLength(ReasonBan.NameMaxLength);
             Property(reasonBan => reasonBan.RestrictionScopeName)
                 .HasColumnName("restriction_scope")
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(20);
+                .HasMaxLength(ReasonBan.RestrictionScopeNameMaxLength);
             Ignore(reasonBan => reasonBan.RestrictionScope);
             Ignore(reasonBan => reasonBan.RestrictsChat);
             Ignore(reasonBan => reasonBan.RestrictsAccount);

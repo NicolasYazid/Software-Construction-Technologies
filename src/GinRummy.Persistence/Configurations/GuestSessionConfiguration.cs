@@ -21,7 +21,7 @@ namespace GinRummy.Persistence.Configurations
             Property(guestSession => guestSession.TemporalDisplayName)
                 .HasColumnName("temporal_display_name")
                 .IsRequired()
-                .HasMaxLength(20);
+                .HasMaxLength(GuestSession.TemporalDisplayNameMaxLength);
             Property(guestSession => guestSession.CreatedAt).HasColumnName("created_at");
         }
     }

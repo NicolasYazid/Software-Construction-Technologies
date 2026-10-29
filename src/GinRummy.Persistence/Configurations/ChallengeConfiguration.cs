@@ -24,7 +24,7 @@ namespace GinRummy.Persistence.Configurations
                 .HasColumnName("status")
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(20);
+                .HasMaxLength(Challenge.StatusNameMaxLength);
             Property(challenge => challenge.CreatedAt).HasColumnName("created_at");
             Property(challenge => challenge.ExpiresAt).HasColumnName("expires_at");
             Property(challenge => challenge.ResolvedAt).HasColumnName("resolved_at");

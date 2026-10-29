@@ -18,7 +18,11 @@ namespace GinRummy.Persistence.Configurations
             ToTable("Rank");
             HasKey(rank => rank.RankId);
             Property(rank => rank.RankId).HasColumnName("rank_id");
-            Property(rank => rank.Name).HasColumnName("name").IsRequired().IsUnicode(false).HasMaxLength(100);
+            Property(rank => rank.Name)
+                .HasColumnName("name")
+                .IsRequired()
+                .IsUnicode(false)
+                .HasMaxLength(Rank.NameMaxLength);
             Property(rank => rank.MinimumScore).HasColumnName("minimum_score");
             Property(rank => rank.MaximumScore).HasColumnName("maximum_score");
             HasMany(rank => rank.Translations)

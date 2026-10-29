@@ -24,7 +24,7 @@ namespace GinRummy.Persistence.Configurations
                 .HasColumnName("url")
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(255);
+                .HasMaxLength(SocialMedia.UrlMaxLength);
             HasRequired(socialMedia => socialMedia.Platform).WithMany().HasForeignKey(socialMedia => socialMedia.PlatformId);
         }
     }

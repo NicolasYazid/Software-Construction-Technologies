@@ -23,7 +23,7 @@ namespace GinRummy.Persistence.Configurations
                 .HasColumnName("game_state")
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(20);
+                .HasMaxLength(GameSession.GameStateNameMaxLength);
             Property(gameSession => gameSession.DeckState).HasColumnName("deck_state");
             Property(gameSession => gameSession.DiscardPileState).HasColumnName("discard_pile_state");
             Property(gameSession => gameSession.CurrentTurn).HasColumnName("current_turn");

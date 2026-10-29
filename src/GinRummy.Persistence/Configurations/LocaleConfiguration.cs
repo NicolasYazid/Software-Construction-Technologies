@@ -22,12 +22,12 @@ namespace GinRummy.Persistence.Configurations
                 .HasColumnName("locale_code")
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(10);
+                .HasMaxLength(Locale.LocaleCodeMaxLength);
             Property(locale => locale.DisplayName)
                 .HasColumnName("display_name")
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(100);
+                .HasMaxLength(Locale.DisplayNameMaxLength);
         }
     }
 }

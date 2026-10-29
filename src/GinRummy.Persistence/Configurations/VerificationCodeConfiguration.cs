@@ -26,7 +26,7 @@ namespace GinRummy.Persistence.Configurations
                 .IsRequired()
                 .IsFixedLength()
                 .IsUnicode(false)
-                .HasMaxLength(64);
+                .HasMaxLength(VerificationCode.CodeHashLength);
             Property(verificationCode => verificationCode.ExpiresAt).HasColumnName("expires_at");
             Property(verificationCode => verificationCode.UsedAt).HasColumnName("used_at");
             Property(verificationCode => verificationCode.Attempts).HasColumnName("attempts");

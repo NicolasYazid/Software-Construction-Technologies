@@ -23,12 +23,12 @@ namespace GinRummy.Persistence.Configurations
                 .HasColumnName("content")
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(300);
+                .HasMaxLength(Message.ContentMaxLength);
             Property(message => message.ChannelName)
                 .HasColumnName("channel")
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(20);
+                .HasMaxLength(Message.ChannelNameMaxLength);
             Property(message => message.GameSessionId).HasColumnName("game_session_id");
             Property(message => message.SentAt).HasColumnName("sent_at");
             Ignore(message => message.Channel);

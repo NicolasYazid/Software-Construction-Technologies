@@ -23,13 +23,13 @@ namespace GinRummy.Persistence.Configurations
                 .HasColumnName("destination_address")
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(254);
+                .HasMaxLength(Email.DestinationAddressMaxLength);
             Property(email => email.SendAt).HasColumnName("send_at");
             Property(email => email.DeliveryStatusName)
                 .HasColumnName("delivery_status")
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(20);
+                .HasMaxLength(Email.DeliveryStatusNameMaxLength);
             Ignore(email => email.DeliveryStatus);
         }
     }

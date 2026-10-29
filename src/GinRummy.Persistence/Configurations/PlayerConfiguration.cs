@@ -22,7 +22,10 @@ namespace GinRummy.Persistence.Configurations
             Property(player => player.PublicTag)
                 .HasColumnName("public_tag")
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
-            Property(player => player.Username).HasColumnName("username").IsRequired().HasMaxLength(20);
+            Property(player => player.Username)
+                .HasColumnName("username")
+                .IsRequired()
+                .HasMaxLength(Player.UsernameMaxLength);
             Property(player => player.LocaleId).HasColumnName("locale_id");
             Property(player => player.CreatedAt).HasColumnName("created_at");
             Property(player => player.IsChatFilterEnabled).HasColumnName("is_chat_filter_enabled");
