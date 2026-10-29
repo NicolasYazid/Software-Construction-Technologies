@@ -328,6 +328,7 @@
     <Compile Include="ViewModels\EditProfileViewModel.cs" />
     <Compile Include="ViewModels\LobbyChatViewModel.cs" />
     <Compile Include="ViewModels\GuestLobbyViewModel.cs" />
+    <Compile Include="ViewModels\GameTableViewModel.cs" />
     <Compile Include="Services\SampleDataService.cs" />
     <Compile Include="Converters\LocalizedFormatConverter.cs" />
     <Compile Include="Views\VisibilityCommon.cs" />
