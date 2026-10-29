@@ -1,4 +1,4 @@
-using System.Data.Entity.ModelConfiguration;
+﻿using System.Data.Entity.ModelConfiguration;
 
 using GinRummy.Domain.Entities;
 
@@ -22,7 +22,7 @@ namespace GinRummy.Persistence.Configurations
                 .HasColumnName("term")
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(100);
+                .HasMaxLength(ProhibitedWord.TermMaxLength);
             HasMany(prohibitedWord => prohibitedWord.Locales)
                 .WithRequired()
                 .HasForeignKey(locale => locale.ProhibitedWordId);

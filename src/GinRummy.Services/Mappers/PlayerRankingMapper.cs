@@ -28,13 +28,15 @@ namespace GinRummy.Services.Mappers
 
         private static PlayerRanking MapToPlayerRanking(LeaderboardPosition position)
         {
-            PlayerRanking ranking = new PlayerRanking();
-            ranking.Position = position.Place;
-            ranking.Username = position.Stats.Player.Username;
-            ranking.RankName = ResolveRankName(position.Rank);
-            ranking.Wins = position.Stats.Wins;
-            ranking.Losses = position.Stats.Losses;
-            ranking.WinRate = position.Stats.WinRate;
+            PlayerRanking ranking = new PlayerRanking
+            {
+                Position = position.Place,
+                Username = position.Stats.Player.Username,
+                RankName = ResolveRankName(position.Rank),
+                Wins = position.Stats.Wins,
+                Losses = position.Stats.Losses,
+                WinRate = position.Stats.WinRate
+            };
 
             return ranking;
         }

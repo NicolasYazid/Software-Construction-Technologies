@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GinRummy.Domain.Entities
 {
@@ -12,6 +9,11 @@ namespace GinRummy.Domain.Entities
     /// </summary>
     public class Rank
     {
+        /// <summary>
+        /// Length of the name column.
+        /// </summary>
+        public const int NameMaxLength = 100;
+
         /// <summary>
         /// Parameterless constructor reserved for Entity Framework's materialization.
         /// </summary>

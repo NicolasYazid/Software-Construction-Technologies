@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
-using GinRummy.Persistence.Persistence;
 using GinRummy.Domain.Entities;
 using GinRummy.Domain.Repositories;
+using GinRummy.Persistence.Persistence;
 
 namespace GinRummy.Persistence.Repositories
 {
@@ -48,14 +48,13 @@ namespace GinRummy.Persistence.Repositories
         /// <returns>The open match with its participants, or null.</returns>
         public GameSession FindOpenByPlayerId(int playerId)
         {
-            // The stage is turned into text before the query because EF cannot translate the
-            // computed State property to SQL.
+            // The stage is turned into text before the query because EF cannot translate the computed State property to SQL.
             string finished = GameState.Finished.ToString();
 
             return _context.GameSessions
                 .Include(gameSession => gameSession.Participants)
-                .FirstOrDefault(gameSession => (gameSession.GameStateName != finished)
-                    && gameSession.Participants.Any(participant => participant.PlayerId == playerId));
+                .Where(gameSession => gameSession.GameStateName != finished)
+                .FirstOrDefault(gameSession => gameSession.Participants.Any(participant => participant.PlayerId == playerId));
         }
 
         /// <summary>
@@ -70,8 +69,8 @@ namespace GinRummy.Persistence.Repositories
 
             return _context.GameSessions
                 .Include(gameSession => gameSession.Participants)
-                .FirstOrDefault(gameSession => (gameSession.GameStateName != finished)
-                    && gameSession.Participants.Any(participant => participant.GuestSessionId == guestSessionId));
+                .Where(gameSession => gameSession.GameStateName != finished)
+                .FirstOrDefault(gameSession => gameSession.Participants.Any(participant => participant.GuestSessionId == guestSessionId));
         }
 
         /// <summary>
@@ -111,8 +110,7 @@ namespace GinRummy.Persistence.Repositories
         /// <returns>The entries of the player; empty when there are none.</returns>
         public IList<GameHistory> GetHistoryOf(int playerId)
         {
-            // The opponent and its player are loaded together because the caller shows the
-            // username of each opponent.
+            // The opponent and its player are loaded together because the caller shows the username of each opponent.
             return _context.GameHistories
                 .Include(history => history.Opponent.Player)
                 .Where(history => history.PlayerId == playerId)

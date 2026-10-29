@@ -16,22 +16,22 @@
                         <Image Source="{StaticResource IcoClose}" Width="24" Height="24" />
                     </Button>
                     <TextBlock x:Name="lblTitle" Style="{StaticResource StyPanelTitle}"
-                               Text="{Binding [Notifications_LblTitle], Source={StaticResource Loc},
+                               Text="{Binding [Notifications_LblTitle], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
                 </DockPanel>
 
                 <TabControl Style="{StaticResource StyPanelTabs}" SelectionChanged="OnTabSelectionChanged">
                     <TabItem x:Name="tabFriendRequests" IsSelected="True"
-                             Header="{Binding [Notifications_TabFriendRequests], Source={StaticResource Loc},
+                             Header="{Binding [Notifications_TabFriendRequests], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
                     <TabItem x:Name="tabSanctions"
-                             Header="{Binding [Notifications_TabSanctions], Source={StaticResource Loc},
+                             Header="{Binding [Notifications_TabSanctions], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
                 </TabControl>
 
                 <ScrollViewer Height="420" VerticalScrollBarVisibility="Auto" Margin="32,12,22,24">
                     <StackPanel Margin="0,0,10,0">
-                        <ItemsControl x:Name="lstFriendRequests">
+                        <ItemsControl x:Name="lstFriendRequests" ItemsSource="{Binding FriendRequests}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Border Style="{StaticResource StyRequestRow}">
@@ -39,13 +39,17 @@
                                             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal"
                                                         VerticalAlignment="Center">
                                                 <Button x:Name="btnAccept" Style="{StaticResource StyNoticePrimaryButton}"
-                                                        Content="{Binding [Shared_BtnAccept], Source={StaticResource Loc},
+                                                        Content="{Binding [Shared_BtnAccept], Source={StaticResource PrvLocalization},
                                                                   Converter={StaticResource CnvUpperCase}}"
-                                                        Click="OnAcceptClick" />
+                                                        Command="{Binding DataContext.AcceptRequestCommand,
+                                                                  RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                        CommandParameter="{Binding}" />
                                                 <Button x:Name="btnDecline" Style="{StaticResource StyNoticeButton}"
-                                                        Content="{Binding [Shared_BtnDecline], Source={StaticResource Loc},
+                                                        Content="{Binding [Shared_BtnDecline], Source={StaticResource PrvLocalization},
                                                                   Converter={StaticResource CnvUpperCase}}"
-                                                        Click="OnDeclineClick" />
+                                                        Command="{Binding DataContext.DeclineRequestCommand,
+                                                                  RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                        CommandParameter="{Binding}" />
                                             </StackPanel>
                                             <Border Style="{StaticResource StyAvatar}">
                                                 <Image Style="{StaticResource StyAvatarIcon}" />
@@ -54,7 +58,7 @@
                                                 <TextBlock.Text>
                                                     <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
                                                         <Binding Path="[Notifications_LblFriendRequest]"
-                                                                 Source="{StaticResource Loc}" />
+                                                                 Source="{StaticResource PrvLocalization}" />
                                                         <Binding Path="SenderName" />
                                                     </MultiBinding>
                                                 </TextBlock.Text>
@@ -65,8 +69,8 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <TextBlock x:Name="lblNoPendingRequests" Style="{StaticResource StyPanelEmpty}"
-                                   Visibility="Collapsed"
-                                   Text="{Binding [Notifications_NoPendingRequests], Source={StaticResource Loc}}" />
+                                   Visibility="{Binding HasNoPendingRequests, Converter={StaticResource CnvBooleanToVisibility}}"
+                                   Text="{Binding [Notifications_NoPendingRequests], Source={StaticResource PrvLocalization}}" />
                     </StackPanel>
                 </ScrollViewer>
 

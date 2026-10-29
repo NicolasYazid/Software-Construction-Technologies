@@ -9,7 +9,10 @@ namespace GinRummy.Domain.Entities
     /// </summary>
     public class SocialMedia
     {
-        private const int MaxUrlLength = 255;
+        /// <summary>
+        /// Length of the url column.
+        /// </summary>
+        public const int UrlMaxLength = 255;
 
         /// <summary>
         /// Creates a valid new social media link.
@@ -71,8 +74,8 @@ namespace GinRummy.Domain.Entities
             }
         }
 
-        // The url must fit the column. Its structure is checked as input validation before
-        // construction.
+        // The url must fit the column.
+        // Its structure is checked as input validation before the link is built.
         private static void ValidateUrl(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
@@ -80,7 +83,7 @@ namespace GinRummy.Domain.Entities
                 throw new ArgumentException("Url is required.", nameof(url));
             }
 
-            if (url.Trim().Length > MaxUrlLength)
+            if (url.Trim().Length > UrlMaxLength)
             {
                 throw new ArgumentException("Url is too long.", nameof(url));
             }

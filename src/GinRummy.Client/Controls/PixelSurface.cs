@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -18,7 +18,7 @@ namespace GinRummy.Client.Controls
 
         public static readonly DependencyProperty PixelUnitProperty =
             DependencyProperty.Register(
-                "PixelUnit",
+                nameof(PixelUnit),
                 typeof(double),
                 typeof(PixelSurface),
                 new FrameworkPropertyMetadata(
@@ -29,7 +29,7 @@ namespace GinRummy.Client.Controls
         // A larger element therefore needs a larger number for its corner to read as round rather than square.
         public static readonly DependencyProperty CornerStepsProperty =
             DependencyProperty.Register(
-                "CornerSteps",
+                nameof(CornerSteps),
                 typeof(int),
                 typeof(PixelSurface),
                 new FrameworkPropertyMetadata(
@@ -40,7 +40,7 @@ namespace GinRummy.Client.Controls
         // That is the effect the panels of the menu are after.
         public static readonly DependencyProperty FaceBrushProperty =
             DependencyProperty.Register(
-                "FaceBrush",
+                nameof(FaceBrush),
                 typeof(Brush),
                 typeof(PixelSurface),
                 new FrameworkPropertyMetadata(
@@ -49,7 +49,7 @@ namespace GinRummy.Client.Controls
 
         public static readonly DependencyProperty BaseBrushProperty =
             DependencyProperty.Register(
-                "BaseBrush",
+                nameof(BaseBrush),
                 typeof(Brush),
                 typeof(PixelSurface),
                 new FrameworkPropertyMetadata(
@@ -58,7 +58,7 @@ namespace GinRummy.Client.Controls
 
         public static readonly DependencyProperty BaseDepthProperty =
             DependencyProperty.Register(
-                "BaseDepth",
+                nameof(BaseDepth),
                 typeof(int),
                 typeof(PixelSurface),
                 new FrameworkPropertyMetadata(
@@ -69,7 +69,7 @@ namespace GinRummy.Client.Controls
         // The surface therefore declares a padding and honours it while it measures.
         public static readonly DependencyProperty PaddingProperty =
             DependencyProperty.Register(
-                "Padding",
+                nameof(Padding),
                 typeof(Thickness),
                 typeof(PixelSurface),
                 new FrameworkPropertyMetadata(

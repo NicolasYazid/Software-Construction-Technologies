@@ -21,7 +21,7 @@ namespace GinRummy.Infrastructure
         /// <param name="minimumLevel">Lowest level that is written.</param>
         public FileLoggerFactory(string logFilePath, LogLevel minimumLevel)
         {
-            _logFilePath = logFilePath;
+            _logFilePath = logFilePath ?? throw new ArgumentNullException(nameof(logFilePath));
             _minimumLevel = minimumLevel;
         }
 

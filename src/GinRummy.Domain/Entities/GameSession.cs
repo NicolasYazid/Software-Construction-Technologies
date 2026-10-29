@@ -12,6 +12,11 @@ namespace GinRummy.Domain.Entities
     public class GameSession
     {
         /// <summary>
+        /// Length of the game_state column.
+        /// </summary>
+        public const int GameStateNameMaxLength = 20;
+
+        /// <summary>
         /// Creates a new match that waits for its players.
         /// </summary>
         public GameSession()

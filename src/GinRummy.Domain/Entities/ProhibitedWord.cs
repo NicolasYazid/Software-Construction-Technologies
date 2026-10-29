@@ -11,6 +11,11 @@ namespace GinRummy.Domain.Entities
     public class ProhibitedWord
     {
         /// <summary>
+        /// Length of the term column.
+        /// </summary>
+        public const int TermMaxLength = 100;
+
+        /// <summary>
         /// Parameterless constructor reserved for Entity Framework's materialization.
         /// </summary>
         protected ProhibitedWord()
@@ -40,9 +45,9 @@ namespace GinRummy.Domain.Entities
         /// <returns>True when the term is prohibited in that language.</returns>
         public bool AppliesTo(int localeId)
         {
-            bool appliesToLocale = Locales.Any(link => link.LocaleId == localeId);
+            bool isProhibitedInLocale = Locales.Any(link => link.LocaleId == localeId);
 
-            return appliesToLocale;
+            return isProhibitedInLocale;
         }
     }
 }

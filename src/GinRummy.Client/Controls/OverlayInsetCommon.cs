@@ -21,7 +21,7 @@ namespace GinRummy.Client.Controls
                 new PropertyMetadata(false, OnIsInsetChanged));
 
         // A static class has no instance state, so each list stores its own handler to be able to unsubscribe it later.
-        private static readonly DependencyProperty LayoutHandlerProperty =
+        private static readonly DependencyProperty _layoutHandlerProperty =
             DependencyProperty.RegisterAttached(
                 "LayoutHandler",
                 typeof(EventHandler),
@@ -55,17 +55,17 @@ namespace GinRummy.Client.Controls
             Control list = element as Control;
             if (list != null)
             {
-                EventHandler handler = (EventHandler)list.GetValue(LayoutHandlerProperty);
+                EventHandler handler = (EventHandler)list.GetValue(_layoutHandlerProperty);
                 if (handler != null)
                 {
                     list.LayoutUpdated -= handler;
-                    list.ClearValue(LayoutHandlerProperty);
+                    list.ClearValue(_layoutHandlerProperty);
                 }
 
                 if ((bool)e.NewValue)
                 {
                     handler = (sender, args) => ApplyInset(list);
-                    list.SetValue(LayoutHandlerProperty, handler);
+                    list.SetValue(_layoutHandlerProperty, handler);
                     list.LayoutUpdated += handler;
                 }
             }

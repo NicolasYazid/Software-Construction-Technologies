@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GinRummy.Domain.Entities
 {
@@ -14,18 +10,10 @@ namespace GinRummy.Domain.Entities
     /// </summary>
     public class Player
     {
-        private const int MaxUsernameLength = 20;
-
         /// <summary>
-        /// Creates a valid new player, stamped with the current UTC time. Kept for callers
-        /// that have no clock yet; code that has one should pass the moment explicitly.
+        /// Length of the username column.
         /// </summary>
-        /// <param name="username">Display name; required, at most 20 characters.</param>
-        /// <param name="localeId">Locale chosen by the player; must be positive.</param>
-        public Player(string username, int localeId)
-            : this(username, localeId, DateTime.UtcNow)
-        {
-        }
+        public const int UsernameMaxLength = 20;
 
         /// <summary>
         /// Creates a valid new player registered at the given moment. The chat filter starts
@@ -107,8 +95,7 @@ namespace GinRummy.Domain.Entities
             LocaleId = localeId;
         }
 
-        // A player must always have a non-empty username within the length the database
-        // column allows.
+        // A player must always have a non-empty username within the length the database column allows.
         private static void ValidateUsername(string username)
         {
             if (string.IsNullOrWhiteSpace(username))
@@ -116,7 +103,7 @@ namespace GinRummy.Domain.Entities
                 throw new ArgumentException("Username is required.", nameof(username));
             }
 
-            if (username.Trim().Length > MaxUsernameLength)
+            if (username.Trim().Length > UsernameMaxLength)
             {
                 throw new ArgumentException("Username is too long.", nameof(username));
             }

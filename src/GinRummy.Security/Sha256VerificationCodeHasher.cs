@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 using GinRummy.Domain.Security;
 
@@ -18,6 +15,9 @@ namespace GinRummy.Security
     /// </summary>
     public class Sha256VerificationCodeHasher : IVerificationCodeHasher
     {
+        private const int HexCharactersPerByte = 2;
+        private const string HexByteFormat = "x2";
+
         /// <summary>
         /// Produces a hash of the given code, safe to store in place of it.
         /// </summary>
@@ -45,19 +45,18 @@ namespace GinRummy.Security
         public bool VerifyCode(string code, string hash)
         {
             string candidateHash = ComputeHash(code);
-            bool codeMatches = AreEqual(candidateHash, hash);
+            bool isCodeValid = AreEqual(candidateHash, hash);
 
-            return codeMatches;
+            return isCodeValid;
         }
 
-        // Turns raw hash bytes into the same lowercase hex text the database column
-        // stores, two hex characters per byte.
+        // The text must be the same lowercase hexadecimal form the database column stores.
         private static string ToHexString(byte[] bytes)
         {
-            StringBuilder hexBuilder = new StringBuilder(bytes.Length * 2);
+            StringBuilder hexBuilder = new StringBuilder(bytes.Length * HexCharactersPerByte);
             foreach (byte currentByte in bytes)
             {
-                hexBuilder.Append(currentByte.ToString("x2", CultureInfo.InvariantCulture));
+                hexBuilder.Append(currentByte.ToString(HexByteFormat, CultureInfo.InvariantCulture));
             }
 
             string hexText = hexBuilder.ToString();
@@ -65,8 +64,8 @@ namespace GinRummy.Security
             return hexText;
         }
 
-        // Compares every character without stopping at the first difference, for the
-        // same timing-attack reason already explained for passwords.
+        // Every character is compared without stopping at the first difference.
+        // The time the comparison takes therefore does not reveal how many leading characters matched.
         private static bool AreEqual(string first, string second)
         {
             int difference = first.Length ^ second.Length;

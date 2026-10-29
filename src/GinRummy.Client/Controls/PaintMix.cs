@@ -1,4 +1,4 @@
-namespace GinRummy.Client.Controls
+﻿namespace GinRummy.Client.Controls
 {
     // The three weights must add up to one, because the palette mixes them without normalising anything.
     internal struct PaintMix

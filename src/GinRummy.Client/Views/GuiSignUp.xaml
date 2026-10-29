@@ -33,20 +33,23 @@
             <StackPanel>
 
                 <TextBlock x:Name="lblTitle" Style="{StaticResource StyCardTitle}"
-                           Text="{Binding [SignUp_LblTitle], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
+                           Text="{Binding [SignUp_LblTitle], Source={StaticResource PrvLocalization},
+                                  Converter={StaticResource CnvUpperCase}}" />
                 <TextBlock x:Name="lblSubtitle" Style="{StaticResource StyCardSubtitle}" Margin="0,10,0,0"
-                           Text="{Binding [SignUp_LblSubtitle], Source={StaticResource Loc}}" />
+                           Text="{Binding [SignUp_LblSubtitle], Source={StaticResource PrvLocalization}}" />
 
                 <TextBlock x:Name="lblEmail" Style="{StaticResource StyFieldLabel}" Margin="0,12,0,8"
-                           Text="{Binding [SignUp_LblEmail], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
+                           Text="{Binding [SignUp_LblEmail], Source={StaticResource PrvLocalization},
+                                  Converter={StaticResource CnvUpperCase}}" />
                 <ctl:PixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
                         <Image Source="{StaticResource IcoMail}" Width="19" Height="19"
                                VerticalAlignment="Center" Margin="0,0,12,0" />
                         <Grid>
-                            <TextBox x:Name="txtEmail" Style="{StaticResource StyFieldInput}" MaxLength="254" />
+                            <TextBox x:Name="txtEmail" Style="{StaticResource StyFieldInput}" MaxLength="254"
+                                     Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" />
                             <TextBlock Style="{StaticResource StyFieldPlaceholder}"
-                                       Text="{Binding [SignUp_TxtEmailPlaceholder], Source={StaticResource Loc}}"
+                                       Text="{Binding [SignUp_TxtEmailPlaceholder], Source={StaticResource PrvLocalization}}"
                                        Visibility="{Binding Text, ElementName=txtEmail,
                                                     Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>
@@ -54,15 +57,17 @@
                 </ctl:PixelBorder>
 
                 <TextBlock x:Name="lblUsername" Style="{StaticResource StyFieldLabel}" Margin="0,12,0,8"
-                           Text="{Binding [SignUp_LblUsername], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
+                           Text="{Binding [SignUp_LblUsername], Source={StaticResource PrvLocalization},
+                                  Converter={StaticResource CnvUpperCase}}" />
                 <ctl:PixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
                         <Image Source="{StaticResource IcoUser}" Width="19" Height="19"
                                VerticalAlignment="Center" Margin="0,0,12,0" />
                         <Grid>
-                            <TextBox x:Name="txtUsername" Style="{StaticResource StyFieldInput}" MaxLength="20" />
+                            <TextBox x:Name="txtUsername" Style="{StaticResource StyFieldInput}" MaxLength="20"
+                                     Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" />
                             <TextBlock Style="{StaticResource StyFieldPlaceholder}"
-                                       Text="{Binding [SignUp_TxtUsernamePlaceholder], Source={StaticResource Loc}}"
+                                       Text="{Binding [SignUp_TxtUsernamePlaceholder], Source={StaticResource PrvLocalization}}"
                                        Visibility="{Binding Text, ElementName=txtUsername,
                                                     Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>
@@ -70,7 +75,8 @@
                 </ctl:PixelBorder>
 
                 <TextBlock x:Name="lblPassword" Style="{StaticResource StyFieldLabel}" Margin="0,12,0,8"
-                           Text="{Binding [SignUp_LblPassword], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
+                           Text="{Binding [SignUp_LblPassword], Source={StaticResource PrvLocalization},
+                                  Converter={StaticResource CnvUpperCase}}" />
                 <ctl:PixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
                         <Image Source="{StaticResource IcoLock}" Width="19" Height="19"
@@ -78,20 +84,21 @@
                         <Button x:Name="btnTogglePassword" DockPanel.Dock="Right"
                                 Style="{StaticResource StyIconButton}"
                                 VerticalAlignment="Center" Margin="12,0,0,0"
-                                ToolTip="{Binding [Shared_TipTogglePassword], Source={StaticResource Loc}}"
+                                ToolTip="{Binding [Shared_TipTogglePassword], Source={StaticResource PrvLocalization}}"
                                 Click="OnTogglePasswordClick">
                             <Image Source="{StaticResource IcoEye}" Width="19" Height="19" />
                         </Button>
                         <Grid>
-                            <PasswordBox x:Name="pwdPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64" />
+                            <PasswordBox x:Name="pwdPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64"
+                                         ctl:PasswordBindingCommon.BoundPassword="{Binding Password}" />
                             <TextBox x:Name="txtPasswordShown" Style="{StaticResource StyFieldInput}" MaxLength="64"
-                                     Visibility="Collapsed" />
+                                     Visibility="Collapsed" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </DockPanel>
                 </ctl:PixelBorder>
 
                 <TextBlock x:Name="lblConfirmPassword" Style="{StaticResource StyFieldLabel}" Margin="0,12,0,8"
-                           Text="{Binding [SignUp_LblConfirmPassword], Source={StaticResource Loc},
+                           Text="{Binding [SignUp_LblConfirmPassword], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}" />
                 <ctl:PixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
@@ -100,47 +107,52 @@
                         <Button x:Name="btnToggleConfirmPassword" DockPanel.Dock="Right"
                                 Style="{StaticResource StyIconButton}"
                                 VerticalAlignment="Center" Margin="12,0,0,0"
-                                ToolTip="{Binding [Shared_TipTogglePassword], Source={StaticResource Loc}}"
+                                ToolTip="{Binding [Shared_TipTogglePassword], Source={StaticResource PrvLocalization}}"
                                 Click="OnToggleConfirmPasswordClick">
                             <Image Source="{StaticResource IcoEye}" Width="19" Height="19" />
                         </Button>
                         <Grid>
-                            <PasswordBox x:Name="pwdConfirmPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64" />
+                            <PasswordBox x:Name="pwdConfirmPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64"
+                                         ctl:PasswordBindingCommon.BoundPassword="{Binding ConfirmPassword}" />
                             <TextBox x:Name="txtConfirmPasswordShown" Style="{StaticResource StyFieldInput}" MaxLength="64"
-                                     Visibility="Collapsed" />
+                                     Visibility="Collapsed" Text="{Binding ConfirmPassword, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </DockPanel>
                 </ctl:PixelBorder>
 
                 <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyCardError}"
-                           Width="402" HorizontalAlignment="Left" Margin="0,12,0,0" />
+                           Width="402" HorizontalAlignment="Left" Margin="0,12,0,0"
+                           Visibility="{Binding IsPasswordMismatchShown, Converter={StaticResource CnvBooleanToVisibility}}"
+                           Text="{Binding [Error_ValPasswordMismatch], Source={StaticResource PrvLocalization}}" />
                 <TextBlock x:Name="lblGuestSessionNotKept" Style="{StaticResource StyCardNotice}"
                            Width="402" HorizontalAlignment="Left" Margin="0,12,0,0"
-                           Text="{Binding [SignUp_GuestSessionNotKept], Source={StaticResource Loc}}" />
+                           Text="{Binding [SignUp_GuestSessionNotKept], Source={StaticResource PrvLocalization}}" />
                 <TextBlock x:Name="lblCreatingAccount" Style="{StaticResource StyCardNotice}"
                            Width="402" HorizontalAlignment="Left" Margin="0,12,0,0"
-                           Text="{Binding [SignUp_LblCreatingAccount], Source={StaticResource Loc}}" />
+                           Text="{Binding [SignUp_LblCreatingAccount], Source={StaticResource PrvLocalization}}" />
 
                 <StackPanel Margin="0,10,0,0">
                     <TextBlock x:Name="lblReqMinLength" Style="{StaticResource StyCardNotice}"
                                Visibility="Visible" Width="402" HorizontalAlignment="Left"
-                               Text="{Binding [SignUp_LblReqMinLength], Source={StaticResource Loc}}" />
+                               Text="{Binding [SignUp_LblReqMinLength], Source={StaticResource PrvLocalization}}" />
                     <TextBlock x:Name="lblReqLetter" Style="{StaticResource StyCardNotice}"
                                Visibility="Visible" Width="402" HorizontalAlignment="Left"
-                               Text="{Binding [SignUp_LblReqLetter], Source={StaticResource Loc}}" />
+                               Text="{Binding [SignUp_LblReqLetter], Source={StaticResource PrvLocalization}}" />
                     <TextBlock x:Name="lblReqNumber" Style="{StaticResource StyCardNotice}"
                                Visibility="Visible" Width="402" HorizontalAlignment="Left"
-                               Text="{Binding [SignUp_LblReqNumber], Source={StaticResource Loc}}" />
+                               Text="{Binding [SignUp_LblReqNumber], Source={StaticResource PrvLocalization}}" />
                 </StackPanel>
 
                 <Button x:Name="btnCreateAccount" Style="{StaticResource StyCardPrimaryButton}"
                         Width="402" HorizontalAlignment="Left" Margin="0,14,0,0"
-                        Content="{Binding [Shared_BtnCreateAccount], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
-                        Click="OnCreateAccountClick" />
+                        Content="{Binding [Shared_BtnCreateAccount], Source={StaticResource PrvLocalization},
+                                  Converter={StaticResource CnvUpperCase}}"
+                        Command="{Binding CreateAccountCommand}" />
 
                 <Button x:Name="btnCancel" Style="{StaticResource StyCardTextButton}"
                         Width="402" HorizontalAlignment="Left" Margin="0,14,0,0"
-                        Content="{Binding [Shared_BtnCancel], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                        Content="{Binding [Shared_BtnCancel], Source={StaticResource PrvLocalization},
+                                  Converter={StaticResource CnvUpperCase}}"
                         Click="OnCancelClick" />
 
             </StackPanel>

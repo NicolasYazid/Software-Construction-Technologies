@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using GinRummy.Persistence.Persistence;
 using GinRummy.Domain.Entities;
 using GinRummy.Domain.Repositories;
+using GinRummy.Persistence.Persistence;
 
 namespace GinRummy.Persistence.Repositories
 {
@@ -24,9 +22,11 @@ namespace GinRummy.Persistence.Repositories
         /// Builds the repository so that each operation opens and closes its own context.
         /// </summary>
         /// <param name="connectionStringName">Name of the entry in App.config.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the name is null.</exception>
         public LocaleRepository(string connectionStringName)
         {
-            _connectionStringName = connectionStringName;
+            _connectionStringName = connectionStringName
+                ?? throw new ArgumentNullException(nameof(connectionStringName));
         }
 
         /// <summary>
@@ -35,9 +35,10 @@ namespace GinRummy.Persistence.Repositories
         /// caller stays responsible for disposing that context.
         /// </summary>
         /// <param name="sharedContext">Context to reuse instead of opening a new one.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the context is null.</exception>
         public LocaleRepository(GinRummyContext sharedContext)
         {
-            _sharedContext = sharedContext;
+            _sharedContext = sharedContext ?? throw new ArgumentNullException(nameof(sharedContext));
         }
 
         /// <summary>
@@ -50,8 +51,6 @@ namespace GinRummy.Persistence.Repositories
             Locale foundLocale;
             if (_sharedContext != null)
             {
-                // Not wrapped in using: the caller opened this context and stays
-                // responsible for closing it.
                 foundLocale = _sharedContext.Locales.FirstOrDefault(locale => locale.LocaleCode == localeCode);
             }
             else

@@ -1,4 +1,4 @@
-using System.Data.Entity.ModelConfiguration;
+﻿using System.Data.Entity.ModelConfiguration;
 
 using GinRummy.Domain.Entities;
 
@@ -23,7 +23,7 @@ namespace GinRummy.Persistence.Configurations
                 .HasColumnName("game_state")
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(20);
+                .HasMaxLength(GameSession.GameStateNameMaxLength);
             Property(gameSession => gameSession.DeckState).HasColumnName("deck_state");
             Property(gameSession => gameSession.DiscardPileState).HasColumnName("discard_pile_state");
             Property(gameSession => gameSession.CurrentTurn).HasColumnName("current_turn");
@@ -31,8 +31,8 @@ namespace GinRummy.Persistence.Configurations
             Property(gameSession => gameSession.EndedAt).HasColumnName("ended_at");
             Ignore(gameSession => gameSession.State);
 
-            // The turn stays a plain number: the table points to GameParticipant and the participants
-            // point back to the match, and mapping both directions would make the inserts circular.
+            // The turn stays a plain number because the table points to GameParticipant and the participants point back to the match.
+            // Mapping both directions would make the inserts circular.
             HasMany(gameSession => gameSession.Participants)
                 .WithRequired()
                 .HasForeignKey(participant => participant.GameSessionId)

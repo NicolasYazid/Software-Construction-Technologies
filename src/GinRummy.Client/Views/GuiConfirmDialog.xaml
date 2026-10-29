@@ -10,29 +10,50 @@
         <Border Style="{StaticResource StyDialogCard}">
             <StackPanel>
 
-                <TextBlock x:Name="lblTitle" Style="{StaticResource StyDialogTitle}" />
-                <TextBlock x:Name="lblMessage" Style="{StaticResource StyDialogMessage}" Margin="0,16,0,0" />
+                <TextBlock x:Name="lblTitle" Style="{StaticResource StyDialogTitle}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource CnvResourceText}">
+                            <Binding Path="TitleKey" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <TextBlock x:Name="lblMessage" Style="{StaticResource StyDialogMessage}" Margin="0,16,0,0">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource CnvResourceText}">
+                            <Binding Path="MessageKey" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
 
-                <!-- Only the dialog that turns off the two-step verification asks for the
-                     password, because CU-05 makes the player prove again that the account is
-                     theirs. The field follows the visibility of its label, so the dialog decides
-                     both in a single place. -->
+                <!-- The field follows the visibility of its label, so the dialog decides both in a
+                     single place. -->
                 <StackPanel Width="320">
                     <TextBlock x:Name="lblPassword" Style="{StaticResource StyFieldLabel}"
-                               HorizontalAlignment="Center" Margin="0,22,0,8" Visibility="Collapsed"
-                               Text="{Binding [ConfirmDialog_LblPassword], Source={StaticResource Loc},
+                               HorizontalAlignment="Center" Margin="0,22,0,8"
+                               Visibility="{Binding IsPasswordRequired, Converter={StaticResource CnvBooleanToVisibility}}"
+                               Text="{Binding [ConfirmDialog_LblPassword], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
                     <ctl:PixelBorder Style="{StaticResource StyFieldShell}"
                             Visibility="{Binding Visibility, ElementName=lblPassword}">
-                        <PasswordBox x:Name="pwdPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64" />
+                        <PasswordBox x:Name="pwdPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64"
+                                     ctl:PasswordBindingCommon.BoundPassword="{Binding Password}" />
                     </ctl:PixelBorder>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,26,0,0">
                     <Button x:Name="btnConfirm" Style="{StaticResource StyDialogPrimaryButton}"
-                            Margin="0,0,16,0" Click="OnConfirmClick" />
+                            Margin="0,0,16,0" Click="OnConfirmClick">
+                        <Button.Content>
+                            <MultiBinding Converter="{StaticResource CnvUpperResourceText}">
+                                <Binding Path="ConfirmKey" />
+                                <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                            </MultiBinding>
+                        </Button.Content>
+                    </Button>
                     <Button x:Name="btnCancel" Style="{StaticResource StyDialogSecondaryButton}"
-                            Content="{Binding [Shared_BtnCancel], Source={StaticResource Loc},
+                            Content="{Binding [Shared_BtnCancel], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
                             Click="OnCancelClick" />
                 </StackPanel>

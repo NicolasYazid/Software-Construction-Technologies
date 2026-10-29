@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="72e90f39-bf72-4257-b596-e93bb7767053" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings>
+      <CollectionMapping TypeName="System.Collections.Generic.List`1" Category="List" />
+    </CollectionMappings>
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://localhost:8001/LeaderboardService/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="LeaderboardService.wsdl" MetadataType="Wsdl" ID="22b44314-caed-44c7-9ced-35e708ddd7e8" SourceId="1" SourceUrl="net.tcp://localhost:8001/LeaderboardService/mex" />
+    <MetadataFile FileName="LeaderboardService.xsd" MetadataType="Schema" ID="c545100d-4816-4908-8c3c-f7544bb6aeed" SourceId="1" SourceUrl="net.tcp://localhost:8001/LeaderboardService/mex" />
+    <MetadataFile FileName="LeaderboardService2.xsd" MetadataType="Schema" ID="d662be61-1263-43e4-9499-0e3672bd1b17" SourceId="1" SourceUrl="net.tcp://localhost:8001/LeaderboardService/mex" />
+    <MetadataFile FileName="LeaderboardService1.xsd" MetadataType="Schema" ID="b2d41c00-2b94-4dc8-a872-a4c85fe996df" SourceId="1" SourceUrl="net.tcp://localhost:8001/LeaderboardService/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

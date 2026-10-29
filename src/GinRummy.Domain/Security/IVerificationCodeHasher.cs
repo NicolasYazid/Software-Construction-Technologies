@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GinRummy.Domain.Security
+﻿namespace GinRummy.Domain.Security
 {
     /// <summary>
     /// Contract the game's logic uses to hash and check verification codes, without
@@ -12,7 +6,6 @@ namespace GinRummy.Domain.Security
     /// </summary>
     public interface IVerificationCodeHasher
     {
-
         /// <summary>
         /// Produces a hash of the given code, safe to store in place of it.
         /// </summary>

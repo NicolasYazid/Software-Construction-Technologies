@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+
+using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
 {
@@ -7,17 +9,19 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiRecoverPassword : GuiModalBase
     {
+        private readonly RecoverPasswordViewModel _viewModel;
+
         public GuiRecoverPassword()
         {
             InitializeComponent();
+            _viewModel = new RecoverPasswordViewModel();
+            _viewModel.CodeRequested += OnCodeRequested;
+            DataContext = _viewModel;
         }
 
-        private void OnSendCodeClick(object sender, RoutedEventArgs e)
+        private void OnCodeRequested(object sender, EventArgs e)
         {
-            // CU-08 answers the same way whether or not the address has an account.
-            // That way the screen never reveals which addresses are registered.
-            lblCodeSentIfExists.Visibility = Visibility.Visible;
-            NavigateTo(new GuiVerifyEmail(VerificationPurpose.PasswordRecovery, txtEmail.Text));
+            NavigateTo(new GuiVerifyEmail(VerificationPurpose.PasswordRecovery, _viewModel.Email));
         }
     }
 }

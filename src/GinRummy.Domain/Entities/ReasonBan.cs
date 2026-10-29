@@ -12,6 +12,16 @@ namespace GinRummy.Domain.Entities
     public class ReasonBan
     {
         /// <summary>
+        /// Length of the name column.
+        /// </summary>
+        public const int NameMaxLength = 100;
+
+        /// <summary>
+        /// Length of the restriction_scope column.
+        /// </summary>
+        public const int RestrictionScopeNameMaxLength = 20;
+
+        /// <summary>
         /// Parameterless constructor reserved for Entity Framework's materialization.
         /// </summary>
         protected ReasonBan()
@@ -51,21 +61,21 @@ namespace GinRummy.Domain.Entities
         /// Gets whether a ban with this reason stops the player from writing in the chat. A ban
         /// that restricts the whole account restricts the chat too.
         /// </summary>
-        public bool RestrictsChat
+        public bool IsChatRestricted
         {
             get
             {
                 bool isChatOnly = RestrictionScope == RestrictionScope.ChatOnly;
-                bool restrictsChat = isChatOnly || RestrictsAccount;
+                bool isChatRestricted = isChatOnly || IsAccountRestricted;
 
-                return restrictsChat;
+                return isChatRestricted;
             }
         }
 
         /// <summary>
         /// Gets whether a ban with this reason stops the player from signing in and playing.
         /// </summary>
-        public bool RestrictsAccount
+        public bool IsAccountRestricted
         {
             get { return RestrictionScope == RestrictionScope.FullAccount; }
         }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GinRummy.Domain.Entities
+﻿namespace GinRummy.Domain.Entities
 {
     /// <summary>
     /// A language and region the game can display, mapped to the Locale table. The
@@ -12,6 +6,16 @@ namespace GinRummy.Domain.Entities
     /// </summary>
     public class Locale
     {
+        /// <summary>
+        /// Length of the locale_code column.
+        /// </summary>
+        public const int LocaleCodeMaxLength = 10;
+
+        /// <summary>
+        /// Length of the display_name column.
+        /// </summary>
+        public const int DisplayNameMaxLength = 100;
+
         /// <summary>
         /// Parameterless constructor reserved for Entity Framework's materialization.
         /// </summary>

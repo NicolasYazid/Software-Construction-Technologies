@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
-using GinRummy.Persistence.Persistence;
 using GinRummy.Domain.Entities;
 using GinRummy.Domain.Repositories;
+using GinRummy.Persistence.Persistence;
 
 namespace GinRummy.Persistence.Repositories
 {
@@ -36,8 +36,9 @@ namespace GinRummy.Persistence.Repositories
         /// <returns>The pending request, or null.</returns>
         public FriendRequest FindRequest(int requesterPlayerId, int recipientPlayerId)
         {
-            return _context.FriendRequests.FirstOrDefault(request =>
-                (request.RequesterPlayerId == requesterPlayerId) && (request.RecipientPlayerId == recipientPlayerId));
+            return _context.FriendRequests
+                .Where(request => request.RequesterPlayerId == requesterPlayerId)
+                .FirstOrDefault(request => request.RecipientPlayerId == recipientPlayerId);
         }
 
         /// <summary>
@@ -57,8 +58,7 @@ namespace GinRummy.Persistence.Repositories
         /// <returns>The pending requests, oldest first.</returns>
         public IList<FriendRequest> GetRequestsReceivedBy(int recipientPlayerId)
         {
-            // The requester and its player are loaded together because the caller needs the
-            // username of each requester to show the list.
+            // The requester and its player are loaded together because the caller needs the username of each requester to show the list.
             return _context.FriendRequests
                 .Include(request => request.Requester.Player)
                 .Where(request => request.RecipientPlayerId == recipientPlayerId)
@@ -100,13 +100,13 @@ namespace GinRummy.Persistence.Repositories
         /// <returns>The friendship, or null.</returns>
         public FriendShip FindFriendShip(int firstPlayerId, int secondPlayerId)
         {
-            // The pair is stored once with the lower id first, so the arguments are put in
-            // that order before searching.
+            // The pair is stored once with the lower id first, so the arguments are put in that order before searching.
             int playerAId = Math.Min(firstPlayerId, secondPlayerId);
             int playerBId = Math.Max(firstPlayerId, secondPlayerId);
 
-            return _context.FriendShips.FirstOrDefault(friendShip =>
-                (friendShip.PlayerAId == playerAId) && (friendShip.PlayerBId == playerBId));
+            return _context.FriendShips
+                .Where(friendShip => friendShip.PlayerAId == playerAId)
+                .FirstOrDefault(friendShip => friendShip.PlayerBId == playerBId);
         }
 
         /// <summary>

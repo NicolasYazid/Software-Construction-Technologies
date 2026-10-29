@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using GinRummy.Persistence.Persistence;
 using GinRummy.Domain.Entities;
 using GinRummy.Domain.Repositories;
+using GinRummy.Persistence.Persistence;
 
 namespace GinRummy.Persistence.Repositories
 {
@@ -17,6 +14,17 @@ namespace GinRummy.Persistence.Repositories
     /// </summary>
     public class VerificationCodeRepository : IVerificationCodeRepository
     {
+        // The counter is increased by the database itself so that two wrong attempts sent at the same time are both counted.
+        private const string RegisterFailedAttemptCommand =
+            "UPDATE dbo.VerificationCode "
+            + "SET attempts = attempts + 1 "
+            + "WHERE verification_code_id = @p0;";
+
+        private const string MarkAsUsedCommand =
+            "UPDATE dbo.VerificationCode "
+            + "SET used_at = @p0 "
+            + "WHERE verification_code_id = @p1;";
+
         private readonly string _connectionStringName;
         private readonly GinRummyContext _sharedContext;
 
@@ -24,9 +32,11 @@ namespace GinRummy.Persistence.Repositories
         /// Builds the repository so that each operation opens and closes its own context.
         /// </summary>
         /// <param name="connectionStringName">Name of the entry in App.config.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the name is null.</exception>
         public VerificationCodeRepository(string connectionStringName)
         {
-            _connectionStringName = connectionStringName;
+            _connectionStringName = connectionStringName
+                ?? throw new ArgumentNullException(nameof(connectionStringName));
         }
 
         /// <summary>
@@ -35,9 +45,10 @@ namespace GinRummy.Persistence.Repositories
         /// caller stays responsible for disposing that context.
         /// </summary>
         /// <param name="sharedContext">Context to reuse instead of opening a new one.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the context is null.</exception>
         public VerificationCodeRepository(GinRummyContext sharedContext)
         {
-            _sharedContext = sharedContext;
+            _sharedContext = sharedContext ?? throw new ArgumentNullException(nameof(sharedContext));
         }
 
         /// <summary>
@@ -53,8 +64,8 @@ namespace GinRummy.Persistence.Repositories
             if (_sharedContext != null)
             {
                 mostRecentCode = _sharedContext.VerificationCodes
-                    .Where(verificationCode => verificationCode.PlayerId == playerId
-                        && verificationCode.Purpose == purpose)
+                    .Where(verificationCode => verificationCode.PlayerId == playerId)
+                    .Where(verificationCode => verificationCode.Purpose == purpose)
                     .OrderByDescending(verificationCode => verificationCode.CreatedAt)
                     .FirstOrDefault();
             }
@@ -63,8 +74,8 @@ namespace GinRummy.Persistence.Repositories
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
                     mostRecentCode = context.VerificationCodes
-                        .Where(verificationCode => verificationCode.PlayerId == playerId
-                            && verificationCode.Purpose == purpose)
+                        .Where(verificationCode => verificationCode.PlayerId == playerId)
+                        .Where(verificationCode => verificationCode.Purpose == purpose)
                         .OrderByDescending(verificationCode => verificationCode.CreatedAt)
                         .FirstOrDefault();
                 }
@@ -125,7 +136,7 @@ namespace GinRummy.Persistence.Repositories
             if (_sharedContext != null)
             {
                 _sharedContext.Database.ExecuteSqlCommand(
-                    "UPDATE VerificationCode SET attempts = attempts + 1 WHERE verification_code_id = {0}",
+                    RegisterFailedAttemptCommand,
                     verificationCodeId);
             }
             else
@@ -133,23 +144,24 @@ namespace GinRummy.Persistence.Repositories
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
                     context.Database.ExecuteSqlCommand(
-                        "UPDATE VerificationCode SET attempts = attempts + 1 WHERE verification_code_id = {0}",
+                        RegisterFailedAttemptCommand,
                         verificationCodeId);
                 }
             }
         }
 
         /// <summary>
-        /// Marks the given code as used, right now.
+        /// Marks the given code as used at the given moment.
         /// </summary>
         /// <param name="verificationCodeId">Code that was successfully verified.</param>
-        public void MarkAsUsed(int verificationCodeId)
+        /// <param name="usedAt">Moment the code was used, in UTC, read from the server clock.</param>
+        public void MarkAsUsed(int verificationCodeId, DateTime usedAt)
         {
             if (_sharedContext != null)
             {
                 _sharedContext.Database.ExecuteSqlCommand(
-                    "UPDATE VerificationCode SET used_at = {0} WHERE verification_code_id = {1}",
-                    DateTime.UtcNow,
+                    MarkAsUsedCommand,
+                    usedAt,
                     verificationCodeId);
             }
             else
@@ -157,8 +169,8 @@ namespace GinRummy.Persistence.Repositories
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
                     context.Database.ExecuteSqlCommand(
-                        "UPDATE VerificationCode SET used_at = {0} WHERE verification_code_id = {1}",
-                        DateTime.UtcNow,
+                        MarkAsUsedCommand,
+                        usedAt,
                         verificationCodeId);
                 }
             }

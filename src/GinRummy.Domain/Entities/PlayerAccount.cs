@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GinRummy.Domain.Entities
 {
@@ -14,7 +10,15 @@ namespace GinRummy.Domain.Entities
     /// </summary>
     public class PlayerAccount
     {
-        private const int MaxEmailLength = 254;
+        /// <summary>
+        /// Length of the email column.
+        /// </summary>
+        public const int EmailMaxLength = 254;
+
+        /// <summary>
+        /// Length of the password column, which stores the hash.
+        /// </summary>
+        public const int PasswordHashMaxLength = 255;
 
         /// <summary>
         /// Creates a valid new account for a player that is already stored. A new account
@@ -146,8 +150,8 @@ namespace GinRummy.Domain.Entities
             }
         }
 
-        // An account must always have a non-empty email within the length the database
-        // column allows. Format is checked as input validation before construction.
+        // An account must always have a non-empty email within the length the database column allows.
+        // The format is checked as input validation before the account is built.
         private static void ValidateEmail(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -155,7 +159,7 @@ namespace GinRummy.Domain.Entities
                 throw new ArgumentException("Email is required.", nameof(email));
             }
 
-            if (email.Trim().Length > MaxEmailLength)
+            if (email.Trim().Length > EmailMaxLength)
             {
                 throw new ArgumentException("Email is too long.", nameof(email));
             }

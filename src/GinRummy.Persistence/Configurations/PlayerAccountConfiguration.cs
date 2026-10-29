@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 using GinRummy.Domain.Entities;
@@ -25,12 +25,12 @@ namespace GinRummy.Persistence.Configurations
                 .HasColumnName("email")
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(254);
+                .HasMaxLength(PlayerAccount.EmailMaxLength);
             Property(playerAccount => playerAccount.PasswordHash)
                 .HasColumnName("password")
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(255);
+                .HasMaxLength(PlayerAccount.PasswordHashMaxLength);
             Property(playerAccount => playerAccount.LastLoginAt).HasColumnName("last_login_at");
             Property(playerAccount => playerAccount.IsEmailVerified).HasColumnName("is_email_verified");
             Property(playerAccount => playerAccount.IsTwoFactorEnabled).HasColumnName("is_two_factor_enabled");

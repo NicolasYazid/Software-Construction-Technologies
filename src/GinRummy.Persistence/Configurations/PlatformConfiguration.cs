@@ -1,4 +1,4 @@
-using System.Data.Entity.ModelConfiguration;
+﻿using System.Data.Entity.ModelConfiguration;
 
 using GinRummy.Domain.Entities;
 
@@ -22,7 +22,7 @@ namespace GinRummy.Persistence.Configurations
                 .HasColumnName("name")
                 .IsRequired()
                 .IsUnicode(false)
-                .HasMaxLength(100);
+                .HasMaxLength(Platform.NameMaxLength);
         }
     }
 }

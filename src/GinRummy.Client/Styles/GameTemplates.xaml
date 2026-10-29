@@ -9,12 +9,12 @@
 
     <!-- A card face up. Its rank and its suit are drawn, not written, so the card carries its
          spoken name for assistive technologies. -->
-    <DataTemplate x:Key="TplCardFace" DataType="{x:Type models:CardDto}">
+    <DataTemplate x:Key="TplCardFace" DataType="{x:Type models:Card}">
         <Border Style="{StaticResource StyCardFace}">
             <AutomationProperties.Name>
                 <MultiBinding Converter="{StaticResource CnvCardName}">
                     <Binding />
-                    <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                    <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                 </MultiBinding>
             </AutomationProperties.Name>
             <Grid>
@@ -22,7 +22,7 @@
                     <TextBlock.Text>
                         <MultiBinding Converter="{StaticResource CnvCardRank}">
                             <Binding Path="Rank" />
-                            <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
@@ -32,7 +32,7 @@
                     <TextBlock.Text>
                         <MultiBinding Converter="{StaticResource CnvCardRank}">
                             <Binding Path="Rank" />
-                            <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
@@ -40,12 +40,12 @@
         </Border>
     </DataTemplate>
 
-    <DataTemplate x:Key="TplCardFaceLarge" DataType="{x:Type models:CardDto}">
+    <DataTemplate x:Key="TplCardFaceLarge" DataType="{x:Type models:Card}">
         <Border Style="{StaticResource StyCardFaceLarge}">
             <AutomationProperties.Name>
                 <MultiBinding Converter="{StaticResource CnvCardName}">
                     <Binding />
-                    <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                    <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                 </MultiBinding>
             </AutomationProperties.Name>
             <Grid>
@@ -53,7 +53,7 @@
                     <TextBlock.Text>
                         <MultiBinding Converter="{StaticResource CnvCardRank}">
                             <Binding Path="Rank" />
-                            <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
@@ -63,7 +63,7 @@
                     <TextBlock.Text>
                         <MultiBinding Converter="{StaticResource CnvCardRank}">
                             <Binding Path="Rank" />
-                            <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
@@ -73,12 +73,12 @@
 
     <!-- The small card of the groups laid down at the close of a hand keeps only the rank and
          the suit, as the prototype draws it. -->
-    <DataTemplate x:Key="TplCardFaceMini" DataType="{x:Type models:CardDto}">
+    <DataTemplate x:Key="TplCardFaceMini" DataType="{x:Type models:Card}">
         <Border Style="{StaticResource StyCardFaceMini}">
             <AutomationProperties.Name>
                 <MultiBinding Converter="{StaticResource CnvCardName}">
                     <Binding />
-                    <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                    <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                 </MultiBinding>
             </AutomationProperties.Name>
             <Grid>
@@ -86,7 +86,7 @@
                     <TextBlock.Text>
                         <MultiBinding Converter="{StaticResource CnvCardRank}">
                             <Binding Path="Rank" />
-                            <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
@@ -100,7 +100,7 @@
         <Border Style="{StaticResource StyCardBack}" />
     </DataTemplate>
 
-    <DataTemplate x:Key="TplMeld" DataType="{x:Type models:MeldDto}">
+    <DataTemplate x:Key="TplMeld" DataType="{x:Type models:Meld}">
         <StackPanel Margin="0,0,18,0">
             <ItemsControl ItemsSource="{Binding Cards}" ItemTemplate="{StaticResource TplCardFaceMini}">
                 <ItemsControl.ItemsPanel>
@@ -110,11 +110,11 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
             <TextBlock x:Name="lblMeldSet" Style="{StaticResource StyMeldLabel}"
-                       Text="{Binding [GameTable_LblMeldSet], Source={StaticResource Loc}}" />
+                       Text="{Binding [GameTable_LblMeldSet], Source={StaticResource PrvLocalization}}" />
             <TextBlock x:Name="lblMeldRun" Style="{StaticResource StyMeldLabel}"
-                       Text="{Binding [GameTable_LblMeldRun], Source={StaticResource Loc}}" />
+                       Text="{Binding [GameTable_LblMeldRun], Source={StaticResource PrvLocalization}}" />
             <TextBlock x:Name="lblUnmatched" Style="{StaticResource StyMeldLabel}"
-                       Text="{Binding [GameTable_LblUnmatched], Source={StaticResource Loc}}" />
+                       Text="{Binding [GameTable_LblUnmatched], Source={StaticResource PrvLocalization}}" />
         </StackPanel>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding Kind}" Value="Set">
@@ -129,7 +129,7 @@
         </DataTemplate.Triggers>
     </DataTemplate>
 
-    <DataTemplate x:Key="TplMatchLogEntry" DataType="{x:Type models:MatchLogEntryDto}">
+    <DataTemplate x:Key="TplMatchLogEntry" DataType="{x:Type models:MatchLogEntry}">
         <Grid Margin="0,8,0,8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -144,7 +144,7 @@
                     <TextBlock Style="{StaticResource StyMatchChatTime}">
                         <TextBlock.Text>
                             <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" ConverterParameter="t">
-                                <Binding Path="[Shared_Timestamp]" Source="{StaticResource Loc}" />
+                                <Binding Path="[Shared_Timestamp]" Source="{StaticResource PrvLocalization}" />
                                 <Binding Path="OccurredAt" />
                             </MultiBinding>
                         </TextBlock.Text>
@@ -154,7 +154,7 @@
                     <TextBlock.Text>
                         <MultiBinding Converter="{StaticResource CnvMatchLog}">
                             <Binding />
-                            <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
@@ -164,14 +164,14 @@
 
     <!-- The chat of the match is narrower than the one of the lobby, so its messages leave out
          the avatar and keep the author, the time and the text. -->
-    <DataTemplate x:Key="TplMatchChatMessage" DataType="{x:Type models:ChatMessageDto}">
+    <DataTemplate x:Key="TplMatchChatMessage" DataType="{x:Type models:ChatMessage}">
         <StackPanel Margin="20,6,14,8">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Style="{StaticResource StyMatchChatAuthor}" Text="{Binding AuthorName}" />
                 <TextBlock Style="{StaticResource StyMatchChatTime}">
                     <TextBlock.Text>
                         <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" ConverterParameter="t">
-                            <Binding Path="[Shared_Timestamp]" Source="{StaticResource Loc}" />
+                            <Binding Path="[Shared_Timestamp]" Source="{StaticResource PrvLocalization}" />
                             <Binding Path="SentAt" />
                         </MultiBinding>
                     </TextBlock.Text>
@@ -179,7 +179,7 @@
             </StackPanel>
             <TextBlock x:Name="lblChatContent" Style="{StaticResource StyMatchChatContent}" Text="{Binding Content}" />
             <TextBlock x:Name="lblMessageCensored" Style="{StaticResource StyChatCensored}" FontSize="18"
-                       Text="{Binding [LobbyChat_MessageCensored], Source={StaticResource Loc}}" />
+                       Text="{Binding [LobbyChat_MessageCensored], Source={StaticResource PrvLocalization}}" />
         </StackPanel>
         <DataTemplate.Triggers>
             <DataTrigger Binding="{Binding IsCensored}" Value="True">

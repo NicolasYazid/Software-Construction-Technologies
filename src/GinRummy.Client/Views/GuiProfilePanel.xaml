@@ -17,7 +17,7 @@
                     </Border>
                     <TextBlock x:Name="lblTitle" Style="{StaticResource StyPanelTitle}" HorizontalAlignment="Center"
                                Margin="0,16,0,0"
-                               Text="{Binding [ProfilePanel_LblTitle], Source={StaticResource Loc},
+                               Text="{Binding [ProfilePanel_LblTitle], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
 
                     <Border Style="{StaticResource StySettingDivider}" />
@@ -27,29 +27,30 @@
                     <ctl:PixelBorder Style="{StaticResource StySettingCard}">
                         <StackPanel>
                             <TextBlock x:Name="lblEmail" Style="{StaticResource StySettingSection}"
-                                       Text="{Binding [ProfilePanel_LblEmail], Source={StaticResource Loc}}" />
-                            <TextBlock x:Name="lblEmailAddress" Style="{StaticResource StySettingValue}" />
+                                       Text="{Binding [ProfilePanel_LblEmail], Source={StaticResource PrvLocalization}}" />
+                            <TextBlock x:Name="lblEmailAddress" Style="{StaticResource StySettingValue}" Text="{Binding Email}" />
                             <TextBlock x:Name="lblEmailChanged" Style="{StaticResource StyCardNotice}"
+                                       Visibility="{Binding IsEmailChangedShown, Converter={StaticResource CnvBooleanToVisibility}}"
                                        TextAlignment="Center" Margin="0,8,0,0"
-                                       Text="{Binding [ProfilePanel_EmailChanged], Source={StaticResource Loc}}" />
+                                       Text="{Binding [ProfilePanel_EmailChanged], Source={StaticResource PrvLocalization}}" />
                             <Button x:Name="btnChangeEmail" Style="{StaticResource StyNoticeButton}"
                                     HorizontalAlignment="Center" Margin="0,12,0,0"
-                                    Content="{Binding [ProfilePanel_BtnChangeEmail], Source={StaticResource Loc},
+                                    Content="{Binding [ProfilePanel_BtnChangeEmail], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}"
-                                    Click="OnChangeEmailClick" />
+                                    Command="{Binding ChangeEmailCommand}" />
                         </StackPanel>
                     </ctl:PixelBorder>
 
                     <ctl:PixelBorder Style="{StaticResource StySettingCard}" Margin="0,14,0,0">
                         <StackPanel>
                             <TextBlock x:Name="lblPassword" Style="{StaticResource StySettingSection}"
-                                       Text="{Binding [ProfilePanel_LblPassword], Source={StaticResource Loc}}" />
+                                       Text="{Binding [ProfilePanel_LblPassword], Source={StaticResource PrvLocalization}}" />
                             <!-- The password never reaches the client; the mask only says that one exists. -->
                             <PasswordBox x:Name="pwdPassword" Style="{StaticResource StyFieldPassword}"
                                          HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False" />
                             <Button x:Name="btnChangePassword" Style="{StaticResource StyNoticeButton}"
                                     HorizontalAlignment="Center" Margin="0,12,0,0"
-                                    Content="{Binding [ProfilePanel_BtnChangePassword], Source={StaticResource Loc},
+                                    Content="{Binding [ProfilePanel_BtnChangePassword], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}"
                                     Click="OnChangePasswordClick" />
                         </StackPanel>
@@ -60,27 +61,29 @@
                     <ctl:PixelBorder Style="{StaticResource StySettingCard}">
                         <DockPanel LastChildFill="True">
                             <ToggleButton x:Name="tglTwoStep" DockPanel.Dock="Right" Style="{StaticResource StyToggleSwitch}"
-                                          VerticalAlignment="Center" Margin="14,0,0,0" Click="OnTwoStepClick" />
+                                          VerticalAlignment="Center" Margin="14,0,0,0"
+                                          IsChecked="{Binding IsTwoStepEnabled}" Command="{Binding ToggleTwoStepCommand}" />
                             <StackPanel>
                                 <TextBlock x:Name="lblTwoStep" Style="{StaticResource StySettingTitle}"
-                                           Text="{Binding [ProfilePanel_LblTwoStep], Source={StaticResource Loc}}" />
+                                           Text="{Binding [ProfilePanel_LblTwoStep], Source={StaticResource PrvLocalization}}" />
                                 <TextBlock x:Name="lblTwoStepHint" Style="{StaticResource StySettingHint}"
-                                           Text="{Binding [ProfilePanel_LblTwoStepHint], Source={StaticResource Loc}}" />
+                                           Text="{Binding [ProfilePanel_LblTwoStepHint], Source={StaticResource PrvLocalization}}" />
                             </StackPanel>
                         </DockPanel>
                     </ctl:PixelBorder>
                     <TextBlock x:Name="lblTwoStepDisabled" Style="{StaticResource StyCardNotice}" Margin="0,10,0,0"
-                               Text="{Binding [ProfilePanel_TwoStepDisabled], Source={StaticResource Loc}}" />
+                               Visibility="{Binding IsTwoStepDisabledShown, Converter={StaticResource CnvBooleanToVisibility}}"
+                               Text="{Binding [ProfilePanel_TwoStepDisabled], Source={StaticResource PrvLocalization}}" />
 
                     <Border Style="{StaticResource StySettingDivider}" />
 
                     <ctl:PixelBorder Style="{StaticResource StySettingCard}">
                         <StackPanel>
                             <TextBlock x:Name="lblAudio" Style="{StaticResource StySettingSection}"
-                                       Text="{Binding [ProfilePanel_LblAudio], Source={StaticResource Loc}}" />
+                                       Text="{Binding [ProfilePanel_LblAudio], Source={StaticResource PrvLocalization}}" />
                             <TextBlock x:Name="lblMasterVolume" Style="{StaticResource StySettingTitle}" Margin="0,8,0,10"
-                                       Text="{Binding [ProfilePanel_LblMasterVolume], Source={StaticResource Loc}}" />
-                            <Slider x:Name="sldMasterVolume" Style="{StaticResource StyVolumeSlider}" />
+                                       Text="{Binding [ProfilePanel_LblMasterVolume], Source={StaticResource PrvLocalization}}" />
+                            <Slider x:Name="sldMasterVolume" Style="{StaticResource StyVolumeSlider}" Value="{Binding MasterVolume}" />
                         </StackPanel>
                     </ctl:PixelBorder>
 
@@ -89,12 +92,12 @@
                     <ctl:PixelBorder Style="{StaticResource StySettingCard}">
                         <DockPanel LastChildFill="True">
                             <ToggleButton x:Name="tglChatFilter" DockPanel.Dock="Right" Style="{StaticResource StyToggleSwitch}"
-                                          VerticalAlignment="Center" Margin="14,0,0,0" />
+                                          VerticalAlignment="Center" Margin="14,0,0,0" IsChecked="{Binding IsChatFilterEnabled}" />
                             <StackPanel>
                                 <TextBlock x:Name="lblChatFilter" Style="{StaticResource StySettingTitle}"
-                                           Text="{Binding [ProfilePanel_LblChatFilter], Source={StaticResource Loc}}" />
+                                           Text="{Binding [ProfilePanel_LblChatFilter], Source={StaticResource PrvLocalization}}" />
                                 <TextBlock x:Name="lblChatFilterHint" Style="{StaticResource StySettingHint}"
-                                           Text="{Binding [ProfilePanel_LblChatFilterHint], Source={StaticResource Loc}}" />
+                                           Text="{Binding [ProfilePanel_LblChatFilterHint], Source={StaticResource PrvLocalization}}" />
                             </StackPanel>
                         </DockPanel>
                     </ctl:PixelBorder>
@@ -106,11 +109,11 @@
                     <ctl:PixelBorder Style="{StaticResource StySettingCard}">
                         <StackPanel>
                             <TextBlock x:Name="lblLanguage" Style="{StaticResource StySettingSection}"
-                                       Text="{Binding [ProfilePanel_LblLanguage], Source={StaticResource Loc}}" />
+                                       Text="{Binding [ProfilePanel_LblLanguage], Source={StaticResource PrvLocalization}}" />
                             <ComboBox x:Name="cmbLanguage" Style="{StaticResource StyMenuLanguageBox}" Width="200"
                                       HorizontalAlignment="Center" Tag="{StaticResource IcoGlobe}"
-                                      ItemsSource="{Binding AvailableCultures, Source={StaticResource Loc}}"
-                                      SelectedItem="{Binding SelectedCulture, Source={StaticResource Loc}, Mode=TwoWay}">
+                                      ItemsSource="{Binding AvailableCultures, Source={StaticResource PrvLocalization}}"
+                                      SelectedItem="{Binding SelectedCulture, Source={StaticResource PrvLocalization}, Mode=TwoWay}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding ShortName, Converter={StaticResource CnvUpperCase}}" />
@@ -125,8 +128,8 @@
                     <ctl:PixelBorder Style="{StaticResource StySettingCard}">
                         <StackPanel>
                             <TextBlock x:Name="lblLinkedAccounts" Style="{StaticResource StySettingSection}"
-                                       Text="{Binding [ProfilePanel_LblLinkedAccounts], Source={StaticResource Loc}}" />
-                            <ItemsControl x:Name="lstLinkedAccounts">
+                                       Text="{Binding [ProfilePanel_LblLinkedAccounts], Source={StaticResource PrvLocalization}}" />
+                            <ItemsControl x:Name="lstLinkedAccounts" ItemsSource="{Binding LinkedAccounts}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Border Style="{StaticResource StyRequestRow}" Padding="4,8,0,8">
@@ -135,14 +138,18 @@
                                                     <Button x:Name="btnUnlink" Style="{StaticResource StyNoticeButton}"
                                                             Visibility="Collapsed"
                                                             Content="{Binding [EditProfile_BtnUnlink],
-                                                                      Source={StaticResource Loc},
+                                                                      Source={StaticResource PrvLocalization},
                                                                       Converter={StaticResource CnvUpperCase}}"
-                                                            Click="OnUnlinkClick" />
+                                                            Command="{Binding DataContext.UnlinkCommand,
+                                                                    RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                            CommandParameter="{Binding}" />
                                                     <Button x:Name="btnLink" Style="{StaticResource StyNoticePrimaryButton}"
                                                             Content="{Binding [ProfilePanel_BtnLink],
-                                                                      Source={StaticResource Loc},
+                                                                      Source={StaticResource PrvLocalization},
                                                                       Converter={StaticResource CnvUpperCase}}"
-                                                            Click="OnLinkClick" />
+                                                            Command="{Binding DataContext.LinkCommand,
+                                                                    RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                            CommandParameter="{Binding}" />
                                                 </Grid>
                                                 <TextBlock Style="{StaticResource StySocialUrl}" Text="{Binding PlatformName}" />
                                             </DockPanel>
@@ -163,7 +170,7 @@
 
                     <Button x:Name="btnLogOut" Style="{StaticResource StyCardOutlineButton}"
                             Background="{StaticResource BrsMenuWarn}"
-                            Content="{Binding [Shared_BtnLogOut], Source={StaticResource Loc},
+                            Content="{Binding [Shared_BtnLogOut], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
                             Click="OnLogOutClick" />
 
@@ -171,38 +178,41 @@
             </ScrollViewer>
 
             <!-- The change of email (CU-07) opens over the panel. The veil follows the visibility
-                 of its title, which the code switches. -->
+                 of its title, which the view model switches. -->
             <Grid Background="{StaticResource BrsOverlay}"
                   Visibility="{Binding Visibility, ElementName=lblChangeEmailTitle}">
                 <ctl:PixelBorder Style="{StaticResource StyLobbyDialogCard}" Margin="26,0,26,0"
                                     VerticalAlignment="Center">
                     <StackPanel>
-                        <TextBlock x:Name="lblChangeEmailTitle" Style="{StaticResource StyPanelTitle}" Visibility="Collapsed"
-                                   Text="{Binding [ProfilePanel_LblChangeEmailTitle], Source={StaticResource Loc},
+                        <TextBlock x:Name="lblChangeEmailTitle" Style="{StaticResource StyPanelTitle}"
+                                   Visibility="{Binding IsChangeEmailOpen, Converter={StaticResource CnvBooleanToVisibility}}"
+                                   Text="{Binding [ProfilePanel_LblChangeEmailTitle], Source={StaticResource PrvLocalization},
                                           Converter={StaticResource CnvUpperCase}}" />
                         <TextBlock x:Name="lblNewEmail" Style="{StaticResource StyFieldLabel}" Margin="0,20,0,8"
-                                   Text="{Binding [ProfilePanel_LblNewEmail], Source={StaticResource Loc}}" />
+                                   Text="{Binding [ProfilePanel_LblNewEmail], Source={StaticResource PrvLocalization}}" />
                         <!-- An address takes at most two hundred and fifty-four characters. -->
                         <ctl:PixelBorder Style="{StaticResource StyLobbyFieldShell}">
                             <Grid>
-                                <TextBox x:Name="txtNewEmail" Style="{StaticResource StyFieldInput}" MaxLength="254" />
+                                <TextBox x:Name="txtNewEmail" Style="{StaticResource StyFieldInput}" MaxLength="254"
+                                         Text="{Binding NewEmail, UpdateSourceTrigger=PropertyChanged}" />
                                 <TextBlock Style="{StaticResource StyFieldPlaceholder}"
-                                           Text="{Binding [ProfilePanel_TxtNewEmailPlaceholder], Source={StaticResource Loc}}"
+                                           Text="{Binding [ProfilePanel_TxtNewEmailPlaceholder], Source={StaticResource PrvLocalization}}"
                                            Visibility="{Binding Text, ElementName=txtNewEmail,
                                                         Converter={StaticResource CnvEmptyTextToVisibility}}" />
                             </Grid>
                         </ctl:PixelBorder>
                         <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyCardError}" Margin="0,12,0,0"
-                                   Text="{Binding [Error_ValRequiredField], Source={StaticResource Loc}}" />
+                                   Visibility="{Binding IsEmailRequiredShown, Converter={StaticResource CnvBooleanToVisibility}}"
+                                   Text="{Binding [Error_ValRequiredField], Source={StaticResource PrvLocalization}}" />
                         <UniformGrid Columns="2" Margin="0,24,0,0">
                             <Button x:Name="btnCancel" Style="{StaticResource StyCardOutlineButton}" Margin="0,0,8,0"
-                                    Content="{Binding [Shared_BtnCancel], Source={StaticResource Loc},
+                                    Content="{Binding [Shared_BtnCancel], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}"
-                                    Click="OnCancelEmailClick" />
+                                    Command="{Binding CancelEmailCommand}" />
                             <Button x:Name="btnSave" Style="{StaticResource StyCardPrimaryButton}" Margin="8,0,0,0"
-                                    Content="{Binding [Shared_BtnSave], Source={StaticResource Loc},
+                                    Content="{Binding [Shared_BtnSave], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}"
-                                    Click="OnSaveEmailClick" />
+                                    Command="{Binding SaveEmailCommand}" />
                         </UniformGrid>
                     </StackPanel>
                 </ctl:PixelBorder>

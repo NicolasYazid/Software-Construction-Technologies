@@ -4,7 +4,7 @@
         xmlns:views="clr-namespace:GinRummy.Client.Views"
         xmlns:models="clr-namespace:GinRummy.Client.Models"
         xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
-        Title="{Binding [Shared_AppTitle], Source={StaticResource Loc}}"
+        Title="{Binding [Shared_AppTitle], Source={StaticResource PrvLocalization}}"
         SizeToContent="WidthAndHeight"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
@@ -17,37 +17,43 @@
             </ResourceDictionary.MergedDictionaries>
 
             <!-- The notices of a challenge carry the buttons that answer them, and their
-                 handlers belong to this window, so their template lives here and not with the
-                 shared ones. -->
-            <DataTemplate DataType="{x:Type models:ChallengeNoticeDto}">
+                 commands belong to the view model of this window, so their template lives here
+                 and not with the shared ones. -->
+            <DataTemplate DataType="{x:Type models:ChallengeNotice}">
                 <ctl:PixelBorder Style="{StaticResource StyChatNotice}">
                     <DockPanel LastChildFill="True">
                         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
                             <Button x:Name="btnCancelChallenge" Style="{StaticResource StyNoticeButton}"
                                     Visibility="Collapsed"
-                                    Content="{Binding [LobbyChat_BtnCancelChallenge], Source={StaticResource Loc},
+                                    Content="{Binding [LobbyChat_BtnCancelChallenge], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}"
-                                    Click="OnCancelChallengeClick" />
+                                    Command="{Binding DataContext.CancelChallengeCommand,
+                                             RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                    CommandParameter="{Binding}" />
                             <Button x:Name="btnAccept" Style="{StaticResource StyNoticePrimaryButton}"
                                     Visibility="Collapsed"
-                                    Content="{Binding [Shared_BtnAccept], Source={StaticResource Loc},
+                                    Content="{Binding [Shared_BtnAccept], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}"
-                                    Click="OnAcceptChallengeClick" />
+                                    Command="{Binding DataContext.AcceptChallengeCommand,
+                                             RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                    CommandParameter="{Binding}" />
                             <Button x:Name="btnDecline" Style="{StaticResource StyNoticeButton}"
                                     Visibility="Collapsed"
-                                    Content="{Binding [Shared_BtnDecline], Source={StaticResource Loc},
+                                    Content="{Binding [Shared_BtnDecline], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}"
-                                    Click="OnDeclineChallengeClick" />
+                                    Command="{Binding DataContext.DeclineChallengeCommand,
+                                             RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                    CommandParameter="{Binding}" />
                         </StackPanel>
                         <Grid VerticalAlignment="Center">
                             <TextBlock x:Name="lblChallengeSent" Style="{StaticResource StyChatNoticeText}"
-                                       Text="{Binding [LobbyChat_ChallengeSent], Source={StaticResource Loc}}" />
+                                       Text="{Binding [LobbyChat_ChallengeSent], Source={StaticResource PrvLocalization}}" />
                             <TextBlock x:Name="lblChallengeDeclined" Style="{StaticResource StyChatNoticeText}"
-                                       Text="{Binding [LobbyChat_ChallengeDeclined], Source={StaticResource Loc}}" />
+                                       Text="{Binding [LobbyChat_ChallengeDeclined], Source={StaticResource PrvLocalization}}" />
                             <TextBlock x:Name="lblChallengeReceived" Style="{StaticResource StyChatNoticeText}">
                                 <TextBlock.Text>
                                     <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
-                                        <Binding Path="[LobbyChat_LblChallengeReceived]" Source="{StaticResource Loc}" />
+                                        <Binding Path="[LobbyChat_LblChallengeReceived]" Source="{StaticResource PrvLocalization}" />
                                         <Binding Path="PlayerName" />
                                     </MultiBinding>
                                 </TextBlock.Text>
@@ -76,24 +82,24 @@
             <ContextMenu x:Key="CtxPlayerActions" Style="{StaticResource StyPlayerMenu}"
                          DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                 <MenuItem x:Name="mniChallenge" Style="{StaticResource StyPlayerMenuChallengeItem}"
-                          Header="{Binding [LobbyChat_MniChallenge], Source={StaticResource Loc}}"
+                          Header="{Binding [LobbyChat_MniChallenge], Source={StaticResource PrvLocalization}}"
                           Click="OnChallengeClick">
                     <MenuItem.Icon>
                         <Image Source="{StaticResource IcoChallenge}" Width="16" Height="16" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem x:Name="mniProfile"
-                          Header="{Binding [LobbyChat_MniProfile], Source={StaticResource Loc}}"
+                          Header="{Binding [LobbyChat_MniProfile], Source={StaticResource PrvLocalization}}"
                           Click="OnPlayerProfileClick" />
                 <MenuItem x:Name="mniFriendRequest" Style="{StaticResource StyPlayerMenuStrangerItem}"
-                          Header="{Binding [LobbyChat_MniFriendRequest], Source={StaticResource Loc}}"
+                          Header="{Binding [LobbyChat_MniFriendRequest], Source={StaticResource PrvLocalization}}"
                           Click="OnFriendRequestClick">
                     <MenuItem.Icon>
                         <Image Source="{StaticResource IcoSend}" Style="{StaticResource StyPendingRequestMark}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem x:Name="mniRemoveFriend" Style="{StaticResource StyPlayerMenuFriendItem}"
-                          Header="{Binding [LobbyChat_MniRemoveFriend], Source={StaticResource Loc}}"
+                          Header="{Binding [LobbyChat_MniRemoveFriend], Source={StaticResource PrvLocalization}}"
                           Click="OnRemoveFriendClick" />
             </ContextMenu>
 
@@ -102,7 +108,7 @@
             <ContextMenu x:Key="CtxMessageActions" Style="{StaticResource StyPlayerMenu}"
                          DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                 <MenuItem x:Name="mniReport" Style="{StaticResource StyMessageMenuItem}"
-                          Header="{Binding [LobbyChat_MniReport], Source={StaticResource Loc}}">
+                          Header="{Binding [LobbyChat_MniReport], Source={StaticResource PrvLocalization}}">
                     <MenuItem.Icon>
                         <Image Source="{StaticResource IcoAlert}" Width="16" Height="16" />
                     </MenuItem.Icon>
@@ -110,7 +116,7 @@
             </ContextMenu>
 
             <!-- The face of the row is transparent so that the whole row answers the right click and
-                 not only the text and the avatar. Which rows open the menu is decided in the code. -->
+                 not only the text and the avatar. Which rows open the menu is decided by the view model. -->
             <Style x:Key="StyChatMessageHost" TargetType="ListBoxItem" BasedOn="{StaticResource StyChatListItem}">
                 <Setter Property="ContextMenu" Value="{StaticResource CtxMessageActions}" />
                 <Setter Property="Template">
@@ -162,13 +168,13 @@
                     </Button>
                     <Button x:Name="btnSettings" Style="{StaticResource StyRailButton}"
                             HorizontalAlignment="Center" Margin="0,12,0,0"
-                            ToolTip="{Binding [LobbyChat_TipSettings], Source={StaticResource Loc}}"
+                            ToolTip="{Binding [LobbyChat_TipSettings], Source={StaticResource PrvLocalization}}"
                             Click="OnSettingsClick">
                         <Image Source="{StaticResource IcoGear}" Style="{StaticResource StyRailIcon}" />
                     </Button>
                     <Button x:Name="btnMyProfile" Style="{StaticResource StyRailButton}"
                             Width="80" Height="80" HorizontalAlignment="Center" Margin="0,16,0,0"
-                            ToolTip="{Binding [LobbyChat_TipMyProfile], Source={StaticResource Loc}}"
+                            ToolTip="{Binding [LobbyChat_TipMyProfile], Source={StaticResource PrvLocalization}}"
                             Click="OnMyProfileClick">
                         <Grid Width="64" Height="64">
                             <Border Style="{StaticResource StyAvatarLarge}">
@@ -187,25 +193,26 @@
             <DockPanel LastChildFill="False">
                 <StackPanel DockPanel.Dock="Left" Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock x:Name="lblAppTitle" Style="{StaticResource StyLobbyWordmark}"
-                               Text="{Binding [Shared_AppTitle], Source={StaticResource Loc}}" />
+                               Text="{Binding [Shared_AppTitle], Source={StaticResource PrvLocalization}}" />
                     <TextBlock x:Name="lblTagline" Style="{StaticResource StyLobbyTagline}"
-                               Text="{Binding [MainMenu_LblTagline], Source={StaticResource Loc}}" />
+                               Text="{Binding [MainMenu_LblTagline], Source={StaticResource PrvLocalization}}" />
                 </StackPanel>
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
                     <Button x:Name="btnRankings" Style="{StaticResource StyLobbyNavButton}"
-                            Content="{Binding [LobbyChat_BtnRankings], Source={StaticResource Loc},
+                            Content="{Binding [LobbyChat_BtnRankings], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
                             Click="OnRankingsClick" />
                     <Button x:Name="btnProfile" Style="{StaticResource StyLobbyNavButton}"
-                            Content="{Binding [LobbyChat_BtnProfile], Source={StaticResource Loc},
+                            Content="{Binding [LobbyChat_BtnProfile], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
                             Click="OnProfileClick" />
                     <Button x:Name="btnFindMatch" Style="{StaticResource StyLobbyActionButton}" Margin="0,0,12,0"
-                            Content="{Binding [LobbyChat_BtnFindMatch], Source={StaticResource Loc},
+                            Content="{Binding [LobbyChat_BtnFindMatch], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
-                            Click="OnFindMatchClick" />
+                            IsEnabled="{Binding CanFindMatch}"
+                            Command="{Binding FindMatchCommand}" />
                     <Button x:Name="btnHowToPlay" Style="{StaticResource StyLobbySecondaryButton}"
-                            Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource Loc},
+                            Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
                             Click="OnHowToPlayClick" />
                 </StackPanel>
@@ -225,36 +232,37 @@
                 <!-- The messages run under the rules and the state of the search, which float over
                      them as glass cards; the list keeps room for both at its ends. -->
                 <ListBox x:Name="lstMessages" Grid.RowSpan="3" Style="{StaticResource StyChatList}"
+                         ItemsSource="{Binding ChatEntries}"
                          ItemContainerStyle="{StaticResource StyChatMessageHost}"
                          ctl:OverlayInsetCommon.IsInset="True" />
 
                 <ctl:PixelBorder Style="{StaticResource StyChatRulesCard}" Margin="20,20,20,8">
                     <StackPanel>
                         <TextBlock x:Name="lblChatRulesTitle" Style="{StaticResource StyChatRulesTitle}"
-                                   Text="{Binding [LobbyChat_LblChatRulesTitle], Source={StaticResource Loc},
+                                   Text="{Binding [LobbyChat_LblChatRulesTitle], Source={StaticResource PrvLocalization},
                                           Converter={StaticResource CnvUpperCase}}" />
                         <TextBlock x:Name="lblChatRules" Style="{StaticResource StyChatRulesText}"
-                                   Text="{Binding [LobbyChat_LblChatRules], Source={StaticResource Loc}}" />
+                                   Text="{Binding [LobbyChat_LblChatRules], Source={StaticResource PrvLocalization}}" />
                     </StackPanel>
                 </ctl:PixelBorder>
 
                 <!-- The card has no name of its own, since the vocabulary of the standard names
-                     no borders; it follows the visibility of its title, which is what the code
-                     switches. The same holds for the block of the chat below. -->
+                     no borders; it follows the visibility of its title, which is what the view
+                     model switches. The same holds for the block of the chat below. -->
                 <ctl:PixelBorder Grid.Row="2" Style="{StaticResource StyLobbyStatusCard}"
                         Visibility="{Binding Visibility, ElementName=lblSearchingMatch}">
                     <DockPanel LastChildFill="True">
                         <Button x:Name="btnCancelSearch" DockPanel.Dock="Right" Style="{StaticResource StyNoticeButton}"
                                 VerticalAlignment="Center"
-                                Content="{Binding [LobbyChat_BtnCancelSearch], Source={StaticResource Loc},
+                                Content="{Binding [LobbyChat_BtnCancelSearch], Source={StaticResource PrvLocalization},
                                           Converter={StaticResource CnvUpperCase}}"
-                                Click="OnCancelSearchClick" />
+                                Command="{Binding CancelSearchCommand}" />
                         <StackPanel>
                             <TextBlock x:Name="lblSearchingMatch" Style="{StaticResource StyStatusTitle}"
-                                       Visibility="Collapsed"
-                                       Text="{Binding [LobbyChat_LblSearchingMatch], Source={StaticResource Loc}}" />
+                                       Visibility="{Binding IsSearchingMatch, Converter={StaticResource CnvBooleanToVisibility}}"
+                                       Text="{Binding [LobbyChat_LblSearchingMatch], Source={StaticResource PrvLocalization}}" />
                             <TextBlock x:Name="lblNoOpponentAvailable" Style="{StaticResource StyStatusText}"
-                                       Text="{Binding [LobbyChat_NoOpponentAvailable], Source={StaticResource Loc}}" />
+                                       Text="{Binding [LobbyChat_NoOpponentAvailable], Source={StaticResource PrvLocalization}}" />
                         </StackPanel>
                     </DockPanel>
                 </ctl:PixelBorder>
@@ -263,10 +271,17 @@
                     <StackPanel>
                         <StackPanel Margin="0,0,0,12" Visibility="{Binding Visibility, ElementName=lblErrorMessage}">
                             <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyStatusDanger}"
-                                       Visibility="Collapsed"
-                                       Text="{Binding [Error_ModAccountSuspended], Source={StaticResource Loc}}" />
-                            <TextBlock x:Name="lblReasonBan" Style="{StaticResource StyStatusText}" />
-                            <TextBlock x:Name="lblTimeRemaining" Style="{StaticResource StyStatusText}" Margin="0,2,0,0" />
+                                       Visibility="{Binding IsChatBlocked, Converter={StaticResource CnvBooleanToVisibility}}"
+                                       Text="{Binding [Error_ModAccountSuspended], Source={StaticResource PrvLocalization}}" />
+                            <TextBlock x:Name="lblReasonBan" Style="{StaticResource StyStatusText}" Text="{Binding BanReasonName}" />
+                            <TextBlock x:Name="lblTimeRemaining" Style="{StaticResource StyStatusText}" Margin="0,2,0,0">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
+                                        <Binding Path="[Sanctions_LblTimeRemaining]" Source="{StaticResource PrvLocalization}" />
+                                        <Binding Path="BanCountdown.RemainingTime" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
                         </StackPanel>
                         <!-- A sanction that restricts the chat disables the field (CU-17 EX-08). The
                              shell dims with it, to the same opacity as a disabled button, so the
@@ -284,15 +299,21 @@
                             <DockPanel LastChildFill="True">
                                 <Button x:Name="btnSend" DockPanel.Dock="Right" Style="{StaticResource StyIconButton}"
                                         Width="30" Height="30" Margin="12,0,0,0" VerticalAlignment="Center"
-                                        ToolTip="{Binding [LobbyChat_TipSend], Source={StaticResource Loc}}"
-                                        Click="OnSendClick">
+                                        ToolTip="{Binding [LobbyChat_TipSend], Source={StaticResource PrvLocalization}}"
+                                        IsEnabled="{Binding CanWriteMessage}"
+                                        Command="{Binding SendMessageCommand}">
                                     <Image Source="{StaticResource IcoSend}" Width="24" Height="24" />
                                 </Button>
                                 <Grid>
                                     <TextBox x:Name="txtMessage" Style="{StaticResource StyFieldInput}"
-                                             KeyDown="OnMessageKeyDown" />
+                                             IsEnabled="{Binding CanWriteMessage}"
+                                             Text="{Binding MessageDraft, UpdateSourceTrigger=PropertyChanged}">
+                                        <TextBox.InputBindings>
+                                            <KeyBinding Key="Enter" Command="{Binding SendMessageCommand}" />
+                                        </TextBox.InputBindings>
+                                    </TextBox>
                                     <TextBlock Style="{StaticResource StyFieldPlaceholder}"
-                                               Text="{Binding [LobbyChat_TxtMessagePlaceholder], Source={StaticResource Loc}}"
+                                               Text="{Binding [LobbyChat_TxtMessagePlaceholder], Source={StaticResource PrvLocalization}}"
                                                Visibility="{Binding Text, ElementName=txtMessage,
                                                             Converter={StaticResource CnvEmptyTextToVisibility}}" />
                                 </Grid>
@@ -314,10 +335,10 @@
 
                 <TabControl Style="{StaticResource StyPanelTabs}" Margin="14,14,14,0">
                     <TabItem x:Name="tabEveryone" IsSelected="True"
-                             Header="{Binding [LobbyChat_TabEveryone], Source={StaticResource Loc},
+                             Header="{Binding [LobbyChat_TabEveryone], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
                     <TabItem x:Name="tabFriends"
-                             Header="{Binding [Shared_TabFriends], Source={StaticResource Loc},
+                             Header="{Binding [Shared_TabFriends], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
                 </TabControl>
 
@@ -328,7 +349,7 @@
                         <Grid>
                             <TextBox x:Name="txtTag" Style="{StaticResource StyPanelSearchInput}" />
                             <TextBlock Style="{StaticResource StyPanelSearchPlaceholder}"
-                                       Text="{Binding [Search_TxtTagPlaceholder], Source={StaticResource Loc}}"
+                                       Text="{Binding [Search_TxtTagPlaceholder], Source={StaticResource PrvLocalization}}"
                                        Visibility="{Binding Text, ElementName=txtTag,
                                                     Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>
@@ -345,7 +366,7 @@
                         <TextBlock x:Name="lblLookingToPlay" Style="{StaticResource StyGroupHeader}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
-                                    <Binding Path="[LobbyStatus_LookingToPlay]" Source="{StaticResource Loc}" />
+                                    <Binding Path="[LobbyStatus_LookingToPlay]" Source="{StaticResource PrvLocalization}" />
                                     <Binding Path="LookingToPlay.Count" />
                                 </MultiBinding>
                             </TextBlock.Text>
@@ -353,13 +374,14 @@
                         <Border Style="{StaticResource StyGroupRule}" />
                         <ItemsControl ItemsSource="{Binding LookingToPlay}" ItemTemplate="{StaticResource TplLobbyPlayer}"
                                       ItemContainerStyle="{StaticResource StyPlayerMenuHost}" />
-                        <TextBlock x:Name="lblEmptyNoPlayers" Style="{StaticResource StyPanelEmpty}" Visibility="Collapsed"
-                                   Text="{Binding [LobbyChat_EmptyNoPlayers], Source={StaticResource Loc}}" />
+                        <TextBlock x:Name="lblEmptyNoPlayers" Style="{StaticResource StyPanelEmpty}"
+                                   Visibility="{Binding HasNoPlayersLookingToPlay, Converter={StaticResource CnvBooleanToVisibility}}"
+                                   Text="{Binding [LobbyChat_EmptyNoPlayers], Source={StaticResource PrvLocalization}}" />
 
                         <TextBlock x:Name="lblGroupInMatch" Style="{StaticResource StyGroupHeader}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
-                                    <Binding Path="[FriendsList_LblGroupInMatch]" Source="{StaticResource Loc}" />
+                                    <Binding Path="[FriendsList_LblGroupInMatch]" Source="{StaticResource PrvLocalization}" />
                                     <Binding Path="PlayersInMatchCount" />
                                 </MultiBinding>
                             </TextBlock.Text>
@@ -370,7 +392,7 @@
                         <TextBlock x:Name="lblGroupUnavailable" Style="{StaticResource StyGroupHeader}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
-                                    <Binding Path="[FriendsList_LblGroupUnavailable]" Source="{StaticResource Loc}" />
+                                    <Binding Path="[FriendsList_LblGroupUnavailable]" Source="{StaticResource PrvLocalization}" />
                                     <Binding Path="Unavailable.Count" />
                                 </MultiBinding>
                             </TextBlock.Text>
@@ -388,7 +410,7 @@
                         <TextBlock x:Name="lblGroupOnline" Style="{StaticResource StyGroupHeader}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
-                                    <Binding Path="[FriendsList_LblGroupOnline]" Source="{StaticResource Loc}" />
+                                    <Binding Path="[FriendsList_LblGroupOnline]" Source="{StaticResource PrvLocalization}" />
                                     <Binding Path="FriendsOnline.Count" />
                                 </MultiBinding>
                             </TextBlock.Text>
@@ -400,7 +422,7 @@
                         <TextBlock Style="{StaticResource StyGroupHeader}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
-                                    <Binding Path="[FriendsList_LblGroupInMatch]" Source="{StaticResource Loc}" />
+                                    <Binding Path="[FriendsList_LblGroupInMatch]" Source="{StaticResource PrvLocalization}" />
                                     <Binding Path="FriendsInMatchCount" />
                                 </MultiBinding>
                             </TextBlock.Text>
@@ -411,7 +433,7 @@
                         <TextBlock Style="{StaticResource StyGroupHeader}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
-                                    <Binding Path="[FriendsList_LblGroupUnavailable]" Source="{StaticResource Loc}" />
+                                    <Binding Path="[FriendsList_LblGroupUnavailable]" Source="{StaticResource PrvLocalization}" />
                                     <Binding Path="FriendsUnavailable.Count" />
                                 </MultiBinding>
                             </TextBlock.Text>
@@ -420,8 +442,9 @@
                         <ItemsControl ItemsSource="{Binding FriendsUnavailable}" ItemTemplate="{StaticResource TplLobbyPlayer}"
                                       ItemContainerStyle="{StaticResource StyPlayerMenuHost}" />
 
-                        <TextBlock x:Name="lblEmptyState" Style="{StaticResource StyPanelEmpty}" Visibility="Collapsed"
-                                   Text="{Binding [FriendsList_EmptyState], Source={StaticResource Loc}}" />
+                        <TextBlock x:Name="lblEmptyState" Style="{StaticResource StyPanelEmpty}"
+                                   Visibility="{Binding HasNoFriends, Converter={StaticResource CnvBooleanToVisibility}}"
+                                   Text="{Binding [FriendsList_EmptyState], Source={StaticResource PrvLocalization}}" />
                     </StackPanel>
                 </ScrollViewer>
             </Grid>

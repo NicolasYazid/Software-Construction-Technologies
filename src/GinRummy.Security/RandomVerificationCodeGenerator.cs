@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 using GinRummy.Domain.Security;
 
@@ -33,9 +29,8 @@ namespace GinRummy.Security
 
             uint randomNumber = BitConverter.ToUInt32(randomBytes, 0);
 
-            // A tiny bias (well under one in four billion) exists because 2^32 does not
-            // divide evenly into 1,000,000. It does not matter for a six-digit code that
-            // expires in minutes and is rate-limited by Attempts.
+            // A tiny bias, well under one in four billion, exists because 2^32 does not divide evenly into 1,000,000.
+            // It does not matter for a six-digit code that expires in minutes and allows a limited number of attempts.
             long codeValue = randomNumber % CodeUpperBound;
             string code = codeValue.ToString(CultureInfo.InvariantCulture).PadLeft(CodeLength, '0');
 

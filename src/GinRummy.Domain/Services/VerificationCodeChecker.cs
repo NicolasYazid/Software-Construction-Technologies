@@ -73,18 +73,19 @@ namespace GinRummy.Domain.Services
             {
                 result = VerificationCodeCheckResult.TooManyAttempts;
             }
+            else if (_codeHasher.VerifyCode(typedCode, stored.CodeHash))
+            {
+                result = VerificationCodeCheckResult.Valid;
+            }
             else
             {
-                result = _codeHasher.VerifyCode(typedCode, stored.CodeHash)
-                    ? VerificationCodeCheckResult.Valid
-                    : VerificationCodeCheckResult.Incorrect;
+                result = VerificationCodeCheckResult.Incorrect;
             }
 
             return result;
         }
 
-        // A malformed code is rejected before touching the stored one, so a typo does not
-        // cost the player an attempt.
+        // A malformed code is rejected before touching the stored one, so a typo does not cost the player an attempt.
         private static bool HasValidFormat(string typedCode)
         {
             bool hasExpectedLength = (typedCode != null) && (typedCode.Length == CodeLength);

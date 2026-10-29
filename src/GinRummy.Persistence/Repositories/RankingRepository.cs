@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using GinRummy.Persistence.Persistence;
 using GinRummy.Domain.Entities;
 using GinRummy.Domain.Repositories;
+using GinRummy.Persistence.Persistence;
 
 namespace GinRummy.Persistence.Repositories
 {
@@ -22,9 +20,11 @@ namespace GinRummy.Persistence.Repositories
         /// Builds the repository against the given connection string entry.
         /// </summary>
         /// <param name="connectionStringName">Name of the entry in App.config.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the name is null.</exception>
         public RankingRepository(string connectionStringName)
         {
-            _connectionStringName = connectionStringName;
+            _connectionStringName = connectionStringName
+                ?? throw new ArgumentNullException(nameof(connectionStringName));
         }
 
         /// <summary>
@@ -37,8 +37,8 @@ namespace GinRummy.Persistence.Repositories
             IList<PlayerStats> rankedStats;
             using (GinRummyContext context = new GinRummyContext(_connectionStringName))
             {
-                // Include loads each player together with its stats in one query, so reading
-                // the username later does not trigger a separate query per row.
+                // Each player is loaded together with its stats in one query.
+                // Reading the username later therefore does not trigger a separate query per row.
                 rankedStats = context.PlayerStats
                     .Include(stats => stats.Player)
                     .OrderByDescending(stats => stats.Score)

@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Globalization;
 using System.Resources;
 using System.Threading;
 
+using GinRummy.Client.Mvvm;
+
 namespace GinRummy.Client.Localization
 {
     // It notifies the interface when the culture changes so that every binding refreshes its text without reopening any window.
-    public sealed class LocalizationProvider : INotifyPropertyChanged
+    public sealed class LocalizationProvider : ViewModelBase
     {
         public const string DefaultCultureCode = "es-MX";
 
@@ -16,8 +17,6 @@ namespace GinRummy.Client.Localization
 
         private const string ResourceBaseName = "GinRummy.Client.Resources.Strings";
         private const string IndexerPropertyName = "Item[]";
-        private const string CurrentCulturePropertyName = "CurrentCulture";
-        private const string SelectedCulturePropertyName = "SelectedCulture";
         private const int DefaultCultureIndex = 0;
 
         private static readonly LocalizationProvider _singleInstance = new LocalizationProvider();
@@ -38,8 +37,6 @@ namespace GinRummy.Client.Localization
             _currentCulture = CultureInfo.GetCultureInfo(DefaultCultureCode);
             _selectedCulture = _availableCultures[DefaultCultureIndex];
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public static LocalizationProvider Instance
         {
@@ -84,8 +81,8 @@ namespace GinRummy.Client.Localization
             _selectedCulture = FindOption(cultureCode);
             _resourceManager.ReleaseAllResources();
             RaisePropertyChanged(IndexerPropertyName);
-            RaisePropertyChanged(CurrentCulturePropertyName);
-            RaisePropertyChanged(SelectedCulturePropertyName);
+            RaisePropertyChanged(nameof(CurrentCulture));
+            RaisePropertyChanged(nameof(SelectedCulture));
         }
 
         public string GetText(string resourceKey)
@@ -121,15 +118,6 @@ namespace GinRummy.Client.Localization
             }
 
             return foundOption;
-        }
-
-        private void RaisePropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
         }
     }
 }

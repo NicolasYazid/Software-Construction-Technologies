@@ -11,22 +11,38 @@
 
                 <Image Source="{StaticResource IcoAlert}" Width="48" Height="48" HorizontalAlignment="Center" />
 
-                <TextBlock x:Name="lblTitle" Style="{StaticResource StyDialogTitle}" Margin="0,24,0,0" />
-                <TextBlock x:Name="lblMessage" Style="{StaticResource StyDialogWarning}" Margin="0,16,0,0" />
+                <TextBlock x:Name="lblTitle" Style="{StaticResource StyDialogTitle}" Margin="0,24,0,0">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource CnvResourceText}">
+                            <Binding Path="TitleKey" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <TextBlock x:Name="lblMessage" Style="{StaticResource StyDialogWarning}" Margin="0,16,0,0">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource CnvResourceText}">
+                            <Binding Path="MessageKey" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,26,0,0">
                     <Button x:Name="btnRetry" Style="{StaticResource StyDialogPrimaryButton}"
-                            Margin="0,0,16,0" Visibility="Collapsed"
-                            Content="{Binding [ErrorDialog_BtnRetry], Source={StaticResource Loc},
+                            Margin="0,0,16,0"
+                            Visibility="{Binding IsRetryOffered, Converter={StaticResource CnvBooleanToVisibility}}"
+                            Content="{Binding [ErrorDialog_BtnRetry], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
                             Click="OnActionClick" />
                     <Button x:Name="btnReturnToMatch" Style="{StaticResource StyDialogPrimaryButton}"
-                            Margin="0,0,16,0" Visibility="Collapsed"
-                            Content="{Binding [ErrorDialog_BtnReturnToMatch], Source={StaticResource Loc},
+                            Margin="0,0,16,0"
+                            Visibility="{Binding IsReturnToMatchOffered, Converter={StaticResource CnvBooleanToVisibility}}"
+                            Content="{Binding [ErrorDialog_BtnReturnToMatch], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
                             Click="OnActionClick" />
                     <Button x:Name="btnClose" Style="{StaticResource StyDialogSecondaryButton}"
-                            Content="{Binding [Shared_BtnClose], Source={StaticResource Loc},
+                            Content="{Binding [Shared_BtnClose], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
                             Click="OnCloseClick" />
                 </StackPanel>

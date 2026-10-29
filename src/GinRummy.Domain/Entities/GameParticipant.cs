@@ -12,18 +12,18 @@ namespace GinRummy.Domain.Entities
     {
         private const int InitialScore = 0;
 
-        private GameParticipant(int gameSessionId)
-        {
-            GameSessionId = gameSessionId;
-            Score = InitialScore;
-        }
-
         /// <summary>
         /// Parameterless constructor reserved for Entity Framework's materialization; not
         /// for application code, which must use the factory methods.
         /// </summary>
         protected GameParticipant()
         {
+        }
+
+        private GameParticipant(int gameSessionId)
+        {
+            GameSessionId = gameSessionId;
+            Score = InitialScore;
         }
 
         /// <summary>

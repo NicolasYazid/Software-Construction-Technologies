@@ -17,15 +17,15 @@ namespace GinRummy.Client.Controls
         private const double StillMoment = 12.0;
         private const double StillPatternScale = 1.4;
 
-        private static readonly Color DeepRed = Color.FromRgb(38, 8, 6);
-        private static readonly Color MidRed = Color.FromRgb(139, 44, 31);
-        private static readonly Color GlowRed = Color.FromRgb(224, 110, 88);
+        private static readonly Color _deepRed = Color.FromRgb(38, 8, 6);
+        private static readonly Color _midRed = Color.FromRgb(139, 44, 31);
+        private static readonly Color _glowRed = Color.FromRgb(224, 110, 88);
 
-        private static readonly ImageSource PaintedSprite = PaintSprite();
+        private static readonly ImageSource _paintedSprite = PaintSprite();
 
         public static ImageSource Sprite
         {
-            get { return PaintedSprite; }
+            get { return _paintedSprite; }
         }
 
         private static ImageSource PaintSprite()
@@ -37,7 +37,7 @@ namespace GinRummy.Client.Controls
                 Height = Rows,
                 ElapsedSeconds = StillMoment,
                 PatternScale = StillPatternScale,
-                Palette = new PaintPalette(DeepRed, MidRed, GlowRed)
+                Palette = new PaintPalette(_deepRed, _midRed, _glowRed)
             };
 
             PaintedBackground.PaintStillFrame(request);

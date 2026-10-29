@@ -20,7 +20,7 @@ namespace GinRummy.Client.Views
 
         private void OnLogInClick(object sender, RoutedEventArgs e)
         {
-            // TODO: pendiente migrar a WCF. The sign-in stays inactive until the server exposes the CU-02 service.
+            // The sign-in waits for the CU-02 service, which the server does not expose yet.
         }
 
         private void OnForgotPasswordClick(object sender, RoutedEventArgs e)

@@ -16,17 +16,17 @@ namespace GinRummy.Domain.Entities
         /// </summary>
         /// <param name="playerId">Identifier of the player the entry belongs to; must be positive.</param>
         /// <param name="opponentId">Identifier of the opponent; positive and different from the player.</param>
-        /// <param name="didWin">True when the player won the match.</param>
+        /// <param name="hasWon">True when the player won the match.</param>
         /// <param name="scoreEarned">Points earned in the match; not negative.</param>
         /// <param name="playedAt">Moment the match was played, in UTC.</param>
-        public GameHistory(int playerId, int opponentId, bool didWin, int scoreEarned, DateTime playedAt)
+        public GameHistory(int playerId, int opponentId, bool hasWon, int scoreEarned, DateTime playedAt)
         {
             ValidatePlayers(playerId, opponentId);
             ValidateScore(scoreEarned);
 
             PlayerId = playerId;
             OpponentId = opponentId;
-            DidWin = didWin;
+            HasWon = hasWon;
             ScoreEarned = scoreEarned;
             PlayedAt = playedAt;
         }
@@ -57,7 +57,7 @@ namespace GinRummy.Domain.Entities
         /// <summary>
         /// Gets a value indicating whether the player won. The column keeps the name game_result.
         /// </summary>
-        public bool DidWin { get; private set; }
+        public bool HasWon { get; private set; }
 
         /// <summary>
         /// Gets the points the player earned in the match.

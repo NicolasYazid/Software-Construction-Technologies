@@ -1,0 +1,17 @@
+﻿using System.Collections.Generic;
+
+namespace GinRummy.Client.Models
+{
+    public sealed class HandResult
+    {
+        public string WinnerName { get; set; }
+        public string KnockerName { get; set; }
+        public int KnockerDeadwood { get; set; }
+        public int DefenderDeadwood { get; set; }
+        public int PointsAwarded { get; set; }
+        public IList<Meld> KnockerMelds { get; set; }
+        public IList<Meld> DefenderMelds { get; set; }
+        public int PlayerScore { get; set; }
+        public int OpponentScore { get; set; }
+    }
+}

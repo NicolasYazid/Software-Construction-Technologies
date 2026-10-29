@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GinRummy.Domain.Entities
 {
@@ -14,17 +10,9 @@ namespace GinRummy.Domain.Entities
     public class VerificationCode
     {
         /// <summary>
-        /// Creates a valid new verification code, stamped with the current UTC time. Kept for
-        /// callers that have no clock yet; code that has one should pass the moment explicitly.
+        /// Fixed length of the code_hash column: the hexadecimal text of a SHA-256 hash.
         /// </summary>
-        /// <param name="playerId">Player this code is for; must be positive.</param>
-        /// <param name="purpose">Reason this code was generated.</param>
-        /// <param name="codeHash">Hash of the code; required, never the plain code.</param>
-        /// <param name="expiresAt">When the code stops being valid; must be in the future.</param>
-        public VerificationCode(int playerId, VerificationPurpose purpose, string codeHash, DateTime expiresAt)
-            : this(playerId, purpose, codeHash, DateTime.UtcNow, expiresAt)
-        {
-        }
+        public const int CodeHashLength = 64;
 
         /// <summary>
         /// Creates a valid new verification code generated at the given moment.
@@ -143,8 +131,7 @@ namespace GinRummy.Domain.Entities
             }
         }
 
-        // A code that expires at or before the moment it was created would be born
-        // already invalid, which must never happen.
+        // A code that expires at or before the moment it was created would be born already invalid.
         private static void ValidateExpiry(DateTime expiresAt, DateTime creationMoment)
         {
             if (expiresAt <= creationMoment)

@@ -22,7 +22,7 @@ namespace GinRummy.Client.Converters
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             string result = string.Empty;
-            MatchLogEntryDto entry = values.Length > 0 ? values[0] as MatchLogEntryDto : null;
+            MatchLogEntry entry = values.Length > 0 ? values[0] as MatchLogEntry : null;
             if (entry != null)
             {
                 result = ToSentence(entry, LocalizationProvider.Instance);
@@ -36,7 +36,7 @@ namespace GinRummy.Client.Converters
             throw new NotSupportedException("An entry of the match log is never written back.");
         }
 
-        private static string ToSentence(MatchLogEntryDto entry, LocalizationProvider localization)
+        private static string ToSentence(MatchLogEntry entry, LocalizationProvider localization)
         {
             string sentence;
             switch (entry.Kind)

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-using GinRummy.Persistence.Persistence;
 using GinRummy.Domain.Entities;
 using GinRummy.Domain.Repositories;
+using GinRummy.Persistence.Persistence;
 
 namespace GinRummy.Persistence.Repositories
 {
@@ -25,9 +22,11 @@ namespace GinRummy.Persistence.Repositories
         /// Builds the repository so that each operation opens and closes its own context.
         /// </summary>
         /// <param name="connectionStringName">Name of the entry in App.config.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the name is null.</exception>
         public PlayerAccountRepository(string connectionStringName)
         {
-            _connectionStringName = connectionStringName;
+            _connectionStringName = connectionStringName
+                ?? throw new ArgumentNullException(nameof(connectionStringName));
         }
 
         /// <summary>
@@ -36,9 +35,10 @@ namespace GinRummy.Persistence.Repositories
         /// caller stays responsible for disposing that context.
         /// </summary>
         /// <param name="sharedContext">Context to reuse instead of opening a new one.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the context is null.</exception>
         public PlayerAccountRepository(GinRummyContext sharedContext)
         {
-            _sharedContext = sharedContext;
+            _sharedContext = sharedContext ?? throw new ArgumentNullException(nameof(sharedContext));
         }
 
         /// <summary>
@@ -58,8 +58,8 @@ namespace GinRummy.Persistence.Repositories
             }
             else
             {
-                // The player is loaded in the same query because the context closes before
-                // the caller reads it, and a closed context can no longer load it later.
+                // The player is loaded in the same query because the context closes before the caller reads it.
+                // A closed context can no longer load it later.
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
                     foundAccount = context.PlayerAccounts

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using GinRummy.Application.Ports;
@@ -25,10 +26,11 @@ namespace GinRummy.Application.UseCases
         /// </summary>
         /// <param name="rankingRepository">Repository used to read stats and ranks.</param>
         /// <param name="rankResolver">Domain rule that resolves a score into its rank.</param>
+        /// <exception cref="ArgumentNullException">Thrown when a dependency is null.</exception>
         public ViewLeaderboardUseCase(IRankingRepository rankingRepository, RankResolver rankResolver)
         {
-            _rankingRepository = rankingRepository;
-            _rankResolver = rankResolver;
+            _rankingRepository = rankingRepository ?? throw new ArgumentNullException(nameof(rankingRepository));
+            _rankResolver = rankResolver ?? throw new ArgumentNullException(nameof(rankResolver));
         }
 
         /// <summary>
@@ -59,8 +61,8 @@ namespace GinRummy.Application.UseCases
             return leaderboard;
         }
 
-        // The leaderboard orders by wins first (CU-19); score, losses and username only
-        // break ties. The repository's own order by score is intentionally overridden here.
+        // The leaderboard orders by wins first (CU-19), and score, losses and username only break ties.
+        // The repository's own order by score is intentionally overridden here.
         private IList<PlayerStats> OrderByLeaderboardRules(IList<PlayerStats> stats)
         {
             IList<PlayerStats> orderedStats = stats

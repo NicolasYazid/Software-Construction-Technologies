@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 using GinRummy.Domain.Entities;
@@ -24,11 +24,11 @@ namespace GinRummy.Persistence.Configurations
             Property(playerProfile => playerProfile.Bio)
                 .HasColumnName("bio")
                 .IsUnicode(false)
-                .HasMaxLength(500);
+                .HasMaxLength(PlayerProfile.BioMaxLength);
             Property(playerProfile => playerProfile.ProfilePicture)
                 .HasColumnName("profile_picture")
                 .IsUnicode(false)
-                .HasMaxLength(255);
+                .HasMaxLength(PlayerProfile.ProfilePictureMaxLength);
             HasRequired(playerProfile => playerProfile.PlayerAccount).WithOptional();
             HasMany(playerProfile => playerProfile.SocialMediaLinks)
                 .WithRequired()

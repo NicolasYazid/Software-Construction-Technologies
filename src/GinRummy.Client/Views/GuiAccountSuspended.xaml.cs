@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Threading;
+
+using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
 {
@@ -10,43 +11,14 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiAccountSuspended : GuiModalBase
     {
-        private const int TimerIntervalSeconds = 1;
-        private const string TimeRemainingKey = "AccountSuspended_LblTimeRemaining";
-
-        private readonly DispatcherTimer _countdownTimer;
-        private TimeSpan _remainingTime;
+        private readonly AccountSuspendedViewModel _viewModel;
 
         public GuiAccountSuspended(string reasonName, TimeSpan remainingTime)
         {
             InitializeComponent();
-            lblReasonBan.Text = reasonName;
-            _remainingTime = remainingTime;
-            _countdownTimer = new DispatcherTimer();
-            _countdownTimer.Interval = TimeSpan.FromSeconds(TimerIntervalSeconds);
-            _countdownTimer.Tick += OnCountdownTick;
-            _countdownTimer.Start();
+            _viewModel = new AccountSuspendedViewModel(reasonName, remainingTime);
+            DataContext = _viewModel;
             Closed += OnScreenClosed;
-            RefreshFormattedText();
-        }
-
-        protected override void RefreshFormattedText()
-        {
-            if (lblTimeRemaining != null)
-            {
-                lblTimeRemaining.Text = Localization.Format(
-                    TimeRemainingKey,
-                    DurationCommon.ToClock(_remainingTime, Localization.CurrentCulture));
-            }
-        }
-
-        private void OnCountdownTick(object sender, EventArgs e)
-        {
-            if (_remainingTime > TimeSpan.Zero)
-            {
-                _remainingTime = _remainingTime.Subtract(TimeSpan.FromSeconds(TimerIntervalSeconds));
-            }
-
-            RefreshFormattedText();
         }
 
         private void OnLogOutClick(object sender, RoutedEventArgs e)
@@ -57,8 +29,7 @@ namespace GinRummy.Client.Views
 
         private void OnScreenClosed(object sender, EventArgs e)
         {
-            _countdownTimer.Stop();
-            _countdownTimer.Tick -= OnCountdownTick;
+            _viewModel.Countdown.Stop();
             Closed -= OnScreenClosed;
         }
     }

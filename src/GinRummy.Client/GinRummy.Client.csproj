@@ -188,7 +188,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Connected Services\RankingsServiceReference\Reference.cs">
+    <Compile Include="Connected Services\LeaderboardServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -213,6 +213,8 @@
     <Compile Include="Mvvm\RelayCommand.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
     <Compile Include="ViewModels\RankingsViewModel.cs" />
+    <Compile Include="ViewModels\CountdownViewModel.cs" />
+    <Compile Include="Converters\ResourceTextConverter.cs" />
     <Compile Include="Views\GuiMainMenu.xaml.cs">
       <DependentUpon>GuiMainMenu.xaml</DependentUpon>
     </Compile>
@@ -293,42 +295,60 @@
     <Compile Include="Converters\UpperCaseConverter.cs" />
     <Compile Include="Views\GuiModalBase.cs" />
     <Compile Include="Views\GuiWindowBase.cs" />
-    <Compile Include="Views\VerificationPurpose.cs" />
-    <Compile Include="Views\TwoStepPurpose.cs" />
+    <Compile Include="ViewModels\VerificationPurpose.cs" />
+    <Compile Include="ViewModels\TwoStepPurpose.cs" />
     <Compile Include="Views\DurationCommon.cs" />
-    <Compile Include="Views\ErrorDialogKind.cs" />
-    <Compile Include="Views\ConfirmDialogKind.cs" />
-    <Compile Include="Models\ChatEntryDto.cs" />
-    <Compile Include="Models\ChatMessageDto.cs" />
+    <Compile Include="ViewModels\ErrorDialogKind.cs" />
+    <Compile Include="ViewModels\ConfirmDialogKind.cs" />
+    <Compile Include="ViewModels\ErrorDialogViewModel.cs" />
+    <Compile Include="ViewModels\ConfirmDialogViewModel.cs" />
+    <Compile Include="ViewModels\AccountBannedViewModel.cs" />
+    <Compile Include="ViewModels\AccountSuspendedViewModel.cs" />
+    <Compile Include="ViewModels\ReconnectingViewModel.cs" />
+    <Compile Include="ViewModels\HouseRulesViewModel.cs" />
+    <Compile Include="ViewModels\RecoverPasswordViewModel.cs" />
+    <Compile Include="ViewModels\TwoStepViewModel.cs" />
+    <Compile Include="ViewModels\VerifyEmailViewModel.cs" />
+    <Compile Include="ViewModels\NewPasswordViewModel.cs" />
+    <Compile Include="ViewModels\SignUpViewModel.cs" />
+    <Compile Include="Controls\PasswordBindingCommon.cs" />
+    <Compile Include="Models\ChatEntry.cs" />
+    <Compile Include="Models\ChatMessage.cs" />
     <Compile Include="Models\ChallengeNoticeKind.cs" />
-    <Compile Include="Models\ChallengeNoticeDto.cs" />
-    <Compile Include="Models\LobbyPlayerDto.cs" />
-    <Compile Include="Models\MatchPairDto.cs" />
-    <Compile Include="Models\LobbySnapshotDto.cs" />
-    <Compile Include="Models\FriendRequestDto.cs" />
-    <Compile Include="Models\SanctionDto.cs" />
+    <Compile Include="Models\ChallengeNotice.cs" />
+    <Compile Include="ViewModels\LobbyPlayerViewModel.cs" />
+    <Compile Include="Models\MatchPair.cs" />
+    <Compile Include="Models\LobbySnapshot.cs" />
+    <Compile Include="Models\FriendRequest.cs" />
+    <Compile Include="ViewModels\SanctionViewModel.cs" />
+    <Compile Include="ViewModels\NotificationsViewModel.cs" />
+    <Compile Include="ViewModels\SanctionsViewModel.cs" />
+    <Compile Include="ViewModels\PlayerProfileViewModel.cs" />
+    <Compile Include="ViewModels\ProfilePanelViewModel.cs" />
+    <Compile Include="ViewModels\EditProfileViewModel.cs" />
+    <Compile Include="ViewModels\LobbyChatViewModel.cs" />
+    <Compile Include="ViewModels\GuestLobbyViewModel.cs" />
+    <Compile Include="ViewModels\GameTableViewModel.cs" />
     <Compile Include="Services\SampleDataService.cs" />
     <Compile Include="Converters\LocalizedFormatConverter.cs" />
     <Compile Include="Views\VisibilityCommon.cs" />
-    <Compile Include="Models\SocialLinkDto.cs" />
-    <Compile Include="Models\LinkedAccountDto.cs" />
-    <Compile Include="Models\AccountSettingsDto.cs" />
-    <Compile Include="Models\PlayerProfileDto.cs" />
-    <Compile Include="Models\RankingEntryDto.cs" />
-    <Compile Include="Models\LeaderboardDto.cs" />
-    <Compile Include="Models\GameRulesDto.cs" />
+    <Compile Include="Models\SocialLink.cs" />
+    <Compile Include="Models\LinkedAccount.cs" />
+    <Compile Include="Models\AccountSettings.cs" />
+    <Compile Include="Models\PlayerProfile.cs" />
+    <Compile Include="Models\GameRules.cs" />
     <Compile Include="Converters\CultureNumberConverter.cs" />
     <Compile Include="Models\CardRank.cs" />
     <Compile Include="Models\CardSuit.cs" />
-    <Compile Include="Models\CardDto.cs" />
+    <Compile Include="Models\Card.cs" />
     <Compile Include="Models\MeldKind.cs" />
-    <Compile Include="Models\MeldDto.cs" />
+    <Compile Include="Models\Meld.cs" />
     <Compile Include="Models\MatchLogKind.cs" />
-    <Compile Include="Models\MatchLogEntryDto.cs" />
-    <Compile Include="Models\GameTableSnapshotDto.cs" />
-    <Compile Include="Models\HandResultDto.cs" />
+    <Compile Include="Models\MatchLogEntry.cs" />
+    <Compile Include="Models\GameTableSnapshot.cs" />
+    <Compile Include="Models\HandResult.cs" />
     <Compile Include="Models\MatchEndReason.cs" />
-    <Compile Include="Models\MatchResultDto.cs" />
+    <Compile Include="Models\MatchResult.cs" />
     <Compile Include="Converters\CardRankConverter.cs" />
     <Compile Include="Converters\CardNameConverter.cs" />
     <Compile Include="Converters\MatchLogConverter.cs" />
@@ -338,14 +358,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\RankingsServiceReference\RankingsService.wsdl" />
-    <None Include="Connected Services\RankingsServiceReference\RankingsService.xsd">
+    <None Include="Connected Services\LeaderboardServiceReference\LeaderboardService.wsdl" />
+    <None Include="Connected Services\LeaderboardServiceReference\LeaderboardService.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\RankingsServiceReference\RankingsService1.xsd">
+    <None Include="Connected Services\LeaderboardServiceReference\LeaderboardService1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\RankingsServiceReference\RankingsService2.xsd">
+    <None Include="Connected Services\LeaderboardServiceReference\LeaderboardService2.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
@@ -364,16 +384,16 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\RankingsServiceReference\" />
+    <WCFMetadataStorage Include="Connected Services\LeaderboardServiceReference\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\RankingsServiceReference\configuration91.svcinfo" />
+    <None Include="Connected Services\LeaderboardServiceReference\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\RankingsServiceReference\configuration.svcinfo" />
+    <None Include="Connected Services\LeaderboardServiceReference\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\RankingsServiceReference\Reference.svcmap">
+    <None Include="Connected Services\LeaderboardServiceReference\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

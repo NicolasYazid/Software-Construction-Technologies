@@ -16,7 +16,7 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock x:Name="lblTitle" Grid.Row="0" Style="{StaticResource StyCardTitle}"
-                           Text="{Binding [TermsOfService_LblTitle], Source={StaticResource Loc}}" />
+                           Text="{Binding [TermsOfService_LblTitle], Source={StaticResource PrvLocalization}}" />
 
                 <!-- The body scrolls on its own because the final text of the terms is still
                      pending and will be longer than the draft, while the button has to stay
@@ -25,12 +25,12 @@
                               HorizontalScrollBarVisibility="Disabled">
                     <TextBlock x:Name="lblBody" Style="{StaticResource StyCardSubtitle}" MaxWidth="700"
                                HorizontalAlignment="Left"
-                               Text="{Binding [TermsOfService_LblBody], Source={StaticResource Loc}}" />
+                               Text="{Binding [TermsOfService_LblBody], Source={StaticResource PrvLocalization}}" />
                 </ScrollViewer>
 
                 <Button x:Name="btnClose" Grid.Row="2" Style="{StaticResource StyDialogSecondaryButton}"
                         Width="200" HorizontalAlignment="Left"
-                        Content="{Binding [Shared_BtnClose], Source={StaticResource Loc},
+                        Content="{Binding [Shared_BtnClose], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
                         Click="OnCloseClick" />
             </Grid>

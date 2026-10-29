@@ -9,7 +9,15 @@ namespace GinRummy.Domain.Entities
     /// </summary>
     public class Email
     {
-        private const int MaxDestinationAddressLength = 254;
+        /// <summary>
+        /// Length of the destination_address column, the same as the account email.
+        /// </summary>
+        public const int DestinationAddressMaxLength = 254;
+
+        /// <summary>
+        /// Length of the delivery_status column.
+        /// </summary>
+        public const int DeliveryStatusNameMaxLength = 20;
 
         /// <summary>
         /// Creates a valid new email record.
@@ -88,7 +96,7 @@ namespace GinRummy.Domain.Entities
                 throw new ArgumentException("Destination address is required.", nameof(destinationAddress));
             }
 
-            if (destinationAddress.Trim().Length > MaxDestinationAddressLength)
+            if (destinationAddress.Trim().Length > DestinationAddressMaxLength)
             {
                 throw new ArgumentException("Destination address is too long.", nameof(destinationAddress));
             }

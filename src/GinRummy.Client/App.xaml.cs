@@ -3,10 +3,12 @@ using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using System.Windows.Threading;
 
+using GinRummy.Client.LeaderboardServiceReference;
 using GinRummy.Client.Localization;
 using GinRummy.Client.Logging;
-using GinRummy.Client.RankingsServiceReference;
+using GinRummy.Client.Services;
 using GinRummy.Client.ViewModels;
 using Microsoft.Extensions.Logging;
 
@@ -15,15 +17,18 @@ namespace GinRummy.Client
     // This composition root is the only place allowed to know the concrete adapters, so the rest of the app depends on interfaces.
     public partial class App : Application
     {
-        public const string LocalizationResourceKey = "Loc";
+        public const string LocalizationResourceKey = "PrvLocalization";
 
+        private const string FatalErrorTitleKey = "ErrorDialog_LblTitleUnexpected";
+        private const string FatalErrorMessageKey = "Error_SysUnexpected";
+        private const string LeaderboardEndpointName = "LeaderboardService";
         private const string LogFolderName = "GinRummy";
         private const string LogFileName = "client.log";
         private const int RenderingTierShift = 16;
         private const int SoftwareRenderingTier = 0;
         private const double SoftwareBlurScale = 0.3;
 
-        private static readonly string[] BlurredShadowKeys =
+        private static readonly string[] _blurredShadowKeys =
         {
             "EfxPanelShadow",
             "EfxTextShadow",
@@ -33,6 +38,7 @@ namespace GinRummy.Client
         };
 
         private readonly ILoggerFactory _loggerFactory;
+        private readonly ILogger<App> _logger;
 
         // Debug entries are kept while the client is in development because they record why an input was rejected.
         public App()
@@ -42,17 +48,23 @@ namespace GinRummy.Client
                 LogFolderName,
                 LogFileName);
             _loggerFactory = new FileLoggerFactory(logFilePath, LogLevel.Debug);
+            _logger = _loggerFactory.CreateLogger<App>();
+            SampleData = new SampleDataService();
         }
+
+        internal SampleDataService SampleData { get; private set; }
 
         public RankingsViewModel CreateRankingsViewModel()
         {
             return new RankingsViewModel(
-                new RankingServiceClient(),
+                () => new LeaderboardServiceClient(LeaderboardEndpointName),
                 _loggerFactory.CreateLogger<RankingsViewModel>());
         }
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            DispatcherUnhandledException += OnDispatcherUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += OnDomainUnhandledException;
             Resources[LocalizationResourceKey] = LocalizationProvider.Instance;
             LocalizationProvider.Instance.SetCulture(LocalizationProvider.DefaultCultureCode);
             if (IsSoftwareRendering())
@@ -61,6 +73,32 @@ namespace GinRummy.Client
             }
 
             base.OnStartup(e);
+        }
+
+        // An exception that reaches this handler had no catch block, so the state of the screen and of the session is unknown.
+        private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            _logger.LogCritical(e.Exception, "An unexpected error closed the client.");
+            ShowFatalErrorMessage();
+            e.Handled = true;
+            Shutdown();
+        }
+
+        // The runtime ends the process once this handler returns, so the handler only records the failure and tells the player.
+        private void OnDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            _logger.LogCritical(e.ExceptionObject as Exception, "An unexpected error outside the interface thread closed the client.");
+            ShowFatalErrorMessage();
+        }
+
+        private static void ShowFatalErrorMessage()
+        {
+            LocalizationProvider localization = LocalizationProvider.Instance;
+            MessageBox.Show(
+                localization.GetText(FatalErrorMessageKey),
+                localization.GetText(FatalErrorTitleKey),
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
         }
 
         // WPF reports tier 0 when no graphics hardware is drawing the window.
@@ -75,7 +113,7 @@ namespace GinRummy.Client
         // The shared instances are edited in place before any window exists, so every element using them by key gets the shorter blur.
         private void ShortenShadowBlur()
         {
-            foreach (string shadowKey in BlurredShadowKeys)
+            foreach (string shadowKey in _blurredShadowKeys)
             {
                 DropShadowEffect shadow = TryFindResource(shadowKey) as DropShadowEffect;
                 if ((shadow != null) && !shadow.IsFrozen)

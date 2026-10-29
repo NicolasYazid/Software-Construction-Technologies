@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
@@ -64,13 +64,9 @@ namespace GinRummy.Client.Controls
         private const double Unit = 1.0;
         private const double Zero = 0.0;
 
-        private static readonly Color FallbackDeepColour = Color.FromRgb(6, 24, 15);
-        private static readonly Color FallbackMidColour = Color.FromRgb(30, 103, 70);
-        private static readonly Color FallbackGlowColour = Color.FromRgb(106, 210, 154);
-
         public static readonly DependencyProperty PatternScaleProperty =
             DependencyProperty.Register(
-                "PatternScale",
+                nameof(PatternScale),
                 typeof(double),
                 typeof(PaintedBackground),
                 new PropertyMetadata(DefaultPatternScale));
@@ -79,31 +75,31 @@ namespace GinRummy.Client.Controls
         // A panel and a whole screen need different values for the blocks to measure the same on both.
         public static readonly DependencyProperty BlockResolutionProperty =
             DependencyProperty.Register(
-                "BlockResolution",
+                nameof(BlockResolution),
                 typeof(int),
                 typeof(PaintedBackground),
                 new PropertyMetadata(DefaultShortSide, OnBlockResolutionChanged));
 
         public static readonly DependencyProperty DeepColourProperty =
             DependencyProperty.Register(
-                "DeepColour",
+                nameof(DeepColour),
                 typeof(Color),
                 typeof(PaintedBackground),
-                new PropertyMetadata(FallbackDeepColour));
+                new PropertyMetadata(Color.FromRgb(6, 24, 15)));
 
         public static readonly DependencyProperty MidColourProperty =
             DependencyProperty.Register(
-                "MidColour",
+                nameof(MidColour),
                 typeof(Color),
                 typeof(PaintedBackground),
-                new PropertyMetadata(FallbackMidColour));
+                new PropertyMetadata(Color.FromRgb(30, 103, 70)));
 
         public static readonly DependencyProperty GlowColourProperty =
             DependencyProperty.Register(
-                "GlowColour",
+                nameof(GlowColour),
                 typeof(Color),
                 typeof(PaintedBackground),
-                new PropertyMetadata(FallbackGlowColour));
+                new PropertyMetadata(Color.FromRgb(106, 210, 154)));
 
         private readonly Stopwatch _clock;
 
