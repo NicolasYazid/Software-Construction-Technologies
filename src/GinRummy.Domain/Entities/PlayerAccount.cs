@@ -150,8 +150,8 @@ namespace GinRummy.Domain.Entities
             }
         }
 
-        // An account must always have a non-empty email within the length the database
-        // column allows. Format is checked as input validation before construction.
+        // An account must always have a non-empty email within the length the database column allows.
+        // The format is checked as input validation before the account is built.
         private static void ValidateEmail(string email)
         {
             if (string.IsNullOrWhiteSpace(email))

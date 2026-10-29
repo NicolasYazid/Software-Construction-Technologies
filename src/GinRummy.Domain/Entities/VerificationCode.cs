@@ -131,8 +131,7 @@ namespace GinRummy.Domain.Entities
             }
         }
 
-        // A code that expires at or before the moment it was created would be born
-        // already invalid, which must never happen.
+        // A code that expires at or before the moment it was created would be born already invalid.
         private static void ValidateExpiry(DateTime expiresAt, DateTime creationMoment)
         {
             if (expiresAt <= creationMoment)

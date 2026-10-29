@@ -74,8 +74,8 @@ namespace GinRummy.Domain.Entities
             }
         }
 
-        // The url must fit the column. Its structure is checked as input validation before
-        // construction.
+        // The url must fit the column.
+        // Its structure is checked as input validation before the link is built.
         private static void ValidateUrl(string url)
         {
             if (string.IsNullOrWhiteSpace(url))

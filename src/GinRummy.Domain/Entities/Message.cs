@@ -100,8 +100,8 @@ namespace GinRummy.Domain.Entities
             }
         }
 
-        // An empty message is never stored, and the text must fit the column. The text is not
-        // trimmed so it stays as the author wrote it.
+        // An empty message is never stored, and the text must fit the column.
+        // The text is not trimmed, so it stays as the author wrote it.
         private static void ValidateContent(string content)
         {
             if (string.IsNullOrWhiteSpace(content))

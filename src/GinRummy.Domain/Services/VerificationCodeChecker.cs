@@ -85,8 +85,7 @@ namespace GinRummy.Domain.Services
             return result;
         }
 
-        // A malformed code is rejected before touching the stored one, so a typo does not
-        // cost the player an attempt.
+        // A malformed code is rejected before touching the stored one, so a typo does not cost the player an attempt.
         private static bool HasValidFormat(string typedCode)
         {
             bool hasExpectedLength = (typedCode != null) && (typedCode.Length == CodeLength);

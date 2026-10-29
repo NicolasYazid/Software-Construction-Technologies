@@ -95,8 +95,7 @@ namespace GinRummy.Domain.Entities
             LocaleId = localeId;
         }
 
-        // A player must always have a non-empty username within the length the database
-        // column allows.
+        // A player must always have a non-empty username within the length the database column allows.
         private static void ValidateUsername(string username)
         {
             if (string.IsNullOrWhiteSpace(username))
