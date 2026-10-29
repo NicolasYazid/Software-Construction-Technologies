@@ -9,7 +9,7 @@ using GinRummy.Persistence.Repositories;
 using GinRummy.Domain.Repositories;
 using GinRummy.Domain.Services;
 using GinRummy.Server.Hosting;
-using GinRummy.Server.Logging;
+using GinRummy.Infrastructure;
 using GinRummy.Server.Services;
 
 using Microsoft.Extensions.Logging;

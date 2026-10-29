@@ -4,7 +4,7 @@ using System.IO;
 
 using Microsoft.Extensions.Logging;
 
-namespace GinRummy.Server.Logging
+namespace GinRummy.Infrastructure
 {
     /// <summary>
     /// Writes the entries of one category to the server's log file. Every category shares the

@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.Logging;
 
-namespace GinRummy.Server.Logging
+namespace GinRummy.Infrastructure
 {
     /// <summary>
     /// Creates the loggers of the server, all writing to one text file. Only the abstractions
