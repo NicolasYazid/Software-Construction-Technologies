@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 
-using GinRummy.Persistence.Persistence;
 using GinRummy.Domain.Entities;
 using GinRummy.Domain.Repositories;
+using GinRummy.Persistence.Persistence;
 
 namespace GinRummy.Persistence.Repositories
 {
