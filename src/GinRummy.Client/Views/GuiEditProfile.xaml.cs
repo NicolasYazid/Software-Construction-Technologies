@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
 
-using GinRummy.Client.Models;
-using GinRummy.Client.Services;
 using GinRummy.Client.ViewModels;
 using Microsoft.Win32;
 
@@ -16,44 +12,18 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiEditProfile : GuiModalBase
     {
-        private const int MaxBioLength = 500;
-        private const string MaxImageSizeText = "2 MB";
         private const string ImageFilter = "*.jpg;*.jpeg;*.png|*.jpg;*.jpeg;*.png";
-        private const string BioCounterKey = "EditProfile_LblBioCounter";
-        private const string ImageRequirementsKey = "EditProfile_LblImageRequirements";
-        private const string RequiredFieldKey = "Error_ValRequiredField";
 
-        private readonly ObservableCollection<SocialLink> _socialLinks;
-        private SocialLink _linkToRemove;
-        private SocialLink _linkToReplace;
+        private readonly EditProfileViewModel _viewModel;
 
         public GuiEditProfile()
         {
             InitializeComponent();
-            SampleDataService dataService = new SampleDataService();
-            PlayerProfile profile = dataService.GetOwnProfile();
-            _socialLinks = new ObservableCollection<SocialLink>(profile.SocialLinks);
-            lstSocialLinks.ItemsSource = _socialLinks;
-            cmbPlatform.ItemsSource = dataService.GetPlatforms();
-            cmbPlatform.SelectedIndex = 0;
-            txtUsername.Text = profile.Username;
-            txtBio.MaxLength = MaxBioLength;
-            txtBio.Text = profile.Bio;
-            RefreshFormattedText();
-        }
-
-        protected override void RefreshFormattedText()
-        {
-            if (lblBioCounter != null)
-            {
-                lblBioCounter.Text = Localization.Format(BioCounterKey, MaxBioLength - txtBio.Text.Length);
-                lblImageRequirements.Text = Localization.Format(ImageRequirementsKey, MaxImageSizeText);
-            }
-        }
-
-        private void OnBioTextChanged(object sender, TextChangedEventArgs e)
-        {
-            RefreshFormattedText();
+            _viewModel = new EditProfileViewModel(((App)Application.Current).SampleData);
+            _viewModel.SocialLinkRemovalRequested += OnSocialLinkRemovalRequested;
+            _viewModel.SocialLinkReplaceRequested += OnSocialLinkReplaceRequested;
+            DataContext = _viewModel;
+            txtSocialUrl.IsVisibleChanged += OnSocialUrlVisibleChanged;
         }
 
         private void OnChangePhotoClick(object sender, RoutedEventArgs e)
@@ -63,26 +33,20 @@ namespace GinRummy.Client.Views
             fileDialog.Filter = ImageFilter;
             if (fileDialog.ShowDialog(Window.GetWindow(this)) == true)
             {
-                ShowPicture(fileDialog.FileName);
+                _viewModel.ChangePictureCommand.Execute(fileDialog.FileName);
             }
         }
 
-        private void OnRemovePhotoClick(object sender, RoutedEventArgs e)
+        private void OnSocialUrlVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            // Without a picture the profile shows the default avatar again (CU-28 FA-03).
-            imgProfilePicture.Source = null;
+            if (txtSocialUrl.IsVisible)
+            {
+                txtSocialUrl.Focus();
+            }
         }
 
-        private void OnAddSocialLinkClick(object sender, RoutedEventArgs e)
+        private void OnSocialLinkRemovalRequested(object sender, EventArgs e)
         {
-            lblPlatform.Visibility = Visibility.Visible;
-            btnAddSocialLink.Visibility = Visibility.Collapsed;
-            txtSocialUrl.Focus();
-        }
-
-        private void OnUnlinkClick(object sender, RoutedEventArgs e)
-        {
-            _linkToRemove = ((FrameworkElement)sender).DataContext as SocialLink;
             GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.SocialLinkRemove);
             confirmDialog.Closed += OnUnlinkConfirmClosed;
             ShowModal(confirmDialog);
@@ -90,112 +54,24 @@ namespace GinRummy.Client.Views
 
         private void OnUnlinkConfirmClosed(object sender, EventArgs e)
         {
-            if (((GuiConfirmDialog)sender).IsConfirmed)
-            {
-                _socialLinks.Remove(_linkToRemove);
-            }
-
-            _linkToRemove = null;
+            _viewModel.CompleteSocialLinkRemoval(((GuiConfirmDialog)sender).IsConfirmed);
         }
 
-        private void OnSaveClick(object sender, RoutedEventArgs e)
+        private void OnSocialLinkReplaceRequested(object sender, EventArgs e)
         {
-            lblUsernameChanged.Visibility = Visibility.Collapsed;
-            bool isLinkPending = lblPlatform.Visibility == Visibility.Visible;
-            bool hasUsername = txtUsername.Text.Trim().Length > 0;
-            bool hasSocialUrl = txtSocialUrl.Text.Trim().Length > 0;
-            bool isComplete = hasUsername && (!isLinkPending || hasSocialUrl);
-            if (isComplete)
-            {
-                // Only the required fields are checked here because the server validates the rest (CU-29, CU-30, CU-31).
-                if (isLinkPending)
-                {
-                    SaveSocialLink();
-                }
+            GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.SocialLinkReplace);
+            confirmDialog.Closed += OnReplaceLinkConfirmClosed;
+            ShowModal(confirmDialog);
+        }
 
-                HideError();
-                lblUsernameChanged.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                ShowError(RequiredFieldKey);
-            }
+        private void OnReplaceLinkConfirmClosed(object sender, EventArgs e)
+        {
+            _viewModel.CompleteSocialLinkReplace(((GuiConfirmDialog)sender).IsConfirmed);
         }
 
         private void OnCancelClick(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-
-        private void SaveSocialLink()
-        {
-            string platformName = cmbPlatform.SelectedItem as string;
-            SocialLink existing = FindSocialLink(platformName);
-
-            // A profile keeps one link per platform, so a second link replaces the first after confirmation (CU-31 FA-03).
-            if (existing == null)
-            {
-                AddSocialLink(platformName);
-            }
-            else
-            {
-                _linkToReplace = existing;
-                GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.SocialLinkReplace);
-                confirmDialog.Closed += OnReplaceLinkConfirmClosed;
-                ShowModal(confirmDialog);
-            }
-        }
-
-        private void OnReplaceLinkConfirmClosed(object sender, EventArgs e)
-        {
-            if (((GuiConfirmDialog)sender).IsConfirmed)
-            {
-                _socialLinks.Remove(_linkToReplace);
-                AddSocialLink(_linkToReplace.PlatformName);
-            }
-
-            _linkToReplace = null;
-        }
-
-        private void AddSocialLink(string platformName)
-        {
-            SocialLink link = new SocialLink();
-            link.PlatformName = platformName;
-            link.Url = txtSocialUrl.Text.Trim();
-            _socialLinks.Add(link);
-            txtSocialUrl.Clear();
-            lblPlatform.Visibility = Visibility.Collapsed;
-            btnAddSocialLink.Visibility = Visibility.Visible;
-        }
-
-        private SocialLink FindSocialLink(string platformName)
-        {
-            SocialLink found = null;
-            foreach (SocialLink link in _socialLinks)
-            {
-                if (string.Equals(link.PlatformName, platformName, StringComparison.Ordinal))
-                {
-                    found = link;
-                }
-            }
-
-            return found;
-        }
-
-        private void ShowPicture(string path)
-        {
-            // TODO: pendiente migrar a WCF. The picture stays unchanged until the server exposes the CU-28 service.
-        }
-
-        private void ShowError(string messageKey)
-        {
-            lblErrorMessage.Text = Localization.GetText(messageKey);
-            lblErrorMessage.Visibility = Visibility.Visible;
-        }
-
-        private void HideError()
-        {
-            lblErrorMessage.Visibility = Visibility.Collapsed;
         }
     }
 }
