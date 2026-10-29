@@ -19,19 +19,6 @@ namespace GinRummy.Domain.Entities
         public const int CodeHashLength = 64;
 
         /// <summary>
-        /// Creates a valid new verification code, stamped with the current UTC time. Kept for
-        /// callers that have no clock yet; code that has one should pass the moment explicitly.
-        /// </summary>
-        /// <param name="playerId">Player this code is for; must be positive.</param>
-        /// <param name="purpose">Reason this code was generated.</param>
-        /// <param name="codeHash">Hash of the code; required, never the plain code.</param>
-        /// <param name="expiresAt">When the code stops being valid; must be in the future.</param>
-        public VerificationCode(int playerId, VerificationPurpose purpose, string codeHash, DateTime expiresAt)
-            : this(playerId, purpose, codeHash, DateTime.UtcNow, expiresAt)
-        {
-        }
-
-        /// <summary>
         /// Creates a valid new verification code generated at the given moment.
         /// </summary>
         /// <param name="playerId">Player this code is for; must be positive.</param>

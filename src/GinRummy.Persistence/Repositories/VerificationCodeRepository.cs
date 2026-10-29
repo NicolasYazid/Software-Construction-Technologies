@@ -140,16 +140,17 @@ namespace GinRummy.Persistence.Repositories
         }
 
         /// <summary>
-        /// Marks the given code as used, right now.
+        /// Marks the given code as used at the given moment.
         /// </summary>
         /// <param name="verificationCodeId">Code that was successfully verified.</param>
-        public void MarkAsUsed(int verificationCodeId)
+        /// <param name="usedAt">Moment the code was used, in UTC, read from the server clock.</param>
+        public void MarkAsUsed(int verificationCodeId, DateTime usedAt)
         {
             if (_sharedContext != null)
             {
                 _sharedContext.Database.ExecuteSqlCommand(
                     "UPDATE VerificationCode SET used_at = {0} WHERE verification_code_id = {1}",
-                    DateTime.UtcNow,
+                    usedAt,
                     verificationCodeId);
             }
             else
@@ -158,7 +159,7 @@ namespace GinRummy.Persistence.Repositories
                 {
                     context.Database.ExecuteSqlCommand(
                         "UPDATE VerificationCode SET used_at = {0} WHERE verification_code_id = {1}",
-                        DateTime.UtcNow,
+                        usedAt,
                         verificationCodeId);
                 }
             }

@@ -43,9 +43,10 @@ namespace GinRummy.Domain.Repositories
         void RegisterFailedAttempt(int verificationCodeId);
 
         /// <summary>
-        /// Marks the given code as used, right now.
+        /// Marks the given code as used at the given moment.
         /// </summary>
         /// <param name="verificationCodeId">Code that was successfully verified.</param>
-        void MarkAsUsed(int verificationCodeId);
+        /// <param name="usedAt">Moment the code was used, in UTC, read from the server clock.</param>
+        void MarkAsUsed(int verificationCodeId, DateTime usedAt);
     }
 }
