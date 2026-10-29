@@ -37,119 +37,188 @@ namespace GinRummy.Persistence.Persistence
         }
 
         /// <summary>
-        /// Gets or sets the Player set.
+        /// Gets the Player set.
         /// </summary>
-        public DbSet<Player> Players { get; set; }
+        public DbSet<Player> Players
+        {
+            get { return Set<Player>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the PlayerAccount set.
+        /// Gets the PlayerAccount set.
         /// </summary>
-        public DbSet<PlayerAccount> PlayerAccounts { get; set; }
+        public DbSet<PlayerAccount> PlayerAccounts
+        {
+            get { return Set<PlayerAccount>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the PlayerProfile set.
+        /// Gets the PlayerProfile set.
         /// </summary>
-        public DbSet<PlayerProfile> PlayerProfiles { get; set; }
+        public DbSet<PlayerProfile> PlayerProfiles
+        {
+            get { return Set<PlayerProfile>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the PlayerSession set.
+        /// Gets the PlayerSession set.
         /// </summary>
-        public DbSet<PlayerSession> PlayerSessions { get; set; }
+        public DbSet<PlayerSession> PlayerSessions
+        {
+            get { return Set<PlayerSession>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the PlayerStats set.
+        /// Gets the PlayerStats set.
         /// </summary>
-        public DbSet<PlayerStats> PlayerStats { get; set; }
+        public DbSet<PlayerStats> PlayerStats
+        {
+            get { return Set<PlayerStats>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the SocialMedia set.
+        /// Gets the SocialMedia set.
         /// </summary>
-        public DbSet<SocialMedia> SocialMedias { get; set; }
+        public DbSet<SocialMedia> SocialMedias
+        {
+            get { return Set<SocialMedia>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the VerificationCode set.
+        /// Gets the VerificationCode set.
         /// </summary>
-        public DbSet<VerificationCode> VerificationCodes { get; set; }
+        public DbSet<VerificationCode> VerificationCodes
+        {
+            get { return Set<VerificationCode>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the Email set.
+        /// Gets the Email set.
         /// </summary>
-        public DbSet<Email> Emails { get; set; }
+        public DbSet<Email> Emails
+        {
+            get { return Set<Email>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the FriendRequest set.
+        /// Gets the FriendRequest set.
         /// </summary>
-        public DbSet<FriendRequest> FriendRequests { get; set; }
+        public DbSet<FriendRequest> FriendRequests
+        {
+            get { return Set<FriendRequest>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the FriendShip set.
+        /// Gets the FriendShip set.
         /// </summary>
-        public DbSet<FriendShip> FriendShips { get; set; }
+        public DbSet<FriendShip> FriendShips
+        {
+            get { return Set<FriendShip>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the Warning set.
+        /// Gets the Warning set.
         /// </summary>
-        public DbSet<Warning> Warnings { get; set; }
+        public DbSet<Warning> Warnings
+        {
+            get { return Set<Warning>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the Ban set.
+        /// Gets the Ban set.
         /// </summary>
-        public DbSet<Ban> Bans { get; set; }
+        public DbSet<Ban> Bans
+        {
+            get { return Set<Ban>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the Message set.
+        /// Gets the Message set.
         /// </summary>
-        public DbSet<Message> Messages { get; set; }
+        public DbSet<Message> Messages
+        {
+            get { return Set<Message>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the ProhibitedWord set.
+        /// Gets the ProhibitedWord set.
         /// </summary>
-        public DbSet<ProhibitedWord> ProhibitedWords { get; set; }
+        public DbSet<ProhibitedWord> ProhibitedWords
+        {
+            get { return Set<ProhibitedWord>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the Locale set.
+        /// Gets the Locale set.
         /// </summary>
-        public DbSet<Locale> Locales { get; set; }
+        public DbSet<Locale> Locales
+        {
+            get { return Set<Locale>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the Platform set.
+        /// Gets the Platform set.
         /// </summary>
-        public DbSet<Platform> Platforms { get; set; }
+        public DbSet<Platform> Platforms
+        {
+            get { return Set<Platform>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the Rank set.
+        /// Gets the Rank set.
         /// </summary>
-        public DbSet<Rank> Ranks { get; set; }
+        public DbSet<Rank> Ranks
+        {
+            get { return Set<Rank>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the ReasonBan set.
+        /// Gets the ReasonBan set.
         /// </summary>
-        public DbSet<ReasonBan> ReasonBans { get; set; }
+        public DbSet<ReasonBan> ReasonBans
+        {
+            get { return Set<ReasonBan>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the GuestSession set.
+        /// Gets the GuestSession set.
         /// </summary>
-        public DbSet<GuestSession> GuestSessions { get; set; }
+        public DbSet<GuestSession> GuestSessions
+        {
+            get { return Set<GuestSession>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the GameSession set.
+        /// Gets the GameSession set.
         /// </summary>
-        public DbSet<GameSession> GameSessions { get; set; }
+        public DbSet<GameSession> GameSessions
+        {
+            get { return Set<GameSession>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the GameParticipant set.
+        /// Gets the GameParticipant set.
         /// </summary>
-        public DbSet<GameParticipant> GameParticipants { get; set; }
+        public DbSet<GameParticipant> GameParticipants
+        {
+            get { return Set<GameParticipant>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the Challenge set.
+        /// Gets the Challenge set.
         /// </summary>
-        public DbSet<Challenge> Challenges { get; set; }
+        public DbSet<Challenge> Challenges
+        {
+            get { return Set<Challenge>(); }
+        }
 
         /// <summary>
-        /// Gets or sets the GameHistory set.
+        /// Gets the GameHistory set.
         /// </summary>
-        public DbSet<GameHistory> GameHistories { get; set; }
+        public DbSet<GameHistory> GameHistories
+        {
+            get { return Set<GameHistory>(); }
+        }
 
         /// <summary>
         /// Registers one configuration per entity. The translation tables (RankLocale,
