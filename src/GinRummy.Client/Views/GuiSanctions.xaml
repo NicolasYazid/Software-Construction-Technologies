@@ -30,7 +30,7 @@
 
                 <ScrollViewer Height="420" VerticalScrollBarVisibility="Auto" Margin="32,22,22,24">
                     <StackPanel Margin="0,0,10,0">
-                        <ItemsControl x:Name="lstSanctions">
+                        <ItemsControl x:Name="lstSanctions" ItemsSource="{Binding Sanctions}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <ctl:PixelBorder Style="{StaticResource StySanctionCard}">
@@ -89,7 +89,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <TextBlock x:Name="lblEmptyState" Style="{StaticResource StyPanelEmpty}"
-                                   Visibility="Collapsed"
+                                   Visibility="{Binding HasNoSanctions, Converter={StaticResource CnvBooleanToVisibility}}"
                                    Text="{Binding [Sanctions_EmptyState], Source={StaticResource PrvLocalization}}" />
                     </StackPanel>
                 </ScrollViewer>

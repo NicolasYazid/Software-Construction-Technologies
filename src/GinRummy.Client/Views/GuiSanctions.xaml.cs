@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Threading;
 
-using GinRummy.Client.Services;
 using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
@@ -16,41 +13,19 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiSanctions : GuiModalBase
     {
-        private const int TimerIntervalSeconds = 1;
-
-        private readonly DispatcherTimer _countdownTimer;
-        private IList<SanctionViewModel> _sanctions;
-        private TimeSpan _elapsedTime;
+        private readonly SanctionsViewModel _viewModel;
 
         public GuiSanctions()
         {
             InitializeComponent();
-            _countdownTimer = new DispatcherTimer();
-            _countdownTimer.Interval = TimeSpan.FromSeconds(TimerIntervalSeconds);
-            _countdownTimer.Tick += OnCountdownTick;
+            _viewModel = new SanctionsViewModel(((App)Application.Current).SampleData);
+            DataContext = _viewModel;
             Closed += OnScreenClosed;
-            LoadSanctions();
-            _countdownTimer.Start();
         }
 
-        // Loads the sanctions again, because the name of their reason arrives already translated.
-        // The name has to be asked for again in the new language (CU-33 step 3).
         protected override void RefreshFormattedText()
         {
-            if (lstSanctions != null)
-            {
-                LoadSanctions();
-            }
-        }
-
-        private void OnCountdownTick(object sender, EventArgs e)
-        {
-            TimeSpan step = TimeSpan.FromSeconds(TimerIntervalSeconds);
-            _elapsedTime = _elapsedTime.Add(step);
-            foreach (SanctionViewModel sanction in _sanctions)
-            {
-                sanction.RemainingTime = Shorten(sanction.RemainingTime, step);
-            }
+            _viewModel.LoadSanctions();
         }
 
         private void OnTabSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -68,35 +43,8 @@ namespace GinRummy.Client.Views
 
         private void OnScreenClosed(object sender, EventArgs e)
         {
-            _countdownTimer.Stop();
-            _countdownTimer.Tick -= OnCountdownTick;
+            _viewModel.StopCountdown();
             Closed -= OnScreenClosed;
-        }
-
-        private void LoadSanctions()
-        {
-            // A change of language loads the sanctions again with the time they had when the screen opened.
-            // The time already counted is taken off so that the countdown stays where it was.
-            SampleDataService dataService = new SampleDataService();
-            _sanctions = dataService.GetSanctions();
-            foreach (SanctionViewModel sanction in _sanctions)
-            {
-                sanction.RemainingTime = Shorten(sanction.RemainingTime, _elapsedTime);
-            }
-
-            lstSanctions.ItemsSource = _sanctions;
-            lblEmptyState.Visibility = VisibilityCommon.FromCondition(_sanctions.Count == 0);
-        }
-
-        private static TimeSpan Shorten(TimeSpan remainingTime, TimeSpan elapsedTime)
-        {
-            TimeSpan shortened = remainingTime.Subtract(elapsedTime);
-            if (shortened < TimeSpan.Zero)
-            {
-                shortened = TimeSpan.Zero;
-            }
-
-            return shortened;
         }
     }
 }

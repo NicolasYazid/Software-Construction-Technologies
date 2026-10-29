@@ -322,6 +322,7 @@
     <Compile Include="Models\FriendRequest.cs" />
     <Compile Include="ViewModels\SanctionViewModel.cs" />
     <Compile Include="ViewModels\NotificationsViewModel.cs" />
+    <Compile Include="ViewModels\SanctionsViewModel.cs" />
     <Compile Include="Services\SampleDataService.cs" />
     <Compile Include="Converters\LocalizedFormatConverter.cs" />
     <Compile Include="Views\VisibilityCommon.cs" />
