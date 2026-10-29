@@ -147,8 +147,9 @@
 
                 <!-- The podium holds the first three places whatever the search, as the prototype
                      keeps it while the table filters. -->
-                <ItemsControl x:Name="lstPodium" Margin="-6,18,-6,0" ItemsSource="{Binding Podium}" ItemTemplate="{StaticResource TplPodiumPlace}">
-                        <ItemsControl.ItemsPanel>
+                <ItemsControl x:Name="lstPodium" Margin="-6,18,-6,0" ItemsSource="{Binding Podium}"
+                              ItemTemplate="{StaticResource TplPodiumPlace}">
+                    <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Rows="1" Columns="3" />
                         </ItemsPanelTemplate>
@@ -206,7 +207,8 @@
                             </Grid.RowDefinitions>
 
                             <ScrollViewer VerticalScrollBarVisibility="Visible">
-                                <ItemsControl x:Name="lstRankings" ItemsSource="{Binding Rankings}" ItemTemplate="{StaticResource TplRankingRow}" />
+                                <ItemsControl x:Name="lstRankings" ItemsSource="{Binding Rankings}"
+                                              ItemTemplate="{StaticResource TplRankingRow}" />
                             </ScrollViewer>
                             <TextBlock x:Name="lblNoMatches" Style="{StaticResource StyPanelEmpty}" Margin="20,16,28,0"
                                        Visibility="{Binding HasNoMatches, Converter={StaticResource CnvBooleanToVisibility}}"
