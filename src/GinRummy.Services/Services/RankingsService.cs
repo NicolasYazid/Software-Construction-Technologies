@@ -31,10 +31,10 @@ namespace GinRummy.Services.Services
         /// Gets the current leaderboard as the rows the client shows.
         /// </summary>
         /// <returns>The ranking rows; empty when there are no players.</returns>
-        public List<PlayerRankingDto> GetRankings()
+        public List<PlayerRanking> GetRankings()
         {
             IReadOnlyList<LeaderboardPosition> leaderboardPositions = _leaderboardPort.GetLeaderboard();
-            List<PlayerRankingDto> rankings = PlayerRankingMapper.MapToPlayerRankings(leaderboardPositions);
+            List<PlayerRanking> rankings = PlayerRankingMapper.MapToPlayerRankings(leaderboardPositions);
 
             return rankings;
         }

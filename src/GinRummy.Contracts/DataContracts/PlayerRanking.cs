@@ -6,7 +6,7 @@ namespace GinRummy.Contracts.DataContracts
     /// A single leaderboard row as the rankings screen (P18) shows it.
     /// </summary>
     [DataContract]
-    public class PlayerRankingDto
+    public class PlayerRanking
     {
         [DataMember]
         public int Position { get; set; }

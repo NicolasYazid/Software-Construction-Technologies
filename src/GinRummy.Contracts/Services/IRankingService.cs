@@ -20,6 +20,6 @@ namespace GinRummy.Contracts.Services
         /// </summary>
         /// <returns>The list of ranking rows; empty when there are no players.</returns>
         [OperationContract]
-        List<PlayerRankingDto> GetRankings();
+        List<PlayerRanking> GetRankings();
     }
 }
