@@ -5,7 +5,7 @@ using System.ServiceModel.Dispatcher;
 
 using Microsoft.Extensions.Logging;
 
-namespace GinRummy.Server.Hosting
+namespace GinRummy.Services.Hosting
 {
     /// <summary>
     /// Last line of defense of every service. It logs the errors the services did not turn into

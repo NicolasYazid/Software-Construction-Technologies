@@ -3,7 +3,7 @@ using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Dispatcher;
 
-namespace GinRummy.Server.Hosting
+namespace GinRummy.Services.Hosting
 {
     /// <summary>
     /// Creates every service instance with the factory the composition root supplies. WCF can

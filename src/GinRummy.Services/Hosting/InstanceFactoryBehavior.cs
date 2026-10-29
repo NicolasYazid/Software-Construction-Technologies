@@ -5,7 +5,7 @@ using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 
-namespace GinRummy.Server.Hosting
+namespace GinRummy.Services.Hosting
 {
     /// <summary>
     /// Makes one service host build its instances with a given factory instead of a parameterless

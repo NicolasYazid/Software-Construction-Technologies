@@ -8,7 +8,7 @@ using GinRummy.Application.UseCases;
 using GinRummy.Persistence.Repositories;
 using GinRummy.Domain.Repositories;
 using GinRummy.Domain.Services;
-using GinRummy.Server.Hosting;
+using GinRummy.Services.Hosting;
 using GinRummy.Infrastructure;
 using GinRummy.Server.Services;
 

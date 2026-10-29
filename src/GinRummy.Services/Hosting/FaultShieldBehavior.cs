@@ -5,7 +5,7 @@ using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 
-namespace GinRummy.Server.Hosting
+namespace GinRummy.Services.Hosting
 {
     /// <summary>
     /// Adds the shared error handler to every channel of a service host, so no service sends

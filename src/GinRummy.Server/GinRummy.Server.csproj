@@ -58,11 +58,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Hosting\FaultShieldBehavior.cs" />
-    <Compile Include="Hosting\FaultShieldErrorHandler.cs" />
-    <Compile Include="Hosting\InstanceFactoryBehavior.cs" />
-    <Compile Include="Hosting\ServiceHostGroup.cs" />
-    <Compile Include="Hosting\ServiceInstanceProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\RankingsService.cs" />
@@ -95,6 +90,10 @@
     <ProjectReference Include="..\GinRummy.Infrastructure\GinRummy.Infrastructure.csproj">
       <Project>{32e60735-b97c-4cee-b3db-731e14b5742f}</Project>
       <Name>GinRummy.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GinRummy.Services\GinRummy.Services.csproj">
+      <Project>{51860bbc-0847-4153-ac27-7184b78bb9d3}</Project>
+      <Name>GinRummy.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\GinRummy.Security\GinRummy.Security.csproj">
       <Project>{8d359981-9bb3-41f6-9360-f599d39e559f}</Project>

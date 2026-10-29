@@ -4,7 +4,7 @@ using System.ServiceModel;
 
 using Microsoft.Extensions.Logging;
 
-namespace GinRummy.Server.Hosting
+namespace GinRummy.Services.Hosting
 {
     /// <summary>
     /// Opens and closes the server's services, one host per service. Each host is handled on its
