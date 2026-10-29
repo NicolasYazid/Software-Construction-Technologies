@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Windows;
 
-using GinRummy.Client.Models;
-using GinRummy.Client.Services;
 using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
@@ -18,54 +15,38 @@ namespace GinRummy.Client.Views
         private const int PasswordMaskLength = 10;
         private const char PasswordMaskFiller = 'x';
 
-        private readonly ObservableCollection<LinkedAccount> _linkedAccounts;
-        private string _pendingEmail;
+        private readonly ProfilePanelViewModel _viewModel;
 
         public GuiProfilePanel()
         {
             InitializeComponent();
-            SampleDataService dataService = new SampleDataService();
-            AccountSettings settings = dataService.GetAccountSettings();
-            lblEmailAddress.Text = settings.Email;
+            _viewModel = new ProfilePanelViewModel(((App)Application.Current).SampleData);
+            _viewModel.EmailVerificationRequested += OnEmailVerificationRequested;
+            _viewModel.TwoStepEnableRequested += OnTwoStepEnableRequested;
+            _viewModel.TwoStepDisableRequested += OnTwoStepDisableRequested;
+            DataContext = _viewModel;
             pwdPassword.Password = new string(PasswordMaskFiller, PasswordMaskLength);
-            tglTwoStep.IsChecked = settings.IsTwoStepEnabled;
-            sldMasterVolume.Value = settings.MasterVolume;
-            tglChatFilter.IsChecked = settings.IsChatFilterEnabled;
-            _linkedAccounts = new ObservableCollection<LinkedAccount>(settings.LinkedAccounts);
-            lstLinkedAccounts.ItemsSource = _linkedAccounts;
+            txtNewEmail.IsVisibleChanged += OnNewEmailVisibleChanged;
         }
 
-        private void OnChangeEmailClick(object sender, RoutedEventArgs e)
+        private void OnNewEmailVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            txtNewEmail.Clear();
-            lblErrorMessage.Visibility = Visibility.Collapsed;
-            lblChangeEmailTitle.Visibility = Visibility.Visible;
-            txtNewEmail.Focus();
-        }
-
-        private void OnCancelEmailClick(object sender, RoutedEventArgs e)
-        {
-            lblChangeEmailTitle.Visibility = Visibility.Collapsed;
-        }
-
-        private void OnSaveEmailClick(object sender, RoutedEventArgs e)
-        {
-            string newEmail = txtNewEmail.Text.Trim();
-
-            // Only the empty field is caught here (CU-07 FA-02).
-            // The server checks the format and the uniqueness of the address before it sends the code.
-            if (newEmail.Length == 0)
+            if (txtNewEmail.IsVisible)
             {
-                lblErrorMessage.Visibility = Visibility.Visible;
+                txtNewEmail.Focus();
             }
-            else
-            {
-                lblChangeEmailTitle.Visibility = Visibility.Collapsed;
-                _pendingEmail = newEmail;
-                GuiVerifyEmail verifyEmail = new GuiVerifyEmail(VerificationPurpose.EmailChange, newEmail);
-                verifyEmail.Closed += OnVerifyEmailClosed;
-                ShowModal(verifyEmail);
-            }
+        }
+
+        private void OnEmailVerificationRequested(object sender, EventArgs e)
+        {
+            GuiVerifyEmail verifyEmail = new GuiVerifyEmail(VerificationPurpose.EmailChange, _viewModel.PendingEmail);
+            verifyEmail.Closed += OnVerifyEmailClosed;
+            ShowModal(verifyEmail);
+        }
+
+        private void OnVerifyEmailClosed(object sender, EventArgs e)
+        {
+            _viewModel.CompleteEmailChange();
         }
 
         private void OnChangePasswordClick(object sender, RoutedEventArgs e)
@@ -74,27 +55,23 @@ namespace GinRummy.Client.Views
             ShowModal(newPassword);
         }
 
-        private void OnTwoStepClick(object sender, RoutedEventArgs e)
+        // The verification screen is the one that talks to the server, so it confirms the code that enables the second factor.
+        private void OnTwoStepEnableRequested(object sender, EventArgs e)
         {
-            lblTwoStepDisabled.Visibility = Visibility.Collapsed;
-            if (tglTwoStep.IsChecked == true)
-            {
-                EnableTwoStep();
-            }
-            else
-            {
-                DisableTwoStep();
-            }
+            GuiTwoStep twoStep = new GuiTwoStep(TwoStepPurpose.EnableTwoStep);
+            ShowModal(twoStep);
         }
 
-        private void OnLinkClick(object sender, RoutedEventArgs e)
+        private void OnTwoStepDisableRequested(object sender, EventArgs e)
         {
-            ReplaceLinkedAccount(sender, true);
+            GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.TwoStepDisable);
+            confirmDialog.Closed += OnTwoStepDisableConfirmClosed;
+            ShowModal(confirmDialog);
         }
 
-        private void OnUnlinkClick(object sender, RoutedEventArgs e)
+        private void OnTwoStepDisableConfirmClosed(object sender, EventArgs e)
         {
-            ReplaceLinkedAccount(sender, false);
+            _viewModel.CompleteTwoStepDisable(((GuiConfirmDialog)sender).IsConfirmed);
         }
 
         private void OnLogOutClick(object sender, RoutedEventArgs e)
@@ -106,53 +83,6 @@ namespace GinRummy.Client.Views
             if (lobby != null)
             {
                 lobby.Close();
-            }
-        }
-
-        private void EnableTwoStep()
-        {
-            // Enabling two-step verification requires a confirmed code (CU-04), and that check is left to the verification screen.
-            // That screen is the one that talks to the server.
-            GuiTwoStep twoStep = new GuiTwoStep(TwoStepPurpose.EnableTwoStep);
-            ShowModal(twoStep);
-        }
-
-        private void DisableTwoStep()
-        {
-            GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.TwoStepDisable);
-            confirmDialog.Closed += OnTwoStepDisableConfirmClosed;
-            ShowModal(confirmDialog);
-        }
-
-        private void OnVerifyEmailClosed(object sender, EventArgs e)
-        {
-            lblEmailAddress.Text = _pendingEmail;
-            lblEmailChanged.Visibility = Visibility.Visible;
-        }
-
-        private void OnTwoStepDisableConfirmClosed(object sender, EventArgs e)
-        {
-            // Cancelling returns the switch to where it was (CU-05 FA-02).
-            if (((GuiConfirmDialog)sender).IsConfirmed)
-            {
-                lblTwoStepDisabled.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                tglTwoStep.IsChecked = true;
-            }
-        }
-
-        private void ReplaceLinkedAccount(object sender, bool isLinked)
-        {
-            LinkedAccount account = ((FrameworkElement)sender).DataContext as LinkedAccount;
-            int index = _linkedAccounts.IndexOf(account);
-            if (index >= 0)
-            {
-                LinkedAccount updated = new LinkedAccount();
-                updated.PlatformName = account.PlatformName;
-                updated.IsLinked = isLinked;
-                _linkedAccounts[index] = updated;
             }
         }
     }
