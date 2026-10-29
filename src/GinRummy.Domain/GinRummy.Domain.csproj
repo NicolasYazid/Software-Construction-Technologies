@@ -74,6 +74,7 @@
     <Compile Include="Entities\VerificationCode.cs" />
     <Compile Include="Entities\VerificationPurpose.cs" />
     <Compile Include="Entities\Warning.cs" />
+    <Compile Include="GameCoreException.cs" />
     <Compile Include="Infrastructure\IClock.cs" />
     <Compile Include="Infrastructure\IEmailSender.cs" />
     <Compile Include="Infrastructure\IProfilePictureStorage.cs" />
