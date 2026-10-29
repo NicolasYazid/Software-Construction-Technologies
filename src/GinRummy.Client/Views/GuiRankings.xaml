@@ -4,7 +4,7 @@
         xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
         xmlns:views="clr-namespace:GinRummy.Client.Views"
         xmlns:models="clr-namespace:GinRummy.Client.Models"
-        xmlns:contracts="clr-namespace:GinRummy.Contracts.DataContracts;assembly=GinRummy.Contracts"
+        xmlns:contracts="clr-namespace:GinRummy.Client.RankingsServiceReference"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
         HasCloseButton="False">

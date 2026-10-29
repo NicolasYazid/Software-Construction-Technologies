@@ -212,8 +212,6 @@
     <Compile Include="Controls\WaveCommon.cs" />
     <Compile Include="Mvvm\RelayCommand.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
-    <Compile Include="Network\RankingServiceClientContract.cs" />
-    <Compile Include="Network\RankingsServiceProxy.cs" />
     <Compile Include="ViewModels\RankingsViewModel.cs" />
     <Compile Include="Views\GuiMainMenu.xaml.cs">
       <DependentUpon>GuiMainMenu.xaml</DependentUpon>
@@ -351,7 +349,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\GinRummy.Contracts.PlayerRankingDto.datasource" />
     <Resource Include="Fonts\Cairopixel-Medium.ttf" />
     <Resource Include="Fonts\HigherPixels-Regular.ttf" />
     <Resource Include="Fonts\RetroByte-Medium.ttf" />
@@ -364,19 +361,10 @@
     <EmbeddedResource Include="Resources\Strings.en-US.resx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GinRummy.Contracts\GinRummy.Contracts.csproj">
-      <Project>{68290b7b-bb27-4987-a15f-1810e6a24196}</Project>
-      <Name>GinRummy.Contracts</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\RankingsServiceReference\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\RankingsServiceReference\RankingsService.disco" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\RankingsServiceReference\configuration91.svcinfo" />

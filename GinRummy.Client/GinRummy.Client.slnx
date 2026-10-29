@@ -1,4 +1,3 @@
 <Solution>
   <Project Path="../src/GinRummy.Client/GinRummy.Client.csproj" Id="8b4d1c4e-3f52-4a9b-9c71-2d6e5a0f1b33" />
-  <Project Path="../src/GinRummy.Contracts/GinRummy.Contracts.csproj" Id="68290b7b-bb27-4987-a15f-1810e6a24196" />
 </Solution>
