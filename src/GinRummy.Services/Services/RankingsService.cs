@@ -5,6 +5,7 @@ using GinRummy.Application.Ports;
 using GinRummy.Contracts.DataContracts;
 using GinRummy.Contracts.Services;
 using GinRummy.Domain.Entities;
+using GinRummy.Services.Mappers;
 
 namespace GinRummy.Services.Services
 {
@@ -33,44 +34,9 @@ namespace GinRummy.Services.Services
         public List<PlayerRankingDto> GetRankings()
         {
             IReadOnlyList<LeaderboardPosition> leaderboardPositions = _leaderboardPort.GetLeaderboard();
-            List<PlayerRankingDto> rankings = MapToDtos(leaderboardPositions);
+            List<PlayerRankingDto> rankings = PlayerRankingMapper.MapToPlayerRankings(leaderboardPositions);
 
             return rankings;
-        }
-
-        private List<PlayerRankingDto> MapToDtos(IReadOnlyList<LeaderboardPosition> leaderboardPositions)
-        {
-            List<PlayerRankingDto> rankings = new List<PlayerRankingDto>();
-            foreach (LeaderboardPosition position in leaderboardPositions)
-            {
-                rankings.Add(MapToDto(position));
-            }
-
-            return rankings;
-        }
-
-        private PlayerRankingDto MapToDto(LeaderboardPosition position)
-        {
-            PlayerRankingDto ranking = new PlayerRankingDto();
-            ranking.Position = position.Place;
-            ranking.Username = position.Stats.Player.Username;
-            ranking.RankName = ResolveRankName(position.Rank);
-            ranking.Wins = position.Stats.Wins;
-            ranking.Losses = position.Stats.Losses;
-            ranking.WinRate = position.Stats.WinRate;
-
-            return ranking;
-        }
-
-        private string ResolveRankName(Rank rank)
-        {
-            string rankName = string.Empty;
-            if (rank != null)
-            {
-                rankName = rank.Name;
-            }
-
-            return rankName;
         }
     }
 }
