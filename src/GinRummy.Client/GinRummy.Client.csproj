@@ -308,6 +308,7 @@
     <Compile Include="ViewModels\HouseRulesViewModel.cs" />
     <Compile Include="ViewModels\RecoverPasswordViewModel.cs" />
     <Compile Include="ViewModels\TwoStepViewModel.cs" />
+    <Compile Include="ViewModels\VerifyEmailViewModel.cs" />
     <Compile Include="Controls\PasswordBindingCommon.cs" />
     <Compile Include="Models\ChatEntryDto.cs" />
     <Compile Include="Models\ChatMessageDto.cs" />

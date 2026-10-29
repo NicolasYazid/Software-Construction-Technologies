@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Threading;
 
 using GinRummy.Client.ViewModels;
 
@@ -13,18 +12,7 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiVerifyEmail : GuiModalBase
     {
-        private const int CodeLifetimeSeconds = 600;
-        private const int ResendDelaySeconds = 60;
-        private const int MaximumAttempts = 3;
-        private const int TimerIntervalSeconds = 1;
-        private const string DurationFormat = @"mm\:ss";
-
-        private readonly DispatcherTimer _countdownTimer;
-        private readonly VerificationPurpose _purpose;
-        private readonly string _destinationAddress;
-        private TimeSpan _codeRemainingTime;
-        private TimeSpan _resendRemainingTime;
-        private int _remainingAttempts;
+        private readonly VerifyEmailViewModel _viewModel;
 
         public GuiVerifyEmail()
             : this(VerificationPurpose.AccountSignUp, string.Empty)
@@ -34,84 +22,20 @@ namespace GinRummy.Client.Views
         public GuiVerifyEmail(VerificationPurpose purpose, string destinationAddress)
         {
             InitializeComponent();
-            _purpose = purpose;
-            _destinationAddress = destinationAddress ?? string.Empty;
-            _codeRemainingTime = TimeSpan.FromSeconds(CodeLifetimeSeconds);
-            _resendRemainingTime = TimeSpan.FromSeconds(ResendDelaySeconds);
-            _remainingAttempts = MaximumAttempts;
-            _countdownTimer = new DispatcherTimer();
-            _countdownTimer.Interval = TimeSpan.FromSeconds(TimerIntervalSeconds);
-            _countdownTimer.Tick += OnCountdownTick;
-            _countdownTimer.Start();
+            _viewModel = new VerifyEmailViewModel(purpose, destinationAddress);
+            _viewModel.CodeVerified += OnCodeVerified;
+            DataContext = _viewModel;
             Closed += OnScreenClosed;
-            RefreshFormattedText();
         }
 
-        // The title comes from a different key in each flow.
-        // That is why it cannot be bound in XAML to a single key.
-        protected override void RefreshFormattedText()
+        // A new address confirmed from the profile panel returns to that panel (CU-07 step 11).
+        private void OnCodeVerified(object sender, EventArgs e)
         {
-            if (lblTitle != null)
-            {
-                string titleKey = ResolveTitleKey();
-                lblTitle.Text = Localization.GetText(titleKey);
-                lblInstructions.Text = Localization.Format(
-                    "VerifyEmail_LblInstructions", _destinationAddress);
-                lblCodeExpiresIn.Text = Localization.Format(
-                    "VerifyEmail_LblCodeExpiresIn", FormatDuration(_codeRemainingTime));
-                lblAttemptsLeft.Text = Localization.Format(
-                    "VerifyEmail_LblAttemptsLeft", _remainingAttempts);
-                lblResendAvailableIn.Text = Localization.Format(
-                    "VerifyEmail_LblResendAvailableIn", FormatDuration(_resendRemainingTime));
-            }
-        }
-
-        private string ResolveTitleKey()
-        {
-            string key = "VerifyEmail_LblTitleSignUp";
-            if (_purpose == VerificationPurpose.PasswordRecovery)
-            {
-                key = "VerifyEmail_LblTitleRecovery";
-            }
-            else if (_purpose == VerificationPurpose.EmailChange)
-            {
-                key = "VerifyEmail_LblTitleNewEmail";
-            }
-
-            return key;
-        }
-
-        private string FormatDuration(TimeSpan duration)
-        {
-            return duration.ToString(DurationFormat, Localization.CurrentCulture);
-        }
-
-        private void OnCountdownTick(object sender, EventArgs e)
-        {
-            TimeSpan step = TimeSpan.FromSeconds(TimerIntervalSeconds);
-            if (_codeRemainingTime > TimeSpan.Zero)
-            {
-                _codeRemainingTime = _codeRemainingTime.Subtract(step);
-            }
-
-            if (_resendRemainingTime > TimeSpan.Zero)
-            {
-                _resendRemainingTime = _resendRemainingTime.Subtract(step);
-            }
-
-            RefreshFormattedText();
-        }
-
-        private void OnVerifyClick(object sender, RoutedEventArgs e)
-        {
-            // The code is checked on the server, as CU-09 requires.
-            // The screen only advances so that the navigation of the prototype can be walked through.
-            // A new address confirmed from the profile panel returns to that panel (CU-07 step 11).
-            if (_purpose == VerificationPurpose.PasswordRecovery)
+            if (_viewModel.Purpose == VerificationPurpose.PasswordRecovery)
             {
                 NavigateTo(new GuiNewPassword(false));
             }
-            else if (_purpose == VerificationPurpose.AccountSignUp)
+            else if (_viewModel.Purpose == VerificationPurpose.AccountSignUp)
             {
                 NavigateTo(new GuiAccountCreated());
             }
@@ -121,13 +45,6 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnResendCodeClick(object sender, RoutedEventArgs e)
-        {
-            _codeRemainingTime = TimeSpan.FromSeconds(CodeLifetimeSeconds);
-            _resendRemainingTime = TimeSpan.FromSeconds(ResendDelaySeconds);
-            RefreshFormattedText();
-        }
-
         private void OnVerifyLaterClick(object sender, RoutedEventArgs e)
         {
             Close();
@@ -135,8 +52,8 @@ namespace GinRummy.Client.Views
 
         private void OnScreenClosed(object sender, EventArgs e)
         {
-            _countdownTimer.Stop();
-            _countdownTimer.Tick -= OnCountdownTick;
+            _viewModel.StopCountdowns();
+            _viewModel.CodeVerified -= OnCodeVerified;
             Closed -= OnScreenClosed;
         }
     }
