@@ -45,9 +45,9 @@ namespace GinRummy.Domain.Entities
         /// <returns>True when the term is prohibited in that language.</returns>
         public bool AppliesTo(int localeId)
         {
-            bool appliesToLocale = Locales.Any(link => link.LocaleId == localeId);
+            bool isProhibitedInLocale = Locales.Any(link => link.LocaleId == localeId);
 
-            return appliesToLocale;
+            return isProhibitedInLocale;
         }
     }
 }

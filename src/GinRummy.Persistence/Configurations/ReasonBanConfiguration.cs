@@ -29,8 +29,8 @@ namespace GinRummy.Persistence.Configurations
                 .IsUnicode(false)
                 .HasMaxLength(ReasonBan.RestrictionScopeNameMaxLength);
             Ignore(reasonBan => reasonBan.RestrictionScope);
-            Ignore(reasonBan => reasonBan.RestrictsChat);
-            Ignore(reasonBan => reasonBan.RestrictsAccount);
+            Ignore(reasonBan => reasonBan.IsChatRestricted);
+            Ignore(reasonBan => reasonBan.IsAccountRestricted);
             HasMany(reasonBan => reasonBan.Translations)
                 .WithRequired()
                 .HasForeignKey(translation => translation.ReasonBanId);

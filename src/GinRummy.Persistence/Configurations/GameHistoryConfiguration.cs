@@ -21,7 +21,7 @@ namespace GinRummy.Persistence.Configurations
             Property(history => history.MatchId).HasColumnName("match_id");
             Property(history => history.PlayerId).HasColumnName("player_id");
             Property(history => history.OpponentId).HasColumnName("opponent_id");
-            Property(history => history.DidWin).HasColumnName("game_result");
+            Property(history => history.HasWon).HasColumnName("game_result");
             Property(history => history.ScoreEarned).HasColumnName("score_earned");
             Property(history => history.PlayedAt).HasColumnName("played_at");
             HasRequired(history => history.Player).WithMany().HasForeignKey(history => history.PlayerId)

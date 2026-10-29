@@ -61,21 +61,21 @@ namespace GinRummy.Domain.Entities
         /// Gets whether a ban with this reason stops the player from writing in the chat. A ban
         /// that restricts the whole account restricts the chat too.
         /// </summary>
-        public bool RestrictsChat
+        public bool IsChatRestricted
         {
             get
             {
                 bool isChatOnly = RestrictionScope == RestrictionScope.ChatOnly;
-                bool restrictsChat = isChatOnly || RestrictsAccount;
+                bool isChatRestricted = isChatOnly || IsAccountRestricted;
 
-                return restrictsChat;
+                return isChatRestricted;
             }
         }
 
         /// <summary>
         /// Gets whether a ban with this reason stops the player from signing in and playing.
         /// </summary>
-        public bool RestrictsAccount
+        public bool IsAccountRestricted
         {
             get { return RestrictionScope == RestrictionScope.FullAccount; }
         }
