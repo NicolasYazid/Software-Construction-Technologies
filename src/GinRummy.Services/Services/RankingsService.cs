@@ -2,7 +2,8 @@
 using System.ServiceModel;
 
 using GinRummy.Application.UseCases;
-using GinRummy.Contracts;
+using GinRummy.Contracts.DataContracts;
+using GinRummy.Contracts.Services;
 using GinRummy.Domain.Entities;
 
 namespace GinRummy.Services.Services

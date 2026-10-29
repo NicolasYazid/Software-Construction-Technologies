@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace GinRummy.Contracts
+namespace GinRummy.Contracts.DataContracts
 {
     /// <summary>
     /// A single leaderboard row as the rankings screen (P18) shows it.

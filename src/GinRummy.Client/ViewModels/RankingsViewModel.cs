@@ -6,7 +6,8 @@ using System.ServiceModel;
 using System.Windows.Input;
 
 using GinRummy.Client.Mvvm;
-using GinRummy.Contracts;
+using GinRummy.Contracts.DataContracts;
+using GinRummy.Contracts.Services;
 
 using Microsoft.Extensions.Logging;
 

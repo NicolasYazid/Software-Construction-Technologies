@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
 
-using GinRummy.Contracts;
+using GinRummy.Contracts.DataContracts;
+using GinRummy.Contracts.Services;
 
 namespace GinRummy.Client.Network
 {

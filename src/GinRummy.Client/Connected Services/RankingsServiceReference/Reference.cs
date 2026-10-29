@@ -16,10 +16,10 @@ namespace GinRummy.Client.RankingsServiceReference {
     public interface IRankingService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRankingService/GetRankings", ReplyAction="http://tempuri.org/IRankingService/GetRankingsResponse")]
-        System.Collections.Generic.List<GinRummy.Contracts.PlayerRankingDto> GetRankings();
+        System.Collections.Generic.List<GinRummy.Contracts.DataContracts.PlayerRankingDto> GetRankings();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRankingService/GetRankings", ReplyAction="http://tempuri.org/IRankingService/GetRankingsResponse")]
-        System.Threading.Tasks.Task<System.Collections.Generic.List<GinRummy.Contracts.PlayerRankingDto>> GetRankingsAsync();
+        System.Threading.Tasks.Task<System.Collections.Generic.List<GinRummy.Contracts.DataContracts.PlayerRankingDto>> GetRankingsAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -49,11 +49,11 @@ namespace GinRummy.Client.RankingsServiceReference {
                 base(binding, remoteAddress) {
         }
         
-        public System.Collections.Generic.List<GinRummy.Contracts.PlayerRankingDto> GetRankings() {
+        public System.Collections.Generic.List<GinRummy.Contracts.DataContracts.PlayerRankingDto> GetRankings() {
             return base.Channel.GetRankings();
         }
         
-        public System.Threading.Tasks.Task<System.Collections.Generic.List<GinRummy.Contracts.PlayerRankingDto>> GetRankingsAsync() {
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<GinRummy.Contracts.DataContracts.PlayerRankingDto>> GetRankingsAsync() {
             return base.Channel.GetRankingsAsync();
         }
     }

@@ -5,7 +5,9 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GinRummy.Contracts
+using GinRummy.Contracts.DataContracts;
+
+namespace GinRummy.Contracts.Services
 {
     /// <summary>
     /// Network contract that exposes the players' rankings to the client.

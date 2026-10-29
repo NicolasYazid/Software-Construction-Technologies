@@ -43,9 +43,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IRankingService.cs" />
-    <Compile Include="PlayerRankingDto.cs" />
+    <Compile Include="Services\IRankingService.cs" />
+    <Compile Include="DataContracts\PlayerRankingDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Callbacks\" />
+    <Folder Include="Faults\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
