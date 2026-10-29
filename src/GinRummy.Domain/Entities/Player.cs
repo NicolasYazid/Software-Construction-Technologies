@@ -14,7 +14,10 @@ namespace GinRummy.Domain.Entities
     /// </summary>
     public class Player
     {
-        private const int MaxUsernameLength = 20;
+        /// <summary>
+        /// Length of the username column.
+        /// </summary>
+        public const int UsernameMaxLength = 20;
 
         /// <summary>
         /// Creates a valid new player, stamped with the current UTC time. Kept for callers
@@ -116,7 +119,7 @@ namespace GinRummy.Domain.Entities
                 throw new ArgumentException("Username is required.", nameof(username));
             }
 
-            if (username.Trim().Length > MaxUsernameLength)
+            if (username.Trim().Length > UsernameMaxLength)
             {
                 throw new ArgumentException("Username is too long.", nameof(username));
             }

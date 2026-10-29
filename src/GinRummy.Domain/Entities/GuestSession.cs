@@ -9,7 +9,10 @@ namespace GinRummy.Domain.Entities
     /// </summary>
     public class GuestSession
     {
-        private const int MaxDisplayNameLength = 20;
+        /// <summary>
+        /// Length of the temporal_display_name column.
+        /// </summary>
+        public const int TemporalDisplayNameMaxLength = 20;
 
         /// <summary>
         /// Creates a valid new guest session.
@@ -55,7 +58,7 @@ namespace GinRummy.Domain.Entities
                 throw new ArgumentException("Display name is required.", nameof(temporalDisplayName));
             }
 
-            if (temporalDisplayName.Trim().Length > MaxDisplayNameLength)
+            if (temporalDisplayName.Trim().Length > TemporalDisplayNameMaxLength)
             {
                 throw new ArgumentException("Display name is too long.", nameof(temporalDisplayName));
             }

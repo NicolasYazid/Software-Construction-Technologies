@@ -9,7 +9,15 @@ namespace GinRummy.Domain.Entities
     /// </summary>
     public class Message
     {
-        private const int MaxContentLength = 300;
+        /// <summary>
+        /// Length of the content column.
+        /// </summary>
+        public const int ContentMaxLength = 300;
+
+        /// <summary>
+        /// Length of the channel column.
+        /// </summary>
+        public const int ChannelNameMaxLength = 20;
 
         /// <summary>
         /// Creates a valid new message.
@@ -101,7 +109,7 @@ namespace GinRummy.Domain.Entities
                 throw new ArgumentException("Content is required.", nameof(content));
             }
 
-            if (content.Length > MaxContentLength)
+            if (content.Length > ContentMaxLength)
             {
                 throw new ArgumentException("Content is too long.", nameof(content));
             }

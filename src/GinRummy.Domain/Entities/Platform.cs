@@ -7,6 +7,11 @@
     public class Platform
     {
         /// <summary>
+        /// Length of the name column.
+        /// </summary>
+        public const int NameMaxLength = 100;
+
+        /// <summary>
         /// Parameterless constructor reserved for Entity Framework's materialization.
         /// </summary>
         protected Platform()

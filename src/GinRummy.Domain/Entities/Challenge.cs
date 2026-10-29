@@ -11,6 +11,11 @@ namespace GinRummy.Domain.Entities
     public class Challenge
     {
         /// <summary>
+        /// Length of the status column.
+        /// </summary>
+        public const int StatusNameMaxLength = 20;
+
+        /// <summary>
         /// Creates a valid new challenge in the Sent status.
         /// </summary>
         /// <param name="challengerPlayerId">Identifier of the player who invites; must be positive.</param>

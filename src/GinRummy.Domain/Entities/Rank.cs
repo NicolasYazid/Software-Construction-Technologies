@@ -13,6 +13,11 @@ namespace GinRummy.Domain.Entities
     public class Rank
     {
         /// <summary>
+        /// Length of the name column.
+        /// </summary>
+        public const int NameMaxLength = 100;
+
+        /// <summary>
         /// Parameterless constructor reserved for Entity Framework's materialization.
         /// </summary>
         protected Rank()

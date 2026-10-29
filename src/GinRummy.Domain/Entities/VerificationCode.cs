@@ -14,6 +14,11 @@ namespace GinRummy.Domain.Entities
     public class VerificationCode
     {
         /// <summary>
+        /// Fixed length of the code_hash column: the hexadecimal text of a SHA-256 hash.
+        /// </summary>
+        public const int CodeHashLength = 64;
+
+        /// <summary>
         /// Creates a valid new verification code, stamped with the current UTC time. Kept for
         /// callers that have no clock yet; code that has one should pass the moment explicitly.
         /// </summary>

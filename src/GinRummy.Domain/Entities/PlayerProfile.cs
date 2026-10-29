@@ -12,8 +12,15 @@ namespace GinRummy.Domain.Entities
     /// </summary>
     public class PlayerProfile
     {
-        private const int MaxBioLength = 500;
-        private const int MaxProfilePictureLength = 255;
+        /// <summary>
+        /// Length of the bio column.
+        /// </summary>
+        public const int BioMaxLength = 500;
+
+        /// <summary>
+        /// Length of the profile_picture column.
+        /// </summary>
+        public const int ProfilePictureMaxLength = 255;
 
         /// <summary>
         /// Creates the empty profile every new account starts with: no biography and no
@@ -126,7 +133,7 @@ namespace GinRummy.Domain.Entities
         // The biography must fit the column; it may be empty.
         private static void ValidateBio(string bio)
         {
-            if ((bio != null) && (bio.Length > MaxBioLength))
+            if ((bio != null) && (bio.Length > BioMaxLength))
             {
                 throw new ArgumentException("Bio is too long.", nameof(bio));
             }
@@ -140,7 +147,7 @@ namespace GinRummy.Domain.Entities
                 throw new ArgumentException("Profile picture path is required.", nameof(profilePicture));
             }
 
-            if (profilePicture.Trim().Length > MaxProfilePictureLength)
+            if (profilePicture.Trim().Length > ProfilePictureMaxLength)
             {
                 throw new ArgumentException("Profile picture path is too long.", nameof(profilePicture));
             }

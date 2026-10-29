@@ -14,7 +14,15 @@ namespace GinRummy.Domain.Entities
     /// </summary>
     public class PlayerAccount
     {
-        private const int MaxEmailLength = 254;
+        /// <summary>
+        /// Length of the email column.
+        /// </summary>
+        public const int EmailMaxLength = 254;
+
+        /// <summary>
+        /// Length of the password column, which stores the hash.
+        /// </summary>
+        public const int PasswordHashMaxLength = 255;
 
         /// <summary>
         /// Creates a valid new account for a player that is already stored. A new account
@@ -155,7 +163,7 @@ namespace GinRummy.Domain.Entities
                 throw new ArgumentException("Email is required.", nameof(email));
             }
 
-            if (email.Trim().Length > MaxEmailLength)
+            if (email.Trim().Length > EmailMaxLength)
             {
                 throw new ArgumentException("Email is too long.", nameof(email));
             }

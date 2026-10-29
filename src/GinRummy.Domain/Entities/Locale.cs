@@ -13,6 +13,16 @@ namespace GinRummy.Domain.Entities
     public class Locale
     {
         /// <summary>
+        /// Length of the locale_code column.
+        /// </summary>
+        public const int LocaleCodeMaxLength = 10;
+
+        /// <summary>
+        /// Length of the display_name column.
+        /// </summary>
+        public const int DisplayNameMaxLength = 100;
+
+        /// <summary>
         /// Parameterless constructor reserved for Entity Framework's materialization.
         /// </summary>
         protected Locale()

@@ -11,6 +11,11 @@ namespace GinRummy.Domain.Entities
     public class ProhibitedWord
     {
         /// <summary>
+        /// Length of the term column.
+        /// </summary>
+        public const int TermMaxLength = 100;
+
+        /// <summary>
         /// Parameterless constructor reserved for Entity Framework's materialization.
         /// </summary>
         protected ProhibitedWord()

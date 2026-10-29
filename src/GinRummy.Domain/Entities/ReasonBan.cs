@@ -12,6 +12,16 @@ namespace GinRummy.Domain.Entities
     public class ReasonBan
     {
         /// <summary>
+        /// Length of the name column.
+        /// </summary>
+        public const int NameMaxLength = 100;
+
+        /// <summary>
+        /// Length of the restriction_scope column.
+        /// </summary>
+        public const int RestrictionScopeNameMaxLength = 20;
+
+        /// <summary>
         /// Parameterless constructor reserved for Entity Framework's materialization.
         /// </summary>
         protected ReasonBan()
