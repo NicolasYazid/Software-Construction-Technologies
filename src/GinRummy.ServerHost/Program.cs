@@ -5,7 +5,7 @@ using GinRummy.Application.UseCases;
 using GinRummy.Persistence.Repositories;
 using GinRummy.Domain.Repositories;
 using GinRummy.Domain.Services;
-using GinRummy.WcfService.Services;
+using GinRummy.Services.Services;
 
 namespace GinRummy.ServerHost
 {

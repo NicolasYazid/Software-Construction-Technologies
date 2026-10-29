@@ -5,7 +5,7 @@ using GinRummy.Application.UseCases;
 using GinRummy.Contracts;
 using GinRummy.Domain.Entities;
 
-namespace GinRummy.WcfService.Services
+namespace GinRummy.Services.Services
 {
     /// <summary>
     /// Implements the rankings network contract. Delegates the leaderboard logic to the

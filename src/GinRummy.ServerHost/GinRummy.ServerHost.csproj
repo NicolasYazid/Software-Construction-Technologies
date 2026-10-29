@@ -86,9 +86,9 @@
       <Project>{8d359981-9bb3-41f6-9360-f599d39e559f}</Project>
       <Name>GinRummy.Security</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GinRummy.WcfService\GinRummy.WcfService.csproj">
+    <ProjectReference Include="..\GinRummy.Services\GinRummy.Services.csproj">
       <Project>{51860bbc-0847-4153-ac27-7184b78bb9d3}</Project>
-      <Name>GinRummy.WcfService</Name>
+      <Name>GinRummy.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

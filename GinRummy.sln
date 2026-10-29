@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GinRummy.Application", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GinRummy.Server", "src\GinRummy.Server\GinRummy.Server.csproj", "{6BE22B5F-AB52-41D1-8576-B00866006685}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GinRummy.WcfService", "src\GinRummy.WcfService\GinRummy.WcfService.csproj", "{51860BBC-0847-4153-AC27-7184B78BB9D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GinRummy.Services", "src\GinRummy.Services\GinRummy.Services.csproj", "{51860BBC-0847-4153-AC27-7184B78BB9D3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GinRummy.ServerHost", "src\GinRummy.ServerHost\GinRummy.ServerHost.csproj", "{F44EB2D1-D957-469D-9177-7A7E8FBA0963}"
 EndProject
