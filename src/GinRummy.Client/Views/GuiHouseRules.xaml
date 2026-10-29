@@ -11,15 +11,15 @@
             <StackPanel>
 
                 <TextBlock x:Name="lblTitle" Style="{StaticResource StyPanelTitle}"
-                           Text="{Binding [HouseRules_LblTitle], Source={StaticResource Loc},
+                           Text="{Binding [HouseRules_LblTitle], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}" />
                 <TextBlock x:Name="lblCardHead" Style="{StaticResource StyRulesCardHead}"
-                           Text="{Binding [HouseRules_LblCardHead], Source={StaticResource Loc},
+                           Text="{Binding [HouseRules_LblCardHead], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}" />
 
                 <ctl:PixelBorder Style="{StaticResource StyFairPlayBar}" Margin="0,20,0,0">
                     <TextBlock x:Name="lblFairPlay" Style="{StaticResource StyFairPlayText}"
-                               Text="{Binding [HouseRules_LblFairPlay], Source={StaticResource Loc},
+                               Text="{Binding [HouseRules_LblFairPlay], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
                 </ctl:PixelBorder>
 
@@ -35,7 +35,7 @@
                                     <Run x:Name="lblRule01">
                                         <Run.Text>
                                             <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" Mode="OneWay">
-                                                <Binding Path="[HouseRules_LblRule01]" Source="{StaticResource Loc}" />
+                                                <Binding Path="[HouseRules_LblRule01]" Source="{StaticResource PrvLocalization}" />
                                                 <Binding Path="CardsPerHand" />
                                             </MultiBinding>
                                         </Run.Text>
@@ -45,37 +45,37 @@
                             <ListItem>
                                 <Paragraph Style="{StaticResource StyRuleText}">
                                     <Run x:Name="lblRule02"
-                                         Text="{Binding [HouseRules_LblRule02], Source={StaticResource Loc}, Mode=OneWay}" />
+                                         Text="{Binding [HouseRules_LblRule02], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                                 </Paragraph>
                             </ListItem>
                             <ListItem>
                                 <Paragraph Style="{StaticResource StyRuleText}">
                                     <Run x:Name="lblRule03"
-                                         Text="{Binding [HouseRules_LblRule03], Source={StaticResource Loc}, Mode=OneWay}" />
+                                         Text="{Binding [HouseRules_LblRule03], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                                 </Paragraph>
                             </ListItem>
                             <ListItem>
                                 <Paragraph Style="{StaticResource StyRuleText}">
                                     <Run x:Name="lblRule04"
-                                         Text="{Binding [HouseRules_LblRule04], Source={StaticResource Loc}, Mode=OneWay}" />
+                                         Text="{Binding [HouseRules_LblRule04], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                                 </Paragraph>
                             </ListItem>
                             <ListItem>
                                 <Paragraph Style="{StaticResource StyRuleText}">
                                     <Run x:Name="lblRule05"
-                                         Text="{Binding [HouseRules_LblRule05], Source={StaticResource Loc}, Mode=OneWay}" />
+                                         Text="{Binding [HouseRules_LblRule05], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                                 </Paragraph>
                             </ListItem>
                             <ListItem>
                                 <Paragraph Style="{StaticResource StyRuleText}">
                                     <Run x:Name="lblRule06"
-                                         Text="{Binding [HouseRules_LblRule06], Source={StaticResource Loc}, Mode=OneWay}" />
+                                         Text="{Binding [HouseRules_LblRule06], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                                 </Paragraph>
                             </ListItem>
                             <ListItem>
                                 <Paragraph Style="{StaticResource StyRuleText}">
                                     <Run x:Name="lblRule07"
-                                         Text="{Binding [HouseRules_LblRule07], Source={StaticResource Loc}, Mode=OneWay}" />
+                                         Text="{Binding [HouseRules_LblRule07], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                                 </Paragraph>
                             </ListItem>
                             <ListItem>
@@ -83,7 +83,7 @@
                                     <Run x:Name="lblRule08">
                                         <Run.Text>
                                             <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" Mode="OneWay">
-                                                <Binding Path="[HouseRules_LblRule08]" Source="{StaticResource Loc}" />
+                                                <Binding Path="[HouseRules_LblRule08]" Source="{StaticResource PrvLocalization}" />
                                                 <Binding Path="KnockThreshold" />
                                             </MultiBinding>
                                         </Run.Text>
@@ -93,7 +93,7 @@
                             <ListItem>
                                 <Paragraph Style="{StaticResource StyRuleText}">
                                     <Run x:Name="lblRule09"
-                                         Text="{Binding [HouseRules_LblRule09], Source={StaticResource Loc}, Mode=OneWay}" />
+                                         Text="{Binding [HouseRules_LblRule09], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                                 </Paragraph>
                             </ListItem>
                             <ListItem>
@@ -101,7 +101,7 @@
                                     <Run x:Name="lblRule10">
                                         <Run.Text>
                                             <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" Mode="OneWay">
-                                                <Binding Path="[HouseRules_LblRule10]" Source="{StaticResource Loc}" />
+                                                <Binding Path="[HouseRules_LblRule10]" Source="{StaticResource PrvLocalization}" />
                                                 <Binding Path="GinBonus" />
                                             </MultiBinding>
                                         </Run.Text>
@@ -113,7 +113,7 @@
                                     <Run x:Name="lblRule11">
                                         <Run.Text>
                                             <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" Mode="OneWay">
-                                                <Binding Path="[HouseRules_LblRule11]" Source="{StaticResource Loc}" />
+                                                <Binding Path="[HouseRules_LblRule11]" Source="{StaticResource PrvLocalization}" />
                                                 <Binding Path="UndercutBonus" />
                                             </MultiBinding>
                                         </Run.Text>
@@ -125,7 +125,7 @@
                                     <Run x:Name="lblRule12">
                                         <Run.Text>
                                             <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" Mode="OneWay">
-                                                <Binding Path="[HouseRules_LblRule12]" Source="{StaticResource Loc}" />
+                                                <Binding Path="[HouseRules_LblRule12]" Source="{StaticResource PrvLocalization}" />
                                                 <Binding Path="StockCardsToVoid" />
                                             </MultiBinding>
                                         </Run.Text>
@@ -137,7 +137,7 @@
                                     <Run x:Name="lblRule13">
                                         <Run.Text>
                                             <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" Mode="OneWay">
-                                                <Binding Path="[HouseRules_LblRule13]" Source="{StaticResource Loc}" />
+                                                <Binding Path="[HouseRules_LblRule13]" Source="{StaticResource PrvLocalization}" />
                                                 <Binding Path="TargetScore" />
                                             </MultiBinding>
                                         </Run.Text>
@@ -147,61 +147,61 @@
                             <ListItem>
                                 <Paragraph Style="{StaticResource StyRuleText}">
                                     <Run x:Name="lblRule14"
-                                         Text="{Binding [HouseRules_LblRule14], Source={StaticResource Loc}, Mode=OneWay}" />
+                                         Text="{Binding [HouseRules_LblRule14], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                                 </Paragraph>
                             </ListItem>
                             <ListItem>
                                 <Paragraph Style="{StaticResource StyRuleText}">
                                     <Run x:Name="lblRule15"
-                                         Text="{Binding [HouseRules_LblRule15], Source={StaticResource Loc}, Mode=OneWay}" />
+                                         Text="{Binding [HouseRules_LblRule15], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                                 </Paragraph>
                             </ListItem>
                             <ListItem>
                                 <Paragraph Style="{StaticResource StyRuleText}">
                                     <Run x:Name="lblRule16"
-                                         Text="{Binding [HouseRules_LblRule16], Source={StaticResource Loc}, Mode=OneWay}" />
+                                         Text="{Binding [HouseRules_LblRule16], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                                 </Paragraph>
                             </ListItem>
                             <ListItem>
                                 <Paragraph Style="{StaticResource StyRuleText}">
                                     <Run x:Name="lblRule17"
-                                         Text="{Binding [HouseRules_LblRule17], Source={StaticResource Loc}, Mode=OneWay}" />
+                                         Text="{Binding [HouseRules_LblRule17], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                                 </Paragraph>
                             </ListItem>
                             <ListItem>
                                 <Paragraph Style="{StaticResource StyRuleText}">
                                     <Run x:Name="lblRule18"
-                                         Text="{Binding [HouseRules_LblRule18], Source={StaticResource Loc}, Mode=OneWay}" />
+                                         Text="{Binding [HouseRules_LblRule18], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                                 </Paragraph>
                             </ListItem>
                             <ListItem>
                                 <Paragraph Style="{StaticResource StyRuleText}">
                                     <Run x:Name="lblRule19"
-                                         Text="{Binding [HouseRules_LblRule19], Source={StaticResource Loc}, Mode=OneWay}" />
+                                         Text="{Binding [HouseRules_LblRule19], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                                 </Paragraph>
                             </ListItem>
                             <ListItem>
                                 <Paragraph Style="{StaticResource StyRuleText}">
                                     <Run x:Name="lblRule20"
-                                         Text="{Binding [HouseRules_LblRule20], Source={StaticResource Loc}, Mode=OneWay}" />
+                                         Text="{Binding [HouseRules_LblRule20], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                                 </Paragraph>
                             </ListItem>
                         </List>
 
                         <Paragraph Style="{StaticResource StyGlossaryTitle}">
                             <Run x:Name="lblGlossaryTitle"
-                                 Text="{Binding [HouseRules_LblGlossaryTitle], Source={StaticResource Loc}, Mode=OneWay,
+                                 Text="{Binding [HouseRules_LblGlossaryTitle], Source={StaticResource PrvLocalization}, Mode=OneWay,
                                         Converter={StaticResource CnvUpperCase}}" />
                         </Paragraph>
                         <Paragraph Style="{StaticResource StyGlossaryTerm}">
                             <Run x:Name="lblTerm01"
-                                 Text="{Binding [HouseRules_LblTerm01], Source={StaticResource Loc}, Mode=OneWay}" />
+                                 Text="{Binding [HouseRules_LblTerm01], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                         </Paragraph>
                         <Paragraph Style="{StaticResource StyGlossaryDefinition}">
                             <Run x:Name="lblTermDefinition01">
                                 <Run.Text>
                                     <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" Mode="OneWay">
-                                        <Binding Path="[HouseRules_LblTermDefinition01]" Source="{StaticResource Loc}" />
+                                        <Binding Path="[HouseRules_LblTermDefinition01]" Source="{StaticResource PrvLocalization}" />
                                         <Binding Path="KnockThreshold" />
                                     </MultiBinding>
                                 </Run.Text>
@@ -209,66 +209,66 @@
                         </Paragraph>
                         <Paragraph Style="{StaticResource StyGlossaryTerm}">
                             <Run x:Name="lblTerm02"
-                                 Text="{Binding [HouseRules_LblTerm02], Source={StaticResource Loc}, Mode=OneWay}" />
+                                 Text="{Binding [HouseRules_LblTerm02], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                         </Paragraph>
                         <Paragraph Style="{StaticResource StyGlossaryDefinition}">
                             <Run x:Name="lblTermDefinition02"
-                                 Text="{Binding [HouseRules_LblTermDefinition02], Source={StaticResource Loc}, Mode=OneWay}" />
+                                 Text="{Binding [HouseRules_LblTermDefinition02], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                         </Paragraph>
                         <Paragraph Style="{StaticResource StyGlossaryTerm}">
                             <Run x:Name="lblTerm03"
-                                 Text="{Binding [HouseRules_LblTerm03], Source={StaticResource Loc}, Mode=OneWay}" />
+                                 Text="{Binding [HouseRules_LblTerm03], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                         </Paragraph>
                         <Paragraph Style="{StaticResource StyGlossaryDefinition}">
                             <Run x:Name="lblTermDefinition03"
-                                 Text="{Binding [HouseRules_LblTermDefinition03], Source={StaticResource Loc}, Mode=OneWay}" />
+                                 Text="{Binding [HouseRules_LblTermDefinition03], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                         </Paragraph>
                         <Paragraph Style="{StaticResource StyGlossaryTerm}">
                             <Run x:Name="lblTerm04"
-                                 Text="{Binding [HouseRules_LblTerm04], Source={StaticResource Loc}, Mode=OneWay}" />
+                                 Text="{Binding [HouseRules_LblTerm04], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                         </Paragraph>
                         <Paragraph Style="{StaticResource StyGlossaryDefinition}">
                             <Run x:Name="lblTermDefinition04"
-                                 Text="{Binding [HouseRules_LblTermDefinition04], Source={StaticResource Loc}, Mode=OneWay}" />
+                                 Text="{Binding [HouseRules_LblTermDefinition04], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                         </Paragraph>
                         <Paragraph Style="{StaticResource StyGlossaryTerm}">
                             <Run x:Name="lblTerm05"
-                                 Text="{Binding [HouseRules_LblTerm05], Source={StaticResource Loc}, Mode=OneWay}" />
+                                 Text="{Binding [HouseRules_LblTerm05], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                         </Paragraph>
                         <Paragraph Style="{StaticResource StyGlossaryDefinition}">
                             <Run x:Name="lblTermDefinition05"
-                                 Text="{Binding [HouseRules_LblTermDefinition05], Source={StaticResource Loc}, Mode=OneWay}" />
+                                 Text="{Binding [HouseRules_LblTermDefinition05], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                         </Paragraph>
                         <Paragraph Style="{StaticResource StyGlossaryTerm}">
                             <Run x:Name="lblTerm06"
-                                 Text="{Binding [HouseRules_LblTerm06], Source={StaticResource Loc}, Mode=OneWay}" />
+                                 Text="{Binding [HouseRules_LblTerm06], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                         </Paragraph>
                         <Paragraph Style="{StaticResource StyGlossaryDefinition}">
                             <Run x:Name="lblTermDefinition06"
-                                 Text="{Binding [HouseRules_LblTermDefinition06], Source={StaticResource Loc}, Mode=OneWay}" />
+                                 Text="{Binding [HouseRules_LblTermDefinition06], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                         </Paragraph>
                         <Paragraph Style="{StaticResource StyGlossaryTerm}">
                             <Run x:Name="lblTerm07"
-                                 Text="{Binding [HouseRules_LblTerm07], Source={StaticResource Loc}, Mode=OneWay}" />
+                                 Text="{Binding [HouseRules_LblTerm07], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                         </Paragraph>
                         <Paragraph Style="{StaticResource StyGlossaryDefinition}">
                             <Run x:Name="lblTermDefinition07"
-                                 Text="{Binding [HouseRules_LblTermDefinition07], Source={StaticResource Loc}, Mode=OneWay}" />
+                                 Text="{Binding [HouseRules_LblTermDefinition07], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                         </Paragraph>
                         <Paragraph Style="{StaticResource StyGlossaryTerm}">
                             <Run x:Name="lblTerm08"
-                                 Text="{Binding [HouseRules_LblTerm08], Source={StaticResource Loc}, Mode=OneWay}" />
+                                 Text="{Binding [HouseRules_LblTerm08], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                         </Paragraph>
                         <Paragraph Style="{StaticResource StyGlossaryDefinition}">
                             <Run x:Name="lblTermDefinition08"
-                                 Text="{Binding [HouseRules_LblTermDefinition08], Source={StaticResource Loc}, Mode=OneWay}" />
+                                 Text="{Binding [HouseRules_LblTermDefinition08], Source={StaticResource PrvLocalization}, Mode=OneWay}" />
                         </Paragraph>
                     </FlowDocument>
                 </FlowDocumentScrollViewer>
 
                 <Button x:Name="btnClose" Style="{StaticResource StyDialogPrimaryButton}" HorizontalAlignment="Left"
                         Margin="0,22,0,0"
-                        Content="{Binding [Shared_BtnClose], Source={StaticResource Loc},
+                        Content="{Binding [Shared_BtnClose], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
                         Click="OnCloseClick" />
 

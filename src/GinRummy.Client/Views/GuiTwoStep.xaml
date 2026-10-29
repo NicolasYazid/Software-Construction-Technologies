@@ -26,12 +26,13 @@
                     Width="380" Margin="40,161,0,0">
 
             <TextBlock x:Name="lblTitle" Style="{StaticResource StyPlainTitle}"
-                       Text="{Binding [TwoStep_LblTitle], Source={StaticResource Loc}}" />
+                       Text="{Binding [TwoStep_LblTitle], Source={StaticResource PrvLocalization}}" />
             <TextBlock x:Name="lblInstructions" Style="{StaticResource StyPlainBody}" Margin="0,14,0,0" />
 
             <TextBlock x:Name="lblCode" Style="{StaticResource StyPlainLabel}"
                        HorizontalAlignment="Center" Margin="0,32,0,0"
-                       Text="{Binding [TwoStep_LblCode], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
+                       Text="{Binding [TwoStep_LblCode], Source={StaticResource PrvLocalization},
+                              Converter={StaticResource CnvUpperCase}}" />
 
             <ctl:PixelBorder Style="{StaticResource StyPlainFieldShell}" Margin="0,8,0,0">
                 <Grid>
@@ -40,7 +41,7 @@
                     <!-- The code is centred, so the caret of the empty field stands in the middle of
                          the hint; the hint steps aside while the field holds the focus. -->
                     <TextBlock TextAlignment="Center" HorizontalAlignment="Center"
-                               Text="{Binding [VerifyEmail_TxtCodePlaceholder], Source={StaticResource Loc}}">
+                               Text="{Binding [VerifyEmail_TxtCodePlaceholder], Source={StaticResource PrvLocalization}}">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock" BasedOn="{StaticResource StyPlainPlaceholder}">
                                 <Setter Property="Margin" Value="0" />
@@ -65,12 +66,14 @@
 
             <Button x:Name="btnVerify" Style="{StaticResource StyPlainPrimaryButton}"
                     Margin="0,20,0,0"
-                    Content="{Binding [TwoStep_BtnVerify], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                    Content="{Binding [TwoStep_BtnVerify], Source={StaticResource PrvLocalization},
+                              Converter={StaticResource CnvUpperCase}}"
                     Click="OnVerifyClick" />
 
             <Button x:Name="btnResendCode" Style="{StaticResource StyPlainTextButton}"
                     HorizontalAlignment="Right" Margin="0,12,0,0"
-                    Content="{Binding [Shared_BtnResendCode], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                    Content="{Binding [Shared_BtnResendCode], Source={StaticResource PrvLocalization},
+                              Converter={StaticResource CnvUpperCase}}"
                     Click="OnResendCodeClick" />
 
         </StackPanel>

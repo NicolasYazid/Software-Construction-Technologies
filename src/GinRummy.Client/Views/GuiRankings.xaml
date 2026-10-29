@@ -16,11 +16,11 @@
                 <StackPanel>
                     <DockPanel LastChildFill="True">
                         <Image DockPanel.Dock="Right" Style="{StaticResource StyPodiumCrown}"
-                               ToolTip="{Binding [Rankings_TipFirstPlace], Source={StaticResource Loc}}" />
+                               ToolTip="{Binding [Rankings_TipFirstPlace], Source={StaticResource PrvLocalization}}" />
                         <TextBlock x:Name="lblPodiumPosition" DockPanel.Dock="Right" Style="{StaticResource StyPodiumPosition}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" ConverterParameter="N0">
-                                    <Binding Path="[Rankings_PositionFormat]" Source="{StaticResource Loc}" />
+                                    <Binding Path="[Rankings_PositionFormat]" Source="{StaticResource PrvLocalization}" />
                                     <Binding Path="Position" />
                                 </MultiBinding>
                             </TextBlock.Text>
@@ -34,7 +34,7 @@
                         <TextBlock x:Name="lblPodiumWins" Style="{StaticResource StyPodiumStat}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" ConverterParameter="N0">
-                                    <Binding Path="[Rankings_WinsShortFormat]" Source="{StaticResource Loc}" />
+                                    <Binding Path="[Rankings_WinsShortFormat]" Source="{StaticResource PrvLocalization}" />
                                     <Binding Path="Wins" />
                                 </MultiBinding>
                             </TextBlock.Text>
@@ -42,7 +42,7 @@
                         <TextBlock x:Name="lblPodiumLosses" Style="{StaticResource StyPodiumStatMuted}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" ConverterParameter="N0">
-                                    <Binding Path="[Rankings_LossesShortFormat]" Source="{StaticResource Loc}" />
+                                    <Binding Path="[Rankings_LossesShortFormat]" Source="{StaticResource PrvLocalization}" />
                                     <Binding Path="Losses" />
                                 </MultiBinding>
                             </TextBlock.Text>
@@ -51,7 +51,7 @@
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="P0">
                                     <Binding Path="WinRate" />
-                                    <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                                    <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
@@ -77,7 +77,7 @@
                         <TextBlock.Text>
                             <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="N0">
                                 <Binding Path="Position" />
-                                <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                                <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
@@ -89,14 +89,14 @@
                         <!-- The mark is a string of its own and not a suffix of the name: the
                              name is data and is never translated. -->
                         <TextBlock x:Name="lblYou" Style="{StaticResource StyRankingYou}"
-                                   Text="{Binding [Rankings_LblYou], Source={StaticResource Loc},
+                                   Text="{Binding [Rankings_LblYou], Source={StaticResource PrvLocalization},
                                           Converter={StaticResource CnvUpperCase}}" />
                     </StackPanel>
                     <TextBlock Grid.Column="2" Style="{StaticResource StyRankingCell}">
                         <TextBlock.Text>
                             <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="N0">
                                 <Binding Path="Wins" />
-                                <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                                <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
@@ -104,7 +104,7 @@
                         <TextBlock.Text>
                             <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="N0">
                                 <Binding Path="Losses" />
-                                <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                                <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
@@ -112,7 +112,7 @@
                         <TextBlock.Text>
                             <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="P0">
                                 <Binding Path="WinRate" />
-                                <Binding Path="CurrentCulture" Source="{StaticResource Loc}" />
+                                <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
@@ -131,17 +131,17 @@
                         <Image Source="{StaticResource IcoClose}" Width="24" Height="24" />
                     </Button>
                     <TextBlock Style="{StaticResource StyPanelTitle}"
-                               Text="{Binding [LobbyChat_BtnRankings], Source={StaticResource Loc},
+                               Text="{Binding [LobbyChat_BtnRankings], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
                 </DockPanel>
 
                 <TabControl Style="{StaticResource StyPanelTabs}" Width="360" HorizontalAlignment="Left"
                             Margin="0,18,0,0">
                     <TabItem x:Name="tabGlobal" IsSelected="True"
-                             Header="{Binding [Rankings_TabGlobal], Source={StaticResource Loc},
+                             Header="{Binding [Rankings_TabGlobal], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
                     <TabItem x:Name="tabFriends"
-                             Header="{Binding [Shared_TabFriends], Source={StaticResource Loc},
+                             Header="{Binding [Shared_TabFriends], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
                 </TabControl>
 
@@ -175,25 +175,25 @@
                                 <ColumnDefinition Width="80" />
                             </Grid.ColumnDefinitions>
                             <TextBlock x:Name="lblPosition" Style="{StaticResource StyRankingHead}"
-                                       Text="{Binding [Rankings_LblPosition], Source={StaticResource Loc},
+                                       Text="{Binding [Rankings_LblPosition], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}" />
                             <TextBlock x:Name="lblPlayer" Grid.Column="1" Style="{StaticResource StyRankingHead}"
-                                       Text="{Binding [Rankings_LblPlayer], Source={StaticResource Loc},
+                                       Text="{Binding [Rankings_LblPlayer], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}" />
                             <TextBlock x:Name="lblWins" Grid.Column="2" Style="{StaticResource StyRankingHeadNumber}"
-                                       ToolTip="{Binding [Rankings_TipWins], Source={StaticResource Loc}}"
-                                       Text="{Binding [Rankings_LblWins], Source={StaticResource Loc},
+                                       ToolTip="{Binding [Rankings_TipWins], Source={StaticResource PrvLocalization}}"
+                                       Text="{Binding [Rankings_LblWins], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}" />
                             <TextBlock x:Name="lblLosses" Grid.Column="3" Style="{StaticResource StyRankingHeadNumber}"
-                                       ToolTip="{Binding [Rankings_TipLosses], Source={StaticResource Loc}}"
-                                       Text="{Binding [Rankings_LblLosses], Source={StaticResource Loc},
+                                       ToolTip="{Binding [Rankings_TipLosses], Source={StaticResource PrvLocalization}}"
+                                       Text="{Binding [Rankings_LblLosses], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}" />
                             <TextBlock x:Name="lblWinRate" Grid.Column="4" Style="{StaticResource StyRankingHeadNumber}"
-                                       ToolTip="{Binding [Rankings_TipWinRate], Source={StaticResource Loc}}"
-                                       Text="{Binding [Rankings_LblWinRate], Source={StaticResource Loc},
+                                       ToolTip="{Binding [Rankings_TipWinRate], Source={StaticResource PrvLocalization}}"
+                                       Text="{Binding [Rankings_LblWinRate], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}" />
                             <TextBlock x:Name="lblRank" Grid.Column="5" Style="{StaticResource StyRankingHeadNumber}"
-                                       Text="{Binding [Rankings_LblRank], Source={StaticResource Loc},
+                                       Text="{Binding [Rankings_LblRank], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}" />
                         </Grid>
 
@@ -210,7 +210,7 @@
                             </ScrollViewer>
                             <TextBlock x:Name="lblNoMatches" Style="{StaticResource StyPanelEmpty}" Margin="20,16,28,0"
                                        Visibility="{Binding HasNoMatches, Converter={StaticResource CnvBooleanToVisibility}}"
-                                       Text="{Binding [Rankings_NoMatches], Source={StaticResource Loc}}" />
+                                       Text="{Binding [Rankings_NoMatches], Source={StaticResource PrvLocalization}}" />
 
                             <!-- The row of the player stays at the foot of the table when its place
                                  lies beyond the rows it holds (CU-19 FA-03). -->
@@ -224,7 +224,7 @@
                     <DockPanel LastChildFill="True">
                         <Button x:Name="btnSearch" DockPanel.Dock="Right" Style="{StaticResource StyIconButton}"
                                 Width="28" Height="28"
-                                ToolTip="{Binding [Rankings_TipSearch], Source={StaticResource Loc}}"
+                                ToolTip="{Binding [Rankings_TipSearch], Source={StaticResource PrvLocalization}}"
                                 Click="OnSearchClick">
                             <Image Source="{StaticResource IcoSearch}" Width="20" Height="20" />
                         </Button>
@@ -232,7 +232,7 @@
                             <TextBox x:Name="txtSearch" Style="{StaticResource StyPanelSearchInput}"
                                      Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
                             <TextBlock Style="{StaticResource StyPanelSearchPlaceholder}"
-                                       Text="{Binding [Rankings_TxtSearchPlaceholder], Source={StaticResource Loc}}"
+                                       Text="{Binding [Rankings_TxtSearchPlaceholder], Source={StaticResource PrvLocalization}}"
                                        Visibility="{Binding Text, ElementName=txtSearch,
                                                     Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>

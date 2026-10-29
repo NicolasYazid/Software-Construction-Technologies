@@ -15,16 +15,16 @@
                         <Image Source="{StaticResource IcoClose}" Width="24" Height="24" />
                     </Button>
                     <TextBlock x:Name="lblTitle" Style="{StaticResource StyPanelTitle}"
-                               Text="{Binding [Notifications_LblTitle], Source={StaticResource Loc},
+                               Text="{Binding [Notifications_LblTitle], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
                 </DockPanel>
 
                 <TabControl Style="{StaticResource StyPanelTabs}" SelectionChanged="OnTabSelectionChanged">
                     <TabItem x:Name="tabFriendRequests"
-                             Header="{Binding [Notifications_TabFriendRequests], Source={StaticResource Loc},
+                             Header="{Binding [Notifications_TabFriendRequests], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
                     <TabItem x:Name="tabSanctions" IsSelected="True"
-                             Header="{Binding [Notifications_TabSanctions], Source={StaticResource Loc},
+                             Header="{Binding [Notifications_TabSanctions], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
                 </TabControl>
 
@@ -43,11 +43,11 @@
                                                 <Grid>
                                                     <TextBlock x:Name="lblActive" Style="{StaticResource StySanctionBadge}"
                                                                Text="{Binding [Sanctions_LblActive],
-                                                                      Source={StaticResource Loc}}" />
+                                                                      Source={StaticResource PrvLocalization}}" />
                                                     <TextBlock x:Name="lblServed"
                                                                Style="{StaticResource StySanctionBadgeServed}"
                                                                Text="{Binding [Sanctions_LblServed],
-                                                                      Source={StaticResource Loc}}" />
+                                                                      Source={StaticResource PrvLocalization}}" />
                                                 </Grid>
                                                 <TextBlock x:Name="lblReasonBan" Style="{StaticResource StySanctionReason}"
                                                            Text="{Binding ReasonName}" />
@@ -57,7 +57,7 @@
                                                     <TextBlock.Text>
                                                         <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
                                                             <Binding Path="[Sanctions_LblTimeRemaining]"
-                                                                     Source="{StaticResource Loc}" />
+                                                                     Source="{StaticResource PrvLocalization}" />
                                                             <Binding Path="RemainingTime" />
                                                         </MultiBinding>
                                                     </TextBlock.Text>
@@ -67,7 +67,7 @@
                                                         <MultiBinding Converter="{StaticResource CnvLocalizedFormat}"
                                                                       ConverterParameter="d">
                                                             <Binding Path="[Sanctions_LblServedAt]"
-                                                                     Source="{StaticResource Loc}" />
+                                                                     Source="{StaticResource PrvLocalization}" />
                                                             <Binding Path="ServedAt" />
                                                         </MultiBinding>
                                                     </TextBlock.Text>
@@ -90,7 +90,7 @@
                         </ItemsControl>
                         <TextBlock x:Name="lblEmptyState" Style="{StaticResource StyPanelEmpty}"
                                    Visibility="Collapsed"
-                                   Text="{Binding [Sanctions_EmptyState], Source={StaticResource Loc}}" />
+                                   Text="{Binding [Sanctions_EmptyState], Source={StaticResource PrvLocalization}}" />
                     </StackPanel>
                 </ScrollViewer>
 

@@ -25,17 +25,17 @@
         <TextBlock x:Name="lblTitle" Style="{StaticResource StyPlainTitle}"
                    HorizontalAlignment="Left" VerticalAlignment="Top"
                    Width="380" Margin="40,230,0,0"
-                   Text="{Binding [AccountCreated_LblTitle], Source={StaticResource Loc}}" />
+                   Text="{Binding [AccountCreated_LblTitle], Source={StaticResource PrvLocalization}}" />
 
         <TextBlock x:Name="lblMessage" Style="{StaticResource StyPlainBody}"
                    HorizontalAlignment="Left" VerticalAlignment="Top"
                    Width="403" Margin="40,285,0,0"
-                   Text="{Binding [AccountCreated_LblMessage], Source={StaticResource Loc}}" />
+                   Text="{Binding [AccountCreated_LblMessage], Source={StaticResource PrvLocalization}}" />
 
         <Button x:Name="btnLogIn" Style="{StaticResource StyPlainPrimaryButton}"
                 HorizontalAlignment="Left" VerticalAlignment="Top"
                 Width="380" Margin="40,350,0,0"
-                Content="{Binding [Shared_BtnLogIn], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                Content="{Binding [Shared_BtnLogIn], Source={StaticResource PrvLocalization}, Converter={StaticResource CnvUpperCase}}"
                 Click="OnLogInClick" />
 
     </Grid>

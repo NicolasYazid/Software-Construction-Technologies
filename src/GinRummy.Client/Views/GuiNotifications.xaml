@@ -16,16 +16,16 @@
                         <Image Source="{StaticResource IcoClose}" Width="24" Height="24" />
                     </Button>
                     <TextBlock x:Name="lblTitle" Style="{StaticResource StyPanelTitle}"
-                               Text="{Binding [Notifications_LblTitle], Source={StaticResource Loc},
+                               Text="{Binding [Notifications_LblTitle], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
                 </DockPanel>
 
                 <TabControl Style="{StaticResource StyPanelTabs}" SelectionChanged="OnTabSelectionChanged">
                     <TabItem x:Name="tabFriendRequests" IsSelected="True"
-                             Header="{Binding [Notifications_TabFriendRequests], Source={StaticResource Loc},
+                             Header="{Binding [Notifications_TabFriendRequests], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
                     <TabItem x:Name="tabSanctions"
-                             Header="{Binding [Notifications_TabSanctions], Source={StaticResource Loc},
+                             Header="{Binding [Notifications_TabSanctions], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
                 </TabControl>
 
@@ -39,11 +39,11 @@
                                             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal"
                                                         VerticalAlignment="Center">
                                                 <Button x:Name="btnAccept" Style="{StaticResource StyNoticePrimaryButton}"
-                                                        Content="{Binding [Shared_BtnAccept], Source={StaticResource Loc},
+                                                        Content="{Binding [Shared_BtnAccept], Source={StaticResource PrvLocalization},
                                                                   Converter={StaticResource CnvUpperCase}}"
                                                         Click="OnAcceptClick" />
                                                 <Button x:Name="btnDecline" Style="{StaticResource StyNoticeButton}"
-                                                        Content="{Binding [Shared_BtnDecline], Source={StaticResource Loc},
+                                                        Content="{Binding [Shared_BtnDecline], Source={StaticResource PrvLocalization},
                                                                   Converter={StaticResource CnvUpperCase}}"
                                                         Click="OnDeclineClick" />
                                             </StackPanel>
@@ -54,7 +54,7 @@
                                                 <TextBlock.Text>
                                                     <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
                                                         <Binding Path="[Notifications_LblFriendRequest]"
-                                                                 Source="{StaticResource Loc}" />
+                                                                 Source="{StaticResource PrvLocalization}" />
                                                         <Binding Path="SenderName" />
                                                     </MultiBinding>
                                                 </TextBlock.Text>
@@ -66,7 +66,7 @@
                         </ItemsControl>
                         <TextBlock x:Name="lblNoPendingRequests" Style="{StaticResource StyPanelEmpty}"
                                    Visibility="Collapsed"
-                                   Text="{Binding [Notifications_NoPendingRequests], Source={StaticResource Loc}}" />
+                                   Text="{Binding [Notifications_NoPendingRequests], Source={StaticResource PrvLocalization}}" />
                     </StackPanel>
                 </ScrollViewer>
 

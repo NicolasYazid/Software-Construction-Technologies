@@ -19,7 +19,7 @@
                     <Grid>
                         <TextBox x:Name="txtCode" Style="{StaticResource StyFieldInput}" MaxLength="6" />
                         <TextBlock Style="{StaticResource StyFieldPlaceholder}"
-                                   Text="{Binding [VerifyEmail_TxtCodePlaceholder], Source={StaticResource Loc}}"
+                                   Text="{Binding [VerifyEmail_TxtCodePlaceholder], Source={StaticResource PrvLocalization}}"
                                    Visibility="{Binding Text, ElementName=txtCode, Converter={StaticResource CnvEmptyTextToVisibility}}" />
                     </Grid>
                 </ctl:PixelBorder>
@@ -29,7 +29,8 @@
                                DockPanel.Dock="Left" />
                     <Button x:Name="btnResendCode" Style="{StaticResource StyInlineTextButton}"
                             DockPanel.Dock="Right"
-                            Content="{Binding [Shared_BtnResendCode], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                            Content="{Binding [Shared_BtnResendCode], Source={StaticResource PrvLocalization},
+                                      Converter={StaticResource CnvUpperCase}}"
                             Click="OnResendCodeClick" />
                 </DockPanel>
 
@@ -42,19 +43,20 @@
                            Width="402" HorizontalAlignment="Left" Margin="0,8,0,0" />
                 <TextBlock x:Name="lblAlreadyVerified" Style="{StaticResource StyCardNotice}"
                            Width="402" HorizontalAlignment="Left" Margin="0,8,0,0"
-                           Text="{Binding [VerifyEmail_AlreadyVerified], Source={StaticResource Loc}}" />
+                           Text="{Binding [VerifyEmail_AlreadyVerified], Source={StaticResource PrvLocalization}}" />
                 <TextBlock x:Name="lblCodeNotSent" Style="{StaticResource StyCardNotice}"
                            Width="402" HorizontalAlignment="Left" Margin="0,8,0,0"
-                           Text="{Binding [VerifyEmail_CodeNotSent], Source={StaticResource Loc}}" />
+                           Text="{Binding [VerifyEmail_CodeNotSent], Source={StaticResource PrvLocalization}}" />
 
                 <Button x:Name="btnVerify" Style="{StaticResource StyCardPrimaryButton}"
                         Width="402" HorizontalAlignment="Left" Margin="0,20,0,0"
-                        Content="{Binding [VerifyEmail_BtnVerify], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                        Content="{Binding [VerifyEmail_BtnVerify], Source={StaticResource PrvLocalization},
+                                  Converter={StaticResource CnvUpperCase}}"
                         Click="OnVerifyClick" />
 
                 <Button x:Name="btnVerifyLater" Style="{StaticResource StyCardTextButton}"
                         Width="402" HorizontalAlignment="Left" Margin="0,20,0,0"
-                        Content="{Binding [VerifyEmail_BtnVerifyLater], Source={StaticResource Loc},
+                        Content="{Binding [VerifyEmail_BtnVerifyLater], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
                         Click="OnVerifyLaterClick" />
 

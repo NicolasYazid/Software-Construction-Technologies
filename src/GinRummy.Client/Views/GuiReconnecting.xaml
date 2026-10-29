@@ -10,15 +10,15 @@
             <StackPanel>
 
                 <TextBlock x:Name="lblTitle" Style="{StaticResource StyDialogTitle}"
-                           Text="{Binding [Reconnecting_LblTitle], Source={StaticResource Loc}}" />
+                           Text="{Binding [Reconnecting_LblTitle], Source={StaticResource PrvLocalization}}" />
                 <TextBlock x:Name="lblMessage" Style="{StaticResource StyDialogMessage}" Margin="0,18,0,0"
-                           Text="{Binding [Reconnecting_LblMessage], Source={StaticResource Loc}}" />
+                           Text="{Binding [Reconnecting_LblMessage], Source={StaticResource PrvLocalization}}" />
                 <TextBlock x:Name="lblTimeRemaining" Style="{StaticResource StyDialogEmphasis}"
                            Margin="0,14,0,0" />
 
                 <Button x:Name="btnCancel" Style="{StaticResource StyDialogSecondaryButton}"
                         Width="200" HorizontalAlignment="Center" Margin="0,26,0,0"
-                        Content="{Binding [Shared_BtnCancel], Source={StaticResource Loc},
+                        Content="{Binding [Shared_BtnCancel], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
                         Click="OnCancelClick" />
 

@@ -37,15 +37,15 @@
 
                         <TextBlock x:Name="lblGuestHasNoProfile" Style="{StaticResource StyProfileText}"
                                    Margin="0,20,0,0" Visibility="Collapsed"
-                                   Text="{Binding [PlayerProfile_GuestHasNoProfile], Source={StaticResource Loc}}" />
+                                   Text="{Binding [PlayerProfile_GuestHasNoProfile], Source={StaticResource PrvLocalization}}" />
 
                         <TextBlock x:Name="lblBio" Style="{StaticResource StyProfileSectionTitle}"
-                                   Text="{Binding [PlayerProfile_LblBio], Source={StaticResource Loc}}" />
+                                   Text="{Binding [PlayerProfile_LblBio], Source={StaticResource PrvLocalization}}" />
                         <TextBlock Style="{StaticResource StyProfileText}" Text="{Binding Bio}"
                                    Visibility="{Binding Visibility, ElementName=lblBio}" />
 
                         <TextBlock x:Name="lblSocialLinks" Style="{StaticResource StyProfileSectionTitle}"
-                                   Text="{Binding [PlayerProfile_LblSocialLinks], Source={StaticResource Loc}}" />
+                                   Text="{Binding [PlayerProfile_LblSocialLinks], Source={StaticResource PrvLocalization}}" />
                         <ItemsControl ItemsSource="{Binding SocialLinks}"
                                       Visibility="{Binding Visibility, ElementName=lblSocialLinks}">
                             <ItemsControl.ItemsPanel>
@@ -65,7 +65,7 @@
 
                     <Button x:Name="btnClose" Grid.Column="2" Style="{StaticResource StyLobbyNavButton}"
                             VerticalAlignment="Top" Margin="0" FontSize="22"
-                            Content="{Binding [PlayerProfile_BtnClose], Source={StaticResource Loc},
+                            Content="{Binding [PlayerProfile_BtnClose], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
                             Click="OnCloseClick" />
                 </Grid>
@@ -77,21 +77,21 @@
                     <ctl:PixelBorder Style="{StaticResource StyStatCard}" Margin="0,0,12,0">
                         <StackPanel>
                             <TextBlock x:Name="lblMatchesPlayed" Style="{StaticResource StyStatLabel}"
-                                       Text="{Binding [PlayerProfile_LblMatchesPlayed], Source={StaticResource Loc}}" />
+                                       Text="{Binding [PlayerProfile_LblMatchesPlayed], Source={StaticResource PrvLocalization}}" />
                             <TextBlock x:Name="lblMatchesPlayedValue" Style="{StaticResource StyStatValue}" />
                         </StackPanel>
                     </ctl:PixelBorder>
                     <ctl:PixelBorder Style="{StaticResource StyStatCard}" Margin="6,0,6,0">
                         <StackPanel>
                             <TextBlock x:Name="lblWinRate" Style="{StaticResource StyStatLabel}"
-                                       Text="{Binding [PlayerProfile_LblWinRate], Source={StaticResource Loc}}" />
+                                       Text="{Binding [PlayerProfile_LblWinRate], Source={StaticResource PrvLocalization}}" />
                             <TextBlock x:Name="lblWinRateValue" Style="{StaticResource StyStatValue}" />
                         </StackPanel>
                     </ctl:PixelBorder>
                     <ctl:PixelBorder Style="{StaticResource StyStatCard}" Margin="12,0,0,0">
                         <StackPanel>
                             <TextBlock x:Name="lblScore" Style="{StaticResource StyStatLabel}"
-                                       Text="{Binding [PlayerProfile_LblScore], Source={StaticResource Loc}}" />
+                                       Text="{Binding [PlayerProfile_LblScore], Source={StaticResource PrvLocalization}}" />
                             <TextBlock x:Name="lblScoreValue" Style="{StaticResource StyStatValue}" />
                         </StackPanel>
                     </ctl:PixelBorder>
@@ -102,26 +102,26 @@
                         Visibility="{Binding Visibility, ElementName=lblNoMatchesYet}">
                     <TextBlock x:Name="lblNoMatchesYet" Style="{StaticResource StyStatLabel}" Visibility="Collapsed"
                                Foreground="{StaticResource BrsBody}"
-                               Text="{Binding [PlayerProfile_NoMatchesYet], Source={StaticResource Loc}}" />
+                               Text="{Binding [PlayerProfile_NoMatchesYet], Source={StaticResource PrvLocalization}}" />
                 </ctl:PixelBorder>
 
                 <DockPanel Grid.Row="2" Margin="0,40,0,0" LastChildFill="False">
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                         <Button x:Name="btnAddFriend" Style="{StaticResource StyDialogPrimaryButton}"
                                 Background="{StaticResource BrsMenuEarth}" FontSize="22"
-                                Content="{Binding [PlayerProfile_BtnAddFriend], Source={StaticResource Loc},
+                                Content="{Binding [PlayerProfile_BtnAddFriend], Source={StaticResource PrvLocalization},
                                           Converter={StaticResource CnvUpperCase}}"
                                 Click="OnAddFriendClick" />
                         <!-- The dictionary has no key of this screen for the action, so it borrows
                              the one of the context menu of the lobby, as its notes allow. -->
                         <Button x:Name="btnRemoveFriend" Style="{StaticResource StyDialogSecondaryButton}"
                                 FontSize="22"
-                                Content="{Binding [LobbyChat_MniRemoveFriend], Source={StaticResource Loc},
+                                Content="{Binding [LobbyChat_MniRemoveFriend], Source={StaticResource PrvLocalization},
                                           Converter={StaticResource CnvUpperCase}}"
                                 Click="OnRemoveFriendClick" />
                         <Button x:Name="btnEditProfile" Style="{StaticResource StyDialogPrimaryButton}"
                                 FontSize="22"
-                                Content="{Binding [PlayerProfile_BtnEditProfile], Source={StaticResource Loc},
+                                Content="{Binding [PlayerProfile_BtnEditProfile], Source={StaticResource PrvLocalization},
                                           Converter={StaticResource CnvUpperCase}}"
                                 Click="OnEditProfileClick" />
                     </StackPanel>

@@ -20,7 +20,7 @@
                 <StackPanel Width="320">
                     <TextBlock x:Name="lblPassword" Style="{StaticResource StyFieldLabel}"
                                HorizontalAlignment="Center" Margin="0,22,0,8" Visibility="Collapsed"
-                               Text="{Binding [ConfirmDialog_LblPassword], Source={StaticResource Loc},
+                               Text="{Binding [ConfirmDialog_LblPassword], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
                     <ctl:PixelBorder Style="{StaticResource StyFieldShell}"
                             Visibility="{Binding Visibility, ElementName=lblPassword}">
@@ -32,7 +32,7 @@
                     <Button x:Name="btnConfirm" Style="{StaticResource StyDialogPrimaryButton}"
                             Margin="0,0,16,0" Click="OnConfirmClick" />
                     <Button x:Name="btnCancel" Style="{StaticResource StyDialogSecondaryButton}"
-                            Content="{Binding [Shared_BtnCancel], Source={StaticResource Loc},
+                            Content="{Binding [Shared_BtnCancel], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
                             Click="OnCancelClick" />
                 </StackPanel>

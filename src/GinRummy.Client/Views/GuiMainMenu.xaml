@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:views="clr-namespace:GinRummy.Client.Views"
         xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
-        Title="{Binding [Shared_AppTitle], Source={StaticResource Loc}}"
+        Title="{Binding [Shared_AppTitle], Source={StaticResource PrvLocalization}}"
         SizeToContent="WidthAndHeight"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
@@ -49,7 +49,7 @@
                                      HorizontalAlignment="Left" VerticalAlignment="Center" Width="165">
                     <StackPanel>
                         <TextBlock x:Name="lblSettings" Style="{StaticResource StyMenuChipCaption}"
-                                   Text="{Binding [MainMenu_LblSettings], Source={StaticResource Loc},
+                                   Text="{Binding [MainMenu_LblSettings], Source={StaticResource PrvLocalization},
                                           Converter={StaticResource CnvUpperCase}}" />
                         <!-- It opens the same settings as the gear of the lobby, which belong to an
                              account. The menu is only on screen while nobody is signed in, because
@@ -75,19 +75,19 @@
                             <Button Grid.Column="0" x:Name="btnCreateAccount"
                                     Background="{StaticResource BrsMenuAction}"
                                     Style="{StaticResource StyMenuButton}" Margin="6,0,6,0"
-                                    Content="{Binding [Shared_BtnCreateAccount], Source={StaticResource Loc},
+                                    Content="{Binding [Shared_BtnCreateAccount], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}"
                                     Click="OnCreateAccountClick" />
                             <Button Grid.Column="1" x:Name="btnLogIn"
                                     Background="{StaticResource BrsMenuAccent}"
                                     Style="{StaticResource StyMenuPrimaryButton}" Margin="6,0,6,0"
-                                    Content="{Binding [Shared_BtnLogIn], Source={StaticResource Loc},
+                                    Content="{Binding [Shared_BtnLogIn], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}"
                                     Click="OnLogInClick" />
                             <Button Grid.Column="2" x:Name="btnPlayAsGuest"
                                     Background="{StaticResource BrsMenuEarth}"
                                     Style="{StaticResource StyMenuButton}" Margin="6,0,6,0"
-                                    Content="{Binding [MainMenu_BtnPlayAsGuest], Source={StaticResource Loc},
+                                    Content="{Binding [MainMenu_BtnPlayAsGuest], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}"
                                     Click="OnPlayAsGuestClick" />
                         </Grid>
@@ -99,13 +99,13 @@
                             <Button Grid.Column="0" x:Name="btnHowToPlay"
                                     Background="{StaticResource BrsMenuNeutral}"
                                     Style="{StaticResource StyMenuSmallButton}" Margin="6,0,6,0"
-                                    Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource Loc},
+                                    Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}"
                                     Click="OnHowToPlayClick" />
                             <Button Grid.Column="1" x:Name="btnExit"
                                     Background="{StaticResource BrsMenuWarn}"
                                     Style="{StaticResource StyMenuSmallAltButton}" Margin="6,0,6,0"
-                                    Content="{Binding [MainMenu_BtnExit], Source={StaticResource Loc},
+                                    Content="{Binding [MainMenu_BtnExit], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}"
                                     Click="OnExitClick" />
                         </Grid>
@@ -116,12 +116,12 @@
                                      HorizontalAlignment="Right" VerticalAlignment="Center" Width="165">
                     <StackPanel>
                         <TextBlock x:Name="lblLanguage" Style="{StaticResource StyMenuChipCaption}"
-                                   Text="{Binding [MainMenu_LblLanguage], Source={StaticResource Loc},
+                                   Text="{Binding [MainMenu_LblLanguage], Source={StaticResource PrvLocalization},
                                           Converter={StaticResource CnvUpperCase}}" />
                         <ComboBox x:Name="cmbLanguage" Style="{StaticResource StyMenuLanguageBox}" Margin="0,8,0,0"
                                   Tag="{StaticResource IcoGlobe}"
-                                  ItemsSource="{Binding AvailableCultures, Source={StaticResource Loc}}"
-                                  SelectedItem="{Binding SelectedCulture, Source={StaticResource Loc}, Mode=TwoWay}"
+                                  ItemsSource="{Binding AvailableCultures, Source={StaticResource PrvLocalization}}"
+                                  SelectedItem="{Binding SelectedCulture, Source={StaticResource PrvLocalization}, Mode=TwoWay}"
                                   IsEditable="False">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>

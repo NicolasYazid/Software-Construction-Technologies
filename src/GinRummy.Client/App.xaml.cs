@@ -15,7 +15,7 @@ namespace GinRummy.Client
     // This composition root is the only place allowed to know the concrete adapters, so the rest of the app depends on interfaces.
     public partial class App : Application
     {
-        public const string LocalizationResourceKey = "Loc";
+        public const string LocalizationResourceKey = "PrvLocalization";
 
         private const string LeaderboardEndpointName = "LeaderboardService";
         private const string LogFolderName = "GinRummy";

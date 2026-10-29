@@ -32,13 +32,15 @@
             <StackPanel>
 
                 <TextBlock x:Name="lblTitle" Style="{StaticResource StyCardTitle}"
-                           Text="{Binding [LogIn_LblTitle], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
+                           Text="{Binding [LogIn_LblTitle], Source={StaticResource PrvLocalization},
+                                  Converter={StaticResource CnvUpperCase}}" />
                 <TextBlock x:Name="lblSubtitle" Style="{StaticResource StyCardSubtitle}"
                            Width="402" HorizontalAlignment="Left" Margin="0,20,0,0"
-                           Text="{Binding [LogIn_LblSubtitle], Source={StaticResource Loc}}" />
+                           Text="{Binding [LogIn_LblSubtitle], Source={StaticResource PrvLocalization}}" />
 
                 <TextBlock x:Name="lblEmail" Style="{StaticResource StyFieldLabel}" Margin="0,20,0,8"
-                           Text="{Binding [LogIn_LblEmail], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
+                           Text="{Binding [LogIn_LblEmail], Source={StaticResource PrvLocalization},
+                                  Converter={StaticResource CnvUpperCase}}" />
                 <ctl:PixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
                         <Image Source="{StaticResource IcoMail}" Width="19" Height="19"
@@ -46,7 +48,7 @@
                         <Grid>
                             <TextBox x:Name="txtEmail" Style="{StaticResource StyFieldInput}" />
                             <TextBlock Style="{StaticResource StyFieldPlaceholder}"
-                                       Text="{Binding [LogIn_TxtEmailPlaceholder], Source={StaticResource Loc}}"
+                                       Text="{Binding [LogIn_TxtEmailPlaceholder], Source={StaticResource PrvLocalization}}"
                                        Visibility="{Binding Text, ElementName=txtEmail,
                                                     Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>
@@ -54,7 +56,8 @@
                 </ctl:PixelBorder>
 
                 <TextBlock x:Name="lblPassword" Style="{StaticResource StyFieldLabel}" Margin="0,20,0,8"
-                           Text="{Binding [LogIn_LblPassword], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
+                           Text="{Binding [LogIn_LblPassword], Source={StaticResource PrvLocalization},
+                                  Converter={StaticResource CnvUpperCase}}" />
                 <ctl:PixelBorder Style="{StaticResource StyFieldShell}" Width="402" HorizontalAlignment="Left">
                     <DockPanel LastChildFill="True">
                         <Image Source="{StaticResource IcoLock}" Width="19" Height="19"
@@ -62,7 +65,7 @@
                         <Button x:Name="btnTogglePassword" DockPanel.Dock="Right"
                                 Style="{StaticResource StyIconButton}"
                                 VerticalAlignment="Center" Margin="12,0,0,0"
-                                ToolTip="{Binding [Shared_TipTogglePassword], Source={StaticResource Loc}}"
+                                ToolTip="{Binding [Shared_TipTogglePassword], Source={StaticResource PrvLocalization}}"
                                 Click="OnTogglePasswordClick">
                             <Image Source="{StaticResource IcoEye}" Width="19" Height="19" />
                         </Button>
@@ -80,10 +83,10 @@
                 <StackPanel Width="402" HorizontalAlignment="Left" Margin="0,20,0,0">
                     <CheckBox x:Name="chkKeepSignedIn" Style="{StaticResource StyKeepSignedIn}"
                               HorizontalAlignment="Left"
-                              Content="{Binding [Shared_ChkKeepSignedIn], Source={StaticResource Loc}}" />
+                              Content="{Binding [Shared_ChkKeepSignedIn], Source={StaticResource PrvLocalization}}" />
                     <Button x:Name="lnkForgotPassword" Style="{StaticResource StyInlineTextButton}"
                             Margin="0,10,0,0"
-                            Content="{Binding [LogIn_LnkForgotPassword], Source={StaticResource Loc}}"
+                            Content="{Binding [LogIn_LnkForgotPassword], Source={StaticResource PrvLocalization}}"
                             Click="OnForgotPasswordClick" />
                 </StackPanel>
 
@@ -91,11 +94,12 @@
                            Width="402" HorizontalAlignment="Left" Margin="0,12,0,0" />
                 <TextBlock x:Name="lblSessionClosedElsewhere" Style="{StaticResource StyCardNotice}"
                            Width="402" HorizontalAlignment="Left" Margin="0,12,0,0"
-                           Text="{Binding [LogIn_SessionClosedElsewhere], Source={StaticResource Loc}}" />
+                           Text="{Binding [LogIn_SessionClosedElsewhere], Source={StaticResource PrvLocalization}}" />
 
                 <Button x:Name="btnLogIn" Style="{StaticResource StyCardPrimaryButton}"
                         Width="402" HorizontalAlignment="Left" Margin="0,20,0,0"
-                        Content="{Binding [Shared_BtnLogIn], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                        Content="{Binding [Shared_BtnLogIn], Source={StaticResource PrvLocalization},
+                                  Converter={StaticResource CnvUpperCase}}"
                         Click="OnLogInClick" />
 
                 <Grid Width="402" HorizontalAlignment="Left" Margin="0,20,0,0" Height="16">
@@ -106,13 +110,15 @@
                     </Grid.ColumnDefinitions>
                     <Border Grid.Column="0" Style="{StaticResource StyDividerLine}" />
                     <TextBlock x:Name="lblOr" Grid.Column="1" Style="{StaticResource StyDividerLabel}"
-                               Text="{Binding [Shared_LblOr], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}" />
+                               Text="{Binding [Shared_LblOr], Source={StaticResource PrvLocalization},
+                                      Converter={StaticResource CnvUpperCase}}" />
                     <Border Grid.Column="2" Style="{StaticResource StyDividerLine}" />
                 </Grid>
 
                 <Button x:Name="btnCreateAccount" Style="{StaticResource StyCardOutlineButton}"
                         Width="402" HorizontalAlignment="Left" Margin="0,20,0,0"
-                        Content="{Binding [Shared_BtnCreateAccount], Source={StaticResource Loc}, Converter={StaticResource CnvUpperCase}}"
+                        Content="{Binding [Shared_BtnCreateAccount], Source={StaticResource PrvLocalization},
+                                  Converter={StaticResource CnvUpperCase}}"
                         Click="OnCreateAccountClick" />
 
             </StackPanel>

@@ -13,7 +13,7 @@
             <StackPanel Margin="40,30,34,32">
 
                 <TextBlock x:Name="lblTitle" Style="{StaticResource StyPanelTitle}" HorizontalAlignment="Center"
-                           Text="{Binding [EditProfile_LblTitle], Source={StaticResource Loc},
+                           Text="{Binding [EditProfile_LblTitle], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}" />
 
                 <Grid Width="112" Height="112" Margin="0,24,0,0">
@@ -27,23 +27,23 @@
                     </Image>
                 </Grid>
                 <Button x:Name="btnChangePhoto" Style="{StaticResource StyCenteredTextButton}" Margin="0,14,0,0"
-                        Content="{Binding [EditProfile_BtnChangePhoto], Source={StaticResource Loc}}"
+                        Content="{Binding [EditProfile_BtnChangePhoto], Source={StaticResource PrvLocalization}}"
                         Click="OnChangePhotoClick" />
                 <Button x:Name="btnRemovePhoto" Style="{StaticResource StyCenteredTextButton}" Margin="0,6,0,0"
-                        Content="{Binding [EditProfile_BtnRemovePhoto], Source={StaticResource Loc}}"
+                        Content="{Binding [EditProfile_BtnRemovePhoto], Source={StaticResource PrvLocalization}}"
                         Click="OnRemovePhotoClick" />
                 <TextBlock x:Name="lblImageRequirements" Style="{StaticResource StySettingHint}"
                            TextAlignment="Center" Margin="0,8,0,0" />
 
                 <TextBlock x:Name="lblUsername" Style="{StaticResource StyFieldLabel}" Margin="0,24,0,8"
-                           Text="{Binding [EditProfile_LblUsername], Source={StaticResource Loc}}" />
+                           Text="{Binding [EditProfile_LblUsername], Source={StaticResource PrvLocalization}}" />
                 <!-- The database limits the name to twenty characters. -->
                 <ctl:PixelBorder Style="{StaticResource StyGlassFieldShell}">
                     <TextBox x:Name="txtUsername" Style="{StaticResource StyFieldInput}" MaxLength="20" />
                 </ctl:PixelBorder>
 
                 <TextBlock x:Name="lblBio" Style="{StaticResource StyFieldLabel}" Margin="0,20,0,8"
-                           Text="{Binding [EditProfile_LblBio], Source={StaticResource Loc}}" />
+                           Text="{Binding [EditProfile_LblBio], Source={StaticResource PrvLocalization}}" />
                 <ctl:PixelBorder Style="{StaticResource StyGlassFieldArea}">
                     <TextBox x:Name="txtBio" Style="{StaticResource StyFieldAreaInput}"
                              TextChanged="OnBioTextChanged" />
@@ -51,7 +51,7 @@
                 <TextBlock x:Name="lblBioCounter" Style="{StaticResource StySettingHint}" />
 
                 <TextBlock x:Name="lblSocialLinks" Style="{StaticResource StyFieldLabel}" Margin="0,22,0,10"
-                           Text="{Binding [EditProfile_LblSocialLinks], Source={StaticResource Loc},
+                           Text="{Binding [EditProfile_LblSocialLinks], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}" />
                 <ItemsControl x:Name="lstSocialLinks">
                     <ItemsControl.ItemTemplate>
@@ -59,7 +59,7 @@
                             <ctl:PixelBorder Style="{StaticResource StySocialLinkRow}">
                                 <DockPanel LastChildFill="True">
                                     <Button x:Name="btnUnlink" DockPanel.Dock="Right" Style="{StaticResource StyRowTextButton}"
-                                            Content="{Binding [EditProfile_BtnUnlink], Source={StaticResource Loc},
+                                            Content="{Binding [EditProfile_BtnUnlink], Source={StaticResource PrvLocalization},
                                                       Converter={StaticResource CnvUpperCase}}"
                                             Click="OnUnlinkClick" />
                                     <TextBlock Style="{StaticResource StySocialPlatform}" Text="{Binding PlatformName}" />
@@ -75,7 +75,7 @@
                 <StackPanel Visibility="{Binding Visibility, ElementName=lblPlatform}">
                     <TextBlock x:Name="lblPlatform" Style="{StaticResource StyFieldLabel}" Margin="0,6,0,8"
                                Visibility="Collapsed"
-                               Text="{Binding [EditProfile_LblPlatform], Source={StaticResource Loc}}" />
+                               Text="{Binding [EditProfile_LblPlatform], Source={StaticResource PrvLocalization}}" />
                     <ComboBox x:Name="cmbPlatform" Style="{StaticResource StyMenuLanguageBox}" Width="220"
                               HorizontalAlignment="Left">
                         <ComboBox.ItemTemplate>
@@ -85,13 +85,13 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                     <TextBlock x:Name="lblSocialUrl" Style="{StaticResource StyFieldLabel}" Margin="0,16,0,8"
-                               Text="{Binding [EditProfile_LblSocialUrl], Source={StaticResource Loc}}" />
+                               Text="{Binding [EditProfile_LblSocialUrl], Source={StaticResource PrvLocalization}}" />
                     <!-- The database limits the address to two hundred and fifty-five characters. -->
                     <ctl:PixelBorder Style="{StaticResource StyGlassFieldShell}">
                         <Grid>
                             <TextBox x:Name="txtSocialUrl" Style="{StaticResource StyFieldInput}" MaxLength="255" />
                             <TextBlock x:Name="lblFieldSocialLink" Style="{StaticResource StyFieldPlaceholder}"
-                                       Text="{Binding [EditProfile_FieldSocialLink], Source={StaticResource Loc}}"
+                                       Text="{Binding [EditProfile_FieldSocialLink], Source={StaticResource PrvLocalization}}"
                                        Visibility="{Binding Text, ElementName=txtSocialUrl,
                                                     Converter={StaticResource CnvEmptyTextToVisibility}}" />
                         </Grid>
@@ -99,20 +99,20 @@
                 </StackPanel>
 
                 <Button x:Name="btnAddSocialLink" Style="{StaticResource StyCardOutlineButton}" Margin="0,12,0,0"
-                        Content="{Binding [EditProfile_BtnAddSocialLink], Source={StaticResource Loc},
+                        Content="{Binding [EditProfile_BtnAddSocialLink], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
                         Click="OnAddSocialLinkClick" />
 
                 <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyCardError}" Margin="0,16,0,0" />
                 <TextBlock x:Name="lblUsernameChanged" Style="{StaticResource StyCardNotice}" Margin="0,16,0,0"
-                           Text="{Binding [EditProfile_UsernameChanged], Source={StaticResource Loc}}" />
+                           Text="{Binding [EditProfile_UsernameChanged], Source={StaticResource PrvLocalization}}" />
 
                 <Button x:Name="btnSave" Style="{StaticResource StyCardPrimaryButton}" Margin="0,24,0,0"
-                        Content="{Binding [Shared_BtnSave], Source={StaticResource Loc},
+                        Content="{Binding [Shared_BtnSave], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
                         Click="OnSaveClick" />
                 <Button x:Name="btnCancel" Style="{StaticResource StyCardOutlineButton}" Margin="0,14,0,0"
-                        Content="{Binding [Shared_BtnCancel], Source={StaticResource Loc},
+                        Content="{Binding [Shared_BtnCancel], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
                         Click="OnCancelClick" />
 

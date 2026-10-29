@@ -24,7 +24,7 @@
                     <TextBlock Style="{StaticResource StyChatTime}">
                         <TextBlock.Text>
                             <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" ConverterParameter="t">
-                                <Binding Path="[Shared_Timestamp]" Source="{StaticResource Loc}" />
+                                <Binding Path="[Shared_Timestamp]" Source="{StaticResource PrvLocalization}" />
                                 <Binding Path="SentAt" />
                             </MultiBinding>
                         </TextBlock.Text>
@@ -32,7 +32,7 @@
                 </StackPanel>
                 <TextBlock x:Name="lblChatContent" Style="{StaticResource StyChatContent}" Text="{Binding Content}" />
                 <TextBlock x:Name="lblMessageCensored" Style="{StaticResource StyChatCensored}"
-                           Text="{Binding [LobbyChat_MessageCensored], Source={StaticResource Loc}}" />
+                           Text="{Binding [LobbyChat_MessageCensored], Source={StaticResource PrvLocalization}}" />
             </StackPanel>
         </Grid>
         <DataTemplate.Triggers>
@@ -70,7 +70,7 @@
             <StackPanel Orientation="Horizontal">
                 <ContentPresenter Content="{Binding FirstPlayer}" ContentTemplate="{StaticResource TplVersusPlayer}" />
                 <TextBlock x:Name="lblVersus" Style="{StaticResource StyVersusLabel}"
-                           Text="{Binding [LobbyChat_LblVersus], Source={StaticResource Loc}}" />
+                           Text="{Binding [LobbyChat_LblVersus], Source={StaticResource PrvLocalization}}" />
                 <ContentPresenter Content="{Binding SecondPlayer}" ContentTemplate="{StaticResource TplVersusPlayer}" />
             </StackPanel>
         </Border>
