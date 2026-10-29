@@ -18,14 +18,14 @@ namespace GinRummy.Client.Controls
 
         public static readonly DependencyProperty MarkFontSizeProperty =
             DependencyProperty.Register(
-                "MarkFontSize",
+                nameof(MarkFontSize),
                 typeof(double),
                 typeof(BrandMark),
                 new PropertyMetadata(DefaultMarkFontSize, OnAppearanceChanged));
 
         public static readonly DependencyProperty MarkForegroundProperty =
             DependencyProperty.Register(
-                "MarkForeground",
+                nameof(MarkForeground),
                 typeof(Brush),
                 typeof(BrandMark),
                 new PropertyMetadata(Brushes.Gray, OnAppearanceChanged));
