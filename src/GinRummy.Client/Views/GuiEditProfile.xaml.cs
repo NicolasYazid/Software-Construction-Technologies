@@ -23,16 +23,16 @@ namespace GinRummy.Client.Views
         private const string ImageRequirementsKey = "EditProfile_LblImageRequirements";
         private const string RequiredFieldKey = "Error_ValRequiredField";
 
-        private readonly ObservableCollection<SocialLinkDto> _socialLinks;
-        private SocialLinkDto _linkToRemove;
-        private SocialLinkDto _linkToReplace;
+        private readonly ObservableCollection<SocialLink> _socialLinks;
+        private SocialLink _linkToRemove;
+        private SocialLink _linkToReplace;
 
         public GuiEditProfile()
         {
             InitializeComponent();
             SampleDataService dataService = new SampleDataService();
-            PlayerProfileDto profile = dataService.GetOwnProfile();
-            _socialLinks = new ObservableCollection<SocialLinkDto>(profile.SocialLinks);
+            PlayerProfile profile = dataService.GetOwnProfile();
+            _socialLinks = new ObservableCollection<SocialLink>(profile.SocialLinks);
             lstSocialLinks.ItemsSource = _socialLinks;
             cmbPlatform.ItemsSource = dataService.GetPlatforms();
             cmbPlatform.SelectedIndex = 0;
@@ -82,7 +82,7 @@ namespace GinRummy.Client.Views
 
         private void OnUnlinkClick(object sender, RoutedEventArgs e)
         {
-            _linkToRemove = ((FrameworkElement)sender).DataContext as SocialLinkDto;
+            _linkToRemove = ((FrameworkElement)sender).DataContext as SocialLink;
             GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.SocialLinkRemove);
             confirmDialog.Closed += OnUnlinkConfirmClosed;
             ShowModal(confirmDialog);
@@ -130,7 +130,7 @@ namespace GinRummy.Client.Views
         private void SaveSocialLink()
         {
             string platformName = cmbPlatform.SelectedItem as string;
-            SocialLinkDto existing = FindSocialLink(platformName);
+            SocialLink existing = FindSocialLink(platformName);
 
             // A profile keeps one link per platform, so a second link replaces the first after confirmation (CU-31 FA-03).
             if (existing == null)
@@ -159,7 +159,7 @@ namespace GinRummy.Client.Views
 
         private void AddSocialLink(string platformName)
         {
-            SocialLinkDto link = new SocialLinkDto();
+            SocialLink link = new SocialLink();
             link.PlatformName = platformName;
             link.Url = txtSocialUrl.Text.Trim();
             _socialLinks.Add(link);
@@ -168,10 +168,10 @@ namespace GinRummy.Client.Views
             btnAddSocialLink.Visibility = Visibility.Visible;
         }
 
-        private SocialLinkDto FindSocialLink(string platformName)
+        private SocialLink FindSocialLink(string platformName)
         {
-            SocialLinkDto found = null;
-            foreach (SocialLinkDto link in _socialLinks)
+            SocialLink found = null;
+            foreach (SocialLink link in _socialLinks)
             {
                 if (string.Equals(link.PlatformName, platformName, StringComparison.Ordinal))
                 {

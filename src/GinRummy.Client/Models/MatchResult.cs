@@ -1,6 +1,6 @@
 ﻿namespace GinRummy.Client.Models
 {
-    public sealed class MatchResultDto
+    public sealed class MatchResult
     {
         public MatchEndReason EndReason { get; set; }
         public int PlayerScore { get; set; }

@@ -13,13 +13,13 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiNotifications : GuiModalBase
     {
-        private readonly ObservableCollection<FriendRequestDto> _friendRequests;
+        private readonly ObservableCollection<FriendRequest> _friendRequests;
 
         public GuiNotifications()
         {
             InitializeComponent();
             SampleDataService dataService = new SampleDataService();
-            _friendRequests = new ObservableCollection<FriendRequestDto>(dataService.GetFriendRequests());
+            _friendRequests = new ObservableCollection<FriendRequest>(dataService.GetFriendRequests());
             lstFriendRequests.ItemsSource = _friendRequests;
             RefreshEmptyState();
         }
@@ -52,7 +52,7 @@ namespace GinRummy.Client.Views
 
         private void RemoveRequest(object sender)
         {
-            FriendRequestDto request = ((FrameworkElement)sender).DataContext as FriendRequestDto;
+            FriendRequest request = ((FrameworkElement)sender).DataContext as FriendRequest;
             _friendRequests.Remove(request);
             RefreshEmptyState();
         }

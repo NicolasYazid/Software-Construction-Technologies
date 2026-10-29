@@ -15,7 +15,7 @@ namespace GinRummy.Client.ViewModels
                 throw new ArgumentNullException(nameof(dataService));
             }
 
-            GameRulesDto rules = dataService.GetGameRules();
+            GameRules rules = dataService.GetGameRules();
             CardsPerHand = rules.CardsPerHand;
             KnockThreshold = rules.KnockThreshold;
             GinBonus = rules.GinBonus;

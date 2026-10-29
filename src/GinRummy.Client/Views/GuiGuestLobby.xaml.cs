@@ -15,13 +15,13 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiGuestLobby : GuiWindowBase
     {
-        private readonly IList<ChatEntryDto> _chatEntries;
+        private readonly IList<ChatEntry> _chatEntries;
 
         public GuiGuestLobby()
         {
             InitializeComponent();
             SampleDataService dataService = new SampleDataService();
-            LobbySnapshotDto lobby = dataService.GetGuestLobby();
+            LobbySnapshot lobby = dataService.GetGuestLobby();
             _chatEntries = lobby.ChatEntries;
             DataContext = lobby;
             lstMessages.ItemsSource = _chatEntries;

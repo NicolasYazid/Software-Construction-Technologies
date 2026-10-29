@@ -18,7 +18,7 @@
 
             <!-- A guest never challenges nor is challenged (CU-24 EX-07), but the prototype
                  shows the declined notice in its chat, so that is the only one drawn here. -->
-            <DataTemplate DataType="{x:Type models:ChallengeNoticeDto}">
+            <DataTemplate DataType="{x:Type models:ChallengeNotice}">
                 <ctl:PixelBorder Style="{StaticResource StyChatNotice}">
                     <TextBlock x:Name="lblChallengeDeclined" Style="{StaticResource StyChatNoticeText}"
                                Text="{Binding [LobbyChat_ChallengeDeclined], Source={StaticResource PrvLocalization}}" />

@@ -19,7 +19,7 @@
             <!-- The notices of a challenge carry the buttons that answer them, and their
                  handlers belong to this window, so their template lives here and not with the
                  shared ones. -->
-            <DataTemplate DataType="{x:Type models:ChallengeNoticeDto}">
+            <DataTemplate DataType="{x:Type models:ChallengeNotice}">
                 <ctl:PixelBorder Style="{StaticResource StyChatNotice}">
                     <DockPanel LastChildFill="True">
                         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">

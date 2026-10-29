@@ -18,20 +18,20 @@ namespace GinRummy.Client.Views
         private const int PasswordMaskLength = 10;
         private const char PasswordMaskFiller = 'x';
 
-        private readonly ObservableCollection<LinkedAccountDto> _linkedAccounts;
+        private readonly ObservableCollection<LinkedAccount> _linkedAccounts;
         private string _pendingEmail;
 
         public GuiProfilePanel()
         {
             InitializeComponent();
             SampleDataService dataService = new SampleDataService();
-            AccountSettingsDto settings = dataService.GetAccountSettings();
+            AccountSettings settings = dataService.GetAccountSettings();
             lblEmailAddress.Text = settings.Email;
             pwdPassword.Password = new string(PasswordMaskFiller, PasswordMaskLength);
             tglTwoStep.IsChecked = settings.IsTwoStepEnabled;
             sldMasterVolume.Value = settings.MasterVolume;
             tglChatFilter.IsChecked = settings.IsChatFilterEnabled;
-            _linkedAccounts = new ObservableCollection<LinkedAccountDto>(settings.LinkedAccounts);
+            _linkedAccounts = new ObservableCollection<LinkedAccount>(settings.LinkedAccounts);
             lstLinkedAccounts.ItemsSource = _linkedAccounts;
         }
 
@@ -145,11 +145,11 @@ namespace GinRummy.Client.Views
 
         private void ReplaceLinkedAccount(object sender, bool isLinked)
         {
-            LinkedAccountDto account = ((FrameworkElement)sender).DataContext as LinkedAccountDto;
+            LinkedAccount account = ((FrameworkElement)sender).DataContext as LinkedAccount;
             int index = _linkedAccounts.IndexOf(account);
             if (index >= 0)
             {
-                LinkedAccountDto updated = new LinkedAccountDto();
+                LinkedAccount updated = new LinkedAccount();
                 updated.PlatformName = account.PlatformName;
                 updated.IsLinked = isLinked;
                 _linkedAccounts[index] = updated;

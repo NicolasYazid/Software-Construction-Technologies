@@ -4,8 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
 
-using GinRummy.Client.Models;
 using GinRummy.Client.Services;
+using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
 {
@@ -19,7 +19,7 @@ namespace GinRummy.Client.Views
         private const int TimerIntervalSeconds = 1;
 
         private readonly DispatcherTimer _countdownTimer;
-        private IList<SanctionDto> _sanctions;
+        private IList<SanctionViewModel> _sanctions;
         private TimeSpan _elapsedTime;
 
         public GuiSanctions()
@@ -47,7 +47,7 @@ namespace GinRummy.Client.Views
         {
             TimeSpan step = TimeSpan.FromSeconds(TimerIntervalSeconds);
             _elapsedTime = _elapsedTime.Add(step);
-            foreach (SanctionDto sanction in _sanctions)
+            foreach (SanctionViewModel sanction in _sanctions)
             {
                 sanction.RemainingTime = Shorten(sanction.RemainingTime, step);
             }
@@ -79,7 +79,7 @@ namespace GinRummy.Client.Views
             // The time already counted is taken off so that the countdown stays where it was.
             SampleDataService dataService = new SampleDataService();
             _sanctions = dataService.GetSanctions();
-            foreach (SanctionDto sanction in _sanctions)
+            foreach (SanctionViewModel sanction in _sanctions)
             {
                 sanction.RemainingTime = Shorten(sanction.RemainingTime, _elapsedTime);
             }

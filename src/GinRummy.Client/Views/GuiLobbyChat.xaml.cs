@@ -24,18 +24,18 @@ namespace GinRummy.Client.Views
         private const int TimerIntervalSeconds = 1;
         private const string TimeRemainingKey = "Sanctions_LblTimeRemaining";
 
-        private readonly ObservableCollection<ChatEntryDto> _chatEntries;
+        private readonly ObservableCollection<ChatEntry> _chatEntries;
         private readonly DispatcherTimer _countdownTimer;
-        private readonly LobbySnapshotDto _lobby;
+        private readonly LobbySnapshot _lobby;
         private TimeSpan _remainingBanTime;
-        private LobbyPlayerDto _friendToRemove;
+        private LobbyPlayerViewModel _friendToRemove;
 
         public GuiLobbyChat()
         {
             InitializeComponent();
             SampleDataService dataService = new SampleDataService();
             _lobby = dataService.GetLobby();
-            _chatEntries = new ObservableCollection<ChatEntryDto>(_lobby.ChatEntries);
+            _chatEntries = new ObservableCollection<ChatEntry>(_lobby.ChatEntries);
             _countdownTimer = new DispatcherTimer();
             _countdownTimer.Interval = TimeSpan.FromSeconds(TimerIntervalSeconds);
             _countdownTimer.Tick += OnCountdownTick;
@@ -112,10 +112,10 @@ namespace GinRummy.Client.Views
 
         private void OnChallengeClick(object sender, RoutedEventArgs e)
         {
-            LobbyPlayerDto player = GetMenuPlayer(sender);
+            LobbyPlayerViewModel player = GetMenuPlayer(sender);
             if (player != null)
             {
-                ChallengeNoticeDto notice = new ChallengeNoticeDto();
+                ChallengeNotice notice = new ChallengeNotice();
                 notice.Kind = ChallengeNoticeKind.Sent;
                 notice.PlayerName = player.Username;
                 notice.SentAt = DateTime.Now;
@@ -125,11 +125,11 @@ namespace GinRummy.Client.Views
 
         private void OnPlayerProfileClick(object sender, RoutedEventArgs e)
         {
-            LobbyPlayerDto player = GetMenuPlayer(sender);
+            LobbyPlayerViewModel player = GetMenuPlayer(sender);
             if (player != null)
             {
                 SampleDataService dataService = new SampleDataService();
-                PlayerProfileDto profile = dataService.GetPlayerProfile(player);
+                PlayerProfile profile = dataService.GetPlayerProfile(player);
                 ShowProfile(profile);
 
                 // Changes made in the profile are copied back to the row it was opened from so the panel and the profile never disagree.
@@ -144,7 +144,7 @@ namespace GinRummy.Client.Views
         private void OnFriendRequestClick(object sender, RoutedEventArgs e)
         {
             // The option turns into the pending request mark so a second request cannot be sent while the first one waits (CU-12 step 8).
-            LobbyPlayerDto player = GetMenuPlayer(sender);
+            LobbyPlayerViewModel player = GetMenuPlayer(sender);
             if (player != null)
             {
                 player.HasPendingRequest = true;
@@ -172,7 +172,7 @@ namespace GinRummy.Client.Views
         private void OnMessageMenuOpening(object sender, ContextMenuEventArgs e)
         {
             // Only the messages of other players can be reported, so the notices and the own messages open no menu.
-            ChatMessageDto message = ((FrameworkElement)sender).DataContext as ChatMessageDto;
+            ChatMessage message = ((FrameworkElement)sender).DataContext as ChatMessage;
             e.Handled = (message == null) || (message.AuthorName == _lobby.PlayerName);
         }
 
@@ -243,7 +243,7 @@ namespace GinRummy.Client.Views
             // Until the server relays messages to the lobby, the screen shows its own message so the chat flow can be walked through.
             if (content.Length > 0)
             {
-                ChatMessageDto message = new ChatMessageDto();
+                ChatMessage message = new ChatMessage();
                 message.AuthorName = _lobby.PlayerName;
                 message.Content = content;
                 message.SentAt = DateTime.Now;
@@ -252,7 +252,7 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void AddChatEntry(ChatEntryDto entry)
+        private void AddChatEntry(ChatEntry entry)
         {
             _chatEntries.Add(entry);
             ScrollToLatestEntry();
@@ -260,7 +260,7 @@ namespace GinRummy.Client.Views
 
         private void RemoveChatEntry(object sender)
         {
-            ChatEntryDto entry = ((FrameworkElement)sender).DataContext as ChatEntryDto;
+            ChatEntry entry = ((FrameworkElement)sender).DataContext as ChatEntry;
             _chatEntries.Remove(entry);
         }
 
@@ -271,7 +271,7 @@ namespace GinRummy.Client.Views
             ShowProfile(dataService.GetOwnProfile());
         }
 
-        private void ShowProfile(PlayerProfileDto profile)
+        private void ShowProfile(PlayerProfile profile)
         {
             GuiPlayerProfile playerProfile = new GuiPlayerProfile(profile);
             ShowModal(playerProfile);
@@ -283,11 +283,11 @@ namespace GinRummy.Client.Views
             // Every other row that lists the player offers a friend request again instead of the removal.
             RemoveByName(_lobby.FriendsOnline, username);
             RemoveByName(_lobby.FriendsUnavailable, username);
-            IEnumerable<LobbyPlayerDto> otherRows = _lobby.LookingToPlay
+            IEnumerable<LobbyPlayerViewModel> otherRows = _lobby.LookingToPlay
                 .Concat(_lobby.Online)
                 .Concat(_lobby.Unavailable)
                 .Where(candidate => candidate.Username == username);
-            foreach (LobbyPlayerDto player in otherRows)
+            foreach (LobbyPlayerViewModel player in otherRows)
             {
                 player.IsFriend = false;
             }
@@ -303,21 +303,21 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private static LobbyPlayerDto GetMenuPlayer(object sender)
+        private static LobbyPlayerViewModel GetMenuPlayer(object sender)
         {
-            return ((FrameworkElement)sender).DataContext as LobbyPlayerDto;
+            return ((FrameworkElement)sender).DataContext as LobbyPlayerViewModel;
         }
 
-        private static void RemoveByName(IList<LobbyPlayerDto> players, string username)
+        private static void RemoveByName(IList<LobbyPlayerViewModel> players, string username)
         {
-            LobbyPlayerDto player = players.FirstOrDefault(candidate => candidate.Username == username);
+            LobbyPlayerViewModel player = players.FirstOrDefault(candidate => candidate.Username == username);
             if (player != null)
             {
                 players.Remove(player);
             }
         }
 
-        private static bool HasNoFriends(LobbySnapshotDto lobby)
+        private static bool HasNoFriends(LobbySnapshot lobby)
         {
             return (lobby.FriendsOnline.Count == 0)
                 && (lobby.FriendsInMatch.Count == 0)

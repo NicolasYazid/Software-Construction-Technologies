@@ -39,26 +39,26 @@ namespace GinRummy.Client.Views
         private const string EarnedFormat = "+#,0;-#,0;0";
         private const int SingleCardCount = 1;
 
-        private readonly GameTableSnapshotDto _table;
-        private readonly ObservableCollection<CardDto> _hand;
-        private readonly ObservableCollection<CardDto> _discardPile;
-        private readonly ObservableCollection<ChatMessageDto> _chatEntries;
-        private readonly ObservableCollection<MatchLogEntryDto> _matchLog;
-        private HandResultDto _handResult;
-        private MatchResultDto _matchResult;
+        private readonly GameTableSnapshot _table;
+        private readonly ObservableCollection<Card> _hand;
+        private readonly ObservableCollection<Card> _discardPile;
+        private readonly ObservableCollection<ChatMessage> _chatEntries;
+        private readonly ObservableCollection<MatchLogEntry> _matchLog;
+        private HandResult _handResult;
+        private MatchResult _matchResult;
         private Point _dragStart;
-        private CardDto _pressedCard;
+        private Card _pressedCard;
 
         public GuiGameTable()
         {
             InitializeComponent();
             SampleDataService dataService = new SampleDataService();
             _table = dataService.GetGameTable();
-            _hand = new ObservableCollection<CardDto>(_table.Hand);
-            _discardPile = new ObservableCollection<CardDto>();
+            _hand = new ObservableCollection<Card>(_table.Hand);
+            _discardPile = new ObservableCollection<Card>();
             _discardPile.Add(_table.DiscardTop);
-            _chatEntries = new ObservableCollection<ChatMessageDto>(_table.ChatEntries);
-            _matchLog = new ObservableCollection<MatchLogEntryDto>(_table.MatchLog);
+            _chatEntries = new ObservableCollection<ChatMessage>(_table.ChatEntries);
+            _matchLog = new ObservableCollection<MatchLogEntry>(_table.MatchLog);
             DataContext = _table;
             lstHand.ItemsSource = _hand;
             lstDiscard.ItemsSource = _discardPile;
@@ -81,7 +81,7 @@ namespace GinRummy.Client.Views
             lblPaused.Visibility = Visibility.Collapsed;
         }
 
-        public void ShowHandResult(HandResultDto handResult)
+        public void ShowHandResult(HandResult handResult)
         {
             _handResult = handResult;
             lstKnockerMelds.ItemsSource = handResult.KnockerMelds;
@@ -90,7 +90,7 @@ namespace GinRummy.Client.Views
             RefreshFormattedText();
         }
 
-        public void ShowMatchResult(MatchResultDto matchResult)
+        public void ShowMatchResult(MatchResult matchResult)
         {
             _matchResult = matchResult;
             MatchEndReason endReason = matchResult.EndReason;
@@ -135,7 +135,7 @@ namespace GinRummy.Client.Views
         private void OnTakeClick(object sender, RoutedEventArgs e)
         {
             // The move is not validated here because the server checks it and passes the turn (house rules 2 and 3).
-            CardDto takenCard = _discardPile[0];
+            Card takenCard = _discardPile[0];
             _discardPile.Clear();
             _hand.Add(takenCard);
             EndDecision();
@@ -159,7 +159,7 @@ namespace GinRummy.Client.Views
             bool isCardPressed = (e.LeftButton == MouseButtonState.Pressed) && (_pressedCard != null);
             if (isCardPressed && HasLeftClickArea(e.GetPosition(lstHand)))
             {
-                CardDto draggedCard = _pressedCard;
+                Card draggedCard = _pressedCard;
                 _pressedCard = null;
                 DragDrop.DoDragDrop(lstHand, draggedCard, DragDropEffects.Move);
             }
@@ -167,8 +167,8 @@ namespace GinRummy.Client.Views
 
         private void OnHandDrop(object sender, DragEventArgs e)
         {
-            CardDto draggedCard = e.Data.GetData(typeof(CardDto)) as CardDto;
-            CardDto targetCard = GetCard(e.OriginalSource);
+            Card draggedCard = e.Data.GetData(typeof(Card)) as Card;
+            Card targetCard = GetCard(e.OriginalSource);
             bool isDroppedOnCard = (draggedCard != null) && (targetCard != null);
             if (isDroppedOnCard && (draggedCard != targetCard))
             {
@@ -269,7 +269,7 @@ namespace GinRummy.Client.Views
             // The server relays the rest, and until it answers the table shows the message of the player.
             if (content.Length > 0)
             {
-                ChatMessageDto message = new ChatMessageDto();
+                ChatMessage message = new ChatMessage();
                 message.AuthorName = _table.PlayerName;
                 message.Content = content;
                 message.SentAt = DateTime.Now;
@@ -281,7 +281,7 @@ namespace GinRummy.Client.Views
 
         private void AddLogEntry(MatchLogKind kind)
         {
-            MatchLogEntryDto entry = new MatchLogEntryDto();
+            MatchLogEntry entry = new MatchLogEntry();
             entry.PlayerName = _table.PlayerName;
             entry.OccurredAt = DateTime.Now;
             entry.Kind = kind;
@@ -313,13 +313,13 @@ namespace GinRummy.Client.Views
             return hasLeftClickArea;
         }
 
-        private static CardDto GetCard(object source)
+        private static Card GetCard(object source)
         {
             FrameworkElement element = source as FrameworkElement;
-            CardDto card = null;
+            Card card = null;
             if (element != null)
             {
-                card = element.DataContext as CardDto;
+                card = element.DataContext as Card;
             }
 
             return card;

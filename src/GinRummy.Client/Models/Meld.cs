@@ -2,9 +2,9 @@
 
 namespace GinRummy.Client.Models
 {
-    public sealed class MeldDto
+    public sealed class Meld
     {
         public MeldKind Kind { get; set; }
-        public IList<CardDto> Cards { get; set; }
+        public IList<Card> Cards { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace GinRummy.Client.Converters
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             string result = string.Empty;
-            CardDto card = values.Length > 0 ? values[0] as CardDto : null;
+            Card card = values.Length > 0 ? values[0] as Card : null;
             if (card != null)
             {
                 result = ToName(card, LocalizationProvider.Instance);
@@ -35,7 +35,7 @@ namespace GinRummy.Client.Converters
 
         // It is internal and static because the match log names its cards with this same text.
         // The order of the rank and the suit comes from the format, since it changes between languages.
-        internal static string ToName(CardDto card, LocalizationProvider localization)
+        internal static string ToName(Card card, LocalizationProvider localization)
         {
             return localization.Format(
                 NameFormatKey,

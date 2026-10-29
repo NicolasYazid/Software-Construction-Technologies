@@ -17,9 +17,9 @@ namespace GinRummy.Client.Views
         private const string CountFormat = "N0";
         private const string RateFormat = "P0";
 
-        private readonly PlayerProfileDto _profile;
+        private readonly PlayerProfile _profile;
 
-        public GuiPlayerProfile(PlayerProfileDto profile)
+        public GuiPlayerProfile(PlayerProfile profile)
         {
             InitializeComponent();
             _profile = profile;

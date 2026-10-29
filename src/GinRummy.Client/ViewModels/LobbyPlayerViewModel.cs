@@ -1,14 +1,12 @@
-﻿using System.ComponentModel;
+﻿using GinRummy.Client.Mvvm;
 
-namespace GinRummy.Client.Models
+namespace GinRummy.Client.ViewModels
 {
     // It notifies the changes of its relation because the shared context menu does not rebuild itself when it opens again on the same row.
-    public sealed class LobbyPlayerDto : INotifyPropertyChanged
+    public sealed class LobbyPlayerViewModel : ViewModelBase
     {
         private bool _isFriend;
         private bool _hasPendingRequest;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public string Username { get; set; }
         public string RankName { get; set; }
@@ -19,7 +17,7 @@ namespace GinRummy.Client.Models
             set
             {
                 _isFriend = value;
-                NotifyChanged(nameof(IsFriend));
+                RaisePropertyChanged();
             }
         }
 
@@ -30,13 +28,8 @@ namespace GinRummy.Client.Models
             set
             {
                 _hasPendingRequest = value;
-                NotifyChanged(nameof(HasPendingRequest));
+                RaisePropertyChanged();
             }
-        }
-
-        private void NotifyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
