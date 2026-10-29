@@ -14,8 +14,8 @@ namespace GinRummy.Client.Views
         private const string TitleKeyChange = "NewPassword_LblTitleChange";
         private const string PasswordMismatchKey = "Error_ValPasswordMismatch";
 
-        private static readonly Thickness NewPasswordLabelAfterText = new Thickness(0, 28, 0, 8);
-        private static readonly Thickness NewPasswordLabelAfterField = new Thickness(0, 22, 0, 8);
+        private static readonly Thickness _newPasswordLabelAfterText = new Thickness(0, 28, 0, 8);
+        private static readonly Thickness _newPasswordLabelAfterField = new Thickness(0, 22, 0, 8);
 
         private readonly bool _isChangeFromProfile;
 
@@ -55,12 +55,12 @@ namespace GinRummy.Client.Views
         private void ApplyFlowLayout()
         {
             Visibility currentPasswordVisibility = Visibility.Collapsed;
-            Thickness newPasswordLabelMargin = NewPasswordLabelAfterText;
+            Thickness newPasswordLabelMargin = _newPasswordLabelAfterText;
 
             if (_isChangeFromProfile)
             {
                 currentPasswordVisibility = Visibility.Visible;
-                newPasswordLabelMargin = NewPasswordLabelAfterField;
+                newPasswordLabelMargin = _newPasswordLabelAfterField;
             }
 
             lblCurrentPassword.Visibility = currentPasswordVisibility;
