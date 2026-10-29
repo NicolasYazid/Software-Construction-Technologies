@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 
-using GinRummy.Persistence.Repositories;
 using GinRummy.Domain.Repositories;
+using GinRummy.Persistence.Repositories;
 
 namespace GinRummy.Persistence.Persistence
 {
