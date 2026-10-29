@@ -15,10 +15,6 @@ namespace GinRummy.Client.Services
         private const string PlayerName = "Player A";
         private const string GuestName = "Guest_4091";
         private const string OpponentName = "Player Z";
-        private const string OwnRankName = "S";
-        private const int OwnWins = 72;
-        private const int OwnLosses = 52;
-        private const int OwnGlobalPosition = 24;
         private const int CardsPerHand = 10;
         private const int KnockThreshold = 10;
         private const int GinBonus = 25;
@@ -193,51 +189,6 @@ namespace GinRummy.Client.Services
             return new List<string> { "Discord", "Instagram", "Twitch", "X", "YouTube" };
         }
 
-        // Its values reproduce the prototype screen P18.
-        // The player stands beyond the rows the table holds, as in CU-19 FA-03.
-        public LeaderboardDto GetGlobalLeaderboard()
-        {
-            LeaderboardDto leaderboard = new LeaderboardDto();
-            leaderboard.Entries = new List<RankingEntryDto>
-            {
-                CreateEntry(CreatePlayer("Player Z", "S", false), 182, 41),
-                CreateEntry(CreatePlayer("Player X", "A", false), 176, 52),
-                CreateEntry(CreatePlayer("Player C", "A", false), 164, 58),
-                CreateEntry(CreatePlayer("Player Y", "A", false), 151, 63),
-                CreateEntry(CreatePlayer("Player G", "A", false), 148, 70),
-                CreateEntry(CreatePlayer("Player H", "B", false), 139, 74),
-                CreateEntry(CreatePlayer("Player Q", "B", false), 131, 80),
-                CreateEntry(CreatePlayer("Player R", "C", false), 126, 85),
-                CreateEntry(CreatePlayer("Player M", "C", false), 118, 90),
-                CreateEntry(CreatePlayer("Player N", "C", false), 112, 96)
-            };
-            NumberEntries(leaderboard.Entries);
-            leaderboard.OwnEntry = CreateOwnEntry();
-            leaderboard.OwnEntry.Position = OwnGlobalPosition;
-
-            return leaderboard;
-        }
-
-        // Its values reproduce the prototype screen P18 for the leaderboard of friends (CU-19 FA-01).
-        public LeaderboardDto GetFriendsLeaderboard()
-        {
-            LeaderboardDto leaderboard = new LeaderboardDto();
-            leaderboard.OwnEntry = CreateOwnEntry();
-            leaderboard.Entries = new List<RankingEntryDto>
-            {
-                CreateEntry(CreatePlayer("Friend A", "S", true), 158, 49),
-                CreateEntry(CreatePlayer("Friend B", "A", true), 133, 61),
-                CreateEntry(CreatePlayer("Friend C", "B", true), 97, 58),
-                leaderboard.OwnEntry,
-                CreateEntry(CreatePlayer("Friend D", "C", true), 64, 71),
-                CreateEntry(CreatePlayer("Friend Q", "D", true), 51, 44),
-                CreateEntry(CreatePlayer("Friend R", "F", true), 38, 40)
-            };
-            NumberEntries(leaderboard.Entries);
-
-            return leaderboard;
-        }
-
         // Its values reproduce the prototype screen P19.
         public GameRulesDto GetGameRules()
         {
@@ -405,34 +356,6 @@ namespace GinRummy.Client.Services
             account.IsLinked = isLinked;
 
             return account;
-        }
-
-        private static RankingEntryDto CreateEntry(LobbyPlayerDto player, int wins, int losses)
-        {
-            RankingEntryDto entry = new RankingEntryDto();
-            entry.Username = player.Username;
-            entry.RankName = player.RankName;
-            entry.Wins = wins;
-            entry.Losses = losses;
-            entry.WinRate = (double)wins / (wins + losses);
-
-            return entry;
-        }
-
-        private static RankingEntryDto CreateOwnEntry()
-        {
-            RankingEntryDto entry = CreateEntry(CreatePlayer(PlayerName, OwnRankName, false), OwnWins, OwnLosses);
-            entry.IsOwnEntry = true;
-
-            return entry;
-        }
-
-        private static void NumberEntries(IList<RankingEntryDto> entries)
-        {
-            for (int index = 0; index < entries.Count; index++)
-            {
-                entries[index].Position = index + 1;
-            }
         }
 
         private static CardDto CreateCard(CardRank rank, CardSuit suit)
