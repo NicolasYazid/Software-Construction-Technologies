@@ -11,20 +11,34 @@ Equipo 6 · Tecnologías para la Construcción de Software · Universidad Veracr
 git clone https://github.com/NicolasYazid/Software-Construction-Technologies.git
 ```
 
-Abre `GinRummy.sln` con Visual Studio 2019 o 2022. Necesitas la carga de trabajo **Desarrollo de
-escritorio de .NET** con el **paquete de destino de .NET Framework 4.8**. Los paquetes NuGet
-(Entity Framework 6.5.2 y Konscious.Security.Cryptography.Argon2) se restauran al compilar.
+El código vive en dos soluciones, una por aplicación:
+
+- `GinRummy.Server.sln`: el servidor, con sus proyectos en `src/` y sus pruebas en `tests/`.
+- `GinRummy.Client.sln`: el cliente WPF, con su proyecto en `src/` y sus pruebas en `tests/`.
+
+Ábrelas con Visual Studio. Necesitas la carga de trabajo **Desarrollo de escritorio de .NET** con
+el **paquete de destino de .NET Framework 4.8**. Los paquetes NuGet se restauran al compilar. El
+servidor debe estar en ejecución antes de abrir el cliente.
 
 ### Conexión con la base de datos
 
-Las credenciales de la base de datos nunca se versionan. `App.config` lee la cadena de conexión de
-`src/GinRummy.Client/ConnectionStrings.config`, que git ignora, así que cada integrante la crea en su
-máquina:
+Las credenciales de la base de datos nunca se versionan. El `App.config` de
+`src/GinRummy.ServerHost` lee la cadena de conexión de `ConnectionStrings.config`, que git ignora,
+así que cada integrante la crea en su máquina:
 
 1. Copia `ConnectionStrings.template.config` como `ConnectionStrings.config`, en la misma carpeta.
 2. Escribe en `Data Source` el nombre de tu instancia (por ejemplo `localhost\SQLEXPRESS`) y en
    `User ID` y `Password` la cuenta de mínimo privilegio de la aplicación.
-3. Compila. El archivo se copia junto al ejecutable; si falta, la aplicación no puede conectarse.
+3. Compila. El archivo se copia junto al ejecutable; si falta, el servidor no puede conectarse.
+
+El cliente no tiene cadena de conexión, porque nunca accede a la base de datos.
+
+### Referencia de servicio del cliente
+
+El cliente consume el servidor por medio de la referencia de servicio de
+`src/GinRummy.Client/Connected Services`. Para regenerarla después de cambiar un contrato, arranca
+`GinRummy.ServerHost` y usa **Actualizar referencia de servicio** en Visual Studio. Los metadatos se
+publican por TCP en `net.tcp://localhost:8001/RankingsService/mex`.
 
 ## Alcance
 
@@ -160,19 +174,27 @@ caliente.
 
 ## Estructura
 
+La estructura sigue la propuesta formal de la estructura del sistema del 23 de octubre de 2026.
+
 ```
-GinRummy.sln
-src/GinRummy.Client/
-  App.xaml, App.xaml.cs             Publica el proveedor de localizacion
-  Properties/AssemblyInfo.cs        Declara es-MX como cultura neutra
-  Fonts/                            Oswald y Source Sans 3 embebidas
-  Resources/Strings.resx            351 cadenas en es-MX (cultura base)
-  Resources/Strings.en-US.resx      351 cadenas en en-US (ensamblado satelite)
-  Localization/                     Proveedor de localizacion y opciones de cultura
-  Converters/                       Texto guia y mayusculas por cultura
-  Controls/CtlBrandMark             Logotipo de la marca
-  Controls/CtlLiquidBackground      Fondo liquido animado del menu
-  Styles/Theme.xaml                 Tokens de color, tipografia y estilos de control
-  Styles/Icons.xaml                 Vectores de los iconos
-  Views/                            GuiWindowBase y las ocho pantallas
+GinRummy.Server.sln
+├── src/
+│   ├── GinRummy.Domain          Entities/, Services/, Repositories/, Security/, Infrastructure/
+│   ├── GinRummy.Application     UseCases/, Ports/
+│   ├── GinRummy.Contracts       Services/, Callbacks/, DataContracts/, Faults/
+│   ├── GinRummy.Services        Services/, Mappers/, Hosting/
+│   ├── GinRummy.Persistence     Persistence/, Configurations/, Repositories/
+│   ├── GinRummy.Security
+│   ├── GinRummy.Infrastructure
+│   └── GinRummy.ServerHost      Program.cs, App.config
+└── tests/
+    └── GinRummy.Domain.Tests
+
+GinRummy.Client.sln
+├── src/
+│   └── GinRummy.Client          Connected Services/, Views/, ViewModels/, Mvvm/, Converters/,
+│                                Controls/, Services/, Localization/, Logging/, Styles/,
+│                                Resources/, Fonts/, Properties/
+└── tests/
+    └── GinRummy.Client.Tests
 ```
