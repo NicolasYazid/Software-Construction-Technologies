@@ -5,6 +5,10 @@ using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
 {
+    /// <summary>
+    /// Leaderboard screen (P18). Implements CU-19: the podium of the first three places and the table
+    /// of the global leaderboard, filtered by the name the player searches.
+    /// </summary>
     public partial class GuiRankings : GuiModalBase
     {
         public GuiRankings()
