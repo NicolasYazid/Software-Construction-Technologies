@@ -213,6 +213,8 @@
     <Compile Include="Mvvm\RelayCommand.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
     <Compile Include="ViewModels\RankingsViewModel.cs" />
+    <Compile Include="ViewModels\CountdownViewModel.cs" />
+    <Compile Include="Converters\ResourceTextConverter.cs" />
     <Compile Include="Views\GuiMainMenu.xaml.cs">
       <DependentUpon>GuiMainMenu.xaml</DependentUpon>
     </Compile>
@@ -298,7 +300,6 @@
     <Compile Include="Views\DurationCommon.cs" />
     <Compile Include="ViewModels\ErrorDialogKind.cs" />
     <Compile Include="ViewModels\ConfirmDialogKind.cs" />
-    <Compile Include="ViewModels\CountdownViewModel.cs" />
     <Compile Include="Models\ChatEntryDto.cs" />
     <Compile Include="Models\ChatMessageDto.cs" />
     <Compile Include="Models\ChallengeNoticeKind.cs" />
