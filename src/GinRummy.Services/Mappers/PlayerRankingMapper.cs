@@ -15,9 +15,9 @@ namespace GinRummy.Services.Mappers
         /// </summary>
         /// <param name="leaderboardPositions">Positions of the leaderboard, already ordered.</param>
         /// <returns>The ranking rows; empty when there are no positions.</returns>
-        public static List<PlayerRankingDto> MapToPlayerRankings(IReadOnlyList<LeaderboardPosition> leaderboardPositions)
+        public static List<PlayerRanking> MapToPlayerRankings(IReadOnlyList<LeaderboardPosition> leaderboardPositions)
         {
-            List<PlayerRankingDto> rankings = new List<PlayerRankingDto>();
+            List<PlayerRanking> rankings = new List<PlayerRanking>();
             foreach (LeaderboardPosition position in leaderboardPositions)
             {
                 rankings.Add(MapToPlayerRanking(position));
@@ -26,15 +26,17 @@ namespace GinRummy.Services.Mappers
             return rankings;
         }
 
-        private static PlayerRankingDto MapToPlayerRanking(LeaderboardPosition position)
+        private static PlayerRanking MapToPlayerRanking(LeaderboardPosition position)
         {
-            PlayerRankingDto ranking = new PlayerRankingDto();
-            ranking.Position = position.Place;
-            ranking.Username = position.Stats.Player.Username;
-            ranking.RankName = ResolveRankName(position.Rank);
-            ranking.Wins = position.Stats.Wins;
-            ranking.Losses = position.Stats.Losses;
-            ranking.WinRate = position.Stats.WinRate;
+            PlayerRanking ranking = new PlayerRanking
+            {
+                Position = position.Place,
+                Username = position.Stats.Player.Username,
+                RankName = ResolveRankName(position.Rank),
+                Wins = position.Stats.Wins,
+                Losses = position.Stats.Losses,
+                WinRate = position.Stats.WinRate
+            };
 
             return ranking;
         }

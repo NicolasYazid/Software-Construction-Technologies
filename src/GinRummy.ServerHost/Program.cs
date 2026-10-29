@@ -38,7 +38,7 @@ namespace GinRummy.ServerHost
                 IServiceBehavior faultShieldBehavior = new FaultShieldBehavior(faultShield);
                 ServiceHostGroup hostGroup = new ServiceHostGroup(loggerFactory.CreateLogger<ServiceHostGroup>());
 
-                hostGroup.Add(CreateIsolatedHost(typeof(RankingsService), ComposeRankingsService, faultShieldBehavior));
+                hostGroup.Add(CreateIsolatedHost(typeof(LeaderboardService), ComposeLeaderboardService, faultShieldBehavior));
 
                 hostGroup.OpenAll();
 
@@ -68,14 +68,14 @@ namespace GinRummy.ServerHost
             return Path.Combine(logFolder, LogFileName);
         }
 
-        private static RankingsService ComposeRankingsService()
+        private static LeaderboardService ComposeLeaderboardService()
         {
             IRankingRepository rankingRepository = new RankingRepository(ConnectionStringName);
             RankResolver rankResolver = new RankResolver();
             ViewLeaderboardUseCase useCase = new ViewLeaderboardUseCase(rankingRepository, rankResolver);
-            RankingsService rankingsService = new RankingsService(useCase);
+            LeaderboardService leaderboardService = new LeaderboardService(useCase);
 
-            return rankingsService;
+            return leaderboardService;
         }
     }
 }

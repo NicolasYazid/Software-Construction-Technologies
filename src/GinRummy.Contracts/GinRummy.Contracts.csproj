@@ -43,8 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Services\IRankingService.cs" />
-    <Compile Include="DataContracts\PlayerRankingDto.cs" />
+    <Compile Include="Services\ILeaderboardService.cs" />
+    <Compile Include="DataContracts\PlayerRanking.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

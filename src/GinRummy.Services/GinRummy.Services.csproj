@@ -54,7 +54,7 @@
     <Compile Include="Hosting\ServiceInstanceProvider.cs" />
     <Compile Include="Mappers\PlayerRankingMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\RankingsService.cs" />
+    <Compile Include="Services\LeaderboardService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
