@@ -300,6 +300,7 @@
     <Compile Include="Views\DurationCommon.cs" />
     <Compile Include="ViewModels\ErrorDialogKind.cs" />
     <Compile Include="ViewModels\ConfirmDialogKind.cs" />
+    <Compile Include="ViewModels\ErrorDialogViewModel.cs" />
     <Compile Include="Models\ChatEntryDto.cs" />
     <Compile Include="Models\ChatMessageDto.cs" />
     <Compile Include="Models\ChallengeNoticeKind.cs" />
