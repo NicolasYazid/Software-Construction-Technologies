@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
 
-using GinRummy.Application.UseCases;
+using GinRummy.Application.Ports;
 using GinRummy.Contracts.DataContracts;
 using GinRummy.Contracts.Services;
 using GinRummy.Domain.Entities;
@@ -10,20 +10,20 @@ namespace GinRummy.Services.Services
 {
     /// <summary>
     /// Implements the rankings network contract. Delegates the leaderboard logic to the
-    /// View Leaderboard use case and turns each position into the row the client shows.
+    /// leaderboard port and turns each position into the row the client shows.
     /// </summary>
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class RankingsService : IRankingService
     {
-        private readonly ViewLeaderboardUseCase _viewLeaderboardUseCase;
+        private readonly ILeaderboardPort _leaderboardPort;
 
         /// <summary>
-        /// Builds the service with the View Leaderboard use case the composition root assembled.
+        /// Builds the service with the leaderboard port the composition root assembled.
         /// </summary>
-        /// <param name="viewLeaderboardUseCase">Use case that builds the ordered leaderboard.</param>
-        public RankingsService(ViewLeaderboardUseCase viewLeaderboardUseCase)
+        /// <param name="leaderboardPort">Port that builds the ordered leaderboard.</param>
+        public RankingsService(ILeaderboardPort leaderboardPort)
         {
-            _viewLeaderboardUseCase = viewLeaderboardUseCase;
+            _leaderboardPort = leaderboardPort;
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace GinRummy.Services.Services
         /// <returns>The ranking rows; empty when there are no players.</returns>
         public List<PlayerRankingDto> GetRankings()
         {
-            IReadOnlyList<LeaderboardPosition> leaderboardPositions = _viewLeaderboardUseCase.GetLeaderboard();
+            IReadOnlyList<LeaderboardPosition> leaderboardPositions = _leaderboardPort.GetLeaderboard();
             List<PlayerRankingDto> rankings = MapToDtos(leaderboardPositions);
 
             return rankings;

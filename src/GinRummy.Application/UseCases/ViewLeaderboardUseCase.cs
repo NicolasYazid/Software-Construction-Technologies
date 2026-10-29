@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using GinRummy.Application.Ports;
 using GinRummy.Domain.Entities;
 using GinRummy.Domain.Repositories;
 using GinRummy.Domain.Services;
@@ -11,7 +12,7 @@ namespace GinRummy.Application.UseCases
     /// The View Leaderboard use case: reads the players' stats, orders them by the rules of
     /// CU-19, and pairs each one with the rank its score falls into.
     /// </summary>
-    public class ViewLeaderboardUseCase
+    public class ViewLeaderboardUseCase : ILeaderboardPort
     {
         private const int FirstPlace = 1;
 
