@@ -1,24 +1,15 @@
 ﻿using System;
-using System.Windows;
-using System.Windows.Threading;
 
 using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
 {
     /// <summary>
-    /// Two-step verification screen (P06). Serves CU-02 FA-04, CU-04 and CU-06, each with its
-    /// own instruction key, because one key cannot hold three different values.
+    /// Two-step verification screen (P06). Serves CU-02 FA-04, CU-04 and CU-06.
     /// </summary>
     public partial class GuiTwoStep : GuiModalBase
     {
-        private const int CodeLifetimeSeconds = 300;
-        private const int TimerIntervalSeconds = 1;
-        private const string DurationFormat = @"mm\:ss";
-
-        private readonly DispatcherTimer _countdownTimer;
-        private readonly TwoStepPurpose _purpose;
-        private TimeSpan _codeRemainingTime;
+        private readonly TwoStepViewModel _viewModel;
 
         public GuiTwoStep()
             : this(TwoStepPurpose.LogIn)
@@ -28,58 +19,16 @@ namespace GinRummy.Client.Views
         public GuiTwoStep(TwoStepPurpose purpose)
         {
             InitializeComponent();
-            _purpose = purpose;
-            _codeRemainingTime = TimeSpan.FromSeconds(CodeLifetimeSeconds);
-            _countdownTimer = new DispatcherTimer();
-            _countdownTimer.Interval = TimeSpan.FromSeconds(TimerIntervalSeconds);
-            _countdownTimer.Tick += OnCountdownTick;
-            _countdownTimer.Start();
+            _viewModel = new TwoStepViewModel(purpose);
+            _viewModel.CodeVerified += OnCodeVerified;
+            DataContext = _viewModel;
             Closed += OnScreenClosed;
-            RefreshFormattedText();
         }
 
-        protected override void RefreshFormattedText()
+        // A sign-in ends in the lobby (CU-02 step 11), while the other flows return to the screen that asked for the code.
+        private void OnCodeVerified(object sender, EventArgs e)
         {
-            if (lblInstructions != null)
-            {
-                lblInstructions.Text = Localization.GetText(ResolveInstructionsKey());
-                lblCodeExpiresIn.Text = Localization.Format(
-                    "TwoStep_LblCodeExpiresIn",
-                    _codeRemainingTime.ToString(DurationFormat, Localization.CurrentCulture));
-            }
-        }
-
-        private string ResolveInstructionsKey()
-        {
-            string key = "TwoStep_LblInstructions";
-            if (_purpose == TwoStepPurpose.EnableTwoStep)
-            {
-                key = "TwoStep_LblInstructionsEnable";
-            }
-            else if (_purpose == TwoStepPurpose.ChangePassword)
-            {
-                key = "TwoStep_LblInstructionsPassword";
-            }
-
-            return key;
-        }
-
-        private void OnCountdownTick(object sender, EventArgs e)
-        {
-            if (_codeRemainingTime > TimeSpan.Zero)
-            {
-                _codeRemainingTime = _codeRemainingTime.Subtract(
-                    TimeSpan.FromSeconds(TimerIntervalSeconds));
-            }
-
-            RefreshFormattedText();
-        }
-
-        private void OnVerifyClick(object sender, RoutedEventArgs e)
-        {
-            // Checking the code belongs to the server, so this screen only advances the navigation of the prototype.
-            // A sign-in ends in the lobby (CU-02 step 11), while the other flows return to the screen that asked for the code.
-            if (_purpose == TwoStepPurpose.LogIn)
+            if (_viewModel.Purpose == TwoStepPurpose.LogIn)
             {
                 EnterLobby(new GuiLobbyChat());
             }
@@ -89,16 +38,10 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnResendCodeClick(object sender, RoutedEventArgs e)
-        {
-            _codeRemainingTime = TimeSpan.FromSeconds(CodeLifetimeSeconds);
-            RefreshFormattedText();
-        }
-
         private void OnScreenClosed(object sender, EventArgs e)
         {
-            _countdownTimer.Stop();
-            _countdownTimer.Tick -= OnCountdownTick;
+            _viewModel.CodeCountdown.Stop();
+            _viewModel.CodeVerified -= OnCodeVerified;
             Closed -= OnScreenClosed;
         }
     }

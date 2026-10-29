@@ -27,7 +27,14 @@
 
             <TextBlock x:Name="lblTitle" Style="{StaticResource StyPlainTitle}"
                        Text="{Binding [TwoStep_LblTitle], Source={StaticResource PrvLocalization}}" />
-            <TextBlock x:Name="lblInstructions" Style="{StaticResource StyPlainBody}" Margin="0,14,0,0" />
+            <TextBlock x:Name="lblInstructions" Style="{StaticResource StyPlainBody}" Margin="0,14,0,0">
+                <TextBlock.Text>
+                    <MultiBinding Converter="{StaticResource CnvResourceText}">
+                        <Binding Path="InstructionsKey" />
+                        <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
 
             <TextBlock x:Name="lblCode" Style="{StaticResource StyPlainLabel}"
                        HorizontalAlignment="Center" Margin="0,32,0,0"
@@ -37,7 +44,7 @@
             <ctl:PixelBorder Style="{StaticResource StyPlainFieldShell}" Margin="0,8,0,0">
                 <Grid>
                     <TextBox x:Name="txtCode" Style="{StaticResource StyPlainInput}" MaxLength="6"
-                             TextAlignment="Center" />
+                             TextAlignment="Center" Text="{Binding Code, UpdateSourceTrigger=PropertyChanged}" />
                     <!-- The code is centred, so the caret of the empty field stands in the middle of
                          the hint; the hint steps aside while the field holds the focus. -->
                     <TextBlock TextAlignment="Center" HorizontalAlignment="Center"
@@ -60,7 +67,14 @@
             </ctl:PixelBorder>
 
             <TextBlock x:Name="lblCodeExpiresIn" Style="{StaticResource StyPlainLabel}"
-                       HorizontalAlignment="Right" Margin="0,12,0,0" />
+                       HorizontalAlignment="Right" Margin="0,12,0,0">
+                <TextBlock.Text>
+                    <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
+                        <Binding Path="[TwoStep_LblCodeExpiresIn]" Source="{StaticResource PrvLocalization}" />
+                        <Binding Path="CodeCountdown.RemainingTime" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
 
             <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyPlainError}" Margin="0,10,0,0" />
 
@@ -68,13 +82,13 @@
                     Margin="0,20,0,0"
                     Content="{Binding [TwoStep_BtnVerify], Source={StaticResource PrvLocalization},
                               Converter={StaticResource CnvUpperCase}}"
-                    Click="OnVerifyClick" />
+                    Command="{Binding VerifyCommand}" />
 
             <Button x:Name="btnResendCode" Style="{StaticResource StyPlainTextButton}"
                     HorizontalAlignment="Right" Margin="0,12,0,0"
                     Content="{Binding [Shared_BtnResendCode], Source={StaticResource PrvLocalization},
                               Converter={StaticResource CnvUpperCase}}"
-                    Click="OnResendCodeClick" />
+                    Command="{Binding ResendCodeCommand}" />
 
         </StackPanel>
     </Grid>
