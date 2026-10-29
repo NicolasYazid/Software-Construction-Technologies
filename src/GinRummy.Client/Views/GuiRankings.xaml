@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
         xmlns:views="clr-namespace:GinRummy.Client.Views"
-        xmlns:models="clr-namespace:GinRummy.Client.Models"
         xmlns:contracts="clr-namespace:GinRummy.Client.LeaderboardServiceReference"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
