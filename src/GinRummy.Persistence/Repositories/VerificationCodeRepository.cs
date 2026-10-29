@@ -21,9 +21,11 @@ namespace GinRummy.Persistence.Repositories
         /// Builds the repository so that each operation opens and closes its own context.
         /// </summary>
         /// <param name="connectionStringName">Name of the entry in App.config.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the name is null.</exception>
         public VerificationCodeRepository(string connectionStringName)
         {
-            _connectionStringName = connectionStringName;
+            _connectionStringName = connectionStringName
+                ?? throw new ArgumentNullException(nameof(connectionStringName));
         }
 
         /// <summary>
@@ -32,9 +34,10 @@ namespace GinRummy.Persistence.Repositories
         /// caller stays responsible for disposing that context.
         /// </summary>
         /// <param name="sharedContext">Context to reuse instead of opening a new one.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the context is null.</exception>
         public VerificationCodeRepository(GinRummyContext sharedContext)
         {
-            _sharedContext = sharedContext;
+            _sharedContext = sharedContext ?? throw new ArgumentNullException(nameof(sharedContext));
         }
 
         /// <summary>

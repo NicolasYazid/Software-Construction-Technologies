@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
@@ -19,9 +20,11 @@ namespace GinRummy.Persistence.Repositories
         /// Builds the repository against the given connection string entry.
         /// </summary>
         /// <param name="connectionStringName">Name of the entry in App.config.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the name is null.</exception>
         public RankingRepository(string connectionStringName)
         {
-            _connectionStringName = connectionStringName;
+            _connectionStringName = connectionStringName
+                ?? throw new ArgumentNullException(nameof(connectionStringName));
         }
 
         /// <summary>
