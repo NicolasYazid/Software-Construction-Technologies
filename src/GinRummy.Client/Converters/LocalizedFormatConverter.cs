@@ -50,6 +50,11 @@ namespace GinRummy.Client.Converters
             {
                 formatted = DurationCommon.ToClock(duration, culture);
             }
+            else if ((argument is DateTime moment) && (moment.Kind == DateTimeKind.Utc))
+            {
+                // A time travels in UTC and is shown in the local time of the player.
+                formatted = moment.ToLocalTime().ToString(argumentFormat, culture);
+            }
             else if (!string.IsNullOrEmpty(argumentFormat) && (argument is IFormattable formattable))
             {
                 formatted = formattable.ToString(argumentFormat, culture);
