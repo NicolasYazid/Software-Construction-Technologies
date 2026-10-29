@@ -48,7 +48,7 @@ namespace GinRummy.Client
         public RankingsViewModel CreateRankingsViewModel()
         {
             return new RankingsViewModel(
-                new LeaderboardServiceClient(LeaderboardEndpointName),
+                () => new LeaderboardServiceClient(LeaderboardEndpointName),
                 _loggerFactory.CreateLogger<RankingsViewModel>());
         }
 
