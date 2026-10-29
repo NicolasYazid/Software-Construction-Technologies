@@ -1,23 +1,20 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+
+using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
 {
     /// <summary>
     /// New password screen (P08). Serves CU-06 and the last step of CU-08. Both the title and
-    /// the current password field depend on the flow the screen was opened from, because the
-    /// recovery flow reaches this screen precisely when the player no longer knows the
-    /// password that is in force.
+    /// the current password field depend on the flow the screen was opened from.
     /// </summary>
     public partial class GuiNewPassword : GuiModalBase
     {
-        private const string TitleKeyRecovery = "NewPassword_LblTitle";
-        private const string TitleKeyChange = "NewPassword_LblTitleChange";
-        private const string PasswordMismatchKey = "Error_ValPasswordMismatch";
-
         private static readonly Thickness _newPasswordLabelAfterText = new Thickness(0, 28, 0, 8);
         private static readonly Thickness _newPasswordLabelAfterField = new Thickness(0, 22, 0, 8);
 
-        private readonly bool _isChangeFromProfile;
+        private readonly NewPasswordViewModel _viewModel;
 
         public GuiNewPassword()
             : this(false)
@@ -27,73 +24,34 @@ namespace GinRummy.Client.Views
         public GuiNewPassword(bool isChangeFromProfile)
         {
             InitializeComponent();
-            _isChangeFromProfile = isChangeFromProfile;
+            _viewModel = new NewPasswordViewModel(isChangeFromProfile);
+            _viewModel.PasswordUpdated += OnPasswordUpdated;
+            DataContext = _viewModel;
             ApplyFlowLayout();
-            RefreshFormattedText();
         }
 
-        protected override void RefreshFormattedText()
-        {
-            if (lblTitle != null)
-            {
-                string titleKey = ResolveTitleKey();
-                lblTitle.Text = Localization.GetText(titleKey);
-            }
-        }
-
-        private string ResolveTitleKey()
-        {
-            string titleKey = TitleKeyRecovery;
-            if (_isChangeFromProfile)
-            {
-                titleKey = TitleKeyChange;
-            }
-
-            return titleKey;
-        }
-
+        // The label of the new password sits closer to a field above it than to the instructions.
         private void ApplyFlowLayout()
         {
-            Visibility currentPasswordVisibility = Visibility.Collapsed;
             Thickness newPasswordLabelMargin = _newPasswordLabelAfterText;
-
-            if (_isChangeFromProfile)
+            if (_viewModel.IsChangeFromProfile)
             {
-                currentPasswordVisibility = Visibility.Visible;
                 newPasswordLabelMargin = _newPasswordLabelAfterField;
             }
 
-            lblCurrentPassword.Visibility = currentPasswordVisibility;
             lblNewPassword.Margin = newPasswordLabelMargin;
         }
 
-        private void OnUpdateClick(object sender, RoutedEventArgs e)
+        // A recovered password ends every session of the account, so the player signs in again with it (CU-08 step 14).
+        private void OnPasswordUpdated(object sender, EventArgs e)
         {
-            // Matching the confirmation is the only check the client resolves on its own, because it sends nothing to the server.
-            // The strength rules and the current password itself are verified on the server, as CU-06 requires.
-            bool isPasswordConfirmed = pwdNewPassword.Password == pwdConfirmPassword.Password;
-            if (isPasswordConfirmed)
-            {
-                lblErrorMessage.Visibility = Visibility.Collapsed;
-                ShowNextScreen();
-            }
-            else
-            {
-                lblErrorMessage.Text = Localization.GetText(PasswordMismatchKey);
-                lblErrorMessage.Visibility = Visibility.Visible;
-            }
-        }
-
-        private void ShowNextScreen()
-        {
-            // A recovered password ends every session of the account, so the player signs in again with it (CU-08 step 14).
-            if (!_isChangeFromProfile)
-            {
-                NavigateTo(new GuiLogIn());
-            }
-            else
+            if (_viewModel.IsChangeFromProfile)
             {
                 Close();
+            }
+            else
+            {
+                NavigateTo(new GuiLogIn());
             }
         }
     }
