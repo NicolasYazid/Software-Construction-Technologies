@@ -29,14 +29,6 @@ namespace GinRummy.Client.Views
             ShowModal(new GuiErrorDialog(ErrorDialogKind.ServiceUnavailable));
         }
 
-        private void OnTabSelectionChanged(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void OnSearchTextChanged(object sender, RoutedEventArgs e)
-        {
-        }
-
         private void OnSearchClick(object sender, RoutedEventArgs e)
         {
             txtSearch.Focus();

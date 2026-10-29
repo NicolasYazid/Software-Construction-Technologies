@@ -136,7 +136,7 @@
                 </DockPanel>
 
                 <TabControl Style="{StaticResource StyPanelTabs}" Width="360" HorizontalAlignment="Left"
-                            Margin="0,18,0,0" SelectionChanged="OnTabSelectionChanged">
+                            Margin="0,18,0,0">
                     <TabItem x:Name="tabGlobal" IsSelected="True"
                              Header="{Binding [Rankings_TabGlobal], Source={StaticResource Loc},
                                       Converter={StaticResource CnvUpperCase}}" />
@@ -209,7 +209,7 @@
                                 <ItemsControl x:Name="lstRankings" ItemsSource="{Binding Rankings}" ItemTemplate="{StaticResource TplRankingRow}" />
                             </ScrollViewer>
                             <TextBlock x:Name="lblNoMatches" Style="{StaticResource StyPanelEmpty}" Margin="20,16,28,0"
-                                       Visibility="Collapsed"
+                                       Visibility="{Binding HasNoMatches, Converter={StaticResource CnvBooleanToVisibility}}"
                                        Text="{Binding [Rankings_NoMatches], Source={StaticResource Loc}}" />
 
                             <!-- The row of the player stays at the foot of the table when its place
@@ -230,7 +230,7 @@
                         </Button>
                         <Grid>
                             <TextBox x:Name="txtSearch" Style="{StaticResource StyPanelSearchInput}"
-                                     TextChanged="OnSearchTextChanged" />
+                                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
                             <TextBlock Style="{StaticResource StyPanelSearchPlaceholder}"
                                        Text="{Binding [Rankings_TxtSearchPlaceholder], Source={StaticResource Loc}}"
                                        Visibility="{Binding Text, ElementName=txtSearch,
