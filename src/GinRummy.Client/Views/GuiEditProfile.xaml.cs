@@ -5,6 +5,7 @@ using System.Windows.Controls;
 
 using GinRummy.Client.Models;
 using GinRummy.Client.Services;
+using GinRummy.Client.ViewModels;
 using Microsoft.Win32;
 
 namespace GinRummy.Client.Views

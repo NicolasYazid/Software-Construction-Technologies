@@ -1,4 +1,4 @@
-﻿namespace GinRummy.Client.Views
+﻿namespace GinRummy.Client.ViewModels
 {
     public enum ConfirmDialogKind
     {

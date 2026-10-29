@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Windows;
 
 using GinRummy.Client.Models;
+using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
 {

@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Threading;
 
+using GinRummy.Client.ViewModels;
+
 namespace GinRummy.Client.Views
 {
     /// <summary>

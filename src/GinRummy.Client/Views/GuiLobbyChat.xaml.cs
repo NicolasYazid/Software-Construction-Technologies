@@ -10,6 +10,7 @@ using System.Windows.Threading;
 using GinRummy.Client.Controls;
 using GinRummy.Client.Models;
 using GinRummy.Client.Services;
+using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
 {

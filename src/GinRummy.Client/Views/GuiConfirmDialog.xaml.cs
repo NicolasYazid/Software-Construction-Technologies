@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 
+using GinRummy.Client.ViewModels;
+
 namespace GinRummy.Client.Views
 {
     /// <summary>
