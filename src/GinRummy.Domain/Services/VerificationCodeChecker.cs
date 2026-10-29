@@ -3,7 +3,7 @@ using System.Linq;
 
 using GinRummy.Domain.Entities;
 using GinRummy.Domain.Infrastructure;
-using GinRummy.Domain.Repositories;
+using GinRummy.Domain.Security;
 
 namespace GinRummy.Domain.Services
 {

@@ -6,7 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-using GinRummy.Domain.Repositories;
+using GinRummy.Domain.Security;
 
 namespace GinRummy.Security
 {
