@@ -2,7 +2,7 @@
 using System.ServiceModel;
 
 using GinRummy.Application.UseCases;
-using GinRummy.Data.EntityFramework.Repositories;
+using GinRummy.Persistence.Repositories;
 using GinRummy.Domain.Repositories;
 using GinRummy.Domain.Services;
 using GinRummy.WcfService.Services;

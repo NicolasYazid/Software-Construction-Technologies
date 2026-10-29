@@ -74,9 +74,9 @@
       <Project>{68290b7b-bb27-4987-a15f-1810e6a24196}</Project>
       <Name>GinRummy.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GinRummy.Data.EntityFramework\GinRummy.Data.EntityFramework.csproj">
+    <ProjectReference Include="..\GinRummy.Persistence\GinRummy.Persistence.csproj">
       <Project>{bc70868e-56fa-4d00-ab04-38de5e070964}</Project>
-      <Name>GinRummy.Data.EntityFramework</Name>
+      <Name>GinRummy.Persistence</Name>
     </ProjectReference>
     <ProjectReference Include="..\GinRummy.Domain\GinRummy.Domain.csproj">
       <Project>{58dde2c2-10bb-49d9-bd13-0d4afa4445e9}</Project>
