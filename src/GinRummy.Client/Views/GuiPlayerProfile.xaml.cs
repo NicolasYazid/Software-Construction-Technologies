@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Windows;
 
 using GinRummy.Client.Models;
@@ -14,59 +13,13 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiPlayerProfile : GuiModalBase
     {
-        private const string CountFormat = "N0";
-        private const string RateFormat = "P0";
-
-        private readonly PlayerProfile _profile;
+        private readonly PlayerProfileViewModel _viewModel;
 
         public GuiPlayerProfile(PlayerProfile profile)
         {
             InitializeComponent();
-            _profile = profile;
-            DataContext = profile;
-            ApplyRelation();
-            RefreshFormattedText();
-        }
-
-        // The separators and the percent sign of the performance numbers depend on the culture (CU-20 step 6).
-        protected override void RefreshFormattedText()
-        {
-            if (_profile != null)
-            {
-                CultureInfo culture = Localization.CurrentCulture;
-                lblMatchesPlayedValue.Text = _profile.MatchesPlayed.ToString(CountFormat, culture);
-                lblWinRateValue.Text = _profile.WinRate.ToString(RateFormat, culture);
-                lblScoreValue.Text = _profile.Score.ToString(CountFormat, culture);
-            }
-        }
-
-        private void ApplyRelation()
-        {
-            bool isPlayer = !_profile.IsGuest;
-            bool isOther = isPlayer && !_profile.IsOwnProfile;
-            bool hasMatches = _profile.MatchesPlayed > 0;
-
-            // A guest has no profile of its own, so only its temporary name is shown (CU-27 FA-04).
-            // A profile without links leaves out its section (CU-27 FA-03).
-            lblGuestHasNoProfile.Visibility = VisibilityCommon.FromCondition(_profile.IsGuest);
-            lblRankName.Visibility = VisibilityCommon.FromCondition(isPlayer);
-            lblPublicTag.Visibility = VisibilityCommon.FromCondition(isPlayer);
-            lblBio.Visibility = VisibilityCommon.FromCondition(isPlayer);
-            lblSocialLinks.Visibility = VisibilityCommon.FromCondition(isPlayer && (_profile.SocialLinks.Count > 0));
-            lblMatchesPlayed.Visibility = VisibilityCommon.FromCondition(isPlayer && hasMatches);
-            lblNoMatchesYet.Visibility = VisibilityCommon.FromCondition(isPlayer && !hasMatches);
-            btnAddFriend.Visibility = VisibilityCommon.FromCondition(isOther && !_profile.IsFriend);
-            btnAddFriend.IsEnabled = !_profile.HasPendingRequest;
-            btnRemoveFriend.Visibility = VisibilityCommon.FromCondition(isOther && _profile.IsFriend);
-            btnEditProfile.Visibility = VisibilityCommon.FromCondition(_profile.IsOwnProfile);
-        }
-
-        private void OnAddFriendClick(object sender, RoutedEventArgs e)
-        {
-            // Once the server creates the request, the action stays disabled while it waits for an answer.
-            // This keeps a second request from being sent (CU-12 and its EX-07).
-            _profile.HasPendingRequest = true;
-            ApplyRelation();
+            _viewModel = new PlayerProfileViewModel(profile);
+            DataContext = _viewModel;
         }
 
         private void OnRemoveFriendClick(object sender, RoutedEventArgs e)
@@ -78,11 +31,9 @@ namespace GinRummy.Client.Views
 
         private void OnRemoveFriendConfirmClosed(object sender, EventArgs e)
         {
-            // Without the friendship, the profile offers a request again (CU-16 Post-3).
             if (((GuiConfirmDialog)sender).IsConfirmed)
             {
-                _profile.IsFriend = false;
-                ApplyRelation();
+                _viewModel.RemoveFriendCommand.Execute(null);
             }
         }
 
