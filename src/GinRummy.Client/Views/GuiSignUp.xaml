@@ -46,7 +46,8 @@
                         <Image Source="{StaticResource IcoMail}" Width="19" Height="19"
                                VerticalAlignment="Center" Margin="0,0,12,0" />
                         <Grid>
-                            <TextBox x:Name="txtEmail" Style="{StaticResource StyFieldInput}" MaxLength="254" />
+                            <TextBox x:Name="txtEmail" Style="{StaticResource StyFieldInput}" MaxLength="254"
+                                     Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" />
                             <TextBlock Style="{StaticResource StyFieldPlaceholder}"
                                        Text="{Binding [SignUp_TxtEmailPlaceholder], Source={StaticResource PrvLocalization}}"
                                        Visibility="{Binding Text, ElementName=txtEmail,
@@ -63,7 +64,8 @@
                         <Image Source="{StaticResource IcoUser}" Width="19" Height="19"
                                VerticalAlignment="Center" Margin="0,0,12,0" />
                         <Grid>
-                            <TextBox x:Name="txtUsername" Style="{StaticResource StyFieldInput}" MaxLength="20" />
+                            <TextBox x:Name="txtUsername" Style="{StaticResource StyFieldInput}" MaxLength="20"
+                                     Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" />
                             <TextBlock Style="{StaticResource StyFieldPlaceholder}"
                                        Text="{Binding [SignUp_TxtUsernamePlaceholder], Source={StaticResource PrvLocalization}}"
                                        Visibility="{Binding Text, ElementName=txtUsername,
@@ -87,9 +89,10 @@
                             <Image Source="{StaticResource IcoEye}" Width="19" Height="19" />
                         </Button>
                         <Grid>
-                            <PasswordBox x:Name="pwdPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64" />
+                            <PasswordBox x:Name="pwdPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64"
+                                         ctl:PasswordBindingCommon.BoundPassword="{Binding Password}" />
                             <TextBox x:Name="txtPasswordShown" Style="{StaticResource StyFieldInput}" MaxLength="64"
-                                     Visibility="Collapsed" />
+                                     Visibility="Collapsed" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </DockPanel>
                 </ctl:PixelBorder>
@@ -109,15 +112,18 @@
                             <Image Source="{StaticResource IcoEye}" Width="19" Height="19" />
                         </Button>
                         <Grid>
-                            <PasswordBox x:Name="pwdConfirmPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64" />
+                            <PasswordBox x:Name="pwdConfirmPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64"
+                                         ctl:PasswordBindingCommon.BoundPassword="{Binding ConfirmPassword}" />
                             <TextBox x:Name="txtConfirmPasswordShown" Style="{StaticResource StyFieldInput}" MaxLength="64"
-                                     Visibility="Collapsed" />
+                                     Visibility="Collapsed" Text="{Binding ConfirmPassword, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </DockPanel>
                 </ctl:PixelBorder>
 
                 <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyCardError}"
-                           Width="402" HorizontalAlignment="Left" Margin="0,12,0,0" />
+                           Width="402" HorizontalAlignment="Left" Margin="0,12,0,0"
+                           Visibility="{Binding IsPasswordMismatchShown, Converter={StaticResource CnvBooleanToVisibility}}"
+                           Text="{Binding [Error_ValPasswordMismatch], Source={StaticResource PrvLocalization}}" />
                 <TextBlock x:Name="lblGuestSessionNotKept" Style="{StaticResource StyCardNotice}"
                            Width="402" HorizontalAlignment="Left" Margin="0,12,0,0"
                            Text="{Binding [SignUp_GuestSessionNotKept], Source={StaticResource PrvLocalization}}" />
@@ -141,7 +147,7 @@
                         Width="402" HorizontalAlignment="Left" Margin="0,14,0,0"
                         Content="{Binding [Shared_BtnCreateAccount], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
-                        Click="OnCreateAccountClick" />
+                        Command="{Binding CreateAccountCommand}" />
 
                 <Button x:Name="btnCancel" Style="{StaticResource StyCardTextButton}"
                         Width="402" HorizontalAlignment="Left" Margin="0,14,0,0"
