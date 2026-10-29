@@ -77,7 +77,8 @@
                     <Button x:Name="btnFindMatch" Style="{StaticResource StyLobbyActionButton}" Margin="0,0,12,0"
                             Content="{Binding [LobbyChat_BtnFindMatch], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
-                            Click="OnFindMatchClick" />
+                            IsEnabled="{Binding CanFindMatch}"
+                            Command="{Binding FindMatchCommand}" />
                     <Button x:Name="btnLogIn" Style="{StaticResource StyLobbySecondaryButton}" Margin="0,0,12,0"
                             Content="{Binding [Shared_BtnLogIn], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
@@ -103,7 +104,7 @@
                 <!-- The messages run under the rules and the state of the search, as in the lobby
                      of a player. -->
                 <ListBox x:Name="lstMessages" Grid.RowSpan="3" Style="{StaticResource StyChatList}"
-                         ctl:OverlayInsetCommon.IsInset="True" />
+                         ItemsSource="{Binding ChatEntries}" ctl:OverlayInsetCommon.IsInset="True" />
 
                 <ctl:PixelBorder Style="{StaticResource StyChatRulesCard}" Margin="20,20,20,8">
                     <StackPanel>
@@ -123,10 +124,10 @@
                                 VerticalAlignment="Center"
                                 Content="{Binding [LobbyChat_BtnCancelSearch], Source={StaticResource PrvLocalization},
                                           Converter={StaticResource CnvUpperCase}}"
-                                Click="OnCancelSearchClick" />
+                                Command="{Binding CancelSearchCommand}" />
                         <StackPanel>
                             <TextBlock x:Name="lblSearchingMatch" Style="{StaticResource StyStatusTitle}"
-                                       Visibility="Collapsed"
+                                       Visibility="{Binding IsSearchingMatch, Converter={StaticResource CnvBooleanToVisibility}}"
                                        Text="{Binding [LobbyChat_LblSearchingMatch], Source={StaticResource PrvLocalization}}" />
                             <TextBlock x:Name="lblNoOpponentAvailable" Style="{StaticResource StyStatusText}"
                                        Text="{Binding [LobbyChat_NoOpponentAvailable], Source={StaticResource PrvLocalization}}" />

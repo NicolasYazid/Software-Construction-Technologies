@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 
 using GinRummy.Client.Controls;
-using GinRummy.Client.Models;
-using GinRummy.Client.Services;
+using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
 {
@@ -15,39 +13,23 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiGuestLobby : GuiWindowBase
     {
-        private readonly IList<ChatEntry> _chatEntries;
+        private readonly GuestLobbyViewModel _viewModel;
 
         public GuiGuestLobby()
         {
             InitializeComponent();
-            SampleDataService dataService = new SampleDataService();
-            LobbySnapshot lobby = dataService.GetGuestLobby();
-            _chatEntries = lobby.ChatEntries;
-            DataContext = lobby;
-            lstMessages.ItemsSource = _chatEntries;
+            _viewModel = new GuestLobbyViewModel(((App)Application.Current).SampleData);
+            DataContext = _viewModel;
             Loaded += OnScreenLoaded;
             Closed += OnScreenClosed;
         }
 
         private void OnScreenLoaded(object sender, RoutedEventArgs e)
         {
-            if (_chatEntries.Count > 0)
+            if (_viewModel.ChatEntries.Count > 0)
             {
                 OverlayInsetCommon.ScrollToEnd(lstMessages);
             }
-        }
-
-        private void OnFindMatchClick(object sender, RoutedEventArgs e)
-        {
-            // The search stays in the state of CU-22 FA-03, the one the prototype draws, until the server pairs the players.
-            lblSearchingMatch.Visibility = Visibility.Visible;
-            btnFindMatch.IsEnabled = false;
-        }
-
-        private void OnCancelSearchClick(object sender, RoutedEventArgs e)
-        {
-            lblSearchingMatch.Visibility = Visibility.Collapsed;
-            btnFindMatch.IsEnabled = true;
         }
 
         private void OnLogInClick(object sender, RoutedEventArgs e)
