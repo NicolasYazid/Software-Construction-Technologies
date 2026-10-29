@@ -61,8 +61,8 @@ namespace GinRummy.Application.UseCases
             return leaderboard;
         }
 
-        // The leaderboard orders by wins first (CU-19); score, losses and username only
-        // break ties. The repository's own order by score is intentionally overridden here.
+        // The leaderboard orders by wins first (CU-19), and score, losses and username only break ties.
+        // The repository's own order by score is intentionally overridden here.
         private IList<PlayerStats> OrderByLeaderboardRules(IList<PlayerStats> stats)
         {
             IList<PlayerStats> orderedStats = stats
