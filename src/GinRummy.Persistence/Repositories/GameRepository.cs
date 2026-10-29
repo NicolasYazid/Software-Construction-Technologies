@@ -53,8 +53,8 @@ namespace GinRummy.Persistence.Repositories
 
             return _context.GameSessions
                 .Include(gameSession => gameSession.Participants)
-                .FirstOrDefault(gameSession => (gameSession.GameStateName != finished)
-                    && gameSession.Participants.Any(participant => participant.PlayerId == playerId));
+                .Where(gameSession => gameSession.GameStateName != finished)
+                .FirstOrDefault(gameSession => gameSession.Participants.Any(participant => participant.PlayerId == playerId));
         }
 
         /// <summary>
@@ -69,8 +69,8 @@ namespace GinRummy.Persistence.Repositories
 
             return _context.GameSessions
                 .Include(gameSession => gameSession.Participants)
-                .FirstOrDefault(gameSession => (gameSession.GameStateName != finished)
-                    && gameSession.Participants.Any(participant => participant.GuestSessionId == guestSessionId));
+                .Where(gameSession => gameSession.GameStateName != finished)
+                .FirstOrDefault(gameSession => gameSession.Participants.Any(participant => participant.GuestSessionId == guestSessionId));
         }
 
         /// <summary>

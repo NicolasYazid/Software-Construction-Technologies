@@ -36,8 +36,9 @@ namespace GinRummy.Persistence.Repositories
         /// <returns>The pending request, or null.</returns>
         public FriendRequest FindRequest(int requesterPlayerId, int recipientPlayerId)
         {
-            return _context.FriendRequests.FirstOrDefault(request =>
-                (request.RequesterPlayerId == requesterPlayerId) && (request.RecipientPlayerId == recipientPlayerId));
+            return _context.FriendRequests
+                .Where(request => request.RequesterPlayerId == requesterPlayerId)
+                .FirstOrDefault(request => request.RecipientPlayerId == recipientPlayerId);
         }
 
         /// <summary>
@@ -103,8 +104,9 @@ namespace GinRummy.Persistence.Repositories
             int playerAId = Math.Min(firstPlayerId, secondPlayerId);
             int playerBId = Math.Max(firstPlayerId, secondPlayerId);
 
-            return _context.FriendShips.FirstOrDefault(friendShip =>
-                (friendShip.PlayerAId == playerAId) && (friendShip.PlayerBId == playerBId));
+            return _context.FriendShips
+                .Where(friendShip => friendShip.PlayerAId == playerAId)
+                .FirstOrDefault(friendShip => friendShip.PlayerBId == playerBId);
         }
 
         /// <summary>

@@ -53,8 +53,8 @@ namespace GinRummy.Persistence.Repositories
             if (_sharedContext != null)
             {
                 mostRecentCode = _sharedContext.VerificationCodes
-                    .Where(verificationCode => verificationCode.PlayerId == playerId
-                        && verificationCode.Purpose == purpose)
+                    .Where(verificationCode => verificationCode.PlayerId == playerId)
+                    .Where(verificationCode => verificationCode.Purpose == purpose)
                     .OrderByDescending(verificationCode => verificationCode.CreatedAt)
                     .FirstOrDefault();
             }
@@ -63,8 +63,8 @@ namespace GinRummy.Persistence.Repositories
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
                     mostRecentCode = context.VerificationCodes
-                        .Where(verificationCode => verificationCode.PlayerId == playerId
-                            && verificationCode.Purpose == purpose)
+                        .Where(verificationCode => verificationCode.PlayerId == playerId)
+                        .Where(verificationCode => verificationCode.Purpose == purpose)
                         .OrderByDescending(verificationCode => verificationCode.CreatedAt)
                         .FirstOrDefault();
                 }
