@@ -1,9 +1,7 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
-using GinRummy.Client.Models;
-using GinRummy.Client.Services;
+using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
 {
@@ -13,15 +11,10 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiNotifications : GuiModalBase
     {
-        private readonly ObservableCollection<FriendRequest> _friendRequests;
-
         public GuiNotifications()
         {
             InitializeComponent();
-            SampleDataService dataService = new SampleDataService();
-            _friendRequests = new ObservableCollection<FriendRequest>(dataService.GetFriendRequests());
-            lstFriendRequests.ItemsSource = _friendRequests;
-            RefreshEmptyState();
+            DataContext = new NotificationsViewModel(((App)Application.Current).SampleData);
         }
 
         private void OnTabSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -34,32 +27,9 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnAcceptClick(object sender, RoutedEventArgs e)
-        {
-            // The screen only takes the request off the list because the server creates the friendship (CU-14).
-            RemoveRequest(sender);
-        }
-
-        private void OnDeclineClick(object sender, RoutedEventArgs e)
-        {
-            RemoveRequest(sender);
-        }
-
         private void OnCloseClick(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-
-        private void RemoveRequest(object sender)
-        {
-            FriendRequest request = ((FrameworkElement)sender).DataContext as FriendRequest;
-            _friendRequests.Remove(request);
-            RefreshEmptyState();
-        }
-
-        private void RefreshEmptyState()
-        {
-            lblNoPendingRequests.Visibility = VisibilityCommon.FromCondition(_friendRequests.Count == 0);
         }
     }
 }

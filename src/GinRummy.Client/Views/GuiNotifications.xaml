@@ -31,7 +31,7 @@
 
                 <ScrollViewer Height="420" VerticalScrollBarVisibility="Auto" Margin="32,12,22,24">
                     <StackPanel Margin="0,0,10,0">
-                        <ItemsControl x:Name="lstFriendRequests">
+                        <ItemsControl x:Name="lstFriendRequests" ItemsSource="{Binding FriendRequests}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Border Style="{StaticResource StyRequestRow}">
@@ -41,11 +41,15 @@
                                                 <Button x:Name="btnAccept" Style="{StaticResource StyNoticePrimaryButton}"
                                                         Content="{Binding [Shared_BtnAccept], Source={StaticResource PrvLocalization},
                                                                   Converter={StaticResource CnvUpperCase}}"
-                                                        Click="OnAcceptClick" />
+                                                        Command="{Binding DataContext.AcceptRequestCommand,
+                                                                  RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                        CommandParameter="{Binding}" />
                                                 <Button x:Name="btnDecline" Style="{StaticResource StyNoticeButton}"
                                                         Content="{Binding [Shared_BtnDecline], Source={StaticResource PrvLocalization},
                                                                   Converter={StaticResource CnvUpperCase}}"
-                                                        Click="OnDeclineClick" />
+                                                        Command="{Binding DataContext.DeclineRequestCommand,
+                                                                  RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                        CommandParameter="{Binding}" />
                                             </StackPanel>
                                             <Border Style="{StaticResource StyAvatar}">
                                                 <Image Style="{StaticResource StyAvatarIcon}" />
@@ -65,7 +69,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <TextBlock x:Name="lblNoPendingRequests" Style="{StaticResource StyPanelEmpty}"
-                                   Visibility="Collapsed"
+                                   Visibility="{Binding HasNoPendingRequests, Converter={StaticResource CnvBooleanToVisibility}}"
                                    Text="{Binding [Notifications_NoPendingRequests], Source={StaticResource PrvLocalization}}" />
                     </StackPanel>
                 </ScrollViewer>
