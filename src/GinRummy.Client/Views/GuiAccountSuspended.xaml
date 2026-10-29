@@ -18,7 +18,7 @@
                 <!-- The reason is a value of the catalogue of the database that the server
                      resolves to the active language, so it arrives as text and has no key. -->
                 <TextBlock x:Name="lblReasonBan" Style="{StaticResource StyDialogEmphasis}"
-                           TextAlignment="Left" Margin="0,8,0,0" />
+                           TextAlignment="Left" Margin="0,8,0,0" Text="{Binding ReasonName}" />
 
                 <Button x:Name="btnLogOut" Style="{StaticResource StyDialogPrimaryButton}"
                         Margin="0,24,0,0"
@@ -26,8 +26,14 @@
                                   Converter={StaticResource CnvUpperCase}}"
                         Click="OnLogOutClick" />
 
-                <TextBlock x:Name="lblTimeRemaining" Style="{StaticResource StyDialogEmphasis}"
-                           Margin="0,14,0,0" />
+                <TextBlock x:Name="lblTimeRemaining" Style="{StaticResource StyDialogEmphasis}" Margin="0,14,0,0">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
+                            <Binding Path="[AccountSuspended_LblTimeRemaining]" Source="{StaticResource PrvLocalization}" />
+                            <Binding Path="Countdown.RemainingTime" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
 
             </StackPanel>
         </Border>
