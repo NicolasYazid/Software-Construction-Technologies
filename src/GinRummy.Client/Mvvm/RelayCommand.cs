@@ -5,10 +5,22 @@ namespace GinRummy.Client.Mvvm
 {
     public class RelayCommand : ICommand
     {
-        private readonly Action _execute;
+        private readonly Action<object> _execute;
         private readonly Func<bool> _canExecute;
 
         public RelayCommand(Action execute, Func<bool> canExecute = null)
+        {
+            if (execute == null)
+            {
+                throw new ArgumentNullException(nameof(execute));
+            }
+
+            _execute = parameter => execute();
+            _canExecute = canExecute;
+        }
+
+        // The rows of a list share one command, so the row the player acted on arrives as the parameter.
+        public RelayCommand(Action<object> execute, Func<bool> canExecute = null)
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute;
@@ -39,7 +51,7 @@ namespace GinRummy.Client.Mvvm
 
         public void Execute(object parameter)
         {
-            _execute();
+            _execute(parameter);
         }
     }
 }
