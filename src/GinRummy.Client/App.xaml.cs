@@ -8,6 +8,7 @@ using System.Windows.Threading;
 using GinRummy.Client.LeaderboardServiceReference;
 using GinRummy.Client.Localization;
 using GinRummy.Client.Logging;
+using GinRummy.Client.Services;
 using GinRummy.Client.ViewModels;
 using Microsoft.Extensions.Logging;
 
@@ -48,7 +49,10 @@ namespace GinRummy.Client
                 LogFileName);
             _loggerFactory = new FileLoggerFactory(logFilePath, LogLevel.Debug);
             _logger = _loggerFactory.CreateLogger<App>();
+            SampleData = new SampleDataService();
         }
+
+        internal SampleDataService SampleData { get; private set; }
 
         public RankingsViewModel CreateRankingsViewModel()
         {

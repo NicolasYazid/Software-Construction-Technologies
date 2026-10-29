@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-using GinRummy.Client.Services;
+using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
 {
@@ -15,8 +15,7 @@ namespace GinRummy.Client.Views
         public GuiHouseRules()
         {
             InitializeComponent();
-            SampleDataService dataService = new SampleDataService();
-            DataContext = dataService.GetGameRules();
+            DataContext = new HouseRulesViewModel(((App)Application.Current).SampleData);
         }
 
         private void OnCloseClick(object sender, RoutedEventArgs e)

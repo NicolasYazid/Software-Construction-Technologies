@@ -305,6 +305,7 @@
     <Compile Include="ViewModels\AccountBannedViewModel.cs" />
     <Compile Include="ViewModels\AccountSuspendedViewModel.cs" />
     <Compile Include="ViewModels\ReconnectingViewModel.cs" />
+    <Compile Include="ViewModels\HouseRulesViewModel.cs" />
     <Compile Include="Controls\PasswordBindingCommon.cs" />
     <Compile Include="Models\ChatEntryDto.cs" />
     <Compile Include="Models\ChatMessageDto.cs" />
