@@ -31,8 +31,8 @@ namespace GinRummy.Persistence.Configurations
             Property(gameSession => gameSession.EndedAt).HasColumnName("ended_at");
             Ignore(gameSession => gameSession.State);
 
-            // The turn stays a plain number: the table points to GameParticipant and the participants
-            // point back to the match, and mapping both directions would make the inserts circular.
+            // The turn stays a plain number because the table points to GameParticipant and the participants point back to the match.
+            // Mapping both directions would make the inserts circular.
             HasMany(gameSession => gameSession.Participants)
                 .WithRequired()
                 .HasForeignKey(participant => participant.GameSessionId)

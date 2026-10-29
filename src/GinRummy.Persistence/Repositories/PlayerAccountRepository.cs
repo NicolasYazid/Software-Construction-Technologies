@@ -54,8 +54,8 @@ namespace GinRummy.Persistence.Repositories
             }
             else
             {
-                // The player is loaded in the same query because the context closes before
-                // the caller reads it, and a closed context can no longer load it later.
+                // The player is loaded in the same query because the context closes before the caller reads it.
+                // A closed context can no longer load it later.
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
                     foundAccount = context.PlayerAccounts

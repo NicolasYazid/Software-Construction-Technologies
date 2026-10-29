@@ -30,8 +30,8 @@ namespace GinRummy.Persistence.Persistence
         public GinRummyContext(string connectionStringName)
             : base(connectionStringName)
         {
-            // Navigation properties load only through Include. Lazy loading would run queries after
-            // the unit of work disposed the context, and a proxy is a type WCF cannot serialize.
+            // Navigation properties load only through Include.
+            // Lazy loading would run queries after the unit of work disposed the context, and a proxy is a type WCF cannot serialize.
             Configuration.LazyLoadingEnabled = false;
             Configuration.ProxyCreationEnabled = false;
         }

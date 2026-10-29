@@ -57,8 +57,7 @@ namespace GinRummy.Persistence.Repositories
         /// <returns>The pending requests, oldest first.</returns>
         public IList<FriendRequest> GetRequestsReceivedBy(int recipientPlayerId)
         {
-            // The requester and its player are loaded together because the caller needs the
-            // username of each requester to show the list.
+            // The requester and its player are loaded together because the caller needs the username of each requester to show the list.
             return _context.FriendRequests
                 .Include(request => request.Requester.Player)
                 .Where(request => request.RecipientPlayerId == recipientPlayerId)
@@ -100,8 +99,7 @@ namespace GinRummy.Persistence.Repositories
         /// <returns>The friendship, or null.</returns>
         public FriendShip FindFriendShip(int firstPlayerId, int secondPlayerId)
         {
-            // The pair is stored once with the lower id first, so the arguments are put in
-            // that order before searching.
+            // The pair is stored once with the lower id first, so the arguments are put in that order before searching.
             int playerAId = Math.Min(firstPlayerId, secondPlayerId);
             int playerBId = Math.Max(firstPlayerId, secondPlayerId);
 

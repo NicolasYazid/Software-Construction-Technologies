@@ -45,12 +45,10 @@ namespace GinRummy.Persistence.Repositories
         /// <returns>The pending challenges; empty when there are none.</returns>
         public IList<Challenge> GetPendingReceivedBy(int challengedPlayerId)
         {
-            // The status is turned into text before the query because EF cannot translate the
-            // computed Status property to SQL.
+            // The status is turned into text before the query because EF cannot translate the computed Status property to SQL.
             string sent = ChallengeStatus.Sent.ToString();
 
-            // The challenger and its player are loaded together because the caller needs the
-            // username of each challenger to show the list.
+            // The challenger and its player are loaded together because the caller needs the username of each challenger to show the list.
             return _context.Challenges
                 .Include(challenge => challenge.Challenger.Player)
                 .Where(challenge => (challenge.ChallengedPlayerId == challengedPlayerId) && (challenge.StatusName == sent))

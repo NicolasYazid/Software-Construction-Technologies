@@ -34,8 +34,8 @@ namespace GinRummy.Persistence.Repositories
             IList<PlayerStats> rankedStats;
             using (GinRummyContext context = new GinRummyContext(_connectionStringName))
             {
-                // Include loads each player together with its stats in one query, so reading
-                // the username later does not trigger a separate query per row.
+                // Each player is loaded together with its stats in one query.
+                // Reading the username later therefore does not trigger a separate query per row.
                 rankedStats = context.PlayerStats
                     .Include(stats => stats.Player)
                     .OrderByDescending(stats => stats.Score)

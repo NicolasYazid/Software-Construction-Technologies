@@ -47,8 +47,6 @@ namespace GinRummy.Persistence.Repositories
             Locale foundLocale;
             if (_sharedContext != null)
             {
-                // Not wrapped in using: the caller opened this context and stays
-                // responsible for closing it.
                 foundLocale = _sharedContext.Locales.FirstOrDefault(locale => locale.LocaleCode == localeCode);
             }
             else

@@ -44,8 +44,7 @@ namespace GinRummy.Persistence.Repositories
         /// <returns>The open session, or null.</returns>
         public PlayerSession FindActiveByPlayerId(int playerId)
         {
-            // The open state is read from EndedAt because IsActive is computed in C# and
-            // cannot be translated to SQL.
+            // The open state is read from EndedAt because IsActive is computed in C# and cannot be translated to SQL.
             return _context.PlayerSessions
                 .FirstOrDefault(session => (session.PlayerId == playerId) && (session.EndedAt == null));
         }

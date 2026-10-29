@@ -48,8 +48,7 @@ namespace GinRummy.Persistence.Repositories
         /// <returns>The open match with its participants, or null.</returns>
         public GameSession FindOpenByPlayerId(int playerId)
         {
-            // The stage is turned into text before the query because EF cannot translate the
-            // computed State property to SQL.
+            // The stage is turned into text before the query because EF cannot translate the computed State property to SQL.
             string finished = GameState.Finished.ToString();
 
             return _context.GameSessions
@@ -111,8 +110,7 @@ namespace GinRummy.Persistence.Repositories
         /// <returns>The entries of the player; empty when there are none.</returns>
         public IList<GameHistory> GetHistoryOf(int playerId)
         {
-            // The opponent and its player are loaded together because the caller shows the
-            // username of each opponent.
+            // The opponent and its player are loaded together because the caller shows the username of each opponent.
             return _context.GameHistories
                 .Include(history => history.Opponent.Player)
                 .Where(history => history.PlayerId == playerId)
