@@ -35,10 +35,13 @@ El cliente no tiene cadena de conexión, porque nunca accede a la base de datos.
 
 ### Referencia de servicio del cliente
 
-El cliente consume el servidor por medio de la referencia de servicio de
-`src/GinRummy.Client/Connected Services`. Para regenerarla después de cambiar un contrato, arranca
-`GinRummy.ServerHost` y usa **Actualizar referencia de servicio** en Visual Studio. Los metadatos se
-publican por TCP en `net.tcp://localhost:8001/RankingsService/mex`.
+El cliente consume el servidor por medio de la referencia de servicio que Visual Studio genera en
+`src/GinRummy.Client/Connected Services/LeaderboardServiceReference`. La referencia, su cliente
+(`LeaderboardServiceClient`), su endpoint (`LeaderboardService`) y su contrato de datos llevan el
+nombre base del servicio. Para regenerarla después de cambiar un contrato, arranca
+`GinRummy.ServerHost`, selecciona la referencia y usa **Actualizar referencia de servicio** en
+Visual Studio. Los metadatos se publican por TCP en
+`net.tcp://localhost:8001/LeaderboardService/mex`.
 
 ## Alcance
 
@@ -86,7 +89,7 @@ en los estilos con prefijo `StyPlain`.
 
 ## El fondo líquido del menú
 
-`Controls/CtlLiquidBackground` dibuja el fondo animado de `GuiMainMenu`. Está escrito desde cero,
+`Controls/PaintedBackground` dibuja el fondo animado de `GuiMainMenu`. Está escrito desde cero,
 como exige CON-06, y no incorpora código de terceros ni reproduce el fondo de ningún producto
 existente, que es lo que pide el asesor legal (STK-12).
 
@@ -127,19 +130,21 @@ estándar de codificación del equipo:
 
 ```xml
 <Button x:Name="btnLogIn"
-        Content="{Binding [Shared_BtnLogIn], Source={StaticResource Loc}}" />
+        Content="{Binding [Shared_BtnLogIn], Source={StaticResource PrvLocalization}}" />
 ```
 
 Los textos que se dibujan en mayúsculas pasan por `UpperCaseConverter`, que convierte con la
 cultura activa y no con la invariante, porque la forma mayúscula de una letra depende del idioma.
 El recurso se guarda siempre en su forma natural.
 
-**Los valores con marcador.** Nada se concatena. `LocalizationProvider.Format` aplica
-`string.Format` con la cultura activa, y las ventanas con contadores, duraciones o títulos
-dependientes del flujo sobrescriben `RefreshFormattedText`, que `GuiWindowBase` invoca en cada
-cambio de cultura.
+**Los valores con marcador.** Nada se concatena. Los contadores, las duraciones y las fechas son
+propiedades del ViewModel, y el XAML los enlaza con `LocalizedFormatConverter`, que aplica
+`string.Format` con la cultura activa. Cuando la clave del texto depende del estado de la pantalla,
+como el título de un flujo, el ViewModel expone la clave y el XAML la resuelve con
+`ResourceTextConverter`. Los dos enlaces reciben la cultura del proveedor, así que el texto se
+vuelve a formatear en cada cambio de idioma.
 
-**El logotipo.** `CtlBrandMark` lee la clave de marca del diccionario y la parte en su espacio para
+**El logotipo.** `BrandMark` lee la clave de marca del diccionario y la parte en su espacio para
 colocar el símbolo en medio. No hay texto de marca escrito en el XAML.
 
 ## Cómo probar el cambio de idioma
@@ -163,14 +168,32 @@ caliente.
 
 ## Lo que queda fuera
 
-- **La lógica.** Ninguna ventana valida reglas de negocio, abre conexiones ni consulta la base de
-  datos. La única comprobación que corre en el cliente es la coincidencia de la contraseña con su
-  confirmación, que es la única que CU-01 FA-04 permite resolver sin enviar nada al servidor.
+- **La lógica.** La lógica de presentación de cada pantalla vive en su ViewModel, y el código
+  asociado al XAML solo inicializa la vista, asigna el ViewModel y navega. Ninguna pantalla valida
+  reglas de negocio, abre conexiones ni consulta la base de datos. La única comprobación que corre
+  en el cliente es la coincidencia de la contraseña con su confirmación, que es la única que CU-01
+  FA-04 permite resolver sin enviar nada al servidor. Mientras el servidor no expone el resto de
+  los servicios, los ViewModels toman sus datos de `Services/SampleDataService`.
 - **Las claves de pantallas posteriores.** Los dos `.resx` ya tienen las 351 cadenas del
   diccionario, pero las que pertenecen al lobby y a la partida no están cableadas todavía porque
   sus pantallas no existen en esta entrega.
-- **El diseñador de XAML** mostrará los textos en blanco, porque el recurso `Loc` se publica al
-  arrancar la aplicación. En ejecución se ven correctamente.
+- **El diseñador de XAML** mostrará los textos en blanco, porque el recurso `PrvLocalization` se
+  publica al arrancar la aplicación. En ejecución se ven correctamente.
+
+## Trabajo pendiente
+
+El estándar pide retirar los marcadores `TODO` antes de cada entrega y documentar aparte lo que no
+se alcanzó a completar:
+
+- **Inicio de sesión (CU-02).** El botón de `GuiLogIn` espera el servicio de autenticación del
+  servidor.
+- **Creación de cuenta (CU-01).** `SignUpViewModel` comprueba la confirmación de la contraseña y
+  espera el servicio de registro para el resto.
+- **Foto de perfil (CU-28).** `GuiEditProfile` muestra la imagen elegida, pero el servicio que la
+  valida y la guarda todavía no existe.
+- **Carpeta `Models/` del cliente.** Guarda los modelos de los datos de muestra. El documento de
+  estructura no la lista y queda pendiente decidir si se conserva o si sus tipos pasan a llegar por
+  la referencia de servicio.
 
 ## Estructura
 
@@ -193,8 +216,8 @@ GinRummy.Server.sln
 GinRummy.Client.sln
 ├── src/
 │   └── GinRummy.Client          Connected Services/, Views/, ViewModels/, Mvvm/, Converters/,
-│                                Controls/, Services/, Localization/, Logging/, Styles/,
-│                                Resources/, Fonts/, Properties/
+│                                Controls/, Services/, Models/, Localization/, Logging/,
+│                                Styles/, Resources/, Fonts/, Properties/
 └── tests/
     └── GinRummy.Client.Tests
 ```
