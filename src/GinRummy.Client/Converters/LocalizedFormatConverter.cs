@@ -12,6 +12,8 @@ namespace GinRummy.Client.Converters
     // The format string is bound to the localization provider so that the message is rebuilt when the culture changes.
     public sealed class LocalizedFormatConverter : IMultiValueConverter
     {
+        public bool IsUpperCase { get; set; }
+
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             string result = string.Empty;
@@ -29,6 +31,10 @@ namespace GinRummy.Client.Converters
                 }
 
                 result = string.Format(activeCulture, format, arguments);
+                if (IsUpperCase)
+                {
+                    result = result.ToUpper(activeCulture);
+                }
             }
 
             return result;

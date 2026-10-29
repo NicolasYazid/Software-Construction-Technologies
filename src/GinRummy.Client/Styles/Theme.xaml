@@ -11,6 +11,7 @@
     <conv:UpperCaseConverter x:Key="CnvUpperCase" />
     <BooleanToVisibilityConverter x:Key="CnvBooleanToVisibility" />
     <conv:LocalizedFormatConverter x:Key="CnvLocalizedFormat" />
+    <conv:LocalizedFormatConverter x:Key="CnvUpperLocalizedFormat" IsUpperCase="True" />
     <conv:ResourceTextConverter x:Key="CnvResourceText" />
     <conv:ResourceTextConverter x:Key="CnvUpperResourceText" IsUpperCase="True" />
     <conv:CultureNumberConverter x:Key="CnvCultureNumber" />
