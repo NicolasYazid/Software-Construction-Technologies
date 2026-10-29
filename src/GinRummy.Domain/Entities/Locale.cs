@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GinRummy.Domain.Entities
+﻿namespace GinRummy.Domain.Entities
 {
     /// <summary>
     /// A language and region the game can display, mapped to the Locale table. The

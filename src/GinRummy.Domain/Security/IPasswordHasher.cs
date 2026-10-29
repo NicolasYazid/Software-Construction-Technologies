@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GinRummy.Domain.Security
+﻿namespace GinRummy.Domain.Security
 {
     /// <summary>
     /// Contract the game's logic uses to protect and check player passwords, without

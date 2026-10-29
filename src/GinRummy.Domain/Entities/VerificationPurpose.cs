@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GinRummy.Domain.Entities
+﻿namespace GinRummy.Domain.Entities
 {
     /// <summary>
     /// Reason a verification code was generated. The numbers match the rows already
