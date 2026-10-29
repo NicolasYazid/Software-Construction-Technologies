@@ -16,7 +16,7 @@ trim_trailing_whitespace = true
 #### Organization of the file ####
 
 dotnet_sort_system_directives_first = true
-dotnet_separate_import_directive_groups = true
+dotnet_separate_import_directive_groups = false
 csharp_using_directive_placement = outside_namespace:warning
 csharp_style_namespace_declarations = block_scoped:warning
 dotnet_style_namespace_match_folder = true:warning
