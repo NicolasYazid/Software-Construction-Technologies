@@ -14,6 +14,17 @@ namespace GinRummy.Persistence.Repositories
     /// </summary>
     public class VerificationCodeRepository : IVerificationCodeRepository
     {
+        // The counter is increased by the database itself so that two wrong attempts sent at the same time are both counted.
+        private const string RegisterFailedAttemptCommand =
+            "UPDATE dbo.VerificationCode "
+            + "SET attempts = attempts + 1 "
+            + "WHERE verification_code_id = @p0;";
+
+        private const string MarkAsUsedCommand =
+            "UPDATE dbo.VerificationCode "
+            + "SET used_at = @p0 "
+            + "WHERE verification_code_id = @p1;";
+
         private readonly string _connectionStringName;
         private readonly GinRummyContext _sharedContext;
 
@@ -125,7 +136,7 @@ namespace GinRummy.Persistence.Repositories
             if (_sharedContext != null)
             {
                 _sharedContext.Database.ExecuteSqlCommand(
-                    "UPDATE VerificationCode SET attempts = attempts + 1 WHERE verification_code_id = {0}",
+                    RegisterFailedAttemptCommand,
                     verificationCodeId);
             }
             else
@@ -133,7 +144,7 @@ namespace GinRummy.Persistence.Repositories
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
                     context.Database.ExecuteSqlCommand(
-                        "UPDATE VerificationCode SET attempts = attempts + 1 WHERE verification_code_id = {0}",
+                        RegisterFailedAttemptCommand,
                         verificationCodeId);
                 }
             }
@@ -149,7 +160,7 @@ namespace GinRummy.Persistence.Repositories
             if (_sharedContext != null)
             {
                 _sharedContext.Database.ExecuteSqlCommand(
-                    "UPDATE VerificationCode SET used_at = {0} WHERE verification_code_id = {1}",
+                    MarkAsUsedCommand,
                     usedAt,
                     verificationCodeId);
             }
@@ -158,7 +169,7 @@ namespace GinRummy.Persistence.Repositories
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
                     context.Database.ExecuteSqlCommand(
-                        "UPDATE VerificationCode SET used_at = {0} WHERE verification_code_id = {1}",
+                        MarkAsUsedCommand,
                         usedAt,
                         verificationCodeId);
                 }
