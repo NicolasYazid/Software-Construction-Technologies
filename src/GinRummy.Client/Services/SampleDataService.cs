@@ -22,6 +22,9 @@ namespace GinRummy.Client.Services
         private const int UndercutBonus = 25;
         private const int StockCardsToVoid = 2;
         private const int TargetScore = 100;
+        private const string HarassmentReasonKey = "Reason_HarassmentOrThreats";
+        private const string OffensiveLanguageReasonKey = "Reason_OffensiveLanguage";
+        private const string SpamReasonKey = "Reason_Spam";
 
         // Its values reproduce the prototype screen P11.
         public LobbySnapshot GetLobby()
@@ -138,9 +141,9 @@ namespace GinRummy.Client.Services
 
             return new List<SanctionViewModel>
             {
-                CreateActiveSanction(localization.GetText("Reason_HarassmentOrThreats"), new TimeSpan(47, 59, 59)),
-                CreateServedSanction(localization.GetText("Reason_OffensiveLanguage"), new DateTime(2026, 8, 2)),
-                CreateServedSanction(localization.GetText("Reason_Spam"), new DateTime(2026, 7, 15))
+                CreateActiveSanction(localization.GetText(HarassmentReasonKey), new TimeSpan(47, 59, 59)),
+                CreateServedSanction(localization.GetText(OffensiveLanguageReasonKey), new DateTime(2026, 8, 2)),
+                CreateServedSanction(localization.GetText(SpamReasonKey), new DateTime(2026, 7, 15))
             };
         }
 
