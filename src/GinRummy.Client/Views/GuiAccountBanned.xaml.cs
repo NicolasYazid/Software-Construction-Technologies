@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 
+using GinRummy.Client.ViewModels;
+
 namespace GinRummy.Client.Views
 {
     /// <summary>
@@ -10,7 +12,7 @@ namespace GinRummy.Client.Views
         public GuiAccountBanned(string reasonName)
         {
             InitializeComponent();
-            lblReasonBan.Text = reasonName;
+            DataContext = new AccountBannedViewModel(reasonName);
         }
 
         private void OnLogOutClick(object sender, RoutedEventArgs e)

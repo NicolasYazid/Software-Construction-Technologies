@@ -302,6 +302,7 @@
     <Compile Include="ViewModels\ConfirmDialogKind.cs" />
     <Compile Include="ViewModels\ErrorDialogViewModel.cs" />
     <Compile Include="ViewModels\ConfirmDialogViewModel.cs" />
+    <Compile Include="ViewModels\AccountBannedViewModel.cs" />
     <Compile Include="Controls\PasswordBindingCommon.cs" />
     <Compile Include="Models\ChatEntryDto.cs" />
     <Compile Include="Models\ChatMessageDto.cs" />
