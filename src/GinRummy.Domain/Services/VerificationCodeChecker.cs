@@ -73,11 +73,13 @@ namespace GinRummy.Domain.Services
             {
                 result = VerificationCodeCheckResult.TooManyAttempts;
             }
+            else if (_codeHasher.VerifyCode(typedCode, stored.CodeHash))
+            {
+                result = VerificationCodeCheckResult.Valid;
+            }
             else
             {
-                result = _codeHasher.VerifyCode(typedCode, stored.CodeHash)
-                    ? VerificationCodeCheckResult.Valid
-                    : VerificationCodeCheckResult.Incorrect;
+                result = VerificationCodeCheckResult.Incorrect;
             }
 
             return result;
