@@ -26,8 +26,8 @@
   <Metadata>
     <MetadataFile FileName="RankingsService.wsdl" MetadataType="Wsdl" ID="22b44314-caed-44c7-9ced-35e708ddd7e8" SourceId="1" SourceUrl="net.tcp://localhost:8001/RankingsService/mex" />
     <MetadataFile FileName="RankingsService.xsd" MetadataType="Schema" ID="c545100d-4816-4908-8c3c-f7544bb6aeed" SourceId="1" SourceUrl="net.tcp://localhost:8001/RankingsService/mex" />
-    <MetadataFile FileName="RankingsService1.xsd" MetadataType="Schema" ID="b2d41c00-2b94-4dc8-a872-a4c85fe996df" SourceId="1" SourceUrl="net.tcp://localhost:8001/RankingsService/mex" />
     <MetadataFile FileName="RankingsService2.xsd" MetadataType="Schema" ID="d662be61-1263-43e4-9499-0e3672bd1b17" SourceId="1" SourceUrl="net.tcp://localhost:8001/RankingsService/mex" />
+    <MetadataFile FileName="RankingsService1.xsd" MetadataType="Schema" ID="b2d41c00-2b94-4dc8-a872-a4c85fe996df" SourceId="1" SourceUrl="net.tcp://localhost:8001/RankingsService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

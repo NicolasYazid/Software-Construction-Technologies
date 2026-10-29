@@ -8,8 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GinRummy.Client.RankingsServiceReference
-{
+namespace GinRummy.Client.RankingsServiceReference {
     using System.Runtime.Serialization;
     using System;
     
@@ -18,8 +17,7 @@ namespace GinRummy.Client.RankingsServiceReference
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="PlayerRankingDto", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts")]
     [System.SerializableAttribute()]
-    public partial class PlayerRankingDto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged
-    {
+    public partial class PlayerRankingDto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -42,29 +40,23 @@ namespace GinRummy.Client.RankingsServiceReference
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int WinsField;
         
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData
-        {
-            get
-            {
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
                 return this.extensionDataField;
             }
-            set
-            {
+            set {
                 this.extensionDataField = value;
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Losses
-        {
-            get
-            {
+        public int Losses {
+            get {
                 return this.LossesField;
             }
-            set
-            {
-                if ((this.LossesField.Equals(value) != true))
-                {
+            set {
+                if ((this.LossesField.Equals(value) != true)) {
                     this.LossesField = value;
                     this.RaisePropertyChanged("Losses");
                 }
@@ -72,16 +64,12 @@ namespace GinRummy.Client.RankingsServiceReference
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Position
-        {
-            get
-            {
+        public int Position {
+            get {
                 return this.PositionField;
             }
-            set
-            {
-                if ((this.PositionField.Equals(value) != true))
-                {
+            set {
+                if ((this.PositionField.Equals(value) != true)) {
                     this.PositionField = value;
                     this.RaisePropertyChanged("Position");
                 }
@@ -89,16 +77,12 @@ namespace GinRummy.Client.RankingsServiceReference
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string RankName
-        {
-            get
-            {
+        public string RankName {
+            get {
                 return this.RankNameField;
             }
-            set
-            {
-                if ((object.ReferenceEquals(this.RankNameField, value) != true))
-                {
+            set {
+                if ((object.ReferenceEquals(this.RankNameField, value) != true)) {
                     this.RankNameField = value;
                     this.RaisePropertyChanged("RankName");
                 }
@@ -106,16 +90,12 @@ namespace GinRummy.Client.RankingsServiceReference
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Username
-        {
-            get
-            {
+        public string Username {
+            get {
                 return this.UsernameField;
             }
-            set
-            {
-                if ((object.ReferenceEquals(this.UsernameField, value) != true))
-                {
+            set {
+                if ((object.ReferenceEquals(this.UsernameField, value) != true)) {
                     this.UsernameField = value;
                     this.RaisePropertyChanged("Username");
                 }
@@ -123,16 +103,12 @@ namespace GinRummy.Client.RankingsServiceReference
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public double WinRate
-        {
-            get
-            {
+        public double WinRate {
+            get {
                 return this.WinRateField;
             }
-            set
-            {
-                if ((this.WinRateField.Equals(value) != true))
-                {
+            set {
+                if ((this.WinRateField.Equals(value) != true)) {
                     this.WinRateField = value;
                     this.RaisePropertyChanged("WinRate");
                 }
@@ -140,16 +116,12 @@ namespace GinRummy.Client.RankingsServiceReference
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Wins
-        {
-            get
-            {
+        public int Wins {
+            get {
                 return this.WinsField;
             }
-            set
-            {
-                if ((this.WinsField.Equals(value) != true))
-                {
+            set {
+                if ((this.WinsField.Equals(value) != true)) {
                     this.WinsField = value;
                     this.RaisePropertyChanged("Wins");
                 }
@@ -158,11 +130,9 @@ namespace GinRummy.Client.RankingsServiceReference
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
-        protected void RaisePropertyChanged(string propertyName)
-        {
+        protected void RaisePropertyChanged(string propertyName) {
             System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null))
-            {
+            if ((propertyChanged != null)) {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
@@ -170,8 +140,7 @@ namespace GinRummy.Client.RankingsServiceReference
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="RankingsServiceReference.IRankingService")]
-    public interface IRankingService
-    {
+    public interface IRankingService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRankingService/GetRankings", ReplyAction="http://tempuri.org/IRankingService/GetRankingsResponse")]
         System.Collections.Generic.List<GinRummy.Client.RankingsServiceReference.PlayerRankingDto> GetRankings();
@@ -181,46 +150,37 @@ namespace GinRummy.Client.RankingsServiceReference
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IRankingServiceChannel : GinRummy.Client.RankingsServiceReference.IRankingService, System.ServiceModel.IClientChannel
-    {
+    public interface IRankingServiceChannel : GinRummy.Client.RankingsServiceReference.IRankingService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class RankingServiceClient : System.ServiceModel.ClientBase<GinRummy.Client.RankingsServiceReference.IRankingService>, GinRummy.Client.RankingsServiceReference.IRankingService
-    {
+    public partial class RankingServiceClient : System.ServiceModel.ClientBase<GinRummy.Client.RankingsServiceReference.IRankingService>, GinRummy.Client.RankingsServiceReference.IRankingService {
         
-        public RankingServiceClient()
-        {
+        public RankingServiceClient() {
         }
         
         public RankingServiceClient(string endpointConfigurationName) : 
-                base(endpointConfigurationName)
-        {
+                base(endpointConfigurationName) {
         }
         
         public RankingServiceClient(string endpointConfigurationName, string remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress)
-        {
+                base(endpointConfigurationName, remoteAddress) {
         }
         
         public RankingServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress)
-        {
+                base(endpointConfigurationName, remoteAddress) {
         }
         
         public RankingServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(binding, remoteAddress)
-        {
+                base(binding, remoteAddress) {
         }
         
-        public System.Collections.Generic.List<GinRummy.Client.RankingsServiceReference.PlayerRankingDto> GetRankings()
-        {
+        public System.Collections.Generic.List<GinRummy.Client.RankingsServiceReference.PlayerRankingDto> GetRankings() {
             return base.Channel.GetRankings();
         }
         
-        public System.Threading.Tasks.Task<System.Collections.Generic.List<GinRummy.Client.RankingsServiceReference.PlayerRankingDto>> GetRankingsAsync()
-        {
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<GinRummy.Client.RankingsServiceReference.PlayerRankingDto>> GetRankingsAsync() {
             return base.Channel.GetRankingsAsync();
         }
     }
