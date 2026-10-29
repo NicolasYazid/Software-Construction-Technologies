@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using System.Windows.Threading;
 
 using GinRummy.Client.LeaderboardServiceReference;
 using GinRummy.Client.Localization;
@@ -17,6 +18,8 @@ namespace GinRummy.Client
     {
         public const string LocalizationResourceKey = "PrvLocalization";
 
+        private const string FatalErrorTitleKey = "ErrorDialog_LblTitleUnexpected";
+        private const string FatalErrorMessageKey = "Error_SysUnexpected";
         private const string LeaderboardEndpointName = "LeaderboardService";
         private const string LogFolderName = "GinRummy";
         private const string LogFileName = "client.log";
@@ -34,6 +37,7 @@ namespace GinRummy.Client
         };
 
         private readonly ILoggerFactory _loggerFactory;
+        private readonly ILogger<App> _logger;
 
         // Debug entries are kept while the client is in development because they record why an input was rejected.
         public App()
@@ -43,6 +47,7 @@ namespace GinRummy.Client
                 LogFolderName,
                 LogFileName);
             _loggerFactory = new FileLoggerFactory(logFilePath, LogLevel.Debug);
+            _logger = _loggerFactory.CreateLogger<App>();
         }
 
         public RankingsViewModel CreateRankingsViewModel()
@@ -54,6 +59,8 @@ namespace GinRummy.Client
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            DispatcherUnhandledException += OnDispatcherUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += OnDomainUnhandledException;
             Resources[LocalizationResourceKey] = LocalizationProvider.Instance;
             LocalizationProvider.Instance.SetCulture(LocalizationProvider.DefaultCultureCode);
             if (IsSoftwareRendering())
@@ -62,6 +69,32 @@ namespace GinRummy.Client
             }
 
             base.OnStartup(e);
+        }
+
+        // An exception that reaches this handler had no catch block, so the state of the screen and of the session is unknown.
+        private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            _logger.LogCritical(e.Exception, "An unexpected error closed the client.");
+            ShowFatalErrorMessage();
+            e.Handled = true;
+            Shutdown();
+        }
+
+        // The runtime ends the process once this handler returns, so the handler only records the failure and tells the player.
+        private void OnDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            _logger.LogCritical(e.ExceptionObject as Exception, "An unexpected error outside the interface thread closed the client.");
+            ShowFatalErrorMessage();
+        }
+
+        private static void ShowFatalErrorMessage()
+        {
+            LocalizationProvider localization = LocalizationProvider.Instance;
+            MessageBox.Show(
+                localization.GetText(FatalErrorMessageKey),
+                localization.GetText(FatalErrorTitleKey),
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
         }
 
         // WPF reports tier 0 when no graphics hardware is drawing the window.
