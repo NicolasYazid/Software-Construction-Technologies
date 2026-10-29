@@ -188,7 +188,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Connected Services\RankingsServiceReference\Reference.cs">
+    <Compile Include="Connected Services\LeaderboardServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -338,14 +338,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\RankingsServiceReference\RankingsService.wsdl" />
-    <None Include="Connected Services\RankingsServiceReference\RankingsService.xsd">
+    <None Include="Connected Services\LeaderboardServiceReference\LeaderboardService.wsdl" />
+    <None Include="Connected Services\LeaderboardServiceReference\LeaderboardService.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\RankingsServiceReference\RankingsService1.xsd">
+    <None Include="Connected Services\LeaderboardServiceReference\LeaderboardService1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\RankingsServiceReference\RankingsService2.xsd">
+    <None Include="Connected Services\LeaderboardServiceReference\LeaderboardService2.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
@@ -364,16 +364,16 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\RankingsServiceReference\" />
+    <WCFMetadataStorage Include="Connected Services\LeaderboardServiceReference\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\RankingsServiceReference\configuration91.svcinfo" />
+    <None Include="Connected Services\LeaderboardServiceReference\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\RankingsServiceReference\configuration.svcinfo" />
+    <None Include="Connected Services\LeaderboardServiceReference\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\RankingsServiceReference\Reference.svcmap">
+    <None Include="Connected Services\LeaderboardServiceReference\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

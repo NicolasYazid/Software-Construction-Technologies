@@ -4,9 +4,9 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 
+using GinRummy.Client.LeaderboardServiceReference;
 using GinRummy.Client.Localization;
 using GinRummy.Client.Logging;
-using GinRummy.Client.RankingsServiceReference;
 using GinRummy.Client.ViewModels;
 using Microsoft.Extensions.Logging;
 
@@ -17,6 +17,7 @@ namespace GinRummy.Client
     {
         public const string LocalizationResourceKey = "Loc";
 
+        private const string LeaderboardEndpointName = "LeaderboardService";
         private const string LogFolderName = "GinRummy";
         private const string LogFileName = "client.log";
         private const int RenderingTierShift = 16;
@@ -47,7 +48,7 @@ namespace GinRummy.Client
         public RankingsViewModel CreateRankingsViewModel()
         {
             return new RankingsViewModel(
-                new RankingServiceClient(),
+                new LeaderboardServiceClient(LeaderboardEndpointName),
                 _loggerFactory.CreateLogger<RankingsViewModel>());
         }
 

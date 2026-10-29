@@ -4,14 +4,14 @@
         xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
         xmlns:views="clr-namespace:GinRummy.Client.Views"
         xmlns:models="clr-namespace:GinRummy.Client.Models"
-        xmlns:contracts="clr-namespace:GinRummy.Client.RankingsServiceReference"
+        xmlns:contracts="clr-namespace:GinRummy.Client.LeaderboardServiceReference"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
         HasCloseButton="False">
     <UserControl.Resources>
         <!-- The podium and the rows format their numbers inside a template, where no window can
              rebuild them one by one, so they bind to the culture of the provider as well. -->
-        <DataTemplate x:Key="TplPodiumPlace" DataType="{x:Type contracts:PlayerRankingDto}">
+        <DataTemplate x:Key="TplPodiumPlace" DataType="{x:Type contracts:PlayerRanking}">
             <ctl:PixelBorder Style="{StaticResource StyPodiumCard}">
                 <StackPanel>
                     <DockPanel LastChildFill="True">
@@ -62,7 +62,7 @@
 
         <!-- The columns of a row repeat the widths of the head of the table, so that both line
              up without sharing a grid. -->
-        <DataTemplate x:Key="TplRankingRow" DataType="{x:Type contracts:PlayerRankingDto}">
+        <DataTemplate x:Key="TplRankingRow" DataType="{x:Type contracts:PlayerRanking}">
             <Border Style="{StaticResource StyRankingRow}">
                 <Grid>
                     <Grid.ColumnDefinitions>

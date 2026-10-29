@@ -8,16 +8,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GinRummy.Client.RankingsServiceReference {
+namespace GinRummy.Client.LeaderboardServiceReference {
     using System.Runtime.Serialization;
     using System;
     
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PlayerRankingDto", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PlayerRanking", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts")]
     [System.SerializableAttribute()]
-    public partial class PlayerRankingDto : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class PlayerRanking : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -139,49 +139,49 @@ namespace GinRummy.Client.RankingsServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="RankingsServiceReference.IRankingService")]
-    public interface IRankingService {
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="LeaderboardServiceReference.ILeaderboardService")]
+    public interface ILeaderboardService {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRankingService/GetRankings", ReplyAction="http://tempuri.org/IRankingService/GetRankingsResponse")]
-        System.Collections.Generic.List<GinRummy.Client.RankingsServiceReference.PlayerRankingDto> GetRankings();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeaderboardService/GetLeaderboard", ReplyAction="http://tempuri.org/ILeaderboardService/GetLeaderboardResponse")]
+        System.Collections.Generic.List<GinRummy.Client.LeaderboardServiceReference.PlayerRanking> GetLeaderboard();
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IRankingService/GetRankings", ReplyAction="http://tempuri.org/IRankingService/GetRankingsResponse")]
-        System.Threading.Tasks.Task<System.Collections.Generic.List<GinRummy.Client.RankingsServiceReference.PlayerRankingDto>> GetRankingsAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILeaderboardService/GetLeaderboard", ReplyAction="http://tempuri.org/ILeaderboardService/GetLeaderboardResponse")]
+        System.Threading.Tasks.Task<System.Collections.Generic.List<GinRummy.Client.LeaderboardServiceReference.PlayerRanking>> GetLeaderboardAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IRankingServiceChannel : GinRummy.Client.RankingsServiceReference.IRankingService, System.ServiceModel.IClientChannel {
+    public interface ILeaderboardServiceChannel : GinRummy.Client.LeaderboardServiceReference.ILeaderboardService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class RankingServiceClient : System.ServiceModel.ClientBase<GinRummy.Client.RankingsServiceReference.IRankingService>, GinRummy.Client.RankingsServiceReference.IRankingService {
+    public partial class LeaderboardServiceClient : System.ServiceModel.ClientBase<GinRummy.Client.LeaderboardServiceReference.ILeaderboardService>, GinRummy.Client.LeaderboardServiceReference.ILeaderboardService {
         
-        public RankingServiceClient() {
+        public LeaderboardServiceClient() {
         }
         
-        public RankingServiceClient(string endpointConfigurationName) : 
+        public LeaderboardServiceClient(string endpointConfigurationName) : 
                 base(endpointConfigurationName) {
         }
         
-        public RankingServiceClient(string endpointConfigurationName, string remoteAddress) : 
+        public LeaderboardServiceClient(string endpointConfigurationName, string remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public RankingServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public LeaderboardServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(endpointConfigurationName, remoteAddress) {
         }
         
-        public RankingServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+        public LeaderboardServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress) {
         }
         
-        public System.Collections.Generic.List<GinRummy.Client.RankingsServiceReference.PlayerRankingDto> GetRankings() {
-            return base.Channel.GetRankings();
+        public System.Collections.Generic.List<GinRummy.Client.LeaderboardServiceReference.PlayerRanking> GetLeaderboard() {
+            return base.Channel.GetLeaderboard();
         }
         
-        public System.Threading.Tasks.Task<System.Collections.Generic.List<GinRummy.Client.RankingsServiceReference.PlayerRankingDto>> GetRankingsAsync() {
-            return base.Channel.GetRankingsAsync();
+        public System.Threading.Tasks.Task<System.Collections.Generic.List<GinRummy.Client.LeaderboardServiceReference.PlayerRanking>> GetLeaderboardAsync() {
+            return base.Channel.GetLeaderboardAsync();
         }
     }
 }
