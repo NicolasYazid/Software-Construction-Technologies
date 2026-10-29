@@ -5,6 +5,10 @@ using GinRummy.Persistence.Repositories;
 
 namespace GinRummy.Persistence.Persistence
 {
+    /// <summary>
+    /// Fulfils IUnitOfWork with one Entity Framework context and one transaction shared by every
+    /// repository it exposes.
+    /// </summary>
     public class EntityFrameworkUnitOfWork : IUnitOfWork
     {
         private readonly GinRummyContext _context;
