@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Threading;
+
+using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
 {
@@ -10,45 +11,14 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiReconnecting : GuiModalBase
     {
-        // The length of the reconnection window is still an open decision of the team.
-        // This value only drives the countdown until the server supplies the real one.
-        private const int ReconnectionWindowSeconds = 60;
-        private const int TimerIntervalSeconds = 1;
-        private const string TimeRemainingKey = "Reconnecting_LblTimeRemaining";
-
-        private readonly DispatcherTimer _countdownTimer;
-        private TimeSpan _remainingTime;
+        private readonly ReconnectingViewModel _viewModel;
 
         public GuiReconnecting()
         {
             InitializeComponent();
-            _remainingTime = TimeSpan.FromSeconds(ReconnectionWindowSeconds);
-            _countdownTimer = new DispatcherTimer();
-            _countdownTimer.Interval = TimeSpan.FromSeconds(TimerIntervalSeconds);
-            _countdownTimer.Tick += OnCountdownTick;
-            _countdownTimer.Start();
+            _viewModel = new ReconnectingViewModel();
+            DataContext = _viewModel;
             Closed += OnScreenClosed;
-            RefreshFormattedText();
-        }
-
-        protected override void RefreshFormattedText()
-        {
-            if (lblTimeRemaining != null)
-            {
-                lblTimeRemaining.Text = Localization.Format(
-                    TimeRemainingKey,
-                    DurationCommon.ToClock(_remainingTime, Localization.CurrentCulture));
-            }
-        }
-
-        private void OnCountdownTick(object sender, EventArgs e)
-        {
-            if (_remainingTime > TimeSpan.Zero)
-            {
-                _remainingTime = _remainingTime.Subtract(TimeSpan.FromSeconds(TimerIntervalSeconds));
-            }
-
-            RefreshFormattedText();
         }
 
         private void OnCancelClick(object sender, RoutedEventArgs e)
@@ -58,8 +28,7 @@ namespace GinRummy.Client.Views
 
         private void OnScreenClosed(object sender, EventArgs e)
         {
-            _countdownTimer.Stop();
-            _countdownTimer.Tick -= OnCountdownTick;
+            _viewModel.Countdown.Stop();
             Closed -= OnScreenClosed;
         }
     }
