@@ -18,10 +18,11 @@ namespace GinRummy.Domain.Entities
         /// <param name="place">The place in the ordering, starting at one.</param>
         /// <param name="stats">The player's stats.</param>
         /// <param name="rank">The rank the score falls into, or null when none matches.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the stats are null.</exception>
         public LeaderboardPosition(int place, PlayerStats stats, Rank rank)
         {
             Place = place;
-            Stats = stats;
+            Stats = stats ?? throw new ArgumentNullException(nameof(stats));
             Rank = rank;
         }
 
