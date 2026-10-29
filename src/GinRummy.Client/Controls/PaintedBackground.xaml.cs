@@ -64,10 +64,6 @@ namespace GinRummy.Client.Controls
         private const double Unit = 1.0;
         private const double Zero = 0.0;
 
-        private static readonly Color FallbackDeepColour = Color.FromRgb(6, 24, 15);
-        private static readonly Color FallbackMidColour = Color.FromRgb(30, 103, 70);
-        private static readonly Color FallbackGlowColour = Color.FromRgb(106, 210, 154);
-
         public static readonly DependencyProperty PatternScaleProperty =
             DependencyProperty.Register(
                 "PatternScale",
@@ -89,21 +85,21 @@ namespace GinRummy.Client.Controls
                 "DeepColour",
                 typeof(Color),
                 typeof(PaintedBackground),
-                new PropertyMetadata(FallbackDeepColour));
+                new PropertyMetadata(Color.FromRgb(6, 24, 15)));
 
         public static readonly DependencyProperty MidColourProperty =
             DependencyProperty.Register(
                 "MidColour",
                 typeof(Color),
                 typeof(PaintedBackground),
-                new PropertyMetadata(FallbackMidColour));
+                new PropertyMetadata(Color.FromRgb(30, 103, 70)));
 
         public static readonly DependencyProperty GlowColourProperty =
             DependencyProperty.Register(
                 "GlowColour",
                 typeof(Color),
                 typeof(PaintedBackground),
-                new PropertyMetadata(FallbackGlowColour));
+                new PropertyMetadata(Color.FromRgb(106, 210, 154)));
 
         private readonly Stopwatch _clock;
 
