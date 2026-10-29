@@ -11,7 +11,6 @@ using GinRummy.Infrastructure;
 using GinRummy.Persistence.Repositories;
 using GinRummy.Services.Hosting;
 using GinRummy.Services.Services;
-
 using Microsoft.Extensions.Logging;
 
 namespace GinRummy.ServerHost
