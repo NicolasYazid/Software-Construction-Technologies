@@ -43,13 +43,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Callbacks\IPlayerPresenceCallback.cs" />
+    <Compile Include="DataContracts\FriendPresence.cs" />
+    <Compile Include="DataContracts\PresenceStatus.cs" />
+    <Compile Include="Services\IPlayerPresenceService.cs" />
     <Compile Include="Services\IRankingService.cs" />
     <Compile Include="Services\ILeaderboardService.cs" />
     <Compile Include="DataContracts\PlayerRanking.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Callbacks\" />
     <Folder Include="Faults\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
