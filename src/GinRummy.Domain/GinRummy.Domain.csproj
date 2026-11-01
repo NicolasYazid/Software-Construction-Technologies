@@ -58,6 +58,7 @@
     <Compile Include="Entities\GuestSession.cs" />
     <Compile Include="Entities\LeaderboardPosition.cs" />
     <Compile Include="Entities\Locale.cs" />
+    <Compile Include="Entities\LogInResult.cs" />
     <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\MessageChannel.cs" />
     <Compile Include="Entities\Platform.cs" />
@@ -101,8 +102,10 @@
     <Compile Include="RequiredFieldMissingException.cs" />
     <Compile Include="Security\Password.cs" />
     <Compile Include="Security\PasswordRequirement.cs" />
+    <Compile Include="Services\AccountAccessPolicy.cs" />
     <Compile Include="Services\ForbiddenCharacterCommon.cs" />
     <Compile Include="Services\RankResolver.cs" />
+    <Compile Include="Services\TypedFieldValidator.cs" />
     <Compile Include="Services\VerificationCodeChecker.cs" />
     <Compile Include="Services\VerificationCodeCheckResult.cs" />
     <Compile Include="VerificationCodeRejectedException.cs" />

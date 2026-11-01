@@ -141,6 +141,19 @@ namespace GinRummy.Domain.Entities
             IsTwoFactorEnabled = false;
         }
 
+        /// <summary>
+        /// Writes an email address the way the account stores it, so a typed address can be compared with it.
+        /// </summary>
+        /// <param name="email">Email address as it was typed; not null.</param>
+        /// <returns>The address without surrounding spaces and in lower case.</returns>
+        public static string NormalizeEmail(string email)
+        {
+            // The column is unique, so the same address in different case must be the same value.
+            string normalizedEmail = email.Trim().ToLowerInvariant();
+
+            return normalizedEmail;
+        }
+
         // The key of the account is the key of a player that already exists.
         private static void ValidatePlayerId(int playerId)
         {
@@ -174,12 +187,5 @@ namespace GinRummy.Domain.Entities
             }
         }
 
-        // The column is unique, so the same address in different case must be the same value.
-        private static string NormalizeEmail(string email)
-        {
-            string normalizedEmail = email.Trim().ToLowerInvariant();
-
-            return normalizedEmail;
-        }
     }
 }
