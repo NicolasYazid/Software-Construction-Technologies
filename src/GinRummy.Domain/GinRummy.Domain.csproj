@@ -56,6 +56,7 @@
     <Compile Include="Entities\GameSession.cs" />
     <Compile Include="Entities\GameState.cs" />
     <Compile Include="Entities\GuestSession.cs" />
+    <Compile Include="Entities\IssuedVerificationCode.cs" />
     <Compile Include="Entities\LeaderboardPosition.cs" />
     <Compile Include="Entities\Locale.cs" />
     <Compile Include="Entities\LogInResult.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Ports\Infrastructure\IClock.cs" />
     <Compile Include="Ports\Infrastructure\IEmailSender.cs" />
     <Compile Include="Ports\Infrastructure\IProfilePictureStorage.cs" />
+    <Compile Include="Ports\Infrastructure\IVerificationEmailComposer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ports\Repositories\IChallengeRepository.cs" />
     <Compile Include="Ports\Repositories\IFriendRepository.cs" />
@@ -108,6 +110,9 @@
     <Compile Include="Services\TypedFieldValidator.cs" />
     <Compile Include="Services\VerificationCodeChecker.cs" />
     <Compile Include="Services\VerificationCodeCheckResult.cs" />
+    <Compile Include="Services\VerificationCodeIssuer.cs" />
+    <Compile Include="Services\VerificationCodeRedeemer.cs" />
+    <Compile Include="Services\VerificationCodeSender.cs" />
     <Compile Include="VerificationCodeRejectedException.cs" />
     <Compile Include="VerificationEmailNotSentException.cs" />
   </ItemGroup>
