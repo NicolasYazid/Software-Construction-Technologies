@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 
-using GinRummy.Domain.Security;
+using GinRummy.Domain.Ports.Security;
 
 namespace GinRummy.Security
 {

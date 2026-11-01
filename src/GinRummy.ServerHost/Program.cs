@@ -5,7 +5,7 @@ using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 
 using GinRummy.Application.UseCases;
-using GinRummy.Domain.Repositories;
+using GinRummy.Domain.Ports.Repositories;
 using GinRummy.Domain.Services;
 using GinRummy.Infrastructure;
 using GinRummy.Persistence.Repositories;
