@@ -4,16 +4,11 @@ using System.Security.Cryptography;
 using System.Text;
 
 using GinRummy.Domain.Ports.Security;
+using GinRummy.Domain.Security;
 using Konscious.Security.Cryptography;
 
 namespace GinRummy.Security
 {
-    /// <summary>
-    /// Fulfils IPasswordHasher using Argon2id, with the parameters OWASP recommends
-    /// for interactive login (m=19456 KiB, t=2, p=1). Reads and writes hashes in the
-    /// PHC string format the database already uses, e.g.
-    /// "$argon2id$v=19$m=19456,t=2,p=1$&lt;salt&gt;$&lt;hash&gt;".
-    /// </summary>
     public class Argon2PasswordHasher : IPasswordHasher
     {
         private const int MemorySizeInKibibytes = 19456;
@@ -28,26 +23,31 @@ namespace GinRummy.Security
         private const string AlgorithmName = "argon2id";
         private const char FieldSeparator = '$';
 
-        /// <summary>
-        /// Produces a hash of the given plain text password, safe to store in place of it.
-        /// </summary>
-        /// <param name="plainTextPassword">The password exactly as the player typed it.</param>
-        /// <returns>An encoded hash that carries its own salt and parameters.</returns>
-        public string HashPassword(string plainTextPassword)
+        public string HashPassword(Password password)
         {
+            if (password == null)
+            {
+                throw new ArgumentNullException(nameof(password));
+            }
+
+            char[] characters = password.ReadOnce();
+            byte[] passwordBytes = Encoding.UTF8.GetBytes(characters);
             byte[] salt = GenerateSalt();
-            byte[] hash = ComputeHash(plainTextPassword, salt);
-            string encodedHash = Encode(salt, hash);
+            string encodedHash;
+            try
+            {
+                byte[] hash = ComputeHash(passwordBytes, salt);
+                encodedHash = Encode(salt, hash);
+            }
+            finally
+            {
+                Array.Clear(characters, 0, characters.Length);
+                Array.Clear(passwordBytes, 0, passwordBytes.Length);
+            }
 
             return encodedHash;
         }
 
-        /// <summary>
-        /// Checks whether a plain text password matches a previously stored hash.
-        /// </summary>
-        /// <param name="plainTextPassword">The password exactly as the player typed it.</param>
-        /// <param name="hash">The stored hash to check against.</param>
-        /// <returns>True when the password matches the hash.</returns>
         public bool VerifyPassword(string plainTextPassword, string hash)
         {
             bool isPasswordValid = false;
@@ -55,14 +55,14 @@ namespace GinRummy.Security
             byte[] storedHash;
             if (TryDecode(hash, out storedSalt, out storedHash))
             {
-                byte[] candidateHash = ComputeHash(plainTextPassword, storedSalt);
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(plainTextPassword);
+                byte[] candidateHash = ComputeHash(passwordBytes, storedSalt);
                 isPasswordValid = AreEqual(candidateHash, storedHash);
             }
 
             return isPasswordValid;
         }
 
-        // A new salt for every password makes two players with the same password end up with different stored hashes.
         private static byte[] GenerateSalt()
         {
             byte[] salt = new byte[SaltSizeInBytes];
@@ -74,11 +74,8 @@ namespace GinRummy.Security
             return salt;
         }
 
-        // The same salt and parameters must be used when a password is hashed and every time it is verified.
-        // Otherwise the output never matches, even for the correct password.
-        private static byte[] ComputeHash(string plainTextPassword, byte[] salt)
+        private static byte[] ComputeHash(byte[] passwordBytes, byte[] salt)
         {
-            byte[] passwordBytes = Encoding.UTF8.GetBytes(plainTextPassword);
             byte[] hash;
             using (Argon2id argon2Id = new Argon2id(passwordBytes))
             {
@@ -92,7 +89,6 @@ namespace GinRummy.Security
             return hash;
         }
 
-        // The parameters travel with the salt and the hash in the PHC string format the database already stores.
         private static string Encode(byte[] salt, byte[] hash)
         {
             string saltText = Convert.ToBase64String(salt);
@@ -111,7 +107,6 @@ namespace GinRummy.Security
             return encodedHash;
         }
 
-        // A stored value without the expected shape means that the sign-in fails, not that the screen crashes.
         private static bool TryDecode(string encodedHash, out byte[] salt, out byte[] hash)
         {
             bool isDecoded = false;
@@ -135,8 +130,6 @@ namespace GinRummy.Security
             return isDecoded;
         }
 
-        // Every byte is compared without stopping at the first difference.
-        // The time the comparison takes therefore does not reveal how many leading bytes matched.
         private static bool AreEqual(byte[] first, byte[] second)
         {
             int difference = first.Length ^ second.Length;
