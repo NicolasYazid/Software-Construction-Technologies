@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountBannedException.cs" />
+    <Compile Include="DisallowedCharactersException.cs" />
+    <Compile Include="EmailNotVerifiedException.cs" />
     <Compile Include="Entities\Ban.cs" />
     <Compile Include="Entities\Challenge.cs" />
     <Compile Include="Entities\ChallengeStatus.cs" />
@@ -75,6 +78,7 @@
     <Compile Include="Entities\VerificationPurpose.cs" />
     <Compile Include="Entities\Warning.cs" />
     <Compile Include="GameCoreException.cs" />
+    <Compile Include="InvalidCredentialsException.cs" />
     <Compile Include="Ports\Infrastructure\IClock.cs" />
     <Compile Include="Ports\Infrastructure\IEmailSender.cs" />
     <Compile Include="Ports\Infrastructure\IProfilePictureStorage.cs" />
@@ -94,12 +98,15 @@
     <Compile Include="Ports\Repositories\IVerificationCodeRepository.cs" />
     <Compile Include="Ports\Security\IPasswordHasher.cs" />
     <Compile Include="Ports\Security\IVerificationCodeGenerator.cs" />
+    <Compile Include="RequiredFieldMissingException.cs" />
     <Compile Include="Security\Password.cs" />
     <Compile Include="Security\PasswordRequirement.cs" />
     <Compile Include="Services\ForbiddenCharacterCommon.cs" />
     <Compile Include="Services\RankResolver.cs" />
     <Compile Include="Services\VerificationCodeChecker.cs" />
     <Compile Include="Services\VerificationCodeCheckResult.cs" />
+    <Compile Include="VerificationCodeRejectedException.cs" />
+    <Compile Include="VerificationEmailNotSentException.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
