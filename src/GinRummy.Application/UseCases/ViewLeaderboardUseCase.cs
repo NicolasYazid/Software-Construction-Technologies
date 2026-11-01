@@ -4,7 +4,7 @@ using System.Linq;
 
 using GinRummy.Application.Ports;
 using GinRummy.Domain.Entities;
-using GinRummy.Domain.Repositories;
+using GinRummy.Domain.Ports.Repositories;
 using GinRummy.Domain.Services;
 
 namespace GinRummy.Application.UseCases
