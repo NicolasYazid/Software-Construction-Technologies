@@ -1,6 +1,6 @@
 ﻿using System;
 
-using GinRummy.Domain.Infrastructure;
+using GinRummy.Domain.Ports.Infrastructure;
 
 namespace GinRummy.Infrastructure
 {
