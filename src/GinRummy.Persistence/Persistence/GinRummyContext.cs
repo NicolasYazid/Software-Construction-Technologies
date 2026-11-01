@@ -1,6 +1,13 @@
 ﻿using System.Data.Entity;
 
 using GinRummy.Domain.Entities;
+using GinRummy.Domain.Entities.Authentication;
+using GinRummy.Domain.Entities.ChatMessaging;
+using GinRummy.Domain.Entities.Friendship;
+using GinRummy.Domain.Entities.Game;
+using GinRummy.Domain.Entities.PlayerModeration;
+using GinRummy.Domain.Entities.PlayerRanking;
+using GinRummy.Domain.Entities.Players;
 using GinRummy.Persistence.Configurations;
 
 namespace GinRummy.Persistence.Persistence

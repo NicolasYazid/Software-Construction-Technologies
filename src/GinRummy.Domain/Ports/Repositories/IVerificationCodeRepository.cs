@@ -1,6 +1,6 @@
 ﻿using System;
 
-using GinRummy.Domain.Entities;
+using GinRummy.Domain.Entities.Authentication;
 
 namespace GinRummy.Domain.Ports.Repositories
 {

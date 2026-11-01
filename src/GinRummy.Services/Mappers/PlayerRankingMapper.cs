@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 
 using GinRummy.Contracts.DataContracts;
-using GinRummy.Domain.Entities;
+using GinRummy.Domain.Entities.PlayerRanking;
+using GinRummy.Domain.Entities.Players;
 
 namespace GinRummy.Services.Mappers
 {

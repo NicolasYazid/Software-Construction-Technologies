@@ -1,4 +1,4 @@
-﻿using GinRummy.Domain.Entities;
+﻿using GinRummy.Domain.Entities.Authentication;
 
 namespace GinRummy.Domain.Ports.Infrastructure
 {

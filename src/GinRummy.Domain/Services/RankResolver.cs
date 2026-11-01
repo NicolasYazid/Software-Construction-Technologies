@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using GinRummy.Domain.Entities;
+using GinRummy.Domain.Entities.PlayerRanking;
 
 namespace GinRummy.Domain.Services
 {

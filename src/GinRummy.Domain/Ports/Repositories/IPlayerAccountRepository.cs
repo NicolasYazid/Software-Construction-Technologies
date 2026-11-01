@@ -1,4 +1,4 @@
-﻿using GinRummy.Domain.Entities;
+﻿using GinRummy.Domain.Entities.Players;
 
 namespace GinRummy.Domain.Ports.Repositories
 {

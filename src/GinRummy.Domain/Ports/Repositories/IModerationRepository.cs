@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using GinRummy.Domain.Entities;
+using GinRummy.Domain.Entities.PlayerModeration;
 
 namespace GinRummy.Domain.Ports.Repositories
 {

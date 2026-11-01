@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 using GinRummy.Application.Ports;
-using GinRummy.Domain.Entities;
+using GinRummy.Domain.Entities.PlayerRanking;
+using GinRummy.Domain.Entities.Players;
 using GinRummy.Domain.Ports.Repositories;
 using GinRummy.Domain.Services;
 

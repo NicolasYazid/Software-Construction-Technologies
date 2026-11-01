@@ -2,7 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 
-using GinRummy.Domain.Entities;
+using GinRummy.Domain.Entities.Players;
 using GinRummy.Domain.Ports.Repositories;
 using GinRummy.Persistence.Persistence;
 

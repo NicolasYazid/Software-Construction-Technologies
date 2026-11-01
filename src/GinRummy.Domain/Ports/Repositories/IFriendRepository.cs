@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using GinRummy.Domain.Entities;
+using GinRummy.Domain.Entities.Friendship;
 
 namespace GinRummy.Domain.Ports.Repositories
 {

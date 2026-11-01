@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
-using GinRummy.Domain.Entities;
+using GinRummy.Domain.Entities.PlayerRanking;
 
 namespace GinRummy.Persistence.Configurations
 {

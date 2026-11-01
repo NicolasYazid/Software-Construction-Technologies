@@ -5,7 +5,7 @@ using System.ServiceModel;
 using GinRummy.Application.Ports;
 using GinRummy.Contracts.DataContracts;
 using GinRummy.Contracts.Services;
-using GinRummy.Domain.Entities;
+using GinRummy.Domain.Entities.PlayerRanking;
 using GinRummy.Services.Mappers;
 
 namespace GinRummy.Services.Services

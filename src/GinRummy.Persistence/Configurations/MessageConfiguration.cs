@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity.ModelConfiguration;
 
-using GinRummy.Domain.Entities;
+using GinRummy.Domain.Entities.ChatMessaging;
+using GinRummy.Domain.Entities.Players;
 
 namespace GinRummy.Persistence.Configurations
 {
