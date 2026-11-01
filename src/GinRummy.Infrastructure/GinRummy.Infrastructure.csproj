@@ -44,6 +44,7 @@
     <Compile Include="SmtpEmailSender.cs" />
     <Compile Include="SmtpSettings.cs" />
     <Compile Include="SystemClock.cs" />
+    <Compile Include="VerificationEmailComposer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -53,6 +54,12 @@
       <Project>{58dde2c2-10bb-49d9-bd13-0d4afa4445e9}</Project>
       <Name>GinRummy.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="VerificationEmailTexts.resx" />
+    <EmbeddedResource Include="VerificationEmailTexts.en.resx">
+      <DependentUpon>VerificationEmailTexts.resx</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
