@@ -4,6 +4,7 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 
+using GinRummy.Application;
 using GinRummy.Application.UseCases;
 using GinRummy.Domain.Repositories;
 using GinRummy.Domain.Services;
@@ -26,6 +27,10 @@ namespace GinRummy.ServerHost
         private const string LogFolderName = "Logs";
         private const string LogFileName = "GinRummy.ServerHost.log";
 
+        // Presence shares one coordinator and one notifier across every session, so they are created once here.
+        private static FriendPresenceNotifier _presenceNotifier;
+        private static PresenceCoordinator _presenceCoordinator;
+
         /// <summary>
         /// Composes and opens every service and keeps them listening until Enter is pressed.
         /// </summary>
@@ -38,7 +43,12 @@ namespace GinRummy.ServerHost
                 IServiceBehavior faultShieldBehavior = new FaultShieldBehavior(faultShield);
                 ServiceHostGroup hostGroup = new ServiceHostGroup(loggerFactory.CreateLogger<ServiceHostGroup>());
 
+                // Shared singletons (created once).
+                _presenceNotifier = new FriendPresenceNotifier(new PlayerRepository(ConnectionStringName));
+                _presenceCoordinator = new PresenceCoordinator(new FriendRepository(ConnectionStringName), _presenceNotifier);
+
                 hostGroup.Add(CreateIsolatedHost(typeof(LeaderboardService), ComposeLeaderboardService, faultShieldBehavior));
+                hostGroup.Add(CreateIsolatedHost(typeof(PlayerPresenceService), ComposePlayerPresenceService, faultShieldBehavior));
 
                 hostGroup.OpenAll();
 
@@ -76,6 +86,13 @@ namespace GinRummy.ServerHost
             LeaderboardService leaderboardService = new LeaderboardService(useCase);
 
             return leaderboardService;
+        }
+
+        // The service is PerSession, so this runs once per session and reuses the shared singletons.
+        // The service never disposes those singletons, because the composition root owns them.
+        private static PlayerPresenceService ComposePlayerPresenceService()
+        {
+            return new PlayerPresenceService(_presenceCoordinator, _presenceNotifier, new PlayerRepository(ConnectionStringName));
         }
     }
 }
