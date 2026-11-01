@@ -2,8 +2,8 @@
 using System.Linq;
 
 using GinRummy.Domain.Entities;
-using GinRummy.Domain.Infrastructure;
-using GinRummy.Domain.Security;
+using GinRummy.Domain.Ports.Infrastructure;
+using GinRummy.Domain.Ports.Security;
 
 namespace GinRummy.Domain.Services
 {
