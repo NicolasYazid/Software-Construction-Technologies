@@ -1,6 +1,6 @@
 ﻿using GinRummy.Domain.Entities;
 
-namespace GinRummy.Domain.Infrastructure
+namespace GinRummy.Domain.Ports.Infrastructure
 {
     /// <summary>
     /// Contract the game's logic uses to send an email, without knowing which mail service is

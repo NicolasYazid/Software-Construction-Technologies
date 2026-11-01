@@ -1,6 +1,6 @@
 ﻿using GinRummy.Domain.Entities;
 
-namespace GinRummy.Domain.Repositories
+namespace GinRummy.Domain.Ports.Repositories
 {
     /// <summary>
     /// Contract the game's logic uses to reach PlayerAccount data, without knowing how or

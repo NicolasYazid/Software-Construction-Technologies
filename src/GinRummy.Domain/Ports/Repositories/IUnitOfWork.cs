@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GinRummy.Domain.Repositories
+namespace GinRummy.Domain.Ports.Repositories
 {
     /// <summary>
     /// A set of repositories that share one transaction, so their changes are all saved

@@ -1,4 +1,4 @@
-﻿namespace GinRummy.Domain.Security
+﻿namespace GinRummy.Domain.Ports.Security
 {
     /// <summary>
     /// Contract the game's logic uses to protect and check player passwords, without

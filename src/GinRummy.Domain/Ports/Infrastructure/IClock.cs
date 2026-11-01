@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GinRummy.Domain.Infrastructure
+namespace GinRummy.Domain.Ports.Infrastructure
 {
     /// <summary>
     /// Contract the game's logic uses to know the current time, so expiry dates, sanction

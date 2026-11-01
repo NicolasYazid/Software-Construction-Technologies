@@ -1,4 +1,4 @@
-﻿namespace GinRummy.Domain.Infrastructure
+﻿namespace GinRummy.Domain.Ports.Infrastructure
 {
     /// <summary>
     /// Contract the game's logic uses to keep profile pictures, without knowing whether they
