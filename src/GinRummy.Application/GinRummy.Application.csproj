@@ -41,7 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ports\IFriendPresenceNotificationPort.cs" />
     <Compile Include="Ports\ILeaderboardPort.cs" />
+    <Compile Include="Ports\IPlayerPresencePort.cs" />
+    <Compile Include="PresenceCoordinator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UseCases\ViewLeaderboardUseCase.cs" />
   </ItemGroup>
