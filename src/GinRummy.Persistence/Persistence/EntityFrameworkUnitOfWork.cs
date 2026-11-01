@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
 
-using GinRummy.Domain.Repositories;
+using GinRummy.Domain.Ports.Repositories;
 using GinRummy.Persistence.Repositories;
 
 namespace GinRummy.Persistence.Persistence

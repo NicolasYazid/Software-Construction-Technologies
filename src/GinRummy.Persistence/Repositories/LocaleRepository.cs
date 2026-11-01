@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using GinRummy.Domain.Entities;
-using GinRummy.Domain.Repositories;
+using GinRummy.Domain.Ports.Repositories;
 using GinRummy.Persistence.Persistence;
 
 namespace GinRummy.Persistence.Repositories
