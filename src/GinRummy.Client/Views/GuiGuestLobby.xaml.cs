@@ -18,7 +18,10 @@ namespace GinRummy.Client.Views
         public GuiGuestLobby()
         {
             InitializeComponent();
-            _viewModel = new GuestLobbyViewModel(((App)Application.Current).SampleData);
+            // The composition root builds the lobby: when a public tag was passed at startup it enables the
+            // live friends tab. Enabling the tab for a guest and taking the identity from an argument are
+            // temporary shortcuts until CU-02 and the authenticated lobby exist.
+            _viewModel = ((App)Application.Current).CreateGuestLobbyViewModel();
             DataContext = _viewModel;
             Loaded += OnScreenLoaded;
             Closed += OnScreenClosed;
@@ -26,6 +29,7 @@ namespace GinRummy.Client.Views
 
         private void OnScreenLoaded(object sender, RoutedEventArgs e)
         {
+            _viewModel.StartPresence();
             if (_viewModel.ChatEntries.Count > 0)
             {
                 OverlayInsetCommon.ScrollToEnd(lstMessages);
@@ -50,6 +54,7 @@ namespace GinRummy.Client.Views
 
         private void OnScreenClosed(object sender, EventArgs e)
         {
+            _viewModel.StopPresence();
             Loaded -= OnScreenLoaded;
             Closed -= OnScreenClosed;
         }

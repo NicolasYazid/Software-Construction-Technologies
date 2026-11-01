@@ -222,12 +222,45 @@
                     </StackPanel>
                 </ScrollViewer>
 
-                <!-- A guest has no friends (CU-11 FA-02): the tab only says why. -->
-                <TextBlock x:Name="lblFriendsDisabled" Grid.Row="2" Style="{StaticResource StyPanelEmpty}"
-                           Margin="20,12,20,8" VerticalAlignment="Top"
-                           Visibility="{Binding IsSelected, ElementName=tabFriends,
-                                        Converter={StaticResource CnvBooleanToVisibility}}"
-                           Text="{Binding [GuestLobby_FriendsDisabled], Source={StaticResource PrvLocalization}}" />
+                <!-- Friends tab. With a player identity it shows live presence; as a guest it only says why. -->
+                <Grid Grid.Row="2"
+                      Visibility="{Binding IsSelected, ElementName=tabFriends,
+                                   Converter={StaticResource CnvBooleanToVisibility}}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,4,4,8"
+                                  Visibility="{Binding IsPresenceEnabled,
+                                               Converter={StaticResource CnvBooleanToVisibility}}">
+                        <StackPanel Margin="14,0,10,0">
+                            <TextBlock x:Name="lblFriendsGroupOnline" Style="{StaticResource StyGroupHeader}">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
+                                        <Binding Path="[FriendsList_LblGroupOnline]" Source="{StaticResource PrvLocalization}" />
+                                        <Binding Path="FriendsOnline.Count" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <Border Style="{StaticResource StyGroupRule}" />
+                            <ItemsControl ItemsSource="{Binding FriendsOnline}" ItemTemplate="{StaticResource TplLobbyPlayer}" />
+
+                            <TextBlock x:Name="lblFriendsGroupUnavailable" Style="{StaticResource StyGroupHeader}">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
+                                        <Binding Path="[FriendsList_LblGroupUnavailable]" Source="{StaticResource PrvLocalization}" />
+                                        <Binding Path="FriendsUnavailable.Count" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <Border Style="{StaticResource StyGroupRule}" />
+                            <ItemsControl ItemsSource="{Binding FriendsUnavailable}" ItemTemplate="{StaticResource TplLobbyPlayer}" />
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <!-- A guest has no friends (CU-11 FA-02): the tab only says why. -->
+                    <TextBlock x:Name="lblFriendsDisabled" Style="{StaticResource StyPanelEmpty}"
+                               Margin="20,12,20,8" VerticalAlignment="Top"
+                               Visibility="{Binding IsFriendsListUnavailable,
+                                            Converter={StaticResource CnvBooleanToVisibility}}"
+                               Text="{Binding [GuestLobby_FriendsDisabled], Source={StaticResource PrvLocalization}}" />
+                </Grid>
             </Grid>
         </ctl:PixelBorder>
     </Grid>

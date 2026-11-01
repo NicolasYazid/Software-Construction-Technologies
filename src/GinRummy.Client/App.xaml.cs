@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
+using System.ServiceModel;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
@@ -8,6 +10,7 @@ using System.Windows.Threading;
 using GinRummy.Client.LeaderboardServiceReference;
 using GinRummy.Client.Localization;
 using GinRummy.Client.Logging;
+using GinRummy.Client.PlayerPresenceServiceReference;
 using GinRummy.Client.Services;
 using GinRummy.Client.ViewModels;
 using Microsoft.Extensions.Logging;
@@ -22,6 +25,7 @@ namespace GinRummy.Client
         private const string FatalErrorTitleKey = "ErrorDialog_LblTitleUnexpected";
         private const string FatalErrorMessageKey = "Error_SysUnexpected";
         private const string LeaderboardEndpointName = "LeaderboardService";
+        private const string PresenceEndpointName = "PlayerPresenceService";
         private const string LogFolderName = "GinRummy";
         private const string LogFileName = "client.log";
         private const int RenderingTierShift = 16;
@@ -54,6 +58,11 @@ namespace GinRummy.Client
 
         internal SampleDataService SampleData { get; private set; }
 
+        // Temporary shortcut until CU-02 and the authenticated lobby exist: the player identity (public
+        // tag) that drives the friends-presence subscription is read from a startup argument, one per
+        // client instance, instead of coming from a real sign-in.
+        public int? PresencePublicTag { get; private set; }
+
         public RankingsViewModel CreateRankingsViewModel()
         {
             return new RankingsViewModel(
@@ -61,8 +70,18 @@ namespace GinRummy.Client
                 _loggerFactory.CreateLogger<RankingsViewModel>());
         }
 
+        public GuestLobbyViewModel CreateGuestLobbyViewModel()
+        {
+            return new GuestLobbyViewModel(
+                SampleData,
+                PresencePublicTag,
+                callbackInstance => new PlayerPresenceServiceClient(callbackInstance, PresenceEndpointName),
+                _loggerFactory.CreateLogger<GuestLobbyViewModel>());
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
+            PresencePublicTag = ReadPresencePublicTag(e.Args);
             DispatcherUnhandledException += OnDispatcherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += OnDomainUnhandledException;
             Resources[LocalizationResourceKey] = LocalizationProvider.Instance;
@@ -73,6 +92,19 @@ namespace GinRummy.Client
             }
 
             base.OnStartup(e);
+        }
+
+        // The first startup argument, when it is a whole number, is the player's public tag for the presence demo.
+        private static int? ReadPresencePublicTag(string[] args)
+        {
+            int? presencePublicTag = null;
+            if ((args != null) && (args.Length > 0)
+                && int.TryParse(args[0], NumberStyles.Integer, CultureInfo.InvariantCulture, out int parsedTag))
+            {
+                presencePublicTag = parsedTag;
+            }
+
+            return presencePublicTag;
         }
 
         // An exception that reaches this handler had no catch block, so the state of the screen and of the session is unknown.

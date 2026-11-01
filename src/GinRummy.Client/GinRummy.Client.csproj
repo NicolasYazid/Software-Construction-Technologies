@@ -193,6 +193,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\PlayerPresenceServiceReference\Reference.cs" />
     <Compile Include="Controls\BrandMark.xaml.cs">
       <DependentUpon>BrandMark.xaml</DependentUpon>
     </Compile>
@@ -329,6 +330,7 @@
     <Compile Include="ViewModels\LobbyChatViewModel.cs" />
     <Compile Include="ViewModels\GuestLobbyViewModel.cs" />
     <Compile Include="ViewModels\GameTableViewModel.cs" />
+    <Compile Include="Services\PlayerPresenceCallbackHandler.cs" />
     <Compile Include="Services\SampleDataService.cs" />
     <Compile Include="Converters\LocalizedFormatConverter.cs" />
     <Compile Include="Views\VisibilityCommon.cs" />

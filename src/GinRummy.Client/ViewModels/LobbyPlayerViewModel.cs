@@ -7,9 +7,24 @@ namespace GinRummy.Client.ViewModels
     {
         private bool _isFriend;
         private bool _hasPendingRequest;
+        private bool _isOnline;
 
         public string Username { get; set; }
         public string RankName { get; set; }
+
+        // The public tag identifies the friend across presence notifications (CU-11 real-time presence).
+        public int PublicTag { get; set; }
+
+        // Presence state of the friend: it decides the Online or Unavailable group of the friends tab.
+        public bool IsOnline
+        {
+            get { return _isOnline; }
+            set
+            {
+                _isOnline = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public bool IsFriend
         {
