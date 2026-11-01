@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GinRummy.ServerHost", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GinRummy.Domain.Tests", "tests\GinRummy.Domain.Tests\GinRummy.Domain.Tests.csproj", "{95C9990A-141A-48AD-A114-F566DC0ECE09}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GinRummy.Application.Tests", "tests\GinRummy.Application.Tests\GinRummy.Application.Tests.csproj", "{98572A5C-8FE4-496D-A841-CBD188E5C083}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{95C9990A-141A-48AD-A114-F566DC0ECE09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95C9990A-141A-48AD-A114-F566DC0ECE09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95C9990A-141A-48AD-A114-F566DC0ECE09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98572A5C-8FE4-496D-A841-CBD188E5C083}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98572A5C-8FE4-496D-A841-CBD188E5C083}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98572A5C-8FE4-496D-A841-CBD188E5C083}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98572A5C-8FE4-496D-A841-CBD188E5C083}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +87,7 @@ Global
 		{32E60735-B97C-4CEE-B3DB-731E14B5742F} = {1386EEF6-E006-4628-B396-943956808F95}
 		{F44EB2D1-D957-469D-9177-7A7E8FBA0963} = {1386EEF6-E006-4628-B396-943956808F95}
 		{95C9990A-141A-48AD-A114-F566DC0ECE09} = {4F32CE0D-3B3E-4582-9019-1C737DFDFD0C}
+		{98572A5C-8FE4-496D-A841-CBD188E5C083} = {4F32CE0D-3B3E-4582-9019-1C737DFDFD0C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B20D63D5-8094-4FF7-B042-5BE96325C223}
