@@ -41,6 +41,8 @@
     <Compile Include="FileLogger.cs" />
     <Compile Include="FileLoggerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SmtpEmailSender.cs" />
+    <Compile Include="SmtpSettings.cs" />
     <Compile Include="SystemClock.cs" />
   </ItemGroup>
   <ItemGroup>
