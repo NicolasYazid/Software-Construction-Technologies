@@ -2,7 +2,6 @@
 
 using GinRummy.Application.Ports;
 using GinRummy.Domain;
-using GinRummy.Domain.Entities;
 using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Domain.Entities.Players;
 using GinRummy.Domain.Ports.Repositories;

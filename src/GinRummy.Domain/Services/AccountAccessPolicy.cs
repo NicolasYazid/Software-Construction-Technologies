@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using GinRummy.Domain.Entities;
+using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Domain.Entities.PlayerModeration;
 using GinRummy.Domain.Entities.Players;
 using GinRummy.Domain.Ports.Infrastructure;

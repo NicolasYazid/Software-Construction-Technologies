@@ -6,7 +6,7 @@ using GinRummy.Contracts.DataContracts;
 using GinRummy.Contracts.Faults;
 using GinRummy.Contracts.Services;
 using GinRummy.Domain;
-using GinRummy.Domain.Entities;
+using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Domain.Services;
 using GinRummy.Services.Mappers;
 using Microsoft.Extensions.Logging;

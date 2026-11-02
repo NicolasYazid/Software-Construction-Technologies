@@ -1,6 +1,5 @@
 ﻿using System;
 
-using GinRummy.Domain.Entities;
 using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Domain.Ports.Infrastructure;
 using GinRummy.Domain.Ports.Repositories;

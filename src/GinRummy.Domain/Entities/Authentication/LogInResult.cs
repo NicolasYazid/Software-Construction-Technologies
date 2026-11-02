@@ -2,7 +2,7 @@
 
 using GinRummy.Domain.Entities.Players;
 
-namespace GinRummy.Domain.Entities
+namespace GinRummy.Domain.Entities.Authentication
 {
     /// <summary>
     /// Outcome of a sign-in whose credentials were accepted: either the access token that was granted, or

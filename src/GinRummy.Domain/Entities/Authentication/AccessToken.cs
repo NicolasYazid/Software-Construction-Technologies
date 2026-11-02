@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GinRummy.Domain.Entities
+namespace GinRummy.Domain.Entities.Authentication
 {
     /// <summary>
     /// Signed proof that a player signed in, which the client presents in every later request. It is not

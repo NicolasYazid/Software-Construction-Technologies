@@ -1,8 +1,6 @@
 ﻿using System;
 
-using GinRummy.Domain.Entities.Authentication;
-
-namespace GinRummy.Domain.Entities
+namespace GinRummy.Domain.Entities.Authentication
 {
     /// <summary>
     /// A verification code right after it was issued: the stored code, which only keeps its hash, and the
