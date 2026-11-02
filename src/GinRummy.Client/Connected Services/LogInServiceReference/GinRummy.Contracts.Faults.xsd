@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ServiceFault">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Code" type="tns:ServiceFaultCode" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ServiceFault" nillable="true" type="tns:ServiceFault" />
+  <xs:simpleType name="ServiceFaultCode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="RequiredField" />
+      <xs:enumeration value="DisallowedCharacters" />
+      <xs:enumeration value="InvalidCredentials" />
+      <xs:enumeration value="EmailNotVerified" />
+      <xs:enumeration value="CodeNotSent" />
+      <xs:enumeration value="CodeInvalidFormat" />
+      <xs:enumeration value="CodeIncorrect" />
+      <xs:enumeration value="CodeExpired" />
+      <xs:enumeration value="CodeAlreadyUsed" />
+      <xs:enumeration value="CodeTooManyAttempts" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="ServiceFaultCode" nillable="true" type="tns:ServiceFaultCode" />
+  <xs:complexType name="SanctionFault">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ExpiresAt" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ReasonName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SanctionFault" nillable="true" type="tns:SanctionFault" />
+</xs:schema>

@@ -193,6 +193,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\LogInServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Controls\BrandMark.xaml.cs">
       <DependentUpon>BrandMark.xaml</DependentUpon>
     </Compile>
@@ -368,6 +373,22 @@
     <None Include="Connected Services\LeaderboardServiceReference\LeaderboardService2.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Connected Services\LogInServiceReference\GinRummy.Client.LogInServiceReference.LogInOutcome.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LogInServiceReference\GinRummy.Contracts.DataContracts.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LogInServiceReference\GinRummy.Contracts.Faults.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LogInServiceReference\service.wsdl" />
+    <None Include="Connected Services\LogInServiceReference\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LogInServiceReference\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <Resource Include="Fonts\Cairopixel-Medium.ttf" />
     <Resource Include="Fonts\HigherPixels-Regular.ttf" />
@@ -385,6 +406,7 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\LeaderboardServiceReference\" />
+    <WCFMetadataStorage Include="Connected Services\LogInServiceReference\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\LeaderboardServiceReference\configuration91.svcinfo" />
@@ -394,6 +416,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\LeaderboardServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\LogInServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\LogInServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\LogInServiceReference\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
