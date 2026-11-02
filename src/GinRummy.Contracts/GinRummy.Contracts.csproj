@@ -44,6 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContracts\LogInOutcome.cs" />
+    <Compile Include="DataContracts\NewAccount.cs" />
+    <Compile Include="DataContracts\SignUpOutcome.cs" />
+    <Compile Include="Faults\ResendLimitFault.cs" />
     <Compile Include="Faults\SanctionFault.cs" />
     <Compile Include="Faults\ServiceFault.cs" />
     <Compile Include="Faults\ServiceFaultCode.cs" />
@@ -52,6 +55,7 @@
     <Compile Include="Services\ILeaderboardService.cs" />
     <Compile Include="DataContracts\PlayerRanking.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ISignUpService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Callbacks\" />

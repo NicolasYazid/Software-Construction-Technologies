@@ -26,9 +26,13 @@ namespace GinRummy.Contracts.Services
         /// <exception cref="FaultException{SanctionFault}">
         /// Thrown when a ban that restricts the whole account is in force.
         /// </exception>
+        /// <exception cref="FaultException{ResendLimitFault}">
+        /// Thrown when the account has the second factor turned on and the limit of codes does not allow a new one yet.
+        /// </exception>
         [OperationContract]
         [FaultContract(typeof(ServiceFault))]
         [FaultContract(typeof(SanctionFault))]
+        [FaultContract(typeof(ResendLimitFault))]
         LogInOutcome LogIn(string email, string password, bool keepSignedIn);
 
         /// <summary>

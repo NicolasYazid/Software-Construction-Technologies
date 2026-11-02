@@ -53,6 +53,31 @@
         /// <summary>
         /// The verification code ran out of attempts (Error_AuthTooManyAttempts).
         /// </summary>
-        CodeTooManyAttempts
+        CodeTooManyAttempts,
+
+        /// <summary>
+        /// The email already belongs to another account (Error_AuthEmailAlreadyRegistered).
+        /// </summary>
+        EmailAlreadyRegistered,
+
+        /// <summary>
+        /// The email does not have the structure of an email address (Error_ValInvalidEmailFormat).
+        /// </summary>
+        InvalidEmailFormat,
+
+        /// <summary>
+        /// A typed text is longer than the column that stores it (Error_ValFieldLength).
+        /// </summary>
+        FieldTooLong,
+
+        /// <summary>
+        /// The password does not meet the length or composition the policy asks for (Error_ValWeakPassword).
+        /// </summary>
+        WeakPassword,
+
+        /// <summary>
+        /// The email of the account was already verified (VerifyEmail_AlreadyVerified).
+        /// </summary>
+        EmailAlreadyVerified
     }
 }
