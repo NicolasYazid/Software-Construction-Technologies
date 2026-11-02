@@ -7,7 +7,6 @@ using GinRummy.Contracts.Faults;
 using GinRummy.Contracts.Services;
 using GinRummy.Domain;
 using GinRummy.Domain.Entities.Authentication;
-using GinRummy.Domain.Services;
 using GinRummy.Services.Mappers;
 using Microsoft.Extensions.Logging;
 
@@ -57,33 +56,42 @@ namespace GinRummy.Services.Services
             catch (RequiredFieldMissingException ex)
             {
                 _logger.LogWarning(ex, "A sign-in arrived with an empty field.");
-                throw CreateServiceFault(ServiceFaultCode.RequiredField);
+                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.RequiredField);
             }
             catch (DisallowedCharactersException ex)
             {
-                _logger.LogWarning(ex, "A sign-in arrived with characters that are not allowed.");
-                throw CreateServiceFault(ServiceFaultCode.DisallowedCharacters);
+                // CU-02 EX-07 asks for the attempt to be recorded with where it came from.
+                _logger.LogWarning(
+                    ex,
+                    "A sign-in from {Caller} arrived with characters that are not allowed.",
+                    CallerAddressCommon.DescribeCaller());
+                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.DisallowedCharacters);
             }
             catch (InvalidCredentialsException ex)
             {
                 // CU-02 EX-01 asks for every failed attempt to be recorded.
                 _logger.LogWarning(ex, "A sign-in with the email {Email} failed because of its credentials.", email);
-                throw CreateServiceFault(ServiceFaultCode.InvalidCredentials);
+                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.InvalidCredentials);
             }
             catch (EmailNotVerifiedException ex)
             {
                 _logger.LogInformation(ex, "An account with an unverified email tried to sign in.");
-                throw CreateServiceFault(ServiceFaultCode.EmailNotVerified);
+                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.EmailNotVerified);
             }
             catch (AccountBannedException ex)
             {
                 _logger.LogInformation(ex, "A banned account tried to sign in.");
                 throw CreateSanctionFault(ex);
             }
+            catch (VerificationResendLimitException ex)
+            {
+                _logger.LogWarning(ex, "A second factor code for the email {Email} was refused by the limit of codes.", email);
+                throw ServiceFaultCommon.CreateResendLimitFault(ex);
+            }
             catch (VerificationEmailNotSentException ex)
             {
                 _logger.LogError(ex, "The code of the second factor could not be emailed.");
-                throw CreateServiceFault(ServiceFaultCode.CodeNotSent);
+                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.CodeNotSent);
             }
 
             return outcome;
@@ -108,17 +116,17 @@ namespace GinRummy.Services.Services
             catch (RequiredFieldMissingException ex)
             {
                 _logger.LogWarning(ex, "A second factor confirmation arrived with an empty field.");
-                throw CreateServiceFault(ServiceFaultCode.RequiredField);
+                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.RequiredField);
             }
             catch (DisallowedCharactersException ex)
             {
                 _logger.LogWarning(ex, "A second factor confirmation arrived with characters that are not allowed.");
-                throw CreateServiceFault(ServiceFaultCode.DisallowedCharacters);
+                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.DisallowedCharacters);
             }
             catch (VerificationCodeRejectedException ex)
             {
                 _logger.LogWarning(ex, "A second factor code for the email {Email} was rejected as {Reason}.", email, ex.Reason);
-                throw CreateServiceFault(MapRejectionReason(ex.Reason));
+                throw ServiceFaultCommon.CreateRejectedCodeFault(ex.Reason);
             }
             catch (AccountBannedException ex)
             {
@@ -127,11 +135,6 @@ namespace GinRummy.Services.Services
             }
 
             return outcome;
-        }
-
-        private static FaultException<ServiceFault> CreateServiceFault(ServiceFaultCode code)
-        {
-            return new FaultException<ServiceFault>(new ServiceFault { Code = code });
         }
 
         private static FaultException<SanctionFault> CreateSanctionFault(AccountBannedException exception)
@@ -143,31 +146,6 @@ namespace GinRummy.Services.Services
             };
 
             return new FaultException<SanctionFault>(sanction);
-        }
-
-        private static ServiceFaultCode MapRejectionReason(VerificationCodeCheckResult reason)
-        {
-            ServiceFaultCode code;
-            switch (reason)
-            {
-                case VerificationCodeCheckResult.InvalidFormat:
-                    code = ServiceFaultCode.CodeInvalidFormat;
-                    break;
-                case VerificationCodeCheckResult.AlreadyUsed:
-                    code = ServiceFaultCode.CodeAlreadyUsed;
-                    break;
-                case VerificationCodeCheckResult.Expired:
-                    code = ServiceFaultCode.CodeExpired;
-                    break;
-                case VerificationCodeCheckResult.TooManyAttempts:
-                    code = ServiceFaultCode.CodeTooManyAttempts;
-                    break;
-                default:
-                    code = ServiceFaultCode.CodeIncorrect;
-                    break;
-            }
-
-            return code;
         }
 
         private void LogAcceptedLogIn(LogInResult result)

@@ -54,9 +54,14 @@
     <Compile Include="Hosting\ServiceInstanceProvider.cs" />
     <Compile Include="Mappers\LogInOutcomeMapper.cs" />
     <Compile Include="Mappers\PlayerRankingMapper.cs" />
+    <Compile Include="Mappers\SignUpFormMapper.cs" />
+    <Compile Include="Mappers\SignUpOutcomeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CallerAddressCommon.cs" />
     <Compile Include="Services\LeaderboardService.cs" />
     <Compile Include="Services\LogInService.cs" />
+    <Compile Include="Services\ServiceFaultCommon.cs" />
+    <Compile Include="Services\SignUpService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -48,11 +48,16 @@ namespace GinRummy.ServerHost
                 IEmailSender emailSender = CreateEmailSender(hostLogger);
                 IAccessTokenSigner tokenSigner = CreateAccessTokenSigner(hostLogger);
                 ILogger<LogInService> logInLogger = loggerFactory.CreateLogger<LogInService>();
+                ILogger<SignUpService> signUpLogger = loggerFactory.CreateLogger<SignUpService>();
 
                 hostGroup.Add(CreateIsolatedHost(typeof(LeaderboardService), ComposeLeaderboardService, faultShieldBehavior));
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(LogInService),
                     () => ComposeLogInService(emailSender, tokenSigner, logInLogger),
+                    faultShieldBehavior));
+                hostGroup.Add(CreateIsolatedHost(
+                    typeof(SignUpService),
+                    () => ComposeSignUpService(emailSender, signUpLogger),
                     faultShieldBehavior));
 
                 hostGroup.OpenAll();
@@ -169,6 +174,28 @@ namespace GinRummy.ServerHost
             LogInService logInService = new LogInService(logInUseCase, twoFactorLogInUseCase, logger);
 
             return logInService;
+        }
+
+        private static SignUpService ComposeSignUpService(IEmailSender emailSender, ILogger<SignUpService> logger)
+        {
+            IClock clock = new SystemClock();
+            Func<IUnitOfWork> unitOfWorkFactory = () => new EntityFrameworkUnitOfWork(ConnectionStringName);
+            AccountRegistrar accountRegistrar = new AccountRegistrar(new Argon2PasswordHasher(), clock);
+            VerificationCodeIssuer codeIssuer = new VerificationCodeIssuer(
+                new RandomVerificationCodeGenerator(),
+                new Sha256VerificationCodeHasher(),
+                clock);
+            VerificationCodeSender codeSender = new VerificationCodeSender(codeIssuer, emailSender, new VerificationEmailComposer());
+            VerificationCodeChecker codeChecker = new VerificationCodeChecker(new Sha256VerificationCodeHasher(), clock);
+            VerificationCodeRedeemer codeRedeemer = new VerificationCodeRedeemer(codeChecker, clock);
+            SignUpUseCase signUpUseCase = new SignUpUseCase(unitOfWorkFactory, accountRegistrar, codeSender);
+            EmailVerificationUseCase emailVerificationUseCase = new EmailVerificationUseCase(
+                unitOfWorkFactory,
+                codeRedeemer,
+                codeSender);
+            SignUpService signUpService = new SignUpService(signUpUseCase, emailVerificationUseCase, logger);
+
+            return signUpService;
         }
     }
 }
