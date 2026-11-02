@@ -76,7 +76,15 @@
                 </TextBlock.Text>
             </TextBlock>
 
-            <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyPlainError}" Margin="0,10,0,0" />
+            <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyPlainError}" Margin="0,10,0,0"
+                       Visibility="{Binding HasErrorMessage, Converter={StaticResource CnvBooleanToVisibility}}">
+                <TextBlock.Text>
+                    <MultiBinding Converter="{StaticResource CnvResourceText}">
+                        <Binding Path="ErrorMessageKey" />
+                        <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
 
             <Button x:Name="btnVerify" Style="{StaticResource StyPlainPrimaryButton}"
                     Margin="0,20,0,0"

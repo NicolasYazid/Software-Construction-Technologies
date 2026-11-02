@@ -8,6 +8,8 @@ using System.Windows.Threading;
 using GinRummy.Client.LeaderboardServiceReference;
 using GinRummy.Client.Localization;
 using GinRummy.Client.Logging;
+using GinRummy.Client.LogInServiceReference;
+using GinRummy.Client.Models;
 using GinRummy.Client.Services;
 using GinRummy.Client.ViewModels;
 using Microsoft.Extensions.Logging;
@@ -22,6 +24,7 @@ namespace GinRummy.Client
         private const string FatalErrorTitleKey = "ErrorDialog_LblTitleUnexpected";
         private const string FatalErrorMessageKey = "Error_SysUnexpected";
         private const string LeaderboardEndpointName = "LeaderboardService";
+        private const string LogInEndpointName = "LogInService";
         private const string LogFolderName = "GinRummy";
         private const string LogFileName = "client.log";
         private const int RenderingTierShift = 16;
@@ -54,11 +57,34 @@ namespace GinRummy.Client
 
         internal SampleDataService SampleData { get; private set; }
 
+        // The access token lives only in memory, because the standard forbids writing session identifiers to disk.
+        internal LogInOutcome SignedInPlayer { get; private set; }
+
         public RankingsViewModel CreateRankingsViewModel()
         {
             return new RankingsViewModel(
                 () => new LeaderboardServiceClient(LeaderboardEndpointName),
                 _loggerFactory.CreateLogger<RankingsViewModel>());
+        }
+
+        public LogInViewModel CreateLogInViewModel()
+        {
+            return new LogInViewModel(
+                () => new LogInServiceClient(LogInEndpointName),
+                _loggerFactory.CreateLogger<LogInViewModel>());
+        }
+
+        public TwoStepLogInViewModel CreateTwoStepLogInViewModel(LogInCredentials credentials)
+        {
+            return new TwoStepLogInViewModel(
+                credentials,
+                () => new LogInServiceClient(LogInEndpointName),
+                _loggerFactory.CreateLogger<TwoStepLogInViewModel>());
+        }
+
+        internal void StoreSignedInPlayer(LogInOutcome signedInPlayer)
+        {
+            SignedInPlayer = signedInPlayer ?? throw new ArgumentNullException(nameof(signedInPlayer));
         }
 
         protected override void OnStartup(StartupEventArgs e)

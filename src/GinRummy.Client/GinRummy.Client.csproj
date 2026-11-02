@@ -215,11 +215,17 @@
     <Compile Include="Controls\OverlayInsetCommon.cs" />
     <Compile Include="Controls\PixelShapeCommon.cs" />
     <Compile Include="Controls\WaveCommon.cs" />
+    <Compile Include="Models\AccountRestriction.cs" />
+    <Compile Include="Models\LogInCredentials.cs" />
     <Compile Include="Mvvm\RelayCommand.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
+    <Compile Include="ViewModels\LogInFaultCommon.cs" />
+    <Compile Include="ViewModels\LogInViewModel.cs" />
     <Compile Include="ViewModels\RankingsViewModel.cs" />
     <Compile Include="ViewModels\CountdownViewModel.cs" />
     <Compile Include="Converters\ResourceTextConverter.cs" />
+    <Compile Include="ViewModels\TwoStepLogInViewModel.cs" />
+    <Compile Include="Views\AccountRestrictionScreenCommon.cs" />
     <Compile Include="Views\GuiMainMenu.xaml.cs">
       <DependentUpon>GuiMainMenu.xaml</DependentUpon>
     </Compile>
