@@ -11,6 +11,7 @@ using GinRummy.Client.Logging;
 using GinRummy.Client.LogInServiceReference;
 using GinRummy.Client.Models;
 using GinRummy.Client.Services;
+using GinRummy.Client.SignUpServiceReference;
 using GinRummy.Client.ViewModels;
 using Microsoft.Extensions.Logging;
 
@@ -25,6 +26,7 @@ namespace GinRummy.Client
         private const string FatalErrorMessageKey = "Error_SysUnexpected";
         private const string LeaderboardEndpointName = "LeaderboardService";
         private const string LogInEndpointName = "LogInService";
+        private const string SignUpEndpointName = "SignUpService";
         private const string LogFolderName = "GinRummy";
         private const string LogFileName = "client.log";
         private const int RenderingTierShift = 16;
@@ -80,6 +82,22 @@ namespace GinRummy.Client
                 credentials,
                 () => new LogInServiceClient(LogInEndpointName),
                 _loggerFactory.CreateLogger<TwoStepLogInViewModel>());
+        }
+
+        public SignUpViewModel CreateSignUpViewModel(bool isGuestSessionActive)
+        {
+            return new SignUpViewModel(
+                () => new SignUpServiceClient(SignUpEndpointName),
+                _loggerFactory.CreateLogger<SignUpViewModel>(),
+                isGuestSessionActive);
+        }
+
+        public SignUpVerifyEmailViewModel CreateSignUpVerifyEmailViewModel(string email)
+        {
+            return new SignUpVerifyEmailViewModel(
+                email,
+                () => new SignUpServiceClient(SignUpEndpointName),
+                _loggerFactory.CreateLogger<SignUpVerifyEmailViewModel>());
         }
 
         internal void StoreSignedInPlayer(LogInOutcome signedInPlayer)

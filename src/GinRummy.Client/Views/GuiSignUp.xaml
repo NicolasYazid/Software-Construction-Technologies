@@ -122,13 +122,23 @@
 
                 <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyCardError}"
                            Width="402" HorizontalAlignment="Left" Margin="0,12,0,0"
-                           Visibility="{Binding IsPasswordMismatchShown, Converter={StaticResource CnvBooleanToVisibility}}"
-                           Text="{Binding [Error_ValPasswordMismatch], Source={StaticResource PrvLocalization}}" />
+                           Visibility="{Binding HasErrorMessage, Converter={StaticResource CnvBooleanToVisibility}}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource CnvResourceText}">
+                            <Binding Path="ErrorMessageKey" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                            <Binding Path="ErrorMessageArgument" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
                 <TextBlock x:Name="lblGuestSessionNotKept" Style="{StaticResource StyCardNotice}"
                            Width="402" HorizontalAlignment="Left" Margin="0,12,0,0"
+                           Visibility="{Binding IsGuestSessionNoticeShown, Converter={StaticResource CnvBooleanToVisibility}}"
                            Text="{Binding [SignUp_GuestSessionNotKept], Source={StaticResource PrvLocalization}}" />
+                <!-- The call to the server runs on the interface thread, so this notice could not be drawn while it waits.
+                     It stays collapsed until the call runs off that thread. -->
                 <TextBlock x:Name="lblCreatingAccount" Style="{StaticResource StyCardNotice}"
-                           Width="402" HorizontalAlignment="Left" Margin="0,12,0,0"
+                           Width="402" HorizontalAlignment="Left" Margin="0,12,0,0" Visibility="Collapsed"
                            Text="{Binding [SignUp_LblCreatingAccount], Source={StaticResource PrvLocalization}}" />
 
                 <StackPanel Margin="0,10,0,0">

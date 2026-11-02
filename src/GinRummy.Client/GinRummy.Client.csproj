@@ -198,6 +198,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\SignUpServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Controls\BrandMark.xaml.cs">
       <DependentUpon>BrandMark.xaml</DependentUpon>
     </Compile>
@@ -321,6 +326,8 @@
     <Compile Include="ViewModels\TwoStepViewModel.cs" />
     <Compile Include="ViewModels\VerifyEmailViewModel.cs" />
     <Compile Include="ViewModels\NewPasswordViewModel.cs" />
+    <Compile Include="ViewModels\SignUpFaultCommon.cs" />
+    <Compile Include="ViewModels\SignUpVerifyEmailViewModel.cs" />
     <Compile Include="ViewModels\SignUpViewModel.cs" />
     <Compile Include="Controls\PasswordBindingCommon.cs" />
     <Compile Include="Models\ChatEntry.cs" />
@@ -395,6 +402,22 @@
     <None Include="Connected Services\LogInServiceReference\service1.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Connected Services\SignUpServiceReference\GinRummy.Client.SignUpServiceReference.SignUpOutcome.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\SignUpServiceReference\GinRummy.Contracts.DataContracts.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\SignUpServiceReference\GinRummy.Contracts.Faults.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\SignUpServiceReference\service.wsdl" />
+    <None Include="Connected Services\SignUpServiceReference\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\SignUpServiceReference\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <Resource Include="Fonts\Cairopixel-Medium.ttf" />
     <Resource Include="Fonts\HigherPixels-Regular.ttf" />
@@ -413,6 +436,7 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\LeaderboardServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\LogInServiceReference\" />
+    <WCFMetadataStorage Include="Connected Services\SignUpServiceReference\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\LeaderboardServiceReference\configuration91.svcinfo" />
@@ -434,6 +458,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\LogInServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\SignUpServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\SignUpServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\SignUpServiceReference\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

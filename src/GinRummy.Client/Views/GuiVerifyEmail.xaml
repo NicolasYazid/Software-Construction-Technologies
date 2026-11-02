@@ -76,19 +76,36 @@
                 </TextBlock>
 
                 <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyCardError}"
-                           Width="402" HorizontalAlignment="Left" Margin="0,8,0,0" />
+                           Width="402" HorizontalAlignment="Left" Margin="0,8,0,0"
+                           Visibility="{Binding HasErrorMessage, Converter={StaticResource CnvBooleanToVisibility}}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource CnvResourceText}">
+                            <Binding Path="ErrorMessageKey" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
                 <TextBlock x:Name="lblAlreadyVerified" Style="{StaticResource StyCardNotice}"
                            Width="402" HorizontalAlignment="Left" Margin="0,8,0,0"
+                           Visibility="{Binding IsAlreadyVerified, Converter={StaticResource CnvBooleanToVisibility}}"
                            Text="{Binding [VerifyEmail_AlreadyVerified], Source={StaticResource PrvLocalization}}" />
                 <TextBlock x:Name="lblCodeNotSent" Style="{StaticResource StyCardNotice}"
                            Width="402" HorizontalAlignment="Left" Margin="0,8,0,0"
+                           Visibility="{Binding IsCodeNotSentShown, Converter={StaticResource CnvBooleanToVisibility}}"
                            Text="{Binding [VerifyEmail_CodeNotSent], Source={StaticResource PrvLocalization}}" />
 
                 <Button x:Name="btnVerify" Style="{StaticResource StyCardPrimaryButton}"
                         Width="402" HorizontalAlignment="Left" Margin="0,20,0,0"
+                        Visibility="{Binding IsVerificationPending, Converter={StaticResource CnvBooleanToVisibility}}"
                         Content="{Binding [VerifyEmail_BtnVerify], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
                         Command="{Binding VerifyCommand}" />
+                <Button x:Name="btnLogIn" Style="{StaticResource StyCardPrimaryButton}"
+                        Width="402" HorizontalAlignment="Left" Margin="0,20,0,0"
+                        Visibility="{Binding IsAlreadyVerified, Converter={StaticResource CnvBooleanToVisibility}}"
+                        Content="{Binding [Shared_BtnLogIn], Source={StaticResource PrvLocalization},
+                                  Converter={StaticResource CnvUpperCase}}"
+                        Click="OnLogInClick" />
 
                 <Button x:Name="btnVerifyLater" Style="{StaticResource StyCardTextButton}"
                         Width="402" HorizontalAlignment="Left" Margin="0,20,0,0"

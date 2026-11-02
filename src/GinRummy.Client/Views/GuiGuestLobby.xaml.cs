@@ -39,7 +39,7 @@ namespace GinRummy.Client.Views
 
         private void OnCreateAccountClick(object sender, RoutedEventArgs e)
         {
-            ReturnToMenuWith(new GuiSignUp());
+            ReturnToMenuWith(new GuiSignUp(true));
         }
 
         private void OnHowToPlayClick(object sender, RoutedEventArgs e)
