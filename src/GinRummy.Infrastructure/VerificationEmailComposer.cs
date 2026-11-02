@@ -19,7 +19,6 @@ namespace GinRummy.Infrastructure
         private const string TwoFactorLogInBodyKey = "TwoFactorLogInBody";
         private const string GenericSubjectKey = "GenericSubject";
         private const string GenericBodyKey = "GenericBody";
-
         private static readonly ResourceManager _texts =
             new ResourceManager(TextsBaseName, typeof(VerificationEmailComposer).Assembly);
 

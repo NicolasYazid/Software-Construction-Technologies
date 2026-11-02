@@ -17,7 +17,6 @@ namespace GinRummy.Domain.Services
         /// Minutes a verification code stays valid after it is issued (CU-04 step 4, CU-09 FA-01).
         /// </summary>
         public const int LifetimeMinutes = 10;
-
         private readonly IVerificationCodeGenerator _codeGenerator;
         private readonly IVerificationCodeHasher _codeHasher;
         private readonly IClock _clock;

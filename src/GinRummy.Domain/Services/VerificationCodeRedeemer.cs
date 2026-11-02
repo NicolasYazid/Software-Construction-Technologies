@@ -13,7 +13,6 @@ namespace GinRummy.Domain.Services
     public class VerificationCodeRedeemer
     {
         private const int AttemptJustRegistered = 1;
-
         private readonly VerificationCodeChecker _codeChecker;
         private readonly IClock _clock;
 
