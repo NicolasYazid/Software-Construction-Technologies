@@ -28,6 +28,19 @@ namespace GinRummy.Domain.Ports.Repositories
         /// Adds a new account and persists it immediately.
         /// </summary>
         /// <param name="newAccount">Account to create.</param>
+        /// <exception cref="EmailAlreadyRegisteredException">Thrown when another account already has the email.</exception>
         void Add(PlayerAccount newAccount);
+
+        /// <summary>
+        /// Adds the profile of a new account and persists it immediately.
+        /// </summary>
+        /// <param name="newProfile">Profile to create.</param>
+        void AddProfile(PlayerProfile newProfile);
+
+        /// <summary>
+        /// Adds the statistics of a new account and persists them immediately.
+        /// </summary>
+        /// <param name="newStats">Statistics to create.</param>
+        void AddStats(PlayerStats newStats);
     }
 }

@@ -37,5 +37,10 @@
         /// Gets the name shown to the player for this locale.
         /// </summary>
         public string DisplayName { get; private set; }
+
+        /// <summary>
+        /// Gets whether this is the locale the system assigns when the language of a player is not in the catalog.
+        /// </summary>
+        public bool IsDefault { get; private set; }
     }
 }

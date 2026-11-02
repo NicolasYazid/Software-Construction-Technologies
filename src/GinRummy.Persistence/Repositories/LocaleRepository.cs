@@ -88,6 +88,28 @@ namespace GinRummy.Persistence.Repositories
         }
 
         /// <summary>
+        /// Finds the locale marked as the default of the system, or null when none is marked.
+        /// </summary>
+        /// <returns>The default locale, or null.</returns>
+        public Locale FindDefault()
+        {
+            Locale defaultLocale;
+            if (_sharedContext != null)
+            {
+                defaultLocale = _sharedContext.Locales.FirstOrDefault(locale => locale.IsDefault);
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    defaultLocale = context.Locales.FirstOrDefault(locale => locale.IsDefault);
+                }
+            }
+
+            return defaultLocale;
+        }
+
+        /// <summary>
         /// Gets every locale the game supports.
         /// </summary>
         /// <returns>The locales, ordered by identifier.</returns>

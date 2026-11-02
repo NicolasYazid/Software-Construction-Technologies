@@ -25,6 +25,12 @@ namespace GinRummy.Domain.Ports.Repositories
         Locale FindById(int localeId);
 
         /// <summary>
+        /// Finds the locale marked as the default of the system, or null when none is marked.
+        /// </summary>
+        /// <returns>The default locale, or null.</returns>
+        Locale FindDefault();
+
+        /// <summary>
         /// Gets every locale the game supports.
         /// </summary>
         /// <returns>The locales, ordered by identifier.</returns>
