@@ -10,6 +10,7 @@ using GinRummy.Client.Localization;
 using GinRummy.Client.Logging;
 using GinRummy.Client.LogInServiceReference;
 using GinRummy.Client.Models;
+using GinRummy.Client.PlayerPresenceServiceReference;
 using GinRummy.Client.Services;
 using GinRummy.Client.ViewModels;
 using Microsoft.Extensions.Logging;
@@ -25,6 +26,7 @@ namespace GinRummy.Client
         private const string FatalErrorMessageKey = "Error_SysUnexpected";
         private const string LeaderboardEndpointName = "LeaderboardService";
         private const string LogInEndpointName = "LogInService";
+        private const string PresenceEndpointName = "PlayerPresenceService";
         private const string LogFolderName = "GinRummy";
         private const string LogFileName = "client.log";
         private const int RenderingTierShift = 16;
@@ -80,6 +82,16 @@ namespace GinRummy.Client
                 credentials,
                 () => new LogInServiceClient(LogInEndpointName),
                 _loggerFactory.CreateLogger<TwoStepLogInViewModel>());
+        }
+
+        // The presence monitor is created for every lobby because a monitor whose channel failed cannot be started again.
+        public LobbyChatViewModel CreateLobbyChatViewModel()
+        {
+            PlayerPresenceMonitor presenceMonitor = new PlayerPresenceMonitor(
+                callbackContext => new PlayerPresenceServiceClient(callbackContext, PresenceEndpointName),
+                _loggerFactory.CreateLogger<PlayerPresenceMonitor>());
+
+            return new LobbyChatViewModel(SampleData, presenceMonitor, SignedInPlayer.AccessToken);
         }
 
         internal void StoreSignedInPlayer(LogInOutcome signedInPlayer)

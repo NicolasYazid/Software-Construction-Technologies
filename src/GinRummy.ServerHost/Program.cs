@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 
+using GinRummy.Application.Presence;
 using GinRummy.Application.UseCases;
 using GinRummy.Domain.Ports.Infrastructure;
 using GinRummy.Domain.Ports.Repositories;
@@ -16,6 +17,7 @@ using GinRummy.Persistence.Persistence;
 using GinRummy.Persistence.Repositories;
 using GinRummy.Security;
 using GinRummy.Services.Hosting;
+using GinRummy.Services.Notifiers;
 using GinRummy.Services.Services;
 using Microsoft.Extensions.Logging;
 
@@ -49,10 +51,19 @@ namespace GinRummy.ServerHost
                 IAccessTokenSigner tokenSigner = CreateAccessTokenSigner(hostLogger);
                 ILogger<LogInService> logInLogger = loggerFactory.CreateLogger<LogInService>();
 
+                // One notifier and one coordinator serve every session, because together they remember who is connected.
+                PlayerPresenceNotifier presenceNotifier = new PlayerPresenceNotifier(loggerFactory.CreateLogger<SubscribedClient>());
+                PlayerPresenceCoordinator presenceCoordinator = ComposePlayerPresenceCoordinator(tokenSigner, presenceNotifier);
+                ILogger<PlayerPresenceService> presenceLogger = loggerFactory.CreateLogger<PlayerPresenceService>();
+
                 hostGroup.Add(CreateIsolatedHost(typeof(LeaderboardService), ComposeLeaderboardService, faultShieldBehavior));
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(LogInService),
                     () => ComposeLogInService(emailSender, tokenSigner, logInLogger),
+                    faultShieldBehavior));
+                hostGroup.Add(CreateIsolatedHost(
+                    typeof(PlayerPresenceService),
+                    () => new PlayerPresenceService(presenceCoordinator, presenceNotifier, presenceLogger),
                     faultShieldBehavior));
 
                 hostGroup.OpenAll();
@@ -169,6 +180,18 @@ namespace GinRummy.ServerHost
             LogInService logInService = new LogInService(logInUseCase, twoFactorLogInUseCase, logger);
 
             return logInService;
+        }
+
+        private static PlayerPresenceCoordinator ComposePlayerPresenceCoordinator(
+            IAccessTokenSigner tokenSigner,
+            PlayerPresenceNotifier notifier)
+        {
+            IClock clock = new SystemClock();
+            Func<IUnitOfWork> unitOfWorkFactory = () => new EntityFrameworkUnitOfWork(ConnectionStringName);
+            AccountAccessPolicy accessPolicy = new AccountAccessPolicy(new Argon2PasswordHasher(), tokenSigner, clock);
+            PlayerPresenceCoordinator presenceCoordinator = new PlayerPresenceCoordinator(unitOfWorkFactory, accessPolicy, notifier);
+
+            return presenceCoordinator;
         }
     }
 }

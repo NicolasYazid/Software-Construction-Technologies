@@ -67,6 +67,7 @@
     <Compile Include="Entities\Players\Platform.cs" />
     <Compile Include="Entities\Players\Player.cs" />
     <Compile Include="Entities\Players\PlayerAccount.cs" />
+    <Compile Include="Entities\Players\PlayerPresenceStatus.cs" />
     <Compile Include="Entities\Players\PlayerProfile.cs" />
     <Compile Include="Entities\Players\PlayerStats.cs" />
     <Compile Include="Entities\ChatMessaging\ProhibitedWord.cs" />

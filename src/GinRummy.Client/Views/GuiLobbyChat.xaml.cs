@@ -22,17 +22,20 @@ namespace GinRummy.Client.Views
         public GuiLobbyChat()
         {
             InitializeComponent();
-            _viewModel = new LobbyChatViewModel(((App)Application.Current).SampleData);
+            _viewModel = ((App)Application.Current).CreateLobbyChatViewModel();
             _viewModel.MatchStarted += OnMatchStarted;
+            _viewModel.PresenceUnavailable += OnPresenceUnavailable;
             _viewModel.ChatEntries.CollectionChanged += OnChatEntriesChanged;
             DataContext = _viewModel;
             Loaded += OnScreenLoaded;
             Closed += OnScreenClosed;
         }
 
+        // The follow-up of the players starts once the window is on screen, because a failure opens the error dialog over it.
         private void OnScreenLoaded(object sender, RoutedEventArgs e)
         {
             ScrollToLatestEntry();
+            _viewModel.StartPresence();
         }
 
         private void OnChatEntriesChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -46,6 +49,11 @@ namespace GinRummy.Client.Views
         private void OnMatchStarted(object sender, EventArgs e)
         {
             OpenOver(new GuiGameTable());
+        }
+
+        private void OnPresenceUnavailable(object sender, EventArgs e)
+        {
+            ShowModal(new GuiErrorDialog(ErrorDialogKind.ServiceUnavailable));
         }
 
         // A context menu lives outside the visual tree of the window, so its items cannot bind to the commands of the lobby.
@@ -133,7 +141,9 @@ namespace GinRummy.Client.Views
         private void OnScreenClosed(object sender, EventArgs e)
         {
             _viewModel.StopCountdown();
+            _viewModel.StopPresence();
             _viewModel.MatchStarted -= OnMatchStarted;
+            _viewModel.PresenceUnavailable -= OnPresenceUnavailable;
             _viewModel.ChatEntries.CollectionChanged -= OnChatEntriesChanged;
             Loaded -= OnScreenLoaded;
             Closed -= OnScreenClosed;

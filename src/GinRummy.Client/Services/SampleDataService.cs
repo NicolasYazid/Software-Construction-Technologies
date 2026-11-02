@@ -26,7 +26,9 @@ namespace GinRummy.Client.Services
         private const string OffensiveLanguageReasonKey = "Reason_OffensiveLanguage";
         private const string SpamReasonKey = "Reason_Spam";
 
-        // Its values reproduce the prototype screen P11.
+        // Its values reproduce the prototype screen P11, except the players and the friends.
+        // Those are not simulated: the presence service sends them, so their groups start empty.
+        // The groups that receive them are observable so that the panel shows a change the moment the server reports it.
         public LobbySnapshot GetLobby()
         {
             LobbySnapshot lobby = new LobbySnapshot();
@@ -43,39 +45,13 @@ namespace GinRummy.Client.Services
                 CreateMessage("Player A", new TimeSpan(4, 34, 0), "You too."),
                 CreateNotice(ChallengeNoticeKind.Received, "Player Z", new TimeSpan(4, 35, 0))
             };
-            lobby.LookingToPlay = new List<LobbyPlayerViewModel>
-            {
-                CreatePlayer("Player B", "S", false),
-                CreatePlayer("Player C", "A", false),
-                CreatePlayer("Player D", "C", false),
-                CreatePlayer("Player F", "D", false),
-                CreatePlayer("Player K", "B", false)
-            };
-            lobby.Online = new List<LobbyPlayerViewModel>();
-            lobby.MatchesInProgress = new List<MatchPair>
-            {
-                CreatePair(CreatePlayer("Player Z", "A", false), CreatePlayer("Player X", "S", false))
-            };
-            lobby.PlayersInMatchCount = 2;
-            lobby.Unavailable = CreateUnavailablePlayers();
-            // The groups of friends are observable so that the panel drops a player when the friendship ends (CU-16).
-            lobby.FriendsOnline = new ObservableCollection<LobbyPlayerViewModel>
-            {
-                CreatePlayer("Friend A", "S", true),
-                CreatePlayer("Friend B", "A", true),
-                CreatePlayer("Friend C", "B", true),
-                CreatePlayer("Friend D", "C", true)
-            };
-            lobby.FriendsInMatch = new List<MatchPair>
-            {
-                CreatePair(CreatePlayer("Friend Z", "S", true), CreatePlayer("Friend X", "A", true))
-            };
-            lobby.FriendsInMatchCount = 2;
-            lobby.FriendsUnavailable = new ObservableCollection<LobbyPlayerViewModel>
-            {
-                CreatePlayer("Friend Q", "D", true),
-                CreatePlayer("Friend R", "F", true)
-            };
+            lobby.LookingToPlay = new List<LobbyPlayerViewModel>();
+            lobby.Online = new ObservableCollection<LobbyPlayerViewModel>();
+            lobby.MatchesInProgress = new List<MatchPair>();
+            lobby.Unavailable = new ObservableCollection<LobbyPlayerViewModel>();
+            lobby.FriendsOnline = new ObservableCollection<LobbyPlayerViewModel>();
+            lobby.FriendsInMatch = new List<MatchPair>();
+            lobby.FriendsUnavailable = new ObservableCollection<LobbyPlayerViewModel>();
 
             return lobby;
         }

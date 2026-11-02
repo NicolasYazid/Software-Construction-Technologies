@@ -6,6 +6,7 @@ using System.Windows.Input;
 
 using GinRummy.Client.Models;
 using GinRummy.Client.Mvvm;
+using GinRummy.Client.PlayerPresenceServiceReference;
 using GinRummy.Client.Services;
 
 namespace GinRummy.Client.ViewModels
@@ -13,6 +14,8 @@ namespace GinRummy.Client.ViewModels
     public class LobbyChatViewModel : ViewModelBase
     {
         private readonly SampleDataService _dataService;
+        private readonly PlayerPresenceMonitor _presenceMonitor;
+        private readonly string _accessToken;
         private readonly LobbySnapshot _lobby;
         private string _messageDraft;
         private bool _isSearchingMatch;
@@ -20,9 +23,11 @@ namespace GinRummy.Client.ViewModels
         private bool _hasNoFriends;
         private string _banReasonName;
 
-        public LobbyChatViewModel(SampleDataService dataService)
+        public LobbyChatViewModel(SampleDataService dataService, PlayerPresenceMonitor presenceMonitor, string accessToken)
         {
             _dataService = dataService ?? throw new ArgumentNullException(nameof(dataService));
+            _presenceMonitor = presenceMonitor ?? throw new ArgumentNullException(nameof(presenceMonitor));
+            _accessToken = accessToken ?? throw new ArgumentNullException(nameof(accessToken));
             _lobby = dataService.GetLobby();
             _messageDraft = string.Empty;
             ChatEntries = new ObservableCollection<ChatEntry>(_lobby.ChatEntries);
@@ -40,6 +45,7 @@ namespace GinRummy.Client.ViewModels
         }
 
         public event EventHandler MatchStarted;
+        public event EventHandler PresenceUnavailable;
 
         public ObservableCollection<ChatEntry> ChatEntries { get; private set; }
         public bool HasNoPlayersLookingToPlay { get; private set; }
@@ -56,6 +62,11 @@ namespace GinRummy.Client.ViewModels
         public IList<LobbyPlayerViewModel> LookingToPlay
         {
             get { return _lobby.LookingToPlay; }
+        }
+
+        public IList<LobbyPlayerViewModel> Online
+        {
+            get { return _lobby.Online; }
         }
 
         public IList<MatchPair> MatchesInProgress
@@ -168,6 +179,24 @@ namespace GinRummy.Client.ViewModels
             BanCountdown.Stop();
         }
 
+        // The server reports the current status of the players once the subscription is made, and every change after that.
+        public void StartPresence()
+        {
+            _presenceMonitor.CurrentStatusReported += OnCurrentStatusReported;
+            _presenceMonitor.PlayerPresenceChanged += OnPlayerPresenceChanged;
+            if (!_presenceMonitor.Start(_accessToken))
+            {
+                PresenceUnavailable?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        public void StopPresence()
+        {
+            _presenceMonitor.Stop();
+            _presenceMonitor.CurrentStatusReported -= OnCurrentStatusReported;
+            _presenceMonitor.PlayerPresenceChanged -= OnPlayerPresenceChanged;
+        }
+
         // Only the messages of other players can be reported, so the notices and the own messages open no menu.
         public bool CanReport(ChatEntry entry)
         {
@@ -275,6 +304,34 @@ namespace GinRummy.Client.ViewModels
             ChatEntries.Remove(parameter as ChatEntry);
         }
 
+        private void OnCurrentStatusReported(object sender, PlayerPresenceReport report)
+        {
+            ReplacePlayers(_lobby.Online, report.AllOnlinePlayers);
+            ReplacePlayers(_lobby.Unavailable, report.AllOfflinePlayers);
+            ReplacePlayers(_lobby.FriendsOnline, report.AllOnlineFriends);
+            ReplacePlayers(_lobby.FriendsUnavailable, report.AllOfflineFriends);
+            HasNoFriends = HasNoFriendsIn(_lobby);
+        }
+
+        // A player is listed in one status only, so its old row is removed before the new one is added.
+        private void OnPlayerPresenceChanged(object sender, PlayerPresence presence)
+        {
+            RemoveByPublicTag(_lobby.Online, presence.PublicTag);
+            RemoveByPublicTag(_lobby.Unavailable, presence.PublicTag);
+            RemoveByPublicTag(_lobby.FriendsOnline, presence.PublicTag);
+            RemoveByPublicTag(_lobby.FriendsUnavailable, presence.PublicTag);
+            if (presence.Status == PresenceStatus.Online)
+            {
+                AddPlayer(_lobby.Online, _lobby.FriendsOnline, presence);
+            }
+            else
+            {
+                AddPlayer(_lobby.Unavailable, _lobby.FriendsUnavailable, presence);
+            }
+
+            HasNoFriends = HasNoFriendsIn(_lobby);
+        }
+
         private static void RemoveByName(IList<LobbyPlayerViewModel> players, string username)
         {
             LobbyPlayerViewModel player = players.FirstOrDefault(candidate => candidate.Username == username);
@@ -289,6 +346,48 @@ namespace GinRummy.Client.ViewModels
             return (lobby.FriendsOnline.Count == 0)
                 && (lobby.FriendsInMatch.Count == 0)
                 && (lobby.FriendsUnavailable.Count == 0);
+        }
+
+        private static void ReplacePlayers(IList<LobbyPlayerViewModel> players, IList<PlayerPresence> presences)
+        {
+            players.Clear();
+            foreach (PlayerPresence presence in presences)
+            {
+                players.Add(CreatePlayer(presence));
+            }
+        }
+
+        // A friend is listed in the group of everyone and in the one of friends, each with its own row.
+        private static void AddPlayer(
+            IList<LobbyPlayerViewModel> everyone,
+            IList<LobbyPlayerViewModel> friends,
+            PlayerPresence presence)
+        {
+            everyone.Add(CreatePlayer(presence));
+            if (presence.IsFriend)
+            {
+                friends.Add(CreatePlayer(presence));
+            }
+        }
+
+        private static void RemoveByPublicTag(IList<LobbyPlayerViewModel> players, int publicTag)
+        {
+            LobbyPlayerViewModel player = players.FirstOrDefault(candidate => candidate.PublicTag == publicTag);
+            if (player != null)
+            {
+                players.Remove(player);
+            }
+        }
+
+        // The presence service does not send the rank, so the row keeps the neutral badge until another service provides it.
+        private static LobbyPlayerViewModel CreatePlayer(PlayerPresence presence)
+        {
+            LobbyPlayerViewModel player = new LobbyPlayerViewModel();
+            player.Username = presence.Username;
+            player.PublicTag = presence.PublicTag;
+            player.IsFriend = presence.IsFriend;
+
+            return player;
         }
     }
 }

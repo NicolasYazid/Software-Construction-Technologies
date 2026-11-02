@@ -198,6 +198,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\PlayerPresenceServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Controls\BrandMark.xaml.cs">
       <DependentUpon>BrandMark.xaml</DependentUpon>
     </Compile>
@@ -340,6 +345,7 @@
     <Compile Include="ViewModels\LobbyChatViewModel.cs" />
     <Compile Include="ViewModels\GuestLobbyViewModel.cs" />
     <Compile Include="ViewModels\GameTableViewModel.cs" />
+    <Compile Include="Services\PlayerPresenceMonitor.cs" />
     <Compile Include="Services\SampleDataService.cs" />
     <Compile Include="Converters\LocalizedFormatConverter.cs" />
     <Compile Include="Views\VisibilityCommon.cs" />
@@ -395,6 +401,19 @@
     <None Include="Connected Services\LogInServiceReference\service1.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Connected Services\PlayerPresenceServiceReference\GinRummy.Contracts.DataContracts.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PlayerPresenceServiceReference\GinRummy.Contracts.Faults.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PlayerPresenceServiceReference\service.wsdl" />
+    <None Include="Connected Services\PlayerPresenceServiceReference\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PlayerPresenceServiceReference\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <Resource Include="Fonts\Cairopixel-Medium.ttf" />
     <Resource Include="Fonts\HigherPixels-Regular.ttf" />
@@ -413,6 +432,7 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\LeaderboardServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\LogInServiceReference\" />
+    <WCFMetadataStorage Include="Connected Services\PlayerPresenceServiceReference\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\LeaderboardServiceReference\configuration91.svcinfo" />
@@ -434,6 +454,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\LogInServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\PlayerPresenceServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\PlayerPresenceServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\PlayerPresenceServiceReference\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

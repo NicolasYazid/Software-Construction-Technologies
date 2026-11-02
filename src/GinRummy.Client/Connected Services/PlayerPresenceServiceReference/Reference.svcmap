@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="21d9a99e-fe0e-4b9b-8bb0-7f1447397246" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://localhost:8005/PlayerPresenceService/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="5a2f77bd-9626-4e1d-b280-8008799bf076" SourceId="1" SourceUrl="net.tcp://localhost:8005/PlayerPresenceService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="5ea2e1c8-d308-45b3-8cf9-53a902db6761" SourceId="1" SourceUrl="net.tcp://localhost:8005/PlayerPresenceService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="1664b56c-02ca-430a-8d88-552215290ce0" SourceId="1" SourceUrl="net.tcp://localhost:8005/PlayerPresenceService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.Faults.xsd" MetadataType="Schema" ID="2d2756bc-bd78-45eb-9625-878092e2a67a" SourceId="1" SourceUrl="net.tcp://localhost:8005/PlayerPresenceService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.DataContracts.xsd" MetadataType="Schema" ID="8b4ed04a-7342-4f70-aa24-7e70a548726a" SourceId="1" SourceUrl="net.tcp://localhost:8005/PlayerPresenceService/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

@@ -356,7 +356,7 @@
                     </DockPanel>
                 </ctl:PixelBorder>
 
-                <!-- The friends tab repeats two headers of the everyone tab. A name can be
+                <!-- The friends tab repeats three headers of the everyone tab. A name can be
                      registered only once per window, so the names stay on the first ones and
                      the repeated headers are bound without one. -->
                 <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Margin="0,4,4,8"
@@ -377,6 +377,18 @@
                         <TextBlock x:Name="lblEmptyNoPlayers" Style="{StaticResource StyPanelEmpty}"
                                    Visibility="{Binding HasNoPlayersLookingToPlay, Converter={StaticResource CnvBooleanToVisibility}}"
                                    Text="{Binding [LobbyChat_EmptyNoPlayers], Source={StaticResource PrvLocalization}}" />
+
+                        <TextBlock x:Name="lblGroupOnline" Style="{StaticResource StyGroupHeader}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
+                                    <Binding Path="[FriendsList_LblGroupOnline]" Source="{StaticResource PrvLocalization}" />
+                                    <Binding Path="Online.Count" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <Border Style="{StaticResource StyGroupRule}" />
+                        <ItemsControl ItemsSource="{Binding Online}" ItemTemplate="{StaticResource TplLobbyPlayer}"
+                                      ItemContainerStyle="{StaticResource StyPlayerMenuHost}" />
 
                         <TextBlock x:Name="lblGroupInMatch" Style="{StaticResource StyGroupHeader}">
                             <TextBlock.Text>
@@ -407,7 +419,7 @@
                               Visibility="{Binding IsSelected, ElementName=tabFriends,
                                            Converter={StaticResource CnvBooleanToVisibility}}">
                     <StackPanel Margin="14,0,10,0">
-                        <TextBlock x:Name="lblGroupOnline" Style="{StaticResource StyGroupHeader}">
+                        <TextBlock Style="{StaticResource StyGroupHeader}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
                                     <Binding Path="[FriendsList_LblGroupOnline]" Source="{StaticResource PrvLocalization}" />
