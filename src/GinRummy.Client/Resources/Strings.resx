@@ -330,6 +330,14 @@
     <value>ALGO SALIÓ MAL</value>
     <comment>Encabezado de GuiErrorDialog</comment>
   </data>
+  <data name="Error_AuthCodeAlreadyUsed" xml:space="preserve">
+    <value>Ese código ya se usó</value>
+    <comment>Mensajes del sistema de GuiTwoStep</comment>
+  </data>
+  <data name="Error_AuthCodeExpired" xml:space="preserve">
+    <value>El código expiró, solicita uno nuevo</value>
+    <comment>Mensajes del sistema de GuiTwoStep</comment>
+  </data>
   <data name="Error_AuthCodeInvalid" xml:space="preserve">
     <value>El código no es correcto</value>
     <comment>Mensajes del sistema de GuiVerifyEmail</comment>
@@ -402,6 +410,10 @@ Inténtalo de nuevo en unos minutos.</value>
   <data name="Error_ValFieldLength" xml:space="preserve">
     <value>El texto es demasiado largo. Máximo {0} caracteres.</value>
     <comment>Mensajes del sistema de GuiSignUp y GuiEditProfile. {0} = longitud máxima del campo.</comment>
+  </data>
+  <data name="Error_ValInvalidCodeFormat" xml:space="preserve">
+    <value>El código debe tener seis dígitos</value>
+    <comment>Mensajes del sistema de GuiTwoStep</comment>
   </data>
   <data name="Error_ValInvalidEmailFormat" xml:space="preserve">
     <value>Escribe una dirección de correo válida</value>
@@ -1349,6 +1361,10 @@ Tú: {0}   -   Rival: {1}</value>
   <data name="Shared_ChkKeepSignedIn" xml:space="preserve">
     <value>Mantener sesión iniciada</value>
     <comment>Formulario (compartida)</comment>
+  </data>
+  <data name="Shared_CodeNotSent" xml:space="preserve">
+    <value>No pudimos enviarte el código. Inténtalo de nuevo en unos minutos.</value>
+    <comment>Mensajes del sistema (compartida): GuiLogIn, GuiTwoStep</comment>
   </data>
   <data name="Shared_LblOr" xml:space="preserve">
     <value>o</value>

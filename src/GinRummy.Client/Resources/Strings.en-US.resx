@@ -277,6 +277,12 @@ Do you want to replace it?</value>
   <data name="ErrorDialog_LblTitleUnexpected" xml:space="preserve">
     <value>SOMETHING WENT WRONG</value>
   </data>
+  <data name="Error_AuthCodeAlreadyUsed" xml:space="preserve">
+    <value>That code was already used</value>
+  </data>
+  <data name="Error_AuthCodeExpired" xml:space="preserve">
+    <value>The code expired, request a new one</value>
+  </data>
   <data name="Error_AuthCodeInvalid" xml:space="preserve">
     <value>The code is not correct</value>
   </data>
@@ -331,6 +337,9 @@ Please try again in a few minutes.</value>
   </data>
   <data name="Error_ValFieldLength" xml:space="preserve">
     <value>The text is too long. Maximum {0} characters.</value>
+  </data>
+  <data name="Error_ValInvalidCodeFormat" xml:space="preserve">
+    <value>The code must have six digits</value>
   </data>
   <data name="Error_ValInvalidEmailFormat" xml:space="preserve">
     <value>Enter a valid email address</value>
@@ -1042,6 +1051,9 @@ You: {0}   -   Opponent: {1}</value>
   </data>
   <data name="Shared_ChkKeepSignedIn" xml:space="preserve">
     <value>Keep me signed in</value>
+  </data>
+  <data name="Shared_CodeNotSent" xml:space="preserve">
+    <value>We could not send you the code. Please try again in a few minutes.</value>
   </data>
   <data name="Shared_LblOr" xml:space="preserve">
     <value>or</value>
