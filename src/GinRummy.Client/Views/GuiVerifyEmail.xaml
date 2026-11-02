@@ -5,7 +5,9 @@
         xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display">
-    <Grid Width="473" Height="407" Background="{StaticResource BrsPageBackground}">
+    <!-- The height is not stated: an error, a notice or a long address adds lines to the card, and a fixed
+         height cut off the buttons below them. The grid grows with the card instead. -->
+    <Grid Width="473" Background="{StaticResource BrsPageBackground}">
         <Border Background="{StaticResource BrsSurface}" ctl:PixelShapeCommon.CornerSteps="5"
                 Margin="2,0,0,0" Padding="34,20,34,20">
             <StackPanel>
