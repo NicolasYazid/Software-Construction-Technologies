@@ -22,7 +22,6 @@ namespace GinRummy.Persistence.Configurations
             Property(email => email.DestinationAddress)
                 .HasColumnName("destination_address")
                 .IsRequired()
-                .IsUnicode(false)
                 .HasMaxLength(Email.DestinationAddressMaxLength);
             Property(email => email.SendAt).HasColumnName("send_at");
             Property(email => email.DeliveryStatusName)
