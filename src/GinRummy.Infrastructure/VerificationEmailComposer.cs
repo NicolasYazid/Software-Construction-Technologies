@@ -17,6 +17,8 @@ namespace GinRummy.Infrastructure
         private const string TextsBaseName = "GinRummy.Infrastructure.VerificationEmailTexts";
         private const string TwoFactorLogInSubjectKey = "TwoFactorLogInSubject";
         private const string TwoFactorLogInBodyKey = "TwoFactorLogInBody";
+        private const string SignUpSubjectKey = "SignUpSubject";
+        private const string SignUpBodyKey = "SignUpBody";
         private const string GenericSubjectKey = "GenericSubject";
         private const string GenericBodyKey = "GenericBody";
         private static readonly ResourceManager _texts =
@@ -30,9 +32,7 @@ namespace GinRummy.Infrastructure
         /// <returns>The translated subject.</returns>
         public string ComposeSubject(VerificationPurpose purpose, string localeCode)
         {
-            string subjectKey = IsTwoFactorLogIn(purpose) ? TwoFactorLogInSubjectKey : GenericSubjectKey;
-
-            return _texts.GetString(subjectKey, ResolveCulture(localeCode));
+            return _texts.GetString(ResolveSubjectKey(purpose), ResolveCulture(localeCode));
         }
 
         /// <summary>
@@ -45,20 +45,53 @@ namespace GinRummy.Infrastructure
         public string ComposeBody(VerificationPurpose purpose, string plainCode, string localeCode)
         {
             CultureInfo culture = ResolveCulture(localeCode);
-            string bodyKey = IsTwoFactorLogIn(purpose) ? TwoFactorLogInBodyKey : GenericBodyKey;
             string body = string.Format(
                 culture,
-                _texts.GetString(bodyKey, culture),
+                _texts.GetString(ResolveBodyKey(purpose), culture),
                 plainCode,
                 VerificationCodeIssuer.LifetimeMinutes);
 
             return body;
         }
 
-        // Only the sign-in has its own texts so far; the other purposes share a generic text until their use cases exist.
-        private static bool IsTwoFactorLogIn(VerificationPurpose purpose)
+        // Only the sign-in and the sign-up have their own texts so far.
+        // The other purposes share a generic text until their use cases exist.
+        private static string ResolveSubjectKey(VerificationPurpose purpose)
         {
-            return purpose == VerificationPurpose.TwoFactorLogin;
+            string subjectKey;
+            switch (purpose)
+            {
+                case VerificationPurpose.TwoFactorLogin:
+                    subjectKey = TwoFactorLogInSubjectKey;
+                    break;
+                case VerificationPurpose.CreateAccount:
+                    subjectKey = SignUpSubjectKey;
+                    break;
+                default:
+                    subjectKey = GenericSubjectKey;
+                    break;
+            }
+
+            return subjectKey;
+        }
+
+        private static string ResolveBodyKey(VerificationPurpose purpose)
+        {
+            string bodyKey;
+            switch (purpose)
+            {
+                case VerificationPurpose.TwoFactorLogin:
+                    bodyKey = TwoFactorLogInBodyKey;
+                    break;
+                case VerificationPurpose.CreateAccount:
+                    bodyKey = SignUpBodyKey;
+                    break;
+                default:
+                    bodyKey = GenericBodyKey;
+                    break;
+            }
+
+            return bodyKey;
         }
 
         // A locale stored in the database that this machine does not know must not stop the email.

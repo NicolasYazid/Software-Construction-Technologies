@@ -72,6 +72,20 @@ The password of your account was typed to sign in to Gin Rummy. To finish, enter
 The code expires in {1} minutes. If it was not you, change your password.</value>
     <comment>{0}: the code. {1}: minutes until it expires.</comment>
   </data>
+  <data name="SignUpSubject" xml:space="preserve">
+    <value>Verify your Gin Rummy email</value>
+    <comment>Subject of the email that verifies the email of a new account (CU-01 step 10).</comment>
+  </data>
+  <data name="SignUpBody" xml:space="preserve">
+    <value>Hello,
+
+A Gin Rummy account was created with this email. To verify it, enter this code in the game:
+
+{0}
+
+The code expires in {1} minutes. If you did not create the account, ignore this email.</value>
+    <comment>{0}: the code. {1}: minutes until it expires.</comment>
+  </data>
   <data name="GenericSubject" xml:space="preserve">
     <value>Your Gin Rummy verification code</value>
     <comment>Subject shared by the purposes without their own text.</comment>

@@ -72,6 +72,20 @@ Se escribió la contraseña de tu cuenta para iniciar sesión en Gin Rummy. Para
 El código vence en {1} minutos. Si no fuiste tú, cambia tu contraseña.</value>
     <comment>{0}: the code. {1}: minutes until it expires.</comment>
   </data>
+  <data name="SignUpSubject" xml:space="preserve">
+    <value>Verifica tu correo de Gin Rummy</value>
+    <comment>Subject of the email that verifies the email of a new account (CU-01 step 10).</comment>
+  </data>
+  <data name="SignUpBody" xml:space="preserve">
+    <value>Hola:
+
+Se creó una cuenta de Gin Rummy con este correo. Para verificarlo, escribe este código en el juego:
+
+{0}
+
+El código vence en {1} minutos. Si no creaste la cuenta, ignora este correo.</value>
+    <comment>{0}: the code. {1}: minutes until it expires.</comment>
+  </data>
   <data name="GenericSubject" xml:space="preserve">
     <value>Tu código de verificación de Gin Rummy</value>
     <comment>Subject shared by the purposes without their own text.</comment>
