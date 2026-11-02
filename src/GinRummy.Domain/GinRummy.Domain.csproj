@@ -52,6 +52,7 @@
     <Compile Include="Entities\Game\GameParticipant.cs" />
     <Compile Include="Entities\Game\GameSession.cs" />
     <Compile Include="Entities\Game\GameState.cs" />
+    <Compile Include="Entities\Players\EmailRequirement.cs" />
     <Compile Include="Entities\Players\GuestSession.cs" />
     <Compile Include="Entities\PlayerRanking\LeaderboardPosition.cs" />
     <Compile Include="Entities\Locale.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Entities\Authentication\VerificationCode.cs" />
     <Compile Include="Entities\Authentication\VerificationPurpose.cs" />
     <Compile Include="Entities\PlayerModeration\Warning.cs" />
+    <Compile Include="Entities\Players\UsernameRequirement.cs" />
     <Compile Include="GameCoreException.cs" />
     <Compile Include="Ports\Infrastructure\IClock.cs" />
     <Compile Include="Ports\Infrastructure\IEmailSender.cs" />

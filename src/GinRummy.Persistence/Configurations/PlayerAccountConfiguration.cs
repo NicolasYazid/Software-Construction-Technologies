@@ -24,7 +24,6 @@ namespace GinRummy.Persistence.Configurations
             Property(playerAccount => playerAccount.Email)
                 .HasColumnName("email")
                 .IsRequired()
-                .IsUnicode(false)
                 .HasMaxLength(PlayerAccount.EmailMaxLength);
             Property(playerAccount => playerAccount.PasswordHash)
                 .HasColumnName("password")

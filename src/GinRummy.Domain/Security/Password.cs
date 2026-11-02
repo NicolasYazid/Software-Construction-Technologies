@@ -19,9 +19,13 @@ namespace GinRummy.Domain.Security
 
         public Password(string plainText)
         {
-            if (GetUnmetRequirements(plainText).Count > 0)
+            IList<PasswordRequirement> unmetRequirements = GetUnmetRequirements(plainText);
+
+            if (unmetRequirements.Count > 0)
             {
-                throw new ArgumentException("The password does not meet the requirements.", nameof(plainText));
+                throw new ArgumentException(
+                    "The password does not meet these requirements: " + string.Join(", ", unmetRequirements) + ".",
+                    nameof(plainText));
             }
 
             _characters = plainText.ToCharArray();
