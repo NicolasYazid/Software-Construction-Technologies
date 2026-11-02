@@ -30,9 +30,9 @@ namespace GinRummy.Domain.Ports.Repositories
         ILocaleRepository Locales { get; }
 
         /// <summary>
-        /// Gets the player session repository bound to this unit of work.
+        /// Gets the guest session repository bound to this unit of work.
         /// </summary>
-        IPlayerSessionRepository PlayerSessions { get; }
+        IGuestSessionRepository GuestSessions { get; }
 
         /// <summary>
         /// Gets the friend request and friendship repository bound to this unit of work.

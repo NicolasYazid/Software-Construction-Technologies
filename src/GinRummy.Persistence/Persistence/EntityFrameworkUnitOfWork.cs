@@ -17,7 +17,7 @@ namespace GinRummy.Persistence.Persistence
         private readonly IPlayerAccountRepository _playerAccounts;
         private readonly IVerificationCodeRepository _verificationCodes;
         private readonly ILocaleRepository _locales;
-        private readonly IPlayerSessionRepository _playerSessions;
+        private readonly IGuestSessionRepository _guestSessions;
         private readonly IFriendRepository _friends;
         private readonly IModerationRepository _moderation;
         private readonly IMessageRepository _messages;
@@ -37,7 +37,7 @@ namespace GinRummy.Persistence.Persistence
             _playerAccounts = new PlayerAccountRepository(_context);
             _verificationCodes = new VerificationCodeRepository(_context);
             _locales = new LocaleRepository(_context);
-            _playerSessions = new PlayerSessionRepository(_context);
+            _guestSessions = new GuestSessionRepository(_context);
             _friends = new FriendRepository(_context);
             _moderation = new ModerationRepository(_context);
             _messages = new MessageRepository(_context);
@@ -78,11 +78,11 @@ namespace GinRummy.Persistence.Persistence
         }
 
         /// <summary>
-        /// Gets the player session repository bound to this unit of work.
+        /// Gets the guest session repository bound to this unit of work.
         /// </summary>
-        public IPlayerSessionRepository PlayerSessions
+        public IGuestSessionRepository GuestSessions
         {
-            get { return _playerSessions; }
+            get { return _guestSessions; }
         }
 
         /// <summary>

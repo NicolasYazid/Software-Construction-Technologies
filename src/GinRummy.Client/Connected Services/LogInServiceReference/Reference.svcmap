@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="677fecfd-b641-4f23-8e75-20071978ab3a" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://localhost:8003/LogInService/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="a40398c7-6100-4db0-a6a9-f9f82700f73c" SourceId="1" SourceUrl="net.tcp://localhost:8003/LogInService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="91b65809-0538-4fc4-bc89-65a1f155f6d3" SourceId="1" SourceUrl="net.tcp://localhost:8003/LogInService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="c882b623-8afc-48e7-a70a-0af3436e8a39" SourceId="1" SourceUrl="net.tcp://localhost:8003/LogInService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.DataContracts.xsd" MetadataType="Schema" ID="8b7ece58-280c-42e3-a9b9-453a8ec495be" SourceId="1" SourceUrl="net.tcp://localhost:8003/LogInService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.Faults.xsd" MetadataType="Schema" ID="5c0f8f59-88bf-4ab4-a63f-217102293ea1" SourceId="1" SourceUrl="net.tcp://localhost:8003/LogInService/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

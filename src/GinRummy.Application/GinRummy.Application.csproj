@@ -42,7 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ports\ILeaderboardPort.cs" />
+    <Compile Include="Ports\ILogInPort.cs" />
+    <Compile Include="Ports\ITwoFactorLogInPort.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UseCases\LogInUseCase.cs" />
+    <Compile Include="UseCases\VerifyTwoFactorLogInUseCase.cs" />
     <Compile Include="UseCases\ViewLeaderboardUseCase.cs" />
   </ItemGroup>
   <ItemGroup>

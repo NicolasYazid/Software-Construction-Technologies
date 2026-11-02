@@ -43,6 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataContracts\LogInOutcome.cs" />
+    <Compile Include="Faults\SanctionFault.cs" />
+    <Compile Include="Faults\ServiceFault.cs" />
+    <Compile Include="Faults\ServiceFaultCode.cs" />
+    <Compile Include="Services\ILogInService.cs" />
     <Compile Include="Services\IRankingService.cs" />
     <Compile Include="Services\ILeaderboardService.cs" />
     <Compile Include="DataContracts\PlayerRanking.cs" />
