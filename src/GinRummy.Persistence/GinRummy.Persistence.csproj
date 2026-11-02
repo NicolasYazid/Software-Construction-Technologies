@@ -66,7 +66,6 @@
     <Compile Include="Configurations\PlayerAccountConfiguration.cs" />
     <Compile Include="Configurations\PlayerConfiguration.cs" />
     <Compile Include="Configurations\PlayerProfileConfiguration.cs" />
-    <Compile Include="Configurations\PlayerSessionConfiguration.cs" />
     <Compile Include="Configurations\PlayerStatsConfiguration.cs" />
     <Compile Include="Configurations\ProhibitedWordConfiguration.cs" />
     <Compile Include="Configurations\ProhibitedWordLocaleConfiguration.cs" />
@@ -83,12 +82,12 @@
     <Compile Include="Repositories\ChallengeRepository.cs" />
     <Compile Include="Repositories\FriendRepository.cs" />
     <Compile Include="Repositories\GameRepository.cs" />
+    <Compile Include="Repositories\GuestSessionRepository.cs" />
     <Compile Include="Repositories\LocaleRepository.cs" />
     <Compile Include="Repositories\MessageRepository.cs" />
     <Compile Include="Repositories\ModerationRepository.cs" />
     <Compile Include="Repositories\PlayerAccountRepository.cs" />
     <Compile Include="Repositories\PlayerRepository.cs" />
-    <Compile Include="Repositories\PlayerSessionRepository.cs" />
     <Compile Include="Repositories\RankingRepository.cs" />
     <Compile Include="Repositories\VerificationCodeRepository.cs" />
   </ItemGroup>

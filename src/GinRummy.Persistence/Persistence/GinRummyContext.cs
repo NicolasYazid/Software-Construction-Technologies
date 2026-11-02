@@ -61,14 +61,6 @@ namespace GinRummy.Persistence.Persistence
         }
 
         /// <summary>
-        /// Gets the PlayerSession set.
-        /// </summary>
-        public DbSet<PlayerSession> PlayerSessions
-        {
-            get { return Set<PlayerSession>(); }
-        }
-
-        /// <summary>
         /// Gets the PlayerStats set.
         /// </summary>
         public DbSet<PlayerStats> PlayerStats
@@ -243,7 +235,6 @@ namespace GinRummy.Persistence.Persistence
             modelBuilder.Configurations.Add(new PlayerConfiguration());
             modelBuilder.Configurations.Add(new PlayerAccountConfiguration());
             modelBuilder.Configurations.Add(new PlayerProfileConfiguration());
-            modelBuilder.Configurations.Add(new PlayerSessionConfiguration());
             modelBuilder.Configurations.Add(new PlayerStatsConfiguration());
             modelBuilder.Configurations.Add(new ProhibitedWordConfiguration());
             modelBuilder.Configurations.Add(new ProhibitedWordLocaleConfiguration());

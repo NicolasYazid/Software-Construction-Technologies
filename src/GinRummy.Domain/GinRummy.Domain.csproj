@@ -67,7 +67,6 @@
     <Compile Include="Entities\Player.cs" />
     <Compile Include="Entities\PlayerAccount.cs" />
     <Compile Include="Entities\PlayerProfile.cs" />
-    <Compile Include="Entities\PlayerSession.cs" />
     <Compile Include="Entities\PlayerStats.cs" />
     <Compile Include="Entities\ProhibitedWord.cs" />
     <Compile Include="Entities\ProhibitedWordLocale.cs" />
@@ -92,12 +91,12 @@
     <Compile Include="Ports\Repositories\IChallengeRepository.cs" />
     <Compile Include="Ports\Repositories\IFriendRepository.cs" />
     <Compile Include="Ports\Repositories\IGameRepository.cs" />
+    <Compile Include="Ports\Repositories\IGuestSessionRepository.cs" />
     <Compile Include="Ports\Repositories\ILocaleRepository.cs" />
     <Compile Include="Ports\Repositories\IMessageRepository.cs" />
     <Compile Include="Ports\Repositories\IModerationRepository.cs" />
     <Compile Include="Ports\Repositories\IPlayerAccountRepository.cs" />
     <Compile Include="Ports\Repositories\IPlayerRepository.cs" />
-    <Compile Include="Ports\Repositories\IPlayerSessionRepository.cs" />
     <Compile Include="Ports\Repositories\IRankingRepository.cs" />
     <Compile Include="Ports\Repositories\IUnitOfWork.cs" />
     <Compile Include="Ports\Security\IVerificationCodeHasher.cs" />
