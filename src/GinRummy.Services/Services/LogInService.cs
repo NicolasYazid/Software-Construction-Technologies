@@ -44,7 +44,7 @@ namespace GinRummy.Services.Services
         /// <param name="email">Email of the account, as the player typed it.</param>
         /// <param name="password">Password of the account, as the player typed it.</param>
         /// <param name="keepSignedIn">Whether the player asked to stay signed in.</param>
-        /// <returns>The opened session, or the notice that the code of the second factor is pending.</returns>
+        /// <returns>The access token, or the notice that the code of the second factor is pending.</returns>
         public LogInOutcome LogIn(string email, string password, bool keepSignedIn)
         {
             LogInOutcome outcome;
@@ -95,7 +95,7 @@ namespace GinRummy.Services.Services
         /// <param name="email">Email of the account, as the player typed it to sign in.</param>
         /// <param name="verificationCode">Code of the second factor, as the player typed it.</param>
         /// <param name="keepSignedIn">Whether the player asked to stay signed in.</param>
-        /// <returns>The opened session.</returns>
+        /// <returns>The access token.</returns>
         public LogInOutcome VerifyLogInByTwoFactorAuthentication(string email, string verificationCode, bool keepSignedIn)
         {
             LogInOutcome outcome;
@@ -179,9 +179,9 @@ namespace GinRummy.Services.Services
             else
             {
                 _logger.LogInformation(
-                    "Player {PlayerId} signed in with session {PlayerSessionId}.",
+                    "Player {PlayerId} signed in with a token that expires at {ExpiresAt}.",
                     result.Account.PlayerId,
-                    result.OpenedSession.PlayerSessionId);
+                    result.AccessToken.ExpiresAt);
             }
         }
     }

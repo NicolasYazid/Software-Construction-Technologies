@@ -1,26 +1,33 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace GinRummy.Contracts.DataContracts
 {
     /// <summary>
-    /// Answer to a sign-in whose credentials were accepted: the player who signed in and, unless the code of
-    /// the second factor is still pending, the session that was opened.
+    /// Answer to a sign-in whose credentials were accepted: the player who signed in and the access token the
+    /// client presents in every later request, unless the code of the second factor is still pending.
     /// </summary>
     [DataContract]
     public class LogInOutcome
     {
         /// <summary>
-        /// Whether the code of the second factor was emailed and the session waits for it. When true, the
-        /// session and player members are empty.
+        /// Whether the code of the second factor was emailed and the token waits for it. When true, the
+        /// token and player members are empty.
         /// </summary>
         [DataMember]
         public bool IsTwoFactorRequired { get; set; }
 
         /// <summary>
-        /// Identifier of the opened session; zero while the second factor is pending.
+        /// Signed access token that identifies the player; empty while the second factor is pending.
         /// </summary>
         [DataMember]
-        public int PlayerSessionId { get; set; }
+        public string AccessToken { get; set; }
+
+        /// <summary>
+        /// Moment the access token stops being valid, in UTC; null while the second factor is pending.
+        /// </summary>
+        [DataMember]
+        public DateTime? AccessTokenExpiresAt { get; set; }
 
         /// <summary>
         /// Identifier of the player who signed in; zero while the second factor is pending.

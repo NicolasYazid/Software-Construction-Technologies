@@ -10,7 +10,7 @@ namespace GinRummy.Application.UseCases
 {
     /// <summary>
     /// The Log In use case (CU-02): validates what the player typed, checks the credentials and the state of
-    /// the account, and either opens the session or emails the code of the second factor.
+    /// the account, and either grants the access token or emails the code of the second factor.
     /// </summary>
     public class LogInUseCase : ILogInPort
     {
@@ -22,7 +22,7 @@ namespace GinRummy.Application.UseCases
         /// Builds the use case with the collaborators the composition root assembled.
         /// </summary>
         /// <param name="unitOfWorkFactory">Opens the transaction that groups the writes of one sign-in.</param>
-        /// <param name="accessPolicy">Decides who may enter an account and opens the session.</param>
+        /// <param name="accessPolicy">Decides who may enter an account and grants the access token.</param>
         /// <param name="codeSender">Emails the code of the second factor.</param>
         /// <exception cref="ArgumentNullException">Thrown when a dependency is null.</exception>
         public LogInUseCase(
@@ -41,7 +41,7 @@ namespace GinRummy.Application.UseCases
         /// <param name="email">Email exactly as the player typed it.</param>
         /// <param name="password">Password exactly as the player typed it.</param>
         /// <param name="keepSignedIn">Whether the player asked to stay signed in.</param>
-        /// <returns>The opened session, or the notice that the second factor is pending.</returns>
+        /// <returns>The granted access token, or the notice that the second factor is pending.</returns>
         /// <exception cref="RequiredFieldMissingException">Thrown when the email or the password is empty.</exception>
         /// <exception cref="DisallowedCharactersException">Thrown when a field contains forbidden characters.</exception>
         /// <exception cref="InvalidCredentialsException">Thrown when the email or the password is not valid.</exception>
@@ -65,9 +65,9 @@ namespace GinRummy.Application.UseCases
                 }
                 else
                 {
-                    PlayerSession openedSession = _accessPolicy.OpenSession(unitOfWork.PlayerSessions, account, keepSignedIn);
+                    AccessToken accessToken = _accessPolicy.GrantAccess(account, keepSignedIn);
                     unitOfWork.Commit();
-                    result = LogInResult.ForOpenedSession(account, openedSession);
+                    result = LogInResult.ForSignedIn(account, accessToken);
                 }
             }
 
@@ -75,7 +75,7 @@ namespace GinRummy.Application.UseCases
         }
 
         // The code and its failed email are saved before the failure is reported, so the player can ask for a new code (CU-04 EX-03).
-        // The session is not opened here: it waits for the code, as CU-02 FA-04 returns to step 10 only after the check.
+        // The token is not granted here: it waits for the code, as CU-02 FA-04 returns to step 10 only after the check.
         private LogInResult StartTwoFactor(IUnitOfWork unitOfWork, PlayerAccount account)
         {
             EmailDeliveryStatus deliveryStatus = _codeSender.Send(unitOfWork, account, VerificationPurpose.TwoFactorLogin);

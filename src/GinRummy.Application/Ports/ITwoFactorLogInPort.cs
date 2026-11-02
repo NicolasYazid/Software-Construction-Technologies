@@ -14,7 +14,7 @@ namespace GinRummy.Application.Ports
         /// <param name="email">Email of the account, exactly as the player typed it to sign in.</param>
         /// <param name="verificationCode">Code exactly as the player typed it.</param>
         /// <param name="keepSignedIn">Whether the player asked to stay signed in.</param>
-        /// <returns>The opened session.</returns>
+        /// <returns>The granted access token.</returns>
         LogInResult VerifyTwoFactorLogIn(string email, string verificationCode, bool keepSignedIn);
     }
 }

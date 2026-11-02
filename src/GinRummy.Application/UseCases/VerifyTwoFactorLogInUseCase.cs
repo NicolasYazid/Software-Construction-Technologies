@@ -10,7 +10,7 @@ namespace GinRummy.Application.UseCases
 {
     /// <summary>
     /// The confirmation of a sign-in with the second factor (CU-02 FA-04): redeems the emailed code with the
-    /// checks of CU-09 and, when it is valid, opens the session as step 10 of CU-02 does.
+    /// checks of CU-09 and, when it is valid, grants the access token as step 10 of CU-02 does.
     /// </summary>
     public class VerifyTwoFactorLogInUseCase : ITwoFactorLogInPort
     {
@@ -22,7 +22,7 @@ namespace GinRummy.Application.UseCases
         /// Builds the use case with the collaborators the composition root assembled.
         /// </summary>
         /// <param name="unitOfWorkFactory">Opens the transaction that groups the writes of one confirmation.</param>
-        /// <param name="accessPolicy">Decides who may enter an account and opens the session.</param>
+        /// <param name="accessPolicy">Decides who may enter an account and grants the access token.</param>
         /// <param name="codeRedeemer">Checks the typed code and records the result in the stored one.</param>
         /// <exception cref="ArgumentNullException">Thrown when a dependency is null.</exception>
         public VerifyTwoFactorLogInUseCase(
@@ -41,7 +41,7 @@ namespace GinRummy.Application.UseCases
         /// <param name="email">Email of the account, exactly as the player typed it to sign in.</param>
         /// <param name="verificationCode">Code exactly as the player typed it.</param>
         /// <param name="keepSignedIn">Whether the player asked to stay signed in.</param>
-        /// <returns>The opened session.</returns>
+        /// <returns>The granted access token.</returns>
         /// <exception cref="RequiredFieldMissingException">Thrown when the email or the code is empty.</exception>
         /// <exception cref="DisallowedCharactersException">Thrown when the email contains forbidden characters.</exception>
         /// <exception cref="VerificationCodeRejectedException">Thrown when the code cannot be redeemed.</exception>
@@ -65,9 +65,9 @@ namespace GinRummy.Application.UseCases
                 }
 
                 _accessPolicy.EnsureAccessAllowed(account, unitOfWork.Moderation.GetBansOf(account.PlayerId));
-                PlayerSession openedSession = _accessPolicy.OpenSession(unitOfWork.PlayerSessions, account, keepSignedIn);
+                AccessToken accessToken = _accessPolicy.GrantAccess(account, keepSignedIn);
                 unitOfWork.Commit();
-                result = LogInResult.ForOpenedSession(account, openedSession);
+                result = LogInResult.ForSignedIn(account, accessToken);
             }
 
             return result;

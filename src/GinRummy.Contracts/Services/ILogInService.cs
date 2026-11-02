@@ -13,12 +13,12 @@ namespace GinRummy.Contracts.Services
     {
         /// <summary>
         /// Signs a player in with the email and the password of the account. When the account has the second
-        /// factor turned on, the code is emailed and no session is opened until it is confirmed.
+        /// factor turned on, the code is emailed and no access token is granted until it is confirmed.
         /// </summary>
         /// <param name="email">Email of the account, as the player typed it.</param>
         /// <param name="password">Password of the account, as the player typed it.</param>
         /// <param name="keepSignedIn">Whether the player asked to stay signed in.</param>
-        /// <returns>The opened session, or the notice that the code of the second factor is pending.</returns>
+        /// <returns>The access token, or the notice that the code of the second factor is pending.</returns>
         /// <exception cref="FaultException{ServiceFault}">
         /// Thrown when a field is empty or has forbidden characters, the credentials are not valid, the email
         /// is not verified, or the code of the second factor could not be emailed.
@@ -37,7 +37,7 @@ namespace GinRummy.Contracts.Services
         /// <param name="email">Email of the account, as the player typed it to sign in.</param>
         /// <param name="verificationCode">Code of the second factor, as the player typed it.</param>
         /// <param name="keepSignedIn">Whether the player asked to stay signed in.</param>
-        /// <returns>The opened session.</returns>
+        /// <returns>The access token.</returns>
         /// <exception cref="FaultException{ServiceFault}">
         /// Thrown when a field is empty or has forbidden characters, or the code is malformed, incorrect,
         /// expired, already used or out of attempts.

@@ -14,7 +14,7 @@ namespace GinRummy.Application.Ports
         /// <param name="email">Email exactly as the player typed it.</param>
         /// <param name="password">Password exactly as the player typed it.</param>
         /// <param name="keepSignedIn">Whether the player asked to stay signed in.</param>
-        /// <returns>The opened session, or the notice that the second factor is pending.</returns>
+        /// <returns>The granted access token, or the notice that the second factor is pending.</returns>
         LogInResult LogIn(string email, string password, bool keepSignedIn);
     }
 }

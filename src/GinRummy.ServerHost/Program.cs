@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
+using System.Security.Cryptography;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
@@ -8,6 +9,7 @@ using System.ServiceModel.Dispatcher;
 using GinRummy.Application.UseCases;
 using GinRummy.Domain.Ports.Infrastructure;
 using GinRummy.Domain.Ports.Repositories;
+using GinRummy.Domain.Ports.Security;
 using GinRummy.Domain.Services;
 using GinRummy.Infrastructure;
 using GinRummy.Persistence.Persistence;
@@ -29,6 +31,7 @@ namespace GinRummy.ServerHost
         private const string ConnectionStringName = "GinRummyDb";
         private const string LogFolderName = "Logs";
         private const string LogFileName = "GinRummy.ServerHost.log";
+        private const string SigningKeyVariableName = "GINRUMMY_TOKEN_SIGNING_KEY";
 
         /// <summary>
         /// Composes and opens every service and keeps them listening until Enter is pressed.
@@ -41,13 +44,15 @@ namespace GinRummy.ServerHost
                 IErrorHandler faultShield = new FaultShieldErrorHandler(loggerFactory.CreateLogger<FaultShieldErrorHandler>());
                 IServiceBehavior faultShieldBehavior = new FaultShieldBehavior(faultShield);
                 ServiceHostGroup hostGroup = new ServiceHostGroup(loggerFactory.CreateLogger<ServiceHostGroup>());
-                IEmailSender emailSender = CreateEmailSender(loggerFactory.CreateLogger<Program>());
+                ILogger<Program> hostLogger = loggerFactory.CreateLogger<Program>();
+                IEmailSender emailSender = CreateEmailSender(hostLogger);
+                IAccessTokenSigner tokenSigner = CreateAccessTokenSigner(hostLogger);
                 ILogger<LogInService> logInLogger = loggerFactory.CreateLogger<LogInService>();
 
                 hostGroup.Add(CreateIsolatedHost(typeof(LeaderboardService), ComposeLeaderboardService, faultShieldBehavior));
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(LogInService),
-                    () => ComposeLogInService(emailSender, logInLogger),
+                    () => ComposeLogInService(emailSender, tokenSigner, logInLogger),
                     faultShieldBehavior));
 
                 hostGroup.OpenAll();
@@ -91,6 +96,46 @@ namespace GinRummy.ServerHost
             return new SmtpEmailSender(smtpSettings);
         }
 
+        // The key that signs the access tokens is injected through an environment variable, never written in the code or in a file.
+        // Without it, a random key lives only while the process runs, so every token stops working when the server restarts.
+        private static IAccessTokenSigner CreateAccessTokenSigner(ILogger<Program> logger)
+        {
+            byte[] signingKey = ReadSigningKey();
+            if (signingKey.Length < HmacAccessTokenSigner.MinimumKeySizeInBytes)
+            {
+                logger.LogWarning(
+                    "The variable {VariableName} does not hold a Base64 key of at least 32 bytes, so a temporary key signs the tokens.",
+                    SigningKeyVariableName);
+                signingKey = new byte[HmacAccessTokenSigner.MinimumKeySizeInBytes];
+                using (RandomNumberGenerator randomNumberGenerator = RandomNumberGenerator.Create())
+                {
+                    randomNumberGenerator.GetBytes(signingKey);
+                }
+            }
+
+            return new HmacAccessTokenSigner(signingKey);
+        }
+
+        // A missing or malformed variable is reported as an empty key, which the caller replaces with a temporary one.
+        private static byte[] ReadSigningKey()
+        {
+            byte[] signingKey = Array.Empty<byte>();
+            string encodedKey = Environment.GetEnvironmentVariable(SigningKeyVariableName);
+            if (!string.IsNullOrWhiteSpace(encodedKey))
+            {
+                try
+                {
+                    signingKey = Convert.FromBase64String(encodedKey.Trim());
+                }
+                catch (FormatException)
+                {
+                    signingKey = Array.Empty<byte>();
+                }
+            }
+
+            return signingKey;
+        }
+
         private static LeaderboardService ComposeLeaderboardService()
         {
             IRankingRepository rankingRepository = new RankingRepository(ConnectionStringName);
@@ -101,11 +146,14 @@ namespace GinRummy.ServerHost
             return leaderboardService;
         }
 
-        private static LogInService ComposeLogInService(IEmailSender emailSender, ILogger<LogInService> logger)
+        private static LogInService ComposeLogInService(
+            IEmailSender emailSender,
+            IAccessTokenSigner tokenSigner,
+            ILogger<LogInService> logger)
         {
             IClock clock = new SystemClock();
             Func<IUnitOfWork> unitOfWorkFactory = () => new EntityFrameworkUnitOfWork(ConnectionStringName);
-            AccountAccessPolicy accessPolicy = new AccountAccessPolicy(new Argon2PasswordHasher(), clock);
+            AccountAccessPolicy accessPolicy = new AccountAccessPolicy(new Argon2PasswordHasher(), tokenSigner, clock);
             VerificationCodeIssuer codeIssuer = new VerificationCodeIssuer(
                 new RandomVerificationCodeGenerator(),
                 new Sha256VerificationCodeHasher(),

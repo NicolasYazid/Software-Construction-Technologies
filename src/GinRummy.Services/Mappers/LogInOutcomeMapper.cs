@@ -19,6 +19,7 @@ namespace GinRummy.Services.Mappers
             LogInOutcome outcome = new LogInOutcome
             {
                 IsTwoFactorRequired = true,
+                AccessToken = string.Empty,
                 Username = string.Empty
             };
             if (!result.IsTwoFactorRequired)
@@ -35,7 +36,8 @@ namespace GinRummy.Services.Mappers
             LogInOutcome outcome = new LogInOutcome
             {
                 IsTwoFactorRequired = false,
-                PlayerSessionId = result.OpenedSession.PlayerSessionId,
+                AccessToken = result.AccessToken.Value,
+                AccessTokenExpiresAt = result.AccessToken.ExpiresAt,
                 PlayerId = player.PlayerId,
                 Username = player.Username,
                 PublicTag = player.PublicTag
