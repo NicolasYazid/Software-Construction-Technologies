@@ -18,6 +18,11 @@
       <xs:enumeration value="CodeExpired" />
       <xs:enumeration value="CodeAlreadyUsed" />
       <xs:enumeration value="CodeTooManyAttempts" />
+      <xs:enumeration value="EmailAlreadyRegistered" />
+      <xs:enumeration value="InvalidEmailFormat" />
+      <xs:enumeration value="FieldTooLong" />
+      <xs:enumeration value="WeakPassword" />
+      <xs:enumeration value="EmailAlreadyVerified" />
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="ServiceFaultCode" nillable="true" type="tns:ServiceFaultCode" />
@@ -28,4 +33,10 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="SanctionFault" nillable="true" type="tns:SanctionFault" />
+  <xs:complexType name="ResendLimitFault">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="RetryAfterSeconds" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ResendLimitFault" nillable="true" type="tns:ResendLimitFault" />
 </xs:schema>

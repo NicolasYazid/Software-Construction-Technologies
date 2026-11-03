@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.Linq;
 
+using GinRummy.Domain;
 using GinRummy.Domain.Entities.Players;
 using GinRummy.Domain.Ports.Repositories;
 using GinRummy.Persistence.Persistence;
@@ -15,6 +18,8 @@ namespace GinRummy.Persistence.Repositories
     /// </summary>
     public class PlayerAccountRepository : IPlayerAccountRepository
     {
+        private const int UniqueIndexViolationNumber = 2601;
+        private const int UniqueConstraintViolationNumber = 2627;
         private readonly string _connectionStringName;
         private readonly GinRummyContext _sharedContext;
 
@@ -103,21 +108,86 @@ namespace GinRummy.Persistence.Repositories
         /// Adds a new account and persists it immediately.
         /// </summary>
         /// <param name="newAccount">Account to create.</param>
+        /// <exception cref="EmailAlreadyRegisteredException">Thrown when another account already has the email.</exception>
         public void Add(PlayerAccount newAccount)
+        {
+            try
+            {
+                if (_sharedContext != null)
+                {
+                    _sharedContext.PlayerAccounts.Add(newAccount);
+                    _sharedContext.SaveChanges();
+                }
+                else
+                {
+                    using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                    {
+                        context.PlayerAccounts.Add(newAccount);
+                        context.SaveChanges();
+                    }
+                }
+            }
+            catch (DbUpdateException ex) when (IsDuplicateKey(ex))
+            {
+                // Two sign-ups with the same email can both pass the earlier search.
+                // The unique email of the table then rejects the second one, which is the same broken rule (CU-01 EX-01).
+                throw new EmailAlreadyRegisteredException("The email already belongs to another account.", ex);
+            }
+        }
+
+        /// <summary>
+        /// Adds the profile of a new account and persists it immediately.
+        /// </summary>
+        /// <param name="newProfile">Profile to create.</param>
+        public void AddProfile(PlayerProfile newProfile)
         {
             if (_sharedContext != null)
             {
-                _sharedContext.PlayerAccounts.Add(newAccount);
+                _sharedContext.PlayerProfiles.Add(newProfile);
                 _sharedContext.SaveChanges();
             }
             else
             {
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
-                    context.PlayerAccounts.Add(newAccount);
+                    context.PlayerProfiles.Add(newProfile);
                     context.SaveChanges();
                 }
             }
+        }
+
+        /// <summary>
+        /// Adds the statistics of a new account and persists them immediately.
+        /// </summary>
+        /// <param name="newStats">Statistics to create.</param>
+        public void AddStats(PlayerStats newStats)
+        {
+            if (_sharedContext != null)
+            {
+                _sharedContext.PlayerStats.Add(newStats);
+                _sharedContext.SaveChanges();
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    context.PlayerStats.Add(newStats);
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        private static bool IsDuplicateKey(DbUpdateException exception)
+        {
+            SqlException sqlException = exception.GetBaseException() as SqlException;
+            bool isDuplicateKey = false;
+            if (sqlException != null)
+            {
+                isDuplicateKey = (sqlException.Number == UniqueIndexViolationNumber)
+                    || (sqlException.Number == UniqueConstraintViolationNumber);
+            }
+
+            return isDuplicateKey;
         }
     }
 }

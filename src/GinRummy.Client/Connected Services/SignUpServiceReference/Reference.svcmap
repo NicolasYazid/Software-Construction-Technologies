@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="83176ec4-40db-432e-aac7-20ac7046b952" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://localhost:8005/SignUpService/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="e8819a4b-706e-4a8c-abb2-19c2a70e7702" SourceId="1" SourceUrl="net.tcp://localhost:8005/SignUpService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="ca1964c5-9e47-416e-9ddb-1bbd1d6001a3" SourceId="1" SourceUrl="net.tcp://localhost:8005/SignUpService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="6a36475a-f769-4f1f-baf9-133db5bc2fbf" SourceId="1" SourceUrl="net.tcp://localhost:8005/SignUpService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.DataContracts.xsd" MetadataType="Schema" ID="37ec91c7-a2d1-4917-b13a-78badb1f1220" SourceId="1" SourceUrl="net.tcp://localhost:8005/SignUpService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.Faults.xsd" MetadataType="Schema" ID="3a2cee2d-d1d3-4705-a81c-0b5ca87625f7" SourceId="1" SourceUrl="net.tcp://localhost:8005/SignUpService/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

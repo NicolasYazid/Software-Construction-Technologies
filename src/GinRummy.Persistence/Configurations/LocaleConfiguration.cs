@@ -28,6 +28,7 @@ namespace GinRummy.Persistence.Configurations
                 .IsRequired()
                 .IsUnicode(false)
                 .HasMaxLength(Locale.DisplayNameMaxLength);
+            Property(locale => locale.IsDefault).HasColumnName("is_default");
         }
     }
 }

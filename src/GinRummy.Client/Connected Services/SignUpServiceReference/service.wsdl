@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="SignUpService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="SignUpService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1">
+        </msb:BinaryEncoding>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256>
+                </sp:Basic256>
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict>
+                </sp:Strict>
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <wsaw:UsingAddressing>
+        </wsaw:UsingAddressing>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ISignUpService_SignUp_InputMessage">
+    <wsdl:part name="parameters" element="tns:SignUp" />
+  </wsdl:message>
+  <wsdl:message name="ISignUpService_SignUp_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SignUpResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISignUpService_SignUp_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q1:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ISignUpService_VerifyEmailByVerificationCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:VerifyEmailByVerificationCode" />
+  </wsdl:message>
+  <wsdl:message name="ISignUpService_VerifyEmailByVerificationCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VerifyEmailByVerificationCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISignUpService_VerifyEmailByVerificationCode_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q2:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ISignUpService_ResendVerificationCode_InputMessage">
+    <wsdl:part name="parameters" element="tns:ResendVerificationCode" />
+  </wsdl:message>
+  <wsdl:message name="ISignUpService_ResendVerificationCode_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ResendVerificationCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISignUpService_ResendVerificationCode_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q3:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="ISignUpService_ResendVerificationCode_ResendLimitFaultFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q4:ResendLimitFault" />
+  </wsdl:message>
+  <wsdl:portType name="ISignUpService">
+    <wsdl:operation name="SignUp">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISignUpService/SignUp" message="tns:ISignUpService_SignUp_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISignUpService/SignUpResponse" message="tns:ISignUpService_SignUp_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/ISignUpService/SignUpServiceFaultFault" name="ServiceFaultFault" message="tns:ISignUpService_SignUp_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="VerifyEmailByVerificationCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISignUpService/VerifyEmailByVerificationCode" message="tns:ISignUpService_VerifyEmailByVerificationCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISignUpService/VerifyEmailByVerificationCodeResponse" message="tns:ISignUpService_VerifyEmailByVerificationCode_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/ISignUpService/VerifyEmailByVerificationCodeServiceFaultFault" name="ServiceFaultFault" message="tns:ISignUpService_VerifyEmailByVerificationCode_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ResendVerificationCode">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISignUpService/ResendVerificationCode" message="tns:ISignUpService_ResendVerificationCode_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISignUpService/ResendVerificationCodeResponse" message="tns:ISignUpService_ResendVerificationCode_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/ISignUpService/ResendVerificationCodeServiceFaultFault" name="ServiceFaultFault" message="tns:ISignUpService_ResendVerificationCode_ServiceFaultFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/ISignUpService/ResendVerificationCodeResendLimitFaultFault" name="ResendLimitFaultFault" message="tns:ISignUpService_ResendVerificationCode_ResendLimitFaultFault_FaultMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SignUpService" type="tns:ISignUpService">
+    <wsp:PolicyReference URI="#SignUpService_policy">
+    </wsp:PolicyReference>
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="SignUp">
+      <soap12:operation soapAction="http://tempuri.org/ISignUpService/SignUp" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyEmailByVerificationCode">
+      <soap12:operation soapAction="http://tempuri.org/ISignUpService/VerifyEmailByVerificationCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ResendVerificationCode">
+      <soap12:operation soapAction="http://tempuri.org/ISignUpService/ResendVerificationCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+      <wsdl:fault name="ResendLimitFaultFault">
+        <soap12:fault use="literal" name="ResendLimitFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SignUpService">
+    <wsdl:port name="SignUpService" binding="tns:SignUpService">
+      <soap12:address location="net.tcp://localhost:8004/SignUpService" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost:8004/SignUpService</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Upn>FOSTER\neptu</Upn>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -412,7 +412,7 @@ Inténtalo de nuevo en unos minutos.</value>
     <comment>Mensajes del sistema de GuiSignUp y GuiEditProfile. {0} = longitud máxima del campo.</comment>
   </data>
   <data name="Error_ValInvalidCodeFormat" xml:space="preserve">
-    <value>El código debe tener seis dígitos</value>
+    <value>El código debe tener seis dígitos válidos</value>
     <comment>Mensajes del sistema de GuiTwoStep</comment>
   </data>
   <data name="Error_ValInvalidEmailFormat" xml:space="preserve">
@@ -424,7 +424,7 @@ Inténtalo de nuevo en unos minutos.</value>
     <comment>Mensajes del sistema de GuiSignUp</comment>
   </data>
   <data name="Error_ValRequiredField" xml:space="preserve">
-    <value>Completa los campos marcados</value>
+    <value>Completa los campos vacios</value>
     <comment>Mensajes del sistema de GuiSignUp</comment>
   </data>
   <data name="Error_ValUnsupportedImage" xml:space="preserve">

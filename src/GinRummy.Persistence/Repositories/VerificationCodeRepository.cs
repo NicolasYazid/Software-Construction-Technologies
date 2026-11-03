@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using GinRummy.Domain.Entities.Authentication;
@@ -82,6 +83,41 @@ namespace GinRummy.Persistence.Repositories
             }
 
             return mostRecentCode;
+        }
+
+        /// <summary>
+        /// Gets the codes created for a player and a purpose from a moment on, oldest first.
+        /// </summary>
+        /// <param name="playerId">Player the codes belong to.</param>
+        /// <param name="purpose">Reason the codes were generated for.</param>
+        /// <param name="since">Earliest creation moment to include, in UTC.</param>
+        /// <returns>The matching codes, ordered by creation moment; empty when none exists.</returns>
+        public IList<VerificationCode> FindCreatedSince(int playerId, VerificationPurpose purpose, DateTime since)
+        {
+            IList<VerificationCode> recentCodes;
+            if (_sharedContext != null)
+            {
+                recentCodes = _sharedContext.VerificationCodes
+                    .Where(verificationCode => verificationCode.PlayerId == playerId)
+                    .Where(verificationCode => verificationCode.Purpose == purpose)
+                    .Where(verificationCode => verificationCode.CreatedAt >= since)
+                    .OrderBy(verificationCode => verificationCode.CreatedAt)
+                    .ToList();
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    recentCodes = context.VerificationCodes
+                        .Where(verificationCode => verificationCode.PlayerId == playerId)
+                        .Where(verificationCode => verificationCode.Purpose == purpose)
+                        .Where(verificationCode => verificationCode.CreatedAt >= since)
+                        .OrderBy(verificationCode => verificationCode.CreatedAt)
+                        .ToList();
+                }
+            }
+
+            return recentCodes;
         }
 
         /// <summary>

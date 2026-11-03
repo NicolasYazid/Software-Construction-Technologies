@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using GinRummy.Domain.Entities.Authentication;
 
@@ -18,6 +19,15 @@ namespace GinRummy.Domain.Ports.Repositories
         /// <param name="purpose">Reason the code was generated for.</param>
         /// <returns>The matching code, or null.</returns>
         VerificationCode FindMostRecent(int playerId, VerificationPurpose purpose);
+
+        /// <summary>
+        /// Gets the codes created for a player and a purpose from a moment on, oldest first.
+        /// </summary>
+        /// <param name="playerId">Player the codes belong to.</param>
+        /// <param name="purpose">Reason the codes were generated for.</param>
+        /// <param name="since">Earliest creation moment to include, in UTC.</param>
+        /// <returns>The matching codes, ordered by creation moment; empty when none exists.</returns>
+        IList<VerificationCode> FindCreatedSince(int playerId, VerificationPurpose purpose, DateTime since);
 
         /// <summary>
         /// Adds a new code and persists it immediately.

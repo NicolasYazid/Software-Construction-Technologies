@@ -102,6 +102,12 @@
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
+                <Button x:Name="btnResendCode" Style="{StaticResource StyInlineTextButton}"
+                        HorizontalAlignment="Left" Margin="0,8,0,0"
+                        Visibility="{Binding IsResendCodeOffered, Converter={StaticResource CnvBooleanToVisibility}}"
+                        Content="{Binding [Shared_BtnResendCode], Source={StaticResource PrvLocalization},
+                                  Converter={StaticResource CnvUpperCase}}"
+                        Click="OnResendCodeClick" />
                 <TextBlock x:Name="lblSessionClosedElsewhere" Style="{StaticResource StyCardNotice}"
                            Width="402" HorizontalAlignment="Left" Margin="0,12,0,0"
                            Text="{Binding [LogIn_SessionClosedElsewhere], Source={StaticResource PrvLocalization}}" />

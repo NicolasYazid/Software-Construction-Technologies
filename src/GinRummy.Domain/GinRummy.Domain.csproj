@@ -43,8 +43,12 @@
   <ItemGroup>
     <Compile Include="AccountBannedException.cs" />
     <Compile Include="DisallowedCharactersException.cs" />
+    <Compile Include="EmailAlreadyRegisteredException.cs" />
+    <Compile Include="EmailAlreadyVerifiedException.cs" />
     <Compile Include="EmailNotVerifiedException.cs" />
     <Compile Include="Entities\Authentication\AccessToken.cs" />
+    <Compile Include="Entities\Authentication\SignUpForm.cs" />
+    <Compile Include="Entities\Authentication\SignUpResult.cs" />
     <Compile Include="Entities\PlayerModeration\Ban.cs" />
     <Compile Include="Entities\Game\Challenge.cs" />
     <Compile Include="Entities\Game\ChallengeStatus.cs" />
@@ -82,9 +86,11 @@
     <Compile Include="Entities\Authentication\VerificationPurpose.cs" />
     <Compile Include="Entities\PlayerModeration\Warning.cs" />
     <Compile Include="Entities\Players\UsernameRequirement.cs" />
+    <Compile Include="FieldTooLongException.cs" />
     <Compile Include="GameCoreException.cs" />
     <Compile Include="InvalidAccessTokenException.cs" />
     <Compile Include="InvalidCredentialsException.cs" />
+    <Compile Include="InvalidEmailFormatException.cs" />
     <Compile Include="Ports\Infrastructure\IClock.cs" />
     <Compile Include="Ports\Infrastructure\IEmailSender.cs" />
     <Compile Include="Ports\Infrastructure\IProfilePictureStorage.cs" />
@@ -110,6 +116,7 @@
     <Compile Include="Security\Password.cs" />
     <Compile Include="Security\PasswordRequirement.cs" />
     <Compile Include="Services\AccountAccessPolicy.cs" />
+    <Compile Include="Services\AccountRegistrar.cs" />
     <Compile Include="Services\ForbiddenCharacterCommon.cs" />
     <Compile Include="Services\RankResolver.cs" />
     <Compile Include="Services\TypedFieldValidator.cs" />
@@ -120,6 +127,8 @@
     <Compile Include="Services\VerificationCodeSender.cs" />
     <Compile Include="VerificationCodeRejectedException.cs" />
     <Compile Include="VerificationEmailNotSentException.cs" />
+    <Compile Include="VerificationResendLimitException.cs" />
+    <Compile Include="WeakPasswordException.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

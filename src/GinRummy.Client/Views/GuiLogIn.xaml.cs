@@ -42,6 +42,15 @@ namespace GinRummy.Client.Views
             NavigateTo(new GuiSignUp());
         }
 
+        // The account was created earlier, so its code may have expired; a new one is asked for once the screen is open (CU-02 EX-03).
+        private void OnResendCodeClick(object sender, RoutedEventArgs e)
+        {
+            SignUpVerifyEmailViewModel verifyEmailViewModel =
+                ((App)Application.Current).CreateSignUpVerifyEmailViewModel(_viewModel.Email);
+            NavigateTo(new GuiVerifyEmail(verifyEmailViewModel));
+            verifyEmailViewModel.ResendCodeCommand.Execute(null);
+        }
+
         private void OnSignedIn(object sender, LogInOutcome signedInPlayer)
         {
             ((App)Application.Current).StoreSignedInPlayer(signedInPlayer);

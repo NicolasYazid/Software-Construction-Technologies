@@ -12,11 +12,13 @@ namespace GinRummy.Client.ViewModels
     public class LogInViewModel : ViewModelBase
     {
         private const string RequiredFieldKey = "Error_ValRequiredField";
+        private const string ResendLimitReachedKey = "Error_AuthResendLimitReached";
 
         private readonly Func<ILogInService> _logInServiceFactory;
         private readonly ILogger<LogInViewModel> _logger;
         private string _password;
         private string _errorMessageKey;
+        private bool _isResendCodeOffered;
 
         // A client is created for every attempt because a client whose channel failed cannot be opened again.
         public LogInViewModel(Func<ILogInService> logInServiceFactory, ILogger<LogInViewModel> logger)
@@ -63,11 +65,23 @@ namespace GinRummy.Client.ViewModels
             get { return !string.IsNullOrEmpty(_errorMessageKey); }
         }
 
+        // An account whose email was never verified is offered a new code next to its message (CU-02 EX-03).
+        public bool IsResendCodeOffered
+        {
+            get { return _isResendCodeOffered; }
+            private set
+            {
+                _isResendCodeOffered = value;
+                RaisePropertyChanged();
+            }
+        }
+
         // The empty fields are checked here only to answer without waiting for the network (CU-02 FA-02).
         // The server repeats the check, together with every other rule of the sign-in.
         private void LogIn()
         {
             ErrorMessageKey = null;
+            IsResendCodeOffered = false;
             if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
             {
                 ErrorMessageKey = RequiredFieldKey;
@@ -106,11 +120,21 @@ namespace GinRummy.Client.ViewModels
                 _logger.LogInformation(ex, "The sign-in was refused because the account is banned.");
                 AccountRestricted?.Invoke(this, LogInFaultCommon.ToRestriction(ex.Detail));
             }
+            catch (FaultException<ResendLimitFault> ex)
+            {
+                communicationObject.Abort();
+                _logger.LogInformation(
+                    ex,
+                    "The server refused a second factor code for {RetryAfterSeconds} seconds.",
+                    ex.Detail.RetryAfterSeconds);
+                ErrorMessageKey = ResendLimitReachedKey;
+            }
             catch (FaultException<ServiceFault> ex)
             {
                 communicationObject.Abort();
                 _logger.LogInformation(ex, "The server refused the sign-in with the fault {FaultCode}.", ex.Detail.Code);
                 ErrorMessageKey = LogInFaultCommon.ResolveMessageKey(ex.Detail.Code);
+                IsResendCodeOffered = ex.Detail.Code == ServiceFaultCode.EmailNotVerified;
             }
             catch (FaultException ex)
             {

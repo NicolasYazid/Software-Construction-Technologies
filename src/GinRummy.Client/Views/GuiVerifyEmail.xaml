@@ -5,7 +5,9 @@
         xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display">
-    <Grid Width="473" Height="407" Background="{StaticResource BrsPageBackground}">
+    <!-- The height is not stated: an error, a notice or a long address adds lines to the card, and a fixed
+         height cut off the buttons below them. The grid grows with the card instead. -->
+    <Grid Width="473" Background="{StaticResource BrsPageBackground}">
         <Border Background="{StaticResource BrsSurface}" ctl:PixelShapeCommon.CornerSteps="5"
                 Margin="2,0,0,0" Padding="34,20,34,20">
             <StackPanel>
@@ -76,19 +78,36 @@
                 </TextBlock>
 
                 <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyCardError}"
-                           Width="402" HorizontalAlignment="Left" Margin="0,8,0,0" />
+                           Width="402" HorizontalAlignment="Left" Margin="0,8,0,0"
+                           Visibility="{Binding HasErrorMessage, Converter={StaticResource CnvBooleanToVisibility}}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource CnvResourceText}">
+                            <Binding Path="ErrorMessageKey" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
                 <TextBlock x:Name="lblAlreadyVerified" Style="{StaticResource StyCardNotice}"
                            Width="402" HorizontalAlignment="Left" Margin="0,8,0,0"
+                           Visibility="{Binding IsAlreadyVerified, Converter={StaticResource CnvBooleanToVisibility}}"
                            Text="{Binding [VerifyEmail_AlreadyVerified], Source={StaticResource PrvLocalization}}" />
                 <TextBlock x:Name="lblCodeNotSent" Style="{StaticResource StyCardNotice}"
                            Width="402" HorizontalAlignment="Left" Margin="0,8,0,0"
+                           Visibility="{Binding IsCodeNotSentShown, Converter={StaticResource CnvBooleanToVisibility}}"
                            Text="{Binding [VerifyEmail_CodeNotSent], Source={StaticResource PrvLocalization}}" />
 
                 <Button x:Name="btnVerify" Style="{StaticResource StyCardPrimaryButton}"
                         Width="402" HorizontalAlignment="Left" Margin="0,20,0,0"
+                        Visibility="{Binding IsVerificationPending, Converter={StaticResource CnvBooleanToVisibility}}"
                         Content="{Binding [VerifyEmail_BtnVerify], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
                         Command="{Binding VerifyCommand}" />
+                <Button x:Name="btnLogIn" Style="{StaticResource StyCardPrimaryButton}"
+                        Width="402" HorizontalAlignment="Left" Margin="0,20,0,0"
+                        Visibility="{Binding IsAlreadyVerified, Converter={StaticResource CnvBooleanToVisibility}}"
+                        Content="{Binding [Shared_BtnLogIn], Source={StaticResource PrvLocalization},
+                                  Converter={StaticResource CnvUpperCase}}"
+                        Click="OnLogInClick" />
 
                 <Button x:Name="btnVerifyLater" Style="{StaticResource StyCardTextButton}"
                         Width="402" HorizontalAlignment="Left" Margin="0,20,0,0"

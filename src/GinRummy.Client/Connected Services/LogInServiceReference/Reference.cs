@@ -216,6 +216,21 @@ namespace GinRummy.Client.LogInServiceReference {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         CodeTooManyAttempts = 9,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        EmailAlreadyRegistered = 10,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        InvalidEmailFormat = 11,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        FieldTooLong = 12,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        WeakPassword = 13,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        EmailAlreadyVerified = 14,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -279,6 +294,51 @@ namespace GinRummy.Client.LogInServiceReference {
         }
     }
     
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ResendLimitFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+    [System.SerializableAttribute()]
+    public partial class ResendLimitFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int RetryAfterSecondsField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int RetryAfterSeconds {
+            get {
+                return this.RetryAfterSecondsField;
+            }
+            set {
+                if ((this.RetryAfterSecondsField.Equals(value) != true)) {
+                    this.RetryAfterSecondsField = value;
+                    this.RaisePropertyChanged("RetryAfterSeconds");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="LogInServiceReference.ILogInService")]
     public interface ILogInService {
@@ -286,6 +346,7 @@ namespace GinRummy.Client.LogInServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILogInService/LogIn", ReplyAction="http://tempuri.org/ILogInService/LogInResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.LogInServiceReference.ServiceFault), Action="http://tempuri.org/ILogInService/LogInServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
         [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.LogInServiceReference.SanctionFault), Action="http://tempuri.org/ILogInService/LogInSanctionFaultFault", Name="SanctionFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.LogInServiceReference.ResendLimitFault), Action="http://tempuri.org/ILogInService/LogInResendLimitFaultFault", Name="ResendLimitFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
         GinRummy.Client.LogInServiceReference.LogInOutcome LogIn(string email, string password, bool keepSignedIn);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILogInService/LogIn", ReplyAction="http://tempuri.org/ILogInService/LogInResponse")]
