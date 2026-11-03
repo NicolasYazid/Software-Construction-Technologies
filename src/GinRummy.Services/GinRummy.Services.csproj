@@ -55,8 +55,8 @@
     <Compile Include="Mappers\LogInOutcomeMapper.cs" />
     <Compile Include="Mappers\PlayerPresenceMapper.cs" />
     <Compile Include="Mappers\PlayerRankingMapper.cs" />
-    <Compile Include="Notifiers\PlayerPresenceNotifier.cs" />
-    <Compile Include="Notifiers\SubscribedClient.cs" />
+    <Compile Include="Notifiers\PlayerConnection.cs" />
+    <Compile Include="Notifiers\PlayerPresenceAnnouncer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\LeaderboardService.cs" />
     <Compile Include="Services\LogInService.cs" />

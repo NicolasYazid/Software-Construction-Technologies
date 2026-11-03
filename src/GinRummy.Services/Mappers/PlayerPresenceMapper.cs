@@ -6,18 +6,9 @@ using GinRummy.Domain.Entities.Players;
 
 namespace GinRummy.Services.Mappers
 {
-    /// <summary>
-    /// Turns the players of the domain and their lists into the data the client receives.
-    /// </summary>
     public static class PlayerPresenceMapper
     {
-        /// <summary>
-        /// Maps the four lists of players to the report the client receives. Every player of a list is marked as
-        /// connected or not by the list it belongs to, and as a friend when it also belongs to the matching list of friends.
-        /// </summary>
-        /// <param name="lists">Lists of the players, split into connected and not connected.</param>
-        /// <returns>The report; its lists are empty when nobody belongs to them.</returns>
-        public static PlayerPresenceReport MapToPlayerPresenceReport(PlayerPresenceLists lists)
+        public static PlayerPresenceReport MapToPlayerPresenceReport(PlayersByStatus lists)
         {
             PlayerPresenceReport report = new PlayerPresenceReport
             {
@@ -30,13 +21,6 @@ namespace GinRummy.Services.Mappers
             return report;
         }
 
-        /// <summary>
-        /// Maps one player to the data the client receives.
-        /// </summary>
-        /// <param name="player">Player to map.</param>
-        /// <param name="status">Whether the player is connected.</param>
-        /// <param name="isFriend">Whether the player is a friend of whoever receives the data.</param>
-        /// <returns>The player as the client receives it.</returns>
         public static PlayerPresence MapToPlayerPresence(Player player, PlayerPresenceStatus status, bool isFriend)
         {
             PlayerPresence presence = new PlayerPresence
@@ -55,7 +39,6 @@ namespace GinRummy.Services.Mappers
             List<PlayerPresence> presences = new List<PlayerPresence>();
             foreach (Player player in players)
             {
-                // The lists of friends hold the very same player objects as the lists of players, so Contains finds them.
                 bool isFriend = friends.Contains(player);
                 presences.Add(MapToPlayerPresence(player, status, isFriend));
             }

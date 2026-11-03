@@ -13,10 +13,6 @@ using Microsoft.Extensions.Logging;
 
 namespace GinRummy.Services.Services
 {
-    /// <summary>
-    /// Implements the sign-in contract. Delegates each operation to its port and turns the broken rules
-    /// into the faults the contract declares, so the client can choose the message of each one.
-    /// </summary>
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class LogInService : ILogInService
     {
@@ -24,13 +20,6 @@ namespace GinRummy.Services.Services
         private readonly ITwoFactorLogInPort _twoFactorLogInPort;
         private readonly ILogger<LogInService> _logger;
 
-        /// <summary>
-        /// Builds the service with the ports and the logger the composition root assembled.
-        /// </summary>
-        /// <param name="logInPort">Port of the sign-in with email and password.</param>
-        /// <param name="twoFactorLogInPort">Port of the confirmation with the second factor.</param>
-        /// <param name="logger">Logger of the server.</param>
-        /// <exception cref="ArgumentNullException">Thrown when a dependency is null.</exception>
         public LogInService(ILogInPort logInPort, ITwoFactorLogInPort twoFactorLogInPort, ILogger<LogInService> logger)
         {
             _logInPort = logInPort ?? throw new ArgumentNullException(nameof(logInPort));
@@ -38,13 +27,6 @@ namespace GinRummy.Services.Services
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        /// <summary>
-        /// Signs a player in with the email and the password of the account.
-        /// </summary>
-        /// <param name="email">Email of the account, as the player typed it.</param>
-        /// <param name="password">Password of the account, as the player typed it.</param>
-        /// <param name="keepSignedIn">Whether the player asked to stay signed in.</param>
-        /// <returns>The access token, or the notice that the code of the second factor is pending.</returns>
         public LogInOutcome LogIn(string email, string password, bool keepSignedIn)
         {
             LogInOutcome outcome;
@@ -66,7 +48,6 @@ namespace GinRummy.Services.Services
             }
             catch (InvalidCredentialsException ex)
             {
-                // CU-02 EX-01 asks for every failed attempt to be recorded.
                 _logger.LogWarning(ex, "A sign-in with the email {Email} failed because of its credentials.", email);
                 throw CreateServiceFault(ServiceFaultCode.InvalidCredentials);
             }
@@ -89,13 +70,6 @@ namespace GinRummy.Services.Services
             return outcome;
         }
 
-        /// <summary>
-        /// Completes a sign-in whose password was accepted, with the code emailed to the account.
-        /// </summary>
-        /// <param name="email">Email of the account, as the player typed it to sign in.</param>
-        /// <param name="verificationCode">Code of the second factor, as the player typed it.</param>
-        /// <param name="keepSignedIn">Whether the player asked to stay signed in.</param>
-        /// <returns>The access token.</returns>
         public LogInOutcome VerifyLogInByTwoFactorAuthentication(string email, string verificationCode, bool keepSignedIn)
         {
             LogInOutcome outcome;

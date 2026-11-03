@@ -43,13 +43,13 @@
   <ItemGroup>
     <Compile Include="Ports\ILeaderboardPort.cs" />
     <Compile Include="Ports\ILogInPort.cs" />
-    <Compile Include="Ports\IPlayerPresenceNotifier.cs" />
-    <Compile Include="Ports\IPlayerPresencePort.cs" />
+    <Compile Include="Ports\IPlayerPresenceAnnouncer.cs" />
+    <Compile Include="Ports\IPlayerPresenceOrchestrator.cs" />
     <Compile Include="Ports\ITwoFactorLogInPort.cs" />
-    <Compile Include="Presence\ConnectedPlayer.cs" />
-    <Compile Include="Presence\ConnectedPlayerRegistry.cs" />
-    <Compile Include="Presence\PlayerPresenceCoordinator.cs" />
-    <Compile Include="Presence\PlayerPresenceLists.cs" />
+    <Compile Include="Presence\OnlinePlayer.cs" />
+    <Compile Include="Presence\PlayerPresenceChange.cs" />
+    <Compile Include="Presence\PlayerPresenceOrchestrator.cs" />
+    <Compile Include="Presence\PlayersByStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UseCases\LogInUseCase.cs" />
     <Compile Include="UseCases\VerifyTwoFactorLogInUseCase.cs" />

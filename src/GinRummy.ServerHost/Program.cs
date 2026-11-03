@@ -51,9 +51,9 @@ namespace GinRummy.ServerHost
                 IAccessTokenSigner tokenSigner = CreateAccessTokenSigner(hostLogger);
                 ILogger<LogInService> logInLogger = loggerFactory.CreateLogger<LogInService>();
 
-                // One notifier and one coordinator serve every session, because together they remember who is connected.
-                PlayerPresenceNotifier presenceNotifier = new PlayerPresenceNotifier(loggerFactory.CreateLogger<SubscribedClient>());
-                PlayerPresenceCoordinator presenceCoordinator = ComposePlayerPresenceCoordinator(tokenSigner, presenceNotifier);
+                // One announcer serves every session, because it keeps the connection of every player who is online.
+                PlayerPresenceAnnouncer presenceAnnouncer = new PlayerPresenceAnnouncer(loggerFactory.CreateLogger<PlayerConnection>());
+                PlayerPresenceOrchestrator presenceOrchestrator = ComposePlayerPresenceOrchestrator(tokenSigner, presenceAnnouncer);
                 ILogger<PlayerPresenceService> presenceLogger = loggerFactory.CreateLogger<PlayerPresenceService>();
 
                 hostGroup.Add(CreateIsolatedHost(typeof(LeaderboardService), ComposeLeaderboardService, faultShieldBehavior));
@@ -63,7 +63,7 @@ namespace GinRummy.ServerHost
                     faultShieldBehavior));
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(PlayerPresenceService),
-                    () => new PlayerPresenceService(presenceCoordinator, presenceNotifier, presenceLogger),
+                    () => new PlayerPresenceService(presenceOrchestrator, presenceAnnouncer, presenceLogger),
                     faultShieldBehavior));
 
                 hostGroup.OpenAll();
@@ -182,16 +182,16 @@ namespace GinRummy.ServerHost
             return logInService;
         }
 
-        private static PlayerPresenceCoordinator ComposePlayerPresenceCoordinator(
+        private static PlayerPresenceOrchestrator ComposePlayerPresenceOrchestrator(
             IAccessTokenSigner tokenSigner,
-            PlayerPresenceNotifier notifier)
+            PlayerPresenceAnnouncer announcer)
         {
             IClock clock = new SystemClock();
             Func<IUnitOfWork> unitOfWorkFactory = () => new EntityFrameworkUnitOfWork(ConnectionStringName);
             AccountAccessPolicy accessPolicy = new AccountAccessPolicy(new Argon2PasswordHasher(), tokenSigner, clock);
-            PlayerPresenceCoordinator presenceCoordinator = new PlayerPresenceCoordinator(unitOfWorkFactory, accessPolicy, notifier);
+            PlayerPresenceOrchestrator presenceOrchestrator = new PlayerPresenceOrchestrator(unitOfWorkFactory, accessPolicy, announcer);
 
-            return presenceCoordinator;
+            return presenceOrchestrator;
         }
     }
 }

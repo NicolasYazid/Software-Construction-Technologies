@@ -1,36 +1,37 @@
 ﻿using System.Collections.Generic;
+
 using GinRummy.Domain.Entities.Players;
 
 namespace GinRummy.Application.Presence
 {
-    public class PlayerPresenceLists
+    public class PlayersByStatus
     {
-        public PlayerPresenceLists(IList<Player> registeredPlayers, IList<int> connectedPlayerIds, ConnectedPlayer subscriber)
+        public PlayersByStatus(IList<Player> players, IList<int> onlinePlayerIds, IList<int> friendPlayerIds)
         {
             AllOnlinePlayers = new List<Player>();
             AllOfflinePlayers = new List<Player>();
             AllOnlineFriends = new List<Player>();
             AllOfflineFriends = new List<Player>();
 
-            foreach (Player player in registeredPlayers)
+            foreach (Player player in players)
             {
-                if (player.PlayerId != subscriber.Player.PlayerId)
-                {
-                    bool isConnected = connectedPlayerIds.Contains(player.PlayerId);
-                    bool isFriend = subscriber.IsFriendOf(player.PlayerId);
-                    AddPlayer(player, isConnected, isFriend);
-                }
+                bool isOnline = onlinePlayerIds.Contains(player.PlayerId);
+                bool isFriend = friendPlayerIds.Contains(player.PlayerId);
+                AddPlayer(player, isOnline, isFriend);
             }
         }
 
         public IList<Player> AllOnlinePlayers { get; private set; }
+
         public IList<Player> AllOfflinePlayers { get; private set; }
+
         public IList<Player> AllOnlineFriends { get; private set; }
+
         public IList<Player> AllOfflineFriends { get; private set; }
 
-        private void AddPlayer(Player player, bool isConnected, bool isFriend)
+        private void AddPlayer(Player player, bool isOnline, bool isFriend)
         {
-            if (isConnected)
+            if (isOnline)
             {
                 AllOnlinePlayers.Add(player);
                 if (isFriend)

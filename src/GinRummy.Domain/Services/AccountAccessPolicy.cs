@@ -11,17 +11,30 @@ using GinRummy.Domain.Ports.Security;
 namespace GinRummy.Domain.Services
 {
     /// <summary>
-    /// Decides who may enter an account and grants the access token to whoever may. The sign-in with a
-    /// password and its confirmation with the second factor share these rules (CU-02).
+    /// Decides who may enter an account, grants the access token to whoever may and tells which player a presented
+    /// token belongs to. The sign-in with a password and its confirmation with the second factor share these rules (CU-02).
     /// </summary>
     public class AccountAccessPolicy
     {
+        /// <summary>
+        /// Hours an access token lasts when the player did not ask to stay signed in.
+        /// </summary>
         public const int TokenLifetimeHours = 8;
+        /// <summary>
+        /// Days an access token lasts when the player asked to stay signed in.
+        /// </summary>
         public const int KeepSignedInTokenLifetimeDays = 30;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IAccessTokenSigner _tokenSigner;
         private readonly IClock _clock;
 
+        /// <summary>
+        /// Builds the policy with the password hasher, the token signer and the clock the composition root assembled.
+        /// </summary>
+        /// <param name="passwordHasher">Compares a typed password with the stored hash.</param>
+        /// <param name="tokenSigner">Signs the access token of whoever may enter.</param>
+        /// <param name="clock">Tells the current moment to check the bans and to date the token.</param>
+        /// <exception cref="ArgumentNullException">Thrown when a dependency is null.</exception>
         public AccountAccessPolicy(IPasswordHasher passwordHasher, IAccessTokenSigner tokenSigner, IClock clock)
         {
             _passwordHasher = passwordHasher ?? throw new ArgumentNullException(nameof(passwordHasher));
@@ -29,6 +42,12 @@ namespace GinRummy.Domain.Services
             _clock = clock ?? throw new ArgumentNullException(nameof(clock));
         }
 
+        /// <summary>
+        /// Checks that an account was found and that the typed password matches it.
+        /// </summary>
+        /// <param name="account">Account found by the typed email, or null when none has it.</param>
+        /// <param name="password">Password exactly as the player typed it.</param>
+        /// <exception cref="InvalidCredentialsException">Thrown when there is no account or the password does not match.</exception>
         public void EnsureCredentialsMatch(PlayerAccount account, string password)
         {
             bool isMatch = (account != null) && _passwordHasher.VerifyPassword(password, account.PasswordHash);
@@ -38,6 +57,13 @@ namespace GinRummy.Domain.Services
             }
         }
 
+        /// <summary>
+        /// Checks that an account whose credentials matched may sign in now.
+        /// </summary>
+        /// <param name="account">Account whose credentials matched, with its player loaded.</param>
+        /// <param name="bans">Every ban the player has received, each with its reason loaded.</param>
+        /// <exception cref="EmailNotVerifiedException">Thrown when the email of the account is not verified.</exception>
+        /// <exception cref="AccountBannedException">Thrown when a ban that restricts the whole account is in force.</exception>
         public void EnsureAccessAllowed(PlayerAccount account, IEnumerable<Ban> bans)
         {
             if (!account.IsEmailVerified)
@@ -53,6 +79,12 @@ namespace GinRummy.Domain.Services
             }
         }
 
+        /// <summary>
+        /// Grants the access token of the account and records the moment of the sign-in in the account.
+        /// </summary>
+        /// <param name="account">Account that signs in.</param>
+        /// <param name="keepSignedIn">Whether the player asked to stay signed in.</param>
+        /// <returns>The signed access token.</returns>
         public AccessToken GrantAccess(PlayerAccount account, bool keepSignedIn)
         {
             DateTime signedInAt = _clock.UtcNow;
@@ -67,8 +99,15 @@ namespace GinRummy.Domain.Services
             return _tokenSigner.Sign(account.PlayerId, signedInAt, expiresAt);
         }
 
-        public int IdentifyPlayer(string accessToken)
+        /// <summary>
+        /// Tells which player an access token belongs to, after checking its signature and its expiry at the current moment.
+        /// </summary>
+        /// <param name="accessToken">Encoded token, exactly as the client presented it.</param>
+        /// <returns>The identifier of the player the token was granted to.</returns>
+        /// <exception cref="InvalidAccessTokenException">Thrown when the token is malformed, altered or expired.</exception>
+        public int IdentifyPlayerByAccessToken(string accessToken)
         {
+            // The identity comes from the token the server signed, never from what a client says about itself.
             int playerId = _tokenSigner.ReadPlayerId(accessToken, _clock.UtcNow);
 
             return playerId;
