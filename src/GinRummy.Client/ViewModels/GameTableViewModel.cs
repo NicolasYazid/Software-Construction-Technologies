@@ -197,28 +197,6 @@ namespace GinRummy.Client.ViewModels
             get { return IsMatchResultShown && (_matchResult.EndReason == MatchEndReason.OpponentForfeited); }
         }
 
-        // The match resumes when the disconnected opponent returns, or ends if the opponent does not (BD-05).
-        public void Pause()
-        {
-            IsPaused = true;
-        }
-
-        public void Resume()
-        {
-            IsPaused = false;
-        }
-
-        public void ShowHandResult(HandResult handResult)
-        {
-            HandResult = handResult;
-            IsHandResultShown = true;
-        }
-
-        public void ShowMatchResult(MatchResult matchResult)
-        {
-            MatchResult = matchResult;
-        }
-
         public void MoveCard(Card draggedCard, Card targetCard)
         {
             Hand.Move(Hand.IndexOf(draggedCard), Hand.IndexOf(targetCard));
@@ -269,11 +247,7 @@ namespace GinRummy.Client.ViewModels
             string content = _messageDraft.Trim();
             if (content.Length > 0)
             {
-                ChatMessage message = new ChatMessage();
-                message.AuthorName = _table.PlayerName;
-                message.Content = content;
-                message.SentAt = DateTime.UtcNow;
-                ChatMessages.Add(message);
+                ChatMessages.Add(new ChatMessage(_table.PlayerName, content, DateTime.UtcNow));
                 MessageDraft = string.Empty;
             }
         }

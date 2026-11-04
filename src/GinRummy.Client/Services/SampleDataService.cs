@@ -229,83 +229,6 @@ namespace GinRummy.Client.Services
             return table;
         }
 
-        // Its values reproduce the prototype screen P20.
-        public HandResult GetHandResult()
-        {
-            HandResult result = new HandResult();
-            result.WinnerName = OpponentName;
-            result.KnockerName = OpponentName;
-            result.KnockerDeadwood = 1;
-            result.DefenderDeadwood = 15;
-            result.PointsAwarded = 14;
-            result.KnockerMelds = new List<Meld>
-            {
-                CreateMeld(
-                    MeldKind.Set,
-                    CreateCard(CardRank.Ten, CardSuit.Spades),
-                    CreateCard(CardRank.Ten, CardSuit.Diamonds),
-                    CreateCard(CardRank.Ten, CardSuit.Hearts)),
-                CreateMeld(
-                    MeldKind.Run,
-                    CreateCard(CardRank.Six, CardSuit.Spades),
-                    CreateCard(CardRank.Seven, CardSuit.Spades),
-                    CreateCard(CardRank.Eight, CardSuit.Spades)),
-                CreateMeld(
-                    MeldKind.Run,
-                    CreateCard(CardRank.Four, CardSuit.Hearts),
-                    CreateCard(CardRank.Five, CardSuit.Hearts),
-                    CreateCard(CardRank.Six, CardSuit.Hearts)),
-                CreateMeld(MeldKind.Unmatched, CreateCard(CardRank.Ace, CardSuit.Hearts))
-            };
-            result.DefenderMelds = new List<Meld>
-            {
-                CreateMeld(
-                    MeldKind.Set,
-                    CreateCard(CardRank.Seven, CardSuit.Diamonds),
-                    CreateCard(CardRank.Seven, CardSuit.Hearts),
-                    CreateCard(CardRank.Seven, CardSuit.Clubs)),
-                CreateMeld(
-                    MeldKind.Run,
-                    CreateCard(CardRank.Jack, CardSuit.Spades),
-                    CreateCard(CardRank.Queen, CardSuit.Spades),
-                    CreateCard(CardRank.King, CardSuit.Spades)),
-                CreateMeld(
-                    MeldKind.Unmatched,
-                    CreateCard(CardRank.Six, CardSuit.Diamonds),
-                    CreateCard(CardRank.Six, CardSuit.Clubs),
-                    CreateCard(CardRank.Two, CardSuit.Diamonds),
-                    CreateCard(CardRank.Ace, CardSuit.Spades))
-            };
-            result.PlayerScore = 0;
-            result.OpponentScore = 14;
-
-            return result;
-        }
-
-        // Its values reproduce the prototype screen P20.
-        public MatchResult GetMatchResult(MatchEndReason endReason)
-        {
-            MatchResult result = new MatchResult();
-            result.EndReason = endReason;
-            switch (endReason)
-            {
-                case MatchEndReason.OpponentForfeited:
-                    result.PlayerScore = 64;
-                    result.OpponentScore = 43;
-                    break;
-                case MatchEndReason.OpponentReachedTarget:
-                    result.PlayerScore = 85;
-                    result.OpponentScore = TargetScore;
-                    break;
-                default:
-                    result.PlayerScore = TargetScore;
-                    result.OpponentScore = 43;
-                    break;
-            }
-
-            return result;
-        }
-
         private static PlayerProfile CreateProfile(string username, string rankName, string publicTag)
         {
             PlayerProfile profile = new PlayerProfile();
@@ -322,38 +245,17 @@ namespace GinRummy.Client.Services
 
         private static SocialLink CreateSocialLink(string platformName, string url)
         {
-            SocialLink link = new SocialLink();
-            link.PlatformName = platformName;
-            link.Url = url;
-
-            return link;
+            return new SocialLink(platformName, url);
         }
 
         private static LinkedAccount CreateLinkedAccount(string platformName, bool isLinked)
         {
-            LinkedAccount account = new LinkedAccount();
-            account.PlatformName = platformName;
-            account.IsLinked = isLinked;
-
-            return account;
+            return new LinkedAccount(platformName, isLinked);
         }
 
         private static Card CreateCard(CardRank rank, CardSuit suit)
         {
-            Card card = new Card();
-            card.Rank = rank;
-            card.Suit = suit;
-
-            return card;
-        }
-
-        private static Meld CreateMeld(MeldKind kind, params Card[] cards)
-        {
-            Meld meld = new Meld();
-            meld.Kind = kind;
-            meld.Cards = new List<Card>(cards);
-
-            return meld;
+            return new Card(rank, suit);
         }
 
         private static MatchLogEntry CreateLogEntry(string playerName, TimeSpan timeOfDay, MatchLogKind kind)
@@ -391,67 +293,40 @@ namespace GinRummy.Client.Services
 
         private static MatchPair CreatePair(LobbyPlayerViewModel firstPlayer, LobbyPlayerViewModel secondPlayer)
         {
-            MatchPair pair = new MatchPair();
-            pair.FirstPlayer = firstPlayer;
-            pair.SecondPlayer = secondPlayer;
-
-            return pair;
+            return new MatchPair(firstPlayer, secondPlayer);
         }
 
         private static ChatMessage CreateMessage(string authorName, TimeSpan timeOfDay, string content)
         {
-            ChatMessage message = new ChatMessage();
-            message.AuthorName = authorName;
-            message.Content = content;
-            message.SentAt = DateTime.Today.Add(timeOfDay);
-
-            return message;
+            return new ChatMessage(authorName, content, DateTime.Today.Add(timeOfDay));
         }
 
         private static ChatMessage CreateCensoredMessage(string authorName, TimeSpan timeOfDay)
         {
             ChatMessage message = CreateMessage(authorName, timeOfDay, string.Empty);
-            message.IsCensored = true;
+            message.Censor();
 
             return message;
         }
 
         private static ChallengeNotice CreateNotice(ChallengeNoticeKind kind, string playerName, TimeSpan timeOfDay)
         {
-            ChallengeNotice notice = new ChallengeNotice();
-            notice.Kind = kind;
-            notice.PlayerName = playerName;
-            notice.SentAt = DateTime.Today.Add(timeOfDay);
-
-            return notice;
+            return new ChallengeNotice(kind, playerName, DateTime.Today.Add(timeOfDay));
         }
 
         private static FriendRequest CreateRequest(string senderName, int minutesAgo)
         {
-            FriendRequest request = new FriendRequest();
-            request.SenderName = senderName;
-            request.CreatedAt = DateTime.Now.AddMinutes(-minutesAgo);
-
-            return request;
+            return new FriendRequest(senderName, DateTime.Now.AddMinutes(-minutesAgo));
         }
 
         private static SanctionViewModel CreateActiveSanction(string reasonName, TimeSpan remainingTime)
         {
-            SanctionViewModel sanction = new SanctionViewModel();
-            sanction.ReasonName = reasonName;
-            sanction.IsActive = true;
-            sanction.RemainingTime = remainingTime;
-
-            return sanction;
+            return new SanctionViewModel(reasonName, remainingTime);
         }
 
         private static SanctionViewModel CreateServedSanction(string reasonName, DateTime servedAt)
         {
-            SanctionViewModel sanction = new SanctionViewModel();
-            sanction.ReasonName = reasonName;
-            sanction.ServedAt = servedAt;
-
-            return sanction;
+            return new SanctionViewModel(reasonName, servedAt);
         }
     }
 }

@@ -166,14 +166,6 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        // Blocks the chat of a player whose sanction restricts it (CU-17 EX-08).
-        public void BlockChat(string reasonName, TimeSpan remainingTime)
-        {
-            BanReasonName = reasonName;
-            IsChatBlocked = true;
-            BanCountdown.Restart(remainingTime);
-        }
-
         public void StopCountdown()
         {
             BanCountdown.Stop();
@@ -197,7 +189,6 @@ namespace GinRummy.Client.ViewModels
             _presenceMonitor.PlayerPresenceChanged -= OnPlayerPresenceChanged;
         }
 
-        // Only the messages of other players can be reported, so the notices and the own messages open no menu.
         public bool CanReport(ChatEntry entry)
         {
             ChatMessage message = entry as ChatMessage;
@@ -214,7 +205,6 @@ namespace GinRummy.Client.ViewModels
             return _dataService.GetPlayerProfile(player);
         }
 
-        // Changes made in the profile are copied back to the row it was opened from so the panel and the profile never disagree.
         public void ApplyProfileChanges(LobbyPlayerViewModel player, PlayerProfile profile)
         {
             player.HasPendingRequest = profile.HasPendingRequest;
@@ -225,7 +215,6 @@ namespace GinRummy.Client.ViewModels
         }
 
         // The friend leaves the friends tab, as CU-16 Post-2 and Post-3 require.
-        // Every other row that lists the player offers a friend request again instead of the removal.
         public void RemoveFriend(string username)
         {
             RemoveByName(_lobby.FriendsOnline, username);
@@ -249,11 +238,7 @@ namespace GinRummy.Client.ViewModels
             string content = _messageDraft.Trim();
             if (CanWriteMessage && (content.Length > 0))
             {
-                ChatMessage message = new ChatMessage();
-                message.AuthorName = _lobby.PlayerName;
-                message.Content = content;
-                message.SentAt = DateTime.UtcNow;
-                ChatEntries.Add(message);
+                ChatEntries.Add(new ChatMessage(_lobby.PlayerName, content, DateTime.UtcNow));
                 MessageDraft = string.Empty;
             }
         }
@@ -271,28 +256,16 @@ namespace GinRummy.Client.ViewModels
 
         private void Challenge(object parameter)
         {
-            LobbyPlayerViewModel player = parameter as LobbyPlayerViewModel;
-            if (player != null)
-            {
-                ChallengeNotice notice = new ChallengeNotice();
-                notice.Kind = ChallengeNoticeKind.Sent;
-                notice.PlayerName = player.Username;
-                notice.SentAt = DateTime.UtcNow;
-                ChatEntries.Add(notice);
-            }
+            LobbyPlayerViewModel player = (LobbyPlayerViewModel)parameter;
+            ChatEntries.Add(new ChallengeNotice(ChallengeNoticeKind.Sent, player.Username, DateTime.UtcNow));
         }
 
-        // The option turns into the pending request mark so a second request cannot be sent while the first one waits (CU-12 step 8).
         private void SendFriendRequest(object parameter)
         {
-            LobbyPlayerViewModel player = parameter as LobbyPlayerViewModel;
-            if (player != null)
-            {
-                player.HasPendingRequest = true;
-            }
+            LobbyPlayerViewModel player = (LobbyPlayerViewModel)parameter;
+            player.HasPendingRequest = true;
         }
 
-        // Accepting starts the match, and the table opens over the lobby until the match ends (CU-23).
         private void AcceptChallenge(object parameter)
         {
             RemoveChatEntry(parameter);
@@ -301,7 +274,7 @@ namespace GinRummy.Client.ViewModels
 
         private void RemoveChatEntry(object parameter)
         {
-            ChatEntries.Remove(parameter as ChatEntry);
+            ChatEntries.Remove((ChatEntry)parameter);
         }
 
         private void OnCurrentStatusReported(object sender, PlayerPresenceReport report)
