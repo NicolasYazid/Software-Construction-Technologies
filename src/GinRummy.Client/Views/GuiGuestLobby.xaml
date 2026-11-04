@@ -16,8 +16,7 @@
                 <ResourceDictionary Source="pack://application:,,,/Styles/LobbyTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- A guest never challenges nor is challenged (CU-24 EX-07), but the prototype
-                 shows the declined notice in its chat, so that is the only one drawn here. -->
+            <!-- Only the declined notice is drawn because a guest never challenges (CU-24 EX-07), but the prototype shows it. -->
             <DataTemplate DataType="{x:Type models:ChallengeNotice}">
                 <ctl:PixelBorder Style="{StaticResource StyChatNotice}">
                     <TextBlock x:Name="lblChallengeDeclined" Style="{StaticResource StyChatNoticeText}"
@@ -43,16 +42,14 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- The paint of the menu, with the same scale, so the panels show it through their
-             translucent face exactly as the panels of the menu do. -->
+        <!-- The paint uses the scale of the menu so the panels show it exactly as the panels of the menu do. -->
         <ctl:PaintedBackground Grid.RowSpan="2" Grid.ColumnSpan="3"
                                 BlockResolution="250" PatternScale="1.45"
                                 DeepColour="{StaticResource ClrMenuLiquidDeep}"
                                 MidColour="{StaticResource ClrMenuLiquidMid}"
                                 GlowColour="{StaticResource ClrMenuLiquidGlow}" />
 
-        <!-- Rail: a guest has no profile nor settings, only the temporary name the server gave
-             it, which is an identifier and never translated. -->
+        <!-- The rail of a guest holds only its temporary name because a guest has no profile nor settings. -->
         <ctl:PixelBorder Grid.RowSpan="2" Style="{StaticResource StyLobbyGlassRail}">
             <DockPanel LastChildFill="False" Margin="0,20,0,20">
                 <Image DockPanel.Dock="Top" Source="{StaticResource IcoBullseye}" Width="64" Height="64" />
@@ -99,8 +96,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <!-- The messages run under the rules and the state of the search, as in the lobby
-                     of a player. -->
+                <!-- The list keeps room at its ends because the rules and the state of the search float over the messages. -->
                 <ListBox x:Name="lstMessages" Grid.RowSpan="3" Style="{StaticResource StyChatList}"
                          ItemsSource="{Binding ChatEntries}" ctl:OverlayInsetCommon.IsInset="True" />
 

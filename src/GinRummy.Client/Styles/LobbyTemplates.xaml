@@ -3,13 +3,9 @@
                     xmlns:models="clr-namespace:GinRummy.Client.Models"
                     xmlns:vm="clr-namespace:GinRummy.Client.ViewModels">
 
-    <!-- Templates shared by the lobby of a player (P11) and the one of a guest (P16). They live
-         apart from the theme because they bind to the localization provider, which the
-         application publishes when it starts, after the theme has been loaded; each lobby
-         merges them into its own resources, and by then the provider exists. -->
+    <!-- These templates live apart from the theme because they bind to the localization provider, created after the theme loads. -->
 
-    <!-- The messages sit further in than the cards that float over them, so an avatar passing
-         under a card never shows through the stepped corners of the card. -->
+    <!-- The messages sit further in than the floating cards, so an avatar never shows through the stepped corners of a card. -->
     <DataTemplate DataType="{x:Type models:ChatMessage}">
         <Grid Margin="30,8,30,8">
             <Grid.ColumnDefinitions>

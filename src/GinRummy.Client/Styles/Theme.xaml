@@ -19,18 +19,9 @@
     <conv:CardNameConverter x:Key="CnvCardName" />
     <conv:MatchLogConverter x:Key="CnvMatchLog" />
 
-    <!-- ============================================================
-         Design tokens of the client. The Figma prototype was the
-         starting point; from version 2 on, the design is a decision
-         of the team and lives here, not in the Figma file.
-         ============================================================ -->
+    <!-- The Figma prototype was the starting point, but from version 2 on the design is decided here and not in the Figma file. -->
 
-    <!-- Cairopixel is the only family of the three that covers the accents, the enye and the
-         inverted marks that STK-13 asks for, so the other two name it as the next family in
-         the list and WPF resolves every missing glyph there. RetroByte in particular carries
-         no accented vowel, so the Spanish labels of the bar are drawn by both families at
-         once, which is visible: its capitals measure 0.56 of the em against the 0.44 of
-         Cairopixel. -->
+    <!-- Cairopixel is the only family that covers the accents, the enye and the inverted marks (STK-13), so the others fall back to it. -->
     <FontFamily x:Key="FntDisplay">pack://application:,,,/Fonts/#RetroByte, pack://application:,,,/Fonts/#Cairopixel</FontFamily>
     <FontFamily x:Key="FntBody">pack://application:,,,/Fonts/#Cairopixel</FontFamily>
     <FontFamily x:Key="FntBrand">pack://application:,,,/Fonts/#HigherPixels, pack://application:,,,/Fonts/#Cairopixel</FontFamily>
@@ -43,18 +34,14 @@
     <SolidColorBrush x:Key="BrsLogo" Color="#FF8E8E93" />
     <SolidColorBrush x:Key="BrsLogoMark" Color="#FF3B3B3B" />
 
-    <!-- Background of the main menu (P01). These are Color and not SolidColorBrush because
-         the control blends them channel by channel on every frame. -->
+    <!-- These are Color and not SolidColorBrush because the control blends them channel by channel on every frame. -->
     <Color x:Key="ClrMenuLiquidDeep">#FF072118</Color>
     <Color x:Key="ClrMenuLiquidMid">#FF1E6746</Color>
     <Color x:Key="ClrMenuLiquidGlow">#FF6AD29A</Color>
-    <!-- Palette of the menu. The names describe the role and not the colour, so that
-         changing the palette does not force renaming anything. -->
+    <!-- The names describe the role and not the colour, so changing the palette does not force renaming anything. -->
     <SolidColorBrush x:Key="BrsMenuInk" Color="#0B0D0C" />
     <SolidColorBrush x:Key="BrsMenuPanel" Color="#801A1712" />
-    <!-- The side chips carry their own brush and not the one of the bar: they are much
-         smaller, so at the same alpha the background reads through them more strongly and
-         they lose body. -->
+    <!-- The side chips carry their own brush because, being much smaller, the background reads through them more at the same alpha. -->
     <SolidColorBrush x:Key="BrsMenuChipPanel" Color="#BF1A1712" />
     <SolidColorBrush x:Key="BrsMenuAccent" Color="#FF8B2C1F" />
     <SolidColorBrush x:Key="BrsMenuAction" Color="#FF3B3F2F" />
@@ -62,12 +49,8 @@
     <SolidColorBrush x:Key="BrsMenuNeutral" Color="#FF2C2E30" />
     <SolidColorBrush x:Key="BrsMenuWarn" Color="#FF6B2E2F" />
     <SolidColorBrush x:Key="BrsMenuSettings" Color="#FF2F4B55" />
-    <!-- Colour of what is chosen or is the player's own: the row of the player, an option
-         under the pointer, a switch that is on. A deep green of the room, quiet beside the
-         browns and light enough under the light text. -->
     <SolidColorBrush x:Key="BrsHighlight" Color="#FF2F5A43" />
-    <!-- The same green as glass, for a highlight that spans a whole row over the paint, so the
-         room keeps showing through it like it does through the panels. -->
+    <!-- The highlight is translucent so the room keeps showing through a highlighted row, as it does through the panels. -->
     <SolidColorBrush x:Key="BrsHighlightGlass" Color="#992F5A43" />
     <SolidColorBrush x:Key="BrsMenuChipFaceOver" Color="#FF442F1C" />
     <SolidColorBrush x:Key="BrsMenuLight" Color="#FFEDE4DC" />
@@ -79,38 +62,26 @@
                       BlurRadius="24" ShadowDepth="8" Direction="270" Opacity="0.95" />
     <DropShadowEffect x:Key="EfxSoftShadow" Color="#FF0A130E"
                       BlurRadius="6" ShadowDepth="2" Direction="270" Opacity="0.9" />
-    <!-- The cards that float over the messages of the chat cast the shadow of the panels a
-         little darker and with a shorter blur, so it stays visible over the moving list. -->
+    <!-- The cards over the chat cast a darker and shorter shadow so it stays visible over the moving list. -->
     <DropShadowEffect x:Key="EfxFloatShadow" Color="#FF0A130E"
                       BlurRadius="30" ShadowDepth="13" Direction="270" Opacity="0.98" />
     <DropShadowEffect x:Key="EfxCardShadow" Color="#FF0A130E"
                       BlurRadius="10" ShadowDepth="5" Direction="270" Opacity="0.7" />
 
-    <!-- Raised text. The blur is zero on purpose: a blurred shadow reads as a light source
-         behind the letter, while an offset copy with a hard edge reads as the same extruded
-         face the buttons of the menu already have. The colour is the one of their base, so
-         the letter appears carved from the same block. -->
+    <!-- The blur is zero because a blurred shadow reads as a light behind the letter and not as the raised face of the buttons. -->
     <DropShadowEffect x:Key="EfxTextRaise" Color="#0B0D0C"
                       BlurRadius="0" ShadowDepth="3" Direction="270" Opacity="0.7" />
     <DropShadowEffect x:Key="EfxTextRaiseSmall" Color="#0B0D0C"
                       BlurRadius="0" ShadowDepth="2" Direction="270" Opacity="0.7" />
 
-    <!-- The rest of the screens were born from the light prototype and keep their own token
-         names, but the values now point at the palette of the menu so that the whole client
-         reads as one product. Every one of those screens takes its colour from a token, so
-         moving the values here is what carries the design across without touching them.
-         The page and the card share one opaque, muted brown, so every screen with a brown
-         background shows the same brown. A translucent card read as grey over the white of a
-         new window and as green over the page. -->
+    <!-- The screens of the light prototype keep their token names, but the values point at the menu so the client reads as one product.
+         The page and the card share an opaque brown because a translucent card looked grey over a new window and green over the page. -->
     <Color x:Key="ClrBrownBackground">#FF1C1814</Color>
     <SolidColorBrush x:Key="BrsPageBackground" Color="{StaticResource ClrBrownBackground}" />
     <SolidColorBrush x:Key="BrsSurface" Color="{StaticResource ClrBrownBackground}" />
     <SolidColorBrush x:Key="BrsArtworkPanel" Color="#FF0C2B1E" />
     <SolidColorBrush x:Key="BrsArtworkLogo" Color="#FF1E6746" />
 
-    <!-- The three greens the side panel is painted with. They turn around the solid colour the
-         panel used to be: the first is that green darkened, the second is the one the liquid of
-         the menu already carries, and the third is its light. -->
     <Color x:Key="ClrArtworkDeep">#FF06180F</Color>
     <Color x:Key="ClrArtworkMid">#FF1E6746</Color>
     <Color x:Key="ClrArtworkGlow">#FF6AD29A</Color>
@@ -123,18 +94,12 @@
     <SolidColorBrush x:Key="BrsCheckBorder" Color="#FFA68F7C" />
     <SolidColorBrush x:Key="BrsDanger" Color="#FFE08A6A" />
 
-    <!-- Second generation of screens of the prototype: P04, P06, P07 and P08 -->
     <SolidColorBrush x:Key="BrsPlainTitle" Color="#FFEDE4DC" />
     <SolidColorBrush x:Key="BrsPlainMuted" Color="#FFA68F7C" />
     <SolidColorBrush x:Key="BrsPlainBorder" Color="#FF0B0D0C" />
     <SolidColorBrush x:Key="BrsPlainPrimary" Color="#FF3B3F2F" />
 
-    <!-- ======================= Main menu (P01) ======================== -->
-
-    <!-- The wordmark is the only place that uses FntBrand, and the weight stays normal
-         on every pixel family: none of them ships a bold face, and the weight WPF
-         synthesises thickens the strokes by a fraction of a pixel, which blurs the
-         square edges the typeface is chosen for. -->
+    <!-- The weight stays normal because the pixel families have no bold face, and the bold WPF synthesises blurs their square edges. -->
     <Style x:Key="StyLogoWordmark" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource FntBrand}" />
         <Setter Property="FontWeight" Value="Normal" />
@@ -151,11 +116,7 @@
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
 
-    <!-- Button of the menu: a face raised over its own shadow, stepped corners and a sink
-         when it is pressed. Each variant sets the colour. The face and the highlight react
-         through styles of their own that read the state of the button, instead of template
-         triggers aimed at them by name, so that no part of the template needs a name outside
-         the prefix vocabulary of the standard. -->
+    <!-- The face and the highlight react through their own styles so that no template part needs a name outside the prefix vocabulary. -->
     <ControlTemplate x:Key="TplMenuButton" TargetType="Button">
         <Grid>
             <ctl:PixelSurface Margin="0,6,0,0"
@@ -165,12 +126,9 @@
                     <Style TargetType="ctl:PixelSurface">
                         <Setter Property="Margin" Value="0,0,0,6" />
                         <Style.Triggers>
-                            <!-- The pointer sinks the face one of the two blocks it travels when
-                                 pressed, so hovering already answers with movement and the press
-                                 still reads as a deeper, separate step. Both distances are whole
-                                 blocks, which is what keeps the edge of the face on the grid
-                                 while it moves. The trigger of the press is declared after this
-                                 one and therefore wins while both apply. -->
+                            <!-- The pointer sinks the face one block and the press two, so hovering answers and the press reads deeper.
+                                 Both distances are whole blocks to keep the face on the grid while it moves.
+                                 The trigger of the press is declared after this one so it wins while both apply. -->
                             <DataTrigger Binding="{Binding IsMouseOver,
                                                    RelativeSource={RelativeSource TemplatedParent}}"
                                          Value="True">
@@ -181,10 +139,8 @@
                                          Value="True">
                                 <Setter Property="Margin" Value="0,6,0,0" />
                             </DataTrigger>
-                            <!-- A button that cannot be used stays sunk as if it were held down,
-                                 so it reads as unavailable through the same movement the player
-                                 already knows from the press. Declared last, it wins over the
-                                 pointer triggers. -->
+                            <!-- A disabled button stays sunk so it reads as unavailable through the movement of the press.
+                                 It is declared last so it wins over the pointer triggers. -->
                             <DataTrigger Binding="{Binding IsEnabled,
                                                    RelativeSource={RelativeSource TemplatedParent}}"
                                          Value="False">
@@ -194,13 +150,9 @@
                     </Style>
                 </ctl:PixelSurface.Style>
                 <Grid>
-                    <!-- The highlight covers the whole face and takes its same stepped shape, so
-                         that no square corners appear over the steps when it darkens. It sits
-                         beside the content and not around it: being a layer with zero opacity
-                         while there is no pointer, wrapping the content made it invisible too.
-                         The side padding comes from the content and not from the surface,
-                         because with padding on the surface the layer stayed inside it and
-                         left a strip on each side without darkening. -->
+                    <!-- The highlight takes the stepped shape of the face so no square corners show when it darkens.
+                         It sits beside the content because, wrapped around it, its zero opacity hid the content too.
+                         The side padding comes from the content because padding on the surface left an undarkened strip on each side. -->
                     <ctl:PixelSurface FaceBrush="{StaticResource BrsMenuInk}">
                         <ctl:PixelSurface.Style>
                             <Style TargetType="ctl:PixelSurface">
@@ -211,9 +163,7 @@
                                                  Value="True">
                                         <Setter Property="Opacity" Value="0.53" />
                                     </DataTrigger>
-                                    <!-- The unavailable button keeps the darkening of the pointer
-                                         as well as the sink of the press, since a disabled
-                                         control never receives the pointer to show it. -->
+                                    <!-- It keeps the pointer darkening too, because a disabled control never receives the pointer. -->
                                     <DataTrigger Binding="{Binding IsEnabled,
                                                            RelativeSource={RelativeSource TemplatedParent}}"
                                                  Value="False">
@@ -231,14 +181,8 @@
         </Grid>
     </ControlTemplate>
 
-    <!-- Every button of the upper row carries this size and every button of the lower row
-         carries the one of StyMenuSmallButton, so each row reads as a single block. The
-         emphasis of the primary button is its colour and no longer its size.
-         RetroByte draws its capitals at 0.56 of the em, so it reads smaller than the number
-         of the size suggests. The width of the bar is bounded by the longest label of the
-         row, because the three columns share one size group: at this size that label
-         measures 311 of the 334 that fit beside the two chips, which is why growing this
-         number means widening the window first. -->
+    <!-- Each row of buttons shares one size so it reads as a single block.
+         Growing this size means widening the window, because the longest label already takes 311 of the 334 units beside the chips. -->
     <Style x:Key="StyMenuButton" TargetType="Button">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
@@ -268,11 +212,8 @@
         <Setter Property="Background" Value="{StaticResource BrsMenuAccent}" />
     </Style>
 
-    <!-- The panels take the same stepped surface as the buttons, with a corner of more blocks
-         because they are larger themselves: a panel of this size with the corner of a button
-         reads as square. They are raised over a base of the same shape, which is what gives
-         them their depth now that they carry no border, and they keep the translucent colour,
-         so the paint of the background still shows through them. -->
+    <!-- The panels take a corner of more blocks because a panel this size with the corner of a button reads as square.
+         They are raised over a base of the same shape because they carry no border to give them depth. -->
     <Style x:Key="StyMenuBar" TargetType="ctl:PixelSurface">
         <Setter Property="FaceBrush" Value="{StaticResource BrsMenuPanel}" />
         <Setter Property="BaseBrush" Value="{StaticResource BrsMenuInk}" />
@@ -291,8 +232,7 @@
         <Setter Property="Effect" Value="{StaticResource EfxPanelShadow}" />
     </Style>
 
-    <!-- The settings chip holds a real button, so it takes the raised face of the buttons of
-         the bar and not the flat inset of the language selector beside it. -->
+    <!-- The settings chip holds a real button, so it takes the raised face of the buttons and not the flat inset of the selector. -->
     <Style x:Key="StyMenuChipButton" TargetType="Button">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Background" Value="{StaticResource BrsMenuSettings}" />
@@ -306,11 +246,8 @@
         </Style.Triggers>
     </Style>
 
-    <!-- The selector and its list take the display family, the one the buttons of the bar
-         carry, because they sit in the same panel and read as part of the same control. An
-         option of the list answers like a button pressed: the pointer darkens it with the ink
-         of the menu and drops its name one block, and the option already chosen stays that way,
-         so the list reads as a set of keys of which one is held down. -->
+    <!-- The selector takes the display family because it sits in the same panel as the buttons of the bar.
+         Its options answer like buttons and the chosen one stays held down, so the list reads as a set of keys. -->
     <Style x:Key="StyMenuLanguageItem" TargetType="ComboBoxItem">
         <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
@@ -365,16 +302,9 @@
         </Setter>
     </Style>
 
-    <!-- The ComboBox of the system draws its own light background and ignores Background,
-         so the selector carries a template of its own. It is a button of the menu in the brown
-         of the fields: a face raised two blocks over its ink base, which the pointer sinks one
-         block and darkens. While the list is open the face stays sunk and darkened, as a button
-         held down, and grows one base deeper than the selector so that its lower corners are
-         cut square by the edge; the list opens right below that edge, square at its top and
-         stepped at its bottom, so the button and the list read as a single piece. The icon is
-         taken from Tag, which the selectors of the language fill with the globe and the one of
-         the platform leaves empty. PART_Popup is the name the framework requires, not a naming
-         choice. -->
+    <!-- The selector carries its own template because the ComboBox of the system draws a light background and ignores Background.
+         While the list is open the face grows one base deeper, so the button and the list read as a single piece.
+         PART_Popup is the name the framework requires. -->
     <Style x:Key="StyMenuLanguageBox" TargetType="ComboBox">
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
         <Setter Property="FontWeight" Value="Normal" />
@@ -427,12 +357,8 @@
                                         </Style>
                                     </ctl:PixelSurface.Style>
                                 </ctl:PixelSurface>
-                                <!-- The selector shows the name of the language written in its
-                                     own language, so the widest state is ESPANOL with its tilde,
-                                     and the margins leave room for it beside the icon and the
-                                     arrow. While the face hangs past the edge, the row keeps out
-                                     of the part that is cut, so it stays in the middle of what
-                                     shows; the darkening covers the whole face, cut part too. -->
+                                <!-- The margins leave room for the widest name, the Spanish one, beside the icon and the arrow.
+                                     While the face hangs past the edge, the row avoids the cut part to stay centred on what shows. -->
                                 <DockPanel LastChildFill="True">
                                     <DockPanel.Style>
                                         <Style TargetType="DockPanel">
@@ -472,9 +398,7 @@
                                 </DockPanel>
                             </Grid>
                         </ctl:PixelSurface>
-                        <!-- The toggle is an invisible layer over the whole selector that opens
-                             and closes the list; the drawing beneath reads the state of the
-                             selector itself. -->
+                        <!-- The toggle is an invisible layer so the whole selector opens the list. -->
                         <ToggleButton Focusable="False" ClickMode="Press"
                                       IsChecked="{Binding IsDropDownOpen, Mode=TwoWay,
                                                   RelativeSource={RelativeSource TemplatedParent}}">
@@ -519,10 +443,7 @@
         <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
 
-    <!-- ============== Screens with a card (P02, P03, P05) ============== -->
-
-    <!-- The title of these screens takes the display family, the one the buttons carry, so
-         that the heading of a modal reads as part of the same voice as the menu. -->
+    <!-- The title takes the display family of the buttons so the heading of a modal reads as part of the menu. -->
     <Style x:Key="StyCardTitle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
         <Setter Property="FontWeight" Value="Normal" />
@@ -549,11 +470,9 @@
         <Setter Property="Margin" Value="0,0,0,8" />
     </Style>
 
-    <!-- The field is sunk instead of outlined: the border lives only at the bottom and takes
-         the colour of the base of the buttons, which is the same device the chips of the menu
-         use. The height stays at fifty because the screens place what follows by fixed
-         margins, and changing it would move every row beneath. The stepped corners of the
-         buttons are lent to it as a clip, so the field keeps its plain border. -->
+    <!-- The field is sunk instead of outlined, the same device the chips of the menu use.
+         The height stays at fifty because the screens place what follows by fixed margins.
+         The stepped corners are lent to it as a clip so the field keeps its plain border. -->
     <Style x:Key="StyFieldShell" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource BrsFieldFace}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsFieldBorder}" />
@@ -574,9 +493,7 @@
         <Setter Property="Padding" Value="0" />
     </Style>
 
-    <!-- The mask of the field is stated here because the circle the control draws by default,
-         U+25CF, belongs to none of the families of the project, and a character the font does
-         not carry is asked of whichever one the system decides to lend. U+2022 is in both. -->
+    <!-- The mask is stated because the default circle, U+25CF, is in none of the fonts of the project, while U+2022 is in both. -->
     <Style x:Key="StyFieldPassword" TargetType="PasswordBox">
         <Setter Property="PasswordChar" Value="&#x2022;" />
         <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
@@ -589,10 +506,7 @@
         <Setter Property="Padding" Value="0" />
     </Style>
 
-    <!-- The box of the system leaves two pixels before the text, and the caret of an empty
-         field stands there over the first column of the letter, so a hint flush with the field
-         had its first letter crossed by the caret. The hint starts a few pixels later, past the
-         caret and one pixel of air. -->
+    <!-- The hint starts a few pixels in because the caret of an empty field crossed the first letter of a hint flush with the field. -->
     <Style x:Key="StyFieldPlaceholder" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
         <Setter Property="FontSize" Value="22" />
@@ -623,9 +537,7 @@
         </Style.Triggers>
     </Style>
 
-    <!-- The buttons of these screens borrow the template of the menu, so the raised face, the
-         darkening on hover and the sink on press are the same gesture everywhere. What each
-         style states is only its colour, its height and the size of its text. -->
+    <!-- These buttons borrow the template of the menu so every button of the client answers with the same gesture. -->
     <Style x:Key="StyCardPrimaryButton" TargetType="Button">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
@@ -674,8 +586,7 @@
         </Style.Triggers>
     </Style>
 
-    <!-- The height is free so that the line is not cut: a fixed one clipped the descenders of
-         the link as soon as the text grew. -->
+    <!-- The height is free because a fixed one clipped the descenders of the link as soon as the text grew. -->
     <Style x:Key="StyInlineTextButton" TargetType="Button" BasedOn="{StaticResource StyCardTextButton}">
         <Setter Property="FontSize" Value="22" />
         <Setter Property="Height" Value="Auto" />
@@ -683,15 +594,8 @@
         <Setter Property="HorizontalAlignment" Value="Right" />
     </Style>
 
-    <!-- The box carries its own template because the one the system draws keeps its light
-         chrome whatever the background is, and over the dark card it disappeared. The box is a
-         small button of the menu on a block of two pixels: a face in the brown of the fields
-         around it, raised two blocks over its ink base. The pointer sinks it one block and
-         darkens it, the press sinks it whole, and once checked it stays sunk as a button held
-         down, the same gesture as the tabs, with its face turned to the ink of its base. The
-         tick is drawn in blocks of the same grid instead of a stroke, seven blocks across and
-         five down, so it sits in the middle of the face with two blocks of room at each side and
-         three above and below, and it is raised over the face like the letters of the buttons. -->
+    <!-- The box carries its own template because the one of the system keeps a light chrome that disappeared over the dark card.
+         The tick is drawn in blocks of the grid so it stays as square as the rest of the pixel shapes. -->
     <Style x:Key="StyKeepSignedIn" TargetType="CheckBox">
         <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
         <Setter Property="FontWeight" Value="Normal" />
@@ -782,8 +686,7 @@
         </Style.Triggers>
     </Style>
 
-    <!-- The rule takes the colour of the text it accompanies, not that of the sunk edges:
-         against the dark card the ink of the edges was invisible. -->
+    <!-- The rule takes the colour of its text because the ink of the sunk edges was invisible against the dark card. -->
     <Style x:Key="StyDividerLine" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource BrsMuted}" />
         <Setter Property="Height" Value="1" />
@@ -822,8 +725,6 @@
         <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-
-    <!-- ========== Screens without a card (P04, P06, P07, P08) ========== -->
 
     <Style x:Key="StyPlainTitle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
@@ -893,19 +794,13 @@
         <Setter Property="Foreground" Value="{StaticResource BrsPlainMuted}" />
     </Style>
 
-    <!-- ========== Dialogs and notices (P09, P10, P22, P23, P24, P25) ========== -->
-
-    <!-- The dialogs sit on the page and raise their card over it, one step lighter, the same
-         way the screens with a card do. -->
     <Style x:Key="StyDialogCard" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource BrsSurface}" />
         <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="5" />
         <Setter Property="Padding" Value="40,32,40,32" />
     </Style>
 
-    <!-- The title of a dialog is smaller than the one of a card screen because several of
-         them name a whole action, and at the size of a card title they broke into three
-         lines. -->
+    <!-- The title of a dialog is smaller because several of them name a whole action and broke into three lines at the card size. -->
     <Style x:Key="StyDialogTitle" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
         <Setter Property="FontWeight" Value="Normal" />
@@ -924,14 +819,12 @@
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
 
-    <!-- Errors and warnings of consequence take the colour of the errors of the forms, as
-         the prototype paints them red and leaves plain questions in grey. -->
+    <!-- Errors and warnings of consequence take the colour of the errors of the forms because the prototype paints them red. -->
     <Style x:Key="StyDialogWarning" TargetType="TextBlock" BasedOn="{StaticResource StyDialogMessage}">
         <Setter Property="Foreground" Value="{StaticResource BrsDanger}" />
     </Style>
 
-    <!-- The prototype sets the reason and the remaining time in bold. The pixel families have
-         a single weight, so the emphasis is carried by the light colour of the titles. -->
+    <!-- The emphasis is carried by colour because the prototype sets these values in bold and the pixel families have a single weight. -->
     <Style x:Key="StyDialogEmphasis" TargetType="TextBlock" BasedOn="{StaticResource StyDialogMessage}">
         <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
     </Style>
@@ -945,17 +838,13 @@
         <Setter Property="Height" Value="50" />
     </Style>
 
-    <!-- ============ Lobby and its panels (P11, P12, P13, P16, P17) ============ -->
-
-    <!-- The lobbies stand on the moving paint of the menu. The dark green rings the presence
-         dot, so the dot stays apart from the avatar it sits on. -->
+    <!-- The dark green rings the presence dot so the dot stays apart from the avatar it sits on. -->
     <SolidColorBrush x:Key="BrsLobbyRail" Color="#FF041710" />
     <SolidColorBrush x:Key="BrsLobbyPanel" Color="#FF101C15" />
     <SolidColorBrush x:Key="BrsLobbyRule" Color="#33EDE4DC" />
     <SolidColorBrush x:Key="BrsLobbyRowOver" Color="#1FEDE4DC" />
     <SolidColorBrush x:Key="BrsPresenceOnline" Color="#FF6AD29A" />
-    <!-- The fields of the lobbies sit one shade below the face of the switch above them, so the
-         raised tabs and the sunk fields read as two different depths of the same brown. -->
+    <!-- The fields sit one shade below the switch so the raised tabs and the sunk fields read as two depths of the same brown. -->
     <SolidColorBrush x:Key="BrsLobbyFieldFace" Color="#FF231B14" />
     <SolidColorBrush x:Key="BrsLobbySwitchFace" Color="#FF2A2018" />
 
@@ -964,11 +853,7 @@
         <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="5" />
     </Style>
 
-    <!-- The panels of the lobbies are the panels of the menu: the same translucent face that
-         lets the paint behind show through, the ink base beneath and the same deep shadow. The
-         panels and the cards built on them are drawn by PixelBorder, which keeps the base
-         under the stepped face; a plain border would paint the base inside the clip and break
-         the steps of the lower corners. -->
+    <!-- The panels are drawn by PixelBorder because a plain border painted the base inside the clip and broke the lower steps. -->
     <Style x:Key="StyLobbyGlassPanel" TargetType="Border" BasedOn="{StaticResource StyLobbyPanel}">
         <Setter Property="Background" Value="{StaticResource BrsMenuPanel}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
@@ -976,24 +861,18 @@
         <Setter Property="Effect" Value="{StaticResource EfxPanelShadow}" />
     </Style>
 
-    <!-- The rail is one more panel of the room: it floats with the same gap as the header and
-         the side panels, so its shadow has room to fall on the paint like theirs. -->
+    <!-- The rail floats with the same gap as the other panels so its shadow has room to fall on the paint. -->
     <Style x:Key="StyLobbyGlassRail" TargetType="Border" BasedOn="{StaticResource StyLobbyGlassPanel}">
         <Setter Property="Margin" Value="12,12,0,12" />
     </Style>
 
-    <!-- The cards that live inside a panel keep its translucent face and its ink base, but
-         cast no shadow: a second shadow inside the panel would darken the messages below it. -->
+    <!-- The cards inside a panel cast no shadow because a second shadow would darken the messages below them. -->
     <Style x:Key="StyLobbyGlassCard" TargetType="Border" BasedOn="{StaticResource StyLobbyGlassPanel}">
         <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="4" />
         <Setter Property="Effect" Value="{x:Null}" />
     </Style>
 
-    <!-- The dialogs that open over a lobby, the leaderboard and the profiles, are built like a
-         panel of the room, with its stepped corners and its ink base. The face is the brown of
-         the dialogs, which the leaderboard and the profiles cover with the paint of the room
-         and a small dialog opened inside them keeps as it is. The host already casts the deep
-         shadow of the panels around the dialog. -->
+    <!-- These dialogs carry no shadow of their own because the host already casts the one of the panels around them. -->
     <Style x:Key="StyLobbyDialogCard" TargetType="Border" BasedOn="{StaticResource StyLobbyPanel}">
         <Setter Property="Background" Value="{StaticResource BrsSurface}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
@@ -1001,12 +880,7 @@
         <Setter Property="Padding" Value="40,32,40,32" />
     </Style>
 
-    <!-- The leaderboard and the profiles carry the room inside them: the moving paint of the
-         lobby, the glass of its panels over the paint, and their content on the glass, so the
-         cards inside them sit on the same two layers as the cards of the lobby. The paint
-         sits in a canvas, which never reports the size of its children, so the paint follows
-         the size of the dialog instead of stretching it to the size of its bitmap. The Padding
-         of the dialog is the margin of its content. -->
+    <!-- The paint sits in a canvas, which never reports the size of its children, so the paint cannot stretch the dialog. -->
     <Style x:Key="StyLobbyDialog" TargetType="ContentControl">
         <Setter Property="Focusable" Value="False" />
         <Setter Property="IsTabStop" Value="False" />
@@ -1049,8 +923,7 @@
         <Setter Property="Margin" Value="14,6,0,0" />
     </Style>
 
-    <!-- The two plain options of the header are text, as in the prototype, and light up on
-         hover like the links of the cards do. -->
+    <!-- The two plain options of the header are text because the prototype draws them that way. -->
     <Style x:Key="StyLobbyNavButton" TargetType="Button" BasedOn="{StaticResource StyCardTextButton}">
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
         <Setter Property="FontSize" Value="18" />
@@ -1075,8 +948,6 @@
         <Setter Property="MinWidth" Value="160" />
     </Style>
 
-    <!-- The buttons of the rail are squares that darken on hover, the same gesture as the
-         chips of the menu, with room for an icon larger than the one of a field. -->
     <Style x:Key="StyRailButton" TargetType="Button">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Background" Value="Transparent" />
@@ -1104,8 +975,7 @@
         <Setter Property="Height" Value="30" />
     </Style>
 
-    <!-- The avatar is the one the prototype draws for a player without a picture (CU-27
-         EX-03): a ring around the figure of a person. -->
+    <!-- This is the avatar the prototype draws for a player without a picture (CU-27 EX-03). -->
     <Style x:Key="StyAvatar" TargetType="Border">
         <Setter Property="Width" Value="44" />
         <Setter Property="Height" Value="44" />
@@ -1154,12 +1024,8 @@
         <Setter Property="VerticalAlignment" Value="Bottom" />
     </Style>
 
-    <!-- Every rank letter has its own colour, so a rank is told apart at a glance in the
-         leaderboard, the lobby and the profile alike. The colours are muted to sit with the
-         greens and browns of the room, and go from the precious to the plain: S gold, A jade,
-         B steel blue, C copper, D stone, E brick and F umber. The letter and the frame of the
-         badge both take the colour over a dark face, so the brick and the umber are lighter
-         than their names suggest: darker, the letter would sink into the face. -->
+    <!-- Every rank letter has its own colour so a rank is told apart at a glance.
+         The brick and the umber are lighter than their names because a darker letter would sink into the dark face. -->
     <SolidColorBrush x:Key="BrsRankS" Color="#FFE0B04A" />
     <SolidColorBrush x:Key="BrsRankA" Color="#FF7FC29B" />
     <SolidColorBrush x:Key="BrsRankB" Color="#FF6FA3B8" />
@@ -1169,22 +1035,9 @@
     <SolidColorBrush x:Key="BrsRankF" Color="#FFA8866A" />
     <SolidColorBrush x:Key="BrsRankFace" Color="#FF1F1711" />
 
-    <!-- The rank is a letter of the catalogue of ranks (BD-14) drawn inside a frame of one
-         block, as a sprite: the frame and the letter carry the colour of the rank and the face
-         is a brown darker than the one of the fields. The badge is two pieces on the same grid
-         of blocks: the frame, ten blocks across, whose corner steps two blocks in and then one,
-         and the face, one block inside it, whose corner steps a single block. Laid one over the
-         other they leave a frame of one block that climbs the corner as a staircase instead of
-         a single notch. Every side is a whole number of blocks, so no step falls between two
-         pixels.
-         The frame stands one block over a copy of itself darkened with the ink of the menu, the
-         same raised face the buttons have, and the letter stands one pixel over a dimmed copy of
-         itself, so both read as carved pieces. The badge is as tall as the frame plus that block.
-         The letter is drawn at 16 pixels because the pixel font draws its letters on a grid of
-         sixteen: at that size every pixel of the letter falls on a pixel of the screen, so no
-         row of the letter is lost or blurred and the letter sits in the centre of the face. The
-         letter and its copy are centred as one piece, and the Padding of the badge is how far
-         the copy drops. A letter outside the catalogue keeps the neutral frame. -->
+    <!-- The letter is drawn at 16 pixels because the pixel font uses a grid of sixteen, so no row of the letter blurs.
+         Every side of the badge is a whole number of blocks so no step falls between two pixels.
+         A letter outside the catalogue of ranks (BD-14) keeps the neutral frame. -->
     <ControlTemplate x:Key="TplRankBadge" TargetType="Label">
         <Grid>
             <Border Height="{TemplateBinding Width}" VerticalAlignment="Bottom"
@@ -1249,8 +1102,7 @@
         </Style.Triggers>
     </Style>
 
-    <!-- The small badge keeps the same ten blocks across with a block of two pixels, and the
-         same letter, which is the smallest size at which the letter stays sharp. -->
+    <!-- The small badge uses a block of two pixels because that is the smallest size at which the letter stays sharp. -->
     <Style x:Key="StyRankBadgeSmall" TargetType="Label" BasedOn="{StaticResource StyRankBadge}">
         <Setter Property="Width" Value="20" />
         <Setter Property="Height" Value="22" />
@@ -1258,15 +1110,11 @@
         <Setter Property="ctl:PixelShapeCommon.PixelUnit" Value="2" />
     </Style>
 
-    <!-- The notices of a challenge keep the glass of the panels, so they read as one more piece
-         of the room. The cards that frame the chat, its rules and the state of the search take
-         the face of the pressed tab of the side panel: the face
-         of the switch under the ink at the opacity of a press. They read apart from the
-         challenges and stay solid over the messages that scroll under them. -->
+    <!-- The notices of a challenge keep the glass of the panels so they read as part of the room.
+         The cards over the chat take the face of the pressed tab so they stay solid over the messages that scroll under them. -->
     <SolidColorBrush x:Key="BrsChatCardFace" Color="#FF1A1612" />
 
-    <!-- The messages run under the rules, so the rules cast the deep shadow of the panels over
-         the messages and read as floating above the list. -->
+    <!-- The rules cast the deep shadow of the panels because the messages run under them. -->
     <Style x:Key="StyChatRulesCard" TargetType="Border" BasedOn="{StaticResource StyLobbyGlassCard}">
         <Setter Property="Background" Value="{StaticResource BrsChatCardFace}" />
         <Setter Property="Padding" Value="20,14,20,16" />
@@ -1317,10 +1165,7 @@
         <Setter Property="Visibility" Value="Collapsed" />
     </Style>
 
-    <!-- The notices of a challenge line up with the rules on both sides, so the chat reads as a
-         single surface. The rules float over the whole list, while a notice lives inside it,
-         left of the scroll bar of eight units and the padding of six the list keeps for it;
-         the right margin is therefore those fourteen units shorter than the one of the rules. -->
+    <!-- The right margin is fourteen units shorter than the one of the rules, the bar and the padding of the list, so both line up. -->
     <Style x:Key="StyChatNotice" TargetType="Border" BasedOn="{StaticResource StyLobbyGlassCard}">
         <Setter Property="Margin" Value="20,8,6,8" />
         <Setter Property="Padding" Value="20,10,16,10" />
@@ -1351,8 +1196,7 @@
         <Setter Property="Margin" Value="10,0,0,0" />
     </Style>
 
-    <!-- The list of the chat carries no chrome and no selection: it only scrolls. The bar
-         across is disabled so that the messages wrap to the width of the panel. -->
+    <!-- The horizontal bar is disabled so the messages wrap to the width of the panel. -->
     <Style x:Key="StyChatListItem" TargetType="ListBoxItem">
         <Setter Property="Focusable" Value="False" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -1365,10 +1209,8 @@
         </Setter>
     </Style>
 
-    <!-- The padding is the room kept around the messages inside the scroll, which is how the
-         lobbies leave space for the cards that float over the list. The bar always shows, so
-         the width the notices take inside the list never changes and they stay aligned with
-         the cards that float over it. -->
+    <!-- The padding leaves room for the cards that float over the list.
+         The bar always shows so the width of the notices never changes and they stay aligned with those cards. -->
     <Style x:Key="StyChatList" TargetType="ListBox">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
@@ -1392,9 +1234,6 @@
         <Setter Property="Padding" Value="20,16,20,18" />
     </Style>
 
-    <!-- The state of the search and the block of the chat are glass cards of the panel, the
-         same piece that holds the rules of the chat, and float over the messages with the same
-         shadow. -->
     <Style x:Key="StyLobbyStatusCard" TargetType="Border" BasedOn="{StaticResource StyLobbyGlassCard}">
         <Setter Property="Background" Value="{StaticResource BrsChatCardFace}" />
         <Setter Property="Padding" Value="22,16,18,18" />
@@ -1422,18 +1261,9 @@
         <Setter Property="Margin" Value="0,6,0,0" />
     </Style>
 
-    <!-- The tabs of a panel show only their headers: the content they switch lives in the
-         window, because both tabs share the search field that sits between them and their
-         lists. They behave as a switch built from the buttons of the menu: every tab is a face
-         raised over its ink base, and the selected one stays sunk and darkened as a button
-         held down, so exactly one of them reads as pressed at any time. The pointer answers
-         with half the sink and the same darkening, as it does on the buttons.
-         The two tabs touch and read as a single control: each one draws its shape a corner
-         wider than itself towards its neighbour and clips it at its own edge, so only the outer
-         corners keep their steps and the edge they share is straight. The alternation index of
-         the tab control tells the first tab from the second, which is why the switch is meant
-         for two tabs. The header is pushed back by half that width, so it stays centred on the
-         part of the tab that shows. -->
+    <!-- The content of the tabs lives in the window because both tabs share the search field between them and their lists.
+         Each tab draws its shape a corner wider towards its neighbour so the edge they share is straight.
+         The switch is meant for two tabs because the alternation index is what tells the first from the second. -->
     <ControlTemplate x:Key="TplPanelTab" TargetType="TabItem">
         <Grid ClipToBounds="True">
             <Grid>
@@ -1532,8 +1362,7 @@
         </Style.Triggers>
     </Style>
 
-    <!-- A tab a guest cannot use still opens, to tell why it is empty (CU-11 FA-02), so it is
-         dimmed instead of disabled. -->
+    <!-- A tab a guest cannot use still opens to tell why it is empty (CU-11 FA-02), so it is dimmed instead of disabled. -->
     <Style x:Key="StyPanelTabDimmed" TargetType="TabItem" BasedOn="{StaticResource StyPanelTab}">
         <Setter Property="Opacity" Value="0.55" />
     </Style>
@@ -1633,12 +1462,8 @@
         <Setter Property="Margin" Value="6,16,6,8" />
     </Style>
 
-    <!-- The context menu of a player is built like the table of the leaderboard: a glass card
-         over the room, rows split by the same thin rule, and the item under the pointer lit
-         with the glass green of the own row, so the room keeps showing through it. The rule
-         sits above each item and the menu hides the first one, because the last item changes
-         with the kind of player while the first one is always there. The system menu draws a
-         light chrome of its own, hence the templates. -->
+    <!-- The rule sits above each item and the first one is hidden, because the last item changes with the kind of player.
+         The menu carries its own templates because the menu of the system draws a light chrome. -->
     <Style x:Key="StyPlayerMenuItem" TargetType="MenuItem">
         <Setter Property="FontFamily" Value="{StaticResource FntBody}" />
         <Setter Property="FontSize" Value="24" />
@@ -1668,20 +1493,17 @@
         </Style.Triggers>
     </Style>
 
-    <!-- Challenging is the action the menu exists for, so it takes the face of the titles and
-         stands apart from the other items. -->
+    <!-- Challenging is the action the menu exists for, so it takes the face of the titles. -->
     <Style x:Key="StyPlayerMenuChallengeItem" TargetType="MenuItem" BasedOn="{StaticResource StyPlayerMenuItem}">
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
     </Style>
 
-    <!-- The menu of a message offers a single action, which is the reason the menu exists, so its
-         item takes the face of the titles just as the challenge does in the menu of a player. -->
+    <!-- Reporting is the only action of the menu of a message, so its item takes the face of the titles. -->
     <Style x:Key="StyMessageMenuItem" TargetType="MenuItem" BasedOn="{StaticResource StyPlayerMenuItem}">
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
     </Style>
 
-    <!-- Only a friend can be removed, and only someone who is not a friend yet can receive a
-         request (CU-12, CU-16), so each of those items shows for one kind of player alone. -->
+    <!-- Only a friend can be removed and only someone who is not a friend can receive a request (CU-12, CU-16). -->
     <Style x:Key="StyPlayerMenuFriendItem" TargetType="MenuItem" BasedOn="{StaticResource StyPlayerMenuItem}">
         <Setter Property="Visibility" Value="Collapsed" />
         <Style.Triggers>
@@ -1691,9 +1513,7 @@
         </Style.Triggers>
     </Style>
 
-    <!-- Once the request is sent, the option stays in its place as the mark of a pending
-         request: dimmed, with the icon of a sent message, and unable to send a second one
-         (CU-12 and its EX-07). -->
+    <!-- Once the request is sent, the option stays as the mark of a pending request so a second one cannot be sent (CU-12 EX-07). -->
     <Style x:Key="StyPlayerMenuStrangerItem" TargetType="MenuItem" BasedOn="{StaticResource StyPlayerMenuItem}">
         <Style.Triggers>
             <DataTrigger Binding="{Binding IsFriend}" Value="True">
@@ -1719,27 +1539,21 @@
         </Style.Triggers>
     </Style>
 
-    <!-- The shadow of the panels is too wide for a small menu. This one is shorter, and the
-         margin of the menu gives it room inside the popup, which cuts anything drawn beyond
-         its bounds. -->
+    <!-- This shadow is shorter because the one of the panels is too wide for a small menu.
+         The margin gives it room because the popup cuts anything drawn beyond its bounds. -->
     <DropShadowEffect x:Key="EfxPlayerMenuShadow" Color="#FF0A130E"
                       BlurRadius="20" ShadowDepth="8" Direction="270" Opacity="0.9" />
 
     <Style x:Key="StyPlayerMenu" TargetType="ContextMenu">
         <Setter Property="ItemContainerStyle" Value="{StaticResource StyPlayerMenuItem}" />
         <Setter Property="HasDropShadow" Value="False" />
-        <!-- The offsets undo the margin left for the shadow, so the menu still opens at the
-             pointer. -->
+        <!-- The offsets undo the margin left for the shadow so the menu still opens at the pointer. -->
         <Setter Property="HorizontalOffset" Value="-20" />
         <Setter Property="VerticalOffset" Value="-12" />
         <Setter Property="Template">
             <Setter.Value>
-                <!-- The inner border repeats the stepped outline of the face and carries no
-                     padding, so a lit first or last item fills the face up to its stepped corners
-                     instead of covering them or leaving a bare strip. The layout keeps the four
-                     units of the bottom border free, while the ink base PixelBorder draws is one
-                     block of three, so the margin of -1 makes the inner border end exactly where
-                     the face ends and lets both outlines share the same blocks. -->
+                <!-- The inner border carries no padding so a lit first or last item fills the face up to its stepped corners.
+                     The margin of -1 lines it up with the base PixelBorder draws, so both outlines share the same blocks. -->
                 <ControlTemplate TargetType="ContextMenu">
                     <ctl:PixelBorder Style="{StaticResource StyLobbyGlassCard}" MinWidth="260" Margin="20,12,20,28"
                                      Effect="{StaticResource EfxPlayerMenuShadow}">
@@ -1755,10 +1569,8 @@
         </Setter>
     </Style>
 
-    <!-- The bar of the system draws its light chrome over every dark panel, so the lists
-         carry a thin one in the colours of the menu. The thumb takes a grey green that stays
-         quiet beside the content. PART_Track is the name the framework requires to find the
-         track, not a naming choice. -->
+    <!-- The lists carry their own bar because the bar of the system draws a light chrome over the dark panels.
+         PART_Track is the name the framework requires. -->
     <SolidColorBrush x:Key="BrsScrollThumb" Color="#FF3D433B" />
 
     <Style x:Key="StyScrollThumb" TargetType="Thumb">
@@ -1875,8 +1687,7 @@
         <Setter Property="Background" Value="{StaticResource BrsLobbyFieldFace}" />
     </Style>
 
-    <!-- Fields laid straight over the paint of a dialog take the brown of the fields as glass,
-         so the room shows through them as it does through the cards around them. -->
+    <!-- These fields are translucent so the room shows through them as it does through the cards around them. -->
     <SolidColorBrush x:Key="BrsLobbyFieldGlass" Color="#B3231B14" />
 
     <Style x:Key="StyGlassFieldShell" TargetType="Border" BasedOn="{StaticResource StyLobbyFieldShell}">
@@ -1898,14 +1709,9 @@
         <Setter Property="VerticalAlignment" Value="Top" />
     </Style>
 
-    <!-- ================= Profile screens (P14, P15, P21) ================= -->
-
-    <!-- The change of email opens over the panel and not in a window of its own, because the
-         dictionary places its texts in the panel. The veil keeps the panel in sight while it
-         is open. -->
+    <!-- The change of email opens over the panel and not in its own window because the dictionary places its texts in the panel. -->
     <SolidColorBrush x:Key="BrsOverlay" Color="#D90A0907" />
-    <!-- Shade laid over a main screen while one of its modals is open: the screen stays in
-         sight behind the modal but reads as out of reach. -->
+    <!-- The shade keeps the screen in sight behind the modal while it reads as out of reach. -->
     <SolidColorBrush x:Key="BrsModalBackdrop" Color="#A60A0907" />
 
     <Style x:Key="StySettingSection" TargetType="TextBlock">
@@ -1930,8 +1736,7 @@
         <Setter Property="Margin" Value="0,22,0,22" />
     </Style>
 
-    <!-- The cards of the profiles and of the leaderboard are the glass cards of the lobby, since
-         those dialogs open over it and are drawn as one more of its panels. -->
+    <!-- These cards are the glass cards of the lobby because those dialogs open over it as one more of its panels. -->
     <Style x:Key="StySettingCard" TargetType="Border" BasedOn="{StaticResource StyLobbyGlassCard}">
         <Setter Property="Padding" Value="18,14,16,16" />
     </Style>
@@ -1952,9 +1757,7 @@
         <Setter Property="Margin" Value="0,6,0,0" />
     </Style>
 
-    <!-- The switches take the colour of what is chosen when they are on and the one of the
-         neutral buttons when they are off. The knob moves by a style of its own that
-         reads the state of the switch, so no part of the template needs a name. -->
+    <!-- The knob moves through a style that reads the state of the switch, so no part of the template needs a name. -->
     <Style x:Key="StyToggleSwitch" TargetType="ToggleButton">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Width" Value="56" />
@@ -1992,8 +1795,7 @@
         </Style.Triggers>
     </Style>
 
-    <!-- The slider shows the part already chosen in the colour of what is chosen, over a
-         sunk track. PART_Track is the name the framework requires to find the track. -->
+    <!-- PART_Track is the name the framework requires to find the track. -->
     <Style x:Key="StySliderFill" TargetType="RepeatButton">
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Template">
@@ -2112,8 +1914,7 @@
         </Style.Triggers>
     </Style>
 
-    <!-- The public profile (P21) states the name and the numbers of the player at the size
-         of the titles, as the prototype does, and leaves the rest at the size of the body. -->
+    <!-- The name and the numbers take the size of the titles because the prototype of P21 does. -->
     <Style x:Key="StyProfileName" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
         <Setter Property="FontWeight" Value="Normal" />
@@ -2179,12 +1980,7 @@
         <Setter Property="Margin" Value="0,10,0,0" />
     </Style>
 
-    <!-- ============= Leaderboard and house rules (P18, P19) ============= -->
-
-    <!-- The places of the podium are glass cards, the same device as the performance of the
-         profile. The first one takes a glass tinted with the brown of the fields of the room,
-         so that it stands out with a colour the room already has, and carries the crown
-         instead of its number. -->
+    <!-- The first place takes a glass tinted with a brown the room already has, so it stands out without a new colour. -->
     <SolidColorBrush x:Key="BrsPodiumLeadFace" Color="#8C38271B" />
 
     <Style x:Key="StyPodiumCard" TargetType="Border" BasedOn="{StaticResource StySettingCard}">
@@ -2201,9 +1997,8 @@
         <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
     </Style>
 
-    <!-- The second and the third place state their number at the size of the crown of the
-         first and in its same light, so the three marks of the podium weigh the same. The size
-         is twice the grid of the pixel font, which keeps every pixel of the number whole. -->
+    <!-- The second and the third place use the size of the crown so the three marks of the podium weigh the same.
+         That size is twice the grid of the pixel font, which keeps every pixel of the number whole. -->
     <Style x:Key="StyPodiumPosition" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
         <Setter Property="FontWeight" Value="Normal" />
@@ -2256,9 +2051,7 @@
         <Setter Property="TextAlignment" Value="Right" />
     </Style>
 
-    <!-- The row of the player takes the colour of what is the own of the player (CU-19 step
-         6). The numbers of a row carry no colour of their own and inherit the one the row sets,
-         so the highlight reaches them without naming any of them. -->
+    <!-- The numbers inherit the colour of the row, so the highlight of the player (CU-19 step 6) reaches them without naming them. -->
     <Style x:Key="StyRankingRow" TargetType="Border" BasedOn="{StaticResource StyPlayerRow}">
         <Setter Property="Padding" Value="20,8,20,8" />
         <Setter Property="TextElement.Foreground" Value="{StaticResource BrsBody}" />
@@ -2312,8 +2105,7 @@
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
-    <!-- The disc keeps the colour of its rank on the highlighted row too: that colour is never
-         the one of the row, so it no longer needs a colour of its own there. -->
+    <!-- The disc keeps the colour of its rank on the highlighted row because that colour never matches the one of the row. -->
     <Style x:Key="StyRankingBadge" TargetType="Label" BasedOn="{StaticResource StyRankBadge}">
         <Setter Property="HorizontalAlignment" Value="Right" />
     </Style>
@@ -2326,8 +2118,6 @@
         <Setter Property="Margin" Value="0,4,0,0" />
     </Style>
 
-    <!-- The warning of fair play takes the red of the warnings of the menu, the same one a
-         declined challenge carries in the chat. -->
     <Style x:Key="StyFairPlayBar" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource BrsMenuWarn}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
@@ -2344,9 +2134,7 @@
         <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
 
-    <!-- The rules are a flow document because its list draws the numerals itself: they are
-         not strings of the dictionary, and a text that wrote them would have to be
-         translated. The viewer shows no toolbar and no selection, only the scroll. -->
+    <!-- The rules are a flow document because its list draws the numerals, which would otherwise have to be translated. -->
     <Style x:Key="StyRulesViewer" TargetType="FlowDocumentScrollViewer">
         <Setter Property="IsToolBarVisible" Value="False" />
         <Setter Property="IsSelectionEnabled" Value="False" />
@@ -2365,8 +2153,7 @@
         <Setter Property="PagePadding" Value="0,0,18,0" />
     </Style>
 
-    <!-- The numerals take the font and the colour of the list, and the text the ones of its
-         paragraph, which is how the prototype sets the number apart from the rule. -->
+    <!-- The numerals and the text take different styles because the prototype sets the number apart from the rule. -->
     <Style x:Key="StyRulesList" TargetType="List">
         <Setter Property="MarkerStyle" Value="Decimal" />
         <Setter Property="MarkerOffset" Value="14" />
@@ -2392,8 +2179,7 @@
         <Setter Property="Margin" Value="0,20,0,12" />
     </Style>
 
-    <!-- Each term sits over its definition: the terms differ too much in length to share a
-         column with them. -->
+    <!-- Each term sits over its definition because the terms differ too much in length to share a column. -->
     <Style x:Key="StyGlossaryTerm" TargetType="Paragraph">
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
         <Setter Property="FontSize" Value="17" />
@@ -2405,20 +2191,12 @@
         <Setter Property="Margin" Value="0,0,0,14" />
     </Style>
 
-    <!-- ======================== Game table (P20) ======================== -->
-
-    <!-- The table keeps the room of the lobby: the chat and the side panel are its panels, and
-         the cards lie on a translucent cloth raised like the panels, so the paint of the room
-         shows through it. The faces of the cards take the
-         light of the menu so that they stand out on the green, with the ink of the menu for
-         the black suits and a darker red for the red ones. -->
+    <!-- The faces of the cards take the light of the menu so they stand out on the green cloth. -->
     <SolidColorBrush x:Key="BrsCardInkBlack" Color="#FF1A1712" />
     <SolidColorBrush x:Key="BrsCardInkRed" Color="#FFA33A2A" />
     <SolidColorBrush x:Key="BrsTableSurface" Color="#801A1712" />
 
-    <!-- The back of a card is a sprite of the spiral of the backgrounds, still and in the reds
-         of the buttons. Every card shrinks the same sprite, so the small ones show the whole
-         spiral with smaller blocks instead of a few large ones. -->
+    <!-- Every card shrinks the same sprite so a small card shows the whole spiral with smaller blocks. -->
     <ImageBrush x:Key="BrsCardBack" ImageSource="{x:Static ctl:CardBackCommon.Sprite}" Stretch="UniformToFill" />
 
     <Style x:Key="StyCardFace" TargetType="Border">
@@ -2460,8 +2238,7 @@
         <Setter Property="Margin" Value="0" />
     </Style>
 
-    <!-- The place of the discard pile stays drawn when the pile is empty, so that the table
-         does not change its shape when the card is taken. -->
+    <!-- The place of the discard pile stays drawn when the pile is empty so the table does not change its shape. -->
     <Style x:Key="StyCardSlot" TargetType="Rectangle">
         <Setter Property="Width" Value="92" />
         <Setter Property="Height" Value="130" />
@@ -2517,8 +2294,7 @@
         <Setter Property="Margin" Value="0,0,8,7" />
     </Style>
 
-    <!-- The picture of the suit follows the suit of the card. The sizes are halves and doubles
-         of the grid of twenty-four the symbols are drawn on, which keeps their blocks square. -->
+    <!-- The sizes are halves and doubles of the grid of twenty-four, which keeps the blocks of the symbols square. -->
     <Style x:Key="StyCardSuit" TargetType="Image">
         <Setter Property="Source" Value="{StaticResource IcoSuitSpades}" />
         <Setter Property="Width" Value="12" />
@@ -2562,8 +2338,6 @@
         <Setter Property="Height" Value="48" />
     </Style>
 
-    <!-- A card of the hand rises when it is chosen, as a real card does when it is lifted from
-         the fan. -->
     <Style x:Key="StyHandCard" TargetType="ListBoxItem">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Cursor" Value="Hand" />
@@ -2586,8 +2360,7 @@
         </Style.Triggers>
     </Style>
 
-    <!-- The hand is a single row with no chrome. The room above the cards is the height a
-         chosen card rises, so that it never leaves the list. -->
+    <!-- The room above the cards is the height a chosen card rises, so it never leaves the list. -->
     <Style x:Key="StyHandList" TargetType="ListBox">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
@@ -2673,8 +2446,7 @@
         <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Margin" Value="16,0,0,0" />
-        <!-- The digits of the display family sit low in their line, so they are lifted to
-             share the middle line of the label beside them. -->
+        <!-- The digits of the display family sit low in their line, so they are lifted to the middle line of the label beside them. -->
         <Setter Property="RenderTransform">
             <Setter.Value>
                 <TranslateTransform Y="-7" />
@@ -2729,8 +2501,7 @@
         <Setter Property="Background" Value="{StaticResource BrsMenuWarn}" />
     </Style>
 
-    <!-- The pause, the close of a hand and the result of the match open over the table, which
-         stays in sight under the veil, as the prototype draws them. -->
+    <!-- The pause, the close of a hand and the result open over the table because the prototype draws them that way. -->
     <Style x:Key="StyTableOverlayCard" TargetType="Border">
         <Setter Property="Background" Value="{StaticResource BrsArtworkPanel}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />

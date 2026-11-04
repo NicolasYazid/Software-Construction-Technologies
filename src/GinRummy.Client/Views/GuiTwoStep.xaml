@@ -7,8 +7,7 @@
         TextOptions.TextFormattingMode="Display">
     <Grid Width="938" Height="607" Background="{StaticResource BrsSurface}">
 
-        <!-- The same painted panel as the one beside the log in, stretched to the height of
-             the screen through the canvas that never reports the size of the paint. -->
+        <!-- The paint sits in a canvas, which never reports the size of the paint, so the panel stretches to the height of the screen. -->
         <Grid HorizontalAlignment="Right" Width="469" ClipToBounds="True">
             <Canvas>
                 <ctl:PaintedBackground Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Canvas}}"
@@ -45,8 +44,7 @@
                 <Grid>
                     <TextBox x:Name="txtCode" Style="{StaticResource StyPlainInput}" MaxLength="6"
                              TextAlignment="Center" Text="{Binding Code, UpdateSourceTrigger=PropertyChanged}" />
-                    <!-- The code is centred, so the caret of the empty field stands in the middle of
-                         the hint; the hint steps aside while the field holds the focus. -->
+                    <!-- The hint steps aside on focus because the caret of the centred empty field stands in its middle. -->
                     <TextBlock TextAlignment="Center" HorizontalAlignment="Center"
                                Text="{Binding [VerifyEmail_TxtCodePlaceholder], Source={StaticResource PrvLocalization}}">
                         <TextBlock.Style>

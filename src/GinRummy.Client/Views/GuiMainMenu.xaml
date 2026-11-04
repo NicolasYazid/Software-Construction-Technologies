@@ -11,13 +11,8 @@
         TextOptions.TextFormattingMode="Display">
     <Grid Width="1460" Height="775" Background="{StaticResource BrsMenuRoot}">
 
-        <!-- Same paint as the side panel of the other screens, with the greens of the menu.
-             It reaches less far into the field than the panel does, so the spiral comes out
-             larger than the window and only its centre is seen, which is what gives the menu
-             a background and not a picture. The resolution is the one that keeps the blocks
-             measuring the same as on the panel: both come out at about three pixels of screen.
-             The paint covers the whole window, so the background of the grid is only seen
-             while the first frame is being drawn. -->
+        <!-- The paint reaches less far into the field than on the panel, so only the centre of the spiral shows as a background.
+             The resolution keeps the blocks the same size as on the panel. -->
         <ctl:PaintedBackground BlockResolution="250" PatternScale="1.45"
                                 DeepColour="{StaticResource ClrMenuLiquidDeep}"
                                 MidColour="{StaticResource ClrMenuLiquidMid}"
@@ -28,11 +23,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <!-- It spans both rows so that it is centred on the whole window and not on the gap
-                 the bar leaves above it, which is what pushed it up. The top and bottom margins
-                 are equal, so the centre of both rows is the centre of the window. At this size
-                 it does not reach the bar; the usable width is the other limit, because above
-                 about 190 it touches the side margins. -->
+            <!-- It spans both rows so it is centred on the whole window and not on the gap the bar leaves above it. -->
             <ctl:BrandMark Grid.Row="0" Grid.RowSpan="2" MarkFontSize="175"
                               MarkForeground="{StaticResource BrsMenuLight}"
                               Effect="{StaticResource EfxTextShadow}"
@@ -51,10 +42,7 @@
                         <TextBlock x:Name="lblSettings" Style="{StaticResource StyMenuChipCaption}"
                                    Text="{Binding [MainMenu_LblSettings], Source={StaticResource PrvLocalization},
                                           Converter={StaticResource CnvUpperCase}}" />
-                        <!-- It opens the same settings as the gear of the lobby, which belong to an
-                             account. The menu is only on screen while nobody is signed in, because
-                             a signed-in player stands in the lobby in its place, so the button
-                             stays unavailable here; the language has its own selector beside it. -->
+                        <!-- Settings belong to an account and nobody is signed in on the menu, so the button stays unavailable here. -->
                         <Button x:Name="btnSettings" Style="{StaticResource StyMenuChipButton}" Margin="0,8,0,0"
                                 IsEnabled="False"
                                 Click="OnSettingsClick">

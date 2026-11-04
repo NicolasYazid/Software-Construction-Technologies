@@ -6,8 +6,7 @@
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
         HasCloseButton="False">
-    <!-- The editor is drawn like the settings: a dialog of the room, shorter than the windows
-         that open it so its four edges stay in sight; what does not fit scrolls inside it. -->
+    <!-- The editor is shorter than the windows that open it so its four edges stay in sight. -->
     <ContentControl Width="500" Height="700" Style="{StaticResource StyLobbyDialog}" Padding="0">
         <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,8,4,8">
             <StackPanel Margin="40,30,34,32">
@@ -88,8 +87,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-                <!-- The form of a new link follows the visibility of its first label, which the
-                     view model switches when the player asks to add a link (CU-31). -->
+                <!-- The form of a new link follows the visibility of its first label, which the view model switches (CU-31). -->
                 <StackPanel Visibility="{Binding Visibility, ElementName=lblPlatform}">
                     <TextBlock x:Name="lblPlatform" Style="{StaticResource StyFieldLabel}" Margin="0,6,0,8"
                                Visibility="{Binding IsNewLinkFormOpen, Converter={StaticResource CnvBooleanToVisibility}}"

@@ -27,8 +27,7 @@
                     </TextBlock.Text>
                 </TextBlock>
 
-                <!-- The field follows the visibility of its label, so the dialog decides both in a
-                     single place. -->
+                <!-- The field follows the visibility of its label so the dialog decides both in a single place. -->
                 <StackPanel Width="320">
                     <TextBlock x:Name="lblPassword" Style="{StaticResource StyFieldLabel}"
                                HorizontalAlignment="Center" Margin="0,22,0,8"

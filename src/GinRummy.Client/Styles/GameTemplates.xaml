@@ -2,13 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:models="clr-namespace:GinRummy.Client.Models">
 
-    <!-- Templates of the game table (P20). They live apart from the theme because they bind to
-         the localization provider, which the application publishes when it starts, after the
-         theme has been loaded; the table merges them into its own resources, and by then the
-         provider exists. -->
+    <!-- These templates live apart from the theme because they bind to the localization provider, created after the theme loads. -->
 
-    <!-- A card face up. Its rank and its suit are drawn, not written, so the card carries its
-         spoken name for assistive technologies. -->
+    <!-- The rank and the suit are drawn and not written, so the card carries its spoken name for assistive technologies. -->
     <DataTemplate x:Key="TplCardFace" DataType="{x:Type models:Card}">
         <Border Style="{StaticResource StyCardFace}">
             <AutomationProperties.Name>
@@ -71,8 +67,7 @@
         </Border>
     </DataTemplate>
 
-    <!-- The small card of the groups laid down at the close of a hand keeps only the rank and
-         the suit, as the prototype draws it. -->
+    <!-- The small card keeps only the rank and the suit, as the prototype draws it. -->
     <DataTemplate x:Key="TplCardFaceMini" DataType="{x:Type models:Card}">
         <Border Style="{StaticResource StyCardFaceMini}">
             <AutomationProperties.Name>
@@ -95,7 +90,7 @@
         </Border>
     </DataTemplate>
 
-    <!-- The cards of the opponent are only their number: the items carry nothing to show. -->
+    <!-- The template is empty because the cards of the opponent travel only as their number. -->
     <DataTemplate x:Key="TplCardBack">
         <Border Style="{StaticResource StyCardBack}" />
     </DataTemplate>
@@ -162,8 +157,7 @@
         </Grid>
     </DataTemplate>
 
-    <!-- The chat of the match is narrower than the one of the lobby, so its messages leave out
-         the avatar and keep the author, the time and the text. -->
+    <!-- The chat of the match is narrower than the one of the lobby, so its messages leave out the avatar. -->
     <DataTemplate x:Key="TplMatchChatMessage" DataType="{x:Type models:ChatMessage}">
         <StackPanel Margin="20,6,14,8">
             <StackPanel Orientation="Horizontal">

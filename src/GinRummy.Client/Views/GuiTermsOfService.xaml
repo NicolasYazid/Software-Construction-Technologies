@@ -18,9 +18,7 @@
                 <TextBlock x:Name="lblTitle" Grid.Row="0" Style="{StaticResource StyCardTitle}"
                            Text="{Binding [TermsOfService_LblTitle], Source={StaticResource PrvLocalization}}" />
 
-                <!-- The body scrolls on its own because the final text of the terms is still
-                     pending and will be longer than the draft, while the button has to stay
-                     where the prototype puts it. -->
+                <!-- The body scrolls because the final terms will be longer, and the button must stay where the prototype puts it. -->
                 <ScrollViewer Grid.Row="1" Margin="0,24,0,24" VerticalScrollBarVisibility="Auto"
                               HorizontalScrollBarVisibility="Disabled">
                     <TextBlock x:Name="lblBody" Style="{StaticResource StyCardSubtitle}" MaxWidth="700"

@@ -8,8 +8,7 @@
         TextOptions.TextFormattingMode="Display"
         HasCloseButton="False">
     <UserControl.Resources>
-        <!-- The podium and the rows format their numbers inside a template, where no window can
-             rebuild them one by one, so they bind to the culture of the provider as well. -->
+        <!-- The numbers bind to the culture of the provider because they are formatted inside a template that no window can rebuild. -->
         <DataTemplate x:Key="TplPodiumPlace" DataType="{x:Type contracts:PlayerRanking}">
             <ctl:PixelBorder Style="{StaticResource StyPodiumCard}">
                 <StackPanel>
@@ -59,8 +58,7 @@
             </ctl:PixelBorder>
         </DataTemplate>
 
-        <!-- The columns of a row repeat the widths of the head of the table, so that both line
-             up without sharing a grid. -->
+        <!-- The columns repeat the widths of the head so both line up without sharing a grid. -->
         <DataTemplate x:Key="TplRankingRow" DataType="{x:Type contracts:PlayerRanking}">
             <Border Style="{StaticResource StyRankingRow}">
                 <Grid>
@@ -85,8 +83,7 @@
                             <Image Style="{StaticResource StyAvatarIcon}" />
                         </Border>
                         <TextBlock Style="{StaticResource StyRankingName}" Text="{Binding Username}" />
-                        <!-- The mark is a string of its own and not a suffix of the name: the
-                             name is data and is never translated. -->
+                        <!-- The mark is a string of its own and not a suffix, because the name is data and is never translated. -->
                         <TextBlock x:Name="lblYou" Style="{StaticResource StyRankingYou}"
                                    Text="{Binding [Rankings_LblYou], Source={StaticResource PrvLocalization},
                                           Converter={StaticResource CnvUpperCase}}" />
@@ -144,8 +141,7 @@
                                       Converter={StaticResource CnvUpperCase}}" />
                 </TabControl>
 
-                <!-- The podium holds the first three places whatever the search, as the prototype
-                     keeps it while the table filters. -->
+                <!-- The podium keeps the first three places whatever the search, as the prototype does while the table filters. -->
                 <ItemsControl x:Name="lstPodium" Margin="-6,18,-6,0" ItemsSource="{Binding Podium}"
                               ItemTemplate="{StaticResource TplPodiumPlace}">
                     <ItemsControl.ItemsPanel>
@@ -163,8 +159,7 @@
                             <RowDefinition Height="330" />
                         </Grid.RowDefinitions>
 
-                        <!-- The right margin of the head adds the width of the scroll bar the
-                             rows always keep, so that every column stays over its values. -->
+                        <!-- The head adds the width of the scroll bar the rows always keep, so every column stays over its values. -->
                         <Grid Margin="20,12,28,10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="64" />
@@ -213,8 +208,7 @@
                                        Visibility="{Binding HasNoMatches, Converter={StaticResource CnvBooleanToVisibility}}"
                                        Text="{Binding [Rankings_NoMatches], Source={StaticResource PrvLocalization}}" />
 
-                            <!-- The row of the player stays at the foot of the table when its place
-                                 lies beyond the rows it holds (CU-19 FA-03). -->
+                            <!-- The row of the player stays at the foot when its place lies beyond the rows shown (CU-19 FA-03). -->
                             <ItemsControl x:Name="lstOwnEntry" Grid.Row="1" Margin="0,0,8,0"
                                           ItemTemplate="{StaticResource TplRankingRow}" />
                         </Grid>

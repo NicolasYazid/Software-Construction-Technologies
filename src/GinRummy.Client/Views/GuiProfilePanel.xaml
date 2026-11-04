@@ -5,8 +5,7 @@
         xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display">
-    <!-- The panel is shorter than the windows that open it, so its four edges stay in sight
-         over the room; what does not fit scrolls inside it. -->
+    <!-- The panel is shorter than the windows that open it so its four edges stay in sight. -->
     <ContentControl Width="480" Height="700" Style="{StaticResource StyLobbyDialog}" Padding="0">
         <Grid>
             <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="0,8,4,8">
@@ -22,8 +21,7 @@
 
                     <Border Style="{StaticResource StySettingDivider}" />
 
-                    <!-- Every section of the panel sits on its own glass card, so its text reads clear
-                         over the paint. -->
+                    <!-- Each section sits on its own glass card so its text reads clear over the paint. -->
                     <ctl:PixelBorder Style="{StaticResource StySettingCard}">
                         <StackPanel>
                             <TextBlock x:Name="lblEmail" Style="{StaticResource StySettingSection}"
@@ -45,7 +43,7 @@
                         <StackPanel>
                             <TextBlock x:Name="lblPassword" Style="{StaticResource StySettingSection}"
                                        Text="{Binding [ProfilePanel_LblPassword], Source={StaticResource PrvLocalization}}" />
-                            <!-- The password never reaches the client; the mask only says that one exists. -->
+                            <!-- The password never reaches the client, so the mask only says that one exists. -->
                             <PasswordBox x:Name="pwdPassword" Style="{StaticResource StyFieldPassword}"
                                          HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False" />
                             <Button x:Name="btnChangePassword" Style="{StaticResource StyNoticeButton}"
@@ -104,8 +102,7 @@
 
                     <Border Style="{StaticResource StySettingDivider}" />
 
-                    <!-- The selector is the one of the main menu, bound to the same provider, so the
-                         culture changes at once and without closing anything (CU-20). -->
+                    <!-- The selector shares the provider of the main menu, so the culture changes without closing anything (CU-20). -->
                     <ctl:PixelBorder Style="{StaticResource StySettingCard}">
                         <StackPanel>
                             <TextBlock x:Name="lblLanguage" Style="{StaticResource StySettingSection}"
@@ -177,8 +174,7 @@
                 </StackPanel>
             </ScrollViewer>
 
-            <!-- The change of email (CU-07) opens over the panel. The veil follows the visibility
-                 of its title, which the view model switches. -->
+            <!-- The veil of the change of email (CU-07) follows the visibility of its title, which the view model switches. -->
             <Grid Background="{StaticResource BrsOverlay}"
                   Visibility="{Binding Visibility, ElementName=lblChangeEmailTitle}">
                 <ctl:PixelBorder Style="{StaticResource StyLobbyDialogCard}" Margin="26,0,26,0"

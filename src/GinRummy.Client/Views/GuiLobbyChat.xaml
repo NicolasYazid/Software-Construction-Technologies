@@ -16,9 +16,7 @@
                 <ResourceDictionary Source="pack://application:,,,/Styles/LobbyTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- The notices of a challenge carry the buttons that answer them, and their
-                 commands belong to the view model of this window, so their template lives here
-                 and not with the shared ones. -->
+            <!-- This template lives here and not with the shared ones because its buttons use the commands of this window. -->
             <DataTemplate DataType="{x:Type models:ChallengeNotice}">
                 <ctl:PixelBorder Style="{StaticResource StyChatNotice}">
                     <DockPanel LastChildFill="True">
@@ -77,8 +75,7 @@
                 </DataTemplate.Triggers>
             </DataTemplate>
 
-            <!-- One menu serves every row of the panel. Being shared, it takes the player from
-                 the row it was opened on and not from the place where it is declared. -->
+            <!-- The menu takes the player from the row it was opened on because one menu is shared by every row. -->
             <ContextMenu x:Key="CtxPlayerActions" Style="{StaticResource StyPlayerMenu}"
                          DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                 <MenuItem x:Name="mniChallenge" Style="{StaticResource StyPlayerMenuChallengeItem}"
@@ -103,8 +100,6 @@
                           Click="OnRemoveFriendClick" />
             </ContextMenu>
 
-            <!-- A message has a single action, to be reported, and its menu is the one of a player in
-                 look. It takes the message from the row it was opened on, as the shared menu above does. -->
             <ContextMenu x:Key="CtxMessageActions" Style="{StaticResource StyPlayerMenu}"
                          DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                 <MenuItem x:Name="mniReport" Style="{StaticResource StyMessageMenuItem}"
@@ -115,8 +110,7 @@
                 </MenuItem>
             </ContextMenu>
 
-            <!-- The face of the row is transparent so that the whole row answers the right click and
-                 not only the text and the avatar. Which rows open the menu is decided by the view model. -->
+            <!-- The face of the row is transparent so the whole row answers the right click and not only the text and the avatar. -->
             <Style x:Key="StyChatMessageHost" TargetType="ListBoxItem" BasedOn="{StaticResource StyChatListItem}">
                 <Setter Property="ContextMenu" Value="{StaticResource CtxMessageActions}" />
                 <Setter Property="Template">
@@ -148,8 +142,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- The paint of the menu, with the same scale, so the panels show it through their
-             translucent face exactly as the panels of the menu do. -->
+        <!-- The paint uses the scale of the menu so the panels show it exactly as the panels of the menu do. -->
         <ctl:PaintedBackground Grid.RowSpan="2" Grid.ColumnSpan="3"
                                 BlockResolution="250" PatternScale="1.45"
                                 DeepColour="{StaticResource ClrMenuLiquidDeep}"
@@ -226,8 +219,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <!-- The messages run under the rules and the state of the search, which float over
-                     them as glass cards; the list keeps room for both at its ends. -->
+                <!-- The list keeps room at its ends because the rules and the state of the search float over the messages. -->
                 <ListBox x:Name="lstMessages" Grid.RowSpan="3" Style="{StaticResource StyChatList}"
                          ItemsSource="{Binding ChatEntries}"
                          ItemContainerStyle="{StaticResource StyChatMessageHost}"
@@ -243,9 +235,7 @@
                     </StackPanel>
                 </ctl:PixelBorder>
 
-                <!-- The card has no name of its own, since the vocabulary of the standard names
-                     no borders; it follows the visibility of its title, which is what the view
-                     model switches. The same holds for the block of the chat below. -->
+                <!-- The card has no name because the standard names no borders, so it follows the visibility of its title. -->
                 <ctl:PixelBorder Grid.Row="2" Style="{StaticResource StyLobbyStatusCard}"
                         Visibility="{Binding Visibility, ElementName=lblSearchingMatch}">
                     <DockPanel LastChildFill="True">
@@ -280,9 +270,7 @@
                                 </TextBlock.Text>
                             </TextBlock>
                         </StackPanel>
-                        <!-- A sanction that restricts the chat disables the field (CU-17 EX-08). The
-                             shell dims with it, to the same opacity as a disabled button, so the
-                             field reads as locked and not merely empty. -->
+                        <!-- The shell dims with the disabled field so a sanctioned chat (CU-17 EX-08) reads as locked and not as empty. -->
                         <Border>
                             <Border.Style>
                                 <Style TargetType="Border" BasedOn="{StaticResource StyLobbyFieldShell}">

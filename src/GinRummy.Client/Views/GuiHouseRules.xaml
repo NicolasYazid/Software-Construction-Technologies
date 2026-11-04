@@ -23,10 +23,8 @@
                                       Converter={StaticResource CnvUpperCase}}" />
                 </ctl:PixelBorder>
 
-                <!-- The texts are runs bound one way: the text of a run is written back by
-                     default, and the strings of the dictionary can only be read. The values of
-                     the game come from the data context, never from the translated text
-                     (CU-21 step 3). -->
+                <!-- The runs are bound one way because a run writes its text back by default and the dictionary is read-only.
+                     The values of the game come from the data context and not from the translated text (CU-21 step 3). -->
                 <FlowDocumentScrollViewer Style="{StaticResource StyRulesViewer}" Height="440" Margin="0,18,0,0">
                     <FlowDocument Style="{StaticResource StyRulesDocument}">
                         <List Style="{StaticResource StyRulesList}">

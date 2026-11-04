@@ -1,11 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Vectors exported from the Figma prototype through the plugin API. The path data is
-         the one in the file; none of it was redrawn by hand. The icons that follow the
-         bullseye are the exception: the prototype writes them as characters of a font, and a
-         character written in XAML would be visible text outside the dictionary, so they are
-         drawn here as paths on the square grid of the pixel typefaces. -->
+    <!-- The paths are the ones exported from the Figma prototype and were not redrawn by hand.
+         The icons after the bullseye are paths because the prototype writes them as font characters outside the dictionary. -->
 
     <DrawingImage x:Key="IcoMail">
         <DrawingImage.Drawing>
@@ -154,9 +151,7 @@
         </DrawingImage.Drawing>
     </DrawingImage>
 
-    <!-- The icons of the lobby and its panels. Each one is a set of blocks on a grid of
-         twenty-four, filled with the non-zero rule so that the blocks may overlap; the hole of
-         the gear is the only block drawn in the opposite direction, which is what empties it. -->
+    <!-- The blocks are filled with the non-zero rule so they may overlap, which is why the hole of the gear runs the other way. -->
     <DrawingImage x:Key="IcoSend">
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 H24 V24 H0 Z">
@@ -229,10 +224,7 @@
         </DrawingImage.Drawing>
     </DrawingImage>
 
-    <!-- The suits of the cards, drawn on the same grid of twenty-four. The symbols are pictures
-         and not characters of a font, because the dictionary keeps them out of the resources:
-         only their spoken names are text. The red suits take the red of the ink of a card and
-         the black ones its black, since they are always drawn over the light face. -->
+    <!-- The suits are pictures and not font characters, because the dictionary keeps only their spoken names as text. -->
     <DrawingImage x:Key="IcoSuitClubs">
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 H24 V24 H0 Z">

@@ -17,8 +17,7 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <!-- The table has the size of the lobby, since it takes its place when a match starts and
-         gives it back when the match ends. -->
+    <!-- The table has the size of the lobby because it takes its place while a match lasts. -->
     <Grid Width="1360" Height="780" Background="{StaticResource BrsMenuRoot}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="280" />
@@ -50,8 +49,7 @@
                 <Border Grid.Row="2" Style="{StaticResource StyChatComposer}" Padding="14,14,14,16">
                     <ctl:PixelBorder Style="{StaticResource StyPanelSearchShell}">
                         <DockPanel LastChildFill="True">
-                            <!-- The dictionary gives the button of this chat no tooltip of its own, so it
-                                 borrows the one of the chat of the lobby, which does the same. -->
+                            <!-- The button borrows the tooltip of the chat of the lobby because the dictionary gives this one none. -->
                             <Button x:Name="btnSend" Effect="{StaticResource EfxCardShadow}"
                                     DockPanel.Dock="Right" Style="{StaticResource StyIconButton}"
                                     Width="28" Height="28" Margin="8,0,0,0" VerticalAlignment="Center"
@@ -175,8 +173,6 @@
                        Text="{Binding [GameTable_LblHandHint], Source={StaticResource PrvLocalization},
                               Converter={StaticResource CnvUpperCase}}" />
 
-            <!-- The count and the actions keep their place at the foot of the table while the
-                 rows above move down to the middle of the room. -->
             <StackPanel Grid.Row="6" VerticalAlignment="Bottom" Margin="0,0,0,57">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock x:Name="lblDeadwood" Style="{StaticResource StyDeadwoodLabel}"
@@ -191,8 +187,7 @@
                         </TextBlock.Text>
                     </TextBlock>
                 </StackPanel>
-                <!-- The buttons are hidden and not collapsed once the decision is made, so that the
-                     table keeps its shape while it waits for the opponent. -->
+                <!-- The buttons are hidden and not collapsed so the table keeps its shape while it waits for the opponent. -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,12,0,0">
                     <StackPanel.Style>
                         <Style TargetType="StackPanel">
@@ -294,9 +289,7 @@
             </DockPanel>
         </ctl:PixelBorder>
 
-        <!-- The pause, the close of a hand and the result of the match open over the table, which
-             stays in sight under the veil. Each veil follows the visibility of the label the view
-             model switches, since the vocabulary of the standard names no grids. -->
+        <!-- Each veil follows the visibility of a label the view model switches, because the standard names no grids. -->
         <Grid Grid.ColumnSpan="3" Background="{StaticResource BrsOverlay}"
               Visibility="{Binding Visibility, ElementName=lblPaused}">
             <ctl:PixelBorder Style="{StaticResource StyTableOverlayCard}" Width="640">

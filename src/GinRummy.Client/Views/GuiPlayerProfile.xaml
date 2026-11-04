@@ -74,8 +74,7 @@
                             Click="OnCloseClick" />
                 </Grid>
 
-                <!-- The cards follow the visibility of their first label, which the view model sets
-                     after the matches the player has played (CU-27 FA-01). -->
+                <!-- The cards follow the visibility of their first label, set by the view model from the matches played (CU-27 FA-01). -->
                 <UniformGrid Grid.Row="1" Columns="3" Margin="0,34,0,0"
                              Visibility="{Binding Visibility, ElementName=lblMatchesPlayed}">
                     <ctl:PixelBorder Style="{StaticResource StyStatCard}" Margin="0,0,12,0">
@@ -141,8 +140,7 @@
                                 Visibility="{Binding CanAddFriend, Converter={StaticResource CnvBooleanToVisibility}}"
                                 IsEnabled="{Binding CanSendFriendRequest}"
                                 Command="{Binding AddFriendCommand}" />
-                        <!-- The dictionary has no key of this screen for the action, so it borrows
-                             the one of the context menu of the lobby, as its notes allow. -->
+                        <!-- The action borrows the key of the lobby context menu because the dictionary has none for this screen. -->
                         <Button x:Name="btnRemoveFriend" Style="{StaticResource StyDialogSecondaryButton}"
                                 FontSize="22"
                                 Content="{Binding [LobbyChat_MniRemoveFriend], Source={StaticResource PrvLocalization},
