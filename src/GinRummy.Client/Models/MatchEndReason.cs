@@ -4,8 +4,12 @@
     public enum MatchEndReason
     {
         PlayerReachedTarget,
-        // A forfeit of the opponent counts as a victory for the player (CU-26).
+
+        /// <summary>
+        /// A forfeit of the opponent counts as a victory for the player (CU-26).
+        /// </summary>
         OpponentForfeited,
+
         OpponentReachedTarget
     }
 }
