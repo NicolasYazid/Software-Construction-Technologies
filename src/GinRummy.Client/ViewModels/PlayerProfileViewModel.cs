@@ -77,7 +77,6 @@ namespace GinRummy.Client.ViewModels
             get { return _profile.IsOwnProfile; }
         }
 
-        // A profile without links leaves out its section (CU-27 FA-03).
         public bool HasSocialLinks
         {
             get { return IsPlayer && (_profile.SocialLinks.Count > 0); }
@@ -121,7 +120,6 @@ namespace GinRummy.Client.ViewModels
             RaisePropertyChanged(nameof(CanSendFriendRequest));
         }
 
-        // Without the friendship, the profile offers a request again (CU-16 Post-3).
         private void RemoveFriend()
         {
             _profile.IsFriend = false;

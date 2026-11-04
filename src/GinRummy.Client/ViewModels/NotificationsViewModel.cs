@@ -42,12 +42,12 @@ namespace GinRummy.Client.ViewModels
         // The screen only takes the request off the list because the server creates the friendship (CU-14).
         private void AcceptRequest(object parameter)
         {
-            RemoveRequest(parameter as FriendRequest);
+            RemoveRequest((FriendRequest)parameter);
         }
 
         private void DeclineRequest(object parameter)
         {
-            RemoveRequest(parameter as FriendRequest);
+            RemoveRequest((FriendRequest)parameter);
         }
 
         private void RemoveRequest(FriendRequest request)

@@ -65,7 +65,6 @@ namespace GinRummy.Client.ViewModels
             get { return !string.IsNullOrEmpty(_errorMessageKey); }
         }
 
-        // An account whose email was never verified is offered a new code next to its message (CU-02 EX-03).
         public bool IsResendCodeOffered
         {
             get { return _isResendCodeOffered; }

@@ -9,7 +9,6 @@ namespace GinRummy.Client.Models
         public int OpponentCardCount { get; set; }
         public int StockCount { get; set; }
         public Card DiscardTop { get; set; }
-        // The cards keep the order the player arranged them in.
         public IList<Card> Hand { get; set; }
         public int Deadwood { get; set; }
         public int PlayerScore { get; set; }

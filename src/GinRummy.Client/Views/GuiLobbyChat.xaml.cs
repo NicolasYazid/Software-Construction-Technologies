@@ -149,7 +149,6 @@ namespace GinRummy.Client.Views
             Closed -= OnScreenClosed;
         }
 
-        // The own profile reuses the profile screen of any other player, opened from the header (CU-27 FA-02).
         private void ShowOwnProfile()
         {
             GuiPlayerProfile playerProfile = new GuiPlayerProfile(_viewModel.GetOwnProfile());

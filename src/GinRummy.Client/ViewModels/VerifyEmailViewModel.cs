@@ -74,7 +74,6 @@ namespace GinRummy.Client.ViewModels
         }
 
         // An email that was already verified leaves nothing to verify.
-        // The screen then swaps the verify option for the sign-in one (CU-09 FA-02).
         public bool IsAlreadyVerified
         {
             get { return _isAlreadyVerified; }

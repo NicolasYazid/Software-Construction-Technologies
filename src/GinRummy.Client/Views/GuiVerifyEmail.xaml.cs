@@ -41,7 +41,6 @@ namespace GinRummy.Client.Views
             Closed += OnScreenClosed;
         }
 
-        // A new address confirmed from the profile panel returns to that panel (CU-07 step 11).
         private void OnCodeVerified(object sender, EventArgs e)
         {
             if (_viewModel.Purpose == VerificationPurpose.PasswordRecovery)
@@ -63,7 +62,6 @@ namespace GinRummy.Client.Views
             ShowModal(new GuiErrorDialog(kind));
         }
 
-        // An email that was already verified only needs to sign in (CU-09 FA-02).
         private void OnLogInClick(object sender, RoutedEventArgs e)
         {
             NavigateTo(new GuiLogIn());

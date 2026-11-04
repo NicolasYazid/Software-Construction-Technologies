@@ -8,7 +8,6 @@ namespace GinRummy.Client.Converters
 {
     // A screen whose text depends on its state binds the key of the text instead of the text itself.
     // The culture of the provider is the second bound value, so the text is looked up again when the culture changes.
-    // Any further value is an argument of the text, which is then a format string of the dictionary.
     public sealed class ResourceTextConverter : IMultiValueConverter
     {
         private const int FirstArgumentIndex = 2;

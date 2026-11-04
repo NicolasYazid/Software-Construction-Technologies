@@ -23,7 +23,6 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        // A request still waiting for an answer turns the option of the menu into the mark of a pending request (CU-12).
         public bool HasPendingRequest
         {
             get { return _hasPendingRequest; }

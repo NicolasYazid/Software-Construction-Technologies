@@ -43,7 +43,6 @@ namespace GinRummy.Client.Views
             Close();
         }
 
-        // A sign-in ends in the lobby (CU-02 step 11).
         private void OnSignedIn(object sender, LogInOutcome signedInPlayer)
         {
             ((App)Application.Current).StoreSignedInPlayer(signedInPlayer);
