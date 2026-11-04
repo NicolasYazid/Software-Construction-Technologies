@@ -165,10 +165,9 @@ namespace GinRummy.Client.ViewModels
         // The picture shows as soon as it is chosen, while the CU-28 service of the server, which validates and stores it, is pending.
         private void ChangePicture(object parameter)
         {
-            PicturePath = parameter as string;
+            PicturePath = (string)parameter;
         }
 
-        // Without a picture the profile shows the default avatar again (CU-28 FA-03).
         private void RemovePicture()
         {
             PicturePath = null;
@@ -181,7 +180,7 @@ namespace GinRummy.Client.ViewModels
 
         private void RequestSocialLinkRemoval(object parameter)
         {
-            _linkToRemove = parameter as SocialLink;
+            _linkToRemove = (SocialLink)parameter;
             SocialLinkRemovalRequested?.Invoke(this, EventArgs.Empty);
         }
 
@@ -221,10 +220,7 @@ namespace GinRummy.Client.ViewModels
 
         private void AddSocialLink(string platformName)
         {
-            SocialLink link = new SocialLink();
-            link.PlatformName = platformName;
-            link.Url = _socialUrl.Trim();
-            SocialLinks.Add(link);
+            SocialLinks.Add(new SocialLink(platformName, _socialUrl.Trim()));
             SocialUrl = string.Empty;
             IsNewLinkFormOpen = false;
         }

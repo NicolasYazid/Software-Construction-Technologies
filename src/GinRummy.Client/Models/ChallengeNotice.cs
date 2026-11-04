@@ -1,8 +1,17 @@
-﻿namespace GinRummy.Client.Models
+﻿using System;
+
+namespace GinRummy.Client.Models
 {
     public sealed class ChallengeNotice : ChatEntry
     {
-        public ChallengeNoticeKind Kind { get; set; }
-        public string PlayerName { get; set; }
+        public ChallengeNotice(ChallengeNoticeKind kind, string playerName, DateTime sentAt)
+            : base(sentAt)
+        {
+            Kind = kind;
+            PlayerName = playerName ?? throw new ArgumentNullException(nameof(playerName));
+        }
+
+        public ChallengeNoticeKind Kind { get; private set; }
+        public string PlayerName { get; private set; }
     }
 }

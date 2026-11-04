@@ -138,7 +138,6 @@ namespace GinRummy.Client.ViewModels
             IsEmailChangedShown = true;
         }
 
-        // Cancelling returns the switch to where it was (CU-05 FA-02).
         public void CompleteTwoStepDisable(bool isConfirmed)
         {
             if (isConfirmed)
@@ -177,7 +176,6 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        // Enabling the second factor requires a confirmed code (CU-04), and disabling it requires a confirmation (CU-05).
         private void ToggleTwoStep()
         {
             IsTwoStepDisabledShown = false;
@@ -193,12 +191,12 @@ namespace GinRummy.Client.ViewModels
 
         private void LinkAccount(object parameter)
         {
-            ReplaceLinkedAccount(parameter as LinkedAccount, true);
+            ReplaceLinkedAccount((LinkedAccount)parameter, true);
         }
 
         private void UnlinkAccount(object parameter)
         {
-            ReplaceLinkedAccount(parameter as LinkedAccount, false);
+            ReplaceLinkedAccount((LinkedAccount)parameter, false);
         }
 
         // A linked account does not notify its changes, so the list only sees a new state when the row is replaced.
@@ -207,10 +205,7 @@ namespace GinRummy.Client.ViewModels
             int index = LinkedAccounts.IndexOf(account);
             if (index >= 0)
             {
-                LinkedAccount updated = new LinkedAccount();
-                updated.PlatformName = account.PlatformName;
-                updated.IsLinked = isLinked;
-                LinkedAccounts[index] = updated;
+                LinkedAccounts[index] = new LinkedAccount(account.PlatformName, isLinked);
             }
         }
     }

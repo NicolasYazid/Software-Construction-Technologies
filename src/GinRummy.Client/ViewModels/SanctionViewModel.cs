@@ -9,9 +9,22 @@ namespace GinRummy.Client.ViewModels
     {
         private TimeSpan _remainingTime;
 
-        public string ReasonName { get; set; }
-        public bool IsActive { get; set; }
-        public DateTime ServedAt { get; set; }
+        public SanctionViewModel(string reasonName, TimeSpan remainingTime)
+        {
+            ReasonName = reasonName ?? throw new ArgumentNullException(nameof(reasonName));
+            IsActive = true;
+            _remainingTime = remainingTime;
+        }
+
+        public SanctionViewModel(string reasonName, DateTime servedAt)
+        {
+            ReasonName = reasonName ?? throw new ArgumentNullException(nameof(reasonName));
+            ServedAt = servedAt;
+        }
+
+        public string ReasonName { get; private set; }
+        public bool IsActive { get; private set; }
+        public DateTime ServedAt { get; private set; }
 
         public TimeSpan RemainingTime
         {
