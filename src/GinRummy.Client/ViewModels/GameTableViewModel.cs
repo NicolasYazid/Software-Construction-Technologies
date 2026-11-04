@@ -240,7 +240,6 @@ namespace GinRummy.Client.ViewModels
             IsDecisionPending = false;
         }
 
-        // As in the lobby, an empty message is not sent (CU-17 FA-03).
         // The server relays the rest, and until it answers the table shows the message of the player.
         private void SendMessage()
         {

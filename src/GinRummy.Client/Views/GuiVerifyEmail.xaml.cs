@@ -67,7 +67,6 @@ namespace GinRummy.Client.Views
             NavigateTo(new GuiLogIn());
         }
 
-        // The pending code and the unverified account are kept, so the verification can be resumed later (CU-09 FA-03).
         private void OnVerifyLaterClick(object sender, RoutedEventArgs e)
         {
             Close();

@@ -73,7 +73,6 @@
     <SolidColorBrush x:Key="BrsMenuLight" Color="#FFEDE4DC" />
     <SolidColorBrush x:Key="BrsMenuOnDark" Color="#FFFFFFFF" />
 
-    <!-- Shadows shared by the elements of the menu. -->
     <DropShadowEffect x:Key="EfxPanelShadow" Color="#FF0A130E"
                       BlurRadius="40" ShadowDepth="13" Direction="270" Opacity="0.92" />
     <DropShadowEffect x:Key="EfxTextShadow" Color="#FF0A130E"
@@ -264,7 +263,6 @@
         <Setter Property="Background" Value="{StaticResource BrsMenuWarn}" />
     </Style>
 
-    <!-- The primary button keeps the size of its row and stands out by colour alone. -->
     <Style x:Key="StyMenuPrimaryButton" TargetType="Button" BasedOn="{StaticResource StyMenuButton}">
         <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
         <Setter Property="Background" Value="{StaticResource BrsMenuAccent}" />
@@ -302,7 +300,6 @@
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Template" Value="{StaticResource TplMenuButton}" />
         <Style.Triggers>
-            <!-- The hand promises a click; an unavailable button gives the plain arrow back. -->
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Cursor" Value="Arrow" />
             </Trigger>
@@ -1874,7 +1871,6 @@
         <Setter Property="Padding" Value="16,12,16,12" />
     </Style>
 
-    <!-- The area of the dialogs of the room takes the brown of the fields of the lobby. -->
     <Style x:Key="StyLobbyFieldArea" TargetType="Border" BasedOn="{StaticResource StyFieldArea}">
         <Setter Property="Background" Value="{StaticResource BrsLobbyFieldFace}" />
     </Style>
@@ -2246,7 +2242,6 @@
         <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
     </Style>
 
-    <!-- The table is a glass card of the lobby, the same piece that holds the rules of the chat. -->
     <Style x:Key="StyRankingTable" TargetType="Border" BasedOn="{StaticResource StyLobbyGlassCard}" />
 
     <Style x:Key="StyRankingHead" TargetType="TextBlock">
@@ -2477,7 +2472,6 @@
         <Setter Property="RadiusY" Value="4" />
     </Style>
 
-    <!-- The rank takes the colour of its suit, as on a printed card. -->
     <Style x:Key="StyCardRank" TargetType="TextBlock">
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
         <Setter Property="FontWeight" Value="Normal" />
@@ -2506,7 +2500,6 @@
         <Setter Property="Margin" Value="4,2,0,0" />
     </Style>
 
-    <!-- The opposite corner repeats the rank upside down, as a printed card does. -->
     <Style x:Key="StyCardRankTurned" TargetType="TextBlock" BasedOn="{StaticResource StyCardRank}">
         <Setter Property="HorizontalAlignment" Value="Right" />
         <Setter Property="VerticalAlignment" Value="Bottom" />

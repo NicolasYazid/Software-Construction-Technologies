@@ -13,7 +13,6 @@ namespace GinRummy.Client.Models
         public string ReasonName { get; private set; }
         public TimeSpan? RemainingTime { get; private set; }
 
-        // A ban without an end is permanent and leads to the banned account screen (CU-02 EX-05).
         public bool IsPermanent
         {
             get { return !RemainingTime.HasValue; }

@@ -18,7 +18,6 @@ namespace GinRummy.Client.Models
         public bool IsGuest { get; set; }
         public bool IsOwnProfile { get; set; }
         public bool IsFriend { get; set; }
-        // A request still waiting for an answer keeps a second one from being sent (CU-12).
         public bool HasPendingRequest { get; set; }
     }
 }

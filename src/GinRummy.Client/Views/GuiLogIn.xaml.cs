@@ -68,7 +68,6 @@ namespace GinRummy.Client.Views
             NavigateTo(AccountRestrictionScreenCommon.CreateScreen(restriction));
         }
 
-        // The refused connection offers to retry, and retrying sends the same sign-in again (CU-02 EX-06).
         private void OnConnectionFailed(object sender, ErrorDialogKind kind)
         {
             GuiErrorDialog errorDialog = new GuiErrorDialog(kind);

@@ -214,7 +214,6 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        // The friend leaves the friends tab, as CU-16 Post-2 and Post-3 require.
         public void RemoveFriend(string username)
         {
             RemoveByName(_lobby.FriendsOnline, username);
@@ -231,7 +230,6 @@ namespace GinRummy.Client.ViewModels
             HasNoFriends = HasNoFriendsIn(_lobby);
         }
 
-        // An empty message is not sent and shows no error (CU-17 FA-03).
         // Until the server relays messages to the lobby, the screen shows its own message so the chat flow can be walked through.
         private void SendMessage()
         {

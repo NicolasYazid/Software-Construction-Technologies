@@ -81,7 +81,6 @@ namespace GinRummy.Client.Views
 
         private void OnHowToPlayClick(object sender, RoutedEventArgs e)
         {
-            // The rules open over the table without pausing the match or changing the turn (CU-21 FA-01).
             GuiHouseRules houseRules = new GuiHouseRules();
             ShowModal(houseRules);
         }

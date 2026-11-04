@@ -156,7 +156,6 @@
                                 MidColour="{StaticResource ClrMenuLiquidMid}"
                                 GlowColour="{StaticResource ClrMenuLiquidGlow}" />
 
-        <!-- Rail -->
         <ctl:PixelBorder Grid.RowSpan="2" Style="{StaticResource StyLobbyGlassRail}">
             <DockPanel LastChildFill="False" Margin="0,20,0,20">
                 <Image DockPanel.Dock="Top" Source="{StaticResource IcoBullseye}" Width="64" Height="64" />
@@ -187,7 +186,6 @@
             </DockPanel>
         </ctl:PixelBorder>
 
-        <!-- Header -->
         <ctl:PixelBorder Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource StyLobbyGlassPanel}"
                             Margin="12,12,12,0" Padding="24,12,16,12">
             <DockPanel LastChildFill="False">
@@ -219,7 +217,6 @@
             </DockPanel>
         </ctl:PixelBorder>
 
-        <!-- Chat -->
         <ctl:PixelBorder Grid.Row="1" Grid.Column="1" Style="{StaticResource StyLobbyGlassPanel}" Margin="12,12,6,12">
             <Grid>
                 <Grid.RowDefinitions>
@@ -324,7 +321,6 @@
             </Grid>
         </ctl:PixelBorder>
 
-        <!-- Players -->
         <ctl:PixelBorder Grid.Row="1" Grid.Column="2" Style="{StaticResource StyLobbyGlassPanel}" Margin="6,12,12,12">
             <Grid>
                 <Grid.RowDefinitions>

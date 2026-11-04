@@ -73,7 +73,6 @@ namespace GinRummy.Client.ViewModels
             get { return !string.IsNullOrEmpty(_errorMessageKey); }
         }
 
-        // An email that was already verified leaves nothing to verify.
         public bool IsAlreadyVerified
         {
             get { return _isAlreadyVerified; }

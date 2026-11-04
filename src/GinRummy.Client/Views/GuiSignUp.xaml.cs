@@ -19,7 +19,6 @@ namespace GinRummy.Client.Views
         {
         }
 
-        // The guest lobby opens the screen with the notice that the guest session is not kept (CU-01 FA-05).
         public GuiSignUp(bool isGuestSessionActive)
         {
             InitializeComponent();

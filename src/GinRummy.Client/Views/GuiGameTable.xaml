@@ -26,14 +26,12 @@
             <ColumnDefinition Width="300" />
         </Grid.ColumnDefinitions>
 
-        <!-- The paint of the menu and the lobby, seen through the translucent panels. -->
         <ctl:PaintedBackground Grid.ColumnSpan="3"
                                 BlockResolution="250" PatternScale="1.45"
                                 DeepColour="{StaticResource ClrMenuLiquidDeep}"
                                 MidColour="{StaticResource ClrMenuLiquidMid}"
                                 GlowColour="{StaticResource ClrMenuLiquidGlow}" />
 
-        <!-- Chat of the match -->
         <ctl:PixelBorder Style="{StaticResource StyLobbyGlassPanel}" Margin="12,12,6,12">
             <Grid>
                 <Grid.RowDefinitions>
@@ -79,7 +77,6 @@
             </Grid>
         </ctl:PixelBorder>
 
-        <!-- Table -->
         <Grid Grid.Column="1" Margin="12,18,12,14">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -219,7 +216,6 @@
             </StackPanel>
         </Grid>
 
-        <!-- Score, log and actions of the match -->
         <ctl:PixelBorder Grid.Column="2" Style="{StaticResource StyLobbyGlassPanel}" Margin="6,12,12,12">
             <DockPanel Margin="18,4,18,18" LastChildFill="True">
                 <StackPanel DockPanel.Dock="Bottom">

@@ -39,7 +39,6 @@ namespace GinRummy.Client.ViewModels
         private void ApplyKind(ConfirmDialogKind kind)
         {
             // The prototype paints red the warnings of an action with consequences for the account or the match.
-            // The plain questions about the profile stay in grey.
             switch (kind)
             {
                 case ConfirmDialogKind.Forfeit:

@@ -84,7 +84,6 @@ namespace GinRummy.Client.Controls
 
         // A face shorter than its two corners cannot carry them.
         // Such an element is drawn flat instead of with a broken outline.
-        // The limit is the same one PixelSurface uses.
         private static bool CanRaise(PixelFrame frame, int depth)
         {
             bool hasDepth = depth > NoDepth;

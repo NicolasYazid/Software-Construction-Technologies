@@ -39,7 +39,6 @@ namespace GinRummy.Client.ViewModels
             { ServiceFaultCode.CodeTooManyAttempts, CodeTooManyAttemptsKey }
         };
 
-        // A code this client does not expect from the sign-up is shown as a service that could not answer.
         public static string ResolveMessageKey(ServiceFaultCode code)
         {
             string messageKey;

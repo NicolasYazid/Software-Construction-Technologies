@@ -30,7 +30,6 @@ namespace GinRummy.Client.Views
             ApplyFlowLayout();
         }
 
-        // The label of the new password sits closer to a field above it than to the instructions.
         private void ApplyFlowLayout()
         {
             Thickness newPasswordLabelMargin = _newPasswordLabelAfterText;

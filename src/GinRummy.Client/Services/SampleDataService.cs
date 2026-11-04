@@ -56,7 +56,6 @@ namespace GinRummy.Client.Services
             return lobby;
         }
 
-        // Its values reproduce the prototype screen P16.
         // A guest has no friends, so the groups of friends come empty.
         public LobbySnapshot GetGuestLobby()
         {
@@ -95,7 +94,6 @@ namespace GinRummy.Client.Services
             return lobby;
         }
 
-        // Its values reproduce the prototype screen P12.
         public IList<FriendRequest> GetFriendRequests()
         {
             return new List<FriendRequest>
@@ -108,7 +106,6 @@ namespace GinRummy.Client.Services
             };
         }
 
-        // Its values reproduce the prototype screen P13.
         public IList<SanctionViewModel> GetSanctions()
         {
             // The reasons of a ban are a catalogue of the database, translated there (BD-09).
@@ -123,7 +120,6 @@ namespace GinRummy.Client.Services
             };
         }
 
-        // Its values reproduce the prototype screen P14.
         public AccountSettings GetAccountSettings()
         {
             AccountSettings settings = new AccountSettings();
@@ -140,7 +136,6 @@ namespace GinRummy.Client.Services
             return settings;
         }
 
-        // Its values reproduce the prototype screens P21 and P15.
         public PlayerProfile GetOwnProfile()
         {
             PlayerProfile profile = CreateProfile(PlayerName, "S", "#PLA-1024");
@@ -152,7 +147,6 @@ namespace GinRummy.Client.Services
             return profile;
         }
 
-        // Its values reproduce the prototype screen P21.
         public PlayerProfile GetPlayerProfile(LobbyPlayerViewModel player)
         {
             PlayerProfile profile = CreateProfile(player.Username, player.RankName, "#PLZ-4821");
@@ -169,7 +163,6 @@ namespace GinRummy.Client.Services
             return new List<string> { "Discord", "Instagram", "Twitch", "X", "YouTube" };
         }
 
-        // Its values reproduce the prototype screen P19.
         public GameRules GetGameRules()
         {
             GameRules rules = new GameRules();
@@ -183,8 +176,6 @@ namespace GinRummy.Client.Services
             return rules;
         }
 
-        // Its values reproduce the prototype screen P20.
-        // It shows the moment the player decides whether to take the card turned up.
         public GameTableSnapshot GetGameTable()
         {
             GameTableSnapshot table = new GameTableSnapshot();

@@ -37,7 +37,6 @@ namespace GinRummy.Client.Controls
                     FrameworkPropertyMetadataOptions.AffectsRender));
 
         // The face is the only colour that covers the shape, so a translucent one lets the background of the screen through.
-        // That is the effect the panels of the menu are after.
         public static readonly DependencyProperty FaceBrushProperty =
             DependencyProperty.Register(
                 nameof(FaceBrush),

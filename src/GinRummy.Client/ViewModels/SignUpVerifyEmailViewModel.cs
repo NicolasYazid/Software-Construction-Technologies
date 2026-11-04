@@ -136,7 +136,6 @@ namespace GinRummy.Client.ViewModels
             }
             catch (FaultException ex)
             {
-                // The code stays as it was, without spending an attempt (CU-09 EX-05).
                 communicationObject.Abort();
                 _logger.LogError(ex, "The server could not complete the email verification.");
                 ConnectionFailed?.Invoke(this, ErrorDialogKind.ServiceUnavailable);

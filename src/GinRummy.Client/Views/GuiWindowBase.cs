@@ -13,7 +13,6 @@ using GinRummy.Client.Localization;
 namespace GinRummy.Client.Views
 {
     // Modals open inside the window over a dimming shade instead of in windows of their own.
-    // The lobby takes the place of the main menu, while the match opens over the lobby.
     public class GuiWindowBase : Window
     {
         private const string BackdropBrushKey = "BrsModalBackdrop";
@@ -227,7 +226,6 @@ namespace GinRummy.Client.Views
             PreviewKeyDown -= OnWindowPreviewKeyDown;
             Closed -= OnWindowClosed;
 
-            // A lobby the player closes, instead of handing it over to another screen, gives its place back to the main menu.
             if (_isInPlaceOfMenu && !_isHandingOver)
             {
                 ShowMainMenu();

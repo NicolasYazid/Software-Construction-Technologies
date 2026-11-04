@@ -66,7 +66,6 @@ namespace GinRummy.Client.ViewModels
             get { return _profile.IsGuest; }
         }
 
-        // A guest has no profile of its own, so only its temporary name is shown (CU-27 FA-04).
         public bool IsPlayer
         {
             get { return !_profile.IsGuest; }

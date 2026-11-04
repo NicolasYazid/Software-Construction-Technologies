@@ -79,7 +79,6 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        // Only the message of a text that is too long has an argument: the limit it broke.
         public object ErrorMessageArgument
         {
             get { return _errorMessageArgument; }
@@ -196,7 +195,6 @@ namespace GinRummy.Client.ViewModels
             ErrorMessageKey = SignUpFaultCommon.ResolveMessageKey(code);
         }
 
-        // The form keeps what was typed except the password and its confirmation (CU-01 EX-04 and EX-09).
         private void ReportConnectionFailure(ErrorDialogKind kind)
         {
             Password = string.Empty;

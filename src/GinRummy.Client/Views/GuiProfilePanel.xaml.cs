@@ -76,7 +76,6 @@ namespace GinRummy.Client.Views
 
         private void OnLogOutClick(object sender, RoutedEventArgs e)
         {
-            // Closing the session closes the lobby too (CU-03 step 5).
             GuiWindowBase lobby = Host;
             Close();
             if (lobby != null)

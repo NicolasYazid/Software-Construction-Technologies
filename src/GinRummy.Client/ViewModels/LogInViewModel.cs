@@ -137,7 +137,6 @@ namespace GinRummy.Client.ViewModels
             }
             catch (FaultException ex)
             {
-                // The server could not complete the sign-in, so the email is kept and the password is cleared (CU-02 EX-02).
                 communicationObject.Abort();
                 _logger.LogError(ex, "The server could not complete the sign-in.");
                 Password = string.Empty;
