@@ -240,7 +240,7 @@ namespace GinRummy.Client.ViewModels
             IsDecisionPending = false;
         }
 
-        // The server relays the rest, and until it answers the table shows the message of the player.
+        // Until the server relays the chat of the match, the table shows the message of the player.
         private void SendMessage()
         {
             string content = _messageDraft.Trim();

@@ -158,7 +158,7 @@ namespace GinRummy.Client
         }
 
         // WPF reports tier 0 when no graphics hardware is drawing the window.
-        // On those machines the processor computes every shadow blur, at a cost that grows with its radius.
+        // On those machines the processor computes every shadow blur at a cost that grows with its radius, so the radius is shortened.
         // The hard-edged raised text shadow has no blur, so it is left out of the shortened keys.
         private static bool IsSoftwareRendering()
         {
