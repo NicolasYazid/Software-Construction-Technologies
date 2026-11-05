@@ -83,6 +83,11 @@
         /// <summary>
         /// The email of the account was already verified (VerifyEmail_AlreadyVerified).
         /// </summary>
-        EmailAlreadyVerified
+        EmailAlreadyVerified,
+
+        /// <summary>
+        /// No player has the public tag the client asked for (Error_DataNotFound).
+        /// </summary>
+        PlayerNotFound
     }
 }

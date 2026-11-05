@@ -59,8 +59,11 @@
     <Compile Include="Services\IRankingService.cs" />
     <Compile Include="Services\ILeaderboardService.cs" />
     <Compile Include="DataContracts\PlayerRanking.cs" />
+    <Compile Include="DataContracts\PlayerProfileDetails.cs" />
+    <Compile Include="DataContracts\SocialLinkDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ISignUpService.cs" />
+    <Compile Include="Services\IPlayerProfileService.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
