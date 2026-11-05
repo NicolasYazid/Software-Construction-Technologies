@@ -42,5 +42,20 @@ namespace GinRummy.Domain.Ports.Repositories
         /// </summary>
         /// <param name="newStats">Statistics to create.</param>
         void AddStats(PlayerStats newStats);
+
+        /// <summary>
+        /// Finds the profile of a player, with its social links and their platforms loaded, or null when the
+        /// player has no profile.
+        /// </summary>
+        /// <param name="playerId">Identifier of the player that owns the profile.</param>
+        /// <returns>The matching profile, or null.</returns>
+        PlayerProfile FindProfile(int playerId);
+
+        /// <summary>
+        /// Finds the statistics of a player, with its player loaded, or null when the player has none.
+        /// </summary>
+        /// <param name="playerId">Identifier of the player that owns the statistics.</param>
+        /// <returns>The matching statistics, or null.</returns>
+        PlayerStats FindStats(int playerId);
     }
 }

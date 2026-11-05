@@ -177,6 +177,72 @@ namespace GinRummy.Persistence.Repositories
             }
         }
 
+        /// <summary>
+        /// Finds the profile of a player, with its social links and their platforms loaded, or null when the
+        /// player has no profile.
+        /// </summary>
+        /// <param name="playerId">Identifier of the player that owns the profile.</param>
+        /// <returns>The matching profile, or null.</returns>
+        public PlayerProfile FindProfile(int playerId)
+        {
+            PlayerProfile foundProfile;
+            if (_sharedContext != null)
+            {
+                foundProfile = FindProfileIn(_sharedContext, playerId);
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    foundProfile = FindProfileIn(context, playerId);
+                }
+            }
+
+            return foundProfile;
+        }
+
+        /// <summary>
+        /// Finds the statistics of a player, with its player loaded, or null when the player has none.
+        /// </summary>
+        /// <param name="playerId">Identifier of the player that owns the statistics.</param>
+        /// <returns>The matching statistics, or null.</returns>
+        public PlayerStats FindStats(int playerId)
+        {
+            PlayerStats foundStats;
+            if (_sharedContext != null)
+            {
+                foundStats = FindStatsIn(_sharedContext, playerId);
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    foundStats = FindStatsIn(context, playerId);
+                }
+            }
+
+            return foundStats;
+        }
+
+        // The links and their platforms are read in the same query, because the context closes before the profile is mapped.
+        private static PlayerProfile FindProfileIn(GinRummyContext context, int playerId)
+        {
+            PlayerProfile foundProfile = context.PlayerProfiles
+                .Include(profile => profile.SocialMediaLinks.Select(link => link.Platform))
+                .FirstOrDefault(profile => profile.PlayerId == playerId);
+
+            return foundProfile;
+        }
+
+        private static PlayerStats FindStatsIn(GinRummyContext context, int playerId)
+        {
+            PlayerStats foundStats = context.PlayerStats
+                .Include(stats => stats.Player)
+                .FirstOrDefault(stats => stats.PlayerId == playerId);
+
+            return foundStats;
+        }
+
         private static bool IsDuplicateKey(DbUpdateException exception)
         {
             SqlException sqlException = exception.GetBaseException() as SqlException;
