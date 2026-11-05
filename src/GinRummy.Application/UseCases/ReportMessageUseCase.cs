@@ -37,6 +37,7 @@ namespace GinRummy.Application.UseCases
                 {
                     Report newReport = new Report(reporterPlayerId, reportedMessage.PlayerId, reportedMessage.MessageId);
                     unitOfWork.Moderation.AddReport(newReport);
+                    unitOfWork.Commit();
                 }
 
                 isReported = true;
