@@ -88,6 +88,11 @@
         /// <summary>
         /// No player has the public tag the client asked for (Error_DataNotFound).
         /// </summary>
-        PlayerNotFound
+        PlayerNotFound,
+
+        /// <summary>
+        /// The chat no longer keeps the message the player tried to report (Error_ModMessageNotAvailable).
+        /// </summary>
+        MessageNotFound
     }
 }
