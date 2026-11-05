@@ -18,11 +18,17 @@
       <xs:enumeration value="CodeExpired" />
       <xs:enumeration value="CodeAlreadyUsed" />
       <xs:enumeration value="CodeTooManyAttempts" />
+      <xs:enumeration value="SessionExpired" />
       <xs:enumeration value="EmailAlreadyRegistered" />
       <xs:enumeration value="InvalidEmailFormat" />
       <xs:enumeration value="FieldTooLong" />
       <xs:enumeration value="WeakPassword" />
       <xs:enumeration value="EmailAlreadyVerified" />
+      <xs:enumeration value="PlayerNotFound" />
+      <xs:enumeration value="MessageNotFound" />
+      <xs:enumeration value="InvalidImage" />
+      <xs:enumeration value="InvalidUrl" />
+      <xs:enumeration value="UnsupportedLocale" />
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="ServiceFaultCode" nillable="true" type="tns:ServiceFaultCode" />

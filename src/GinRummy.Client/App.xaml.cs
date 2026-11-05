@@ -177,7 +177,10 @@ namespace GinRummy.Client
 
         public ProfilePanelViewModel CreateProfilePanelViewModel()
         {
-            return new ProfilePanelViewModel(SampleData);
+            return new ProfilePanelViewModel(
+                SampleData,
+                () => new PlayerProfileServiceClient(PlayerProfileEndpointName),
+                _loggerFactory.CreateLogger<ProfilePanelViewModel>());
         }
 
         public ReconnectingViewModel CreateReconnectingViewModel()
@@ -205,9 +208,11 @@ namespace GinRummy.Client
             return new VerifyEmailViewModel(purpose, destinationAddress);
         }
 
+        // The language the player chose in an earlier session replaces the one of the menu (CU-20 Post-1).
         internal void StoreSignedInPlayer(LogInOutcome signedInPlayer)
         {
             SignedInPlayer = signedInPlayer ?? throw new ArgumentNullException(nameof(signedInPlayer));
+            LocalizationProvider.Instance.SetCulture(signedInPlayer.LocaleCode);
         }
 
         internal void ForgetSignedInPlayer()

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 
+using GinRummy.Client.Localization;
 using GinRummy.Client.Models;
 using GinRummy.Client.ViewModels;
 
@@ -25,6 +27,7 @@ namespace GinRummy.Client.Views
             _viewModel.EmailVerificationRequested += OnEmailVerificationRequested;
             _viewModel.TwoStepEnableRequested += OnTwoStepEnableRequested;
             _viewModel.TwoStepDisableRequested += OnTwoStepDisableRequested;
+            _viewModel.ErrorDialogRequested += OnErrorDialogRequested;
             DataContext = _viewModel;
             pwdPassword.Password = new string(PasswordMaskFiller, PasswordMaskLength);
             txtNewEmail.IsVisibleChanged += OnNewEmailVisibleChanged;
@@ -75,9 +78,45 @@ namespace GinRummy.Client.Views
             _viewModel.CompleteTwoStepDisable(((GuiConfirmDialog)sender).IsConfirmed);
         }
 
+        // The selector applies the language by itself, so only a change made by the player is kept on the server (CU-20).
+        // The first selection only shows the active language, and it has no previous item.
+        // Without a session the language stays in memory only, because nobody keeps it (CU-20 FA-01).
+        private void OnLanguageSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            App application = (App)Application.Current;
+            bool isPlayerChange = (e.RemovedItems.Count > 0) && (e.AddedItems.Count > 0);
+            if (isPlayerChange && (application.SignedInPlayer != null))
+            {
+                string localeCode = ((CultureOption)e.AddedItems[0]).Code;
+                _viewModel.SaveLanguage(application.SignedInPlayer.AccessToken, localeCode);
+            }
+        }
+
+        private void OnErrorDialogRequested(object sender, ErrorDialogKind kind)
+        {
+            GuiErrorDialog errorDialog = new GuiErrorDialog(kind);
+            if (kind == ErrorDialogKind.SessionExpired)
+            {
+                errorDialog.Closed += OnSessionExpiredDialogClosed;
+            }
+
+            ShowModal(errorDialog);
+        }
+
+        // An expired session leaves the lobby the same way as closing the session (CU-20 and CU-03).
+        private void OnSessionExpiredDialogClosed(object sender, EventArgs e)
+        {
+            LeaveLobby();
+        }
+
+        private void OnLogOutClick(object sender, RoutedEventArgs e)
+        {
+            LeaveLobby();
+        }
+
         // Closing the lobby ends the presence subscription, so the other players see the player leave.
         // The token is forgotten too, so nobody else can use the account on this computer (CU-03).
-        private void OnLogOutClick(object sender, RoutedEventArgs e)
+        private void LeaveLobby()
         {
             GuiWindowBase lobby = Host;
             Close();

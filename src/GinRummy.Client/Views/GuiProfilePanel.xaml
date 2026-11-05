@@ -110,7 +110,8 @@
                             <ComboBox x:Name="cmbLanguage" Style="{StaticResource StyMenuLanguageBox}" Width="200"
                                       HorizontalAlignment="Center" Tag="{StaticResource IcoGlobe}"
                                       ItemsSource="{Binding AvailableCultures, Source={StaticResource PrvLocalization}}"
-                                      SelectedItem="{Binding SelectedCulture, Source={StaticResource PrvLocalization}, Mode=TwoWay}">
+                                      SelectedItem="{Binding SelectedCulture, Source={StaticResource PrvLocalization}, Mode=TwoWay}"
+                                      SelectionChanged="OnLanguageSelectionChanged">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding ShortName, Converter={StaticResource CnvUpperCase}}" />

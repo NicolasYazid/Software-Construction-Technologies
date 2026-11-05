@@ -70,15 +70,16 @@ namespace GinRummy.Client.Localization
             }
         }
 
+        // A language the client has no texts for falls back to the default one, so the selector always shows the active language.
         public void SetCulture(string cultureCode)
         {
-            CultureInfo culture = CultureInfo.GetCultureInfo(cultureCode);
+            _selectedCulture = FindOption(cultureCode);
+            CultureInfo culture = CultureInfo.GetCultureInfo(_selectedCulture.Code);
             _currentCulture = culture;
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;
             CultureInfo.DefaultThreadCurrentCulture = culture;
             CultureInfo.DefaultThreadCurrentUICulture = culture;
-            _selectedCulture = FindOption(cultureCode);
             _resourceManager.ReleaseAllResources();
             RaisePropertyChanged(IndexerPropertyName);
             RaisePropertyChanged(nameof(CurrentCulture));

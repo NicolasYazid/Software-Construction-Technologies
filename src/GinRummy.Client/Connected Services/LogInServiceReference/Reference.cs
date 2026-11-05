@@ -8,7 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GinRummy.Client.LogInServiceReference {
+namespace GinRummy.Client.LogInServiceReference
+{
     using System.Runtime.Serialization;
     using System;
     
@@ -17,7 +18,8 @@ namespace GinRummy.Client.LogInServiceReference {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="LogInOutcome", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts")]
     [System.SerializableAttribute()]
-    public partial class LogInOutcome : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class LogInOutcome : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged
+    {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -32,6 +34,9 @@ namespace GinRummy.Client.LogInServiceReference {
         private bool IsTwoFactorRequiredField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string LocaleCodeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int PlayerIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -40,23 +45,29 @@ namespace GinRummy.Client.LogInServiceReference {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string UsernameField;
         
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData
+        {
+            get
+            {
                 return this.extensionDataField;
             }
-            set {
+            set
+            {
                 this.extensionDataField = value;
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string AccessToken {
-            get {
+        public string AccessToken
+        {
+            get
+            {
                 return this.AccessTokenField;
             }
-            set {
-                if ((object.ReferenceEquals(this.AccessTokenField, value) != true)) {
+            set
+            {
+                if ((object.ReferenceEquals(this.AccessTokenField, value) != true))
+                {
                     this.AccessTokenField = value;
                     this.RaisePropertyChanged("AccessToken");
                 }
@@ -64,12 +75,16 @@ namespace GinRummy.Client.LogInServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<System.DateTime> AccessTokenExpiresAt {
-            get {
+        public System.Nullable<System.DateTime> AccessTokenExpiresAt
+        {
+            get
+            {
                 return this.AccessTokenExpiresAtField;
             }
-            set {
-                if ((this.AccessTokenExpiresAtField.Equals(value) != true)) {
+            set
+            {
+                if ((this.AccessTokenExpiresAtField.Equals(value) != true))
+                {
                     this.AccessTokenExpiresAtField = value;
                     this.RaisePropertyChanged("AccessTokenExpiresAt");
                 }
@@ -77,12 +92,16 @@ namespace GinRummy.Client.LogInServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public bool IsTwoFactorRequired {
-            get {
+        public bool IsTwoFactorRequired
+        {
+            get
+            {
                 return this.IsTwoFactorRequiredField;
             }
-            set {
-                if ((this.IsTwoFactorRequiredField.Equals(value) != true)) {
+            set
+            {
+                if ((this.IsTwoFactorRequiredField.Equals(value) != true))
+                {
                     this.IsTwoFactorRequiredField = value;
                     this.RaisePropertyChanged("IsTwoFactorRequired");
                 }
@@ -90,12 +109,33 @@ namespace GinRummy.Client.LogInServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int PlayerId {
-            get {
+        public string LocaleCode
+        {
+            get
+            {
+                return this.LocaleCodeField;
+            }
+            set
+            {
+                if ((object.ReferenceEquals(this.LocaleCodeField, value) != true))
+                {
+                    this.LocaleCodeField = value;
+                    this.RaisePropertyChanged("LocaleCode");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int PlayerId
+        {
+            get
+            {
                 return this.PlayerIdField;
             }
-            set {
-                if ((this.PlayerIdField.Equals(value) != true)) {
+            set
+            {
+                if ((this.PlayerIdField.Equals(value) != true))
+                {
                     this.PlayerIdField = value;
                     this.RaisePropertyChanged("PlayerId");
                 }
@@ -103,12 +143,16 @@ namespace GinRummy.Client.LogInServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int PublicTag {
-            get {
+        public int PublicTag
+        {
+            get
+            {
                 return this.PublicTagField;
             }
-            set {
-                if ((this.PublicTagField.Equals(value) != true)) {
+            set
+            {
+                if ((this.PublicTagField.Equals(value) != true))
+                {
                     this.PublicTagField = value;
                     this.RaisePropertyChanged("PublicTag");
                 }
@@ -116,12 +160,16 @@ namespace GinRummy.Client.LogInServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Username {
-            get {
+        public string Username
+        {
+            get
+            {
                 return this.UsernameField;
             }
-            set {
-                if ((object.ReferenceEquals(this.UsernameField, value) != true)) {
+            set
+            {
+                if ((object.ReferenceEquals(this.UsernameField, value) != true))
+                {
                     this.UsernameField = value;
                     this.RaisePropertyChanged("Username");
                 }
@@ -130,9 +178,11 @@ namespace GinRummy.Client.LogInServiceReference {
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
-        protected void RaisePropertyChanged(string propertyName) {
+        protected void RaisePropertyChanged(string propertyName)
+        {
             System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
+            if ((propertyChanged != null))
+            {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
@@ -142,7 +192,8 @@ namespace GinRummy.Client.LogInServiceReference {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
     [System.SerializableAttribute()]
-    public partial class ServiceFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class ServiceFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged
+    {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -150,23 +201,29 @@ namespace GinRummy.Client.LogInServiceReference {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private GinRummy.Client.LogInServiceReference.ServiceFaultCode CodeField;
         
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData
+        {
+            get
+            {
                 return this.extensionDataField;
             }
-            set {
+            set
+            {
                 this.extensionDataField = value;
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public GinRummy.Client.LogInServiceReference.ServiceFaultCode Code {
-            get {
+        public GinRummy.Client.LogInServiceReference.ServiceFaultCode Code
+        {
+            get
+            {
                 return this.CodeField;
             }
-            set {
-                if ((this.CodeField.Equals(value) != true)) {
+            set
+            {
+                if ((this.CodeField.Equals(value) != true))
+                {
                     this.CodeField = value;
                     this.RaisePropertyChanged("Code");
                 }
@@ -175,9 +232,11 @@ namespace GinRummy.Client.LogInServiceReference {
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
-        protected void RaisePropertyChanged(string propertyName) {
+        protected void RaisePropertyChanged(string propertyName)
+        {
             System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
+            if ((propertyChanged != null))
+            {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
@@ -185,7 +244,8 @@ namespace GinRummy.Client.LogInServiceReference {
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="ServiceFaultCode", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
-    public enum ServiceFaultCode : int {
+    public enum ServiceFaultCode : int
+    {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         RequiredField = 0,
@@ -218,26 +278,45 @@ namespace GinRummy.Client.LogInServiceReference {
         CodeTooManyAttempts = 9,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        EmailAlreadyRegistered = 10,
+        SessionExpired = 10,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        InvalidEmailFormat = 11,
+        EmailAlreadyRegistered = 11,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        FieldTooLong = 12,
+        InvalidEmailFormat = 12,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        WeakPassword = 13,
+        FieldTooLong = 13,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        EmailAlreadyVerified = 14,
+        WeakPassword = 14,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        EmailAlreadyVerified = 15,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        PlayerNotFound = 16,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        MessageNotFound = 17,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        InvalidImage = 18,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        InvalidUrl = 19,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        UnsupportedLocale = 20,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="SanctionFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
     [System.SerializableAttribute()]
-    public partial class SanctionFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class SanctionFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged
+    {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -248,23 +327,29 @@ namespace GinRummy.Client.LogInServiceReference {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string ReasonNameField;
         
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData
+        {
+            get
+            {
                 return this.extensionDataField;
             }
-            set {
+            set
+            {
                 this.extensionDataField = value;
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<System.DateTime> ExpiresAt {
-            get {
+        public System.Nullable<System.DateTime> ExpiresAt
+        {
+            get
+            {
                 return this.ExpiresAtField;
             }
-            set {
-                if ((this.ExpiresAtField.Equals(value) != true)) {
+            set
+            {
+                if ((this.ExpiresAtField.Equals(value) != true))
+                {
                     this.ExpiresAtField = value;
                     this.RaisePropertyChanged("ExpiresAt");
                 }
@@ -272,12 +357,16 @@ namespace GinRummy.Client.LogInServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string ReasonName {
-            get {
+        public string ReasonName
+        {
+            get
+            {
                 return this.ReasonNameField;
             }
-            set {
-                if ((object.ReferenceEquals(this.ReasonNameField, value) != true)) {
+            set
+            {
+                if ((object.ReferenceEquals(this.ReasonNameField, value) != true))
+                {
                     this.ReasonNameField = value;
                     this.RaisePropertyChanged("ReasonName");
                 }
@@ -286,9 +375,11 @@ namespace GinRummy.Client.LogInServiceReference {
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
-        protected void RaisePropertyChanged(string propertyName) {
+        protected void RaisePropertyChanged(string propertyName)
+        {
             System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
+            if ((propertyChanged != null))
+            {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
@@ -298,7 +389,8 @@ namespace GinRummy.Client.LogInServiceReference {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="ResendLimitFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
     [System.SerializableAttribute()]
-    public partial class ResendLimitFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class ResendLimitFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged
+    {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
@@ -306,23 +398,29 @@ namespace GinRummy.Client.LogInServiceReference {
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int RetryAfterSecondsField;
         
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData
+        {
+            get
+            {
                 return this.extensionDataField;
             }
-            set {
+            set
+            {
                 this.extensionDataField = value;
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int RetryAfterSeconds {
-            get {
+        public int RetryAfterSeconds
+        {
+            get
+            {
                 return this.RetryAfterSecondsField;
             }
-            set {
-                if ((this.RetryAfterSecondsField.Equals(value) != true)) {
+            set
+            {
+                if ((this.RetryAfterSecondsField.Equals(value) != true))
+                {
                     this.RetryAfterSecondsField = value;
                     this.RaisePropertyChanged("RetryAfterSeconds");
                 }
@@ -331,9 +429,11 @@ namespace GinRummy.Client.LogInServiceReference {
         
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
-        protected void RaisePropertyChanged(string propertyName) {
+        protected void RaisePropertyChanged(string propertyName)
+        {
             System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
+            if ((propertyChanged != null))
+            {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
@@ -341,7 +441,8 @@ namespace GinRummy.Client.LogInServiceReference {
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="LogInServiceReference.ILogInService")]
-    public interface ILogInService {
+    public interface ILogInService
+    {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILogInService/LogIn", ReplyAction="http://tempuri.org/ILogInService/LogInResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.LogInServiceReference.ServiceFault), Action="http://tempuri.org/ILogInService/LogInServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
@@ -364,45 +465,56 @@ namespace GinRummy.Client.LogInServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface ILogInServiceChannel : GinRummy.Client.LogInServiceReference.ILogInService, System.ServiceModel.IClientChannel {
+    public interface ILogInServiceChannel : GinRummy.Client.LogInServiceReference.ILogInService, System.ServiceModel.IClientChannel
+    {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class LogInServiceClient : System.ServiceModel.ClientBase<GinRummy.Client.LogInServiceReference.ILogInService>, GinRummy.Client.LogInServiceReference.ILogInService {
+    public partial class LogInServiceClient : System.ServiceModel.ClientBase<GinRummy.Client.LogInServiceReference.ILogInService>, GinRummy.Client.LogInServiceReference.ILogInService
+    {
         
-        public LogInServiceClient() {
+        public LogInServiceClient()
+        {
         }
         
         public LogInServiceClient(string endpointConfigurationName) : 
-                base(endpointConfigurationName) {
+                base(endpointConfigurationName)
+        {
         }
         
         public LogInServiceClient(string endpointConfigurationName, string remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+                base(endpointConfigurationName, remoteAddress)
+        {
         }
         
         public LogInServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(endpointConfigurationName, remoteAddress) {
+                base(endpointConfigurationName, remoteAddress)
+        {
         }
         
         public LogInServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
-                base(binding, remoteAddress) {
+                base(binding, remoteAddress)
+        {
         }
         
-        public GinRummy.Client.LogInServiceReference.LogInOutcome LogIn(string email, string password, bool keepSignedIn) {
+        public GinRummy.Client.LogInServiceReference.LogInOutcome LogIn(string email, string password, bool keepSignedIn)
+        {
             return base.Channel.LogIn(email, password, keepSignedIn);
         }
         
-        public System.Threading.Tasks.Task<GinRummy.Client.LogInServiceReference.LogInOutcome> LogInAsync(string email, string password, bool keepSignedIn) {
+        public System.Threading.Tasks.Task<GinRummy.Client.LogInServiceReference.LogInOutcome> LogInAsync(string email, string password, bool keepSignedIn)
+        {
             return base.Channel.LogInAsync(email, password, keepSignedIn);
         }
         
-        public GinRummy.Client.LogInServiceReference.LogInOutcome VerifyLogInByTwoFactorAuthentication(string email, string verificationCode, bool keepSignedIn) {
+        public GinRummy.Client.LogInServiceReference.LogInOutcome VerifyLogInByTwoFactorAuthentication(string email, string verificationCode, bool keepSignedIn)
+        {
             return base.Channel.VerifyLogInByTwoFactorAuthentication(email, verificationCode, keepSignedIn);
         }
         
-        public System.Threading.Tasks.Task<GinRummy.Client.LogInServiceReference.LogInOutcome> VerifyLogInByTwoFactorAuthenticationAsync(string email, string verificationCode, bool keepSignedIn) {
+        public System.Threading.Tasks.Task<GinRummy.Client.LogInServiceReference.LogInOutcome> VerifyLogInByTwoFactorAuthenticationAsync(string email, string verificationCode, bool keepSignedIn)
+        {
             return base.Channel.VerifyLogInByTwoFactorAuthenticationAsync(email, verificationCode, keepSignedIn);
         }
     }

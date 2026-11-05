@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ServiceModel;
 using System.Windows.Input;
 
 using GinRummy.Client.Models;
 using GinRummy.Client.Mvvm;
+using GinRummy.Client.PlayerProfileServiceReference;
 using GinRummy.Client.Services;
+using Microsoft.Extensions.Logging;
 
 namespace GinRummy.Client.ViewModels
 {
     public class ProfilePanelViewModel : ViewModelBase
     {
+        private readonly Func<IPlayerProfileService> _playerProfileServiceFactory;
+        private readonly ILogger<ProfilePanelViewModel> _logger;
         private string _email;
         private string _newEmail;
         private string _pendingEmail;
@@ -19,12 +24,20 @@ namespace GinRummy.Client.ViewModels
         private bool _isTwoStepEnabled;
         private bool _isTwoStepDisabledShown;
 
-        public ProfilePanelViewModel(ISampleDataService dataService)
+        // A client is created for every call because a client whose channel failed cannot be opened again.
+        public ProfilePanelViewModel(
+            ISampleDataService dataService,
+            Func<IPlayerProfileService> playerProfileServiceFactory,
+            ILogger<ProfilePanelViewModel> logger)
         {
             if (dataService == null)
             {
                 throw new ArgumentNullException(nameof(dataService));
             }
+
+            _playerProfileServiceFactory = playerProfileServiceFactory
+                ?? throw new ArgumentNullException(nameof(playerProfileServiceFactory));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             AccountSettings settings = dataService.GetAccountSettings();
             _email = settings.Email;
@@ -46,6 +59,8 @@ namespace GinRummy.Client.ViewModels
         public event EventHandler TwoStepEnableRequested;
 
         public event EventHandler TwoStepDisableRequested;
+
+        public event EventHandler<ErrorDialogKind> ErrorDialogRequested;
 
         public ObservableCollection<LinkedAccount> LinkedAccounts { get; private set; }
         public double MasterVolume { get; set; }
@@ -138,6 +153,52 @@ namespace GinRummy.Client.ViewModels
             IsEmailChangedShown = true;
         }
 
+        // The language is already shown when this runs, so a failure only means it is not kept for the next session (CU-20 EX-05).
+        public void SaveLanguage(string accessToken, string localeCode)
+        {
+            IPlayerProfileService profileService = _playerProfileServiceFactory();
+            ICommunicationObject communicationObject = (ICommunicationObject)profileService;
+            try
+            {
+                profileService.ChangeLanguage(accessToken, localeCode);
+                communicationObject.Close();
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                communicationObject.Abort();
+                _logger.LogInformation(
+                    ex,
+                    "The server refused to keep the language {LocaleCode} with the fault {FaultCode}.",
+                    localeCode,
+                    ex.Detail.Code);
+                ErrorDialogKind kind = ErrorDialogKind.ServiceUnavailable;
+                if (ex.Detail.Code == ServiceFaultCode.SessionExpired)
+                {
+                    kind = ErrorDialogKind.SessionExpired;
+                }
+
+                RequestErrorDialog(kind);
+            }
+            catch (FaultException ex)
+            {
+                communicationObject.Abort();
+                _logger.LogError(ex, "The server could not keep the chosen language.");
+                RequestErrorDialog(ErrorDialogKind.ServiceUnavailable);
+            }
+            catch (CommunicationException ex)
+            {
+                communicationObject.Abort();
+                _logger.LogError(ex, "The profile service could not be reached to keep the chosen language.");
+                RequestErrorDialog(ErrorDialogKind.ConnectionLost);
+            }
+            catch (TimeoutException ex)
+            {
+                communicationObject.Abort();
+                _logger.LogError(ex, "The profile service timed out while keeping the chosen language.");
+                RequestErrorDialog(ErrorDialogKind.ConnectionLost);
+            }
+        }
+
         public void CompleteTwoStepDisable(bool isConfirmed)
         {
             if (isConfirmed)
@@ -207,6 +268,11 @@ namespace GinRummy.Client.ViewModels
             {
                 LinkedAccounts[index] = new LinkedAccount(account.PlatformName, isLinked);
             }
+        }
+
+        private void RequestErrorDialog(ErrorDialogKind kind)
+        {
+            ErrorDialogRequested?.Invoke(this, kind);
         }
     }
 }
