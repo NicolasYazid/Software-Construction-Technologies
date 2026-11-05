@@ -423,6 +423,9 @@ namespace GinRummy.Client.PlayerProfileServiceReference
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         UnsupportedLocale = 20,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        SamePassword = 21,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -444,12 +447,12 @@ namespace GinRummy.Client.PlayerProfileServiceReference
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/SaveProfileChanges", ReplyAction="http://tempuri.org/IPlayerProfileService/SaveProfileChangesResponse")]
         System.Threading.Tasks.Task SaveProfileChangesAsync(string accessToken, string username, string bio);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/GetOwnProfilePicture", ReplyAction="http://tempuri.org/IPlayerProfileService/GetOwnProfilePictureResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.PlayerProfileServiceReference.ServiceFault), Action="http://tempuri.org/IPlayerProfileService/GetOwnProfilePictureServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
-        byte[] GetOwnProfilePicture(string accessToken);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/GetProfilePicture", ReplyAction="http://tempuri.org/IPlayerProfileService/GetProfilePictureResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.PlayerProfileServiceReference.ServiceFault), Action="http://tempuri.org/IPlayerProfileService/GetProfilePictureServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+        byte[] GetProfilePicture(string accessToken, int publicTag);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/GetOwnProfilePicture", ReplyAction="http://tempuri.org/IPlayerProfileService/GetOwnProfilePictureResponse")]
-        System.Threading.Tasks.Task<byte[]> GetOwnProfilePictureAsync(string accessToken);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/GetProfilePicture", ReplyAction="http://tempuri.org/IPlayerProfileService/GetProfilePictureResponse")]
+        System.Threading.Tasks.Task<byte[]> GetProfilePictureAsync(string accessToken, int publicTag);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/ChangeProfilePicture", ReplyAction="http://tempuri.org/IPlayerProfileService/ChangeProfilePictureResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.PlayerProfileServiceReference.ServiceFault), Action="http://tempuri.org/IPlayerProfileService/ChangeProfilePictureServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
@@ -541,14 +544,14 @@ namespace GinRummy.Client.PlayerProfileServiceReference
             return base.Channel.SaveProfileChangesAsync(accessToken, username, bio);
         }
         
-        public byte[] GetOwnProfilePicture(string accessToken)
+        public byte[] GetProfilePicture(string accessToken, int publicTag)
         {
-            return base.Channel.GetOwnProfilePicture(accessToken);
+            return base.Channel.GetProfilePicture(accessToken, publicTag);
         }
         
-        public System.Threading.Tasks.Task<byte[]> GetOwnProfilePictureAsync(string accessToken)
+        public System.Threading.Tasks.Task<byte[]> GetProfilePictureAsync(string accessToken, int publicTag)
         {
-            return base.Channel.GetOwnProfilePictureAsync(accessToken);
+            return base.Channel.GetProfilePictureAsync(accessToken, publicTag);
         }
         
         public void ChangeProfilePicture(string accessToken, byte[] picture)

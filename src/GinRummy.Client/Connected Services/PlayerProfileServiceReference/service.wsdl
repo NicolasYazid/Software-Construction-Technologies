@@ -55,13 +55,13 @@
   <wsdl:message name="IPlayerProfileService_SaveProfileChanges_ServiceFaultFault_FaultMessage">
     <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q2:ServiceFault" />
   </wsdl:message>
-  <wsdl:message name="IPlayerProfileService_GetOwnProfilePicture_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetOwnProfilePicture" />
+  <wsdl:message name="IPlayerProfileService_GetProfilePicture_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProfilePicture" />
   </wsdl:message>
-  <wsdl:message name="IPlayerProfileService_GetOwnProfilePicture_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetOwnProfilePictureResponse" />
+  <wsdl:message name="IPlayerProfileService_GetProfilePicture_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProfilePictureResponse" />
   </wsdl:message>
-  <wsdl:message name="IPlayerProfileService_GetOwnProfilePicture_ServiceFaultFault_FaultMessage">
+  <wsdl:message name="IPlayerProfileService_GetProfilePicture_ServiceFaultFault_FaultMessage">
     <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q3:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="IPlayerProfileService_ChangeProfilePicture_InputMessage">
@@ -120,10 +120,10 @@
       <wsdl:output wsaw:Action="http://tempuri.org/IPlayerProfileService/SaveProfileChangesResponse" message="tns:IPlayerProfileService_SaveProfileChanges_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IPlayerProfileService/SaveProfileChangesServiceFaultFault" name="ServiceFaultFault" message="tns:IPlayerProfileService_SaveProfileChanges_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetOwnProfilePicture">
-      <wsdl:input wsaw:Action="http://tempuri.org/IPlayerProfileService/GetOwnProfilePicture" message="tns:IPlayerProfileService_GetOwnProfilePicture_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IPlayerProfileService/GetOwnProfilePictureResponse" message="tns:IPlayerProfileService_GetOwnProfilePicture_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IPlayerProfileService/GetOwnProfilePictureServiceFaultFault" name="ServiceFaultFault" message="tns:IPlayerProfileService_GetOwnProfilePicture_ServiceFaultFault_FaultMessage" />
+    <wsdl:operation name="GetProfilePicture">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPlayerProfileService/GetProfilePicture" message="tns:IPlayerProfileService_GetProfilePicture_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPlayerProfileService/GetProfilePictureResponse" message="tns:IPlayerProfileService_GetProfilePicture_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IPlayerProfileService/GetProfilePictureServiceFaultFault" name="ServiceFaultFault" message="tns:IPlayerProfileService_GetProfilePicture_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="ChangeProfilePicture">
       <wsdl:input wsaw:Action="http://tempuri.org/IPlayerProfileService/ChangeProfilePicture" message="tns:IPlayerProfileService_ChangeProfilePicture_InputMessage" />
@@ -178,8 +178,8 @@
         <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="GetOwnProfilePicture">
-      <soap12:operation soapAction="http://tempuri.org/IPlayerProfileService/GetOwnProfilePicture" style="document" />
+    <wsdl:operation name="GetProfilePicture">
+      <soap12:operation soapAction="http://tempuri.org/IPlayerProfileService/GetProfilePicture" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

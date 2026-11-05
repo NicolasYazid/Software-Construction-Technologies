@@ -22,9 +22,16 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <Border Style="{StaticResource StyAvatarProfile}" VerticalAlignment="Top">
-                        <Image Style="{StaticResource StyAvatarIconProfile}" />
-                    </Border>
+                    <Grid Width="112" Height="112" VerticalAlignment="Top">
+                        <Border Style="{StaticResource StyAvatarProfile}">
+                            <Image Style="{StaticResource StyAvatarIconProfile}" />
+                        </Border>
+                        <Image x:Name="imgProfilePicture" Stretch="UniformToFill" Source="{Binding Picture}">
+                            <Image.Clip>
+                                <EllipseGeometry Center="56,56" RadiusX="56" RadiusY="56" />
+                            </Image.Clip>
+                        </Image>
+                    </Grid>
 
                     <StackPanel Grid.Column="1" Margin="30,0,20,0">
                         <StackPanel Orientation="Horizontal">

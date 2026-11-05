@@ -17,6 +17,8 @@ namespace GinRummy.Client.Views
     public partial class GuiLobbyChat : GuiWindowBase
     {
         private readonly LobbyChatViewModel _viewModel;
+        private readonly PlayerProfile _ownProfile;
+        private readonly PlayerProfileViewModel _ownProfileViewModel;
         private LobbyPlayerViewModel _friendToRemove;
 
         public GuiLobbyChat()
@@ -28,6 +30,11 @@ namespace GinRummy.Client.Views
             _viewModel.ChatEntries.CollectionChanged += OnChatEntriesChanged;
             _viewModel.OwnPublicTag = ((App)Application.Current).SignedInPlayer.PublicTag;
             DataContext = _viewModel;
+
+            // The rail, the profile screen and the panel share one own profile, so a new picture shows on all of them (CU-28).
+            _ownProfile = _viewModel.GetOwnProfile();
+            _ownProfileViewModel = ((App)Application.Current).CreatePlayerProfileViewModel(_ownProfile);
+            imgMyProfilePicture.DataContext = _ownProfileViewModel;
             Loaded += OnScreenLoaded;
             Closed += OnScreenClosed;
         }
@@ -37,6 +44,7 @@ namespace GinRummy.Client.Views
         {
             ScrollToLatestEntry();
             _viewModel.StartPresence();
+            _ownProfileViewModel.LoadProfile(((App)Application.Current).SignedInPlayer.AccessToken);
         }
 
         private void OnChatEntriesChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -113,7 +121,7 @@ namespace GinRummy.Client.Views
 
         private void OnSettingsClick(object sender, RoutedEventArgs e)
         {
-            GuiProfilePanel profilePanel = new GuiProfilePanel();
+            GuiProfilePanel profilePanel = new GuiProfilePanel(_ownProfile);
             ShowModal(profilePanel);
         }
 
@@ -152,8 +160,14 @@ namespace GinRummy.Client.Views
 
         private void ShowOwnProfile()
         {
-            GuiPlayerProfile playerProfile = new GuiPlayerProfile(_viewModel.GetOwnProfile());
+            GuiPlayerProfile playerProfile = new GuiPlayerProfile(_ownProfile);
+            playerProfile.Closed += OnOwnProfileClosed;
             ShowModal(playerProfile);
+        }
+
+        private void OnOwnProfileClosed(object sender, EventArgs e)
+        {
+            _ownProfileViewModel.RefreshProfile();
         }
 
         private void ScrollToLatestEntry()

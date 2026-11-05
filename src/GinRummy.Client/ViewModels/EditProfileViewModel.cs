@@ -47,6 +47,7 @@ namespace GinRummy.Client.ViewModels
             SocialLinks = new ObservableCollection<SocialLink>(profile.SocialLinks);
             Username = profile.Username;
             _bio = profile.Bio ?? string.Empty;
+            _picture = profile.Picture;
             _socialPlatformName = string.Empty;
             _socialUrl = string.Empty;
             AddSocialLinkCommand = new RelayCommand(OpenNewLinkForm);
@@ -160,11 +161,6 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        public void LoadPicture(string accessToken)
-        {
-            CallProfileService(profileService => Picture = profileService.GetOwnProfilePicture(accessToken));
-        }
-
         // A picture over the limit is refused here, because the connection would reject the message before the server reads it.
         public void ChangePicture(string accessToken, string filePath)
         {
@@ -177,6 +173,7 @@ namespace GinRummy.Client.ViewModels
             else if (CallProfileService(profileService => profileService.ChangeProfilePicture(accessToken, picture)))
             {
                 Picture = picture;
+                _profile.Picture = picture;
             }
         }
 
@@ -186,6 +183,7 @@ namespace GinRummy.Client.ViewModels
             if (CallProfileService(profileService => profileService.RemoveProfilePicture(accessToken)))
             {
                 Picture = null;
+                _profile.Picture = null;
             }
         }
 

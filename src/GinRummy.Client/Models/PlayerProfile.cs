@@ -11,6 +11,7 @@ namespace GinRummy.Client.Models
         public int PublicTag { get; set; }
         public string RankName { get; set; }
         public string Bio { get; set; }
+        public byte[] Picture { get; set; }
         public IList<SocialLink> SocialLinks { get; set; }
         public int MatchesPlayed { get; set; }
         public double WinRate { get; set; }

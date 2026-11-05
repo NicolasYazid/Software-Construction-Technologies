@@ -63,6 +63,11 @@ namespace GinRummy.Client.ViewModels
             get { return _profile.SocialLinks; }
         }
 
+        public byte[] Picture
+        {
+            get { return _profile.Picture; }
+        }
+
         public int MatchesPlayed
         {
             get { return _profile.MatchesPlayed; }
@@ -162,6 +167,7 @@ namespace GinRummy.Client.ViewModels
         }
 
         // The editor changes the same profile this screen shows, so only the screen needs to be told.
+        // The lobby keeps the own profile too, so its avatar is told the same way when the profile screen closes.
         public void RefreshProfile()
         {
             RaisePropertyChanged(string.Empty);
@@ -188,7 +194,9 @@ namespace GinRummy.Client.ViewModels
             ICommunicationObject communicationObject = (ICommunicationObject)playerProfileService;
             try
             {
-                ShowDetails(playerProfileService.GetPlayerProfile(accessToken, _profile.PublicTag));
+                PlayerProfileDetails details = playerProfileService.GetPlayerProfile(accessToken, _profile.PublicTag);
+                _profile.Picture = playerProfileService.GetProfilePicture(accessToken, _profile.PublicTag);
+                ShowDetails(details);
                 communicationObject.Close();
             }
             catch (FaultException<ServiceFault> ex)

@@ -172,6 +172,11 @@
                             <Border Style="{StaticResource StyAvatarLarge}">
                                 <Image Style="{StaticResource StyAvatarIconLarge}" />
                             </Border>
+                            <Image x:Name="imgMyProfilePicture" Stretch="UniformToFill" Source="{Binding Picture}">
+                                <Image.Clip>
+                                    <EllipseGeometry Center="32,32" RadiusX="32" RadiusY="32" />
+                                </Image.Clip>
+                            </Image>
                             <Ellipse Style="{StaticResource StyPresenceDot}" />
                         </Grid>
                     </Button>

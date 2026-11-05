@@ -25,19 +25,11 @@ namespace GinRummy.Client.Views
             _viewModel.ErrorDialogRequested += OnErrorDialogRequested;
             DataContext = _viewModel;
             txtSocialPlatformName.IsVisibleChanged += OnSocialPlatformNameVisibleChanged;
-            Loaded += OnScreenLoaded;
         }
 
         private static string AccessToken
         {
             get { return ((App)Application.Current).SignedInPlayer.AccessToken; }
-        }
-
-        // The picture is loaded once the modal is on screen, because a failed load opens the error dialog over it.
-        private void OnScreenLoaded(object sender, RoutedEventArgs e)
-        {
-            Loaded -= OnScreenLoaded;
-            _viewModel.LoadPicture(AccessToken);
         }
 
         private void OnChangePhotoClick(object sender, RoutedEventArgs e)
