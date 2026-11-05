@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="PlayerProfileDetails">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Bio" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MatchesPlayed" type="xs:int" />
+      <xs:element minOccurs="0" name="PublicTag" type="xs:int" />
+      <xs:element minOccurs="0" name="RankName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Score" type="xs:int" />
+      <xs:element minOccurs="0" name="SocialLinks" nillable="true" type="tns:ArrayOfSocialLinkDetails" />
+      <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="WinRate" type="xs:double" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PlayerProfileDetails" nillable="true" type="tns:PlayerProfileDetails" />
+  <xs:complexType name="ArrayOfSocialLinkDetails">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SocialLinkDetails" nillable="true" type="tns:SocialLinkDetails" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSocialLinkDetails" nillable="true" type="tns:ArrayOfSocialLinkDetails" />
+  <xs:complexType name="SocialLinkDetails">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="PlatformName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Url" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SocialLinkDetails" nillable="true" type="tns:SocialLinkDetails" />
+</xs:schema>
