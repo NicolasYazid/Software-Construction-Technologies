@@ -18,10 +18,6 @@ namespace GinRummy.Client.Services
 
         AccountSettings GetAccountSettings();
 
-        PlayerProfile GetOwnProfile();
-
-        IList<string> GetPlatforms();
-
         GameRules GetGameRules();
 
         GameTableSnapshot GetGameTable();

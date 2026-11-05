@@ -25,6 +25,10 @@
       <xs:enumeration value="WeakPassword" />
       <xs:enumeration value="EmailAlreadyVerified" />
       <xs:enumeration value="PlayerNotFound" />
+      <xs:enumeration value="MessageNotFound" />
+      <xs:enumeration value="InvalidImage" />
+      <xs:enumeration value="InvalidUrl" />
+      <xs:enumeration value="UnsupportedLocale" />
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="ServiceFaultCode" nillable="true" type="tns:ServiceFaultCode" />

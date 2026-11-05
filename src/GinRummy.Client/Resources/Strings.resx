@@ -205,10 +205,6 @@
     <value>QUITAR ENLACE</value>
     <comment>Encabezado de GuiConfirmDialog</comment>
   </data>
-  <data name="ConfirmDialog_LblTitleSocialLinkReplace" xml:space="preserve">
-    <value>SUSTITUIR ENLACE</value>
-    <comment>Encabezado de GuiConfirmDialog</comment>
-  </data>
   <data name="ConfirmDialog_LblTitleTwoStepDisable" xml:space="preserve">
     <value>DESACTIVAR VERIFICACIÓN EN DOS PASOS</value>
     <comment>Encabezado de GuiConfirmDialog</comment>
@@ -227,10 +223,6 @@
   </data>
   <data name="EditProfile_BtnSocialLinkRemoveConfirm" xml:space="preserve">
     <value>Quitar</value>
-    <comment>Acciones de GuiEditProfile</comment>
-  </data>
-  <data name="EditProfile_BtnSocialLinkReplaceConfirm" xml:space="preserve">
-    <value>Sustituir</value>
     <comment>Acciones de GuiEditProfile</comment>
   </data>
   <data name="EditProfile_BtnUnlink" xml:space="preserve">
@@ -275,11 +267,6 @@
   </data>
   <data name="EditProfile_SocialLinkRemoveConfirm" xml:space="preserve">
     <value>¿Quieres quitar este enlace de tu perfil?</value>
-    <comment>Mensajes del sistema de GuiEditProfile</comment>
-  </data>
-  <data name="EditProfile_SocialLinkReplaceConfirm" xml:space="preserve">
-    <value>Ya tienes un enlace de esa red
-¿Quieres sustituirlo?</value>
     <comment>Mensajes del sistema de GuiEditProfile</comment>
   </data>
   <data name="EditProfile_UsernameChanged" xml:space="preserve">
@@ -1545,5 +1532,9 @@ Tú: {0}   -   Rival: {1}</value>
   <data name="Search_OwnTagNotice" xml:space="preserve">
     <value>Esa es tu propia etiqueta</value>
     <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="Error_ValInvalidUrl" xml:space="preserve">
+    <value>Esa dirección no es válida</value>
+    <comment>Mensajes del sistema de GuiEditProfile</comment>
   </data>
 </root>

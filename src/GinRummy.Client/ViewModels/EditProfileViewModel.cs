@@ -1,62 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.ServiceModel;
 using System.Windows.Input;
 
 using GinRummy.Client.Models;
 using GinRummy.Client.Mvvm;
-using GinRummy.Client.Services;
+using GinRummy.Client.PlayerProfileServiceReference;
+using Microsoft.Extensions.Logging;
 
 namespace GinRummy.Client.ViewModels
 {
     public class EditProfileViewModel : ViewModelBase
     {
-        private const int DefaultPlatformIndex = 0;
         private const string MaxImageSizeLabel = "2 MB";
+        private const long MaxPictureSizeInBytes = 2 * 1024 * 1024;
+        private const string RequiredFieldKey = "Error_ValRequiredField";
+        private const string DisallowedCharactersKey = "Error_ValDisallowedCharacters";
+        private const string UnsupportedImageKey = "Error_ValUnsupportedImage";
+        private const string InvalidUrlKey = "Error_ValInvalidUrl";
 
+        private readonly PlayerProfile _profile;
+        private readonly Func<IPlayerProfileService> _playerProfileServiceFactory;
+        private readonly ILogger<EditProfileViewModel> _logger;
         private string _bio;
+        private string _socialPlatformName;
         private string _socialUrl;
-        private string _picturePath;
+        private byte[] _picture;
         private bool _isNewLinkFormOpen;
-        private bool _isRequiredFieldShown;
+        private string _errorMessageKey;
         private bool _isUsernameChangedShown;
         private SocialLink _linkToRemove;
-        private SocialLink _linkToReplace;
 
-        public EditProfileViewModel(ISampleDataService dataService)
+        // A client is created for every call because a client whose channel failed cannot be opened again.
+        // The profile received is updated after every saved change, so the profile screen shows it without asking the server.
+        public EditProfileViewModel(
+            PlayerProfile profile,
+            Func<IPlayerProfileService> playerProfileServiceFactory,
+            ILogger<EditProfileViewModel> logger)
         {
-            if (dataService == null)
-            {
-                throw new ArgumentNullException(nameof(dataService));
-            }
-
-            PlayerProfile profile = dataService.GetOwnProfile();
+            _profile = profile ?? throw new ArgumentNullException(nameof(profile));
+            _playerProfileServiceFactory = playerProfileServiceFactory
+                ?? throw new ArgumentNullException(nameof(playerProfileServiceFactory));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             SocialLinks = new ObservableCollection<SocialLink>(profile.SocialLinks);
-            Platforms = dataService.GetPlatforms();
-            SelectedPlatform = Platforms[DefaultPlatformIndex];
             Username = profile.Username;
             _bio = profile.Bio ?? string.Empty;
+            _socialPlatformName = string.Empty;
             _socialUrl = string.Empty;
-            ChangePictureCommand = new RelayCommand(ChangePicture);
-            RemovePictureCommand = new RelayCommand(RemovePicture);
             AddSocialLinkCommand = new RelayCommand(OpenNewLinkForm);
             UnlinkCommand = new RelayCommand(RequestSocialLinkRemoval);
-            SaveCommand = new RelayCommand(Save);
         }
 
         public event EventHandler SocialLinkRemovalRequested;
 
-        public event EventHandler SocialLinkReplaceRequested;
+        public event EventHandler<ErrorDialogKind> ErrorDialogRequested;
 
         public ObservableCollection<SocialLink> SocialLinks { get; private set; }
-        public IList<string> Platforms { get; private set; }
-        public string SelectedPlatform { get; set; }
         public string Username { get; set; }
-        public ICommand ChangePictureCommand { get; private set; }
-        public ICommand RemovePictureCommand { get; private set; }
         public ICommand AddSocialLinkCommand { get; private set; }
         public ICommand UnlinkCommand { get; private set; }
-        public ICommand SaveCommand { get; private set; }
 
         public int BioMaxLength
         {
@@ -84,6 +88,16 @@ namespace GinRummy.Client.ViewModels
             get { return BioMaxLength - _bio.Length; }
         }
 
+        public string SocialPlatformName
+        {
+            get { return _socialPlatformName; }
+            set
+            {
+                _socialPlatformName = value ?? string.Empty;
+                RaisePropertyChanged();
+            }
+        }
+
         public string SocialUrl
         {
             get { return _socialUrl; }
@@ -94,12 +108,12 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        public string PicturePath
+        public byte[] Picture
         {
-            get { return _picturePath; }
+            get { return _picture; }
             private set
             {
-                _picturePath = value;
+                _picture = value;
                 RaisePropertyChanged();
             }
         }
@@ -120,14 +134,20 @@ namespace GinRummy.Client.ViewModels
             get { return !_isNewLinkFormOpen; }
         }
 
-        public bool IsRequiredFieldShown
+        public string ErrorMessageKey
         {
-            get { return _isRequiredFieldShown; }
+            get { return _errorMessageKey; }
             private set
             {
-                _isRequiredFieldShown = value;
+                _errorMessageKey = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged(nameof(HasErrorMessage));
             }
+        }
+
+        public bool HasErrorMessage
+        {
+            get { return _errorMessageKey != null; }
         }
 
         public bool IsUsernameChangedShown
@@ -140,37 +160,74 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        public void CompleteSocialLinkRemoval(bool isConfirmed)
+        public void LoadPicture(string accessToken)
         {
-            if (isConfirmed)
+            CallProfileService(profileService => Picture = profileService.GetOwnProfilePicture(accessToken));
+        }
+
+        // A picture over the limit is refused here, because the connection would reject the message before the server reads it.
+        public void ChangePicture(string accessToken, string filePath)
+        {
+            ErrorMessageKey = null;
+            byte[] picture = ReadPicture(filePath);
+            if (picture == null)
+            {
+                ErrorMessageKey = UnsupportedImageKey;
+            }
+            else if (CallProfileService(profileService => profileService.ChangeProfilePicture(accessToken, picture)))
+            {
+                Picture = picture;
+            }
+        }
+
+        public void RemovePicture(string accessToken)
+        {
+            ErrorMessageKey = null;
+            if (CallProfileService(profileService => profileService.RemoveProfilePicture(accessToken)))
+            {
+                Picture = null;
+            }
+        }
+
+        // Only the required fields are checked here, because the server validates the rest (CU-29, CU-30 and CU-31).
+        public void Save(string accessToken)
+        {
+            IsUsernameChangedShown = false;
+            ErrorMessageKey = null;
+            bool isLinkComplete = (_socialPlatformName.Trim().Length > 0) && (_socialUrl.Trim().Length > 0);
+            bool isComplete = !string.IsNullOrWhiteSpace(Username) && (!_isNewLinkFormOpen || isLinkComplete);
+            if (!isComplete)
+            {
+                ErrorMessageKey = RequiredFieldKey;
+            }
+            else
+            {
+                bool isSaved = CallProfileService(profileService => profileService.SaveProfileChanges(accessToken, Username, _bio));
+                if (isSaved)
+                {
+                    _profile.Username = Username.Trim();
+                    _profile.Bio = _bio;
+                }
+
+                if (isSaved && _isNewLinkFormOpen)
+                {
+                    isSaved = LinkSocialMedia(accessToken);
+                }
+
+                IsUsernameChangedShown = isSaved;
+            }
+        }
+
+        public void CompleteSocialLinkRemoval(bool isConfirmed, string accessToken)
+        {
+            int socialMediaId = _linkToRemove.SocialMediaId;
+            if (isConfirmed && CallProfileService(profileService => profileService.UnlinkSocialMedia(accessToken, socialMediaId)))
             {
                 SocialLinks.Remove(_linkToRemove);
+                _profile.SocialLinks = new List<SocialLink>(SocialLinks);
             }
 
             _linkToRemove = null;
-        }
-
-        // A profile keeps one link per platform, so a second link replaces the first after confirmation (CU-31 FA-03).
-        public void CompleteSocialLinkReplace(bool isConfirmed)
-        {
-            if (isConfirmed)
-            {
-                SocialLinks.Remove(_linkToReplace);
-                AddSocialLink(_linkToReplace.PlatformName);
-            }
-
-            _linkToReplace = null;
-        }
-
-        // The picture shows as soon as it is chosen, while the CU-28 service of the server, which validates and stores it, is pending.
-        private void ChangePicture(object parameter)
-        {
-            PicturePath = (string)parameter;
-        }
-
-        private void RemovePicture()
-        {
-            PicturePath = null;
         }
 
         private void OpenNewLinkForm()
@@ -184,59 +241,113 @@ namespace GinRummy.Client.ViewModels
             SocialLinkRemovalRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        // Only the required fields are checked here because the server validates the rest (CU-29, CU-30, CU-31).
-        private void Save()
+        private bool LinkSocialMedia(string accessToken)
         {
-            IsUsernameChangedShown = false;
-            bool isLinkPending = _isNewLinkFormOpen;
-            bool hasUsername = !string.IsNullOrWhiteSpace(Username);
-            bool hasSocialUrl = _socialUrl.Trim().Length > 0;
-            bool isComplete = hasUsername && (!isLinkPending || hasSocialUrl);
-            IsRequiredFieldShown = !isComplete;
-            if (isComplete)
+            SocialLinkDetails newLink = null;
+            bool isLinked = CallProfileService(
+                profileService => newLink = profileService.LinkSocialMedia(accessToken, _socialPlatformName, _socialUrl));
+            if (isLinked)
             {
-                if (isLinkPending)
+                SocialLinks.Add(new SocialLink(newLink.SocialMediaId, newLink.PlatformName, newLink.Url));
+                _profile.SocialLinks = new List<SocialLink>(SocialLinks);
+                SocialPlatformName = string.Empty;
+                SocialUrl = string.Empty;
+                IsNewLinkFormOpen = false;
+            }
+
+            return isLinked;
+        }
+
+        private byte[] ReadPicture(string filePath)
+        {
+            byte[] picture = null;
+            try
+            {
+                if (new FileInfo(filePath).Length <= MaxPictureSizeInBytes)
                 {
-                    SaveSocialLink();
-                }
-
-                IsUsernameChangedShown = true;
-            }
-        }
-
-        private void SaveSocialLink()
-        {
-            SocialLink existing = FindSocialLink(SelectedPlatform);
-            if (existing == null)
-            {
-                AddSocialLink(SelectedPlatform);
-            }
-            else
-            {
-                _linkToReplace = existing;
-                SocialLinkReplaceRequested?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        private void AddSocialLink(string platformName)
-        {
-            SocialLinks.Add(new SocialLink(platformName, _socialUrl.Trim()));
-            SocialUrl = string.Empty;
-            IsNewLinkFormOpen = false;
-        }
-
-        private SocialLink FindSocialLink(string platformName)
-        {
-            SocialLink found = null;
-            foreach (SocialLink link in SocialLinks)
-            {
-                if (string.Equals(link.PlatformName, platformName, StringComparison.Ordinal))
-                {
-                    found = link;
+                    picture = File.ReadAllBytes(filePath);
                 }
             }
+            catch (IOException ex)
+            {
+                _logger.LogWarning(ex, "The chosen profile picture could not be read.");
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                _logger.LogWarning(ex, "The chosen profile picture could not be opened.");
+            }
 
-            return found;
+            return picture;
+        }
+
+        // The screen stays open after a failure, so the player can try again without losing what was typed.
+        private bool CallProfileService(Action<IPlayerProfileService> serviceCall)
+        {
+            IPlayerProfileService profileService = _playerProfileServiceFactory();
+            ICommunicationObject communicationObject = (ICommunicationObject)profileService;
+            bool isDone = false;
+            try
+            {
+                serviceCall(profileService);
+                isDone = true;
+                communicationObject.Close();
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                communicationObject.Abort();
+                _logger.LogInformation(ex, "The server refused a change of the own profile with the fault {FaultCode}.", ex.Detail.Code);
+                ShowRefusal(ex.Detail.Code);
+            }
+            catch (FaultException ex)
+            {
+                communicationObject.Abort();
+                _logger.LogError(ex, "The server could not change the own profile.");
+                RequestErrorDialog(ErrorDialogKind.ServiceUnavailable);
+            }
+            catch (CommunicationException ex)
+            {
+                communicationObject.Abort();
+                _logger.LogError(ex, "The profile service could not be reached to change the own profile.");
+                RequestErrorDialog(ErrorDialogKind.ConnectionLost);
+            }
+            catch (TimeoutException ex)
+            {
+                communicationObject.Abort();
+                _logger.LogError(ex, "The profile service timed out while changing the own profile.");
+                RequestErrorDialog(ErrorDialogKind.ConnectionLost);
+            }
+
+            return isDone;
+        }
+
+        private void ShowRefusal(ServiceFaultCode code)
+        {
+            switch (code)
+            {
+                case ServiceFaultCode.SessionExpired:
+                    RequestErrorDialog(ErrorDialogKind.SessionExpired);
+                    break;
+                case ServiceFaultCode.RequiredField:
+                    ErrorMessageKey = RequiredFieldKey;
+                    break;
+                case ServiceFaultCode.DisallowedCharacters:
+                    ErrorMessageKey = DisallowedCharactersKey;
+                    break;
+                case ServiceFaultCode.InvalidImage:
+                    ErrorMessageKey = UnsupportedImageKey;
+                    break;
+                case ServiceFaultCode.InvalidUrl:
+                    ErrorMessageKey = InvalidUrlKey;
+                    break;
+                default:
+                    RequestErrorDialog(ErrorDialogKind.ServiceUnavailable);
+                    break;
+            }
+        }
+
+        private void RequestErrorDialog(ErrorDialogKind kind)
+        {
+            ErrorDialogRequested?.Invoke(this, kind);
         }
     }
 }

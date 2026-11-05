@@ -46,11 +46,109 @@
   <wsdl:message name="IPlayerProfileService_GetPlayerProfile_ServiceFaultFault_FaultMessage">
     <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q1:ServiceFault" />
   </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_SaveProfileChanges_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveProfileChanges" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_SaveProfileChanges_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveProfileChangesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_SaveProfileChanges_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q2:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_GetOwnProfilePicture_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOwnProfilePicture" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_GetOwnProfilePicture_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOwnProfilePictureResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_GetOwnProfilePicture_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q3:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_ChangeProfilePicture_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeProfilePicture" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_ChangeProfilePicture_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeProfilePictureResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_ChangeProfilePicture_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q4:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_RemoveProfilePicture_InputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveProfilePicture" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_RemoveProfilePicture_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveProfilePictureResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_RemoveProfilePicture_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q5:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_LinkSocialMedia_InputMessage">
+    <wsdl:part name="parameters" element="tns:LinkSocialMedia" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_LinkSocialMedia_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LinkSocialMediaResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_LinkSocialMedia_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q6:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_UnlinkSocialMedia_InputMessage">
+    <wsdl:part name="parameters" element="tns:UnlinkSocialMedia" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_UnlinkSocialMedia_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UnlinkSocialMediaResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_UnlinkSocialMedia_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q7:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_ChangeLanguage_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeLanguage" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_ChangeLanguage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeLanguageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPlayerProfileService_ChangeLanguage_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q8:ServiceFault" />
+  </wsdl:message>
   <wsdl:portType name="IPlayerProfileService">
     <wsdl:operation name="GetPlayerProfile">
       <wsdl:input wsaw:Action="http://tempuri.org/IPlayerProfileService/GetPlayerProfile" message="tns:IPlayerProfileService_GetPlayerProfile_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPlayerProfileService/GetPlayerProfileResponse" message="tns:IPlayerProfileService_GetPlayerProfile_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IPlayerProfileService/GetPlayerProfileServiceFaultFault" name="ServiceFaultFault" message="tns:IPlayerProfileService_GetPlayerProfile_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveProfileChanges">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPlayerProfileService/SaveProfileChanges" message="tns:IPlayerProfileService_SaveProfileChanges_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPlayerProfileService/SaveProfileChangesResponse" message="tns:IPlayerProfileService_SaveProfileChanges_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IPlayerProfileService/SaveProfileChangesServiceFaultFault" name="ServiceFaultFault" message="tns:IPlayerProfileService_SaveProfileChanges_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOwnProfilePicture">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPlayerProfileService/GetOwnProfilePicture" message="tns:IPlayerProfileService_GetOwnProfilePicture_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPlayerProfileService/GetOwnProfilePictureResponse" message="tns:IPlayerProfileService_GetOwnProfilePicture_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IPlayerProfileService/GetOwnProfilePictureServiceFaultFault" name="ServiceFaultFault" message="tns:IPlayerProfileService_GetOwnProfilePicture_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeProfilePicture">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPlayerProfileService/ChangeProfilePicture" message="tns:IPlayerProfileService_ChangeProfilePicture_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPlayerProfileService/ChangeProfilePictureResponse" message="tns:IPlayerProfileService_ChangeProfilePicture_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IPlayerProfileService/ChangeProfilePictureServiceFaultFault" name="ServiceFaultFault" message="tns:IPlayerProfileService_ChangeProfilePicture_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveProfilePicture">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPlayerProfileService/RemoveProfilePicture" message="tns:IPlayerProfileService_RemoveProfilePicture_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPlayerProfileService/RemoveProfilePictureResponse" message="tns:IPlayerProfileService_RemoveProfilePicture_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IPlayerProfileService/RemoveProfilePictureServiceFaultFault" name="ServiceFaultFault" message="tns:IPlayerProfileService_RemoveProfilePicture_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LinkSocialMedia">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPlayerProfileService/LinkSocialMedia" message="tns:IPlayerProfileService_LinkSocialMedia_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPlayerProfileService/LinkSocialMediaResponse" message="tns:IPlayerProfileService_LinkSocialMedia_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IPlayerProfileService/LinkSocialMediaServiceFaultFault" name="ServiceFaultFault" message="tns:IPlayerProfileService_LinkSocialMedia_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UnlinkSocialMedia">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPlayerProfileService/UnlinkSocialMedia" message="tns:IPlayerProfileService_UnlinkSocialMedia_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPlayerProfileService/UnlinkSocialMediaResponse" message="tns:IPlayerProfileService_UnlinkSocialMedia_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IPlayerProfileService/UnlinkSocialMediaServiceFaultFault" name="ServiceFaultFault" message="tns:IPlayerProfileService_UnlinkSocialMedia_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeLanguage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPlayerProfileService/ChangeLanguage" message="tns:IPlayerProfileService_ChangeLanguage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPlayerProfileService/ChangeLanguageResponse" message="tns:IPlayerProfileService_ChangeLanguage_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IPlayerProfileService/ChangeLanguageServiceFaultFault" name="ServiceFaultFault" message="tns:IPlayerProfileService_ChangeLanguage_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="PlayerProfileService" type="tns:IPlayerProfileService">
@@ -58,6 +156,90 @@
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
     <wsdl:operation name="GetPlayerProfile">
       <soap12:operation soapAction="http://tempuri.org/IPlayerProfileService/GetPlayerProfile" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="SaveProfileChanges">
+      <soap12:operation soapAction="http://tempuri.org/IPlayerProfileService/SaveProfileChanges" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetOwnProfilePicture">
+      <soap12:operation soapAction="http://tempuri.org/IPlayerProfileService/GetOwnProfilePicture" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeProfilePicture">
+      <soap12:operation soapAction="http://tempuri.org/IPlayerProfileService/ChangeProfilePicture" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveProfilePicture">
+      <soap12:operation soapAction="http://tempuri.org/IPlayerProfileService/RemoveProfilePicture" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="LinkSocialMedia">
+      <soap12:operation soapAction="http://tempuri.org/IPlayerProfileService/LinkSocialMedia" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UnlinkSocialMedia">
+      <soap12:operation soapAction="http://tempuri.org/IPlayerProfileService/UnlinkSocialMedia" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeLanguage">
+      <soap12:operation soapAction="http://tempuri.org/IPlayerProfileService/ChangeLanguage" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

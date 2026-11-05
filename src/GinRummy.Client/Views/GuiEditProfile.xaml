@@ -19,7 +19,7 @@
                     <Border Style="{StaticResource StyAvatarProfile}">
                         <Image Style="{StaticResource StyAvatarIconProfile}" />
                     </Border>
-                    <Image x:Name="imgProfilePicture" Stretch="UniformToFill" Source="{Binding PicturePath}">
+                    <Image x:Name="imgProfilePicture" Stretch="UniformToFill" Source="{Binding Picture}">
                         <Image.Clip>
                             <EllipseGeometry Center="56,56" RadiusX="56" RadiusY="56" />
                         </Image.Clip>
@@ -30,7 +30,7 @@
                         Click="OnChangePhotoClick" />
                 <Button x:Name="btnRemovePhoto" Style="{StaticResource StyCenteredTextButton}" Margin="0,6,0,0"
                         Content="{Binding [EditProfile_BtnRemovePhoto], Source={StaticResource PrvLocalization}}"
-                        Command="{Binding RemovePictureCommand}" />
+                        Click="OnRemovePhotoClick" />
                 <TextBlock x:Name="lblImageRequirements" Style="{StaticResource StySettingHint}"
                            TextAlignment="Center" Margin="0,8,0,0">
                     <TextBlock.Text>
@@ -92,15 +92,11 @@
                     <TextBlock x:Name="lblPlatform" Style="{StaticResource StyFieldLabel}" Margin="0,6,0,8"
                                Visibility="{Binding IsNewLinkFormOpen, Converter={StaticResource CnvBooleanToVisibility}}"
                                Text="{Binding [EditProfile_LblPlatform], Source={StaticResource PrvLocalization}}" />
-                    <ComboBox x:Name="cmbPlatform" Style="{StaticResource StyMenuLanguageBox}" Width="220"
-                              HorizontalAlignment="Left" ItemsSource="{Binding Platforms}"
-                              SelectedItem="{Binding SelectedPlatform}">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
+                    <!-- The database limits the name of the network to one hundred characters. -->
+                    <ctl:PixelBorder Style="{StaticResource StyGlassFieldShell}">
+                        <TextBox x:Name="txtSocialPlatformName" Style="{StaticResource StyFieldInput}" MaxLength="100"
+                                 Text="{Binding SocialPlatformName, UpdateSourceTrigger=PropertyChanged}" />
+                    </ctl:PixelBorder>
                     <TextBlock x:Name="lblSocialUrl" Style="{StaticResource StyFieldLabel}" Margin="0,16,0,8"
                                Text="{Binding [EditProfile_LblSocialUrl], Source={StaticResource PrvLocalization}}" />
                     <!-- The database limits the address to two hundred and fifty-five characters. -->
@@ -123,8 +119,14 @@
                         Command="{Binding AddSocialLinkCommand}" />
 
                 <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyCardError}" Margin="0,16,0,0"
-                           Visibility="{Binding IsRequiredFieldShown, Converter={StaticResource CnvBooleanToVisibility}}"
-                           Text="{Binding [Error_ValRequiredField], Source={StaticResource PrvLocalization}}" />
+                           Visibility="{Binding HasErrorMessage, Converter={StaticResource CnvBooleanToVisibility}}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource CnvResourceText}">
+                            <Binding Path="ErrorMessageKey" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
                 <TextBlock x:Name="lblUsernameChanged" Style="{StaticResource StyCardNotice}" Margin="0,16,0,0"
                            Visibility="{Binding IsUsernameChangedShown, Converter={StaticResource CnvBooleanToVisibility}}"
                            Text="{Binding [EditProfile_UsernameChanged], Source={StaticResource PrvLocalization}}" />
@@ -132,7 +134,7 @@
                 <Button x:Name="btnSave" Style="{StaticResource StyCardPrimaryButton}" Margin="0,24,0,0"
                         Content="{Binding [Shared_BtnSave], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
-                        Command="{Binding SaveCommand}" />
+                        Click="OnSaveClick" />
                 <Button x:Name="btnCancel" Style="{StaticResource StyCardOutlineButton}" Margin="0,14,0,0"
                         Content="{Binding [Shared_BtnCancel], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"

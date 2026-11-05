@@ -222,6 +222,9 @@ namespace GinRummy.Client.PlayerProfileServiceReference
         private string PlatformNameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int SocialMediaIdField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string UrlField;
         
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData
@@ -249,6 +252,23 @@ namespace GinRummy.Client.PlayerProfileServiceReference
                 {
                     this.PlatformNameField = value;
                     this.RaisePropertyChanged("PlatformName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int SocialMediaId
+        {
+            get
+            {
+                return this.SocialMediaIdField;
+            }
+            set
+            {
+                if ((this.SocialMediaIdField.Equals(value) != true))
+                {
+                    this.SocialMediaIdField = value;
+                    this.RaisePropertyChanged("SocialMediaId");
                 }
             }
         }
@@ -391,6 +411,18 @@ namespace GinRummy.Client.PlayerProfileServiceReference
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         PlayerNotFound = 16,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        MessageNotFound = 17,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        InvalidImage = 18,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        InvalidUrl = 19,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        UnsupportedLocale = 20,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -404,6 +436,55 @@ namespace GinRummy.Client.PlayerProfileServiceReference
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/GetPlayerProfile", ReplyAction="http://tempuri.org/IPlayerProfileService/GetPlayerProfileResponse")]
         System.Threading.Tasks.Task<GinRummy.Client.PlayerProfileServiceReference.PlayerProfileDetails> GetPlayerProfileAsync(string accessToken, int publicTag);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/SaveProfileChanges", ReplyAction="http://tempuri.org/IPlayerProfileService/SaveProfileChangesResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.PlayerProfileServiceReference.ServiceFault), Action="http://tempuri.org/IPlayerProfileService/SaveProfileChangesServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+        void SaveProfileChanges(string accessToken, string username, string bio);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/SaveProfileChanges", ReplyAction="http://tempuri.org/IPlayerProfileService/SaveProfileChangesResponse")]
+        System.Threading.Tasks.Task SaveProfileChangesAsync(string accessToken, string username, string bio);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/GetOwnProfilePicture", ReplyAction="http://tempuri.org/IPlayerProfileService/GetOwnProfilePictureResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.PlayerProfileServiceReference.ServiceFault), Action="http://tempuri.org/IPlayerProfileService/GetOwnProfilePictureServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+        byte[] GetOwnProfilePicture(string accessToken);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/GetOwnProfilePicture", ReplyAction="http://tempuri.org/IPlayerProfileService/GetOwnProfilePictureResponse")]
+        System.Threading.Tasks.Task<byte[]> GetOwnProfilePictureAsync(string accessToken);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/ChangeProfilePicture", ReplyAction="http://tempuri.org/IPlayerProfileService/ChangeProfilePictureResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.PlayerProfileServiceReference.ServiceFault), Action="http://tempuri.org/IPlayerProfileService/ChangeProfilePictureServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+        void ChangeProfilePicture(string accessToken, byte[] picture);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/ChangeProfilePicture", ReplyAction="http://tempuri.org/IPlayerProfileService/ChangeProfilePictureResponse")]
+        System.Threading.Tasks.Task ChangeProfilePictureAsync(string accessToken, byte[] picture);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/RemoveProfilePicture", ReplyAction="http://tempuri.org/IPlayerProfileService/RemoveProfilePictureResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.PlayerProfileServiceReference.ServiceFault), Action="http://tempuri.org/IPlayerProfileService/RemoveProfilePictureServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+        void RemoveProfilePicture(string accessToken);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/RemoveProfilePicture", ReplyAction="http://tempuri.org/IPlayerProfileService/RemoveProfilePictureResponse")]
+        System.Threading.Tasks.Task RemoveProfilePictureAsync(string accessToken);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/LinkSocialMedia", ReplyAction="http://tempuri.org/IPlayerProfileService/LinkSocialMediaResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.PlayerProfileServiceReference.ServiceFault), Action="http://tempuri.org/IPlayerProfileService/LinkSocialMediaServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+        GinRummy.Client.PlayerProfileServiceReference.SocialLinkDetails LinkSocialMedia(string accessToken, string platformName, string url);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/LinkSocialMedia", ReplyAction="http://tempuri.org/IPlayerProfileService/LinkSocialMediaResponse")]
+        System.Threading.Tasks.Task<GinRummy.Client.PlayerProfileServiceReference.SocialLinkDetails> LinkSocialMediaAsync(string accessToken, string platformName, string url);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/UnlinkSocialMedia", ReplyAction="http://tempuri.org/IPlayerProfileService/UnlinkSocialMediaResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.PlayerProfileServiceReference.ServiceFault), Action="http://tempuri.org/IPlayerProfileService/UnlinkSocialMediaServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+        void UnlinkSocialMedia(string accessToken, int socialMediaId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/UnlinkSocialMedia", ReplyAction="http://tempuri.org/IPlayerProfileService/UnlinkSocialMediaResponse")]
+        System.Threading.Tasks.Task UnlinkSocialMediaAsync(string accessToken, int socialMediaId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/ChangeLanguage", ReplyAction="http://tempuri.org/IPlayerProfileService/ChangeLanguageResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.PlayerProfileServiceReference.ServiceFault), Action="http://tempuri.org/IPlayerProfileService/ChangeLanguageServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+        void ChangeLanguage(string accessToken, string localeCode);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerProfileService/ChangeLanguage", ReplyAction="http://tempuri.org/IPlayerProfileService/ChangeLanguageResponse")]
+        System.Threading.Tasks.Task ChangeLanguageAsync(string accessToken, string localeCode);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -448,6 +529,76 @@ namespace GinRummy.Client.PlayerProfileServiceReference
         public System.Threading.Tasks.Task<GinRummy.Client.PlayerProfileServiceReference.PlayerProfileDetails> GetPlayerProfileAsync(string accessToken, int publicTag)
         {
             return base.Channel.GetPlayerProfileAsync(accessToken, publicTag);
+        }
+        
+        public void SaveProfileChanges(string accessToken, string username, string bio)
+        {
+            base.Channel.SaveProfileChanges(accessToken, username, bio);
+        }
+        
+        public System.Threading.Tasks.Task SaveProfileChangesAsync(string accessToken, string username, string bio)
+        {
+            return base.Channel.SaveProfileChangesAsync(accessToken, username, bio);
+        }
+        
+        public byte[] GetOwnProfilePicture(string accessToken)
+        {
+            return base.Channel.GetOwnProfilePicture(accessToken);
+        }
+        
+        public System.Threading.Tasks.Task<byte[]> GetOwnProfilePictureAsync(string accessToken)
+        {
+            return base.Channel.GetOwnProfilePictureAsync(accessToken);
+        }
+        
+        public void ChangeProfilePicture(string accessToken, byte[] picture)
+        {
+            base.Channel.ChangeProfilePicture(accessToken, picture);
+        }
+        
+        public System.Threading.Tasks.Task ChangeProfilePictureAsync(string accessToken, byte[] picture)
+        {
+            return base.Channel.ChangeProfilePictureAsync(accessToken, picture);
+        }
+        
+        public void RemoveProfilePicture(string accessToken)
+        {
+            base.Channel.RemoveProfilePicture(accessToken);
+        }
+        
+        public System.Threading.Tasks.Task RemoveProfilePictureAsync(string accessToken)
+        {
+            return base.Channel.RemoveProfilePictureAsync(accessToken);
+        }
+        
+        public GinRummy.Client.PlayerProfileServiceReference.SocialLinkDetails LinkSocialMedia(string accessToken, string platformName, string url)
+        {
+            return base.Channel.LinkSocialMedia(accessToken, platformName, url);
+        }
+        
+        public System.Threading.Tasks.Task<GinRummy.Client.PlayerProfileServiceReference.SocialLinkDetails> LinkSocialMediaAsync(string accessToken, string platformName, string url)
+        {
+            return base.Channel.LinkSocialMediaAsync(accessToken, platformName, url);
+        }
+        
+        public void UnlinkSocialMedia(string accessToken, int socialMediaId)
+        {
+            base.Channel.UnlinkSocialMedia(accessToken, socialMediaId);
+        }
+        
+        public System.Threading.Tasks.Task UnlinkSocialMediaAsync(string accessToken, int socialMediaId)
+        {
+            return base.Channel.UnlinkSocialMediaAsync(accessToken, socialMediaId);
+        }
+        
+        public void ChangeLanguage(string accessToken, string localeCode)
+        {
+            base.Channel.ChangeLanguage(accessToken, localeCode);
+        }
+        
+        public System.Threading.Tasks.Task ChangeLanguageAsync(string accessToken, string localeCode)
+        {
+            return base.Channel.ChangeLanguageAsync(accessToken, localeCode);
         }
     }
 }

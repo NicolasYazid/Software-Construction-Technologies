@@ -135,6 +135,12 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
+        // The editor changes the same profile this screen shows, so only the screen needs to be told.
+        public void RefreshProfile()
+        {
+            RaisePropertyChanged(string.Empty);
+        }
+
         // Once the server creates the request, the action stays disabled while it waits for an answer.
         // This keeps a second request from being sent (CU-12 and its EX-07).
         private void AddFriend()
@@ -194,7 +200,9 @@ namespace GinRummy.Client.ViewModels
             _profile.Username = details.Username;
             _profile.RankName = details.RankName;
             _profile.Bio = details.Bio;
-            _profile.SocialLinks = details.SocialLinks.Select(link => new SocialLink(link.PlatformName, link.Url)).ToList();
+            _profile.SocialLinks = details.SocialLinks
+                .Select(link => new SocialLink(link.SocialMediaId, link.PlatformName, link.Url))
+                .ToList();
             _profile.MatchesPlayed = details.MatchesPlayed;
             _profile.WinRate = details.WinRate;
             _profile.Score = details.Score;

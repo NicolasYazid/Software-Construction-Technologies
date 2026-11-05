@@ -183,9 +183,6 @@
   <data name="ConfirmDialog_LblTitleSocialLinkRemove" xml:space="preserve">
     <value>REMOVE LINK</value>
   </data>
-  <data name="ConfirmDialog_LblTitleSocialLinkReplace" xml:space="preserve">
-    <value>REPLACE LINK</value>
-  </data>
   <data name="ConfirmDialog_LblTitleTwoStepDisable" xml:space="preserve">
     <value>TURN OFF TWO-STEP VERIFICATION</value>
   </data>
@@ -200,9 +197,6 @@
   </data>
   <data name="EditProfile_BtnSocialLinkRemoveConfirm" xml:space="preserve">
     <value>Remove</value>
-  </data>
-  <data name="EditProfile_BtnSocialLinkReplaceConfirm" xml:space="preserve">
-    <value>Replace</value>
   </data>
   <data name="EditProfile_BtnUnlink" xml:space="preserve">
     <value>Remove</value>
@@ -236,10 +230,6 @@
   </data>
   <data name="EditProfile_SocialLinkRemoveConfirm" xml:space="preserve">
     <value>Do you want to remove this link from your profile?</value>
-  </data>
-  <data name="EditProfile_SocialLinkReplaceConfirm" xml:space="preserve">
-    <value>You already have a link for that network
-Do you want to replace it?</value>
   </data>
   <data name="EditProfile_UsernameChanged" xml:space="preserve">
     <value>Your name was updated</value>
@@ -1189,5 +1179,8 @@ You: {0}   -   Opponent: {1}</value>
   </data>
   <data name="Search_OwnTagNotice" xml:space="preserve">
     <value>That is your own tag</value>
+  </data>
+  <data name="Error_ValInvalidUrl" xml:space="preserve">
+    <value>That address is not valid</value>
   </data>
 </root>

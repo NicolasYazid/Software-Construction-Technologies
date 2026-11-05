@@ -23,11 +23,6 @@
         SocialLinkRemove,
 
         /// <summary>
-        /// Replacing the link of a platform that already has one (CU-31 FA-03).
-        /// </summary>
-        SocialLinkReplace,
-
-        /// <summary>
         /// Turning off the two-step verification, which asks for the password (CU-05).
         /// </summary>
         TwoStepDisable

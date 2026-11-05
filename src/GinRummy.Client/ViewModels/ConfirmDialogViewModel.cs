@@ -14,9 +14,6 @@ namespace GinRummy.Client.ViewModels
         private const string SocialLinkRemoveTitleKey = "ConfirmDialog_LblTitleSocialLinkRemove";
         private const string SocialLinkRemoveMessageKey = "EditProfile_SocialLinkRemoveConfirm";
         private const string SocialLinkRemoveConfirmKey = "EditProfile_BtnSocialLinkRemoveConfirm";
-        private const string SocialLinkReplaceTitleKey = "ConfirmDialog_LblTitleSocialLinkReplace";
-        private const string SocialLinkReplaceMessageKey = "EditProfile_SocialLinkReplaceConfirm";
-        private const string SocialLinkReplaceConfirmKey = "EditProfile_BtnSocialLinkReplaceConfirm";
         private const string TwoStepDisableTitleKey = "ConfirmDialog_LblTitleTwoStepDisable";
         private const string TwoStepDisableMessageKey = "ProfilePanel_TwoStepDisableWarning";
         private const string TwoStepDisableConfirmKey = "ProfilePanel_BtnTwoStepDisableConfirm";
@@ -52,9 +49,6 @@ namespace GinRummy.Client.ViewModels
                     break;
                 case ConfirmDialogKind.SocialLinkRemove:
                     SetTextKeys(SocialLinkRemoveTitleKey, SocialLinkRemoveMessageKey, SocialLinkRemoveConfirmKey);
-                    break;
-                case ConfirmDialogKind.SocialLinkReplace:
-                    SetTextKeys(SocialLinkReplaceTitleKey, SocialLinkReplaceMessageKey, SocialLinkReplaceConfirmKey);
                     break;
                 case ConfirmDialogKind.TwoStepDisable:
                     ApplyTwoStepDisableKind();

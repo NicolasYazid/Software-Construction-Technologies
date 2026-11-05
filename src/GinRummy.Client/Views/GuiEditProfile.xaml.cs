@@ -17,14 +17,27 @@ namespace GinRummy.Client.Views
 
         private readonly EditProfileViewModel _viewModel;
 
-        public GuiEditProfile()
+        public GuiEditProfile(PlayerProfile profile)
         {
             InitializeComponent();
-            _viewModel = ((App)Application.Current).CreateEditProfileViewModel();
+            _viewModel = ((App)Application.Current).CreateEditProfileViewModel(profile);
             _viewModel.SocialLinkRemovalRequested += OnSocialLinkRemovalRequested;
-            _viewModel.SocialLinkReplaceRequested += OnSocialLinkReplaceRequested;
+            _viewModel.ErrorDialogRequested += OnErrorDialogRequested;
             DataContext = _viewModel;
-            txtSocialUrl.IsVisibleChanged += OnSocialUrlVisibleChanged;
+            txtSocialPlatformName.IsVisibleChanged += OnSocialPlatformNameVisibleChanged;
+            Loaded += OnScreenLoaded;
+        }
+
+        private static string AccessToken
+        {
+            get { return ((App)Application.Current).SignedInPlayer.AccessToken; }
+        }
+
+        // The picture is loaded once the modal is on screen, because a failed load opens the error dialog over it.
+        private void OnScreenLoaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= OnScreenLoaded;
+            _viewModel.LoadPicture(AccessToken);
         }
 
         private void OnChangePhotoClick(object sender, RoutedEventArgs e)
@@ -34,15 +47,25 @@ namespace GinRummy.Client.Views
             fileDialog.Filter = ImageFilter;
             if (fileDialog.ShowDialog(Window.GetWindow(this)) == true)
             {
-                _viewModel.ChangePictureCommand.Execute(fileDialog.FileName);
+                _viewModel.ChangePicture(AccessToken, fileDialog.FileName);
             }
         }
 
-        private void OnSocialUrlVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void OnRemovePhotoClick(object sender, RoutedEventArgs e)
         {
-            if (txtSocialUrl.IsVisible)
+            _viewModel.RemovePicture(AccessToken);
+        }
+
+        private void OnSaveClick(object sender, RoutedEventArgs e)
+        {
+            _viewModel.Save(AccessToken);
+        }
+
+        private void OnSocialPlatformNameVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (txtSocialPlatformName.IsVisible)
             {
-                txtSocialUrl.Focus();
+                txtSocialPlatformName.Focus();
             }
         }
 
@@ -55,19 +78,29 @@ namespace GinRummy.Client.Views
 
         private void OnUnlinkConfirmClosed(object sender, EventArgs e)
         {
-            _viewModel.CompleteSocialLinkRemoval(((GuiConfirmDialog)sender).IsConfirmed);
+            _viewModel.CompleteSocialLinkRemoval(((GuiConfirmDialog)sender).IsConfirmed, AccessToken);
         }
 
-        private void OnSocialLinkReplaceRequested(object sender, EventArgs e)
+        private void OnErrorDialogRequested(object sender, ErrorDialogKind kind)
         {
-            GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.SocialLinkReplace);
-            confirmDialog.Closed += OnReplaceLinkConfirmClosed;
-            ShowModal(confirmDialog);
+            GuiErrorDialog errorDialog = new GuiErrorDialog(kind);
+            if (kind == ErrorDialogKind.SessionExpired)
+            {
+                errorDialog.Closed += OnSessionExpiredDialogClosed;
+            }
+
+            ShowModal(errorDialog);
         }
 
-        private void OnReplaceLinkConfirmClosed(object sender, EventArgs e)
+        // An expired session cannot stay in the lobby, so the lobby closes too.
+        private void OnSessionExpiredDialogClosed(object sender, EventArgs e)
         {
-            _viewModel.CompleteSocialLinkReplace(((GuiConfirmDialog)sender).IsConfirmed);
+            GuiWindowBase lobby = Host;
+            Close();
+            if (lobby != null)
+            {
+                lobby.Close();
+            }
         }
 
         private void OnCancelClick(object sender, RoutedEventArgs e)

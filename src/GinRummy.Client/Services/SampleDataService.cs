@@ -136,22 +136,6 @@ namespace GinRummy.Client.Services
             return settings;
         }
 
-        public PlayerProfile GetOwnProfile()
-        {
-            PlayerProfile profile = CreateProfile(PlayerName, "S", 1024);
-            profile.Bio = "Listo para una partida rápida.";
-            profile.SocialLinks.Add(CreateSocialLink("Discord", "discord.gg/playerA"));
-            profile.SocialLinks.Add(CreateSocialLink("X", "x.com/playerA"));
-            profile.IsOwnProfile = true;
-
-            return profile;
-        }
-
-        public IList<string> GetPlatforms()
-        {
-            return new List<string> { "Discord", "Instagram", "Twitch", "X", "YouTube" };
-        }
-
         public GameRules GetGameRules()
         {
             GameRules rules = new GameRules();
@@ -207,25 +191,6 @@ namespace GinRummy.Client.Services
             };
 
             return table;
-        }
-
-        private static PlayerProfile CreateProfile(string username, string rankName, int publicTag)
-        {
-            PlayerProfile profile = new PlayerProfile();
-            profile.Username = username;
-            profile.RankName = rankName;
-            profile.PublicTag = publicTag;
-            profile.SocialLinks = new List<SocialLink>();
-            profile.MatchesPlayed = 124;
-            profile.WinRate = 0.58;
-            profile.Score = 1450;
-
-            return profile;
-        }
-
-        private static SocialLink CreateSocialLink(string platformName, string url)
-        {
-            return new SocialLink(platformName, url);
         }
 
         private static LinkedAccount CreateLinkedAccount(string platformName, bool isLinked)

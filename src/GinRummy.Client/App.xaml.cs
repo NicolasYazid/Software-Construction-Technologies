@@ -129,9 +129,12 @@ namespace GinRummy.Client
             return new ConfirmDialogViewModel(kind);
         }
 
-        public EditProfileViewModel CreateEditProfileViewModel()
+        public EditProfileViewModel CreateEditProfileViewModel(PlayerProfile profile)
         {
-            return new EditProfileViewModel(SampleData);
+            return new EditProfileViewModel(
+                profile,
+                () => new PlayerProfileServiceClient(PlayerProfileEndpointName),
+                _loggerFactory.CreateLogger<EditProfileViewModel>());
         }
 
         public ErrorDialogViewModel CreateErrorDialogViewModel(ErrorDialogKind kind)

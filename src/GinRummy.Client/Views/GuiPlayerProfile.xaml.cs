@@ -13,11 +13,13 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiPlayerProfile : GuiModalBase
     {
+        private readonly PlayerProfile _profile;
         private readonly PlayerProfileViewModel _viewModel;
 
         public GuiPlayerProfile(PlayerProfile profile)
         {
             InitializeComponent();
+            _profile = profile;
             _viewModel = ((App)Application.Current).CreatePlayerProfileViewModel(profile);
             _viewModel.ProfileUnavailable += OnProfileUnavailable;
             DataContext = _viewModel;
@@ -80,8 +82,14 @@ namespace GinRummy.Client.Views
 
         private void OnEditProfileClick(object sender, RoutedEventArgs e)
         {
-            GuiEditProfile editProfile = new GuiEditProfile();
+            GuiEditProfile editProfile = new GuiEditProfile(_profile);
+            editProfile.Closed += OnEditProfileClosed;
             ShowModal(editProfile);
+        }
+
+        private void OnEditProfileClosed(object sender, EventArgs e)
+        {
+            _viewModel.RefreshProfile();
         }
 
         private void OnCloseClick(object sender, RoutedEventArgs e)
