@@ -975,7 +975,7 @@
         <Setter Property="Height" Value="30" />
     </Style>
 
-    <!-- This is the avatar the prototype draws for a player without a picture (CU-27 EX-03). -->
+    <!-- This is the avatar the prototype draws for a player without a picture (CU-28 EX-04). -->
     <Style x:Key="StyAvatar" TargetType="Border">
         <Setter Property="Width" Value="44" />
         <Setter Property="Height" Value="44" />

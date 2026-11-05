@@ -46,13 +46,13 @@ namespace GinRummy.Client.Views
             ShowModal(errorDialog);
         }
 
-        // A profile that could not be read has nothing to show, so the player goes back to the lobby (CU-27 EX-01, EX-02, EX-04).
+        // A profile that could not be read has nothing to show, so the player goes back to the lobby (CU-27 EX-01, EX-02, EX-03).
         private void OnErrorDialogClosed(object sender, EventArgs e)
         {
             Close();
         }
 
-        // An expired session cannot stay in the lobby, so the lobby closes too (CU-27 EX-05).
+        // An expired session cannot stay in the lobby, so the lobby closes too (CU-27 EX-04).
         private void OnSessionExpiredDialogClosed(object sender, EventArgs e)
         {
             GuiWindowBase lobby = Host;
