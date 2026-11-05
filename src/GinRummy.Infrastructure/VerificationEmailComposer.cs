@@ -9,7 +9,7 @@ namespace GinRummy.Infrastructure
 {
     /// <summary>
     /// Fulfils IVerificationEmailComposer with the texts of VerificationEmailTexts.resx, whose base file is
-    /// in Spanish because es-MX is the default locale of the game (BD-12), and whose en file serves every
+    /// in Spanish because es-MX is the default locale of the game, and whose en file serves every
     /// English locale.
     /// </summary>
     public class VerificationEmailComposer : IVerificationEmailComposer
