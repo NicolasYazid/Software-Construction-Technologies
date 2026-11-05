@@ -59,9 +59,15 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <ctl:PixelBorder Style="{StaticResource StySocialChip}" ToolTip="{Binding Url}">
-                                        <TextBlock Style="{StaticResource StySocialChipText}" Text="{Binding PlatformName}" />
-                                    </ctl:PixelBorder>
+                                    <Button Cursor="Hand" ToolTip="{Binding Url}" Click="OnSocialLinkClick">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <ctl:PixelBorder Style="{StaticResource StySocialChip}">
+                                                    <TextBlock Style="{StaticResource StySocialChipText}" Text="{Binding PlatformName}" />
+                                                </ctl:PixelBorder>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

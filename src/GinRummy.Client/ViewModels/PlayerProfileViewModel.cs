@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.ServiceModel;
 using System.Windows.Input;
@@ -132,6 +134,30 @@ namespace GinRummy.Client.ViewModels
             if (IsPlayer)
             {
                 ReadProfileFromServer(accessToken);
+            }
+        }
+
+        // Another player wrote the address, so only a web address is opened and nothing else starts on this computer.
+        public void OpenSocialLink(SocialLink link)
+        {
+            Uri address;
+            bool isAbsolute = Uri.TryCreate(link.Url, UriKind.Absolute, out address);
+            bool isWebAddress = isAbsolute
+                && ((address.Scheme == Uri.UriSchemeHttp) || (address.Scheme == Uri.UriSchemeHttps));
+            if (!isWebAddress)
+            {
+                _logger.LogWarning("The social link of {PublicTag} was not opened because it is not a web address.", _profile.PublicTag);
+            }
+            else
+            {
+                try
+                {
+                    Process.Start(address.AbsoluteUri);
+                }
+                catch (Win32Exception ex)
+                {
+                    _logger.LogWarning(ex, "No program on this computer could open the social link {Url}.", address.AbsoluteUri);
+                }
             }
         }
 

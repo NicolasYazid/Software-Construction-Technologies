@@ -92,6 +92,11 @@ namespace GinRummy.Client.Views
             _viewModel.RefreshProfile();
         }
 
+        private void OnSocialLinkClick(object sender, RoutedEventArgs e)
+        {
+            _viewModel.OpenSocialLink((SocialLink)((FrameworkElement)sender).DataContext);
+        }
+
         private void OnCloseClick(object sender, RoutedEventArgs e)
         {
             Close();
