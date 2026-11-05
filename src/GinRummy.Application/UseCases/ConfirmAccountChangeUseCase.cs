@@ -9,7 +9,6 @@ using GinRummy.Domain.Services;
 
 namespace GinRummy.Application.UseCases
 {
-    // A change of the account is applied only with the code emailed for it, so a session alone cannot change it (CU-04, CU-06, CU-07).
     public class ConfirmAccountChangeUseCase : IAccountChangeConfirmationPort
     {
         private readonly Func<IUnitOfWork> _unitOfWorkFactory;
@@ -39,7 +38,6 @@ namespace GinRummy.Application.UseCases
             }
         }
 
-        // Nothing is saved until the new password replaces the old one, so a refused password leaves the code unused (CU-06).
         public void ConfirmPasswordChange(string accessToken, string newPassword, string verificationCode)
         {
             int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
@@ -54,8 +52,6 @@ namespace GinRummy.Application.UseCases
             }
         }
 
-        // Only the address the code was emailed to is kept, so an address nobody proved to reach never replaces the email (CU-07).
-        // Another account may have taken the address while the code was on its way, so the address is checked again.
         public void ConfirmEmailChange(string accessToken, string newEmail, string verificationCode)
         {
             int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
@@ -83,7 +79,6 @@ namespace GinRummy.Application.UseCases
             }
         }
 
-        // Without a code there is nothing to redeem, and the player has to ask for a new one.
         private static VerificationCode FindStoredCode(IVerificationCodeRepository codes, int playerId, VerificationPurpose purpose)
         {
             VerificationCode storedCode = codes.FindMostRecent(playerId, purpose);
@@ -95,7 +90,6 @@ namespace GinRummy.Application.UseCases
             return storedCode;
         }
 
-        // The used attempt is saved before the rejection is reported, so retrying cannot reset the count (CU-09 EX-01).
         private void RedeemCode(IUnitOfWork unitOfWork, VerificationCode storedCode, string typedCode)
         {
             VerificationCodeCheckResult checkResult = _codeRedeemer.Redeem(unitOfWork.VerificationCodes, storedCode, typedCode);

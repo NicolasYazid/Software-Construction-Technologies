@@ -10,8 +10,6 @@ using GinRummy.Domain.Services;
 
 namespace GinRummy.Application.UseCases
 {
-    // Every operation takes the player from the token and never from the client.
-    // A player therefore can only change their own profile (CU-28 to CU-32, PRM-02).
     public class EditPlayerProfileUseCase : IProfileEditPort
     {
         private readonly Func<IUnitOfWork> _unitOfWorkFactory;
@@ -28,7 +26,6 @@ namespace GinRummy.Application.UseCases
             _pictureStorage = pictureStorage ?? throw new ArgumentNullException(nameof(pictureStorage));
         }
 
-        // The name is saved even when it repeats another one, because players are told apart by their tag (CU-29).
         public void SaveProfileChanges(string accessToken, string username, string bio)
         {
             int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
@@ -45,7 +42,6 @@ namespace GinRummy.Application.UseCases
             }
         }
 
-        // Only a player with a session may look at a picture, as with the rest of a profile (CU-27 Pre-1).
         public byte[] GetProfilePicture(string accessToken, int publicTag)
         {
             _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
@@ -93,7 +89,6 @@ namespace GinRummy.Application.UseCases
             DeleteStoredPicture(previousPath);
         }
 
-        // Only web addresses are kept, so a link never opens something else on the computer of who reads it (CU-31).
         public SocialMedia LinkSocialMedia(string accessToken, string platformName, string url)
         {
             int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
@@ -117,8 +112,6 @@ namespace GinRummy.Application.UseCases
             return newLink;
         }
 
-        // The link is searched only among the links of the own profile (CU-32 EX-05).
-        // A link that is not found was already removed, so nothing is reported (CU-32 FA-03).
         public void UnlinkSocialMedia(string accessToken, int socialMediaId)
         {
             int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
@@ -134,7 +127,6 @@ namespace GinRummy.Application.UseCases
             }
         }
 
-        // Only a language of the catalog is kept, because the next log in applies it (CU-20 EX-01).
         public bool ChangeLanguage(string accessToken, string localeCode)
         {
             int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
@@ -167,7 +159,6 @@ namespace GinRummy.Application.UseCases
             return previousPath;
         }
 
-        // The old file is deleted only after the database stops pointing to it, so no profile is left without its file.
         private void DeleteStoredPicture(string storedPath)
         {
             if (storedPath != null)

@@ -10,10 +10,6 @@ using GinRummy.Domain.Services;
 
 namespace GinRummy.Application.UseCases
 {
-    /// <summary>
-    /// The Log In use case (CU-02): validates what the player typed, checks the credentials and the state of
-    /// the account, and either grants the access token or emails the code of the second factor.
-    /// </summary>
     public class LogInUseCase : ILogInPort
     {
         private const string GuestNamePrefix = "Guest_";
@@ -24,13 +20,6 @@ namespace GinRummy.Application.UseCases
         private readonly AccountAccessPolicy _accessPolicy;
         private readonly VerificationCodeSender _codeSender;
 
-        /// <summary>
-        /// Builds the use case with the collaborators the composition root assembled.
-        /// </summary>
-        /// <param name="unitOfWorkFactory">Opens the transaction that groups the writes of one sign-in.</param>
-        /// <param name="accessPolicy">Decides who may enter an account and grants the access token.</param>
-        /// <param name="codeSender">Emails the code of the second factor.</param>
-        /// <exception cref="ArgumentNullException">Thrown when a dependency is null.</exception>
         public LogInUseCase(
             Func<IUnitOfWork> unitOfWorkFactory,
             AccountAccessPolicy accessPolicy,
@@ -41,19 +30,6 @@ namespace GinRummy.Application.UseCases
             _codeSender = codeSender ?? throw new ArgumentNullException(nameof(codeSender));
         }
 
-        /// <summary>
-        /// Signs a player in with the email and the password of the account.
-        /// </summary>
-        /// <param name="email">Email exactly as the player typed it.</param>
-        /// <param name="password">Password exactly as the player typed it.</param>
-        /// <param name="keepSignedIn">Whether the player asked to stay signed in.</param>
-        /// <returns>The granted access token, or the notice that the second factor is pending.</returns>
-        /// <exception cref="RequiredFieldMissingException">Thrown when the email or the password is empty.</exception>
-        /// <exception cref="DisallowedCharactersException">Thrown when a field contains forbidden characters.</exception>
-        /// <exception cref="InvalidCredentialsException">Thrown when the email or the password is not valid.</exception>
-        /// <exception cref="EmailNotVerifiedException">Thrown when the email of the account is not verified.</exception>
-        /// <exception cref="AccountBannedException">Thrown when a ban restricts the whole account.</exception>
-        /// <exception cref="VerificationEmailNotSentException">Thrown when the code of the second factor could not be emailed.</exception>
         public LogInResult LogIn(string email, string password, bool keepSignedIn)
         {
             TypedFieldValidator.EnsureAreTyped(email, password);
@@ -80,13 +56,8 @@ namespace GinRummy.Application.UseCases
             return result;
         }
 
-        /// <summary>
-        /// Creates the session of a guest and grants the access token that identifies it (CU-02 FA-01).
-        /// </summary>
-        /// <returns>The session of the guest and its access token.</returns>
         public GuestAccess LogInAsGuest()
         {
-            // Two guests may share a name, because the server tells them apart by their session and not by their name.
             string temporalDisplayName = GuestNamePrefix
                 + new Random().Next(FirstGuestNumber, GuestNumberLimit).ToString(CultureInfo.InvariantCulture);
             GuestSession guest = _accessPolicy.CreateGuestSession(temporalDisplayName);
@@ -99,8 +70,6 @@ namespace GinRummy.Application.UseCases
             return new GuestAccess(guest, _accessPolicy.GrantGuestAccess(guest));
         }
 
-        // The code and its failed email are saved before the failure is reported, so the player can ask for a new code (CU-04 EX-03).
-        // The token is not granted here: it waits for the code, as CU-02 FA-04 returns to step 10 only after the check.
         private LogInResult StartTwoFactor(IUnitOfWork unitOfWork, PlayerAccount account)
         {
             EmailDeliveryStatus deliveryStatus = _codeSender.Send(unitOfWork, account, VerificationPurpose.TwoFactorLogin);

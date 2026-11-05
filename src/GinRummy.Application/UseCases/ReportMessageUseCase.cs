@@ -24,8 +24,6 @@ namespace GinRummy.Application.UseCases
             _reportedMessageSource = reportedMessageSource ?? throw new ArgumentNullException(nameof(reportedMessageSource));
         }
 
-        // The reporter comes from the token and not from the client, so nobody can report in the name of another player.
-        // A message may be reported again after a sanction, so no earlier report of it is looked for (CU-18).
         public bool ReportMessage(string accessToken, int chatMessageId)
         {
             int reporterPlayerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);

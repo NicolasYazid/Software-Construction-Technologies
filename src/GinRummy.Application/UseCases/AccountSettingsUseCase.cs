@@ -9,7 +9,6 @@ using GinRummy.Domain.Services;
 
 namespace GinRummy.Application.UseCases
 {
-    // Every operation takes the player from the token, so a player can only change the own account (CU-04 to CU-07).
     public class AccountSettingsUseCase : IAccountSettingsPort
     {
         private readonly Func<IUnitOfWork> _unitOfWorkFactory;
@@ -48,7 +47,6 @@ namespace GinRummy.Application.UseCases
             }
         }
 
-        // The password is asked again, because an open session alone must not be enough to weaken the account (CU-05).
         public void DisableTwoFactor(string accessToken, string password)
         {
             int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
@@ -62,7 +60,6 @@ namespace GinRummy.Application.UseCases
             }
         }
 
-        // Both passwords are checked before the code is sent, so the player learns of a mistake before waiting for an email (CU-06).
         public void RequestPasswordChange(string accessToken, string currentPassword, string newPassword)
         {
             int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
@@ -76,7 +73,6 @@ namespace GinRummy.Application.UseCases
             }
         }
 
-        // The code goes to the new address, because that is the address that must prove it reaches the player (CU-07).
         public void RequestEmailChange(string accessToken, string newEmail)
         {
             int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
@@ -100,7 +96,6 @@ namespace GinRummy.Application.UseCases
             }
         }
 
-        // The preference only changes what the player reads, so it is saved without a code (CU-17 step 10).
         public void ChangeChatFilter(string accessToken, bool isChatFilterEnabled)
         {
             int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
@@ -111,7 +106,6 @@ namespace GinRummy.Application.UseCases
             }
         }
 
-        // The code and its failed email are saved before the failure is reported, so the player can ask for a new code (CU-04 EX-03).
         private static void CommitSentCode(IUnitOfWork unitOfWork, EmailDeliveryStatus deliveryStatus)
         {
             unitOfWork.Commit();

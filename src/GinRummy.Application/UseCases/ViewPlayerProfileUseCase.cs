@@ -26,8 +26,6 @@ namespace GinRummy.Application.UseCases
             _rankResolver = new RankResolver();
         }
 
-        // Only a player with a session may look at a profile (CU-27 Pre-1).
-        // The token is therefore checked even though the profile does not depend on who asks.
         public ViewedPlayerProfile GetPlayerProfile(string accessToken, int publicTag)
         {
             _accessPolicy.IdentifyPlayerByAccessToken(accessToken);

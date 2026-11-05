@@ -18,7 +18,6 @@ namespace GinRummy.Application.UseCases
 
         public PlayerStats Stats { get; private set; }
 
-        // No rank contains the score when the catalogue leaves a gap, and the profile is still shown (CU-27 EX-05).
         public Rank Rank { get; private set; }
     }
 }
