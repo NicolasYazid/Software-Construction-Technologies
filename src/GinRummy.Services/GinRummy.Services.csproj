@@ -54,6 +54,7 @@
     <Compile Include="Hosting\ServiceInstanceProvider.cs" />
     <Compile Include="Mappers\LogInOutcomeMapper.cs" />
     <Compile Include="Mappers\PlayerPresenceMapper.cs" />
+    <Compile Include="Mappers\PlayerProfileMapper.cs" />
     <Compile Include="Mappers\PlayerRankingMapper.cs" />
     <Compile Include="Notifiers\PlayerConnection.cs" />
     <Compile Include="Notifiers\PlayerPresenceAnnouncer.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Services\LeaderboardService.cs" />
     <Compile Include="Services\LogInService.cs" />
     <Compile Include="Services\PlayerPresenceService.cs" />
+    <Compile Include="Services\PlayerProfileService.cs" />
     <Compile Include="Services\ServiceFaultCommon.cs" />
     <Compile Include="Services\SignUpService.cs" />
   </ItemGroup>

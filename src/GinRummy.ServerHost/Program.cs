@@ -51,6 +51,7 @@ namespace GinRummy.ServerHost
                 IAccessTokenSigner tokenSigner = CreateAccessTokenSigner(hostLogger);
                 ILogger<LogInService> logInLogger = loggerFactory.CreateLogger<LogInService>();
                 ILogger<SignUpService> signUpLogger = loggerFactory.CreateLogger<SignUpService>();
+                ILogger<PlayerProfileService> playerProfileLogger = loggerFactory.CreateLogger<PlayerProfileService>();
 
                 // One announcer serves every session, because it keeps the connection of every player who is online.
                 PlayerPresenceAnnouncer presenceAnnouncer = new PlayerPresenceAnnouncer(loggerFactory.CreateLogger<PlayerConnection>());
@@ -69,6 +70,10 @@ namespace GinRummy.ServerHost
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(SignUpService),
                     () => ComposeSignUpService(emailSender, signUpLogger),
+                    faultShieldBehavior));
+                hostGroup.Add(CreateIsolatedHost(
+                    typeof(PlayerProfileService),
+                    () => ComposePlayerProfileService(tokenSigner, playerProfileLogger),
                     faultShieldBehavior));
 
                 hostGroup.OpenAll();
@@ -219,6 +224,21 @@ namespace GinRummy.ServerHost
             SignUpService signUpService = new SignUpService(signUpUseCase, emailVerificationUseCase, logger);
 
             return signUpService;
+        }
+
+        private static PlayerProfileService ComposePlayerProfileService(
+            IAccessTokenSigner tokenSigner,
+            ILogger<PlayerProfileService> logger)
+        {
+            Func<IUnitOfWork> unitOfWorkFactory = () => new EntityFrameworkUnitOfWork(ConnectionStringName);
+            AccountAccessPolicy accessPolicy = new AccountAccessPolicy(new Argon2PasswordHasher(), tokenSigner, new SystemClock());
+            ViewPlayerProfileUseCase useCase = new ViewPlayerProfileUseCase(
+                unitOfWorkFactory,
+                accessPolicy,
+                new RankingRepository(ConnectionStringName));
+            PlayerProfileService playerProfileService = new PlayerProfileService(useCase, logger);
+
+            return playerProfileService;
         }
     }
 }
