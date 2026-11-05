@@ -1538,4 +1538,12 @@ Tú: {0}   -   Rival: {1}</value>
     <value>Inicio de sesión exitoso. ¡Bienvenido, {0}!</value>
     <comment>Mensaje temporal de demostración; el acceso real al lobby llega con el servidor</comment>
   </data>
+  <data name="Error_SocialPlayerNotFound" xml:space="preserve">
+    <value>No encontramos a ningún jugador con esa etiqueta</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="Search_OwnTagNotice" xml:space="preserve">
+    <value>Esa es tu propia etiqueta</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
 </root>

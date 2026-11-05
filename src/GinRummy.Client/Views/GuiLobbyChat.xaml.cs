@@ -26,6 +26,7 @@ namespace GinRummy.Client.Views
             _viewModel.MatchStarted += OnMatchStarted;
             _viewModel.PresenceUnavailable += OnPresenceUnavailable;
             _viewModel.ChatEntries.CollectionChanged += OnChatEntriesChanged;
+            _viewModel.OwnPublicTag = ((App)Application.Current).SignedInPlayer.PublicTag;
             DataContext = _viewModel;
             Loaded += OnScreenLoaded;
             Closed += OnScreenClosed;

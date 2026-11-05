@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
+using System.Windows.Data;
 using System.Windows.Input;
 
 using GinRummy.Client.Models;
@@ -13,6 +15,10 @@ namespace GinRummy.Client.ViewModels
 {
     public class LobbyChatViewModel : ViewModelBase
     {
+        private const string PlayerNotFoundNoticeKey = "Error_SocialPlayerNotFound";
+        private const string OwnTagNoticeKey = "Search_OwnTagNotice";
+        private const string DisallowedCharactersNoticeKey = "Error_ValDisallowedCharacters";
+
         private readonly SampleDataService _dataService;
         private readonly PlayerPresenceMonitor _presenceMonitor;
         private readonly string _accessToken;
@@ -22,6 +28,8 @@ namespace GinRummy.Client.ViewModels
         private bool _isChatBlocked;
         private bool _hasNoFriends;
         private string _banReasonName;
+        private string _searchText;
+        private string _searchNoticeKey;
 
         public LobbyChatViewModel(SampleDataService dataService, PlayerPresenceMonitor presenceMonitor, string accessToken)
         {
@@ -164,6 +172,36 @@ namespace GinRummy.Client.ViewModels
                 _hasNoFriends = value;
                 RaisePropertyChanged();
             }
+        }
+
+        // The player is not among the rows the server sends, so the own tag is kept apart to answer a search for it (CU-10 FA-03).
+        public int OwnPublicTag { get; set; }
+
+        public string SearchText
+        {
+            get { return _searchText; }
+            set
+            {
+                _searchText = value ?? string.Empty;
+                RaisePropertyChanged();
+                FilterPlayersByTag();
+            }
+        }
+
+        public string SearchNoticeKey
+        {
+            get { return _searchNoticeKey; }
+            private set
+            {
+                _searchNoticeKey = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(HasSearchNotice));
+            }
+        }
+
+        public bool HasSearchNotice
+        {
+            get { return _searchNoticeKey != null; }
         }
 
         public void StopCountdown()
@@ -334,6 +372,70 @@ namespace GinRummy.Client.ViewModels
             {
                 players.Remove(player);
             }
+        }
+
+        // Presence already sends every registered player with its relation, so the search filters the rows the panel has (CU-10).
+        // The filter goes on the shared view of each group, so the everyone tab and the friends tab show the same result.
+        private void FilterPlayersByTag()
+        {
+            string typedTag = _searchText.Trim();
+            Predicate<object> tagFilter = null;
+            if (typedTag.Length > 0)
+            {
+                tagFilter = candidate => TagStartsWith((LobbyPlayerViewModel)candidate, typedTag);
+            }
+
+            foreach (IList<LobbyPlayerViewModel> players in GetPlayerGroups())
+            {
+                CollectionViewSource.GetDefaultView(players).Filter = tagFilter;
+            }
+
+            string noticeKey = null;
+            if (typedTag.Length > 0)
+            {
+                noticeKey = FindSearchNoticeKey(typedTag);
+            }
+
+            SearchNoticeKey = noticeKey;
+        }
+
+        private string FindSearchNoticeKey(string typedTag)
+        {
+            string noticeKey = null;
+            if (!typedTag.All(char.IsDigit))
+            {
+                noticeKey = DisallowedCharactersNoticeKey;
+            }
+            else if (typedTag == OwnPublicTag.ToString(CultureInfo.InvariantCulture))
+            {
+                noticeKey = OwnTagNoticeKey;
+            }
+            else if (!GetPlayerGroups().SelectMany(players => players).Any(player => TagStartsWith(player, typedTag)))
+            {
+                noticeKey = PlayerNotFoundNoticeKey;
+            }
+
+            return noticeKey;
+        }
+
+        private IList<IList<LobbyPlayerViewModel>> GetPlayerGroups()
+        {
+            IList<IList<LobbyPlayerViewModel>> playerGroups = new List<IList<LobbyPlayerViewModel>>
+            {
+                _lobby.LookingToPlay,
+                _lobby.Online,
+                _lobby.Unavailable,
+                _lobby.FriendsOnline,
+                _lobby.FriendsUnavailable
+            };
+
+            return playerGroups;
+        }
+
+        // The tag is compared from its start, so the row appears while the player is still typing the digits.
+        private static bool TagStartsWith(LobbyPlayerViewModel player, string typedTag)
+        {
+            return player.PublicTag.ToString(CultureInfo.InvariantCulture).StartsWith(typedTag, StringComparison.Ordinal);
         }
 
         private static bool HasNoFriendsIn(LobbySnapshot lobby)

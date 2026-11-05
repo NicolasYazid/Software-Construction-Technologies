@@ -1184,4 +1184,10 @@ You: {0}   -   Opponent: {1}</value>
   <data name="LogIn_DemoSignInSuccess" xml:space="preserve">
     <value>Sign-in successful. Welcome, {0}!</value>
   </data>
+  <data name="Error_SocialPlayerNotFound" xml:space="preserve">
+    <value>We couldn't find any player with that tag</value>
+  </data>
+  <data name="Search_OwnTagNotice" xml:space="preserve">
+    <value>That is your own tag</value>
+  </data>
 </root>
