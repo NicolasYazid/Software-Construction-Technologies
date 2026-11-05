@@ -60,7 +60,6 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        // The podium keeps the first three places whatever the search, as the prototype of CU-19 shows it.
         private void LoadRankings()
         {
             _allRankings = LoadRankingsFromService();

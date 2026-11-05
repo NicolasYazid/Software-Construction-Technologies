@@ -42,7 +42,6 @@ namespace GinRummy.Services.Services
             }
             catch (DisallowedCharactersException ex)
             {
-                // CU-02 EX-07 asks for the attempt to be recorded with where it came from.
                 _logger.LogWarning(
                     ex,
                     "A sign-in from {Caller} arrived with characters that are not allowed.",

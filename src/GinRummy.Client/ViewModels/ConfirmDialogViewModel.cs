@@ -59,7 +59,6 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        // CU-05 makes the player prove again that the account is theirs before the second factor is turned off.
         private void ApplyTwoStepDisableKind()
         {
             SetTextKeys(TwoStepDisableTitleKey, TwoStepDisableMessageKey, TwoStepDisableConfirmKey);

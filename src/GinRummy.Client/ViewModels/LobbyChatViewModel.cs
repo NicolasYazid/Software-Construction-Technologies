@@ -287,7 +287,6 @@ namespace GinRummy.Client.ViewModels
             HasNoFriends = HasNoFriendsListed();
         }
 
-        // An empty message is not sent and shows no error (CU-17 FA-03).
         private void SendMessage()
         {
             string content = _messageDraft.Trim();
@@ -298,7 +297,6 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        // The search stays in the state of CU-22 FA-03, the one the prototype draws, until the server pairs the players.
         private void FindMatch()
         {
             IsSearchingMatch = true;
@@ -364,7 +362,6 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        // A player who no longer exists leaves every group of the panel (CU-27 EX-02).
         private void RemovePlayer(int publicTag)
         {
             RemoveByPublicTag(Online, publicTag);
