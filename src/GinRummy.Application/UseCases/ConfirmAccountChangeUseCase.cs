@@ -39,7 +39,7 @@ namespace GinRummy.Application.UseCases
             }
         }
 
-        // The new password is checked before the code is redeemed, so a weak password does not use up the code (CU-06).
+        // Nothing is saved until the new password replaces the old one, so a refused password leaves the code unused (CU-06).
         public void ConfirmPasswordChange(string accessToken, string newPassword, string verificationCode)
         {
             int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
@@ -47,7 +47,6 @@ namespace GinRummy.Application.UseCases
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
                 PlayerAccount account = unitOfWork.PlayerAccounts.FindByPlayerId(playerId);
-                _accessPolicy.EnsurePasswordCanReplace(account, newPassword);
                 VerificationCode storedCode = FindStoredCode(unitOfWork.VerificationCodes, playerId, VerificationPurpose.PasswordChange);
                 RedeemCode(unitOfWork, storedCode, verificationCode);
                 _accessPolicy.ReplacePassword(account, newPassword);
