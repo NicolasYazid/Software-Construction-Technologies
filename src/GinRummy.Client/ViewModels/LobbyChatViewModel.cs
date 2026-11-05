@@ -19,7 +19,6 @@ namespace GinRummy.Client.ViewModels
         private const string OwnTagNoticeKey = "Search_OwnTagNotice";
         private const string DisallowedCharactersNoticeKey = "Error_ValDisallowedCharacters";
 
-        private readonly SampleDataService _dataService;
         private readonly PlayerPresenceMonitor _presenceMonitor;
         private readonly string _accessToken;
         private readonly LobbySnapshot _lobby;
@@ -33,10 +32,9 @@ namespace GinRummy.Client.ViewModels
 
         public LobbyChatViewModel(SampleDataService dataService, PlayerPresenceMonitor presenceMonitor, string accessToken)
         {
-            _dataService = dataService ?? throw new ArgumentNullException(nameof(dataService));
             _presenceMonitor = presenceMonitor ?? throw new ArgumentNullException(nameof(presenceMonitor));
             _accessToken = accessToken ?? throw new ArgumentNullException(nameof(accessToken));
-            _lobby = dataService.GetLobby();
+            _lobby = (dataService ?? throw new ArgumentNullException(nameof(dataService))).GetLobby();
             _messageDraft = string.Empty;
             ChatEntries = new ObservableCollection<ChatEntry>(_lobby.ChatEntries);
             HasNoPlayersLookingToPlay = _lobby.LookingToPlay.Count == 0;
@@ -174,7 +172,8 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        // The player is not among the rows the server sends, so the own tag is kept apart to answer a search for it (CU-10 FA-03).
+        // The player is not among the rows the server sends, so the own tag is kept apart for the search and the own profile.
+        // The search uses it to answer a search for the own tag (CU-10 FA-02), and the profile to read it (CU-27 FA-02).
         public int OwnPublicTag { get; set; }
 
         public string SearchText
@@ -233,9 +232,15 @@ namespace GinRummy.Client.ViewModels
             return (message != null) && (message.AuthorName != _lobby.PlayerName);
         }
 
+        // Only the tag is needed, because the profile screen reads everything else from the server (CU-27 FA-02).
         public PlayerProfile GetOwnProfile()
         {
-            return _dataService.GetOwnProfile();
+            PlayerProfile profile = new PlayerProfile();
+            profile.PublicTag = OwnPublicTag;
+            profile.SocialLinks = new List<SocialLink>();
+            profile.IsOwnProfile = true;
+
+            return profile;
         }
 
         // The row already knows who the player is and how the two players are related.

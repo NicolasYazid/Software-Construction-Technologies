@@ -126,13 +126,12 @@ namespace GinRummy.Client.ViewModels
             get { return IsPlayer && !_profile.IsOwnProfile; }
         }
 
-        // The own profile still comes from the sample data, and a guest has no profile on the server.
-        // Only the profile of another player is therefore read from the server.
+        // A guest has no profile on the server, so only the profile of a registered player is read from it (CU-27 FA-04).
         public void LoadProfile(string accessToken)
         {
-            if (IsOtherPlayer)
+            if (IsPlayer)
             {
-                LoadOtherPlayerProfile(accessToken);
+                ReadProfileFromServer(accessToken);
             }
         }
 
@@ -151,7 +150,7 @@ namespace GinRummy.Client.ViewModels
             RaisePropertyChanged(nameof(CanRemoveFriend));
         }
 
-        private void LoadOtherPlayerProfile(string accessToken)
+        private void ReadProfileFromServer(string accessToken)
         {
             IPlayerProfileService playerProfileService = _playerProfileServiceFactory();
             ICommunicationObject communicationObject = (ICommunicationObject)playerProfileService;
