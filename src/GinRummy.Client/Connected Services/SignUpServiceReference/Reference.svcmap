@@ -19,7 +19,7 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="net.tcp://localhost:8005/SignUpService/mex" Protocol="mex" SourceId="1" />
+    <MetadataSource Address="net.tcp://localhost:8001/SignUpService/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
     <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="e8819a4b-706e-4a8c-abb2-19c2a70e7702" SourceId="1" SourceUrl="net.tcp://localhost:8005/SignUpService/mex" />

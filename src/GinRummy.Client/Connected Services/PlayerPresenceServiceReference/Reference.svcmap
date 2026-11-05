@@ -19,7 +19,7 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="net.tcp://localhost:8005/PlayerPresenceService/mex" Protocol="mex" SourceId="1" />
+    <MetadataSource Address="net.tcp://localhost:8001/PlayerPresenceService/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
     <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="5a2f77bd-9626-4e1d-b280-8008799bf076" SourceId="1" SourceUrl="net.tcp://localhost:8005/PlayerPresenceService/mex" />

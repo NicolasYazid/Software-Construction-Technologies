@@ -41,11 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chat\ChatHistory.cs" />
+    <Compile Include="Chat\SentChatMessage.cs" />
+    <Compile Include="Ports\IChatMessageAnnouncer.cs" />
     <Compile Include="Ports\IEmailVerificationPort.cs" />
     <Compile Include="Ports\ILeaderboardPort.cs" />
     <Compile Include="Ports\ILogInPort.cs" />
     <Compile Include="Ports\IPlayerPresenceAnnouncer.cs" />
     <Compile Include="Ports\IPlayerPresenceOrchestrator.cs" />
+    <Compile Include="Ports\ISendMessageUseCase.cs" />
     <Compile Include="Ports\ISignUpPort.cs" />
     <Compile Include="Ports\ITwoFactorLogInPort.cs" />
     <Compile Include="Presence\OnlinePlayer.cs" />
@@ -55,6 +59,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UseCases\EmailVerificationUseCase.cs" />
     <Compile Include="UseCases\LogInUseCase.cs" />
+    <Compile Include="UseCases\SendMessageUseCase.cs" />
     <Compile Include="UseCases\SignUpUseCase.cs" />
     <Compile Include="UseCases\VerifyTwoFactorLogInUseCase.cs" />
     <Compile Include="UseCases\ViewLeaderboardUseCase.cs" />

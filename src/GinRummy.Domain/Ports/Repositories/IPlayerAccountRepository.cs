@@ -24,6 +24,8 @@ namespace GinRummy.Domain.Ports.Repositories
         /// <returns>The matching account, or null.</returns>
         PlayerAccount FindByPlayerId(int playerId);
 
+        PlayerProfile FindProfileByPlayerId(int playerId);
+
         /// <summary>
         /// Adds a new account and persists it immediately.
         /// </summary>
