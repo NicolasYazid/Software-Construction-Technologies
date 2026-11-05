@@ -7,7 +7,7 @@ namespace GinRummy.Application.Ports
 {
     public interface IPlayerPresenceOrchestrator
     {
-        int IdentifyPlayerByAccessToken(string accessToken);
+        int IdentifyByAccessToken(string accessToken);
 
         void AnnouncePlayerStatus(
             int playerWithNewStatusId,

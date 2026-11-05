@@ -30,21 +30,22 @@ namespace GinRummy.Application.Presence
             _rankResolver = new RankResolver();
         }
 
-        public int IdentifyPlayerByAccessToken(string accessToken)
+        // A guest is followed like a player, so the lobby of a guest has the same panel of players (CU-02 FA-01).
+        public int IdentifyByAccessToken(string accessToken)
         {
-            int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
-            Player player;
+            int identityId = _accessPolicy.IdentifyByAccessToken(accessToken);
+            RankedPlayer identifiedPlayer;
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                player = unitOfWork.Players.FindById(playerId);
+                identifiedPlayer = FindRankedPlayer(unitOfWork, identityId);
             }
 
-            if (player == null)
+            if (identifiedPlayer == null)
             {
-                throw new InvalidAccessTokenException("The access token does not belong to a registered player.");
+                throw new InvalidAccessTokenException("The access token does not belong to a player or a guest.");
             }
 
-            return playerId;
+            return identityId;
         }
 
         public void AnnouncePlayerStatus(
@@ -52,15 +53,11 @@ namespace GinRummy.Application.Presence
             PlayerPresenceStatus newStatus,
             IList<OnlinePlayer> onlinePlayers)
         {
-            Player playerWithNewStatus;
-            PlayerStats stats;
-            IList<Rank> ranks;
+            RankedPlayer playerWithNewStatus;
             IList<int> friendPlayerIds;
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                playerWithNewStatus = unitOfWork.Players.FindById(playerWithNewStatusId);
-                stats = unitOfWork.PlayerAccounts.FindStats(playerWithNewStatusId);
-                ranks = unitOfWork.Rankings.GetAllRanks();
+                playerWithNewStatus = FindRankedPlayer(unitOfWork, playerWithNewStatusId);
                 friendPlayerIds = GetFriendPlayerIds(unitOfWork, playerWithNewStatusId);
             }
 
@@ -69,14 +66,12 @@ namespace GinRummy.Application.Presence
                 return;
             }
 
-            RankedPlayer rankedPlayer = RankPlayer(playerWithNewStatus, stats, ranks);
-
             foreach (OnlinePlayer onlinePlayer in onlinePlayers)
             {
                 if (onlinePlayer.PlayerId != playerWithNewStatusId)
                 {
                     bool isFriend = friendPlayerIds.Contains(onlinePlayer.PlayerId);
-                    PlayerPresenceChange change = new PlayerPresenceChange(rankedPlayer, newStatus, isFriend);
+                    PlayerPresenceChange change = new PlayerPresenceChange(playerWithNewStatus, newStatus, isFriend);
                     _announcer.SendPlayerPresenceChange(onlinePlayer.PlayerId, change);
                 }
             }
@@ -87,21 +82,75 @@ namespace GinRummy.Application.Presence
             IList<Player> registeredPlayers;
             IList<PlayerStats> allStats;
             IList<Rank> ranks;
+            IList<RankedPlayer> onlineGuests;
             IList<int> friendPlayerIds;
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
                 registeredPlayers = unitOfWork.Players.GetAllPlayers();
                 allStats = unitOfWork.Rankings.GetStatsRankedByScore();
                 ranks = unitOfWork.Rankings.GetAllRanks();
+                onlineGuests = FindOtherOnlineGuests(unitOfWork, onlinePlayers, subscriberId);
                 friendPlayerIds = GetFriendPlayerIds(unitOfWork, subscriberId);
             }
 
             IList<Player> otherPlayers = GetPlayersExcept(registeredPlayers, subscriberId);
-            IList<RankedPlayer> rankedPlayers = RankPlayers(otherPlayers, allStats, ranks);
+            IList<RankedPlayer> rankedPlayers = RankPlayers(otherPlayers, allStats, ranks).Concat(onlineGuests).ToList();
             IList<int> onlinePlayerIds = GetOnlinePlayerIds(onlinePlayers);
             PlayersByStatus lists = new PlayersByStatus(rankedPlayers, onlinePlayerIds, friendPlayerIds);
 
             _announcer.SendCurrentPresenceStatusOfPlayers(subscriberId, lists);
+        }
+
+        // The identity of a guest is the negative of its session id, so its sign tells where to look for it.
+        private RankedPlayer FindRankedPlayer(IUnitOfWork unitOfWork, int identityId)
+        {
+            RankedPlayer rankedPlayer = null;
+            if (identityId < 0)
+            {
+                rankedPlayer = FindGuest(unitOfWork, identityId);
+            }
+            else
+            {
+                Player player = unitOfWork.Players.FindById(identityId);
+                if (player != null)
+                {
+                    rankedPlayer = RankPlayer(player, unitOfWork.PlayerAccounts.FindStats(identityId), unitOfWork.Rankings.GetAllRanks());
+                }
+            }
+
+            return rankedPlayer;
+        }
+
+        // A guest leaves no row when it goes offline, so only the guests that are connected are listed.
+        private static IList<RankedPlayer> FindOtherOnlineGuests(
+            IUnitOfWork unitOfWork,
+            IList<OnlinePlayer> onlinePlayers,
+            int subscriberId)
+        {
+            IList<RankedPlayer> onlineGuests = new List<RankedPlayer>();
+            foreach (OnlinePlayer onlinePlayer in onlinePlayers)
+            {
+                bool isOtherGuest = (onlinePlayer.PlayerId < 0) && (onlinePlayer.PlayerId != subscriberId);
+                RankedPlayer guest = isOtherGuest ? FindGuest(unitOfWork, onlinePlayer.PlayerId) : null;
+                if (guest != null)
+                {
+                    onlineGuests.Add(guest);
+                }
+            }
+
+            return onlineGuests;
+        }
+
+        private static RankedPlayer FindGuest(IUnitOfWork unitOfWork, int identityId)
+        {
+            GuestSession guest = unitOfWork.GuestSessions.FindById(-identityId);
+            RankedPlayer rankedGuest = null;
+            if (guest != null)
+            {
+                rankedGuest = new RankedPlayer(guest);
+            }
+
+            return rankedGuest;
         }
 
         private IList<RankedPlayer> RankPlayers(IList<Player> players, IList<PlayerStats> allStats, IList<Rank> ranks)

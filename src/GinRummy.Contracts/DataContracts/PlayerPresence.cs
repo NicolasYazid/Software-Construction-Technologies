@@ -23,5 +23,9 @@ namespace GinRummy.Contracts.DataContracts
 
         [DataMember]
         public int Score { get; set; }
+
+        // A guest has no profile or friends, so the client offers it only what CU-27 FA-04 allows.
+        [DataMember]
+        public bool IsGuest { get; set; }
     }
 }

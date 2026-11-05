@@ -13,8 +13,8 @@ namespace GinRummy.Application.Presence
 
             foreach (RankedPlayer player in players)
             {
-                bool isOnline = onlinePlayerIds.Contains(player.Player.PlayerId);
-                bool isFriend = friendPlayerIds.Contains(player.Player.PlayerId);
+                bool isOnline = onlinePlayerIds.Contains(player.IdentityId);
+                bool isFriend = friendPlayerIds.Contains(player.IdentityId);
                 AddPlayer(player, isOnline, isFriend);
             }
         }

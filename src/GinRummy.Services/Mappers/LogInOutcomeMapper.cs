@@ -32,6 +32,26 @@ namespace GinRummy.Services.Mappers
             return outcome;
         }
 
+        /// <summary>
+        /// Maps the entry of a guest. A guest has no account, so only its name and its token travel.
+        /// </summary>
+        /// <param name="guestAccess">Session of the guest and its access token.</param>
+        /// <returns>The answer for the client.</returns>
+        public static LogInOutcome MapToGuestOutcome(GuestAccess guestAccess)
+        {
+            LogInOutcome outcome = new LogInOutcome
+            {
+                IsTwoFactorRequired = false,
+                AccessToken = guestAccess.AccessToken.Value,
+                AccessTokenExpiresAt = guestAccess.AccessToken.ExpiresAt,
+                Username = guestAccess.Guest.TemporalDisplayName,
+                LocaleCode = string.Empty,
+                IsChatFilterEnabled = true
+            };
+
+            return outcome;
+        }
+
         private static LogInOutcome MapToSignedInOutcome(LogInResult result)
         {
             Player player = result.Account.Player;
@@ -43,7 +63,8 @@ namespace GinRummy.Services.Mappers
                 PlayerId = player.PlayerId,
                 Username = player.Username,
                 PublicTag = player.PublicTag,
-                LocaleCode = player.Locale.LocaleCode
+                LocaleCode = player.Locale.LocaleCode,
+                IsChatFilterEnabled = player.IsChatFilterEnabled
             };
 
             return outcome;

@@ -6,7 +6,7 @@ using GinRummy.Contracts.Faults;
 namespace GinRummy.Contracts.Services
 {
     /// <summary>
-    /// Operations of the sign-in of a registered player (CU-02).
+    /// Operations of the sign-in of a registered player and of the entry of a guest (CU-02).
     /// </summary>
     [ServiceContract]
     public interface ILogInService
@@ -53,5 +53,13 @@ namespace GinRummy.Contracts.Services
         [FaultContract(typeof(ServiceFault))]
         [FaultContract(typeof(SanctionFault))]
         LogInOutcome VerifyLogInByTwoFactorAuthentication(string email, string verificationCode, bool keepSignedIn);
+
+        /// <summary>
+        /// Creates the session of a guest, with a name the server chooses, and grants the access token that
+        /// identifies it (CU-02 FA-01).
+        /// </summary>
+        /// <returns>The access token and the name of the guest.</returns>
+        [OperationContract]
+        LogInOutcome LogInAsGuest();
     }
 }

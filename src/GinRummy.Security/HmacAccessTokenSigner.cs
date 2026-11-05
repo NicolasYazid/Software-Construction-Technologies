@@ -173,7 +173,7 @@ namespace GinRummy.Security
             object subject;
             int playerId = 0;
             bool hasPlayerId = claims.TryGetValue(SubjectClaim, out subject)
-                && int.TryParse(subject as string, NumberStyles.None, CultureInfo.InvariantCulture, out playerId);
+                && int.TryParse(subject as string, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out playerId);
             if (!hasPlayerId)
             {
                 throw new InvalidAccessTokenException("The token does not identify a player.");

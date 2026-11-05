@@ -134,15 +134,58 @@ namespace GinRummy.Domain.Services
         }
 
         /// <summary>
+        /// Creates the session of a guest, dated at the current moment.
+        /// </summary>
+        /// <param name="temporalDisplayName">Name the other players see while the guest is in the lobby.</param>
+        /// <returns>The new session, not stored yet.</returns>
+        public GuestSession CreateGuestSession(string temporalDisplayName)
+        {
+            return new GuestSession(temporalDisplayName, _clock.UtcNow);
+        }
+
+        /// <summary>
+        /// Grants the access token of a guest, which lasts as long as the one of a player who does not stay signed in.
+        /// </summary>
+        /// <param name="guest">Session of the guest, already stored so it has its identifier.</param>
+        /// <returns>The access token that identifies the guest.</returns>
+        public AccessToken GrantGuestAccess(GuestSession guest)
+        {
+            DateTime grantedAt = _clock.UtcNow;
+
+            return _tokenSigner.Sign(guest.IdentityId, grantedAt, grantedAt.AddHours(TokenLifetimeHours));
+        }
+
+        /// <summary>
+        /// Tells who an access token belongs to, after checking its signature and its expiry at the current moment.
+        /// </summary>
+        /// <param name="accessToken">Encoded token, exactly as the client presented it.</param>
+        /// <returns>The identifier of the player, or the identity id of the guest, the token was granted to.</returns>
+        /// <exception cref="InvalidAccessTokenException">Thrown when the token is malformed, altered or expired.</exception>
+        public int IdentifyByAccessToken(string accessToken)
+        {
+            // The identity comes from the token the server signed, never from what a client says about itself.
+            int identityId = _tokenSigner.ReadPlayerId(accessToken, _clock.UtcNow);
+
+            return identityId;
+        }
+
+        /// <summary>
         /// Tells which player an access token belongs to, after checking its signature and its expiry at the current moment.
         /// </summary>
         /// <param name="accessToken">Encoded token, exactly as the client presented it.</param>
         /// <returns>The identifier of the player the token was granted to.</returns>
-        /// <exception cref="InvalidAccessTokenException">Thrown when the token is malformed, altered or expired.</exception>
+        /// <exception cref="InvalidAccessTokenException">
+        /// Thrown when the token is malformed, altered or expired, or when it belongs to a guest.
+        /// </exception>
         public int IdentifyPlayerByAccessToken(string accessToken)
         {
-            // The identity comes from the token the server signed, never from what a client says about itself.
-            int playerId = _tokenSigner.ReadPlayerId(accessToken, _clock.UtcNow);
+            int playerId = IdentifyByAccessToken(accessToken);
+
+            // A guest has no account, so its token never reaches what only a player may do (PRM-01).
+            if (playerId <= 0)
+            {
+                throw new InvalidAccessTokenException("The access token belongs to a guest.");
+            }
 
             return playerId;
         }

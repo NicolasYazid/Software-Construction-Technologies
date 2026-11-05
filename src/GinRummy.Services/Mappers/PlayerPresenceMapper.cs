@@ -25,10 +25,11 @@ namespace GinRummy.Services.Mappers
         {
             PlayerPresence presence = new PlayerPresence
             {
-                Username = player.Player.Username,
-                PublicTag = player.Player.PublicTag,
+                Username = player.DisplayName,
+                PublicTag = player.PublicTag,
                 Status = MapToPresenceStatus(status),
                 IsFriend = isFriend,
+                IsGuest = player.IsGuest,
                 RankName = PlayerProfileMapper.ResolveRankName(player.Rank),
                 Score = player.Score
             };

@@ -41,7 +41,7 @@ namespace GinRummy.Services.Services
             IPlayerPresenceCallback callback = context.GetCallbackChannel<IPlayerPresenceCallback>();
             try
             {
-                int playerId = _orchestrator.IdentifyPlayerByAccessToken(accessToken);
+                int playerId = _orchestrator.IdentifyByAccessToken(accessToken);
                 _announcer.RegisterPlayerConnection(playerId, callback);
                 Interlocked.Exchange(ref _playerId, playerId);
                 context.Channel.Closed += OnChannelClosed;

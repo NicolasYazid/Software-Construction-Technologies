@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 using GinRummy.Application.Ports;
 using GinRummy.Domain;
@@ -15,6 +16,10 @@ namespace GinRummy.Application.UseCases
     /// </summary>
     public class LogInUseCase : ILogInPort
     {
+        private const string GuestNamePrefix = "Guest_";
+        private const int FirstGuestNumber = 1000;
+        private const int GuestNumberLimit = 10000;
+
         private readonly Func<IUnitOfWork> _unitOfWorkFactory;
         private readonly AccountAccessPolicy _accessPolicy;
         private readonly VerificationCodeSender _codeSender;
@@ -73,6 +78,25 @@ namespace GinRummy.Application.UseCases
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Creates the session of a guest and grants the access token that identifies it (CU-02 FA-01).
+        /// </summary>
+        /// <returns>The session of the guest and its access token.</returns>
+        public GuestAccess LogInAsGuest()
+        {
+            // Two guests may share a name, because the server tells them apart by their session and not by their name.
+            string temporalDisplayName = GuestNamePrefix
+                + new Random().Next(FirstGuestNumber, GuestNumberLimit).ToString(CultureInfo.InvariantCulture);
+            GuestSession guest = _accessPolicy.CreateGuestSession(temporalDisplayName);
+            using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
+            {
+                unitOfWork.GuestSessions.Add(guest);
+                unitOfWork.Commit();
+            }
+
+            return new GuestAccess(guest, _accessPolicy.GrantGuestAccess(guest));
         }
 
         // The code and its failed email are saved before the failure is reported, so the player can ask for a new code (CU-04 EX-03).

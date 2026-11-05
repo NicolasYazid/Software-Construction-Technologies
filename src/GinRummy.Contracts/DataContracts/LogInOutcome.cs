@@ -52,5 +52,12 @@ namespace GinRummy.Contracts.DataContracts
         /// </summary>
         [DataMember]
         public string LocaleCode { get; set; }
+
+        /// <summary>
+        /// Whether the player wants the messages with prohibited words shown as censored. A guest has no
+        /// preference of its own, so it reads them censored (CU-17 step 10).
+        /// </summary>
+        [DataMember]
+        public bool IsChatFilterEnabled { get; set; }
     }
 }

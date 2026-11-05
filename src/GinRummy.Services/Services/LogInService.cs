@@ -78,6 +78,14 @@ namespace GinRummy.Services.Services
             return outcome;
         }
 
+        public LogInOutcome LogInAsGuest()
+        {
+            GuestAccess guestAccess = _logInPort.LogInAsGuest();
+            _logger.LogInformation("Guest {GuestSessionId} entered the lobby.", guestAccess.Guest.GuestSessionId);
+
+            return LogInOutcomeMapper.MapToGuestOutcome(guestAccess);
+        }
+
         public LogInOutcome VerifyLogInByTwoFactorAuthentication(string email, string verificationCode, bool keepSignedIn)
         {
             LogInOutcome outcome;
