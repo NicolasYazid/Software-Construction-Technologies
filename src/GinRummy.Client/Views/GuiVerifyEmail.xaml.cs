@@ -42,7 +42,7 @@ namespace GinRummy.Client.Views
         {
             if (_viewModel.Purpose == VerificationPurpose.PasswordRecovery)
             {
-                NavigateTo(new GuiNewPassword(false));
+                NavigateTo(new GuiNewPassword());
             }
             else if (_viewModel.Purpose == VerificationPurpose.AccountSignUp)
             {

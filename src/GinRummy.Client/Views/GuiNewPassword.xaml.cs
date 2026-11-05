@@ -18,12 +18,7 @@ namespace GinRummy.Client.Views
         private readonly NewPasswordViewModel _viewModel;
 
         public GuiNewPassword()
-            : this(false)
-        {
-        }
-
-        public GuiNewPassword(bool isChangeFromProfile)
-            : this(((App)Application.Current).CreateNewPasswordViewModel(isChangeFromProfile))
+            : this(((App)Application.Current).CreateNewPasswordViewModel())
         {
         }
 

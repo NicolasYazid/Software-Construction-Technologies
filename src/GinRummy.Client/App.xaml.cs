@@ -159,9 +159,9 @@ namespace GinRummy.Client
             return new HouseRulesViewModel(SampleData);
         }
 
-        public NewPasswordViewModel CreateNewPasswordViewModel(bool isChangeFromProfile)
+        public NewPasswordViewModel CreateNewPasswordViewModel()
         {
-            return new NewPasswordViewModel(isChangeFromProfile);
+            return new NewPasswordViewModel(false);
         }
 
         public NotificationsViewModel CreateNotificationsViewModel()
