@@ -200,15 +200,29 @@ namespace GinRummy.Client.ViewModels
             return _dataService.GetOwnProfile();
         }
 
+        // The row already knows who the player is and how the two players are related.
+        // The profile screen therefore asks the server only for the rest.
         public PlayerProfile GetPlayerProfile(LobbyPlayerViewModel player)
         {
-            return _dataService.GetPlayerProfile(player);
+            PlayerProfile profile = new PlayerProfile();
+            profile.Username = player.Username;
+            profile.PublicTag = player.PublicTag;
+            profile.RankName = player.RankName;
+            profile.SocialLinks = new List<SocialLink>();
+            profile.IsFriend = player.IsFriend;
+            profile.HasPendingRequest = player.HasPendingRequest;
+
+            return profile;
         }
 
         public void ApplyProfileChanges(LobbyPlayerViewModel player, PlayerProfile profile)
         {
             player.HasPendingRequest = profile.HasPendingRequest;
-            if (player.IsFriend && !profile.IsFriend)
+            if (profile.IsRemoved)
+            {
+                RemovePlayer(player.PublicTag);
+            }
+            else if (player.IsFriend && !profile.IsFriend)
             {
                 RemoveFriend(player.Username);
             }
@@ -300,6 +314,16 @@ namespace GinRummy.Client.ViewModels
                 AddPlayer(_lobby.Unavailable, _lobby.FriendsUnavailable, presence);
             }
 
+            HasNoFriends = HasNoFriendsIn(_lobby);
+        }
+
+        // A player who no longer exists leaves every group of the panel (CU-27 EX-02).
+        private void RemovePlayer(int publicTag)
+        {
+            RemoveByPublicTag(_lobby.Online, publicTag);
+            RemoveByPublicTag(_lobby.Unavailable, publicTag);
+            RemoveByPublicTag(_lobby.FriendsOnline, publicTag);
+            RemoveByPublicTag(_lobby.FriendsUnavailable, publicTag);
             HasNoFriends = HasNoFriendsIn(_lobby);
         }
 

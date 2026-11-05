@@ -20,8 +20,6 @@ namespace GinRummy.Client.Services
 
         PlayerProfile GetOwnProfile();
 
-        PlayerProfile GetPlayerProfile(LobbyPlayerViewModel player);
-
         IList<string> GetPlatforms();
 
         GameRules GetGameRules();

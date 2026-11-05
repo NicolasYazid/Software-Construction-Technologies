@@ -1,22 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.ServiceModel;
 using System.Windows.Input;
 
 using GinRummy.Client.Models;
 using GinRummy.Client.Mvvm;
+using GinRummy.Client.PlayerProfileServiceReference;
+using Microsoft.Extensions.Logging;
 
 namespace GinRummy.Client.ViewModels
 {
     public class PlayerProfileViewModel : ViewModelBase
     {
         private readonly PlayerProfile _profile;
+        private readonly Func<IPlayerProfileService> _playerProfileServiceFactory;
+        private readonly ILogger<PlayerProfileViewModel> _logger;
 
-        public PlayerProfileViewModel(PlayerProfile profile)
+        // A client is created for every load because a client whose channel failed cannot be opened again.
+        public PlayerProfileViewModel(
+            PlayerProfile profile,
+            Func<IPlayerProfileService> playerProfileServiceFactory,
+            ILogger<PlayerProfileViewModel> logger)
         {
             _profile = profile ?? throw new ArgumentNullException(nameof(profile));
+            _playerProfileServiceFactory = playerProfileServiceFactory
+                ?? throw new ArgumentNullException(nameof(playerProfileServiceFactory));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             AddFriendCommand = new RelayCommand(AddFriend);
             RemoveFriendCommand = new RelayCommand(RemoveFriend);
         }
+
+        public event EventHandler<ErrorDialogKind> ProfileUnavailable;
 
         public ICommand AddFriendCommand { get; private set; }
         public ICommand RemoveFriendCommand { get; private set; }
@@ -26,7 +41,7 @@ namespace GinRummy.Client.ViewModels
             get { return _profile.Username; }
         }
 
-        public string PublicTag
+        public int PublicTag
         {
             get { return _profile.PublicTag; }
         }
@@ -111,6 +126,16 @@ namespace GinRummy.Client.ViewModels
             get { return IsPlayer && !_profile.IsOwnProfile; }
         }
 
+        // The own profile still comes from the sample data, and a guest has no profile on the server.
+        // Only the profile of another player is therefore read from the server.
+        public void LoadProfile(string accessToken)
+        {
+            if (IsOtherPlayer)
+            {
+                LoadOtherPlayerProfile(accessToken);
+            }
+        }
+
         // Once the server creates the request, the action stays disabled while it waits for an answer.
         // This keeps a second request from being sent (CU-12 and its EX-07).
         private void AddFriend()
@@ -124,6 +149,78 @@ namespace GinRummy.Client.ViewModels
             _profile.IsFriend = false;
             RaisePropertyChanged(nameof(CanAddFriend));
             RaisePropertyChanged(nameof(CanRemoveFriend));
+        }
+
+        private void LoadOtherPlayerProfile(string accessToken)
+        {
+            IPlayerProfileService playerProfileService = _playerProfileServiceFactory();
+            ICommunicationObject communicationObject = (ICommunicationObject)playerProfileService;
+            try
+            {
+                ShowDetails(playerProfileService.GetPlayerProfile(accessToken, _profile.PublicTag));
+                communicationObject.Close();
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                communicationObject.Abort();
+                _logger.LogInformation(
+                    ex,
+                    "The server refused the profile of player {PublicTag} with the fault {FaultCode}.",
+                    _profile.PublicTag,
+                    ex.Detail.Code);
+                NotifyRefusal(ex.Detail.Code);
+            }
+            catch (FaultException ex)
+            {
+                communicationObject.Abort();
+                _logger.LogError(ex, "The server could not read the profile of player {PublicTag}.", _profile.PublicTag);
+                NotifyProfileUnavailable(ErrorDialogKind.ServiceUnavailable);
+            }
+            catch (CommunicationException ex)
+            {
+                communicationObject.Abort();
+                _logger.LogError(ex, "The profile service could not be reached to read a profile.");
+                NotifyProfileUnavailable(ErrorDialogKind.ConnectionLost);
+            }
+            catch (TimeoutException ex)
+            {
+                communicationObject.Abort();
+                _logger.LogError(ex, "The profile service timed out while reading a profile.");
+                NotifyProfileUnavailable(ErrorDialogKind.ConnectionLost);
+            }
+        }
+
+        private void ShowDetails(PlayerProfileDetails details)
+        {
+            _profile.Username = details.Username;
+            _profile.RankName = details.RankName;
+            _profile.Bio = details.Bio;
+            _profile.SocialLinks = details.SocialLinks.Select(link => new SocialLink(link.PlatformName, link.Url)).ToList();
+            _profile.MatchesPlayed = details.MatchesPlayed;
+            _profile.WinRate = details.WinRate;
+            _profile.Score = details.Score;
+            RaisePropertyChanged(string.Empty);
+        }
+
+        private void NotifyRefusal(ServiceFaultCode code)
+        {
+            ErrorDialogKind kind = ErrorDialogKind.ServiceUnavailable;
+            if (code == ServiceFaultCode.SessionExpired)
+            {
+                kind = ErrorDialogKind.SessionExpired;
+            }
+            else if (code == ServiceFaultCode.PlayerNotFound)
+            {
+                kind = ErrorDialogKind.DataNotFound;
+                _profile.IsRemoved = true;
+            }
+
+            NotifyProfileUnavailable(kind);
+        }
+
+        private void NotifyProfileUnavailable(ErrorDialogKind kind)
+        {
+            ProfileUnavailable?.Invoke(this, kind);
         }
     }
 }

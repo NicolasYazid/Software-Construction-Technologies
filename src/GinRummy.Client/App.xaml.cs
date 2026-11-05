@@ -11,6 +11,7 @@ using GinRummy.Client.Logging;
 using GinRummy.Client.LogInServiceReference;
 using GinRummy.Client.Models;
 using GinRummy.Client.PlayerPresenceServiceReference;
+using GinRummy.Client.PlayerProfileServiceReference;
 using GinRummy.Client.Services;
 using GinRummy.Client.SignUpServiceReference;
 using GinRummy.Client.ViewModels;
@@ -28,6 +29,7 @@ namespace GinRummy.Client
         private const string LeaderboardEndpointName = "LeaderboardService";
         private const string LogInEndpointName = "LogInService";
         private const string PresenceEndpointName = "PlayerPresenceService";
+        private const string PlayerProfileEndpointName = "PlayerProfileService";
         private const string SignUpEndpointName = "SignUpService";
         private const string LogFolderName = "GinRummy";
         private const string LogFileName = "client.log";
@@ -164,7 +166,10 @@ namespace GinRummy.Client
 
         public PlayerProfileViewModel CreatePlayerProfileViewModel(PlayerProfile profile)
         {
-            return new PlayerProfileViewModel(profile);
+            return new PlayerProfileViewModel(
+                profile,
+                () => new PlayerProfileServiceClient(PlayerProfileEndpointName),
+                _loggerFactory.CreateLogger<PlayerProfileViewModel>());
         }
 
         public ProfilePanelViewModel CreateProfilePanelViewModel()

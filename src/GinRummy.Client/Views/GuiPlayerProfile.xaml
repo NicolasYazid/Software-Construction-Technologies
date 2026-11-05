@@ -34,7 +34,7 @@
                                    Visibility="{Binding IsPlayer, Converter={StaticResource CnvBooleanToVisibility}}" />
                         </StackPanel>
                         <TextBlock x:Name="lblPublicTag" Style="{StaticResource StyProfileTag}" Margin="0,8,0,0"
-                                   Text="{Binding PublicTag}"
+                                   Text="{Binding PublicTag, StringFormat='#{0}'}"
                                    Visibility="{Binding IsPlayer, Converter={StaticResource CnvBooleanToVisibility}}" />
 
                         <TextBlock x:Name="lblGuestHasNoProfile" Style="{StaticResource StyProfileText}"

@@ -8,7 +8,7 @@ namespace GinRummy.Client.Models
         public const int BioMaxLength = 500;
 
         public string Username { get; set; }
-        public string PublicTag { get; set; }
+        public int PublicTag { get; set; }
         public string RankName { get; set; }
         public string Bio { get; set; }
         public IList<SocialLink> SocialLinks { get; set; }
@@ -19,5 +19,6 @@ namespace GinRummy.Client.Models
         public bool IsOwnProfile { get; set; }
         public bool IsFriend { get; set; }
         public bool HasPendingRequest { get; set; }
+        public bool IsRemoved { get; set; }
     }
 }

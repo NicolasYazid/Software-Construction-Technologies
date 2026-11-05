@@ -138,22 +138,11 @@ namespace GinRummy.Client.Services
 
         public PlayerProfile GetOwnProfile()
         {
-            PlayerProfile profile = CreateProfile(PlayerName, "S", "#PLA-1024");
+            PlayerProfile profile = CreateProfile(PlayerName, "S", 1024);
             profile.Bio = "Listo para una partida rápida.";
             profile.SocialLinks.Add(CreateSocialLink("Discord", "discord.gg/playerA"));
             profile.SocialLinks.Add(CreateSocialLink("X", "x.com/playerA"));
             profile.IsOwnProfile = true;
-
-            return profile;
-        }
-
-        public PlayerProfile GetPlayerProfile(LobbyPlayerViewModel player)
-        {
-            PlayerProfile profile = CreateProfile(player.Username, player.RankName, "#PLZ-4821");
-            profile.Bio = "Siempre listo para una partida. Juego casi siempre por las tardes.";
-            profile.SocialLinks.Add(CreateSocialLink("Twitch", "twitch.tv/playerz"));
-            profile.IsFriend = player.IsFriend;
-            profile.HasPendingRequest = player.HasPendingRequest;
 
             return profile;
         }
@@ -220,7 +209,7 @@ namespace GinRummy.Client.Services
             return table;
         }
 
-        private static PlayerProfile CreateProfile(string username, string rankName, string publicTag)
+        private static PlayerProfile CreateProfile(string username, string rankName, int publicTag)
         {
             PlayerProfile profile = new PlayerProfile();
             profile.Username = username;
