@@ -61,6 +61,7 @@
     <Compile Include="Mappers\SignUpFormMapper.cs" />
     <Compile Include="Mappers\SignUpOutcomeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AccountSettingsService.cs" />
     <Compile Include="Services\CallerAddressCommon.cs" />
     <Compile Include="Services\LeaderboardService.cs" />
     <Compile Include="Services\LogInService.cs" />

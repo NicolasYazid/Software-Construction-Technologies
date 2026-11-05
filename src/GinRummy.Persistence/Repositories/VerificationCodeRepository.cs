@@ -187,6 +187,29 @@ namespace GinRummy.Persistence.Repositories
         }
 
         /// <summary>
+        /// Finds the email that delivered a verification code, or null when none was recorded.
+        /// </summary>
+        /// <param name="verificationCodeId">Code the email delivered.</param>
+        /// <returns>The recorded email, or null.</returns>
+        public Email FindEmailOf(int verificationCodeId)
+        {
+            Email foundEmail;
+            if (_sharedContext != null)
+            {
+                foundEmail = _sharedContext.Emails.FirstOrDefault(email => email.VerificationCodeId == verificationCodeId);
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    foundEmail = context.Emails.FirstOrDefault(email => email.VerificationCodeId == verificationCodeId);
+                }
+            }
+
+            return foundEmail;
+        }
+
+        /// <summary>
         /// Marks the given code as used at the given moment.
         /// </summary>
         /// <param name="verificationCodeId">Code that was successfully verified.</param>

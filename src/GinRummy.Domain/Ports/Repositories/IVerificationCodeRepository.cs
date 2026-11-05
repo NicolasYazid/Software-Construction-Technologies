@@ -43,6 +43,13 @@ namespace GinRummy.Domain.Ports.Repositories
         void AddEmail(Email newEmail);
 
         /// <summary>
+        /// Finds the email that delivered a verification code, or null when none was recorded.
+        /// </summary>
+        /// <param name="verificationCodeId">Code the email delivered.</param>
+        /// <returns>The recorded email, or null.</returns>
+        Email FindEmailOf(int verificationCodeId);
+
+        /// <summary>
         /// Adds one to the failed-attempt counter of the given code.
         /// </summary>
         /// <param name="verificationCodeId">Code that received a wrong guess.</param>

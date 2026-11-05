@@ -47,17 +47,42 @@ namespace GinRummy.Domain.Services
         {
             IssuedVerificationCode issuedCode = _codeIssuer.Issue(unitOfWork.VerificationCodes, account.PlayerId, purpose);
             string localeCode = FindLocaleCode(unitOfWork.Locales, account.Player.LocaleId);
-            string subject = _emailComposer.ComposeSubject(purpose, localeCode);
-            string body = _emailComposer.ComposeBody(purpose, issuedCode.PlainCode, localeCode);
-            EmailDeliveryStatus deliveryStatus = _emailSender.Send(account.Email, subject, body);
-
-            // The email is recorded even when it failed, so a code that never left can be told apart from one that did not arrive.
-            // It is dated with the code because both belong to the same request (CU-04 EX-03).
-            VerificationCode storedCode = issuedCode.StoredCode;
-            Email sentEmail = new Email(storedCode.VerificationCodeId, account.Email, storedCode.CreatedAt, deliveryStatus);
+            Email sentEmail = Deliver(issuedCode, account.Email, localeCode);
             unitOfWork.VerificationCodes.AddEmail(sentEmail);
 
-            return deliveryStatus;
+            return sentEmail.DeliveryStatus;
+        }
+
+        /// <summary>
+        /// Issues a code that confirms a change of email and emails it to the new address.
+        /// </summary>
+        /// <param name="unitOfWork">Unit of work of the operation that asks for the code.</param>
+        /// <param name="account">Account that changes its email, with its player loaded.</param>
+        /// <param name="newEmail">Address the account wants to use, which is the one that must prove it is reachable.</param>
+        /// <returns>Sent when the mail service accepted the email; Failed otherwise.</returns>
+        public EmailDeliveryStatus SendToNewEmail(IUnitOfWork unitOfWork, PlayerAccount account, string newEmail)
+        {
+            IssuedVerificationCode issuedCode = _codeIssuer.Issue(
+                unitOfWork.VerificationCodes,
+                account.PlayerId,
+                VerificationPurpose.EmailChange);
+            string localeCode = FindLocaleCode(unitOfWork.Locales, account.Player.LocaleId);
+            Email sentEmail = Deliver(issuedCode, newEmail, localeCode);
+            unitOfWork.VerificationCodes.AddEmail(sentEmail);
+
+            return sentEmail.DeliveryStatus;
+        }
+
+        // The email is recorded even when it failed, so a code that never left can be told apart from one that did not arrive.
+        // It is dated with the code because both belong to the same request (CU-04 EX-03).
+        private Email Deliver(IssuedVerificationCode issuedCode, string destinationAddress, string localeCode)
+        {
+            VerificationCode storedCode = issuedCode.StoredCode;
+            string subject = _emailComposer.ComposeSubject(storedCode.Purpose, localeCode);
+            string body = _emailComposer.ComposeBody(storedCode.Purpose, issuedCode.PlainCode, localeCode);
+            EmailDeliveryStatus deliveryStatus = _emailSender.Send(destinationAddress, subject, body);
+
+            return new Email(storedCode.VerificationCodeId, destinationAddress, storedCode.CreatedAt, deliveryStatus);
         }
 
         private static string FindLocaleCode(ILocaleRepository locales, int localeId)

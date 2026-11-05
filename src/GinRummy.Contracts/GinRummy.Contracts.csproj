@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Callbacks\IPlayerPresenceCallback.cs" />
+    <Compile Include="DataContracts\AccountSettingsDetails.cs" />
     <Compile Include="DataContracts\LogInOutcome.cs" />
     <Compile Include="DataContracts\PlayerPresence.cs" />
     <Compile Include="DataContracts\PlayerPresenceReport.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Services\ILogInService.cs" />
     <Compile Include="Services\IPlayerPresenceService.cs" />
     <Compile Include="Services\IRankingService.cs" />
+    <Compile Include="Services\IAccountSettingsService.cs" />
     <Compile Include="Services\ILeaderboardService.cs" />
     <Compile Include="DataContracts\PlayerRanking.cs" />
     <Compile Include="DataContracts\PlayerProfileDetails.cs" />

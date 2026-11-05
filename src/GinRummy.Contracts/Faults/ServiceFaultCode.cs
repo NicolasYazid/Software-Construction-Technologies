@@ -108,6 +108,11 @@
         /// <summary>
         /// The language is not in the catalog of the game (Error_SysUnsupportedLocale).
         /// </summary>
-        UnsupportedLocale
+        UnsupportedLocale,
+
+        /// <summary>
+        /// The new password is the one the account already has (Error_AuthSamePassword).
+        /// </summary>
+        SamePassword
     }
 }

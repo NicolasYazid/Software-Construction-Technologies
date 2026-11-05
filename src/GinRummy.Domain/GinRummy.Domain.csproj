@@ -129,6 +129,7 @@
     <Compile Include="VerificationCodeRejectedException.cs" />
     <Compile Include="VerificationEmailNotSentException.cs" />
     <Compile Include="VerificationResendLimitException.cs" />
+    <Compile Include="SamePasswordException.cs" />
     <Compile Include="WeakPasswordException.cs" />
   </ItemGroup>
   <ItemGroup />

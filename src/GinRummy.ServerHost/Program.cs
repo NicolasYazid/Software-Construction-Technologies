@@ -53,6 +53,7 @@ namespace GinRummy.ServerHost
                 ILogger<LogInService> logInLogger = loggerFactory.CreateLogger<LogInService>();
                 ILogger<SignUpService> signUpLogger = loggerFactory.CreateLogger<SignUpService>();
                 ILogger<PlayerProfileService> playerProfileLogger = loggerFactory.CreateLogger<PlayerProfileService>();
+                ILogger<AccountSettingsService> accountSettingsLogger = loggerFactory.CreateLogger<AccountSettingsService>();
 
                 // One announcer serves every session, because it keeps the connection of every player who is online.
                 PlayerPresenceAnnouncer presenceAnnouncer = new PlayerPresenceAnnouncer(loggerFactory.CreateLogger<PlayerConnection>());
@@ -75,6 +76,10 @@ namespace GinRummy.ServerHost
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(PlayerProfileService),
                     () => ComposePlayerProfileService(tokenSigner, playerProfileLogger),
+                    faultShieldBehavior));
+                hostGroup.Add(CreateIsolatedHost(
+                    typeof(AccountSettingsService),
+                    () => ComposeAccountSettingsService(emailSender, tokenSigner, accountSettingsLogger),
                     faultShieldBehavior));
 
                 hostGroup.OpenAll();
@@ -245,6 +250,31 @@ namespace GinRummy.ServerHost
             PlayerProfileService playerProfileService = new PlayerProfileService(viewUseCase, editUseCase, logger);
 
             return playerProfileService;
+        }
+
+        private static AccountSettingsService ComposeAccountSettingsService(
+            IEmailSender emailSender,
+            IAccessTokenSigner tokenSigner,
+            ILogger<AccountSettingsService> logger)
+        {
+            IClock clock = new SystemClock();
+            Func<IUnitOfWork> unitOfWorkFactory = () => new EntityFrameworkUnitOfWork(ConnectionStringName);
+            AccountAccessPolicy accessPolicy = new AccountAccessPolicy(new Argon2PasswordHasher(), tokenSigner, clock);
+            VerificationCodeIssuer codeIssuer = new VerificationCodeIssuer(
+                new RandomVerificationCodeGenerator(),
+                new Sha256VerificationCodeHasher(),
+                clock);
+            VerificationCodeSender codeSender = new VerificationCodeSender(codeIssuer, emailSender, new VerificationEmailComposer());
+            VerificationCodeChecker codeChecker = new VerificationCodeChecker(new Sha256VerificationCodeHasher(), clock);
+            VerificationCodeRedeemer codeRedeemer = new VerificationCodeRedeemer(codeChecker, clock);
+            AccountSettingsUseCase settingsUseCase = new AccountSettingsUseCase(unitOfWorkFactory, accessPolicy, codeSender);
+            ConfirmAccountChangeUseCase confirmationUseCase = new ConfirmAccountChangeUseCase(
+                unitOfWorkFactory,
+                accessPolicy,
+                codeRedeemer);
+            AccountSettingsService accountSettingsService = new AccountSettingsService(settingsUseCase, confirmationUseCase, logger);
+
+            return accountSettingsService;
         }
     }
 }

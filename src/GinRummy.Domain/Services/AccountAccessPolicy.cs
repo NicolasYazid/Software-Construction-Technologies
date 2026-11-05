@@ -7,6 +7,7 @@ using GinRummy.Domain.Entities.PlayerModeration;
 using GinRummy.Domain.Entities.Players;
 using GinRummy.Domain.Ports.Infrastructure;
 using GinRummy.Domain.Ports.Security;
+using GinRummy.Domain.Security;
 
 namespace GinRummy.Domain.Services
 {
@@ -97,6 +98,39 @@ namespace GinRummy.Domain.Services
             account.RegisterLogin(signedInAt);
 
             return _tokenSigner.Sign(account.PlayerId, signedInAt, expiresAt);
+        }
+
+        /// <summary>
+        /// Checks that a new password may replace the one an account has.
+        /// </summary>
+        /// <param name="account">Account that changes its password.</param>
+        /// <param name="newPassword">New password exactly as the player typed it.</param>
+        /// <exception cref="WeakPasswordException">Thrown when the new password does not meet the policy.</exception>
+        /// <exception cref="SamePasswordException">Thrown when the new password is the one the account already has.</exception>
+        public void EnsurePasswordCanReplace(PlayerAccount account, string newPassword)
+        {
+            if (Password.GetUnmetRequirements(newPassword).Count > 0)
+            {
+                throw new WeakPasswordException("The new password does not meet the policy.");
+            }
+
+            if (_passwordHasher.VerifyPassword(newPassword, account.PasswordHash))
+            {
+                throw new SamePasswordException("The new password is the one the account already has.");
+            }
+        }
+
+        /// <summary>
+        /// Replaces the password of an account, after the same checks as EnsurePasswordCanReplace.
+        /// </summary>
+        /// <param name="account">Account that changes its password.</param>
+        /// <param name="newPassword">New password exactly as the player typed it.</param>
+        /// <exception cref="WeakPasswordException">Thrown when the new password does not meet the policy.</exception>
+        /// <exception cref="SamePasswordException">Thrown when the new password is the one the account already has.</exception>
+        public void ReplacePassword(PlayerAccount account, string newPassword)
+        {
+            EnsurePasswordCanReplace(account, newPassword);
+            account.ChangePasswordHash(_passwordHasher.HashPassword(new Password(newPassword)));
         }
 
         /// <summary>
