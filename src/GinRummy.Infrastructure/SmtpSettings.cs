@@ -55,7 +55,7 @@ namespace GinRummy.Infrastructure
 
         /// <summary>
         /// Gets whether every required value is present and inside its valid range. When it is false, no delivery
-        /// is attempted and every email ends as Failed, so the rest of the server keeps working (QAS-12).
+        /// is attempted and every email ends as Failed, so the rest of the server keeps working.
         /// </summary>
         public bool IsComplete
         {

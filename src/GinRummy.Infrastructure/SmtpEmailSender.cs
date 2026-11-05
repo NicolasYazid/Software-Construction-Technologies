@@ -45,9 +45,8 @@ namespace GinRummy.Infrastructure
             return deliveryStatus;
         }
 
-        // A delivery that does not go through is an expected outcome, not an error: the use case keeps the
-        // verification code and records its Email as Failed so the player can ask for the code again
-        // (CU-01 EX-06, CU-08 EX-07). That is why each exception becomes the Failed status instead of propagating.
+        // A delivery that does not go through is an expected outcome, so each exception becomes the Failed status instead of propagating.
+        // The use case keeps the verification code, so the player can ask for the code again (CU-01 EX-06, CU-08 EX-07).
         private EmailDeliveryStatus Deliver(string destinationAddress, string subject, string body)
         {
             EmailDeliveryStatus deliveryStatus;
@@ -87,9 +86,9 @@ namespace GinRummy.Infrastructure
             return deliveryStatus;
         }
 
-        // SmtpClient.Timeout does not cover opening the connection: against a server that never answers, Windows gives
-        // up only after about 21 seconds. The wait bounds the whole delivery instead, and leaving the using block
-        // aborts a delivery that is still running, so a mail service that does not answer ends as Failed (QAS-12).
+        // SmtpClient.Timeout does not cover opening the connection.
+        // Windows gives up on a server that never answers only after about 21 seconds, so the wait bounds the whole delivery.
+        // Leaving the using block aborts a delivery that is still running.
         private bool DeliverWithinTimeout(MailMessage message)
         {
             bool isDelivered;
@@ -107,8 +106,8 @@ namespace GinRummy.Infrastructure
             SmtpClient smtpClient = new SmtpClient(_settings.Host, _settings.Port);
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-            // The sender's password and the codes must never travel in plain text. SmtpClient only supports
-            // STARTTLS, which is why the configured port must be 587 and not the implicit TLS port 465.
+            // The sender's password and the codes must never travel in plain text.
+            // SmtpClient only supports STARTTLS, which is why the configured port must be 587 and not the implicit TLS port 465.
             smtpClient.EnableSsl = true;
 
             // Setting UseDefaultCredentials clears Credentials, so it has to be set first.
