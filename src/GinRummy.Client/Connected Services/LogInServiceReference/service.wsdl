@@ -64,6 +64,12 @@
   <wsdl:message name="ILogInService_VerifyLogInByTwoFactorAuthentication_SanctionFaultFault_FaultMessage">
     <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q5:SanctionFault" />
   </wsdl:message>
+  <wsdl:message name="ILogInService_LogInAsGuest_InputMessage">
+    <wsdl:part name="parameters" element="tns:LogInAsGuest" />
+  </wsdl:message>
+  <wsdl:message name="ILogInService_LogInAsGuest_OutputMessage">
+    <wsdl:part name="parameters" element="tns:LogInAsGuestResponse" />
+  </wsdl:message>
   <wsdl:portType name="ILogInService">
     <wsdl:operation name="LogIn">
       <wsdl:input wsaw:Action="http://tempuri.org/ILogInService/LogIn" message="tns:ILogInService_LogIn_InputMessage" />
@@ -77,6 +83,10 @@
       <wsdl:output wsaw:Action="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthenticationResponse" message="tns:ILogInService_VerifyLogInByTwoFactorAuthentication_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthenticationServiceFaultFault" name="ServiceFaultFault" message="tns:ILogInService_VerifyLogInByTwoFactorAuthentication_ServiceFaultFault_FaultMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthenticationSanctionFaultFault" name="SanctionFaultFault" message="tns:ILogInService_VerifyLogInByTwoFactorAuthentication_SanctionFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="LogInAsGuest">
+      <wsdl:input wsaw:Action="http://tempuri.org/ILogInService/LogInAsGuest" message="tns:ILogInService_LogInAsGuest_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ILogInService/LogInAsGuestResponse" message="tns:ILogInService_LogInAsGuest_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="LogInService" type="tns:ILogInService">
@@ -114,6 +124,15 @@
       <wsdl:fault name="SanctionFaultFault">
         <soap12:fault use="literal" name="SanctionFaultFault" namespace="" />
       </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="LogInAsGuest">
+      <soap12:operation soapAction="http://tempuri.org/ILogInService/LogInAsGuest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="LogInService">

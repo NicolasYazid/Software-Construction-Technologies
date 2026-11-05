@@ -1493,9 +1493,15 @@
         </Style.Triggers>
     </Style>
 
-    <!-- Challenging is the action the menu exists for, so it takes the face of the titles. -->
+    <!-- Challenging is the action the menu exists for, so it takes the face of the titles.
+         A guest plays only through the search for a match, so it cannot be challenged (CU-23). -->
     <Style x:Key="StyPlayerMenuChallengeItem" TargetType="MenuItem" BasedOn="{StaticResource StyPlayerMenuItem}">
         <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding IsGuest}" Value="True">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
     <!-- Reporting is the only action of the menu of a message, so its item takes the face of the titles. -->
@@ -1513,10 +1519,14 @@
         </Style.Triggers>
     </Style>
 
-    <!-- Once the request is sent, the option stays as the mark of a pending request so a second one cannot be sent (CU-12 EX-07). -->
+    <!-- Once the request is sent, the option stays as the mark of a pending request so a second one cannot be sent (CU-12 EX-07).
+         A guest cannot have friends, so it receives no request (CU-12 FA-03). -->
     <Style x:Key="StyPlayerMenuStrangerItem" TargetType="MenuItem" BasedOn="{StaticResource StyPlayerMenuItem}">
         <Style.Triggers>
             <DataTrigger Binding="{Binding IsFriend}" Value="True">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsGuest}" Value="True">
                 <Setter Property="Visibility" Value="Collapsed" />
             </DataTrigger>
             <DataTrigger Binding="{Binding HasPendingRequest}" Value="True">

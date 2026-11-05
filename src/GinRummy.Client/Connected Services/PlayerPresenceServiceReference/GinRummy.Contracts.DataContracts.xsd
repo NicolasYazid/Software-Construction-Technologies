@@ -18,6 +18,7 @@
   <xs:complexType name="PlayerPresence">
     <xs:sequence>
       <xs:element minOccurs="0" name="IsFriend" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsGuest" type="xs:boolean" />
       <xs:element minOccurs="0" name="PublicTag" type="xs:int" />
       <xs:element minOccurs="0" name="RankName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Score" type="xs:int" />

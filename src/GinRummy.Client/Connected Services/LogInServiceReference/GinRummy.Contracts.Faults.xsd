@@ -29,6 +29,7 @@
       <xs:enumeration value="InvalidImage" />
       <xs:enumeration value="InvalidUrl" />
       <xs:enumeration value="UnsupportedLocale" />
+      <xs:enumeration value="SamePassword" />
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="ServiceFaultCode" nillable="true" type="tns:ServiceFaultCode" />

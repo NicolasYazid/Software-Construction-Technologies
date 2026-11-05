@@ -31,11 +31,12 @@ namespace GinRummy.Client.ViewModels
         private string _searchText;
         private string _searchNoticeKey;
 
-        public LobbyChatViewModel(SampleDataService dataService, PlayerPresenceMonitor presenceMonitor, string accessToken)
+        // The lobby of a player and the one of a guest show the same panel of players, so both screens use this view model.
+        public LobbyChatViewModel(LobbySnapshot lobby, PlayerPresenceMonitor presenceMonitor, string accessToken)
         {
+            _lobby = lobby ?? throw new ArgumentNullException(nameof(lobby));
             _presenceMonitor = presenceMonitor ?? throw new ArgumentNullException(nameof(presenceMonitor));
             _accessToken = accessToken ?? throw new ArgumentNullException(nameof(accessToken));
-            _lobby = (dataService ?? throw new ArgumentNullException(nameof(dataService))).GetLobby();
             _messageDraft = string.Empty;
             ChatEntries = new ObservableCollection<ChatEntry>(_lobby.ChatEntries);
             HasNoPlayersLookingToPlay = _lobby.LookingToPlay.Count == 0;
@@ -66,6 +67,11 @@ namespace GinRummy.Client.ViewModels
         public ICommand AcceptChallengeCommand { get; private set; }
         public ICommand DeclineChallengeCommand { get; private set; }
         public ICommand CancelChallengeCommand { get; private set; }
+
+        public string PlayerName
+        {
+            get { return _lobby.PlayerName; }
+        }
 
         public IList<LobbyPlayerViewModel> LookingToPlay
         {
@@ -256,6 +262,7 @@ namespace GinRummy.Client.ViewModels
             profile.SocialLinks = new List<SocialLink>();
             profile.IsFriend = player.IsFriend;
             profile.HasPendingRequest = player.HasPendingRequest;
+            profile.IsGuest = player.IsGuest;
 
             return profile;
         }
@@ -354,8 +361,9 @@ namespace GinRummy.Client.ViewModels
             {
                 AddPlayer(_lobby.Online, _lobby.FriendsOnline, presence);
             }
-            else
+            else if (!presence.IsGuest)
             {
+                // A guest has no account to come back to, so it leaves the panel instead of becoming unavailable.
                 AddPlayer(_lobby.Unavailable, _lobby.FriendsUnavailable, presence);
             }
 
@@ -503,6 +511,7 @@ namespace GinRummy.Client.ViewModels
             player.RankName = presence.RankName;
             player.Score = presence.Score;
             player.IsFriend = presence.IsFriend;
+            player.IsGuest = presence.IsGuest;
 
             return player;
         }

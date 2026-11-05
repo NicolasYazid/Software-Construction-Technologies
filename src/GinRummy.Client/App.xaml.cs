@@ -68,6 +68,9 @@ namespace GinRummy.Client
         // The access token lives only in memory, because the standard forbids writing session identifiers to disk.
         internal LogInOutcome SignedInPlayer { get; private set; }
 
+        // A guest is kept apart from a player, because every screen that needs an account looks only at the player.
+        internal LogInOutcome SignedInGuest { get; private set; }
+
         public RankingsViewModel CreateRankingsViewModel()
         {
             return new RankingsViewModel(
@@ -90,14 +93,17 @@ namespace GinRummy.Client
                 _loggerFactory.CreateLogger<TwoStepLogInViewModel>());
         }
 
-        // The presence monitor is created for every lobby because a monitor whose channel failed cannot be started again.
         public LobbyChatViewModel CreateLobbyChatViewModel()
         {
-            PlayerPresenceMonitor presenceMonitor = new PlayerPresenceMonitor(
-                callbackContext => new PlayerPresenceServiceClient(callbackContext, PresenceEndpointName),
-                _loggerFactory.CreateLogger<PlayerPresenceMonitor>());
+            return new LobbyChatViewModel(SampleData.GetLobby(), CreatePresenceMonitor(), SignedInPlayer.AccessToken);
+        }
 
-            return new LobbyChatViewModel(SampleData, presenceMonitor, SignedInPlayer.AccessToken);
+        public LobbyChatViewModel CreateGuestLobbyViewModel()
+        {
+            LobbySnapshot guestLobby = SampleData.GetGuestLobby();
+            guestLobby.PlayerName = SignedInGuest.Username;
+
+            return new LobbyChatViewModel(guestLobby, CreatePresenceMonitor(), SignedInGuest.AccessToken);
         }
 
         public SignUpViewModel CreateSignUpViewModel(bool isGuestSessionActive)
@@ -147,11 +153,6 @@ namespace GinRummy.Client
         public GameTableViewModel CreateGameTableViewModel()
         {
             return new GameTableViewModel(SampleData);
-        }
-
-        public GuestLobbyViewModel CreateGuestLobbyViewModel()
-        {
-            return new GuestLobbyViewModel(SampleData);
         }
 
         public HouseRulesViewModel CreateHouseRulesViewModel()
@@ -232,9 +233,16 @@ namespace GinRummy.Client
             LocalizationProvider.Instance.SetCulture(signedInPlayer.LocaleCode);
         }
 
+        internal void StoreSignedInGuest(LogInOutcome signedInGuest)
+        {
+            SignedInGuest = signedInGuest ?? throw new ArgumentNullException(nameof(signedInGuest));
+        }
+
+        // Whoever leaves the lobby forgets its token, whether it was a player or a guest.
         internal void ForgetSignedInPlayer()
         {
             SignedInPlayer = null;
+            SignedInGuest = null;
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -311,6 +319,14 @@ namespace GinRummy.Client
                 accessToken,
                 () => new AccountSettingsServiceClient(AccountSettingsEndpointName),
                 _loggerFactory.CreateLogger<AccountSettingsCaller>());
+        }
+
+        // The presence monitor is created for every lobby because a monitor whose channel failed cannot be started again.
+        private PlayerPresenceMonitor CreatePresenceMonitor()
+        {
+            return new PlayerPresenceMonitor(
+                callbackContext => new PlayerPresenceServiceClient(callbackContext, PresenceEndpointName),
+                _loggerFactory.CreateLogger<PlayerPresenceMonitor>());
         }
     }
 }

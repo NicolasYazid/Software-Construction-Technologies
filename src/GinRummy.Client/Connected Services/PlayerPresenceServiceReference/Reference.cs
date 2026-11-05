@@ -142,6 +142,9 @@ namespace GinRummy.Client.PlayerPresenceServiceReference
         private bool IsFriendField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsGuestField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int PublicTagField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -181,6 +184,23 @@ namespace GinRummy.Client.PlayerPresenceServiceReference
                 {
                     this.IsFriendField = value;
                     this.RaisePropertyChanged("IsFriend");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsGuest
+        {
+            get
+            {
+                return this.IsGuestField;
+            }
+            set
+            {
+                if ((this.IsGuestField.Equals(value) != true))
+                {
+                    this.IsGuestField = value;
+                    this.RaisePropertyChanged("IsGuest");
                 }
             }
         }

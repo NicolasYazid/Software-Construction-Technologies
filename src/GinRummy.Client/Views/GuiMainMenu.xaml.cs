@@ -1,5 +1,9 @@
 ﻿using System.Windows;
 
+using GinRummy.Client.LogInServiceReference;
+using GinRummy.Client.Models;
+using GinRummy.Client.ViewModels;
+
 namespace GinRummy.Client.Views
 {
     /// <summary>
@@ -25,7 +29,21 @@ namespace GinRummy.Client.Views
 
         private void OnPlayAsGuestClick(object sender, RoutedEventArgs e)
         {
+            LogInViewModel logIn = ((App)Application.Current).CreateLogInViewModel();
+            logIn.GuestSignedIn += OnGuestSignedIn;
+            logIn.ConnectionFailed += OnConnectionFailed;
+            logIn.LogInAsGuest();
+        }
+
+        private void OnGuestSignedIn(object sender, LogInOutcome signedInGuest)
+        {
+            ((App)Application.Current).StoreSignedInGuest(signedInGuest);
             EnterLobby(new GuiGuestLobby());
+        }
+
+        private void OnConnectionFailed(object sender, ErrorDialogKind kind)
+        {
+            ShowModal(new GuiErrorDialog(kind));
         }
 
         private void OnSettingsClick(object sender, RoutedEventArgs e)

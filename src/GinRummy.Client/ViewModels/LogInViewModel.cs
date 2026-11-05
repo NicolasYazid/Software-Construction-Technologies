@@ -31,6 +31,7 @@ namespace GinRummy.Client.ViewModels
         }
 
         public event EventHandler<LogInOutcome> SignedIn;
+        public event EventHandler<LogInOutcome> GuestSignedIn;
         public event EventHandler<LogInCredentials> TwoFactorRequired;
         public event EventHandler<AccountRestriction> AccountRestricted;
         public event EventHandler<ErrorDialogKind> ConnectionFailed;
@@ -75,6 +76,16 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
+        // A guest needs no credentials, so the main menu asks for its session directly (CU-02 FA-01).
+        public void LogInAsGuest()
+        {
+            LogInOutcome outcome = RequestLogIn(logInService => logInService.LogInAsGuest());
+            if (outcome != null)
+            {
+                GuestSignedIn?.Invoke(this, outcome);
+            }
+        }
+
         // The empty fields are checked here only to answer without waiting for the network (CU-02 FA-02).
         // The server repeats the check, together with every other rule of the sign-in.
         private void LogIn()
@@ -87,7 +98,7 @@ namespace GinRummy.Client.ViewModels
                 return;
             }
 
-            LogInOutcome outcome = RequestLogIn();
+            LogInOutcome outcome = RequestLogIn(logInService => logInService.LogIn(Email, Password, IsKeepSignedIn));
             if (outcome == null)
             {
                 return;
@@ -103,14 +114,14 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        private LogInOutcome RequestLogIn()
+        private LogInOutcome RequestLogIn(Func<ILogInService, LogInOutcome> logInOperation)
         {
             LogInOutcome outcome = null;
             ILogInService logInService = _logInServiceFactory();
             ICommunicationObject communicationObject = (ICommunicationObject)logInService;
             try
             {
-                outcome = logInService.LogIn(Email, Password, IsKeepSignedIn);
+                outcome = logInOperation(logInService);
                 communicationObject.Close();
             }
             catch (FaultException<SanctionFault> ex)

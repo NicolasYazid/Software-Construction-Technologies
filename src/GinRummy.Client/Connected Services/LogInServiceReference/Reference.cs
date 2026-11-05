@@ -31,6 +31,9 @@ namespace GinRummy.Client.LogInServiceReference
         private System.Nullable<System.DateTime> AccessTokenExpiresAtField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsChatFilterEnabledField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool IsTwoFactorRequiredField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -87,6 +90,23 @@ namespace GinRummy.Client.LogInServiceReference
                 {
                     this.AccessTokenExpiresAtField = value;
                     this.RaisePropertyChanged("AccessTokenExpiresAt");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsChatFilterEnabled
+        {
+            get
+            {
+                return this.IsChatFilterEnabledField;
+            }
+            set
+            {
+                if ((this.IsChatFilterEnabledField.Equals(value) != true))
+                {
+                    this.IsChatFilterEnabledField = value;
+                    this.RaisePropertyChanged("IsChatFilterEnabled");
                 }
             }
         }
@@ -309,6 +329,9 @@ namespace GinRummy.Client.LogInServiceReference
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         UnsupportedLocale = 20,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        SamePassword = 21,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -462,6 +485,12 @@ namespace GinRummy.Client.LogInServiceReference
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthentication", ReplyAction="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthenticationResponse")]
         System.Threading.Tasks.Task<GinRummy.Client.LogInServiceReference.LogInOutcome> VerifyLogInByTwoFactorAuthenticationAsync(string email, string verificationCode, bool keepSignedIn);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILogInService/LogInAsGuest", ReplyAction="http://tempuri.org/ILogInService/LogInAsGuestResponse")]
+        GinRummy.Client.LogInServiceReference.LogInOutcome LogInAsGuest();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILogInService/LogInAsGuest", ReplyAction="http://tempuri.org/ILogInService/LogInAsGuestResponse")]
+        System.Threading.Tasks.Task<GinRummy.Client.LogInServiceReference.LogInOutcome> LogInAsGuestAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -516,6 +545,16 @@ namespace GinRummy.Client.LogInServiceReference
         public System.Threading.Tasks.Task<GinRummy.Client.LogInServiceReference.LogInOutcome> VerifyLogInByTwoFactorAuthenticationAsync(string email, string verificationCode, bool keepSignedIn)
         {
             return base.Channel.VerifyLogInByTwoFactorAuthenticationAsync(email, verificationCode, keepSignedIn);
+        }
+        
+        public GinRummy.Client.LogInServiceReference.LogInOutcome LogInAsGuest()
+        {
+            return base.Channel.LogInAsGuest();
+        }
+        
+        public System.Threading.Tasks.Task<GinRummy.Client.LogInServiceReference.LogInOutcome> LogInAsGuestAsync()
+        {
+            return base.Channel.LogInAsGuestAsync();
         }
     }
 }

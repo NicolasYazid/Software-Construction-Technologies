@@ -33,4 +33,16 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="LogInAsGuest">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LogInAsGuestResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts" minOccurs="0" name="LogInAsGuestResult" nillable="true" type="q3:LogInOutcome" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

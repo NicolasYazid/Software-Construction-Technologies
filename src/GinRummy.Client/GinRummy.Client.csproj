@@ -365,7 +365,6 @@
     <Compile Include="ViewModels\ProfilePanelViewModel.cs" />
     <Compile Include="ViewModels\EditProfileViewModel.cs" />
     <Compile Include="ViewModels\LobbyChatViewModel.cs" />
-    <Compile Include="ViewModels\GuestLobbyViewModel.cs" />
     <Compile Include="ViewModels\GameTableViewModel.cs" />
     <Compile Include="Services\PlayerPresenceMonitor.cs" />
     <Compile Include="Services\ISampleDataService.cs" />

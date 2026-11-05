@@ -4,6 +4,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="AccessToken" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="AccessTokenExpiresAt" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="IsChatFilterEnabled" type="xs:boolean" />
       <xs:element minOccurs="0" name="IsTwoFactorRequired" type="xs:boolean" />
       <xs:element minOccurs="0" name="LocaleCode" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="PlayerId" type="xs:int" />

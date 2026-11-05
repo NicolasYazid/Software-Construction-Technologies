@@ -13,6 +13,7 @@ namespace GinRummy.Client.ViewModels
         public int PublicTag { get; set; }
         public string RankName { get; set; }
         public int Score { get; set; }
+        public bool IsGuest { get; set; }
 
         public bool IsFriend
         {

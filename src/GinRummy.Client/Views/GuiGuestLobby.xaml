@@ -70,6 +70,10 @@
                 <TextBlock x:Name="lblAppTitle" DockPanel.Dock="Left" Style="{StaticResource StyLobbyWordmark}"
                            Text="{Binding [Shared_AppTitle], Source={StaticResource PrvLocalization}}" />
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button x:Name="btnRankings" Style="{StaticResource StyLobbyNavButton}"
+                            Content="{Binding [LobbyChat_BtnRankings], Source={StaticResource PrvLocalization},
+                                      Converter={StaticResource CnvUpperCase}}"
+                            Click="OnRankingsClick" />
                     <Button x:Name="btnFindMatch" Style="{StaticResource StyLobbyActionButton}" Margin="0,0,12,0"
                             Content="{Binding [LobbyChat_BtnFindMatch], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
@@ -161,19 +165,31 @@
                                       Converter={StaticResource CnvUpperCase}}" />
                 </TabControl>
 
-                <ctl:PixelBorder Grid.Row="1" Style="{StaticResource StyPanelSearchShell}" Margin="14,14,14,4">
-                    <DockPanel LastChildFill="True">
-                        <Image Source="{StaticResource IcoSearch}" Width="20" Height="20"
-                               VerticalAlignment="Center" Margin="0,0,10,0" />
-                        <Grid>
-                            <TextBox x:Name="txtTag" Style="{StaticResource StyPanelSearchInput}" />
-                            <TextBlock Style="{StaticResource StyPanelSearchPlaceholder}"
-                                       Text="{Binding [Search_TxtTagPlaceholder], Source={StaticResource PrvLocalization}}"
-                                       Visibility="{Binding Text, ElementName=txtTag,
-                                                    Converter={StaticResource CnvEmptyTextToVisibility}}" />
-                        </Grid>
-                    </DockPanel>
-                </ctl:PixelBorder>
+                <StackPanel Grid.Row="1">
+                    <ctl:PixelBorder Style="{StaticResource StyPanelSearchShell}" Margin="14,14,14,4">
+                        <DockPanel LastChildFill="True">
+                            <Image Source="{StaticResource IcoSearch}" Width="20" Height="20"
+                                   VerticalAlignment="Center" Margin="0,0,10,0" />
+                            <Grid>
+                                <TextBox x:Name="txtTag" Style="{StaticResource StyPanelSearchInput}"
+                                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBlock Style="{StaticResource StyPanelSearchPlaceholder}"
+                                           Text="{Binding [Search_TxtTagPlaceholder], Source={StaticResource PrvLocalization}}"
+                                           Visibility="{Binding Text, ElementName=txtTag,
+                                                        Converter={StaticResource CnvEmptyTextToVisibility}}" />
+                            </Grid>
+                        </DockPanel>
+                    </ctl:PixelBorder>
+                    <TextBlock x:Name="lblSearchNotice" Style="{StaticResource StyPanelEmpty}"
+                               Visibility="{Binding HasSearchNotice, Converter={StaticResource CnvBooleanToVisibility}}">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource CnvResourceText}">
+                                <Binding Path="SearchNoticeKey" />
+                                <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </StackPanel>
 
                 <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Margin="0,4,4,8"
                               Visibility="{Binding IsSelected, ElementName=tabEveryone,

@@ -14,7 +14,6 @@ namespace GinRummy.Client.Services
     public sealed class SampleDataService : ISampleDataService
     {
         private const string PlayerName = "Player A";
-        private const string GuestName = "Guest_4091";
         private const string OpponentName = "Player Z";
         private const int CardsPerHand = 10;
         private const int KnockThreshold = 10;
@@ -56,11 +55,11 @@ namespace GinRummy.Client.Services
             return lobby;
         }
 
-        // A guest has no friends, so its groups of friends come empty (CU-11 FA-02).
+        // The players reach the lobby of a guest through the same presence service, so their groups start empty too.
+        // A guest has no friends, so its groups of friends stay empty (CU-11 FA-02).
         public LobbySnapshot GetGuestLobby()
         {
             LobbySnapshot lobby = new LobbySnapshot();
-            lobby.PlayerName = GuestName;
             lobby.ChatEntries = new List<ChatEntry>
             {
                 CreateMessage("Player A", new TimeSpan(2, 33, 0), "¿Alguien para una partida rápida?"),
@@ -73,23 +72,12 @@ namespace GinRummy.Client.Services
                 CreateMessage("Player A", new TimeSpan(4, 34, 0), "You too.")
             };
             lobby.LookingToPlay = new List<LobbyPlayerViewModel>();
-            lobby.Online = new List<LobbyPlayerViewModel>
-            {
-                CreatePlayer("Player A", "S", false),
-                CreatePlayer("Player B", "S", false),
-                CreatePlayer("Player C", "A", false),
-                CreatePlayer("Player D", "C", false),
-                CreatePlayer("Player F", "D", false)
-            };
-            lobby.MatchesInProgress = new List<MatchPair>
-            {
-                CreatePair(CreatePlayer("Player Z", "A", false), CreatePlayer("Player X", "S", false))
-            };
-            lobby.PlayersInMatchCount = 2;
-            lobby.Unavailable = CreateUnavailablePlayers();
-            lobby.FriendsOnline = new List<LobbyPlayerViewModel>();
+            lobby.Online = new ObservableCollection<LobbyPlayerViewModel>();
+            lobby.MatchesInProgress = new List<MatchPair>();
+            lobby.Unavailable = new ObservableCollection<LobbyPlayerViewModel>();
+            lobby.FriendsOnline = new ObservableCollection<LobbyPlayerViewModel>();
             lobby.FriendsInMatch = new List<MatchPair>();
-            lobby.FriendsUnavailable = new List<LobbyPlayerViewModel>();
+            lobby.FriendsUnavailable = new ObservableCollection<LobbyPlayerViewModel>();
 
             return lobby;
         }
@@ -190,34 +178,6 @@ namespace GinRummy.Client.Services
             entry.Kind = kind;
 
             return entry;
-        }
-
-        private static List<LobbyPlayerViewModel> CreateUnavailablePlayers()
-        {
-            return new List<LobbyPlayerViewModel>
-            {
-                CreatePlayer("Player Q", "S", false),
-                CreatePlayer("Player R", "A", false),
-                CreatePlayer("Player M", "B", false),
-                CreatePlayer("Player N", "C", false),
-                CreatePlayer("Player O", "D", false),
-                CreatePlayer("Player P", "S", false)
-            };
-        }
-
-        private static LobbyPlayerViewModel CreatePlayer(string username, string rankName, bool isFriend)
-        {
-            LobbyPlayerViewModel player = new LobbyPlayerViewModel();
-            player.Username = username;
-            player.RankName = rankName;
-            player.IsFriend = isFriend;
-
-            return player;
-        }
-
-        private static MatchPair CreatePair(LobbyPlayerViewModel firstPlayer, LobbyPlayerViewModel secondPlayer)
-        {
-            return new MatchPair(firstPlayer, secondPlayer);
         }
 
         private static ChatMessage CreateMessage(string authorName, TimeSpan timeOfDay, string content)
