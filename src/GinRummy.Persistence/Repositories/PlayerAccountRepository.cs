@@ -224,7 +224,6 @@ namespace GinRummy.Persistence.Repositories
             return foundStats;
         }
 
-        // The links are read in the same query, because the context closes before the profile is mapped.
         /// <summary>
         /// Adds a new social media link and persists it immediately, so its identifier is known right
         /// after the call.
@@ -269,6 +268,7 @@ namespace GinRummy.Persistence.Repositories
             }
         }
 
+        // The links are read in the same query, because the context closes before the profile is mapped.
         private static PlayerProfile FindProfileIn(GinRummyContext context, int playerId)
         {
             PlayerProfile foundProfile = context.PlayerProfiles
