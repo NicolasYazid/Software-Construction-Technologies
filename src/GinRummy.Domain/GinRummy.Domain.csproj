@@ -68,7 +68,6 @@
     <Compile Include="Entities\Authentication\LogInResult.cs" />
     <Compile Include="Entities\ChatMessaging\Message.cs" />
     <Compile Include="Entities\ChatMessaging\MessageChannel.cs" />
-    <Compile Include="Entities\Players\Platform.cs" />
     <Compile Include="Entities\Players\Player.cs" />
     <Compile Include="Entities\Players\PlayerAccount.cs" />
     <Compile Include="Entities\Players\PlayerPresenceStatus.cs" />
@@ -119,6 +118,7 @@
     <Compile Include="Services\AccountAccessPolicy.cs" />
     <Compile Include="Services\AccountRegistrar.cs" />
     <Compile Include="Services\ForbiddenCharacterCommon.cs" />
+    <Compile Include="Services\ProfilePictureCommon.cs" />
     <Compile Include="Services\RankResolver.cs" />
     <Compile Include="Services\TypedFieldValidator.cs" />
     <Compile Include="Services\VerificationCodeChecker.cs" />

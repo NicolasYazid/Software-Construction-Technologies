@@ -19,13 +19,16 @@ namespace GinRummy.Persistence.Configurations
             HasKey(socialMedia => socialMedia.SocialMediaId);
             Property(socialMedia => socialMedia.SocialMediaId).HasColumnName("social_media_id");
             Property(socialMedia => socialMedia.PlayerId).HasColumnName("player_id");
-            Property(socialMedia => socialMedia.PlatformId).HasColumnName("platform_id");
+            Property(socialMedia => socialMedia.PlatformName)
+                .HasColumnName("platform_name")
+                .IsRequired()
+                .IsUnicode(false)
+                .HasMaxLength(SocialMedia.PlatformNameMaxLength);
             Property(socialMedia => socialMedia.Url)
                 .HasColumnName("url")
                 .IsRequired()
                 .IsUnicode(false)
                 .HasMaxLength(SocialMedia.UrlMaxLength);
-            HasRequired(socialMedia => socialMedia.Platform).WithMany().HasForeignKey(socialMedia => socialMedia.PlatformId);
         }
     }
 }

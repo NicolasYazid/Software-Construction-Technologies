@@ -32,6 +32,7 @@ namespace GinRummy.ServerHost
     {
         private const string ConnectionStringName = "GinRummyDb";
         private const string LogFolderName = "Logs";
+        private const string ProfilePictureFolderName = "ProfilePictures";
         private const string LogFileName = "GinRummy.ServerHost.log";
         private const string SigningKeyVariableName = "GINRUMMY_TOKEN_SIGNING_KEY";
 
@@ -232,11 +233,16 @@ namespace GinRummy.ServerHost
         {
             Func<IUnitOfWork> unitOfWorkFactory = () => new EntityFrameworkUnitOfWork(ConnectionStringName);
             AccountAccessPolicy accessPolicy = new AccountAccessPolicy(new Argon2PasswordHasher(), tokenSigner, new SystemClock());
-            ViewPlayerProfileUseCase useCase = new ViewPlayerProfileUseCase(
+            ViewPlayerProfileUseCase viewUseCase = new ViewPlayerProfileUseCase(
                 unitOfWorkFactory,
                 accessPolicy,
                 new RankingRepository(ConnectionStringName));
-            PlayerProfileService playerProfileService = new PlayerProfileService(useCase, logger);
+            string pictureFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ProfilePictureFolderName);
+            EditPlayerProfileUseCase editUseCase = new EditPlayerProfileUseCase(
+                unitOfWorkFactory,
+                accessPolicy,
+                new FileProfilePictureStorage(pictureFolderPath));
+            PlayerProfileService playerProfileService = new PlayerProfileService(viewUseCase, editUseCase, logger);
 
             return playerProfileService;
         }

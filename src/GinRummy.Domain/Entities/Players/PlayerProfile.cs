@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace GinRummy.Domain.Entities.Players
 {
@@ -72,18 +71,6 @@ namespace GinRummy.Domain.Entities.Players
         /// Gets the social media links the profile shows.
         /// </summary>
         public virtual ICollection<SocialMedia> SocialMediaLinks { get; private set; }
-
-        /// <summary>
-        /// Tells whether the profile already shows a link to the given platform.
-        /// </summary>
-        /// <param name="platformId">Identifier of the platform to look for.</param>
-        /// <returns>True when a link to that platform exists.</returns>
-        public bool HasLinkFor(int platformId)
-        {
-            bool hasLink = SocialMediaLinks.Any(link => link.PlatformId == platformId);
-
-            return hasLink;
-        }
 
         /// <summary>
         /// Replaces the biography. A blank text clears it.

@@ -34,12 +34,29 @@ namespace GinRummy.Services.Mappers
             return details;
         }
 
+        /// <summary>
+        /// Maps a social media link to the data contract of the link.
+        /// </summary>
+        /// <param name="link">Link of a profile.</param>
+        /// <returns>The link ready to be sent.</returns>
+        public static SocialLinkDetails MapToSocialLinkDetails(SocialMedia link)
+        {
+            SocialLinkDetails details = new SocialLinkDetails
+            {
+                SocialMediaId = link.SocialMediaId,
+                PlatformName = link.PlatformName,
+                Url = link.Url
+            };
+
+            return details;
+        }
+
         private static List<SocialLinkDetails> MapToSocialLinks(IEnumerable<SocialMedia> links)
         {
             List<SocialLinkDetails> socialLinks = new List<SocialLinkDetails>();
             foreach (SocialMedia link in links)
             {
-                socialLinks.Add(new SocialLinkDetails { PlatformName = link.Platform.Name, Url = link.Url });
+                socialLinks.Add(MapToSocialLinkDetails(link));
             }
 
             return socialLinks;

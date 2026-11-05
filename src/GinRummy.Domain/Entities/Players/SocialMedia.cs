@@ -4,8 +4,8 @@ namespace GinRummy.Domain.Entities.Players
 {
     /// <summary>
     /// A link to a social network shown on a player's profile, mapped to the SocialMedia
-    /// table. Protects its own invariants: it always belongs to a profile and a platform and
-    /// always has a url that fits the column.
+    /// table. The player writes both the name of the network and the address. Protects its
+    /// own invariants: it always belongs to a profile and its name and url fit their columns.
     /// </summary>
     public class SocialMedia
     {
@@ -15,19 +15,24 @@ namespace GinRummy.Domain.Entities.Players
         public const int UrlMaxLength = 255;
 
         /// <summary>
+        /// Length of the platform name column.
+        /// </summary>
+        public const int PlatformNameMaxLength = 100;
+
+        /// <summary>
         /// Creates a valid new social media link.
         /// </summary>
         /// <param name="playerId">Identifier of the profile that shows the link; must be positive.</param>
-        /// <param name="platformId">Identifier of the platform the link points to; must be positive.</param>
+        /// <param name="platformName">Name of the network as the player wrote it; required, at most 100 characters.</param>
         /// <param name="url">Address of the player's page; required, at most 255 characters.</param>
-        public SocialMedia(int playerId, int platformId, string url)
+        public SocialMedia(int playerId, string platformName, string url)
         {
-            ValidateId(playerId, nameof(playerId));
-            ValidateId(platformId, nameof(platformId));
-            ValidateUrl(url);
+            ValidatePlayerId(playerId);
+            ValidateText(platformName, PlatformNameMaxLength, nameof(platformName));
+            ValidateText(url, UrlMaxLength, nameof(url));
 
             PlayerId = playerId;
-            PlatformId = platformId;
+            PlatformName = platformName.Trim();
             Url = url.Trim();
         }
 
@@ -50,9 +55,9 @@ namespace GinRummy.Domain.Entities.Players
         public int PlayerId { get; private set; }
 
         /// <summary>
-        /// Gets the identifier of the platform the link points to.
+        /// Gets the name of the network as the player wrote it.
         /// </summary>
-        public int PlatformId { get; private set; }
+        public string PlatformName { get; private set; }
 
         /// <summary>
         /// Gets the address of the player's page on the platform.
@@ -60,32 +65,41 @@ namespace GinRummy.Domain.Entities.Players
         public string Url { get; private set; }
 
         /// <summary>
-        /// Gets the platform the link points to, loaded from the relationship between the
-        /// two tables.
+        /// Tells whether an address is the address of a web page.
         /// </summary>
-        public virtual Platform Platform { get; private set; }
-
-        // The link references rows that already exist, so their ids must be positive.
-        private static void ValidateId(int id, string parameterName)
+        /// <param name="url">Address to check.</param>
+        /// <returns>True when the address is absolute and uses http or https.</returns>
+        public static bool IsWebAddress(string url)
         {
-            if (id <= 0)
+            Uri address;
+            bool isAbsolute = Uri.TryCreate(url, UriKind.Absolute, out address);
+            bool isWebAddress = isAbsolute
+                && ((address.Scheme == Uri.UriSchemeHttp) || (address.Scheme == Uri.UriSchemeHttps));
+
+            return isWebAddress;
+        }
+
+        // The link belongs to an account that already exists, so its id must be positive.
+        private static void ValidatePlayerId(int playerId)
+        {
+            if (playerId <= 0)
             {
-                throw new ArgumentException("Id must be positive.", parameterName);
+                throw new ArgumentException("Player id must be positive.", nameof(playerId));
             }
         }
 
-        // The url must fit the column.
-        // Its structure is checked as input validation before the link is built.
-        private static void ValidateUrl(string url)
+        // The name and the url must fit their columns.
+        // Their content is checked as input validation before the link is built.
+        private static void ValidateText(string text, int maxLength, string parameterName)
         {
-            if (string.IsNullOrWhiteSpace(url))
+            if (string.IsNullOrWhiteSpace(text))
             {
-                throw new ArgumentException("Url is required.", nameof(url));
+                throw new ArgumentException("Text is required.", parameterName);
             }
 
-            if (url.Trim().Length > UrlMaxLength)
+            if (text.Trim().Length > maxLength)
             {
-                throw new ArgumentException("Url is too long.", nameof(url));
+                throw new ArgumentException("Text is too long.", parameterName);
             }
         }
     }

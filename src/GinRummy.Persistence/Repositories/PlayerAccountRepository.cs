@@ -178,8 +178,8 @@ namespace GinRummy.Persistence.Repositories
         }
 
         /// <summary>
-        /// Finds the profile of a player, with its social links and their platforms loaded, or null when the
-        /// player has no profile.
+        /// Finds the profile of a player, with its social links loaded, or null when the player has no
+        /// profile.
         /// </summary>
         /// <param name="playerId">Identifier of the player that owns the profile.</param>
         /// <returns>The matching profile, or null.</returns>
@@ -224,11 +224,55 @@ namespace GinRummy.Persistence.Repositories
             return foundStats;
         }
 
-        // The links and their platforms are read in the same query, because the context closes before the profile is mapped.
+        // The links are read in the same query, because the context closes before the profile is mapped.
+        /// <summary>
+        /// Adds a new social media link and persists it immediately, so its identifier is known right
+        /// after the call.
+        /// </summary>
+        /// <param name="newLink">Link to create.</param>
+        public void AddSocialMedia(SocialMedia newLink)
+        {
+            if (_sharedContext != null)
+            {
+                _sharedContext.SocialMedias.Add(newLink);
+                _sharedContext.SaveChanges();
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    context.SocialMedias.Add(newLink);
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Deletes a social media link and persists the change immediately.
+        /// </summary>
+        /// <param name="link">Link to delete, read through the same repository.</param>
+        public void RemoveSocialMedia(SocialMedia link)
+        {
+            if (_sharedContext != null)
+            {
+                _sharedContext.SocialMedias.Remove(link);
+                _sharedContext.SaveChanges();
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    context.SocialMedias.Attach(link);
+                    context.SocialMedias.Remove(link);
+                    context.SaveChanges();
+                }
+            }
+        }
+
         private static PlayerProfile FindProfileIn(GinRummyContext context, int playerId)
         {
             PlayerProfile foundProfile = context.PlayerProfiles
-                .Include(profile => profile.SocialMediaLinks.Select(link => link.Platform))
+                .Include(profile => profile.SocialMediaLinks)
                 .FirstOrDefault(profile => profile.PlayerId == playerId);
 
             return foundProfile;

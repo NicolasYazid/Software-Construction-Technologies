@@ -16,6 +16,13 @@
         string Save(int playerId, byte[] content, string fileExtension);
 
         /// <summary>
+        /// Reads a stored picture.
+        /// </summary>
+        /// <param name="storedPath">Path previously returned by Save.</param>
+        /// <returns>Bytes of the image file, or null when the path no longer exists.</returns>
+        byte[] Load(string storedPath);
+
+        /// <summary>
         /// Deletes a stored picture. Does nothing when the path no longer exists.
         /// </summary>
         /// <param name="storedPath">Path previously returned by Save.</param>

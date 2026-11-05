@@ -164,14 +164,6 @@ namespace GinRummy.Persistence.Persistence
         }
 
         /// <summary>
-        /// Gets the Platform set.
-        /// </summary>
-        public DbSet<Platform> Platforms
-        {
-            get { return Set<Platform>(); }
-        }
-
-        /// <summary>
         /// Gets the Rank set.
         /// </summary>
         public DbSet<Rank> Ranks
@@ -246,7 +238,6 @@ namespace GinRummy.Persistence.Persistence
             modelBuilder.Configurations.Add(new GuestSessionConfiguration());
             modelBuilder.Configurations.Add(new LocaleConfiguration());
             modelBuilder.Configurations.Add(new MessageConfiguration());
-            modelBuilder.Configurations.Add(new PlatformConfiguration());
             modelBuilder.Configurations.Add(new PlayerConfiguration());
             modelBuilder.Configurations.Add(new PlayerAccountConfiguration());
             modelBuilder.Configurations.Add(new PlayerProfileConfiguration());

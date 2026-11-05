@@ -23,6 +23,20 @@ namespace GinRummy.Domain.Services
         }
 
         /// <summary>
+        /// Checks that a field fits the column that stores it.
+        /// </summary>
+        /// <param name="fieldValue">Value as it will be stored; null counts as empty.</param>
+        /// <param name="maxLength">Length of the column.</param>
+        /// <exception cref="FieldTooLongException">Thrown when the field is longer than the column.</exception>
+        public static void EnsureIsNotLongerThan(string fieldValue, int maxLength)
+        {
+            if ((fieldValue != null) && (fieldValue.Length > maxLength))
+            {
+                throw new FieldTooLongException("A typed field is longer than its column.");
+            }
+        }
+
+        /// <summary>
         /// Checks that no field contains a character the game does not accept.
         /// </summary>
         /// <param name="fieldValues">Values exactly as the player typed them.</param>

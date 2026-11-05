@@ -44,8 +44,8 @@ namespace GinRummy.Domain.Ports.Repositories
         void AddStats(PlayerStats newStats);
 
         /// <summary>
-        /// Finds the profile of a player, with its social links and their platforms loaded, or null when the
-        /// player has no profile.
+        /// Finds the profile of a player, with its social links loaded, or null when the player has no
+        /// profile.
         /// </summary>
         /// <param name="playerId">Identifier of the player that owns the profile.</param>
         /// <returns>The matching profile, or null.</returns>
@@ -57,5 +57,18 @@ namespace GinRummy.Domain.Ports.Repositories
         /// <param name="playerId">Identifier of the player that owns the statistics.</param>
         /// <returns>The matching statistics, or null.</returns>
         PlayerStats FindStats(int playerId);
+
+        /// <summary>
+        /// Adds a new social media link and persists it immediately, so its identifier is known right
+        /// after the call.
+        /// </summary>
+        /// <param name="newLink">Link to create.</param>
+        void AddSocialMedia(SocialMedia newLink);
+
+        /// <summary>
+        /// Deletes a social media link and persists the change immediately.
+        /// </summary>
+        /// <param name="link">Link to delete, read through the same repository.</param>
+        void RemoveSocialMedia(SocialMedia link);
     }
 }

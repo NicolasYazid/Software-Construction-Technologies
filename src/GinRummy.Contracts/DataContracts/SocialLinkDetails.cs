@@ -9,7 +9,13 @@ namespace GinRummy.Contracts.DataContracts
     public class SocialLinkDetails
     {
         /// <summary>
-        /// Name of the social network.
+        /// Identifier of the link, which the owner uses to remove it.
+        /// </summary>
+        [DataMember]
+        public int SocialMediaId { get; set; }
+
+        /// <summary>
+        /// Name of the social network, as the player wrote it.
         /// </summary>
         [DataMember]
         public string PlatformName { get; set; }

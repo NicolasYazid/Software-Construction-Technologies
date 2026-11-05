@@ -93,6 +93,16 @@
         /// <summary>
         /// The chat no longer keeps the message the player tried to report (Error_ModMessageNotAvailable).
         /// </summary>
-        MessageNotFound
+        MessageNotFound,
+
+        /// <summary>
+        /// The picture is not a JPG or PNG image of at most 2 MB (Error_ValUnsupportedImage).
+        /// </summary>
+        InvalidImage,
+
+        /// <summary>
+        /// The address of a social link is not the address of a web page (Error_ValInvalidUrl).
+        /// </summary>
+        InvalidUrl
     }
 }

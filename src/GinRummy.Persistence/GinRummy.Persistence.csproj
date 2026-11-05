@@ -62,7 +62,6 @@
     <Compile Include="Configurations\GuestSessionConfiguration.cs" />
     <Compile Include="Configurations\LocaleConfiguration.cs" />
     <Compile Include="Configurations\MessageConfiguration.cs" />
-    <Compile Include="Configurations\PlatformConfiguration.cs" />
     <Compile Include="Configurations\PlayerAccountConfiguration.cs" />
     <Compile Include="Configurations\PlayerConfiguration.cs" />
     <Compile Include="Configurations\PlayerProfileConfiguration.cs" />
