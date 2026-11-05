@@ -51,6 +51,16 @@ namespace GinRummy.Persistence.Repositories
         }
 
         /// <summary>
+        /// Adds a new report and persists it immediately.
+        /// </summary>
+        /// <param name="newReport">Report to create.</param>
+        public void AddReport(Report newReport)
+        {
+            _context.Reports.Add(newReport);
+            _context.SaveChanges();
+        }
+
+        /// <summary>
         /// Adds a new ban and persists it immediately, so its identifier is known right
         /// after the call.
         /// </summary>

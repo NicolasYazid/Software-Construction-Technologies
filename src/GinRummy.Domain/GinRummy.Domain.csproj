@@ -84,6 +84,7 @@
     <Compile Include="Entities\Players\SocialMedia.cs" />
     <Compile Include="Entities\Authentication\VerificationCode.cs" />
     <Compile Include="Entities\Authentication\VerificationPurpose.cs" />
+    <Compile Include="Entities\PlayerModeration\Report.cs" />
     <Compile Include="Entities\PlayerModeration\Warning.cs" />
     <Compile Include="Entities\Players\UsernameRequirement.cs" />
     <Compile Include="FieldTooLongException.cs" />

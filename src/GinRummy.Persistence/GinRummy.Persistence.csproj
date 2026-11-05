@@ -75,6 +75,7 @@
     <Compile Include="Configurations\ReasonBanLocaleConfiguration.cs" />
     <Compile Include="Configurations\SocialMediaConfiguration.cs" />
     <Compile Include="Configurations\VerificationCodeConfiguration.cs" />
+    <Compile Include="Configurations\ReportConfiguration.cs" />
     <Compile Include="Configurations\WarningConfiguration.cs" />
     <Compile Include="Persistence\EntityFrameworkUnitOfWork.cs" />
     <Compile Include="Persistence\GinRummyContext.cs" />

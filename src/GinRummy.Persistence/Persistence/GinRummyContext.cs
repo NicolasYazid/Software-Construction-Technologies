@@ -116,6 +116,14 @@ namespace GinRummy.Persistence.Persistence
         }
 
         /// <summary>
+        /// Gets the Report set.
+        /// </summary>
+        public DbSet<Report> Reports
+        {
+            get { return Set<Report>(); }
+        }
+
+        /// <summary>
         /// Gets the Warning set.
         /// </summary>
         public DbSet<Warning> Warnings
@@ -249,6 +257,7 @@ namespace GinRummy.Persistence.Persistence
             modelBuilder.Configurations.Add(new RankLocaleConfiguration());
             modelBuilder.Configurations.Add(new ReasonBanConfiguration());
             modelBuilder.Configurations.Add(new ReasonBanLocaleConfiguration());
+            modelBuilder.Configurations.Add(new ReportConfiguration());
             modelBuilder.Configurations.Add(new SocialMediaConfiguration());
             modelBuilder.Configurations.Add(new VerificationCodeConfiguration());
             modelBuilder.Configurations.Add(new WarningConfiguration());
