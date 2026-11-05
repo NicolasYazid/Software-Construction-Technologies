@@ -6,6 +6,7 @@ using System.Windows.Media.Effects;
 using System.Windows.Threading;
 
 using GinRummy.Client.AccountSettingsServiceReference;
+using GinRummy.Client.ChatMessageServiceReference;
 using GinRummy.Client.LeaderboardServiceReference;
 using GinRummy.Client.Localization;
 using GinRummy.Client.Logging;
@@ -28,6 +29,7 @@ namespace GinRummy.Client
         private const string FatalErrorTitleKey = "ErrorDialog_LblTitleUnexpected";
         private const string FatalErrorMessageKey = "Error_SysUnexpected";
         private const string AccountSettingsEndpointName = "AccountSettingsService";
+        private const string ChatEndpointName = "ChatMessageService";
         private const string LeaderboardEndpointName = "LeaderboardService";
         private const string LogInEndpointName = "LogInService";
         private const string PresenceEndpointName = "PlayerPresenceService";
@@ -95,15 +97,12 @@ namespace GinRummy.Client
 
         public LobbyChatViewModel CreateLobbyChatViewModel()
         {
-            return new LobbyChatViewModel(SampleData.GetLobby(), CreatePresenceMonitor(), SignedInPlayer.AccessToken);
+            return CreateLobbyChatViewModel(SignedInPlayer);
         }
 
         public LobbyChatViewModel CreateGuestLobbyViewModel()
         {
-            LobbySnapshot guestLobby = SampleData.GetGuestLobby();
-            guestLobby.PlayerName = SignedInGuest.Username;
-
-            return new LobbyChatViewModel(guestLobby, CreatePresenceMonitor(), SignedInGuest.AccessToken);
+            return CreateLobbyChatViewModel(SignedInGuest);
         }
 
         public SignUpViewModel CreateSignUpViewModel(bool isGuestSessionActive)
@@ -321,12 +320,17 @@ namespace GinRummy.Client
                 _loggerFactory.CreateLogger<AccountSettingsCaller>());
         }
 
-        // The presence monitor is created for every lobby because a monitor whose channel failed cannot be started again.
-        private PlayerPresenceMonitor CreatePresenceMonitor()
+        // The monitor and the connection are created for every lobby because a channel that failed cannot be opened again.
+        private LobbyChatViewModel CreateLobbyChatViewModel(LogInOutcome signedInPlayer)
         {
-            return new PlayerPresenceMonitor(
+            PlayerPresenceMonitor presenceMonitor = new PlayerPresenceMonitor(
                 callbackContext => new PlayerPresenceServiceClient(callbackContext, PresenceEndpointName),
                 _loggerFactory.CreateLogger<PlayerPresenceMonitor>());
+            ChatMessageConnection chatConnection = new ChatMessageConnection(
+                callbackContext => new ChatMessageServiceClient(callbackContext, ChatEndpointName),
+                _loggerFactory.CreateLogger<ChatMessageConnection>());
+
+            return new LobbyChatViewModel(presenceMonitor, chatConnection, signedInPlayer);
         }
     }
 }

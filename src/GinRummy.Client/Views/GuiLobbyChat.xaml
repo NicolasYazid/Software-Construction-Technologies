@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:views="clr-namespace:GinRummy.Client.Views"
-        xmlns:models="clr-namespace:GinRummy.Client.Models"
+        xmlns:chat="clr-namespace:GinRummy.Client.ChatMessageServiceReference"
         xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
         Title="{Binding [Shared_AppTitle], Source={StaticResource PrvLocalization}}"
         SizeToContent="WidthAndHeight"
@@ -16,71 +16,37 @@
                 <ResourceDictionary Source="pack://application:,,,/Styles/LobbyTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- This template lives here and not with the shared ones because its buttons use the commands of this window. -->
-            <DataTemplate DataType="{x:Type models:ChallengeNotice}">
-                <ctl:PixelBorder Style="{StaticResource StyChatNotice}">
-                    <DockPanel LastChildFill="True">
-                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" VerticalAlignment="Center">
-                            <Button x:Name="btnCancelChallenge" Style="{StaticResource StyNoticeButton}"
-                                    Visibility="Collapsed"
-                                    Content="{Binding [LobbyChat_BtnCancelChallenge], Source={StaticResource PrvLocalization},
-                                              Converter={StaticResource CnvUpperCase}}"
-                                    Command="{Binding DataContext.CancelChallengeCommand,
-                                             RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                    CommandParameter="{Binding}" />
-                            <Button x:Name="btnAccept" Style="{StaticResource StyNoticePrimaryButton}"
-                                    Visibility="Collapsed"
-                                    Content="{Binding [Shared_BtnAccept], Source={StaticResource PrvLocalization},
-                                              Converter={StaticResource CnvUpperCase}}"
-                                    Command="{Binding DataContext.AcceptChallengeCommand,
-                                             RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                    CommandParameter="{Binding}" />
-                            <Button x:Name="btnDecline" Style="{StaticResource StyNoticeButton}"
-                                    Visibility="Collapsed"
-                                    Content="{Binding [Shared_BtnDecline], Source={StaticResource PrvLocalization},
-                                              Converter={StaticResource CnvUpperCase}}"
-                                    Command="{Binding DataContext.DeclineChallengeCommand,
-                                             RelativeSource={RelativeSource AncestorType=ListBox}}"
-                                    CommandParameter="{Binding}" />
-                        </StackPanel>
-                        <Grid VerticalAlignment="Center">
-                            <TextBlock x:Name="lblChallengeSent" Style="{StaticResource StyChatNoticeText}"
-                                       Text="{Binding [LobbyChat_ChallengeSent], Source={StaticResource PrvLocalization}}" />
-                            <TextBlock x:Name="lblChallengeDeclined" Style="{StaticResource StyChatNoticeText}"
-                                       Text="{Binding [LobbyChat_ChallengeDeclined], Source={StaticResource PrvLocalization}}" />
-                            <TextBlock x:Name="lblChallengeReceived" Style="{StaticResource StyChatNoticeText}">
+            <DataTemplate DataType="{x:Type chat:PlayerMessage}">
+                <Grid Margin="30,8,30,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Border Style="{StaticResource StyAvatar}" VerticalAlignment="Top">
+                        <Image Style="{StaticResource StyAvatarIcon}" />
+                    </Border>
+                    <StackPanel Grid.Column="1" Margin="14,2,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Style="{StaticResource StyChatAuthor}" Text="{Binding Username}" />
+                            <TextBlock Style="{StaticResource StyChatTime}">
                                 <TextBlock.Text>
-                                    <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
-                                        <Binding Path="[LobbyChat_LblChallengeReceived]" Source="{StaticResource PrvLocalization}" />
-                                        <Binding Path="PlayerName" />
+                                    <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" ConverterParameter="t">
+                                        <Binding Path="[Shared_Timestamp]" Source="{StaticResource PrvLocalization}" />
+                                        <Binding Path="SentAt" />
                                     </MultiBinding>
                                 </TextBlock.Text>
                             </TextBlock>
-                        </Grid>
-                    </DockPanel>
-                </ctl:PixelBorder>
-                <DataTemplate.Triggers>
-                    <DataTrigger Binding="{Binding Kind}" Value="Sent">
-                        <Setter TargetName="lblChallengeSent" Property="Visibility" Value="Visible" />
-                        <Setter TargetName="btnCancelChallenge" Property="Visibility" Value="Visible" />
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding Kind}" Value="Declined">
-                        <Setter TargetName="lblChallengeDeclined" Property="Visibility" Value="Visible" />
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding Kind}" Value="Received">
-                        <Setter TargetName="lblChallengeReceived" Property="Visibility" Value="Visible" />
-                        <Setter TargetName="btnAccept" Property="Visibility" Value="Visible" />
-                        <Setter TargetName="btnDecline" Property="Visibility" Value="Visible" />
-                    </DataTrigger>
-                </DataTemplate.Triggers>
+                        </StackPanel>
+                        <TextBlock Style="{StaticResource StyChatContent}" Text="{Binding Content}" />
+                    </StackPanel>
+                </Grid>
             </DataTemplate>
 
             <!-- The menu takes the player from the row it was opened on because one menu is shared by every row. -->
             <ContextMenu x:Key="CtxPlayerActions" Style="{StaticResource StyPlayerMenu}"
                          DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                 <MenuItem x:Name="mniChallenge" Style="{StaticResource StyPlayerMenuChallengeItem}"
-                          Header="{Binding [LobbyChat_MniChallenge], Source={StaticResource PrvLocalization}}"
-                          Click="OnChallengeClick">
+                          Header="{Binding [LobbyChat_MniChallenge], Source={StaticResource PrvLocalization}}">
                     <MenuItem.Icon>
                         <Image Source="{StaticResource IcoChallenge}" Width="16" Height="16" />
                     </MenuItem.Icon>
@@ -295,7 +261,7 @@
                                     <Image Source="{StaticResource IcoSend}" Width="24" Height="24" />
                                 </Button>
                                 <Grid>
-                                    <TextBox x:Name="txtMessage" Style="{StaticResource StyFieldInput}"
+                                    <TextBox x:Name="txtMessage" Style="{StaticResource StyFieldInput}" MaxLength="300"
                                              IsEnabled="{Binding CanWriteMessage}"
                                              Text="{Binding MessageDraft, UpdateSourceTrigger=PropertyChanged}">
                                         <TextBox.InputBindings>

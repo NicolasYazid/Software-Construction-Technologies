@@ -7,6 +7,8 @@ using System.Linq;
 using System.Windows.Data;
 using System.Windows.Input;
 
+using GinRummy.Client.ChatMessageServiceReference;
+using GinRummy.Client.LogInServiceReference;
 using GinRummy.Client.Models;
 using GinRummy.Client.Mvvm;
 using GinRummy.Client.PlayerPresenceServiceReference;
@@ -21,101 +23,67 @@ namespace GinRummy.Client.ViewModels
         private const string DisallowedCharactersNoticeKey = "Error_ValDisallowedCharacters";
 
         private readonly PlayerPresenceMonitor _presenceMonitor;
-        private readonly string _accessToken;
-        private readonly LobbySnapshot _lobby;
+        private readonly ChatMessageConnection _chatConnection;
+        private readonly LogInOutcome _signedInPlayer;
         private string _messageDraft;
         private bool _isSearchingMatch;
         private bool _isChatBlocked;
+        private bool _isChatUnavailable;
         private bool _hasNoFriends;
         private string _banReasonName;
         private string _searchText;
         private string _searchNoticeKey;
 
         // The lobby of a player and the one of a guest show the same panel of players, so both screens use this view model.
-        public LobbyChatViewModel(LobbySnapshot lobby, PlayerPresenceMonitor presenceMonitor, string accessToken)
+        public LobbyChatViewModel(
+            PlayerPresenceMonitor presenceMonitor,
+            ChatMessageConnection chatConnection,
+            LogInOutcome signedInPlayer)
         {
-            _lobby = lobby ?? throw new ArgumentNullException(nameof(lobby));
             _presenceMonitor = presenceMonitor ?? throw new ArgumentNullException(nameof(presenceMonitor));
-            _accessToken = accessToken ?? throw new ArgumentNullException(nameof(accessToken));
+            _chatConnection = chatConnection ?? throw new ArgumentNullException(nameof(chatConnection));
+            _signedInPlayer = signedInPlayer ?? throw new ArgumentNullException(nameof(signedInPlayer));
             _messageDraft = string.Empty;
-            ChatEntries = new ObservableCollection<ChatEntry>(_lobby.ChatEntries);
-            HasNoPlayersLookingToPlay = _lobby.LookingToPlay.Count == 0;
-            _hasNoFriends = HasNoFriendsIn(_lobby);
+            ChatEntries = new ObservableCollection<PlayerMessage>();
+            LookingToPlay = new ObservableCollection<LobbyPlayerViewModel>();
+            Online = new ObservableCollection<LobbyPlayerViewModel>();
+            MatchesInProgress = new ObservableCollection<MatchPair>();
+            Unavailable = new ObservableCollection<LobbyPlayerViewModel>();
+            FriendsOnline = new ObservableCollection<LobbyPlayerViewModel>();
+            FriendsInMatch = new ObservableCollection<MatchPair>();
+            FriendsUnavailable = new ObservableCollection<LobbyPlayerViewModel>();
+            HasNoPlayersLookingToPlay = (LookingToPlay.Count == 0);
+            _hasNoFriends = HasNoFriendsListed();
             SortPlayersByRank();
             BanCountdown = new CountdownViewModel(TimeSpan.Zero);
             SendMessageCommand = new RelayCommand(SendMessage);
             FindMatchCommand = new RelayCommand(FindMatch);
             CancelSearchCommand = new RelayCommand(CancelSearch);
-            ChallengeCommand = new RelayCommand(Challenge);
             FriendRequestCommand = new RelayCommand(SendFriendRequest);
-            AcceptChallengeCommand = new RelayCommand(AcceptChallenge);
-            DeclineChallengeCommand = new RelayCommand(RemoveChatEntry);
-            CancelChallengeCommand = new RelayCommand(RemoveChatEntry);
         }
 
-        public event EventHandler MatchStarted;
         public event EventHandler PresenceUnavailable;
 
-        public ObservableCollection<ChatEntry> ChatEntries { get; private set; }
+        public ObservableCollection<PlayerMessage> ChatEntries { get; private set; }
         public bool HasNoPlayersLookingToPlay { get; private set; }
         public CountdownViewModel BanCountdown { get; private set; }
         public ICommand SendMessageCommand { get; private set; }
         public ICommand FindMatchCommand { get; private set; }
         public ICommand CancelSearchCommand { get; private set; }
-        public ICommand ChallengeCommand { get; private set; }
         public ICommand FriendRequestCommand { get; private set; }
-        public ICommand AcceptChallengeCommand { get; private set; }
-        public ICommand DeclineChallengeCommand { get; private set; }
-        public ICommand CancelChallengeCommand { get; private set; }
+        public IList<LobbyPlayerViewModel> LookingToPlay { get; private set; }
+        public IList<LobbyPlayerViewModel> Online { get; private set; }
+        public IList<MatchPair> MatchesInProgress { get; private set; }
+        public int PlayersInMatchCount { get; private set; }
+        public IList<LobbyPlayerViewModel> Unavailable { get; private set; }
+        public IList<LobbyPlayerViewModel> FriendsOnline { get; private set; }
+        public IList<MatchPair> FriendsInMatch { get; private set; }
+        public int FriendsInMatchCount { get; private set; }
+        public IList<LobbyPlayerViewModel> FriendsUnavailable { get; private set; }
 
         public string PlayerName
         {
-            get { return _lobby.PlayerName; }
-        }
-
-        public IList<LobbyPlayerViewModel> LookingToPlay
-        {
-            get { return _lobby.LookingToPlay; }
-        }
-
-        public IList<LobbyPlayerViewModel> Online
-        {
-            get { return _lobby.Online; }
-        }
-
-        public IList<MatchPair> MatchesInProgress
-        {
-            get { return _lobby.MatchesInProgress; }
-        }
-
-        public int PlayersInMatchCount
-        {
-            get { return _lobby.PlayersInMatchCount; }
-        }
-
-        public IList<LobbyPlayerViewModel> Unavailable
-        {
-            get { return _lobby.Unavailable; }
-        }
-
-        public IList<LobbyPlayerViewModel> FriendsOnline
-        {
-            get { return _lobby.FriendsOnline; }
-        }
-
-        public IList<MatchPair> FriendsInMatch
-        {
-            get { return _lobby.FriendsInMatch; }
-        }
-
-        public int FriendsInMatchCount
-        {
-            get { return _lobby.FriendsInMatchCount; }
-        }
-
-        public IList<LobbyPlayerViewModel> FriendsUnavailable
-        {
-            get { return _lobby.FriendsUnavailable; }
+            get { return _signedInPlayer.Username; }
         }
 
         public string MessageDraft
@@ -157,7 +125,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool CanWriteMessage
         {
-            get { return !_isChatBlocked; }
+            get { return !_isChatBlocked && !_isChatUnavailable; }
         }
 
         public string BanReasonName
@@ -179,10 +147,6 @@ namespace GinRummy.Client.ViewModels
                 RaisePropertyChanged();
             }
         }
-
-        // The player is not among the rows the server sends, so the own tag is kept apart for the search and the own profile.
-        // The search uses it to answer a search for the own tag (CU-10 FA-02), and the profile to read it (CU-27 FA-02).
-        public int OwnPublicTag { get; set; }
 
         public string SearchText
         {
@@ -211,6 +175,14 @@ namespace GinRummy.Client.ViewModels
             get { return _searchNoticeKey != null; }
         }
 
+        // Blocks the chat of a player whose sanction restricts it (CU-17 EX-08).
+        public void BlockChat(string reasonName, TimeSpan remainingTime)
+        {
+            BanReasonName = reasonName;
+            IsChatBlocked = true;
+            BanCountdown.Restart(remainingTime);
+        }
+
         public void StopCountdown()
         {
             BanCountdown.Stop();
@@ -221,7 +193,7 @@ namespace GinRummy.Client.ViewModels
         {
             _presenceMonitor.CurrentStatusReported += OnCurrentStatusReported;
             _presenceMonitor.PlayerPresenceChanged += OnPlayerPresenceChanged;
-            if (!_presenceMonitor.Start(_accessToken))
+            if (!_presenceMonitor.Start(_signedInPlayer.AccessToken))
             {
                 PresenceUnavailable?.Invoke(this, EventArgs.Empty);
             }
@@ -234,17 +206,35 @@ namespace GinRummy.Client.ViewModels
             _presenceMonitor.PlayerPresenceChanged -= OnPlayerPresenceChanged;
         }
 
-        public bool CanReport(ChatEntry entry)
+        public void StartChat()
         {
-            ChatMessage message = entry as ChatMessage;
-            return (message != null) && (message.AuthorName != _lobby.PlayerName);
+            _chatConnection.LobbyChatHistoryReceived += OnLobbyChatHistoryReceived;
+            _chatConnection.ChatMessageReceived += OnChatMessageReceived;
+            if (!_chatConnection.Start(_signedInPlayer.AccessToken))
+            {
+                _isChatUnavailable = true;
+                RaisePropertyChanged(nameof(CanWriteMessage));
+            }
+        }
+
+        public void StopChat()
+        {
+            _chatConnection.Stop();
+            _chatConnection.LobbyChatHistoryReceived -= OnLobbyChatHistoryReceived;
+            _chatConnection.ChatMessageReceived -= OnChatMessageReceived;
+        }
+
+        // Only the messages of other players can be reported, so the own messages open no menu.
+        public bool CanReport(PlayerMessage message)
+        {
+            return (message != null) && (message.PublicTag != _signedInPlayer.PublicTag);
         }
 
         // Only the tag is needed, because the profile screen reads everything else from the server (CU-27 FA-02).
         public PlayerProfile GetOwnProfile()
         {
             PlayerProfile profile = new PlayerProfile();
-            profile.PublicTag = OwnPublicTag;
+            profile.PublicTag = _signedInPlayer.PublicTag;
             profile.SocialLinks = new List<SocialLink>();
             profile.IsOwnProfile = true;
 
@@ -280,29 +270,31 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
+        // The friend leaves the friends tab, as CU-16 Post-2 and Post-3 require.
+        // Every other row that lists the player offers a friend request again instead of the removal.
         public void RemoveFriend(string username)
         {
-            RemoveByName(_lobby.FriendsOnline, username);
-            RemoveByName(_lobby.FriendsUnavailable, username);
-            IEnumerable<LobbyPlayerViewModel> otherRows = _lobby.LookingToPlay
-                .Concat(_lobby.Online)
-                .Concat(_lobby.Unavailable)
+            RemoveByName(FriendsOnline, username);
+            RemoveByName(FriendsUnavailable, username);
+            IEnumerable<LobbyPlayerViewModel> otherRows = LookingToPlay
+                .Concat(Online)
+                .Concat(Unavailable)
                 .Where(candidate => candidate.Username == username);
             foreach (LobbyPlayerViewModel player in otherRows)
             {
                 player.IsFriend = false;
             }
 
-            HasNoFriends = HasNoFriendsIn(_lobby);
+            HasNoFriends = HasNoFriendsListed();
         }
 
-        // Until the server relays messages to the lobby, the screen shows its own message so the chat flow can be walked through.
+        // An empty message is not sent and shows no error (CU-17 FA-03).
         private void SendMessage()
         {
             string content = _messageDraft.Trim();
             if (CanWriteMessage && (content.Length > 0))
             {
-                ChatEntries.Add(new ChatMessage(_lobby.PlayerName, content, DateTime.UtcNow));
+                _chatConnection.SendLobbyMessage(_signedInPlayer.AccessToken, content);
                 MessageDraft = string.Empty;
             }
         }
@@ -318,66 +310,69 @@ namespace GinRummy.Client.ViewModels
             IsSearchingMatch = false;
         }
 
-        private void Challenge(object parameter)
-        {
-            LobbyPlayerViewModel player = (LobbyPlayerViewModel)parameter;
-            ChatEntries.Add(new ChallengeNotice(ChallengeNoticeKind.Sent, player.Username, DateTime.UtcNow));
-        }
-
+        // The option turns into the pending request mark so a second request cannot be sent while the first one waits (CU-12 step 8).
         private void SendFriendRequest(object parameter)
         {
-            LobbyPlayerViewModel player = (LobbyPlayerViewModel)parameter;
-            player.HasPendingRequest = true;
-        }
-
-        private void AcceptChallenge(object parameter)
-        {
-            RemoveChatEntry(parameter);
-            MatchStarted?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void RemoveChatEntry(object parameter)
-        {
-            ChatEntries.Remove((ChatEntry)parameter);
+            LobbyPlayerViewModel player = parameter as LobbyPlayerViewModel;
+            if (player != null)
+            {
+                player.HasPendingRequest = true;
+            }
         }
 
         private void OnCurrentStatusReported(object sender, PlayerPresenceReport report)
         {
-            ReplacePlayers(_lobby.Online, report.AllOnlinePlayers);
-            ReplacePlayers(_lobby.Unavailable, report.AllOfflinePlayers);
-            ReplacePlayers(_lobby.FriendsOnline, report.AllOnlineFriends);
-            ReplacePlayers(_lobby.FriendsUnavailable, report.AllOfflineFriends);
-            HasNoFriends = HasNoFriendsIn(_lobby);
+            ReplacePlayers(Online, report.AllOnlinePlayers);
+            ReplacePlayers(Unavailable, report.AllOfflinePlayers);
+            ReplacePlayers(FriendsOnline, report.AllOnlineFriends);
+            ReplacePlayers(FriendsUnavailable, report.AllOfflineFriends);
+            HasNoFriends = HasNoFriendsListed();
         }
 
         // A player is listed in one status only, so its old row is removed before the new one is added.
         private void OnPlayerPresenceChanged(object sender, PlayerPresence presence)
         {
-            RemoveByPublicTag(_lobby.Online, presence.PublicTag);
-            RemoveByPublicTag(_lobby.Unavailable, presence.PublicTag);
-            RemoveByPublicTag(_lobby.FriendsOnline, presence.PublicTag);
-            RemoveByPublicTag(_lobby.FriendsUnavailable, presence.PublicTag);
+            RemoveByPublicTag(Online, presence.PublicTag);
+            RemoveByPublicTag(Unavailable, presence.PublicTag);
+            RemoveByPublicTag(FriendsOnline, presence.PublicTag);
+            RemoveByPublicTag(FriendsUnavailable, presence.PublicTag);
             if (presence.Status == PresenceStatus.Online)
             {
-                AddPlayer(_lobby.Online, _lobby.FriendsOnline, presence);
+                AddPlayer(Online, FriendsOnline, presence);
             }
             else if (!presence.IsGuest)
             {
                 // A guest has no account to come back to, so it leaves the panel instead of becoming unavailable.
-                AddPlayer(_lobby.Unavailable, _lobby.FriendsUnavailable, presence);
+                AddPlayer(Unavailable, FriendsUnavailable, presence);
             }
 
-            HasNoFriends = HasNoFriendsIn(_lobby);
+            HasNoFriends = HasNoFriendsListed();
+        }
+
+        private void OnLobbyChatHistoryReceived(object sender, PlayerMessage[] messages)
+        {
+            foreach (PlayerMessage message in messages)
+            {
+                ChatEntries.Add(message);
+            }
+        }
+
+        private void OnChatMessageReceived(object sender, PlayerMessage message)
+        {
+            if (message.Destination == MessageDestination.Lobby)
+            {
+                ChatEntries.Add(message);
+            }
         }
 
         // A player who no longer exists leaves every group of the panel (CU-27 EX-02).
         private void RemovePlayer(int publicTag)
         {
-            RemoveByPublicTag(_lobby.Online, publicTag);
-            RemoveByPublicTag(_lobby.Unavailable, publicTag);
-            RemoveByPublicTag(_lobby.FriendsOnline, publicTag);
-            RemoveByPublicTag(_lobby.FriendsUnavailable, publicTag);
-            HasNoFriends = HasNoFriendsIn(_lobby);
+            RemoveByPublicTag(Online, publicTag);
+            RemoveByPublicTag(Unavailable, publicTag);
+            RemoveByPublicTag(FriendsOnline, publicTag);
+            RemoveByPublicTag(FriendsUnavailable, publicTag);
+            HasNoFriends = HasNoFriendsListed();
         }
 
         private static void RemoveByName(IList<LobbyPlayerViewModel> players, string username)
@@ -433,7 +428,7 @@ namespace GinRummy.Client.ViewModels
             {
                 noticeKey = DisallowedCharactersNoticeKey;
             }
-            else if (typedTag == OwnPublicTag.ToString(CultureInfo.InvariantCulture))
+            else if (typedTag == _signedInPlayer.PublicTag.ToString(CultureInfo.InvariantCulture))
             {
                 noticeKey = OwnTagNoticeKey;
             }
@@ -449,11 +444,11 @@ namespace GinRummy.Client.ViewModels
         {
             IList<IList<LobbyPlayerViewModel>> playerGroups = new List<IList<LobbyPlayerViewModel>>
             {
-                _lobby.LookingToPlay,
-                _lobby.Online,
-                _lobby.Unavailable,
-                _lobby.FriendsOnline,
-                _lobby.FriendsUnavailable
+                LookingToPlay,
+                Online,
+                Unavailable,
+                FriendsOnline,
+                FriendsUnavailable
             };
 
             return playerGroups;
@@ -465,11 +460,11 @@ namespace GinRummy.Client.ViewModels
             return player.PublicTag.ToString(CultureInfo.InvariantCulture).StartsWith(typedTag, StringComparison.Ordinal);
         }
 
-        private static bool HasNoFriendsIn(LobbySnapshot lobby)
+        private bool HasNoFriendsListed()
         {
-            return (lobby.FriendsOnline.Count == 0)
-                && (lobby.FriendsInMatch.Count == 0)
-                && (lobby.FriendsUnavailable.Count == 0);
+            return (FriendsOnline.Count == 0)
+                && (FriendsInMatch.Count == 0)
+                && (FriendsUnavailable.Count == 0);
         }
 
         private static void ReplacePlayers(IList<LobbyPlayerViewModel> players, IList<PlayerPresence> presences)

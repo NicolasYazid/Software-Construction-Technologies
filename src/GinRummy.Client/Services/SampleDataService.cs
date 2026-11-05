@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 using GinRummy.Client.Localization;
 using GinRummy.Client.Models;
@@ -24,63 +23,6 @@ namespace GinRummy.Client.Services
         private const string HarassmentReasonKey = "Reason_HarassmentOrThreats";
         private const string OffensiveLanguageReasonKey = "Reason_OffensiveLanguage";
         private const string SpamReasonKey = "Reason_Spam";
-
-        // Its values reproduce the prototype screen P11, except the players and the friends.
-        // Those are not simulated: the presence service sends them, so their groups start empty.
-        // The groups that receive them are observable so that the panel shows a change the moment the server reports it.
-        public LobbySnapshot GetLobby()
-        {
-            LobbySnapshot lobby = new LobbySnapshot();
-            lobby.PlayerName = PlayerName;
-            lobby.ChatEntries = new List<ChatEntry>
-            {
-                CreateMessage("Player A", new TimeSpan(2, 33, 0), "¿Alguien para una partida rápida?"),
-                CreateNotice(ChallengeNoticeKind.Sent, "Player D", new TimeSpan(2, 33, 0)),
-                CreateMessage("Player A", new TimeSpan(2, 34, 0), "Voy por la revancha."),
-                CreateCensoredMessage("Player H", new TimeSpan(2, 36, 0)),
-                CreateMessage("Player G", new TimeSpan(2, 36, 0), "gg wp"),
-                CreateNotice(ChallengeNoticeKind.Declined, "Player D", new TimeSpan(2, 40, 0)),
-                CreateMessage("Player Z", new TimeSpan(4, 33, 0), "@Player A gl hf!"),
-                CreateMessage("Player A", new TimeSpan(4, 34, 0), "You too."),
-                CreateNotice(ChallengeNoticeKind.Received, "Player Z", new TimeSpan(4, 35, 0))
-            };
-            lobby.LookingToPlay = new List<LobbyPlayerViewModel>();
-            lobby.Online = new ObservableCollection<LobbyPlayerViewModel>();
-            lobby.MatchesInProgress = new List<MatchPair>();
-            lobby.Unavailable = new ObservableCollection<LobbyPlayerViewModel>();
-            lobby.FriendsOnline = new ObservableCollection<LobbyPlayerViewModel>();
-            lobby.FriendsInMatch = new List<MatchPair>();
-            lobby.FriendsUnavailable = new ObservableCollection<LobbyPlayerViewModel>();
-
-            return lobby;
-        }
-
-        // The players reach the lobby of a guest through the same presence service, so their groups start empty too.
-        // A guest has no friends, so its groups of friends stay empty (CU-11 FA-02).
-        public LobbySnapshot GetGuestLobby()
-        {
-            LobbySnapshot lobby = new LobbySnapshot();
-            lobby.ChatEntries = new List<ChatEntry>
-            {
-                CreateMessage("Player A", new TimeSpan(2, 33, 0), "¿Alguien para una partida rápida?"),
-                CreateMessage("Player C", new TimeSpan(2, 33, 0), "Yo, en cuanto termine esta."),
-                CreateMessage("Player A", new TimeSpan(2, 34, 0), "Voy por la revancha."),
-                CreateCensoredMessage("Player H", new TimeSpan(2, 36, 0)),
-                CreateMessage("Player G", new TimeSpan(2, 36, 0), "gg wp"),
-                CreateNotice(ChallengeNoticeKind.Declined, "Player D", new TimeSpan(2, 40, 0)),
-                CreateMessage("Player Z", new TimeSpan(4, 33, 0), "@Player A gl hf!"),
-                CreateMessage("Player A", new TimeSpan(4, 34, 0), "You too.")
-            };
-            lobby.LookingToPlay = new List<LobbyPlayerViewModel>();
-            lobby.Online = new ObservableCollection<LobbyPlayerViewModel>();
-            lobby.MatchesInProgress = new List<MatchPair>();
-            lobby.Unavailable = new ObservableCollection<LobbyPlayerViewModel>();
-            lobby.FriendsOnline = new ObservableCollection<LobbyPlayerViewModel>();
-            lobby.FriendsInMatch = new List<MatchPair>();
-            lobby.FriendsUnavailable = new ObservableCollection<LobbyPlayerViewModel>();
-
-            return lobby;
-        }
 
         public IList<FriendRequest> GetFriendRequests()
         {
@@ -191,11 +133,6 @@ namespace GinRummy.Client.Services
             message.Censor();
 
             return message;
-        }
-
-        private static ChallengeNotice CreateNotice(ChallengeNoticeKind kind, string playerName, TimeSpan timeOfDay)
-        {
-            return new ChallengeNotice(kind, playerName, DateTime.Today.Add(timeOfDay));
         }
 
         private static FriendRequest CreateRequest(string senderName, int minutesAgo)

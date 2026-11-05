@@ -3,19 +3,24 @@ using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Dispatcher;
 
+using GinRummy.Contracts.Faults;
+using GinRummy.Domain;
+using GinRummy.Services.Services;
 using Microsoft.Extensions.Logging;
 
 namespace GinRummy.Services.Hosting
 {
     /// <summary>
     /// Last line of defense of every service. It logs the errors the services did not turn into
-    /// a declared fault and replaces them with a generic fault, so the client never receives
-    /// stack traces or internal messages.
+    /// a declared fault, turns an access token that is not valid into the SessionExpired fault and
+    /// replaces any other error with a generic fault, so the client never receives stack traces or
+    /// internal messages.
     /// </summary>
     public class FaultShieldErrorHandler : IErrorHandler
     {
         private const string InternalErrorCode = "InternalError";
         private const string InternalErrorReason = "The server could not complete the operation.";
+        private const string ServiceFaultActionSuffix = "ServiceFaultFault";
 
         private readonly ILogger<FaultShieldErrorHandler> _errorLogger;
 
@@ -43,6 +48,10 @@ namespace GinRummy.Services.Hosting
             {
                 _errorLogger.LogDebug("A service operation returned a declared fault.");
             }
+            else if (error is InvalidAccessTokenException)
+            {
+                _errorLogger.LogWarning(error, "A client presented an access token that is not valid.");
+            }
             else if (error is CommunicationException)
             {
                 _errorLogger.LogWarning(error, "A client channel failed or closed while it was in use.");
@@ -56,15 +65,19 @@ namespace GinRummy.Services.Hosting
         }
 
         /// <summary>
-        /// Replaces every error that is not a declared fault with a generic fault without
-        /// internal details.
+        /// Turns an access token that is not valid into the SessionExpired fault and replaces every
+        /// other error that is not a declared fault with a generic fault without internal details.
         /// </summary>
         /// <param name="error">Error raised by the operation.</param>
         /// <param name="version">Message version of the channel.</param>
         /// <param name="fault">Fault sent to the client; left null to keep the declared fault.</param>
         public void ProvideFault(Exception error, MessageVersion version, ref Message fault)
         {
-            if (!(error is FaultException))
+            if (error is InvalidAccessTokenException)
+            {
+                fault = CreateSessionExpiredFault(version);
+            }
+            else if (!(error is FaultException))
             {
                 FaultException shieldedFault = new FaultException(
                     new FaultReason(InternalErrorReason),
@@ -72,6 +85,15 @@ namespace GinRummy.Services.Hosting
                 MessageFault messageFault = shieldedFault.CreateMessageFault();
                 fault = Message.CreateMessage(version, messageFault, shieldedFault.Action);
             }
+        }
+
+        private static Message CreateSessionExpiredFault(MessageVersion version)
+        {
+            FaultException<ServiceFault> sessionExpiredFault = ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.SessionExpired);
+            MessageFault messageFault = sessionExpiredFault.CreateMessageFault();
+            string faultAction = OperationContext.Current.IncomingMessageHeaders.Action + ServiceFaultActionSuffix;
+
+            return Message.CreateMessage(version, messageFault, faultAction);
         }
     }
 }

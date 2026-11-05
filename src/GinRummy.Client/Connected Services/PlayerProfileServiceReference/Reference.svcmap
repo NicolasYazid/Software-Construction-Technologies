@@ -21,7 +21,7 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="net.tcp://localhost:8009/PlayerProfileService/mex" Protocol="mex" SourceId="1" />
+    <MetadataSource Address="net.tcp://localhost:8001/PlayerProfileService/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
     <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="ad1e4186-9faf-48f1-abc6-e22b1a9a4cd8" SourceId="1" SourceUrl="net.tcp://localhost:8009/PlayerProfileService/mex" />

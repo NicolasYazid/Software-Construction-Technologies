@@ -19,7 +19,7 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="net.tcp://localhost:8013/AccountSettingsService/mex" Protocol="mex" SourceId="1" />
+    <MetadataSource Address="net.tcp://localhost:8001/AccountSettingsService/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
     <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="e2d956f1-f408-42c0-9ea8-6dce9efdb7f8" SourceId="1" SourceUrl="net.tcp://localhost:8013/AccountSettingsService/mex" />

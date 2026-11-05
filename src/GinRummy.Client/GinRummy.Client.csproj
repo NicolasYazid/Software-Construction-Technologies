@@ -188,6 +188,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Connected Services\ChatMessageServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\LeaderboardServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -352,11 +357,8 @@
     <Compile Include="Controls\PasswordBindingCommon.cs" />
     <Compile Include="Models\ChatEntry.cs" />
     <Compile Include="Models\ChatMessage.cs" />
-    <Compile Include="Models\ChallengeNoticeKind.cs" />
-    <Compile Include="Models\ChallengeNotice.cs" />
     <Compile Include="ViewModels\LobbyPlayerViewModel.cs" />
     <Compile Include="Models\MatchPair.cs" />
-    <Compile Include="Models\LobbySnapshot.cs" />
     <Compile Include="Models\FriendRequest.cs" />
     <Compile Include="ViewModels\SanctionViewModel.cs" />
     <Compile Include="ViewModels\NotificationsViewModel.cs" />
@@ -366,6 +368,7 @@
     <Compile Include="ViewModels\EditProfileViewModel.cs" />
     <Compile Include="ViewModels\LobbyChatViewModel.cs" />
     <Compile Include="ViewModels\GameTableViewModel.cs" />
+    <Compile Include="Services\ChatMessageConnection.cs" />
     <Compile Include="Services\PlayerPresenceMonitor.cs" />
     <Compile Include="Services\ISampleDataService.cs" />
     <Compile Include="Services\SampleDataService.cs" />
@@ -394,6 +397,19 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Connected Services\ChatMessageServiceReference\GinRummy.Contracts.DataContracts.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ChatMessageServiceReference\GinRummy.Contracts.Faults.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ChatMessageServiceReference\service.wsdl" />
+    <None Include="Connected Services\ChatMessageServiceReference\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ChatMessageServiceReference\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\LeaderboardServiceReference\LeaderboardService.wsdl" />
     <None Include="Connected Services\LeaderboardServiceReference\LeaderboardService.xsd">
       <SubType>Designer</SubType>
@@ -497,6 +513,7 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\ChatMessageServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\LeaderboardServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\LogInServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\AccountSettingsServiceReference\" />
@@ -571,6 +588,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\SignUpServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ChatMessageServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ChatMessageServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ChatMessageServiceReference\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

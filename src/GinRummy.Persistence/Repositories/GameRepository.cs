@@ -47,7 +47,7 @@ namespace GinRummy.Persistence.Repositories
         /// </summary>
         /// <param name="playerId">Player to look for.</param>
         /// <returns>The open match with its participants, or null.</returns>
-        public GameSession FindOpenByPlayerId(int playerId)
+        public GameSession FindGameSessionInProgressByPlayerId(int playerId)
         {
             // The stage is turned into text before the query because EF cannot translate the computed State property to SQL.
             string finished = GameState.Finished.ToString();

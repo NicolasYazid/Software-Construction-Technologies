@@ -24,18 +24,10 @@ namespace GinRummy.Domain.Entities.Players
         }
 
         public int PlayerId { get; private set; }
-
-        /// <summary>
-        /// Gets the public identifier shown to other players, always PlayerId + 100000.
-        /// </summary>
         public int PublicTag { get; private set; }
         public string Username { get; private set; }
         public int LocaleId { get; private set; }
         public DateTime CreatedAt { get; private set; }
-
-        /// <summary>
-        /// Gets whether the player wants prohibited words hidden in the messages they read.
-        /// </summary>
         public bool IsChatFilterEnabled { get; private set; }
 
         /// <summary>

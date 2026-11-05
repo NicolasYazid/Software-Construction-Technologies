@@ -23,7 +23,7 @@ namespace GinRummy.Domain.Ports.Repositories
         /// </summary>
         /// <param name="playerId">Player to look for.</param>
         /// <returns>The open match with its participants, or null.</returns>
-        GameSession FindOpenByPlayerId(int playerId);
+        GameSession FindGameSessionInProgressByPlayerId(int playerId);
 
         /// <summary>
         /// Finds the match a guest takes part in that is not over, or null when there is none.

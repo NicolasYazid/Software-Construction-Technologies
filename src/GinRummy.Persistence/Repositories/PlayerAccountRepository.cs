@@ -104,6 +104,28 @@ namespace GinRummy.Persistence.Repositories
             return foundAccount;
         }
 
+        public PlayerProfile FindProfileByPlayerId(int playerId)
+        {
+            PlayerProfile foundProfile;
+            if (_sharedContext != null)
+            {
+                foundProfile = _sharedContext.PlayerProfiles
+                    .Include(playerProfile => playerProfile.PlayerAccount.Player)
+                    .FirstOrDefault(playerProfile => playerProfile.PlayerId == playerId);
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    foundProfile = context.PlayerProfiles
+                        .Include(playerProfile => playerProfile.PlayerAccount.Player)
+                        .FirstOrDefault(playerProfile => playerProfile.PlayerId == playerId);
+                }
+            }
+
+            return foundProfile;
+        }
+
         /// <summary>
         /// Adds a new account and persists it immediately.
         /// </summary>

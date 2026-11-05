@@ -3,6 +3,7 @@ using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 
+using GinRummy.Client.ChatMessageServiceReference;
 using GinRummy.Client.Controls;
 using GinRummy.Client.Models;
 using GinRummy.Client.ViewModels;
@@ -25,10 +26,8 @@ namespace GinRummy.Client.Views
         {
             InitializeComponent();
             _viewModel = ((App)Application.Current).CreateLobbyChatViewModel();
-            _viewModel.MatchStarted += OnMatchStarted;
             _viewModel.PresenceUnavailable += OnPresenceUnavailable;
             _viewModel.ChatEntries.CollectionChanged += OnChatEntriesChanged;
-            _viewModel.OwnPublicTag = ((App)Application.Current).SignedInPlayer.PublicTag;
             DataContext = _viewModel;
 
             // The rail, the profile screen and the panel share one own profile, so a new picture shows on all of them (CU-28).
@@ -44,6 +43,7 @@ namespace GinRummy.Client.Views
         {
             ScrollToLatestEntry();
             _viewModel.StartPresence();
+            _viewModel.StartChat();
             _ownProfileViewModel.LoadProfile(((App)Application.Current).SignedInPlayer.AccessToken);
         }
 
@@ -55,11 +55,6 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnMatchStarted(object sender, EventArgs e)
-        {
-            OpenOver(new GuiGameTable());
-        }
-
         private void OnPresenceUnavailable(object sender, EventArgs e)
         {
             ShowModal(new GuiErrorDialog(ErrorDialogKind.ServiceUnavailable));
@@ -67,11 +62,6 @@ namespace GinRummy.Client.Views
 
         // A context menu lives outside the visual tree of the window, so its items cannot bind to the commands of the lobby.
         // Each item hands the row it was opened on to the command instead.
-        private void OnChallengeClick(object sender, RoutedEventArgs e)
-        {
-            _viewModel.ChallengeCommand.Execute(GetMenuPlayer(sender));
-        }
-
         private void OnFriendRequestClick(object sender, RoutedEventArgs e)
         {
             _viewModel.FriendRequestCommand.Execute(GetMenuPlayer(sender));
@@ -109,8 +99,8 @@ namespace GinRummy.Client.Views
 
         private void OnMessageMenuOpening(object sender, ContextMenuEventArgs e)
         {
-            ChatEntry entry = ((FrameworkElement)sender).DataContext as ChatEntry;
-            e.Handled = !_viewModel.CanReport(entry);
+            PlayerMessage message = ((FrameworkElement)sender).DataContext as PlayerMessage;
+            e.Handled = !_viewModel.CanReport(message);
         }
 
         private void OnNotificationsClick(object sender, RoutedEventArgs e)
@@ -151,7 +141,7 @@ namespace GinRummy.Client.Views
         {
             _viewModel.StopCountdown();
             _viewModel.StopPresence();
-            _viewModel.MatchStarted -= OnMatchStarted;
+            _viewModel.StopChat();
             _viewModel.PresenceUnavailable -= OnPresenceUnavailable;
             _viewModel.ChatEntries.CollectionChanged -= OnChatEntriesChanged;
             Loaded -= OnScreenLoaded;
