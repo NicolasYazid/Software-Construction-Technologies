@@ -12,6 +12,7 @@ namespace GinRummy.Client.ViewModels
         // The tag identifies the player, so a change of presence finds its row even when two players share a name.
         public int PublicTag { get; set; }
         public string RankName { get; set; }
+        public int Score { get; set; }
 
         public bool IsFriend
         {

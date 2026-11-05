@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
@@ -39,6 +40,7 @@ namespace GinRummy.Client.ViewModels
             ChatEntries = new ObservableCollection<ChatEntry>(_lobby.ChatEntries);
             HasNoPlayersLookingToPlay = _lobby.LookingToPlay.Count == 0;
             _hasNoFriends = HasNoFriendsIn(_lobby);
+            SortPlayersByRank();
             BanCountdown = new CountdownViewModel(TimeSpan.Zero);
             SendMessageCommand = new RelayCommand(SendMessage);
             FindMatchCommand = new RelayCommand(FindMatch);
@@ -404,6 +406,18 @@ namespace GinRummy.Client.ViewModels
             SearchNoticeKey = noticeKey;
         }
 
+        // A higher score always falls in a higher rank, so the score orders the players from the highest rank to the lowest.
+        // The order goes on the shared view of each group, so a player who arrives later takes its place in the list.
+        private void SortPlayersByRank()
+        {
+            foreach (IList<LobbyPlayerViewModel> players in GetPlayerGroups())
+            {
+                ICollectionView playersView = CollectionViewSource.GetDefaultView(players);
+                playersView.SortDescriptions.Add(new SortDescription(nameof(LobbyPlayerViewModel.Score), ListSortDirection.Descending));
+                playersView.SortDescriptions.Add(new SortDescription(nameof(LobbyPlayerViewModel.Username), ListSortDirection.Ascending));
+            }
+        }
+
         private string FindSearchNoticeKey(string typedTag)
         {
             string noticeKey = null;
@@ -481,12 +495,13 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        // The presence service does not send the rank, so the row keeps the neutral badge until another service provides it.
         private static LobbyPlayerViewModel CreatePlayer(PlayerPresence presence)
         {
             LobbyPlayerViewModel player = new LobbyPlayerViewModel();
             player.Username = presence.Username;
             player.PublicTag = presence.PublicTag;
+            player.RankName = presence.RankName;
+            player.Score = presence.Score;
             player.IsFriend = presence.IsFriend;
 
             return player;
