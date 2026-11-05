@@ -34,6 +34,7 @@ namespace GinRummy.Client.Views
             _viewModel.TwoStepEnableRequested += OnTwoStepEnableRequested;
             _viewModel.TwoStepDisableRequested += OnTwoStepDisableRequested;
             _viewModel.ErrorDialogRequested += OnErrorDialogRequested;
+            _viewModel.ChatFilterChanged += OnChatFilterChanged;
             DataContext = _viewModel;
             grdAvatar.DataContext = ownProfile;
             pwdPassword.Password = new string(PasswordMaskFiller, PasswordMaskLength);
@@ -130,6 +131,12 @@ namespace GinRummy.Client.Views
                 string localeCode = ((CultureOption)e.AddedItems[0]).Code;
                 _viewModel.SaveLanguage(application.SignedInPlayer.AccessToken, localeCode);
             }
+        }
+
+        // The chat reads the preference of the session, so it follows the change without asking the server again (CU-17 step 10).
+        private void OnChatFilterChanged(object sender, EventArgs e)
+        {
+            ((App)Application.Current).SignedInPlayer.IsChatFilterEnabled = _viewModel.IsChatFilterEnabled;
         }
 
         private void OnErrorDialogRequested(object sender, ErrorDialogKind kind)

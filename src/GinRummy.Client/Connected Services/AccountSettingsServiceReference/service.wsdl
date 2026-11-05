@@ -118,6 +118,15 @@
   <wsdl:message name="IAccountSettingsService_ConfirmEmailChange_ServiceFaultFault_FaultMessage">
     <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q11:ServiceFault" />
   </wsdl:message>
+  <wsdl:message name="IAccountSettingsService_ChangeChatFilter_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeChatFilter" />
+  </wsdl:message>
+  <wsdl:message name="IAccountSettingsService_ChangeChatFilter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChangeChatFilterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAccountSettingsService_ChangeChatFilter_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q12:ServiceFault" />
+  </wsdl:message>
   <wsdl:portType name="IAccountSettingsService">
     <wsdl:operation name="GetAccountSettings">
       <wsdl:input wsaw:Action="http://tempuri.org/IAccountSettingsService/GetAccountSettings" message="tns:IAccountSettingsService_GetAccountSettings_InputMessage" />
@@ -161,6 +170,11 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IAccountSettingsService/ConfirmEmailChange" message="tns:IAccountSettingsService_ConfirmEmailChange_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IAccountSettingsService/ConfirmEmailChangeResponse" message="tns:IAccountSettingsService_ConfirmEmailChange_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IAccountSettingsService/ConfirmEmailChangeServiceFaultFault" name="ServiceFaultFault" message="tns:IAccountSettingsService_ConfirmEmailChange_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ChangeChatFilter">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAccountSettingsService/ChangeChatFilter" message="tns:IAccountSettingsService_ChangeChatFilter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAccountSettingsService/ChangeChatFilterResponse" message="tns:IAccountSettingsService_ChangeChatFilter_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IAccountSettingsService/ChangeChatFilterServiceFaultFault" name="ServiceFaultFault" message="tns:IAccountSettingsService_ChangeChatFilter_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="AccountSettingsService" type="tns:IAccountSettingsService">
@@ -261,6 +275,18 @@
     </wsdl:operation>
     <wsdl:operation name="ConfirmEmailChange">
       <soap12:operation soapAction="http://tempuri.org/IAccountSettingsService/ConfirmEmailChange" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ChangeChatFilter">
+      <soap12:operation soapAction="http://tempuri.org/IAccountSettingsService/ChangeChatFilter" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

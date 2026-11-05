@@ -3,6 +3,7 @@
   <xs:complexType name="AccountSettingsDetails">
     <xs:sequence>
       <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsChatFilterEnabled" type="xs:boolean" />
       <xs:element minOccurs="0" name="IsTwoFactorEnabled" type="xs:boolean" />
     </xs:sequence>
   </xs:complexType>

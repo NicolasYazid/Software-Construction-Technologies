@@ -33,6 +33,7 @@ namespace GinRummy.Client.ViewModels
         private bool _isTwoStepEnabled;
         private string _twoStepNoticeKey;
         private string _twoStepErrorKey;
+        private bool _isChatFilterEnabled;
 
         // A client is created for every call because a client whose channel failed cannot be opened again.
         public ProfilePanelViewModel(
@@ -46,11 +47,12 @@ namespace GinRummy.Client.ViewModels
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _email = string.Empty;
             _newEmail = string.Empty;
-            IsChatFilterEnabled = true;
+            _isChatFilterEnabled = true;
             ChangeEmailCommand = new RelayCommand(OpenChangeEmail);
             CancelEmailCommand = new RelayCommand(CancelChangeEmail);
             SaveEmailCommand = new RelayCommand(SaveEmail);
             ToggleTwoStepCommand = new RelayCommand(ToggleTwoStep);
+            ToggleChatFilterCommand = new RelayCommand(ChangeChatFilter);
         }
 
         public event EventHandler EmailVerificationRequested;
@@ -61,11 +63,23 @@ namespace GinRummy.Client.ViewModels
 
         public event EventHandler<ErrorDialogKind> ErrorDialogRequested;
 
+        public event EventHandler ChatFilterChanged;
+
         public ICommand ChangeEmailCommand { get; private set; }
         public ICommand CancelEmailCommand { get; private set; }
         public ICommand SaveEmailCommand { get; private set; }
         public ICommand ToggleTwoStepCommand { get; private set; }
-        public bool IsChatFilterEnabled { get; set; }
+        public ICommand ToggleChatFilterCommand { get; private set; }
+
+        public bool IsChatFilterEnabled
+        {
+            get { return _isChatFilterEnabled; }
+            set
+            {
+                _isChatFilterEnabled = value;
+                RaisePropertyChanged();
+            }
+        }
 
         // Without a session there is no account, so the panel only offers the language (CU-20 FA-01).
         public bool IsSignedIn
@@ -194,6 +208,7 @@ namespace GinRummy.Client.ViewModels
             {
                 Email = settings.Email;
                 IsTwoStepEnabled = settings.IsTwoFactorEnabled;
+                IsChatFilterEnabled = settings.IsChatFilterEnabled;
             }
         }
 
@@ -358,6 +373,19 @@ namespace GinRummy.Client.ViewModels
             else
             {
                 TwoStepErrorKey = _accountSettingsCaller.ErrorMessageKey;
+            }
+        }
+
+        // The switch goes back when the server could not keep the preference, so it always shows the saved one (CU-17 step 10).
+        private void ChangeChatFilter()
+        {
+            if (CallAccountSettings((service, accessToken) => service.ChangeChatFilter(accessToken, _isChatFilterEnabled)))
+            {
+                ChatFilterChanged?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                IsChatFilterEnabled = !_isChatFilterEnabled;
             }
         }
 

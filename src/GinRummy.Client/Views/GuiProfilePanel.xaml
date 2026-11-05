@@ -107,7 +107,8 @@
                         <ctl:PixelBorder Style="{StaticResource StySettingCard}">
                             <DockPanel LastChildFill="True">
                                 <ToggleButton x:Name="tglChatFilter" DockPanel.Dock="Right" Style="{StaticResource StyToggleSwitch}"
-                                              VerticalAlignment="Center" Margin="14,0,0,0" IsChecked="{Binding IsChatFilterEnabled}" />
+                                              VerticalAlignment="Center" Margin="14,0,0,0"
+                                              IsChecked="{Binding IsChatFilterEnabled}" Command="{Binding ToggleChatFilterCommand}" />
                                 <StackPanel>
                                     <TextBlock x:Name="lblChatFilter" Style="{StaticResource StySettingTitle}"
                                                Text="{Binding [ProfilePanel_LblChatFilter], Source={StaticResource PrvLocalization}}" />

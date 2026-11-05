@@ -28,6 +28,9 @@ namespace GinRummy.Client.AccountSettingsServiceReference
         private string EmailField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsChatFilterEnabledField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool IsTwoFactorEnabledField;
         
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData
@@ -55,6 +58,23 @@ namespace GinRummy.Client.AccountSettingsServiceReference
                 {
                     this.EmailField = value;
                     this.RaisePropertyChanged("Email");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsChatFilterEnabled
+        {
+            get
+            {
+                return this.IsChatFilterEnabledField;
+            }
+            set
+            {
+                if ((this.IsChatFilterEnabledField.Equals(value) != true))
+                {
+                    this.IsChatFilterEnabledField = value;
+                    this.RaisePropertyChanged("IsChatFilterEnabled");
                 }
             }
         }
@@ -338,6 +358,13 @@ namespace GinRummy.Client.AccountSettingsServiceReference
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAccountSettingsService/ConfirmEmailChange", ReplyAction="http://tempuri.org/IAccountSettingsService/ConfirmEmailChangeResponse")]
         System.Threading.Tasks.Task ConfirmEmailChangeAsync(string accessToken, string newEmail, string verificationCode);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAccountSettingsService/ChangeChatFilter", ReplyAction="http://tempuri.org/IAccountSettingsService/ChangeChatFilterResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.AccountSettingsServiceReference.ServiceFault), Action="http://tempuri.org/IAccountSettingsService/ChangeChatFilterServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+        void ChangeChatFilter(string accessToken, bool isChatFilterEnabled);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IAccountSettingsService/ChangeChatFilter", ReplyAction="http://tempuri.org/IAccountSettingsService/ChangeChatFilterResponse")]
+        System.Threading.Tasks.Task ChangeChatFilterAsync(string accessToken, bool isChatFilterEnabled);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -452,6 +479,16 @@ namespace GinRummy.Client.AccountSettingsServiceReference
         public System.Threading.Tasks.Task ConfirmEmailChangeAsync(string accessToken, string newEmail, string verificationCode)
         {
             return base.Channel.ConfirmEmailChangeAsync(accessToken, newEmail, verificationCode);
+        }
+        
+        public void ChangeChatFilter(string accessToken, bool isChatFilterEnabled)
+        {
+            base.Channel.ChangeChatFilter(accessToken, isChatFilterEnabled);
+        }
+        
+        public System.Threading.Tasks.Task ChangeChatFilterAsync(string accessToken, bool isChatFilterEnabled)
+        {
+            return base.Channel.ChangeChatFilterAsync(accessToken, isChatFilterEnabled);
         }
     }
 }
