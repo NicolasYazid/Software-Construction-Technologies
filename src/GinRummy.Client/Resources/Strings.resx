@@ -415,7 +415,7 @@ Inténtalo de nuevo en unos minutos.</value>
     <comment>Mensajes del sistema de GuiSignUp</comment>
   </data>
   <data name="Error_ValRequiredField" xml:space="preserve">
-    <value>Completa los campos vacios</value>
+    <value>Completa los campos vacíos</value>
     <comment>Mensajes del sistema de GuiSignUp</comment>
   </data>
   <data name="Error_ValUnsupportedImage" xml:space="preserve">
@@ -1508,22 +1508,6 @@ Tú: {0}   -   Rival: {1}</value>
   <data name="VerifyEmail_TxtCodePlaceholder" xml:space="preserve">
     <value>Código de 6 dígitos</value>
     <comment>Formulario de GuiVerifyEmail</comment>
-  </data>
-  <data name="SignUp_DemoCodeGenerated" xml:space="preserve">
-    <value>Tu código de verificación es: {0}</value>
-    <comment>Mensaje temporal de demostración; el envío real por correo llega con el servidor</comment>
-  </data>
-  <data name="Error_AuthEmailNotFound" xml:space="preserve">
-    <value>No existe una cuenta con ese correo.</value>
-    <comment>Login: el correo no corresponde a ningún jugador</comment>
-  </data>
-  <data name="Error_AuthWrongPassword" xml:space="preserve">
-    <value>La contraseña es incorrecta.</value>
-    <comment>Login: contraseña incorrecta para un correo existente</comment>
-  </data>
-  <data name="LogIn_DemoSignInSuccess" xml:space="preserve">
-    <value>Inicio de sesión exitoso. ¡Bienvenido, {0}!</value>
-    <comment>Mensaje temporal de demostración; el acceso real al lobby llega con el servidor</comment>
   </data>
   <data name="Error_SocialPlayerNotFound" xml:space="preserve">
     <value>No encontramos a ningún jugador con esa etiqueta</value>
