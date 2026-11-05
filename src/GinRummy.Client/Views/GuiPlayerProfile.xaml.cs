@@ -57,12 +57,7 @@ namespace GinRummy.Client.Views
         // An expired session cannot stay in the lobby, so the lobby closes too (CU-27 EX-04).
         private void OnSessionExpiredDialogClosed(object sender, EventArgs e)
         {
-            GuiWindowBase lobby = Host;
-            Close();
-            if (lobby != null)
-            {
-                lobby.Close();
-            }
+            LeaveLobby();
         }
 
         private void OnRemoveFriendClick(object sender, RoutedEventArgs e)
