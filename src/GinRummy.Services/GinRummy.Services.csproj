@@ -65,6 +65,7 @@
     <Compile Include="Services\LeaderboardService.cs" />
     <Compile Include="Services\LogInService.cs" />
     <Compile Include="Services\PlayerPresenceService.cs" />
+    <Compile Include="Services\ModerationService.cs" />
     <Compile Include="Services\PlayerProfileService.cs" />
     <Compile Include="Services\ServiceFaultCommon.cs" />
     <Compile Include="Services\SignUpService.cs" />
