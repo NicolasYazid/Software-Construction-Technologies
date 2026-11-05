@@ -9,8 +9,8 @@ namespace GinRummy.Domain.Ports.Repositories
     public interface IPlayerAccountRepository
     {
         /// <summary>
-        /// Finds the account whose email matches, with its player loaded, or null when no
-        /// account has it.
+        /// Finds the account whose email matches, with its player and the player's language loaded,
+        /// or null when no account has it.
         /// </summary>
         /// <param name="email">Email address to search for.</param>
         /// <returns>The matching account, or null.</returns>

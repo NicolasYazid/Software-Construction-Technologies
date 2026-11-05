@@ -6,8 +6,8 @@ using GinRummy.Contracts.Faults;
 namespace GinRummy.Contracts.Services
 {
     /// <summary>
-    /// Operations to look at the profile of a registered player (CU-27) and to edit the own one
-    /// (CU-28 to CU-32).
+    /// Operations to look at the profile of a registered player (CU-27), to edit the own one
+    /// (CU-28 to CU-32) and to keep the chosen language (CU-20).
     /// </summary>
     [ServiceContract]
     public interface IPlayerProfileService
@@ -93,5 +93,17 @@ namespace GinRummy.Contracts.Services
         [OperationContract]
         [FaultContract(typeof(ServiceFault))]
         void UnlinkSocialMedia(string accessToken, int socialMediaId);
+
+        /// <summary>
+        /// Keeps the language of the player who asks, so the next log in shows it.
+        /// </summary>
+        /// <param name="accessToken">Access token of the player.</param>
+        /// <param name="localeCode">Code of the language, such as "en-US".</param>
+        /// <exception cref="FaultException{ServiceFault}">
+        /// Thrown when the access token is not valid, or when the language is not in the catalog.
+        /// </exception>
+        [OperationContract]
+        [FaultContract(typeof(ServiceFault))]
+        void ChangeLanguage(string accessToken, string localeCode);
     }
 }

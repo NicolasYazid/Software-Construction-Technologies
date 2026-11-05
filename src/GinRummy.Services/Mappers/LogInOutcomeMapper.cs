@@ -21,7 +21,8 @@ namespace GinRummy.Services.Mappers
             {
                 IsTwoFactorRequired = true,
                 AccessToken = string.Empty,
-                Username = string.Empty
+                Username = string.Empty,
+                LocaleCode = string.Empty
             };
             if (!result.IsTwoFactorRequired)
             {
@@ -41,7 +42,8 @@ namespace GinRummy.Services.Mappers
                 AccessTokenExpiresAt = result.AccessToken.ExpiresAt,
                 PlayerId = player.PlayerId,
                 Username = player.Username,
-                PublicTag = player.PublicTag
+                PublicTag = player.PublicTag,
+                LocaleCode = player.Locale.LocaleCode
             };
 
             return outcome;

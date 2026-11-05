@@ -2,6 +2,7 @@
 using System.Linq;
 
 using GinRummy.Application.Ports;
+using GinRummy.Domain.Entities;
 using GinRummy.Domain.Entities.Players;
 using GinRummy.Domain.Ports.Infrastructure;
 using GinRummy.Domain.Ports.Repositories;
@@ -126,6 +127,25 @@ namespace GinRummy.Application.UseCases
                     unitOfWork.Commit();
                 }
             }
+        }
+
+        // Only a language of the catalog is kept, because the next log in applies it (CU-20 EX-01).
+        public bool ChangeLanguage(string accessToken, string localeCode)
+        {
+            int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
+            bool isSupported;
+            using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
+            {
+                Locale locale = unitOfWork.Locales.FindByCode(localeCode);
+                isSupported = locale != null;
+                if (isSupported)
+                {
+                    unitOfWork.Players.FindById(playerId).ChangeLocale(locale.LocaleId);
+                    unitOfWork.Commit();
+                }
+            }
+
+            return isSupported;
         }
 
         private string UpdateProfilePicture(int playerId, Action<PlayerProfile> pictureChange)

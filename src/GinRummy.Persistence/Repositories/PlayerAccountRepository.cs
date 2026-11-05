@@ -47,8 +47,8 @@ namespace GinRummy.Persistence.Repositories
         }
 
         /// <summary>
-        /// Finds the account whose email matches, with its player loaded, or null when no
-        /// account has it.
+        /// Finds the account whose email matches, with its player and the player's language loaded,
+        /// or null when no account has it.
         /// </summary>
         /// <param name="email">Email address to search for.</param>
         /// <returns>The matching account, or null.</returns>
@@ -58,7 +58,7 @@ namespace GinRummy.Persistence.Repositories
             if (_sharedContext != null)
             {
                 foundAccount = _sharedContext.PlayerAccounts
-                    .Include(account => account.Player)
+                    .Include(account => account.Player.Locale)
                     .FirstOrDefault(account => account.Email == email);
             }
             else
@@ -68,7 +68,7 @@ namespace GinRummy.Persistence.Repositories
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
                     foundAccount = context.PlayerAccounts
-                        .Include(account => account.Player)
+                        .Include(account => account.Player.Locale)
                         .FirstOrDefault(account => account.Email == email);
                 }
             }

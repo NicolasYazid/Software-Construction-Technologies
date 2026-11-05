@@ -99,6 +99,17 @@ namespace GinRummy.Services.Services
             RunProfileEdit(() => _profileEditPort.UnlinkSocialMedia(accessToken, socialMediaId));
         }
 
+        public void ChangeLanguage(string accessToken, string localeCode)
+        {
+            bool isSupported = false;
+            RunProfileEdit(() => isSupported = _profileEditPort.ChangeLanguage(accessToken, localeCode));
+            if (!isSupported)
+            {
+                _logger.LogWarning("A client asked for the language {LocaleCode}, which is not in the catalog.", localeCode);
+                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.UnsupportedLocale);
+            }
+        }
+
         // Every edit breaks the same rules, so they all turn each broken rule into the same fault.
         private void RunProfileEdit(Action profileEdit)
         {

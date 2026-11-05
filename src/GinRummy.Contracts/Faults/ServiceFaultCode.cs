@@ -103,6 +103,11 @@
         /// <summary>
         /// The address of a social link is not the address of a web page (Error_ValInvalidUrl).
         /// </summary>
-        InvalidUrl
+        InvalidUrl,
+
+        /// <summary>
+        /// The language is not in the catalog of the game (Error_SysUnsupportedLocale).
+        /// </summary>
+        UnsupportedLocale
     }
 }

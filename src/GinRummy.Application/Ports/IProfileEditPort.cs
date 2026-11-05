@@ -15,5 +15,7 @@ namespace GinRummy.Application.Ports
         SocialMedia LinkSocialMedia(string accessToken, string platformName, string url);
 
         void UnlinkSocialMedia(string accessToken, int socialMediaId);
+
+        bool ChangeLanguage(string accessToken, string localeCode);
     }
 }

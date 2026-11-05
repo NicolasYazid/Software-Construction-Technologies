@@ -38,6 +38,11 @@ namespace GinRummy.Domain.Entities.Players
         /// </summary>
         public bool IsChatFilterEnabled { get; private set; }
 
+        /// <summary>
+        /// Gets the language the player chose, loaded from the relationship between the two tables.
+        /// </summary>
+        public virtual Locale Locale { get; private set; }
+
         public static IList<UsernameRequirement> GetUnmetUsernameRequirements(string username)
         {
             string text;

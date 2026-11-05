@@ -46,5 +46,11 @@ namespace GinRummy.Contracts.DataContracts
         /// </summary>
         [DataMember]
         public int PublicTag { get; set; }
+
+        /// <summary>
+        /// Code of the language the player chose, such as "es-MX"; empty while the second factor is pending.
+        /// </summary>
+        [DataMember]
+        public string LocaleCode { get; set; }
     }
 }
