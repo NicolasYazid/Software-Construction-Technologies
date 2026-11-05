@@ -6,8 +6,10 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 
+using GinRummy.Application.Chat;
 using GinRummy.Application.Presence;
 using GinRummy.Application.UseCases;
+using GinRummy.Contracts.Callbacks;
 using GinRummy.Domain.Ports.Infrastructure;
 using GinRummy.Domain.Ports.Repositories;
 using GinRummy.Domain.Ports.Security;
@@ -56,7 +58,18 @@ namespace GinRummy.ServerHost
                 PlayerPresenceAnnouncer presenceAnnouncer = new PlayerPresenceAnnouncer(loggerFactory.CreateLogger<PlayerConnection>());
                 PlayerPresenceOrchestrator presenceOrchestrator = ComposePlayerPresenceOrchestrator(tokenSigner, presenceAnnouncer);
                 ILogger<PlayerPresenceService> presenceLogger = loggerFactory.CreateLogger<PlayerPresenceService>();
+                OnlinePlayers<IChatMessageCallback> chatOnlinePlayers = new OnlinePlayers<IChatMessageCallback>(
+                    loggerFactory.CreateLogger<WcfCallbackDispatcher<IChatMessageCallback>>());
+                SendMessageUseCase sendMessageUseCase = ComposeSendMessageUseCase(chatOnlinePlayers);
+                AccountAccessPolicy chatAccessPolicy = new AccountAccessPolicy(
+                    new Argon2PasswordHasher(),
+                    tokenSigner,
+                    new SystemClock());
 
+                hostGroup.Add(CreateIsolatedHost(
+                    typeof(ChatMessageService),
+                    () => new ChatMessageService(chatAccessPolicy, sendMessageUseCase, chatOnlinePlayers),
+                    faultShieldBehavior));
                 hostGroup.Add(CreateIsolatedHost(typeof(LeaderboardService), ComposeLeaderboardService, faultShieldBehavior));
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(LogInService),
@@ -197,6 +210,15 @@ namespace GinRummy.ServerHost
             PlayerPresenceOrchestrator presenceOrchestrator = new PlayerPresenceOrchestrator(unitOfWorkFactory, accessPolicy, announcer);
 
             return presenceOrchestrator;
+        }
+
+        private static SendMessageUseCase ComposeSendMessageUseCase(OnlinePlayers<IChatMessageCallback> chatOnlinePlayers)
+        {
+            Func<IUnitOfWork> unitOfWorkFactory = () => new EntityFrameworkUnitOfWork(ConnectionStringName);
+            ChatHistory chatHistory = new ChatHistory(new SystemClock());
+            ChatMessageAnnouncer chatMessageAnnouncer = new ChatMessageAnnouncer(chatOnlinePlayers);
+
+            return new SendMessageUseCase(unitOfWorkFactory, chatHistory, chatMessageAnnouncer);
         }
 
         private static SignUpService ComposeSignUpService(IEmailSender emailSender, ILogger<SignUpService> logger)

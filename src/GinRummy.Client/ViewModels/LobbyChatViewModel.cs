@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 
+using GinRummy.Client.ChatMessageServiceReference;
+using GinRummy.Client.LogInServiceReference;
 using GinRummy.Client.Models;
 using GinRummy.Client.Mvvm;
 using GinRummy.Client.PlayerPresenceServiceReference;
@@ -13,96 +15,60 @@ namespace GinRummy.Client.ViewModels
 {
     public class LobbyChatViewModel : ViewModelBase
     {
-        private readonly SampleDataService _dataService;
         private readonly PlayerPresenceMonitor _presenceMonitor;
-        private readonly string _accessToken;
-        private readonly LobbySnapshot _lobby;
+        private readonly ChatMessageConnection _chatConnection;
+        private readonly LogInOutcome _signedInPlayer;
         private string _messageDraft;
         private bool _isSearchingMatch;
         private bool _isChatBlocked;
+        private bool _isChatUnavailable;
         private bool _hasNoFriends;
         private string _banReasonName;
 
-        public LobbyChatViewModel(SampleDataService dataService, PlayerPresenceMonitor presenceMonitor, string accessToken)
+        public LobbyChatViewModel(
+            PlayerPresenceMonitor presenceMonitor,
+            ChatMessageConnection chatConnection,
+            LogInOutcome signedInPlayer)
         {
-            _dataService = dataService ?? throw new ArgumentNullException(nameof(dataService));
             _presenceMonitor = presenceMonitor ?? throw new ArgumentNullException(nameof(presenceMonitor));
-            _accessToken = accessToken ?? throw new ArgumentNullException(nameof(accessToken));
-            _lobby = dataService.GetLobby();
+            _chatConnection = chatConnection ?? throw new ArgumentNullException(nameof(chatConnection));
+            _signedInPlayer = signedInPlayer ?? throw new ArgumentNullException(nameof(signedInPlayer));
             _messageDraft = string.Empty;
-            ChatEntries = new ObservableCollection<ChatEntry>(_lobby.ChatEntries);
-            HasNoPlayersLookingToPlay = _lobby.LookingToPlay.Count == 0;
-            _hasNoFriends = HasNoFriendsIn(_lobby);
+            ChatEntries = new ObservableCollection<PlayerMessage>();
+            LookingToPlay = new ObservableCollection<LobbyPlayerViewModel>();
+            Online = new ObservableCollection<LobbyPlayerViewModel>();
+            MatchesInProgress = new ObservableCollection<MatchPair>();
+            Unavailable = new ObservableCollection<LobbyPlayerViewModel>();
+            FriendsOnline = new ObservableCollection<LobbyPlayerViewModel>();
+            FriendsInMatch = new ObservableCollection<MatchPair>();
+            FriendsUnavailable = new ObservableCollection<LobbyPlayerViewModel>();
+            HasNoPlayersLookingToPlay = (LookingToPlay.Count == 0);
+            _hasNoFriends = HasNoFriendsListed();
             BanCountdown = new CountdownViewModel(TimeSpan.Zero);
             SendMessageCommand = new RelayCommand(SendMessage);
             FindMatchCommand = new RelayCommand(FindMatch);
             CancelSearchCommand = new RelayCommand(CancelSearch);
-            ChallengeCommand = new RelayCommand(Challenge);
             FriendRequestCommand = new RelayCommand(SendFriendRequest);
-            AcceptChallengeCommand = new RelayCommand(AcceptChallenge);
-            DeclineChallengeCommand = new RelayCommand(RemoveChatEntry);
-            CancelChallengeCommand = new RelayCommand(RemoveChatEntry);
         }
 
-        public event EventHandler MatchStarted;
         public event EventHandler PresenceUnavailable;
 
-        public ObservableCollection<ChatEntry> ChatEntries { get; private set; }
+        public ObservableCollection<PlayerMessage> ChatEntries { get; private set; }
         public bool HasNoPlayersLookingToPlay { get; private set; }
         public CountdownViewModel BanCountdown { get; private set; }
         public ICommand SendMessageCommand { get; private set; }
         public ICommand FindMatchCommand { get; private set; }
         public ICommand CancelSearchCommand { get; private set; }
-        public ICommand ChallengeCommand { get; private set; }
         public ICommand FriendRequestCommand { get; private set; }
-        public ICommand AcceptChallengeCommand { get; private set; }
-        public ICommand DeclineChallengeCommand { get; private set; }
-        public ICommand CancelChallengeCommand { get; private set; }
-
-        public IList<LobbyPlayerViewModel> LookingToPlay
-        {
-            get { return _lobby.LookingToPlay; }
-        }
-
-        public IList<LobbyPlayerViewModel> Online
-        {
-            get { return _lobby.Online; }
-        }
-
-        public IList<MatchPair> MatchesInProgress
-        {
-            get { return _lobby.MatchesInProgress; }
-        }
-
-        public int PlayersInMatchCount
-        {
-            get { return _lobby.PlayersInMatchCount; }
-        }
-
-        public IList<LobbyPlayerViewModel> Unavailable
-        {
-            get { return _lobby.Unavailable; }
-        }
-
-        public IList<LobbyPlayerViewModel> FriendsOnline
-        {
-            get { return _lobby.FriendsOnline; }
-        }
-
-        public IList<MatchPair> FriendsInMatch
-        {
-            get { return _lobby.FriendsInMatch; }
-        }
-
-        public int FriendsInMatchCount
-        {
-            get { return _lobby.FriendsInMatchCount; }
-        }
-
-        public IList<LobbyPlayerViewModel> FriendsUnavailable
-        {
-            get { return _lobby.FriendsUnavailable; }
-        }
+        public IList<LobbyPlayerViewModel> LookingToPlay { get; private set; }
+        public IList<LobbyPlayerViewModel> Online { get; private set; }
+        public IList<MatchPair> MatchesInProgress { get; private set; }
+        public int PlayersInMatchCount { get; private set; }
+        public IList<LobbyPlayerViewModel> Unavailable { get; private set; }
+        public IList<LobbyPlayerViewModel> FriendsOnline { get; private set; }
+        public IList<MatchPair> FriendsInMatch { get; private set; }
+        public int FriendsInMatchCount { get; private set; }
+        public IList<LobbyPlayerViewModel> FriendsUnavailable { get; private set; }
 
         public string MessageDraft
         {
@@ -143,7 +109,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool CanWriteMessage
         {
-            get { return !_isChatBlocked; }
+            get { return !_isChatBlocked && !_isChatUnavailable; }
         }
 
         public string BanReasonName
@@ -184,7 +150,7 @@ namespace GinRummy.Client.ViewModels
         {
             _presenceMonitor.CurrentStatusReported += OnCurrentStatusReported;
             _presenceMonitor.PlayerPresenceChanged += OnPlayerPresenceChanged;
-            if (!_presenceMonitor.Start(_accessToken))
+            if (!_presenceMonitor.Start(_signedInPlayer.AccessToken))
             {
                 PresenceUnavailable?.Invoke(this, EventArgs.Empty);
             }
@@ -197,63 +163,55 @@ namespace GinRummy.Client.ViewModels
             _presenceMonitor.PlayerPresenceChanged -= OnPlayerPresenceChanged;
         }
 
-        // Only the messages of other players can be reported, so the notices and the own messages open no menu.
-        public bool CanReport(ChatEntry entry)
+        public void StartChat()
         {
-            ChatMessage message = entry as ChatMessage;
-            return (message != null) && (message.AuthorName != _lobby.PlayerName);
-        }
-
-        public PlayerProfile GetOwnProfile()
-        {
-            return _dataService.GetOwnProfile();
-        }
-
-        public PlayerProfile GetPlayerProfile(LobbyPlayerViewModel player)
-        {
-            return _dataService.GetPlayerProfile(player);
-        }
-
-        // Changes made in the profile are copied back to the row it was opened from so the panel and the profile never disagree.
-        public void ApplyProfileChanges(LobbyPlayerViewModel player, PlayerProfile profile)
-        {
-            player.HasPendingRequest = profile.HasPendingRequest;
-            if (player.IsFriend && !profile.IsFriend)
+            _chatConnection.LobbyChatHistoryReceived += OnLobbyChatHistoryReceived;
+            _chatConnection.ChatMessageReceived += OnChatMessageReceived;
+            if (!_chatConnection.Start(_signedInPlayer.AccessToken))
             {
-                RemoveFriend(player.Username);
+                _isChatUnavailable = true;
+                RaisePropertyChanged(nameof(CanWriteMessage));
             }
+        }
+
+        public void StopChat()
+        {
+            _chatConnection.Stop();
+            _chatConnection.LobbyChatHistoryReceived -= OnLobbyChatHistoryReceived;
+            _chatConnection.ChatMessageReceived -= OnChatMessageReceived;
+        }
+
+        // Only the messages of other players can be reported, so the own messages open no menu.
+        public bool CanReport(PlayerMessage message)
+        {
+            return (message != null) && (message.PublicTag != _signedInPlayer.PublicTag);
         }
 
         // The friend leaves the friends tab, as CU-16 Post-2 and Post-3 require.
         // Every other row that lists the player offers a friend request again instead of the removal.
         public void RemoveFriend(string username)
         {
-            RemoveByName(_lobby.FriendsOnline, username);
-            RemoveByName(_lobby.FriendsUnavailable, username);
-            IEnumerable<LobbyPlayerViewModel> otherRows = _lobby.LookingToPlay
-                .Concat(_lobby.Online)
-                .Concat(_lobby.Unavailable)
+            RemoveByName(FriendsOnline, username);
+            RemoveByName(FriendsUnavailable, username);
+            IEnumerable<LobbyPlayerViewModel> otherRows = LookingToPlay
+                .Concat(Online)
+                .Concat(Unavailable)
                 .Where(candidate => candidate.Username == username);
             foreach (LobbyPlayerViewModel player in otherRows)
             {
                 player.IsFriend = false;
             }
 
-            HasNoFriends = HasNoFriendsIn(_lobby);
+            HasNoFriends = HasNoFriendsListed();
         }
 
         // An empty message is not sent and shows no error (CU-17 FA-03).
-        // Until the server relays messages to the lobby, the screen shows its own message so the chat flow can be walked through.
         private void SendMessage()
         {
             string content = _messageDraft.Trim();
             if (CanWriteMessage && (content.Length > 0))
             {
-                ChatMessage message = new ChatMessage();
-                message.AuthorName = _lobby.PlayerName;
-                message.Content = content;
-                message.SentAt = DateTime.UtcNow;
-                ChatEntries.Add(message);
+                _chatConnection.SendLobbyMessage(_signedInPlayer.AccessToken, content);
                 MessageDraft = string.Empty;
             }
         }
@@ -269,19 +227,6 @@ namespace GinRummy.Client.ViewModels
             IsSearchingMatch = false;
         }
 
-        private void Challenge(object parameter)
-        {
-            LobbyPlayerViewModel player = parameter as LobbyPlayerViewModel;
-            if (player != null)
-            {
-                ChallengeNotice notice = new ChallengeNotice();
-                notice.Kind = ChallengeNoticeKind.Sent;
-                notice.PlayerName = player.Username;
-                notice.SentAt = DateTime.UtcNow;
-                ChatEntries.Add(notice);
-            }
-        }
-
         // The option turns into the pending request mark so a second request cannot be sent while the first one waits (CU-12 step 8).
         private void SendFriendRequest(object parameter)
         {
@@ -292,44 +237,48 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        // Accepting starts the match, and the table opens over the lobby until the match ends (CU-23).
-        private void AcceptChallenge(object parameter)
-        {
-            RemoveChatEntry(parameter);
-            MatchStarted?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void RemoveChatEntry(object parameter)
-        {
-            ChatEntries.Remove(parameter as ChatEntry);
-        }
-
         private void OnCurrentStatusReported(object sender, PlayerPresenceReport report)
         {
-            ReplacePlayers(_lobby.Online, report.AllOnlinePlayers);
-            ReplacePlayers(_lobby.Unavailable, report.AllOfflinePlayers);
-            ReplacePlayers(_lobby.FriendsOnline, report.AllOnlineFriends);
-            ReplacePlayers(_lobby.FriendsUnavailable, report.AllOfflineFriends);
-            HasNoFriends = HasNoFriendsIn(_lobby);
+            ReplacePlayers(Online, report.AllOnlinePlayers);
+            ReplacePlayers(Unavailable, report.AllOfflinePlayers);
+            ReplacePlayers(FriendsOnline, report.AllOnlineFriends);
+            ReplacePlayers(FriendsUnavailable, report.AllOfflineFriends);
+            HasNoFriends = HasNoFriendsListed();
         }
 
         // A player is listed in one status only, so its old row is removed before the new one is added.
         private void OnPlayerPresenceChanged(object sender, PlayerPresence presence)
         {
-            RemoveByPublicTag(_lobby.Online, presence.PublicTag);
-            RemoveByPublicTag(_lobby.Unavailable, presence.PublicTag);
-            RemoveByPublicTag(_lobby.FriendsOnline, presence.PublicTag);
-            RemoveByPublicTag(_lobby.FriendsUnavailable, presence.PublicTag);
+            RemoveByPublicTag(Online, presence.PublicTag);
+            RemoveByPublicTag(Unavailable, presence.PublicTag);
+            RemoveByPublicTag(FriendsOnline, presence.PublicTag);
+            RemoveByPublicTag(FriendsUnavailable, presence.PublicTag);
             if (presence.Status == PresenceStatus.Online)
             {
-                AddPlayer(_lobby.Online, _lobby.FriendsOnline, presence);
+                AddPlayer(Online, FriendsOnline, presence);
             }
             else
             {
-                AddPlayer(_lobby.Unavailable, _lobby.FriendsUnavailable, presence);
+                AddPlayer(Unavailable, FriendsUnavailable, presence);
             }
 
-            HasNoFriends = HasNoFriendsIn(_lobby);
+            HasNoFriends = HasNoFriendsListed();
+        }
+
+        private void OnLobbyChatHistoryReceived(object sender, PlayerMessage[] messages)
+        {
+            foreach (PlayerMessage message in messages)
+            {
+                ChatEntries.Add(message);
+            }
+        }
+
+        private void OnChatMessageReceived(object sender, PlayerMessage message)
+        {
+            if (message.Destination == MessageDestination.Lobby)
+            {
+                ChatEntries.Add(message);
+            }
         }
 
         private static void RemoveByName(IList<LobbyPlayerViewModel> players, string username)
@@ -341,11 +290,11 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        private static bool HasNoFriendsIn(LobbySnapshot lobby)
+        private bool HasNoFriendsListed()
         {
-            return (lobby.FriendsOnline.Count == 0)
-                && (lobby.FriendsInMatch.Count == 0)
-                && (lobby.FriendsUnavailable.Count == 0);
+            return (FriendsOnline.Count == 0)
+                && (FriendsInMatch.Count == 0)
+                && (FriendsUnavailable.Count == 0);
         }
 
         private static void ReplacePlayers(IList<LobbyPlayerViewModel> players, IList<PlayerPresence> presences)

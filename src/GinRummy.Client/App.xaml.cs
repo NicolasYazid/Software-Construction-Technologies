@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Threading;
 
+using GinRummy.Client.ChatMessageServiceReference;
 using GinRummy.Client.LeaderboardServiceReference;
 using GinRummy.Client.Localization;
 using GinRummy.Client.Logging;
@@ -25,6 +26,7 @@ namespace GinRummy.Client
 
         private const string FatalErrorTitleKey = "ErrorDialog_LblTitleUnexpected";
         private const string FatalErrorMessageKey = "Error_SysUnexpected";
+        private const string ChatEndpointName = "ChatMessageService";
         private const string LeaderboardEndpointName = "LeaderboardService";
         private const string LogInEndpointName = "LogInService";
         private const string PresenceEndpointName = "PlayerPresenceService";
@@ -92,8 +94,11 @@ namespace GinRummy.Client
             PlayerPresenceMonitor presenceMonitor = new PlayerPresenceMonitor(
                 callbackContext => new PlayerPresenceServiceClient(callbackContext, PresenceEndpointName),
                 _loggerFactory.CreateLogger<PlayerPresenceMonitor>());
+            ChatMessageConnection chatConnection = new ChatMessageConnection(
+                callbackContext => new ChatMessageServiceClient(callbackContext, ChatEndpointName),
+                _loggerFactory.CreateLogger<ChatMessageConnection>());
 
-            return new LobbyChatViewModel(SampleData, presenceMonitor, SignedInPlayer.AccessToken);
+            return new LobbyChatViewModel(presenceMonitor, chatConnection, SignedInPlayer);
         }
 
         public SignUpViewModel CreateSignUpViewModel(bool isGuestSessionActive)

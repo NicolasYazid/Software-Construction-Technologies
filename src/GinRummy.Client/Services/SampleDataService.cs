@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 using GinRummy.Client.Localization;
 using GinRummy.Client.Models;
@@ -25,36 +24,6 @@ namespace GinRummy.Client.Services
         private const string HarassmentReasonKey = "Reason_HarassmentOrThreats";
         private const string OffensiveLanguageReasonKey = "Reason_OffensiveLanguage";
         private const string SpamReasonKey = "Reason_Spam";
-
-        // Its values reproduce the prototype screen P11, except the players and the friends.
-        // Those are not simulated: the presence service sends them, so their groups start empty.
-        // The groups that receive them are observable so that the panel shows a change the moment the server reports it.
-        public LobbySnapshot GetLobby()
-        {
-            LobbySnapshot lobby = new LobbySnapshot();
-            lobby.PlayerName = PlayerName;
-            lobby.ChatEntries = new List<ChatEntry>
-            {
-                CreateMessage("Player A", new TimeSpan(2, 33, 0), "¿Alguien para una partida rápida?"),
-                CreateNotice(ChallengeNoticeKind.Sent, "Player D", new TimeSpan(2, 33, 0)),
-                CreateMessage("Player A", new TimeSpan(2, 34, 0), "Voy por la revancha."),
-                CreateCensoredMessage("Player H", new TimeSpan(2, 36, 0)),
-                CreateMessage("Player G", new TimeSpan(2, 36, 0), "gg wp"),
-                CreateNotice(ChallengeNoticeKind.Declined, "Player D", new TimeSpan(2, 40, 0)),
-                CreateMessage("Player Z", new TimeSpan(4, 33, 0), "@Player A gl hf!"),
-                CreateMessage("Player A", new TimeSpan(4, 34, 0), "You too."),
-                CreateNotice(ChallengeNoticeKind.Received, "Player Z", new TimeSpan(4, 35, 0))
-            };
-            lobby.LookingToPlay = new List<LobbyPlayerViewModel>();
-            lobby.Online = new ObservableCollection<LobbyPlayerViewModel>();
-            lobby.MatchesInProgress = new List<MatchPair>();
-            lobby.Unavailable = new ObservableCollection<LobbyPlayerViewModel>();
-            lobby.FriendsOnline = new ObservableCollection<LobbyPlayerViewModel>();
-            lobby.FriendsInMatch = new List<MatchPair>();
-            lobby.FriendsUnavailable = new ObservableCollection<LobbyPlayerViewModel>();
-
-            return lobby;
-        }
 
         // Its values reproduce the prototype screen P16.
         // A guest has no friends, so the groups of friends come empty.
@@ -148,18 +117,6 @@ namespace GinRummy.Client.Services
             profile.SocialLinks.Add(CreateSocialLink("Discord", "discord.gg/playerA"));
             profile.SocialLinks.Add(CreateSocialLink("X", "x.com/playerA"));
             profile.IsOwnProfile = true;
-
-            return profile;
-        }
-
-        // Its values reproduce the prototype screen P21.
-        public PlayerProfile GetPlayerProfile(LobbyPlayerViewModel player)
-        {
-            PlayerProfile profile = CreateProfile(player.Username, player.RankName, "#PLZ-4821");
-            profile.Bio = "Siempre listo para una partida. Juego casi siempre por las tardes.";
-            profile.SocialLinks.Add(CreateSocialLink("Twitch", "twitch.tv/playerz"));
-            profile.IsFriend = player.IsFriend;
-            profile.HasPendingRequest = player.HasPendingRequest;
 
             return profile;
         }

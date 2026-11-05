@@ -188,6 +188,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Connected Services\ChatMessageServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\LeaderboardServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -352,6 +357,7 @@
     <Compile Include="ViewModels\LobbyChatViewModel.cs" />
     <Compile Include="ViewModels\GuestLobbyViewModel.cs" />
     <Compile Include="ViewModels\GameTableViewModel.cs" />
+    <Compile Include="Services\ChatMessageConnection.cs" />
     <Compile Include="Services\PlayerPresenceMonitor.cs" />
     <Compile Include="Services\SampleDataService.cs" />
     <Compile Include="Converters\LocalizedFormatConverter.cs" />
@@ -382,6 +388,19 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Connected Services\ChatMessageServiceReference\GinRummy.Contracts.DataContracts.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ChatMessageServiceReference\GinRummy.Contracts.Faults.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ChatMessageServiceReference\service.wsdl" />
+    <None Include="Connected Services\ChatMessageServiceReference\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ChatMessageServiceReference\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\LeaderboardServiceReference\LeaderboardService.wsdl" />
     <None Include="Connected Services\LeaderboardServiceReference\LeaderboardService.xsd">
       <SubType>Designer</SubType>
@@ -453,6 +472,7 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\ChatMessageServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\LeaderboardServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\LogInServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\PlayerPresenceServiceReference\" />
@@ -502,6 +522,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\SignUpServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ChatMessageServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ChatMessageServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ChatMessageServiceReference\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
