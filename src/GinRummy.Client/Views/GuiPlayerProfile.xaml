@@ -153,7 +153,7 @@
                                 Visibility="{Binding CanAddFriend, Converter={StaticResource CnvBooleanToVisibility}}"
                                 IsEnabled="{Binding CanSendFriendRequest}"
                                 Command="{Binding AddFriendCommand}" />
-                        <!-- The action borrows the key of the lobby context menu because the dictionary has none for this screen. -->
+                        <!-- The action borrows the key of the lobby context menu because the language resources have none for this screen. -->
                         <Button x:Name="btnRemoveFriend" Style="{StaticResource StyDialogSecondaryButton}"
                                 FontSize="22"
                                 Content="{Binding [LobbyChat_MniRemoveFriend], Source={StaticResource PrvLocalization},

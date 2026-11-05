@@ -67,7 +67,7 @@ namespace GinRummy.Client
 
         internal SampleDataService SampleData { get; private set; }
 
-        // The access token lives only in memory, because the standard forbids writing session identifiers to disk.
+        // The access token lives only in memory, so no session identifier is written to a disk that other users of the computer can read.
         internal LogInOutcome SignedInPlayer { get; private set; }
 
         // A guest is kept apart from a player, because every screen that needs an account looks only at the player.

@@ -37,6 +37,7 @@ namespace GinRummy.Client.ViewModels
         private readonly ILogger<AccountSettingsCaller> _logger;
 
         // A client is created for every call because a client whose channel failed cannot be opened again.
+        // The token may be empty, because the main menu opens the settings before anyone signs in.
         public AccountSettingsCaller(
             string accessToken,
             Func<IAccountSettingsService> accountSettingsServiceFactory,

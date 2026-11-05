@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- The paths are the ones exported from the Figma prototype and were not redrawn by hand.
-         The icons after the bullseye are paths because the prototype writes them as font characters outside the dictionary. -->
+         The icons after the bullseye are paths because the prototype writes them as font characters that the language resources do not carry. -->
 
     <DrawingImage x:Key="IcoMail">
         <DrawingImage.Drawing>
@@ -224,7 +224,7 @@
         </DrawingImage.Drawing>
     </DrawingImage>
 
-    <!-- The suits are pictures and not font characters, because the dictionary keeps only their spoken names as text. -->
+    <!-- The suits are pictures and not font characters, because the language resources keep only their spoken names as text. -->
     <DrawingImage x:Key="IcoSuitClubs">
         <DrawingImage.Drawing>
             <DrawingGroup ClipGeometry="M0,0 H24 V24 H0 Z">

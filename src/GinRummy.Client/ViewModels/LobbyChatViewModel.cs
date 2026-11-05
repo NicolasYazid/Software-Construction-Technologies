@@ -175,7 +175,6 @@ namespace GinRummy.Client.ViewModels
             get { return _searchNoticeKey != null; }
         }
 
-        // Blocks the chat of a player whose sanction restricts it (CU-17 EX-08).
         public void BlockChat(string reasonName, TimeSpan remainingTime)
         {
             BanReasonName = reasonName;

@@ -38,8 +38,8 @@ namespace GinRummy.Client.Services
 
         public IList<SanctionViewModel> GetSanctions()
         {
-            // The reasons of a ban are a catalogue of the database, translated there (BD-09).
-            // Until the database can be reached, the closest names the dictionary already carries stand in for them.
+            // The reasons of a ban are a catalogue of the database, translated there.
+            // Until the database can be reached, the closest names the language resources already carry stand in for them.
             LocalizationProvider localization = LocalizationProvider.Instance;
 
             return new List<SanctionViewModel>

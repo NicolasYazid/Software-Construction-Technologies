@@ -34,7 +34,7 @@ namespace GinRummy.Client.Views
 
         private void OnChangePhotoClick(object sender, RoutedEventArgs e)
         {
-            // The filter shows only the patterns because a filter description is visible text that the dictionary does not carry.
+            // The filter shows only the patterns because a filter description is visible text that the language resources do not carry.
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Filter = ImageFilter;
             if (fileDialog.ShowDialog(Window.GetWindow(this)) == true)

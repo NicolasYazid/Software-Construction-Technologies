@@ -49,7 +49,7 @@
                 <Border Grid.Row="2" Style="{StaticResource StyChatComposer}" Padding="14,14,14,16">
                     <ctl:PixelBorder Style="{StaticResource StyPanelSearchShell}">
                         <DockPanel LastChildFill="True">
-                            <!-- The button borrows the tooltip of the chat of the lobby because the dictionary gives this one none. -->
+                            <!-- The button borrows the tooltip of the chat of the lobby because the language resources give this one none. -->
                             <Button x:Name="btnSend" Effect="{StaticResource EfxCardShadow}"
                                     DockPanel.Dock="Right" Style="{StaticResource StyIconButton}"
                                     Width="28" Height="28" Margin="8,0,0,0" VerticalAlignment="Center"
@@ -289,7 +289,7 @@
             </DockPanel>
         </ctl:PixelBorder>
 
-        <!-- Each veil follows the visibility of a label the view model switches, because the standard names no grids. -->
+        <!-- Each veil follows the visibility of its label, so the view model switches one element for both. -->
         <Grid Grid.ColumnSpan="3" Background="{StaticResource BrsOverlay}"
               Visibility="{Binding Visibility, ElementName=lblPaused}">
             <ctl:PixelBorder Style="{StaticResource StyTableOverlayCard}" Width="640">

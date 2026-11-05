@@ -12,7 +12,7 @@ using GinRummy.Client.Localization;
 
 namespace GinRummy.Client.Views
 {
-    // Modals open inside the window over a dimming shade, because the standard lets no screen create a window of its own.
+    // Modals open inside the window over a dimming shade, so the game keeps one window and no dialog gets lost behind it.
     public class GuiWindowBase : Window
     {
         private const string BackdropBrushKey = "BrsModalBackdrop";
