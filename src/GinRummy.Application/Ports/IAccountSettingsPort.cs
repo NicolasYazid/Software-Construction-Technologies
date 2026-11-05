@@ -13,5 +13,7 @@ namespace GinRummy.Application.Ports
         void RequestPasswordChange(string accessToken, string currentPassword, string newPassword);
 
         void RequestEmailChange(string accessToken, string newEmail);
+
+        void ChangeChatFilter(string accessToken, bool isChatFilterEnabled);
     }
 }

@@ -100,6 +100,17 @@ namespace GinRummy.Application.UseCases
             }
         }
 
+        // The preference only changes what the player reads, so it is saved without a code (CU-17 step 10).
+        public void ChangeChatFilter(string accessToken, bool isChatFilterEnabled)
+        {
+            int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
+            using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
+            {
+                unitOfWork.Players.FindById(playerId).ChangeChatFilter(isChatFilterEnabled);
+                unitOfWork.Commit();
+            }
+        }
+
         // The code and its failed email are saved before the failure is reported, so the player can ask for a new code (CU-04 EX-03).
         private static void CommitSentCode(IUnitOfWork unitOfWork, EmailDeliveryStatus deliveryStatus)
         {

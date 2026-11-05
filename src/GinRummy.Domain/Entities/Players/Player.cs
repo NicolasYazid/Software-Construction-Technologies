@@ -83,6 +83,11 @@ namespace GinRummy.Domain.Entities.Players
             Username = username.Trim();
         }
 
+        public void ChangeChatFilter(bool isChatFilterEnabled)
+        {
+            IsChatFilterEnabled = isChatFilterEnabled;
+        }
+
         public void ChangeLocale(int localeId)
         {
             ValidateLocaleId(localeId);

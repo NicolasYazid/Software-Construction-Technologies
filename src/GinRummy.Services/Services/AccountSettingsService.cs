@@ -36,7 +36,8 @@ namespace GinRummy.Services.Services
             return new AccountSettingsDetails
             {
                 Email = account.Email,
-                IsTwoFactorEnabled = account.IsTwoFactorEnabled
+                IsTwoFactorEnabled = account.IsTwoFactorEnabled,
+                IsChatFilterEnabled = account.Player.IsChatFilterEnabled
             };
         }
 
@@ -73,6 +74,11 @@ namespace GinRummy.Services.Services
         public void ConfirmEmailChange(string accessToken, string newEmail, string verificationCode)
         {
             RunAccountChange(() => _confirmationPort.ConfirmEmailChange(accessToken, newEmail, verificationCode));
+        }
+
+        public void ChangeChatFilter(string accessToken, bool isChatFilterEnabled)
+        {
+            RunAccountChange(() => _accountSettingsPort.ChangeChatFilter(accessToken, isChatFilterEnabled));
         }
 
         // Every change of the account breaks the same rules, so they all turn each broken rule into the same fault.

@@ -6,8 +6,9 @@ using GinRummy.Contracts.Faults;
 namespace GinRummy.Contracts.Services
 {
     /// <summary>
-    /// Operations of the settings of the own account: two-step verification (CU-04, CU-05), password (CU-06)
-    /// and email (CU-07). Each change that is not a deactivation is applied only with the code emailed for it.
+    /// Operations of the settings of the own account: two-step verification (CU-04, CU-05), password (CU-06),
+    /// email (CU-07) and chat filter (CU-17). The changes of security are applied only with the code emailed for
+    /// them, except the deactivation of the second factor, which asks for the password.
     /// </summary>
     [ServiceContract]
     public interface IAccountSettingsService
@@ -118,5 +119,15 @@ namespace GinRummy.Contracts.Services
         [OperationContract]
         [FaultContract(typeof(ServiceFault))]
         void ConfirmEmailChange(string accessToken, string newEmail, string verificationCode);
+
+        /// <summary>
+        /// Saves whether the player reads the messages with prohibited words as censored (CU-17 step 10).
+        /// </summary>
+        /// <param name="accessToken">Access token of the player.</param>
+        /// <param name="isChatFilterEnabled">Whether those messages are shown as censored.</param>
+        /// <exception cref="FaultException{ServiceFault}">Thrown when the access token is not valid.</exception>
+        [OperationContract]
+        [FaultContract(typeof(ServiceFault))]
+        void ChangeChatFilter(string accessToken, bool isChatFilterEnabled);
     }
 }

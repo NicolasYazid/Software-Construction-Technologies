@@ -19,5 +19,11 @@ namespace GinRummy.Contracts.DataContracts
         /// </summary>
         [DataMember]
         public bool IsTwoFactorEnabled { get; set; }
+
+        /// <summary>
+        /// Whether the player reads the messages with prohibited words as censored.
+        /// </summary>
+        [DataMember]
+        public bool IsChatFilterEnabled { get; set; }
     }
 }
