@@ -316,11 +316,11 @@
     <Compile Include="Converters\UpperCaseConverter.cs" />
     <Compile Include="Views\GuiModalBase.cs" />
     <Compile Include="Views\GuiWindowBase.cs" />
-    <Compile Include="ViewModels\VerificationPurpose.cs" />
-    <Compile Include="ViewModels\TwoStepPurpose.cs" />
-    <Compile Include="Views\DurationCommon.cs" />
-    <Compile Include="ViewModels\ErrorDialogKind.cs" />
-    <Compile Include="ViewModels\ConfirmDialogKind.cs" />
+    <Compile Include="Models\VerificationPurpose.cs" />
+    <Compile Include="Models\TwoStepPurpose.cs" />
+    <Compile Include="Converters\DurationCommon.cs" />
+    <Compile Include="Models\ErrorDialogKind.cs" />
+    <Compile Include="Models\ConfirmDialogKind.cs" />
     <Compile Include="ViewModels\ErrorDialogViewModel.cs" />
     <Compile Include="ViewModels\ConfirmDialogViewModel.cs" />
     <Compile Include="ViewModels\AccountBannedViewModel.cs" />
@@ -375,7 +375,7 @@
     <Compile Include="Converters\CardRankConverter.cs" />
     <Compile Include="Converters\CardNameConverter.cs" />
     <Compile Include="Converters\MatchLogConverter.cs" />
-    <Compile Include="Views\PasswordRevealCommon.cs" />
+    <Compile Include="Controls\PasswordRevealCommon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 
+using GinRummy.Client.Models;
 using GinRummy.Client.SignUpServiceReference;
 using Microsoft.Extensions.Logging;
 

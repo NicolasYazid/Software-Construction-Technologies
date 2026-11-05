@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace GinRummy.Client.Views
+namespace GinRummy.Client.Converters
 {
     // The hours are kept whole instead of rolling into days because the prototype writes a suspension of two days as 47:59:59.
     internal static class DurationCommon

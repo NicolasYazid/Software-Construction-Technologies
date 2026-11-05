@@ -1,4 +1,4 @@
-﻿namespace GinRummy.Client.ViewModels
+﻿namespace GinRummy.Client.Models
 {
     public enum VerificationPurpose
     {

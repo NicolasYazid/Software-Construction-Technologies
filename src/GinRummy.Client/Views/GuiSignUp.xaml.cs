@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows;
 
+using GinRummy.Client.Controls;
+using GinRummy.Client.Models;
 using GinRummy.Client.SignUpServiceReference;
 using GinRummy.Client.ViewModels;
 

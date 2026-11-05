@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
+using GinRummy.Client.Models;
 using GinRummy.Client.Mvvm;
 
 namespace GinRummy.Client.ViewModels

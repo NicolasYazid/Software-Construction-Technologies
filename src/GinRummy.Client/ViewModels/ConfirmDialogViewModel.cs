@@ -1,4 +1,5 @@
-﻿using GinRummy.Client.Mvvm;
+﻿using GinRummy.Client.Models;
+using GinRummy.Client.Mvvm;
 
 namespace GinRummy.Client.ViewModels
 {

@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Data;
 
 using GinRummy.Client.Localization;
-using GinRummy.Client.Views;
 
 namespace GinRummy.Client.Converters
 {

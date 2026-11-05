@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace GinRummy.Client.Views
+namespace GinRummy.Client.Controls
 {
     // A PasswordBox never draws its characters, so the clear view of a password is a text field laid over it.
     // The field that becomes visible takes the value of the one that was shown, so the toggle never loses what the player typed.

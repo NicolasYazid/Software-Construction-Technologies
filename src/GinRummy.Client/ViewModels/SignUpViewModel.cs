@@ -3,6 +3,7 @@ using System.Globalization;
 using System.ServiceModel;
 using System.Windows.Input;
 
+using GinRummy.Client.Models;
 using GinRummy.Client.Mvvm;
 using GinRummy.Client.SignUpServiceReference;
 using Microsoft.Extensions.Logging;

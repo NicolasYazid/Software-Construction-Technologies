@@ -1,5 +1,6 @@
 ﻿using System;
 
+using GinRummy.Client.Models;
 using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
