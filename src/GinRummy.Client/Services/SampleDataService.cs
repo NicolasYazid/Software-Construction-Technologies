@@ -9,7 +9,7 @@ using GinRummy.Client.ViewModels;
 namespace GinRummy.Client.Services
 {
     // It stands in for the services of the server, which the client does not reach yet.
-    // That way every screen can be walked and reviewed with realistic data.
+    // That way every screen can be walked and reviewed with the data the prototype screens show.
     // The screens take their data only from here, which leaves a single place to replace once the server answers.
     public sealed class SampleDataService : ISampleDataService
     {
@@ -56,7 +56,7 @@ namespace GinRummy.Client.Services
             return lobby;
         }
 
-        // A guest has no friends, so the groups of friends come empty.
+        // A guest has no friends, so its groups of friends come empty (CU-11 FA-02).
         public LobbySnapshot GetGuestLobby()
         {
             LobbySnapshot lobby = new LobbySnapshot();

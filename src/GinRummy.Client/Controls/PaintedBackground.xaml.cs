@@ -10,7 +10,7 @@ namespace GinRummy.Client.Controls
 {
     // The field is deliberately computed at a very low resolution and stretched with nearest neighbour.
     // The result is therefore made of visible square blocks, which ties it to the pixel typefaces of the client.
-    // It also keeps each frame cheap, because the surface has far fewer pixels than the area the control covers.
+    // Each frame therefore computes only the pixels of that small surface and not those of the area the control covers.
     // The three colours are properties, so the hosting screen owns the palette and the control owns only the movement.
     public partial class PaintedBackground : UserControl
     {
@@ -327,8 +327,7 @@ namespace GinRummy.Client.Controls
                 return;
             }
 
-            // The paint moves slowly, so two dozen frames a second look as smooth as the rate of the screen.
-            // That rate leaves most of the processor to the rest of the client.
+            // The paint moves slowly, so it is redrawn at most two dozen times a second and not on every frame of the screen.
             double elapsedSeconds = _clock.Elapsed.TotalSeconds;
             if (elapsedSeconds - _lastFrameSeconds < FrameInterval)
             {

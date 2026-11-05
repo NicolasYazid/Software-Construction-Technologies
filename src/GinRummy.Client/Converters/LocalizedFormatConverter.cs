@@ -57,7 +57,7 @@ namespace GinRummy.Client.Converters
             }
             else if ((argument is DateTime moment) && (moment.Kind == DateTimeKind.Utc))
             {
-                // A time travels in UTC and is shown in the local time of the player.
+                // The server sends every time in UTC, so it is turned into the local time of the player only when it is shown.
                 formatted = moment.ToLocalTime().ToString(argumentFormat, culture);
             }
             else if (!string.IsNullOrEmpty(argumentFormat) && (argument is IFormattable formattable))

@@ -24,7 +24,7 @@ namespace GinRummy.Client.Logging
             _minimumLevel = minimumLevel;
         }
 
-        // Scopes are not written to the file, so the caller receives no scope to dispose of.
+        // The file holds one line per entry and has no place to record a scope, so the caller receives nothing to dispose of.
         public IDisposable BeginScope<TState>(TState state)
         {
             return null;

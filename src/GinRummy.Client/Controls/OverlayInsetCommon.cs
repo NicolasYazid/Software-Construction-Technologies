@@ -20,7 +20,7 @@ namespace GinRummy.Client.Controls
                 typeof(OverlayInsetCommon),
                 new PropertyMetadata(false, OnIsInsetChanged));
 
-        // A static class has no instance state, so each list stores its own handler to be able to unsubscribe it later.
+        // Each list keeps the handler it subscribed, so turning the inset off and on again never leaves two handlers measuring it.
         private static readonly DependencyProperty _layoutHandlerProperty =
             DependencyProperty.RegisterAttached(
                 "LayoutHandler",

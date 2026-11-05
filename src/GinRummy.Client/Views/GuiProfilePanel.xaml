@@ -186,7 +186,7 @@
                                           Converter={StaticResource CnvUpperCase}}" />
                         <TextBlock x:Name="lblNewEmail" Style="{StaticResource StyFieldLabel}" Margin="0,20,0,8"
                                    Text="{Binding [ProfilePanel_LblNewEmail], Source={StaticResource PrvLocalization}}" />
-                        <!-- An address takes at most two hundred and fifty-four characters. -->
+                        <!-- The database limits an email address to two hundred and fifty-four characters (BD-11). -->
                         <ctl:PixelBorder Style="{StaticResource StyLobbyFieldShell}">
                             <Grid>
                                 <TextBox x:Name="txtNewEmail" Style="{StaticResource StyFieldInput}" MaxLength="254"

@@ -12,7 +12,7 @@ using GinRummy.Client.Localization;
 
 namespace GinRummy.Client.Views
 {
-    // Modals open inside the window over a dimming shade instead of in windows of their own.
+    // Modals open inside the window over a dimming shade, because the standard lets no screen create a window of its own.
     public class GuiWindowBase : Window
     {
         private const string BackdropBrushKey = "BrsModalBackdrop";
@@ -131,7 +131,7 @@ namespace GinRummy.Client.Views
             Close();
         }
 
-        // The main menu is looked up as the application main window instead of being passed from screen to screen.
+        // The main menu is the main window of the application, so a screen returns to it without receiving it from the one that opened it.
         private static void ShowMainMenu()
         {
             GuiWindowBase mainMenu = Application.Current.MainWindow as GuiWindowBase;

@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace GinRummy.Client.Controls
 {
-    // The outline is lent to any element as a clip through the CornerSteps attached property.
+    // The outline is lent as a clip and is not drawn by a control of its own.
     // A field, a card or the box of a check therefore takes the stepped corners of the buttons without changing the element it is made of.
     public static class PixelShapeCommon
     {
