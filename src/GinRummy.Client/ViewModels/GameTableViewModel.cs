@@ -25,7 +25,7 @@ namespace GinRummy.Client.ViewModels
         private bool _isHandResultShown;
         private MatchResult _matchResult;
 
-        public GameTableViewModel(SampleDataService dataService)
+        public GameTableViewModel(ISampleDataService dataService)
         {
             if (dataService == null)
             {

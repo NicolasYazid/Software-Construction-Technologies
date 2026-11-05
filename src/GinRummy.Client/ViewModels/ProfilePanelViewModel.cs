@@ -19,7 +19,7 @@ namespace GinRummy.Client.ViewModels
         private bool _isTwoStepEnabled;
         private bool _isTwoStepDisabledShown;
 
-        public ProfilePanelViewModel(SampleDataService dataService)
+        public ProfilePanelViewModel(ISampleDataService dataService)
         {
             if (dataService == null)
             {

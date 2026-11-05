@@ -13,7 +13,7 @@ namespace GinRummy.Client.ViewModels
         private readonly LobbySnapshot _lobby;
         private bool _isSearchingMatch;
 
-        public GuestLobbyViewModel(SampleDataService dataService)
+        public GuestLobbyViewModel(ISampleDataService dataService)
         {
             if (dataService == null)
             {

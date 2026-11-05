@@ -8,7 +8,7 @@ namespace GinRummy.Client.ViewModels
 {
     public class HouseRulesViewModel : ViewModelBase
     {
-        public HouseRulesViewModel(SampleDataService dataService)
+        public HouseRulesViewModel(ISampleDataService dataService)
         {
             if (dataService == null)
             {

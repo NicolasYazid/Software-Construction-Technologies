@@ -12,7 +12,7 @@ namespace GinRummy.Client.ViewModels
     {
         private bool _hasNoPendingRequests;
 
-        public NotificationsViewModel(SampleDataService dataService)
+        public NotificationsViewModel(ISampleDataService dataService)
         {
             if (dataService == null)
             {

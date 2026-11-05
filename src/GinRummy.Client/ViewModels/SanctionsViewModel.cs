@@ -11,13 +11,13 @@ namespace GinRummy.Client.ViewModels
     {
         private const int StepSeconds = 1;
 
-        private readonly SampleDataService _dataService;
+        private readonly ISampleDataService _dataService;
         private readonly DispatcherTimer _countdownTimer;
         private IList<SanctionViewModel> _sanctions;
         private TimeSpan _elapsedTime;
         private bool _hasNoSanctions;
 
-        public SanctionsViewModel(SampleDataService dataService)
+        public SanctionsViewModel(ISampleDataService dataService)
         {
             _dataService = dataService ?? throw new ArgumentNullException(nameof(dataService));
             _countdownTimer = new DispatcherTimer();

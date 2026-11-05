@@ -11,7 +11,7 @@ namespace GinRummy.Client.Services
     // It stands in for the services of the server, which the client does not reach yet.
     // That way every screen can be walked and reviewed with realistic data.
     // The screens take their data only from here, which leaves a single place to replace once the server answers.
-    public sealed class SampleDataService
+    public sealed class SampleDataService : ISampleDataService
     {
         private const string PlayerName = "Player A";
         private const string GuestName = "Guest_4091";

@@ -23,7 +23,7 @@ namespace GinRummy.Client.ViewModels
         private SocialLink _linkToRemove;
         private SocialLink _linkToReplace;
 
-        public EditProfileViewModel(SampleDataService dataService)
+        public EditProfileViewModel(ISampleDataService dataService)
         {
             if (dataService == null)
             {
