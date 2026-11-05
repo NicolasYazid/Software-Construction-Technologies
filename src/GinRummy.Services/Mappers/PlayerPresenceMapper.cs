@@ -21,23 +21,28 @@ namespace GinRummy.Services.Mappers
             return report;
         }
 
-        public static PlayerPresence MapToPlayerPresence(Player player, PlayerPresenceStatus status, bool isFriend)
+        public static PlayerPresence MapToPlayerPresence(RankedPlayer player, PlayerPresenceStatus status, bool isFriend)
         {
             PlayerPresence presence = new PlayerPresence
             {
-                Username = player.Username,
-                PublicTag = player.PublicTag,
+                Username = player.Player.Username,
+                PublicTag = player.Player.PublicTag,
                 Status = MapToPresenceStatus(status),
-                IsFriend = isFriend
+                IsFriend = isFriend,
+                RankName = PlayerProfileMapper.ResolveRankName(player.Rank),
+                Score = player.Score
             };
 
             return presence;
         }
 
-        private static List<PlayerPresence> MapToPlayerPresences(IList<Player> players, PlayerPresenceStatus status, IList<Player> friends)
+        private static List<PlayerPresence> MapToPlayerPresences(
+            IList<RankedPlayer> players,
+            PlayerPresenceStatus status,
+            IList<RankedPlayer> friends)
         {
             List<PlayerPresence> presences = new List<PlayerPresence>();
-            foreach (Player player in players)
+            foreach (RankedPlayer player in players)
             {
                 bool isFriend = friends.Contains(player);
                 presences.Add(MapToPlayerPresence(player, status, isFriend));

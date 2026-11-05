@@ -16,5 +16,12 @@ namespace GinRummy.Contracts.DataContracts
 
         [DataMember]
         public bool IsFriend { get; set; }
+
+        // The client orders its lists by the score, because a higher score always falls in a higher rank.
+        [DataMember]
+        public string RankName { get; set; }
+
+        [DataMember]
+        public int Score { get; set; }
     }
 }

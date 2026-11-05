@@ -1,35 +1,33 @@
 ﻿using System.Collections.Generic;
 
-using GinRummy.Domain.Entities.Players;
-
 namespace GinRummy.Application.Presence
 {
     public class PlayersByStatus
     {
-        public PlayersByStatus(IList<Player> players, IList<int> onlinePlayerIds, IList<int> friendPlayerIds)
+        public PlayersByStatus(IList<RankedPlayer> players, IList<int> onlinePlayerIds, IList<int> friendPlayerIds)
         {
-            AllOnlinePlayers = new List<Player>();
-            AllOfflinePlayers = new List<Player>();
-            AllOnlineFriends = new List<Player>();
-            AllOfflineFriends = new List<Player>();
+            AllOnlinePlayers = new List<RankedPlayer>();
+            AllOfflinePlayers = new List<RankedPlayer>();
+            AllOnlineFriends = new List<RankedPlayer>();
+            AllOfflineFriends = new List<RankedPlayer>();
 
-            foreach (Player player in players)
+            foreach (RankedPlayer player in players)
             {
-                bool isOnline = onlinePlayerIds.Contains(player.PlayerId);
-                bool isFriend = friendPlayerIds.Contains(player.PlayerId);
+                bool isOnline = onlinePlayerIds.Contains(player.Player.PlayerId);
+                bool isFriend = friendPlayerIds.Contains(player.Player.PlayerId);
                 AddPlayer(player, isOnline, isFriend);
             }
         }
 
-        public IList<Player> AllOnlinePlayers { get; private set; }
+        public IList<RankedPlayer> AllOnlinePlayers { get; private set; }
 
-        public IList<Player> AllOfflinePlayers { get; private set; }
+        public IList<RankedPlayer> AllOfflinePlayers { get; private set; }
 
-        public IList<Player> AllOnlineFriends { get; private set; }
+        public IList<RankedPlayer> AllOnlineFriends { get; private set; }
 
-        public IList<Player> AllOfflineFriends { get; private set; }
+        public IList<RankedPlayer> AllOfflineFriends { get; private set; }
 
-        private void AddPlayer(Player player, bool isOnline, bool isFriend)
+        private void AddPlayer(RankedPlayer player, bool isOnline, bool isFriend)
         {
             if (isOnline)
             {

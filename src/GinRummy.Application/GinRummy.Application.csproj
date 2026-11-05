@@ -58,6 +58,7 @@
     <Compile Include="Presence\PlayerPresenceChange.cs" />
     <Compile Include="Presence\PlayerPresenceOrchestrator.cs" />
     <Compile Include="Presence\PlayersByStatus.cs" />
+    <Compile Include="Presence\RankedPlayer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UseCases\AccountSettingsUseCase.cs" />
     <Compile Include="UseCases\ConfirmAccountChangeUseCase.cs" />

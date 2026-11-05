@@ -60,6 +60,11 @@ namespace GinRummy.Domain.Ports.Repositories
         IGameRepository Games { get; }
 
         /// <summary>
+        /// Gets the statistics and rank repository bound to this unit of work.
+        /// </summary>
+        IRankingRepository Rankings { get; }
+
+        /// <summary>
         /// Saves every change made through this unit of work as one transaction, including
         /// changes made by calling methods on entities the repositories returned.
         /// </summary>

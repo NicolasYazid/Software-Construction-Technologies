@@ -62,7 +62,8 @@ namespace GinRummy.Services.Mappers
             return socialLinks;
         }
 
-        private static string ResolveRankName(Rank rank)
+        // The profile and the presence show the same rank, so both send its name the same way.
+        internal static string ResolveRankName(Rank rank)
         {
             string rankName = string.Empty;
             if (rank != null)

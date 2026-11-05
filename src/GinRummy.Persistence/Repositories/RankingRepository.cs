@@ -11,11 +11,14 @@ using GinRummy.Persistence.Persistence;
 namespace GinRummy.Persistence.Repositories
 {
     /// <summary>
-    /// Fulfils IRankingRepository using Entity Framework against GinRummy_Dev.
+    /// Fulfils IRankingRepository using Entity Framework against GinRummy_Dev. By default,
+    /// opens a short-lived context per operation; optionally reuses a context someone else
+    /// already opened, so it can be read inside a unit of work.
     /// </summary>
     public class RankingRepository : IRankingRepository
     {
         private readonly string _connectionStringName;
+        private readonly GinRummyContext _sharedContext;
 
         /// <summary>
         /// Builds the repository against the given connection string entry.
@@ -29,6 +32,17 @@ namespace GinRummy.Persistence.Repositories
         }
 
         /// <summary>
+        /// Builds the repository so that every operation runs on a context someone else
+        /// already opened. The caller stays responsible for disposing that context.
+        /// </summary>
+        /// <param name="sharedContext">Context to reuse instead of opening a new one.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the context is null.</exception>
+        public RankingRepository(GinRummyContext sharedContext)
+        {
+            _sharedContext = sharedContext ?? throw new ArgumentNullException(nameof(sharedContext));
+        }
+
+        /// <summary>
         /// Gets every player's stats ordered from the highest score to the lowest, each
         /// with its player loaded.
         /// </summary>
@@ -36,14 +50,16 @@ namespace GinRummy.Persistence.Repositories
         public IList<PlayerStats> GetStatsRankedByScore()
         {
             IList<PlayerStats> rankedStats;
-            using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+            if (_sharedContext != null)
             {
-                // Each player is loaded together with its stats in one query.
-                // Reading the username later therefore does not trigger a separate query per row.
-                rankedStats = context.PlayerStats
-                    .Include(stats => stats.Player)
-                    .OrderByDescending(stats => stats.Score)
-                    .ToList();
+                rankedStats = ReadStatsRankedByScore(_sharedContext);
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    rankedStats = ReadStatsRankedByScore(context);
+                }
             }
 
             return rankedStats;
@@ -56,12 +72,31 @@ namespace GinRummy.Persistence.Repositories
         public IList<Rank> GetAllRanks()
         {
             IList<Rank> ranks;
-            using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+            if (_sharedContext != null)
             {
-                ranks = context.Ranks.ToList();
+                ranks = _sharedContext.Ranks.ToList();
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    ranks = context.Ranks.ToList();
+                }
             }
 
             return ranks;
+        }
+
+        // Each player is loaded together with its stats in one query.
+        // Reading the username later therefore does not trigger a separate query per row.
+        private static IList<PlayerStats> ReadStatsRankedByScore(GinRummyContext context)
+        {
+            IList<PlayerStats> rankedStats = context.PlayerStats
+                .Include(stats => stats.Player)
+                .OrderByDescending(stats => stats.Score)
+                .ToList();
+
+            return rankedStats;
         }
     }
 }

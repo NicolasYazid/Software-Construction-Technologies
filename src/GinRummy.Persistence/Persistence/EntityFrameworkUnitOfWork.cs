@@ -23,6 +23,7 @@ namespace GinRummy.Persistence.Persistence
         private readonly IMessageRepository _messages;
         private readonly IChallengeRepository _challenges;
         private readonly IGameRepository _games;
+        private readonly IRankingRepository _rankings;
         private bool _isDisposed;
 
         /// <summary>
@@ -43,6 +44,7 @@ namespace GinRummy.Persistence.Persistence
             _messages = new MessageRepository(_context);
             _challenges = new ChallengeRepository(_context);
             _games = new GameRepository(_context);
+            _rankings = new RankingRepository(_context);
         }
 
         /// <summary>
@@ -123,6 +125,14 @@ namespace GinRummy.Persistence.Persistence
         public IGameRepository Games
         {
             get { return _games; }
+        }
+
+        /// <summary>
+        /// Gets the statistics and rank repository bound to this unit of work.
+        /// </summary>
+        public IRankingRepository Rankings
+        {
+            get { return _rankings; }
         }
 
         /// <summary>
