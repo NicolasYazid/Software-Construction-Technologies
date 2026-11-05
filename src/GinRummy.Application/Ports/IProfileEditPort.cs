@@ -6,7 +6,7 @@ namespace GinRummy.Application.Ports
     {
         void SaveProfileChanges(string accessToken, string username, string bio);
 
-        byte[] GetOwnProfilePicture(string accessToken);
+        byte[] GetProfilePicture(string accessToken, int publicTag);
 
         bool ChangeProfilePicture(string accessToken, byte[] picture);
 

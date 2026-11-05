@@ -45,13 +45,18 @@ namespace GinRummy.Application.UseCases
             }
         }
 
-        public byte[] GetOwnProfilePicture(string accessToken)
+        // Only a player with a session may look at a picture, as with the rest of a profile (CU-27 Pre-1).
+        public byte[] GetProfilePicture(string accessToken, int publicTag)
         {
-            int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
-            string storedPath;
+            _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
+            string storedPath = null;
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                storedPath = unitOfWork.PlayerAccounts.FindProfile(playerId).ProfilePicture;
+                Player player = unitOfWork.Players.FindByPublicTag(publicTag);
+                if (player != null)
+                {
+                    storedPath = unitOfWork.PlayerAccounts.FindProfile(player.PlayerId).ProfilePicture;
+                }
             }
 
             byte[] picture = null;

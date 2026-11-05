@@ -39,14 +39,15 @@ namespace GinRummy.Contracts.Services
         void SaveProfileChanges(string accessToken, string username, string bio);
 
         /// <summary>
-        /// Gets the picture of the player who asks.
+        /// Gets the picture of a registered player.
         /// </summary>
-        /// <param name="accessToken">Access token of the player.</param>
-        /// <returns>Bytes of the image, or null when the player uses the default avatar.</returns>
+        /// <param name="accessToken">Access token of the player who asks.</param>
+        /// <param name="publicTag">Public tag of the player whose picture is shown.</param>
+        /// <returns>Bytes of the image, or null when the player uses the default avatar or does not exist.</returns>
         /// <exception cref="FaultException{ServiceFault}">Thrown when the access token is not valid.</exception>
         [OperationContract]
         [FaultContract(typeof(ServiceFault))]
-        byte[] GetOwnProfilePicture(string accessToken);
+        byte[] GetProfilePicture(string accessToken, int publicTag);
 
         /// <summary>
         /// Replaces the picture of the player who asks.

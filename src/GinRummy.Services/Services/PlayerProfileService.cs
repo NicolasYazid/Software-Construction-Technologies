@@ -57,10 +57,10 @@ namespace GinRummy.Services.Services
             RunProfileEdit(() => _profileEditPort.SaveProfileChanges(accessToken, username, bio));
         }
 
-        public byte[] GetOwnProfilePicture(string accessToken)
+        public byte[] GetProfilePicture(string accessToken, int publicTag)
         {
             byte[] picture = null;
-            RunProfileEdit(() => picture = _profileEditPort.GetOwnProfilePicture(accessToken));
+            RunProfileEdit(() => picture = _profileEditPort.GetProfilePicture(accessToken, publicTag));
 
             return picture;
         }
