@@ -57,7 +57,6 @@
     <Compile Include="Faults\ServiceFaultCode.cs" />
     <Compile Include="Services\ILogInService.cs" />
     <Compile Include="Services\IPlayerPresenceService.cs" />
-    <Compile Include="Services\IRankingService.cs" />
     <Compile Include="Services\IAccountSettingsService.cs" />
     <Compile Include="Services\ILeaderboardService.cs" />
     <Compile Include="DataContracts\PlayerRanking.cs" />
