@@ -12,7 +12,7 @@ namespace GinRummy.Client.Views
         public GuiAccountBanned(string reasonName)
         {
             InitializeComponent();
-            DataContext = new AccountBannedViewModel(reasonName);
+            DataContext = ((App)Application.Current).CreateAccountBannedViewModel(reasonName);
         }
 
         private void OnLogOutClick(object sender, RoutedEventArgs e)

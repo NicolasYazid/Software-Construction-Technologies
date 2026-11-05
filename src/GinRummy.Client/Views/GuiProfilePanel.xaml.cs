@@ -21,7 +21,7 @@ namespace GinRummy.Client.Views
         public GuiProfilePanel()
         {
             InitializeComponent();
-            _viewModel = new ProfilePanelViewModel(((App)Application.Current).SampleData);
+            _viewModel = ((App)Application.Current).CreateProfilePanelViewModel();
             _viewModel.EmailVerificationRequested += OnEmailVerificationRequested;
             _viewModel.TwoStepEnableRequested += OnTwoStepEnableRequested;
             _viewModel.TwoStepDisableRequested += OnTwoStepDisableRequested;

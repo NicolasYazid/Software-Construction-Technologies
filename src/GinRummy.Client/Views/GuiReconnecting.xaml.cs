@@ -16,7 +16,7 @@ namespace GinRummy.Client.Views
         public GuiReconnecting()
         {
             InitializeComponent();
-            _viewModel = new ReconnectingViewModel();
+            _viewModel = ((App)Application.Current).CreateReconnectingViewModel();
             DataContext = _viewModel;
             Closed += OnScreenClosed;
         }

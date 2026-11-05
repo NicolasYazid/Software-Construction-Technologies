@@ -16,7 +16,7 @@ namespace GinRummy.Client.Views
         public GuiAccountSuspended(string reasonName, TimeSpan remainingTime)
         {
             InitializeComponent();
-            _viewModel = new AccountSuspendedViewModel(reasonName, remainingTime);
+            _viewModel = ((App)Application.Current).CreateAccountSuspendedViewModel(reasonName, remainingTime);
             DataContext = _viewModel;
             Closed += OnScreenClosed;
         }

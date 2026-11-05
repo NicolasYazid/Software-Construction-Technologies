@@ -22,7 +22,7 @@ namespace GinRummy.Client.Views
         }
 
         public GuiVerifyEmail(VerificationPurpose purpose, string destinationAddress)
-            : this(new VerifyEmailViewModel(purpose, destinationAddress))
+            : this(((App)Application.Current).CreateVerifyEmailViewModel(purpose, destinationAddress))
         {
         }
 

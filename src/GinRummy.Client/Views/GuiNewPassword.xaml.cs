@@ -24,7 +24,7 @@ namespace GinRummy.Client.Views
         public GuiNewPassword(bool isChangeFromProfile)
         {
             InitializeComponent();
-            _viewModel = new NewPasswordViewModel(isChangeFromProfile);
+            _viewModel = ((App)Application.Current).CreateNewPasswordViewModel(isChangeFromProfile);
             _viewModel.PasswordUpdated += OnPasswordUpdated;
             DataContext = _viewModel;
             ApplyFlowLayout();

@@ -25,7 +25,7 @@ namespace GinRummy.Client.Views
         public GuiGameTable()
         {
             InitializeComponent();
-            _viewModel = new GameTableViewModel(((App)Application.Current).SampleData);
+            _viewModel = ((App)Application.Current).CreateGameTableViewModel();
             _viewModel.ChatMessages.CollectionChanged += OnChatMessagesChanged;
             _viewModel.MatchLog.CollectionChanged += OnMatchLogChanged;
             DataContext = _viewModel;

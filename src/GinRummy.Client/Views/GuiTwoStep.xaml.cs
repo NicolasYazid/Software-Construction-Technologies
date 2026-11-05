@@ -16,7 +16,7 @@ namespace GinRummy.Client.Views
         private readonly TwoStepLogInViewModel _logInViewModel;
 
         public GuiTwoStep(TwoStepPurpose purpose)
-            : this(new TwoStepViewModel(purpose))
+            : this(((App)Application.Current).CreateTwoStepViewModel(purpose))
         {
         }
 

@@ -18,7 +18,7 @@ namespace GinRummy.Client.Views
         public GuiSanctions()
         {
             InitializeComponent();
-            _viewModel = new SanctionsViewModel(((App)Application.Current).SampleData);
+            _viewModel = ((App)Application.Current).CreateSanctionsViewModel();
             DataContext = _viewModel;
             Closed += OnScreenClosed;
         }

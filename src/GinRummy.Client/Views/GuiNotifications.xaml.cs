@@ -14,7 +14,7 @@ namespace GinRummy.Client.Views
         public GuiNotifications()
         {
             InitializeComponent();
-            DataContext = new NotificationsViewModel(((App)Application.Current).SampleData);
+            DataContext = ((App)Application.Current).CreateNotificationsViewModel();
         }
 
         private void OnTabSelectionChanged(object sender, SelectionChangedEventArgs e)

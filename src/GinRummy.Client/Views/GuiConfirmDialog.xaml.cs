@@ -19,7 +19,7 @@ namespace GinRummy.Client.Views
         public GuiConfirmDialog(ConfirmDialogKind kind)
         {
             InitializeComponent();
-            _viewModel = new ConfirmDialogViewModel(kind);
+            _viewModel = ((App)Application.Current).CreateConfirmDialogViewModel(kind);
             DataContext = _viewModel;
             ApplyMessageStyle();
         }

@@ -112,6 +112,91 @@ namespace GinRummy.Client
                 _loggerFactory.CreateLogger<SignUpVerifyEmailViewModel>());
         }
 
+        public AccountBannedViewModel CreateAccountBannedViewModel(string reasonName)
+        {
+            return new AccountBannedViewModel(reasonName);
+        }
+
+        public AccountSuspendedViewModel CreateAccountSuspendedViewModel(string reasonName, TimeSpan remainingTime)
+        {
+            return new AccountSuspendedViewModel(reasonName, remainingTime);
+        }
+
+        public ConfirmDialogViewModel CreateConfirmDialogViewModel(ConfirmDialogKind kind)
+        {
+            return new ConfirmDialogViewModel(kind);
+        }
+
+        public EditProfileViewModel CreateEditProfileViewModel()
+        {
+            return new EditProfileViewModel(SampleData);
+        }
+
+        public ErrorDialogViewModel CreateErrorDialogViewModel(ErrorDialogKind kind)
+        {
+            return new ErrorDialogViewModel(kind);
+        }
+
+        public GameTableViewModel CreateGameTableViewModel()
+        {
+            return new GameTableViewModel(SampleData);
+        }
+
+        public GuestLobbyViewModel CreateGuestLobbyViewModel()
+        {
+            return new GuestLobbyViewModel(SampleData);
+        }
+
+        public HouseRulesViewModel CreateHouseRulesViewModel()
+        {
+            return new HouseRulesViewModel(SampleData);
+        }
+
+        public NewPasswordViewModel CreateNewPasswordViewModel(bool isChangeFromProfile)
+        {
+            return new NewPasswordViewModel(isChangeFromProfile);
+        }
+
+        public NotificationsViewModel CreateNotificationsViewModel()
+        {
+            return new NotificationsViewModel(SampleData);
+        }
+
+        public PlayerProfileViewModel CreatePlayerProfileViewModel(PlayerProfile profile)
+        {
+            return new PlayerProfileViewModel(profile);
+        }
+
+        public ProfilePanelViewModel CreateProfilePanelViewModel()
+        {
+            return new ProfilePanelViewModel(SampleData);
+        }
+
+        public ReconnectingViewModel CreateReconnectingViewModel()
+        {
+            return new ReconnectingViewModel();
+        }
+
+        public RecoverPasswordViewModel CreateRecoverPasswordViewModel()
+        {
+            return new RecoverPasswordViewModel();
+        }
+
+        public SanctionsViewModel CreateSanctionsViewModel()
+        {
+            return new SanctionsViewModel(SampleData);
+        }
+
+        public TwoStepViewModel CreateTwoStepViewModel(TwoStepPurpose purpose)
+        {
+            return new TwoStepViewModel(purpose);
+        }
+
+        public VerifyEmailViewModel CreateVerifyEmailViewModel(VerificationPurpose purpose, string destinationAddress)
+        {
+            return new VerifyEmailViewModel(purpose, destinationAddress);
+        }
+
         internal void StoreSignedInPlayer(LogInOutcome signedInPlayer)
         {
             SignedInPlayer = signedInPlayer ?? throw new ArgumentNullException(nameof(signedInPlayer));

@@ -18,7 +18,7 @@ namespace GinRummy.Client.Views
         public GuiPlayerProfile(PlayerProfile profile)
         {
             InitializeComponent();
-            _viewModel = new PlayerProfileViewModel(profile);
+            _viewModel = ((App)Application.Current).CreatePlayerProfileViewModel(profile);
             DataContext = _viewModel;
         }
 

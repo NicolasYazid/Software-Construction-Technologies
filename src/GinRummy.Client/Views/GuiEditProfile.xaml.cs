@@ -20,7 +20,7 @@ namespace GinRummy.Client.Views
         public GuiEditProfile()
         {
             InitializeComponent();
-            _viewModel = new EditProfileViewModel(((App)Application.Current).SampleData);
+            _viewModel = ((App)Application.Current).CreateEditProfileViewModel();
             _viewModel.SocialLinkRemovalRequested += OnSocialLinkRemovalRequested;
             _viewModel.SocialLinkReplaceRequested += OnSocialLinkReplaceRequested;
             DataContext = _viewModel;

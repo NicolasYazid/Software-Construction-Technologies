@@ -18,7 +18,7 @@ namespace GinRummy.Client.Views
         public GuiGuestLobby()
         {
             InitializeComponent();
-            _viewModel = new GuestLobbyViewModel(((App)Application.Current).SampleData);
+            _viewModel = ((App)Application.Current).CreateGuestLobbyViewModel();
             DataContext = _viewModel;
             Loaded += OnScreenLoaded;
             Closed += OnScreenClosed;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 
 using GinRummy.Client.Models;
 using GinRummy.Client.ViewModels;
@@ -15,7 +16,7 @@ namespace GinRummy.Client.Views
         public GuiRecoverPassword()
         {
             InitializeComponent();
-            _viewModel = new RecoverPasswordViewModel();
+            _viewModel = ((App)Application.Current).CreateRecoverPasswordViewModel();
             _viewModel.CodeRequested += OnCodeRequested;
             DataContext = _viewModel;
         }

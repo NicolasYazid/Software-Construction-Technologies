@@ -14,7 +14,7 @@ namespace GinRummy.Client.Views
         public GuiErrorDialog(ErrorDialogKind kind)
         {
             InitializeComponent();
-            DataContext = new ErrorDialogViewModel(kind);
+            DataContext = ((App)Application.Current).CreateErrorDialogViewModel(kind);
         }
 
         public bool IsActionChosen { get; private set; }
