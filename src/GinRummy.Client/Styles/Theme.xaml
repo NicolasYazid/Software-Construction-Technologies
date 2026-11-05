@@ -21,7 +21,7 @@
 
     <!-- The Figma prototype was the starting point, but from version 2 on the design is decided here and not in the Figma file. -->
 
-    <!-- Cairopixel is the only family that covers the accents, the enye and the inverted marks (STK-13), so the others fall back to it. -->
+    <!-- Cairopixel is the only family that covers the accents, the enye and the inverted marks, so the others fall back to it. -->
     <FontFamily x:Key="FntDisplay">pack://application:,,,/Fonts/#RetroByte, pack://application:,,,/Fonts/#Cairopixel</FontFamily>
     <FontFamily x:Key="FntBody">pack://application:,,,/Fonts/#Cairopixel</FontFamily>
     <FontFamily x:Key="FntBrand">pack://application:,,,/Fonts/#HigherPixels, pack://application:,,,/Fonts/#Cairopixel</FontFamily>
@@ -1037,7 +1037,7 @@
 
     <!-- The letter is drawn at 16 pixels because the pixel font uses a grid of sixteen, so no row of the letter blurs.
          Every side of the badge is a whole number of blocks so no step falls between two pixels.
-         A letter outside the catalogue of ranks (BD-14) keeps the neutral frame. -->
+         A letter outside the catalogue of ranks keeps the neutral frame. -->
     <ControlTemplate x:Key="TplRankBadge" TargetType="Label">
         <Grid>
             <Border Height="{TemplateBinding Width}" VerticalAlignment="Bottom"
@@ -1110,8 +1110,7 @@
         <Setter Property="ctl:PixelShapeCommon.PixelUnit" Value="2" />
     </Style>
 
-    <!-- The notices of a challenge keep the glass of the panels so they read as part of the room.
-         The cards over the chat take the face of the pressed tab so they stay solid over the messages that scroll under them. -->
+    <!-- The cards over the chat take the face of the pressed tab so they stay solid over the messages that scroll under them. -->
     <SolidColorBrush x:Key="BrsChatCardFace" Color="#FF1A1612" />
 
     <!-- The rules cast the deep shadow of the panels because the messages run under them. -->
@@ -1162,23 +1161,6 @@
 
     <Style x:Key="StyChatCensored" TargetType="TextBlock" BasedOn="{StaticResource StyChatContent}">
         <Setter Property="Foreground" Value="{StaticResource BrsMuted}" />
-        <Setter Property="Visibility" Value="Collapsed" />
-    </Style>
-
-    <!-- The right margin is fourteen units shorter than the one of the rules, the bar and the padding of the list, so both line up. -->
-    <Style x:Key="StyChatNotice" TargetType="Border" BasedOn="{StaticResource StyLobbyGlassCard}">
-        <Setter Property="Margin" Value="20,8,6,8" />
-        <Setter Property="Padding" Value="20,10,16,10" />
-        <Setter Property="MinHeight" Value="58" />
-    </Style>
-
-    <Style x:Key="StyChatNoticeText" TargetType="TextBlock">
-        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
-        <Setter Property="FontWeight" Value="Normal" />
-        <Setter Property="FontSize" Value="18" />
-        <Setter Property="Foreground" Value="{StaticResource BrsMenuLight}" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="Visibility" Value="Collapsed" />
     </Style>
 
@@ -1719,7 +1701,7 @@
         <Setter Property="VerticalAlignment" Value="Top" />
     </Style>
 
-    <!-- The change of email opens over the panel and not in its own window because the dictionary places its texts in the panel. -->
+    <!-- The change of email opens over the panel and not in its own window because the language resources place its texts in the panel. -->
     <SolidColorBrush x:Key="BrsOverlay" Color="#D90A0907" />
     <!-- The shade keeps the screen in sight behind the modal while it reads as out of reach. -->
     <SolidColorBrush x:Key="BrsModalBackdrop" Color="#A60A0907" />

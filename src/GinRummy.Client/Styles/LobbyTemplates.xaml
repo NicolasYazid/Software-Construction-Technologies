@@ -5,41 +5,6 @@
 
     <!-- These templates live apart from the theme because they bind to the localization provider, created after the theme loads. -->
 
-    <!-- The messages sit further in than the floating cards, so an avatar never shows through the stepped corners of a card. -->
-    <DataTemplate DataType="{x:Type models:ChatMessage}">
-        <Grid Margin="30,8,30,8">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Border Style="{StaticResource StyAvatar}" VerticalAlignment="Top">
-                <Image Style="{StaticResource StyAvatarIcon}" />
-            </Border>
-            <StackPanel Grid.Column="1" Margin="14,2,0,0">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Style="{StaticResource StyChatAuthor}" Text="{Binding AuthorName}" />
-                    <TextBlock Style="{StaticResource StyChatTime}">
-                        <TextBlock.Text>
-                            <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" ConverterParameter="t">
-                                <Binding Path="[Shared_Timestamp]" Source="{StaticResource PrvLocalization}" />
-                                <Binding Path="SentAt" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                </StackPanel>
-                <TextBlock x:Name="lblChatContent" Style="{StaticResource StyChatContent}" Text="{Binding Content}" />
-                <TextBlock x:Name="lblMessageCensored" Style="{StaticResource StyChatCensored}"
-                           Text="{Binding [LobbyChat_MessageCensored], Source={StaticResource PrvLocalization}}" />
-            </StackPanel>
-        </Grid>
-        <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding IsCensored}" Value="True">
-                <Setter TargetName="lblChatContent" Property="Visibility" Value="Collapsed" />
-                <Setter TargetName="lblMessageCensored" Property="Visibility" Value="Visible" />
-            </DataTrigger>
-        </DataTemplate.Triggers>
-    </DataTemplate>
-
     <DataTemplate x:Key="TplLobbyPlayer" DataType="{x:Type vm:LobbyPlayerViewModel}">
         <Border Style="{StaticResource StyPlayerRow}">
             <DockPanel LastChildFill="True">

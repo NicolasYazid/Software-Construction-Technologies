@@ -355,7 +355,6 @@
     <Compile Include="ViewModels\SignUpVerifyEmailViewModel.cs" />
     <Compile Include="ViewModels\SignUpViewModel.cs" />
     <Compile Include="Controls\PasswordBindingCommon.cs" />
-    <Compile Include="Models\ChatEntry.cs" />
     <Compile Include="Models\ChatMessage.cs" />
     <Compile Include="ViewModels\LobbyPlayerViewModel.cs" />
     <Compile Include="Models\MatchPair.cs" />
