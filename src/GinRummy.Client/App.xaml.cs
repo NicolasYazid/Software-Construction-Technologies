@@ -207,6 +207,11 @@ namespace GinRummy.Client
             SignedInPlayer = signedInPlayer ?? throw new ArgumentNullException(nameof(signedInPlayer));
         }
 
+        internal void ForgetSignedInPlayer()
+        {
+            SignedInPlayer = null;
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
             DispatcherUnhandledException += OnDispatcherUnhandledException;

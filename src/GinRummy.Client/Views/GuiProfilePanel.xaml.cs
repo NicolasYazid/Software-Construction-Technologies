@@ -75,6 +75,8 @@ namespace GinRummy.Client.Views
             _viewModel.CompleteTwoStepDisable(((GuiConfirmDialog)sender).IsConfirmed);
         }
 
+        // Closing the lobby ends the presence subscription, so the other players see the player leave.
+        // The token is forgotten too, so nobody else can use the account on this computer (CU-03).
         private void OnLogOutClick(object sender, RoutedEventArgs e)
         {
             GuiWindowBase lobby = Host;
@@ -83,6 +85,8 @@ namespace GinRummy.Client.Views
             {
                 lobby.Close();
             }
+
+            ((App)Application.Current).ForgetSignedInPlayer();
         }
     }
 }
