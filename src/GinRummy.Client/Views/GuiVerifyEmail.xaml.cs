@@ -14,7 +14,6 @@ namespace GinRummy.Client.Views
     public partial class GuiVerifyEmail : GuiModalBase
     {
         private readonly VerifyEmailViewModel _viewModel;
-        private readonly SignUpVerifyEmailViewModel _signUpViewModel;
 
         public GuiVerifyEmail()
             : this(VerificationPurpose.AccountSignUp, string.Empty)
@@ -26,17 +25,14 @@ namespace GinRummy.Client.Views
         {
         }
 
-        // The sign-up has its own view model because only it already reaches the server; the other purposes still use the prototype.
+        // The sign-up and the change of email have their own view models because they reach the server.
+        // The recovery of the password still uses the prototype.
         public GuiVerifyEmail(VerifyEmailViewModel viewModel)
         {
             InitializeComponent();
             _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
             _viewModel.CodeVerified += OnCodeVerified;
-            _signUpViewModel = viewModel as SignUpVerifyEmailViewModel;
-            if (_signUpViewModel != null)
-            {
-                _signUpViewModel.ConnectionFailed += OnConnectionFailed;
-            }
+            _viewModel.ErrorDialogRequested += OnErrorDialogRequested;
 
             DataContext = _viewModel;
             Closed += OnScreenClosed;
@@ -58,7 +54,7 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnConnectionFailed(object sender, ErrorDialogKind kind)
+        private void OnErrorDialogRequested(object sender, ErrorDialogKind kind)
         {
             ShowModal(new GuiErrorDialog(kind));
         }
@@ -77,10 +73,7 @@ namespace GinRummy.Client.Views
         {
             _viewModel.StopCountdowns();
             _viewModel.CodeVerified -= OnCodeVerified;
-            if (_signUpViewModel != null)
-            {
-                _signUpViewModel.ConnectionFailed -= OnConnectionFailed;
-            }
+            _viewModel.ErrorDialogRequested -= OnErrorDialogRequested;
 
             Closed -= OnScreenClosed;
         }

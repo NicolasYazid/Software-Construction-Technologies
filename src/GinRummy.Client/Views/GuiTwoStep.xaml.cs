@@ -15,23 +15,19 @@ namespace GinRummy.Client.Views
         private readonly TwoStepViewModel _viewModel;
         private readonly TwoStepLogInViewModel _logInViewModel;
 
-        public GuiTwoStep(TwoStepPurpose purpose)
-            : this(((App)Application.Current).CreateTwoStepViewModel(purpose))
-        {
-        }
-
-        // The sign-in has its own view model because only it already reaches the server; the other purposes still use the prototype.
+        // Each purpose reaches its own service, so the screen receives the view model of the purpose it serves.
+        // Only the sign-in leaves the screen somewhere else, so only its events are followed apart.
         public GuiTwoStep(TwoStepViewModel viewModel)
         {
             InitializeComponent();
             _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
             _viewModel.CodeVerified += OnCodeVerified;
+            _viewModel.ErrorDialogRequested += OnErrorDialogRequested;
             _logInViewModel = viewModel as TwoStepLogInViewModel;
             if (_logInViewModel != null)
             {
                 _logInViewModel.SignedIn += OnSignedIn;
                 _logInViewModel.AccountRestricted += OnAccountRestricted;
-                _logInViewModel.ConnectionFailed += OnConnectionFailed;
             }
 
             DataContext = _viewModel;
@@ -54,7 +50,7 @@ namespace GinRummy.Client.Views
             NavigateTo(AccountRestrictionScreenCommon.CreateScreen(restriction));
         }
 
-        private void OnConnectionFailed(object sender, ErrorDialogKind kind)
+        private void OnErrorDialogRequested(object sender, ErrorDialogKind kind)
         {
             ShowModal(new GuiErrorDialog(kind));
         }
@@ -63,11 +59,11 @@ namespace GinRummy.Client.Views
         {
             _viewModel.CodeCountdown.Stop();
             _viewModel.CodeVerified -= OnCodeVerified;
+            _viewModel.ErrorDialogRequested -= OnErrorDialogRequested;
             if (_logInViewModel != null)
             {
                 _logInViewModel.SignedIn -= OnSignedIn;
                 _logInViewModel.AccountRestricted -= OnAccountRestricted;
-                _logInViewModel.ConnectionFailed -= OnConnectionFailed;
             }
 
             Closed -= OnScreenClosed;

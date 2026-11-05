@@ -29,7 +29,6 @@ namespace GinRummy.Client.ViewModels
 
         public event EventHandler<LogInOutcome> SignedIn;
         public event EventHandler<AccountRestriction> AccountRestricted;
-        public event EventHandler<ErrorDialogKind> ConnectionFailed;
 
         protected override void Verify()
         {
@@ -119,25 +118,25 @@ namespace GinRummy.Client.ViewModels
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The server could not complete the second factor.");
-                ConnectionFailed?.Invoke(this, ErrorDialogKind.ServiceUnavailable);
+                RequestErrorDialog(ErrorDialogKind.ServiceUnavailable);
             }
             catch (EndpointNotFoundException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The sign-in service could not be reached.");
-                ConnectionFailed?.Invoke(this, ErrorDialogKind.ConnectionRefused);
+                RequestErrorDialog(ErrorDialogKind.ConnectionRefused);
             }
             catch (CommunicationException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The connection with the sign-in service was lost.");
-                ConnectionFailed?.Invoke(this, ErrorDialogKind.ConnectionLost);
+                RequestErrorDialog(ErrorDialogKind.ConnectionLost);
             }
             catch (TimeoutException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The sign-in service timed out.");
-                ConnectionFailed?.Invoke(this, ErrorDialogKind.ConnectionLost);
+                RequestErrorDialog(ErrorDialogKind.ConnectionLost);
             }
 
             return outcome;

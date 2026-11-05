@@ -39,6 +39,8 @@ namespace GinRummy.Client.ViewModels
 
         public event EventHandler CodeVerified;
 
+        public event EventHandler<ErrorDialogKind> ErrorDialogRequested;
+
         public VerificationPurpose Purpose { get; private set; }
         public string TitleKey { get; private set; }
         public string DestinationAddress { get; private set; }
@@ -106,7 +108,7 @@ namespace GinRummy.Client.ViewModels
             ResendCountdown.Stop();
         }
 
-        // The code is checked on the server, as CU-09 requires, so the flows without a service only advance the navigation.
+        // The code is checked on the server, as CU-09 requires, so this only ends the screen once the code was accepted.
         protected virtual void Verify()
         {
             StopCountdowns();
@@ -123,6 +125,11 @@ namespace GinRummy.Client.ViewModels
         protected void RestartResendCountdown(TimeSpan wait)
         {
             ResendCountdown.Restart(wait);
+        }
+
+        protected void RequestErrorDialog(ErrorDialogKind kind)
+        {
+            ErrorDialogRequested?.Invoke(this, kind);
         }
 
         private static string ResolveTitleKey(VerificationPurpose purpose)

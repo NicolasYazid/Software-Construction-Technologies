@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Threading;
 
+using GinRummy.Client.AccountSettingsServiceReference;
 using GinRummy.Client.LeaderboardServiceReference;
 using GinRummy.Client.Localization;
 using GinRummy.Client.Logging;
@@ -26,6 +27,7 @@ namespace GinRummy.Client
 
         private const string FatalErrorTitleKey = "ErrorDialog_LblTitleUnexpected";
         private const string FatalErrorMessageKey = "Error_SysUnexpected";
+        private const string AccountSettingsEndpointName = "AccountSettingsService";
         private const string LeaderboardEndpointName = "LeaderboardService";
         private const string LogInEndpointName = "LogInService";
         private const string PresenceEndpointName = "PlayerPresenceService";
@@ -178,9 +180,29 @@ namespace GinRummy.Client
         public ProfilePanelViewModel CreateProfilePanelViewModel()
         {
             return new ProfilePanelViewModel(
-                SampleData,
                 () => new PlayerProfileServiceClient(PlayerProfileEndpointName),
+                CreateAccountSettingsCaller(),
                 _loggerFactory.CreateLogger<ProfilePanelViewModel>());
+        }
+
+        public PasswordChangeViewModel CreatePasswordChangeViewModel()
+        {
+            return new PasswordChangeViewModel(CreateAccountSettingsCaller());
+        }
+
+        public TwoStepActivationViewModel CreateTwoStepActivationViewModel()
+        {
+            return new TwoStepActivationViewModel(CreateAccountSettingsCaller());
+        }
+
+        public TwoStepPasswordChangeViewModel CreateTwoStepPasswordChangeViewModel(string currentPassword, string newPassword)
+        {
+            return new TwoStepPasswordChangeViewModel(CreateAccountSettingsCaller(), currentPassword, newPassword);
+        }
+
+        public EmailChangeVerifyEmailViewModel CreateEmailChangeVerifyEmailViewModel(string newEmail)
+        {
+            return new EmailChangeVerifyEmailViewModel(CreateAccountSettingsCaller(), newEmail);
         }
 
         public ReconnectingViewModel CreateReconnectingViewModel()
@@ -196,11 +218,6 @@ namespace GinRummy.Client
         public SanctionsViewModel CreateSanctionsViewModel()
         {
             return new SanctionsViewModel(SampleData);
-        }
-
-        public TwoStepViewModel CreateTwoStepViewModel(TwoStepPurpose purpose)
-        {
-            return new TwoStepViewModel(purpose);
         }
 
         public VerifyEmailViewModel CreateVerifyEmailViewModel(VerificationPurpose purpose, string destinationAddress)
@@ -279,6 +296,21 @@ namespace GinRummy.Client
                     shadow.BlurRadius = shadow.BlurRadius * SoftwareBlurScale;
                 }
             }
+        }
+
+        // The main menu opens the panel without a session, so its caller has no token and the panel hides the account (CU-20 FA-01).
+        private AccountSettingsCaller CreateAccountSettingsCaller()
+        {
+            string accessToken = null;
+            if (SignedInPlayer != null)
+            {
+                accessToken = SignedInPlayer.AccessToken;
+            }
+
+            return new AccountSettingsCaller(
+                accessToken,
+                () => new AccountSettingsServiceClient(AccountSettingsEndpointName),
+                _loggerFactory.CreateLogger<AccountSettingsCaller>());
         }
     }
 }

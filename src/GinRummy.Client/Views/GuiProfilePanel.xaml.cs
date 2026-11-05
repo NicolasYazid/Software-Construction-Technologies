@@ -11,7 +11,7 @@ namespace GinRummy.Client.Views
     /// <summary>
     /// Profile panel (P14). Holds the settings of the account: the change of email of CU-07
     /// and of password of CU-06, the second factor of CU-04 and CU-05, the language of CU-20
-    /// and the closing of the session of CU-03.
+    /// and the closing of the session of CU-03. Without a session it only holds the language.
     /// </summary>
     public partial class GuiProfilePanel : GuiModalBase
     {
@@ -21,6 +21,12 @@ namespace GinRummy.Client.Views
         private readonly ProfilePanelViewModel _viewModel;
 
         public GuiProfilePanel()
+            : this(null)
+        {
+        }
+
+        // The main menu has no session and therefore no profile, so the panel keeps the default avatar there.
+        public GuiProfilePanel(PlayerProfile ownProfile)
         {
             InitializeComponent();
             _viewModel = ((App)Application.Current).CreateProfilePanelViewModel();
@@ -29,8 +35,17 @@ namespace GinRummy.Client.Views
             _viewModel.TwoStepDisableRequested += OnTwoStepDisableRequested;
             _viewModel.ErrorDialogRequested += OnErrorDialogRequested;
             DataContext = _viewModel;
+            grdAvatar.DataContext = ownProfile;
             pwdPassword.Password = new string(PasswordMaskFiller, PasswordMaskLength);
             txtNewEmail.IsVisibleChanged += OnNewEmailVisibleChanged;
+            Loaded += OnPanelLoaded;
+        }
+
+        // The settings are read once the panel is on screen, because a failed read opens the error dialog over it.
+        private void OnPanelLoaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= OnPanelLoaded;
+            _viewModel.LoadAccountSettings();
         }
 
         private void OnNewEmailVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -41,29 +56,53 @@ namespace GinRummy.Client.Views
             }
         }
 
+        // Only a confirmed code changes the email, so closing the screen without one leaves the panel as it was (CU-07).
         private void OnEmailVerificationRequested(object sender, EventArgs e)
         {
-            GuiVerifyEmail verifyEmail = new GuiVerifyEmail(VerificationPurpose.EmailChange, _viewModel.PendingEmail);
-            verifyEmail.Closed += OnVerifyEmailClosed;
-            ShowModal(verifyEmail);
+            VerifyEmailViewModel emailChange = ((App)Application.Current).CreateEmailChangeVerifyEmailViewModel(_viewModel.PendingEmail);
+            emailChange.CodeVerified += OnEmailChangeVerified;
+            ShowModal(new GuiVerifyEmail(emailChange));
         }
 
-        private void OnVerifyEmailClosed(object sender, EventArgs e)
+        private void OnEmailChangeVerified(object sender, EventArgs e)
         {
             _viewModel.CompleteEmailChange();
         }
 
         private void OnChangePasswordClick(object sender, RoutedEventArgs e)
         {
-            GuiNewPassword newPassword = new GuiNewPassword(true);
-            ShowModal(newPassword);
+            PasswordChangeViewModel passwordChange = ((App)Application.Current).CreatePasswordChangeViewModel();
+            passwordChange.PasswordUpdated += OnPasswordChangeRequested;
+            ShowModal(new GuiNewPassword(passwordChange));
         }
 
-        // The verification screen is the one that talks to the server, so it confirms the code that enables the second factor.
+        // The server already emailed the code when this runs, so the code screen opens while the password screen closes (CU-06).
+        private void OnPasswordChangeRequested(object sender, EventArgs e)
+        {
+            PasswordChangeViewModel passwordChange = (PasswordChangeViewModel)sender;
+            TwoStepViewModel codeCheck = ((App)Application.Current).CreateTwoStepPasswordChangeViewModel(
+                passwordChange.CurrentPassword,
+                passwordChange.NewPassword);
+            codeCheck.CodeVerified += OnPasswordChanged;
+            ShowModal(new GuiTwoStep(codeCheck));
+        }
+
+        private void OnPasswordChanged(object sender, EventArgs e)
+        {
+            _viewModel.CompletePasswordChange();
+        }
+
+        // The panel already asked for the code, so the code screen only confirms it and the panel reads the result again (CU-04).
         private void OnTwoStepEnableRequested(object sender, EventArgs e)
         {
-            GuiTwoStep twoStep = new GuiTwoStep(TwoStepPurpose.EnableTwoStep);
+            GuiTwoStep twoStep = new GuiTwoStep(((App)Application.Current).CreateTwoStepActivationViewModel());
+            twoStep.Closed += OnTwoStepActivationClosed;
             ShowModal(twoStep);
+        }
+
+        private void OnTwoStepActivationClosed(object sender, EventArgs e)
+        {
+            _viewModel.CompleteTwoStepEnable();
         }
 
         private void OnTwoStepDisableRequested(object sender, EventArgs e)
@@ -75,7 +114,8 @@ namespace GinRummy.Client.Views
 
         private void OnTwoStepDisableConfirmClosed(object sender, EventArgs e)
         {
-            _viewModel.CompleteTwoStepDisable(((GuiConfirmDialog)sender).IsConfirmed);
+            GuiConfirmDialog confirmDialog = (GuiConfirmDialog)sender;
+            _viewModel.CompleteTwoStepDisable(confirmDialog.IsConfirmed, confirmDialog.EnteredPassword);
         }
 
         // The selector applies the language by itself, so only a change made by the player is kept on the server (CU-20).

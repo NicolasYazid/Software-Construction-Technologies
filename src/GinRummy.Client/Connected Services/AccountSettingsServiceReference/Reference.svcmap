@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="5091ccf2-227c-47a6-aec6-ff2a7f292d7a" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://localhost:8013/AccountSettingsService/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="e2d956f1-f408-42c0-9ea8-6dce9efdb7f8" SourceId="1" SourceUrl="net.tcp://localhost:8013/AccountSettingsService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="9aeeb87c-d897-4238-8387-f3fd914741a5" SourceId="1" SourceUrl="net.tcp://localhost:8013/AccountSettingsService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="c6de45ee-0452-45c3-82d5-e82ef6265020" SourceId="1" SourceUrl="net.tcp://localhost:8013/AccountSettingsService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.DataContracts.xsd" MetadataType="Schema" ID="968f03e5-38f7-4743-a808-647c9990905e" SourceId="1" SourceUrl="net.tcp://localhost:8013/AccountSettingsService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.Faults.xsd" MetadataType="Schema" ID="5e38a33b-695c-44be-983d-84bb05b8576d" SourceId="1" SourceUrl="net.tcp://localhost:8013/AccountSettingsService/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

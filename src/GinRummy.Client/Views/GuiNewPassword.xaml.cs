@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 
+using GinRummy.Client.Models;
 using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
@@ -22,10 +23,22 @@ namespace GinRummy.Client.Views
         }
 
         public GuiNewPassword(bool isChangeFromProfile)
+            : this(((App)Application.Current).CreateNewPasswordViewModel(isChangeFromProfile))
+        {
+        }
+
+        // The change from the profile has its own view model because only it reaches the server; the recovery still uses the prototype.
+        public GuiNewPassword(NewPasswordViewModel viewModel)
         {
             InitializeComponent();
-            _viewModel = ((App)Application.Current).CreateNewPasswordViewModel(isChangeFromProfile);
+            _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
             _viewModel.PasswordUpdated += OnPasswordUpdated;
+            PasswordChangeViewModel passwordChangeViewModel = viewModel as PasswordChangeViewModel;
+            if (passwordChangeViewModel != null)
+            {
+                passwordChangeViewModel.ErrorDialogRequested += OnErrorDialogRequested;
+            }
+
             DataContext = _viewModel;
             ApplyFlowLayout();
         }
@@ -39,6 +52,11 @@ namespace GinRummy.Client.Views
             }
 
             lblNewPassword.Margin = newPasswordLabelMargin;
+        }
+
+        private void OnErrorDialogRequested(object sender, ErrorDialogKind kind)
+        {
+            ShowModal(new GuiErrorDialog(kind));
         }
 
         // A recovered password ends every session of the account, so the player signs in again with it (CU-08 step 14).

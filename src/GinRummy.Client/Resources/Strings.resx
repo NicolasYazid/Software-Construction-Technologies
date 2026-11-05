@@ -349,6 +349,10 @@
     <value>Espera un momento antes de pedir otro código</value>
     <comment>Mensajes del sistema de GuiVerifyEmail</comment>
   </data>
+  <data name="Error_AuthSamePassword" xml:space="preserve">
+    <value>La nueva contraseña debe ser distinta de la actual</value>
+    <comment>Mensajes del sistema de GuiNewPassword</comment>
+  </data>
   <data name="Error_AuthSessionExpired" xml:space="preserve">
     <value>Tu sesión ya no es válida, vuelve a iniciar sesión</value>
     <comment>Mensajes del sistema de GuiErrorDialog</comment>
@@ -1073,10 +1077,6 @@ Tú: {0}   -   Rival: {1}</value>
     <value>Cambiar contraseña</value>
     <comment>Acciones de GuiProfilePanel</comment>
   </data>
-  <data name="ProfilePanel_BtnLink" xml:space="preserve">
-    <value>Vincular</value>
-    <comment>Acciones de GuiProfilePanel</comment>
-  </data>
   <data name="ProfilePanel_BtnTwoStepDisableConfirm" xml:space="preserve">
     <value>Desactivar</value>
     <comment>Acciones de GuiProfilePanel</comment>
@@ -1084,10 +1084,6 @@ Tú: {0}   -   Rival: {1}</value>
   <data name="ProfilePanel_EmailChanged" xml:space="preserve">
     <value>Tu correo se actualizó</value>
     <comment>Mensajes del sistema de GuiProfilePanel</comment>
-  </data>
-  <data name="ProfilePanel_LblAudio" xml:space="preserve">
-    <value>Audio y sonido</value>
-    <comment>Contenido de GuiProfilePanel</comment>
   </data>
   <data name="ProfilePanel_LblChangeEmailTitle" xml:space="preserve">
     <value>Cambiar correo</value>
@@ -1107,14 +1103,6 @@ Tú: {0}   -   Rival: {1}</value>
   </data>
   <data name="ProfilePanel_LblLanguage" xml:space="preserve">
     <value>Idioma</value>
-    <comment>Contenido de GuiProfilePanel</comment>
-  </data>
-  <data name="ProfilePanel_LblLinkedAccounts" xml:space="preserve">
-    <value>Cuentas vinculadas</value>
-    <comment>Contenido de GuiProfilePanel</comment>
-  </data>
-  <data name="ProfilePanel_LblMasterVolume" xml:space="preserve">
-    <value>Volumen general</value>
     <comment>Contenido de GuiProfilePanel</comment>
   </data>
   <data name="ProfilePanel_LblNewEmail" xml:space="preserve">
@@ -1137,6 +1125,14 @@ Tú: {0}   -   Rival: {1}</value>
     <value>Pide un código al iniciar sesión.</value>
     <comment>Contenido de GuiProfilePanel</comment>
   </data>
+  <data name="ProfilePanel_PasswordChanged" xml:space="preserve">
+    <value>Tu contraseña se actualizó</value>
+    <comment>Mensajes del sistema de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_SameEmail" xml:space="preserve">
+    <value>Ese ya es el correo de tu cuenta</value>
+    <comment>Mensajes del sistema de GuiProfilePanel</comment>
+  </data>
   <data name="ProfilePanel_LogOutForfeitWarning" xml:space="preserve">
     <value>Si cierras sesión abandonas la partida y cuenta como derrota</value>
     <comment>Mensajes del sistema de GuiProfilePanel</comment>
@@ -1147,6 +1143,10 @@ Tú: {0}   -   Rival: {1}</value>
   </data>
   <data name="ProfilePanel_TwoStepDisabled" xml:space="preserve">
     <value>La verificación en dos pasos está desactivada</value>
+    <comment>Mensajes del sistema de GuiProfilePanel</comment>
+  </data>
+  <data name="ProfilePanel_TwoStepEnabled" xml:space="preserve">
+    <value>La verificación en dos pasos está activada</value>
     <comment>Mensajes del sistema de GuiProfilePanel</comment>
   </data>
   <data name="ProfilePanel_TxtNewEmailPlaceholder" xml:space="preserve">

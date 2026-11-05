@@ -120,22 +120,6 @@ namespace GinRummy.Client.Services
             };
         }
 
-        public AccountSettings GetAccountSettings()
-        {
-            AccountSettings settings = new AccountSettings();
-            settings.Email = "playera@correo.com";
-            settings.IsTwoStepEnabled = true;
-            settings.MasterVolume = 70;
-            settings.IsChatFilterEnabled = false;
-            settings.LinkedAccounts = new List<LinkedAccount>
-            {
-                CreateLinkedAccount("Discord", true),
-                CreateLinkedAccount("X", false)
-            };
-
-            return settings;
-        }
-
         public GameRules GetGameRules()
         {
             GameRules rules = new GameRules();
@@ -191,11 +175,6 @@ namespace GinRummy.Client.Services
             };
 
             return table;
-        }
-
-        private static LinkedAccount CreateLinkedAccount(string platformName, bool isLinked)
-        {
-            return new LinkedAccount(platformName, isLinked);
         }
 
         private static Card CreateCard(CardRank rank, CardSuit suit)

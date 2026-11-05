@@ -291,6 +291,9 @@
   <data name="Error_AuthResendLimitReached" xml:space="preserve">
     <value>Wait a moment before requesting another code</value>
   </data>
+  <data name="Error_AuthSamePassword" xml:space="preserve">
+    <value>The new password must be different from the current one</value>
+  </data>
   <data name="Error_AuthSessionExpired" xml:space="preserve">
     <value>Your session is no longer valid, please log in again</value>
   </data>
@@ -835,17 +838,11 @@ You: {0}   -   Opponent: {1}</value>
   <data name="ProfilePanel_BtnChangePassword" xml:space="preserve">
     <value>Change password</value>
   </data>
-  <data name="ProfilePanel_BtnLink" xml:space="preserve">
-    <value>Link</value>
-  </data>
   <data name="ProfilePanel_BtnTwoStepDisableConfirm" xml:space="preserve">
     <value>Turn off</value>
   </data>
   <data name="ProfilePanel_EmailChanged" xml:space="preserve">
     <value>Your email was updated</value>
-  </data>
-  <data name="ProfilePanel_LblAudio" xml:space="preserve">
-    <value>Audio and sound</value>
   </data>
   <data name="ProfilePanel_LblChangeEmailTitle" xml:space="preserve">
     <value>Change email</value>
@@ -862,12 +859,6 @@ You: {0}   -   Opponent: {1}</value>
   <data name="ProfilePanel_LblLanguage" xml:space="preserve">
     <value>Language</value>
   </data>
-  <data name="ProfilePanel_LblLinkedAccounts" xml:space="preserve">
-    <value>Linked accounts</value>
-  </data>
-  <data name="ProfilePanel_LblMasterVolume" xml:space="preserve">
-    <value>Master volume</value>
-  </data>
   <data name="ProfilePanel_LblNewEmail" xml:space="preserve">
     <value>New address</value>
   </data>
@@ -883,6 +874,12 @@ You: {0}   -   Opponent: {1}</value>
   <data name="ProfilePanel_LblTwoStepHint" xml:space="preserve">
     <value>Asks for a code when you log in.</value>
   </data>
+  <data name="ProfilePanel_PasswordChanged" xml:space="preserve">
+    <value>Your password was updated</value>
+  </data>
+  <data name="ProfilePanel_SameEmail" xml:space="preserve">
+    <value>That is already the email of your account</value>
+  </data>
   <data name="ProfilePanel_LogOutForfeitWarning" xml:space="preserve">
     <value>If you log out you forfeit the match and it counts as a loss</value>
   </data>
@@ -891,6 +888,9 @@ You: {0}   -   Opponent: {1}</value>
   </data>
   <data name="ProfilePanel_TwoStepDisabled" xml:space="preserve">
     <value>Two-step verification is turned off</value>
+  </data>
+  <data name="ProfilePanel_TwoStepEnabled" xml:space="preserve">
+    <value>Two-step verification is turned on</value>
   </data>
   <data name="ProfilePanel_TxtNewEmailPlaceholder" xml:space="preserve">
     <value>you@email.com</value>

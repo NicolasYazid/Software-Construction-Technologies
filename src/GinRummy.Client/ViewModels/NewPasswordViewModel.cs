@@ -9,8 +9,9 @@ namespace GinRummy.Client.ViewModels
     {
         private const string RecoveryTitleKey = "NewPassword_LblTitle";
         private const string ChangeTitleKey = "NewPassword_LblTitleChange";
+        private const string PasswordMismatchKey = "Error_ValPasswordMismatch";
 
-        private bool _isPasswordMismatchShown;
+        private string _errorMessageKey;
 
         // The recovery flow reaches this screen precisely when the player no longer knows the password in force.
         // That is why only the change from the profile asks for the current password.
@@ -38,25 +39,39 @@ namespace GinRummy.Client.ViewModels
         public string ConfirmPassword { get; set; }
         public ICommand UpdateCommand { get; private set; }
 
-        public bool IsPasswordMismatchShown
+        public string ErrorMessageKey
         {
-            get { return _isPasswordMismatchShown; }
-            private set
+            get { return _errorMessageKey; }
+            protected set
             {
-                _isPasswordMismatchShown = value;
+                _errorMessageKey = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged(nameof(HasErrorMessage));
             }
+        }
+
+        public bool HasErrorMessage
+        {
+            get { return !string.IsNullOrEmpty(_errorMessageKey); }
+        }
+
+        protected virtual void SubmitPassword()
+        {
+            PasswordUpdated?.Invoke(this, EventArgs.Empty);
         }
 
         // Matching the confirmation is the only check the client resolves on its own, because it sends nothing to the server.
         // The strength rules and the current password itself are verified on the server, as CU-06 requires.
         private void Update()
         {
-            bool isPasswordConfirmed = NewPassword == ConfirmPassword;
-            IsPasswordMismatchShown = !isPasswordConfirmed;
-            if (isPasswordConfirmed)
+            ErrorMessageKey = null;
+            if (NewPassword != ConfirmPassword)
             {
-                PasswordUpdated?.Invoke(this, EventArgs.Empty);
+                ErrorMessageKey = PasswordMismatchKey;
+            }
+            else
+            {
+                SubmitPassword();
             }
         }
     }

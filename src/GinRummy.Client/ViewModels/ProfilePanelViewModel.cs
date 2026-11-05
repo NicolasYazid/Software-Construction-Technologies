@@ -1,57 +1,56 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.ServiceModel;
 using System.Windows.Input;
 
+using GinRummy.Client.AccountSettingsServiceReference;
 using GinRummy.Client.Models;
 using GinRummy.Client.Mvvm;
-using GinRummy.Client.PlayerProfileServiceReference;
-using GinRummy.Client.Services;
 using Microsoft.Extensions.Logging;
+
+using IPlayerProfileService = GinRummy.Client.PlayerProfileServiceReference.IPlayerProfileService;
+using ProfileServiceFault = GinRummy.Client.PlayerProfileServiceReference.ServiceFault;
+using ProfileServiceFaultCode = GinRummy.Client.PlayerProfileServiceReference.ServiceFaultCode;
 
 namespace GinRummy.Client.ViewModels
 {
     public class ProfilePanelViewModel : ViewModelBase
     {
+        private const string RequiredFieldKey = "Error_ValRequiredField";
+        private const string SameEmailKey = "ProfilePanel_SameEmail";
+        private const string TwoStepEnabledKey = "ProfilePanel_TwoStepEnabled";
+        private const string TwoStepDisabledKey = "ProfilePanel_TwoStepDisabled";
+
         private readonly Func<IPlayerProfileService> _playerProfileServiceFactory;
+        private readonly AccountSettingsCaller _accountSettingsCaller;
         private readonly ILogger<ProfilePanelViewModel> _logger;
         private string _email;
         private string _newEmail;
         private string _pendingEmail;
+        private string _emailErrorKey;
         private bool _isEmailChangedShown;
         private bool _isChangeEmailOpen;
-        private bool _isEmailRequiredShown;
+        private bool _isPasswordChangedShown;
         private bool _isTwoStepEnabled;
-        private bool _isTwoStepDisabledShown;
+        private string _twoStepNoticeKey;
+        private string _twoStepErrorKey;
 
         // A client is created for every call because a client whose channel failed cannot be opened again.
         public ProfilePanelViewModel(
-            ISampleDataService dataService,
             Func<IPlayerProfileService> playerProfileServiceFactory,
+            AccountSettingsCaller accountSettingsCaller,
             ILogger<ProfilePanelViewModel> logger)
         {
-            if (dataService == null)
-            {
-                throw new ArgumentNullException(nameof(dataService));
-            }
-
             _playerProfileServiceFactory = playerProfileServiceFactory
                 ?? throw new ArgumentNullException(nameof(playerProfileServiceFactory));
+            _accountSettingsCaller = accountSettingsCaller ?? throw new ArgumentNullException(nameof(accountSettingsCaller));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-
-            AccountSettings settings = dataService.GetAccountSettings();
-            _email = settings.Email;
+            _email = string.Empty;
             _newEmail = string.Empty;
-            _isTwoStepEnabled = settings.IsTwoStepEnabled;
-            MasterVolume = settings.MasterVolume;
-            IsChatFilterEnabled = settings.IsChatFilterEnabled;
-            LinkedAccounts = new ObservableCollection<LinkedAccount>(settings.LinkedAccounts);
+            IsChatFilterEnabled = true;
             ChangeEmailCommand = new RelayCommand(OpenChangeEmail);
             CancelEmailCommand = new RelayCommand(CancelChangeEmail);
             SaveEmailCommand = new RelayCommand(SaveEmail);
             ToggleTwoStepCommand = new RelayCommand(ToggleTwoStep);
-            LinkCommand = new RelayCommand(LinkAccount);
-            UnlinkCommand = new RelayCommand(UnlinkAccount);
         }
 
         public event EventHandler EmailVerificationRequested;
@@ -62,15 +61,17 @@ namespace GinRummy.Client.ViewModels
 
         public event EventHandler<ErrorDialogKind> ErrorDialogRequested;
 
-        public ObservableCollection<LinkedAccount> LinkedAccounts { get; private set; }
-        public double MasterVolume { get; set; }
-        public bool IsChatFilterEnabled { get; set; }
         public ICommand ChangeEmailCommand { get; private set; }
         public ICommand CancelEmailCommand { get; private set; }
         public ICommand SaveEmailCommand { get; private set; }
         public ICommand ToggleTwoStepCommand { get; private set; }
-        public ICommand LinkCommand { get; private set; }
-        public ICommand UnlinkCommand { get; private set; }
+        public bool IsChatFilterEnabled { get; set; }
+
+        // Without a session there is no account, so the panel only offers the language (CU-20 FA-01).
+        public bool IsSignedIn
+        {
+            get { return _accountSettingsCaller.HasSession; }
+        }
 
         public string Email
         {
@@ -97,6 +98,22 @@ namespace GinRummy.Client.ViewModels
             get { return _pendingEmail; }
         }
 
+        public string EmailErrorKey
+        {
+            get { return _emailErrorKey; }
+            private set
+            {
+                _emailErrorKey = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(HasEmailError));
+            }
+        }
+
+        public bool HasEmailError
+        {
+            get { return !string.IsNullOrEmpty(_emailErrorKey); }
+        }
+
         public bool IsEmailChangedShown
         {
             get { return _isEmailChangedShown; }
@@ -117,12 +134,12 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        public bool IsEmailRequiredShown
+        public bool IsPasswordChangedShown
         {
-            get { return _isEmailRequiredShown; }
+            get { return _isPasswordChangedShown; }
             private set
             {
-                _isEmailRequiredShown = value;
+                _isPasswordChangedShown = value;
                 RaisePropertyChanged();
             }
         }
@@ -137,20 +154,77 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        public bool IsTwoStepDisabledShown
+        public string TwoStepNoticeKey
         {
-            get { return _isTwoStepDisabledShown; }
+            get { return _twoStepNoticeKey; }
             private set
             {
-                _isTwoStepDisabledShown = value;
+                _twoStepNoticeKey = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged(nameof(HasTwoStepNotice));
+            }
+        }
+
+        public bool HasTwoStepNotice
+        {
+            get { return !string.IsNullOrEmpty(_twoStepNoticeKey); }
+        }
+
+        public string TwoStepErrorKey
+        {
+            get { return _twoStepErrorKey; }
+            private set
+            {
+                _twoStepErrorKey = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(HasTwoStepError));
+            }
+        }
+
+        public bool HasTwoStepError
+        {
+            get { return !string.IsNullOrEmpty(_twoStepErrorKey); }
+        }
+
+        // The settings are read from the server every time, because only the server knows what the codes already confirmed.
+        public void LoadAccountSettings()
+        {
+            AccountSettingsDetails settings = null;
+            if (IsSignedIn && CallAccountSettings((service, accessToken) => settings = service.GetAccountSettings(accessToken)))
+            {
+                Email = settings.Email;
+                IsTwoStepEnabled = settings.IsTwoFactorEnabled;
             }
         }
 
         public void CompleteEmailChange()
         {
-            Email = _pendingEmail;
+            LoadAccountSettings();
             IsEmailChangedShown = true;
+        }
+
+        public void CompletePasswordChange()
+        {
+            IsPasswordChangedShown = true;
+        }
+
+        public void CompleteTwoStepEnable()
+        {
+            LoadAccountSettings();
+            if (_isTwoStepEnabled)
+            {
+                TwoStepNoticeKey = TwoStepEnabledKey;
+            }
+        }
+
+        // The toggle stays on until the server turns the second factor off with the password of the player (CU-05).
+        public void CompleteTwoStepDisable(bool isConfirmed, string password)
+        {
+            IsTwoStepEnabled = true;
+            if (isConfirmed)
+            {
+                DisableTwoStep(password);
+            }
         }
 
         // The language is already shown when this runs, so a failure only means it is not kept for the next session (CU-20 EX-05).
@@ -163,7 +237,7 @@ namespace GinRummy.Client.ViewModels
                 profileService.ChangeLanguage(accessToken, localeCode);
                 communicationObject.Close();
             }
-            catch (FaultException<ServiceFault> ex)
+            catch (FaultException<ProfileServiceFault> ex)
             {
                 communicationObject.Abort();
                 _logger.LogInformation(
@@ -172,7 +246,7 @@ namespace GinRummy.Client.ViewModels
                     localeCode,
                     ex.Detail.Code);
                 ErrorDialogKind kind = ErrorDialogKind.ServiceUnavailable;
-                if (ex.Detail.Code == ServiceFaultCode.SessionExpired)
+                if (ex.Detail.Code == ProfileServiceFaultCode.SessionExpired)
                 {
                     kind = ErrorDialogKind.SessionExpired;
                 }
@@ -199,22 +273,10 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        public void CompleteTwoStepDisable(bool isConfirmed)
-        {
-            if (isConfirmed)
-            {
-                IsTwoStepDisabledShown = true;
-            }
-            else
-            {
-                IsTwoStepEnabled = true;
-            }
-        }
-
         private void OpenChangeEmail()
         {
             NewEmail = string.Empty;
-            IsEmailRequiredShown = false;
+            EmailErrorKey = null;
             IsChangeEmailOpen = true;
         }
 
@@ -223,26 +285,48 @@ namespace GinRummy.Client.ViewModels
             IsChangeEmailOpen = false;
         }
 
-        // Only the empty field is caught here (CU-07 FA-02).
+        // The empty field and the address the account already has are caught here, because neither needs the server (CU-07).
         // The server checks the format and the uniqueness of the address before it sends the code.
         private void SaveEmail()
         {
+            IsEmailChangedShown = false;
+            EmailErrorKey = null;
             string newEmail = (_newEmail ?? string.Empty).Trim();
-            IsEmailRequiredShown = newEmail.Length == 0;
-            if (!IsEmailRequiredShown)
+            if (newEmail.Length == 0)
+            {
+                EmailErrorKey = RequiredFieldKey;
+            }
+            else if (string.Equals(newEmail, _email, StringComparison.OrdinalIgnoreCase))
+            {
+                EmailErrorKey = SameEmailKey;
+            }
+            else
+            {
+                RequestEmailChange(newEmail);
+            }
+        }
+
+        private void RequestEmailChange(string newEmail)
+        {
+            if (CallAccountSettings((service, accessToken) => service.RequestEmailChange(accessToken, newEmail)))
             {
                 IsChangeEmailOpen = false;
                 _pendingEmail = newEmail;
                 EmailVerificationRequested?.Invoke(this, EventArgs.Empty);
             }
+            else
+            {
+                EmailErrorKey = _accountSettingsCaller.ErrorMessageKey;
+            }
         }
 
         private void ToggleTwoStep()
         {
-            IsTwoStepDisabledShown = false;
+            TwoStepNoticeKey = null;
+            TwoStepErrorKey = null;
             if (_isTwoStepEnabled)
             {
-                TwoStepEnableRequested?.Invoke(this, EventArgs.Empty);
+                RequestTwoStepActivation();
             }
             else
             {
@@ -250,24 +334,42 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        private void LinkAccount(object parameter)
+        // The toggle stays off until the code is confirmed, because only the server turns the second factor on (CU-04).
+        private void RequestTwoStepActivation()
         {
-            ReplaceLinkedAccount((LinkedAccount)parameter, true);
-        }
-
-        private void UnlinkAccount(object parameter)
-        {
-            ReplaceLinkedAccount((LinkedAccount)parameter, false);
-        }
-
-        // A linked account does not notify its changes, so the list only sees a new state when the row is replaced.
-        private void ReplaceLinkedAccount(LinkedAccount account, bool isLinked)
-        {
-            int index = LinkedAccounts.IndexOf(account);
-            if (index >= 0)
+            IsTwoStepEnabled = false;
+            if (CallAccountSettings((service, accessToken) => service.RequestTwoFactorActivation(accessToken)))
             {
-                LinkedAccounts[index] = new LinkedAccount(account.PlatformName, isLinked);
+                TwoStepEnableRequested?.Invoke(this, EventArgs.Empty);
             }
+            else
+            {
+                TwoStepErrorKey = _accountSettingsCaller.ErrorMessageKey;
+            }
+        }
+
+        private void DisableTwoStep(string password)
+        {
+            if (CallAccountSettings((service, accessToken) => service.DisableTwoFactor(accessToken, password)))
+            {
+                IsTwoStepEnabled = false;
+                TwoStepNoticeKey = TwoStepDisabledKey;
+            }
+            else
+            {
+                TwoStepErrorKey = _accountSettingsCaller.ErrorMessageKey;
+            }
+        }
+
+        private bool CallAccountSettings(Action<IAccountSettingsService, string> operation)
+        {
+            bool isCompleted = _accountSettingsCaller.Call(operation);
+            if (_accountSettingsCaller.ErrorDialog.HasValue)
+            {
+                RequestErrorDialog(_accountSettingsCaller.ErrorDialog.Value);
+            }
+
+            return isCompleted;
         }
 
         private void RequestErrorDialog(ErrorDialogKind kind)

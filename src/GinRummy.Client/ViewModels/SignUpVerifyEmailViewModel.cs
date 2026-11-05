@@ -26,8 +26,6 @@ namespace GinRummy.Client.ViewModels
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public event EventHandler<ErrorDialogKind> ConnectionFailed;
-
         // The account exists even when its first email failed, so the screen opens telling it (CU-01 EX-06).
         public void ShowCodeNotSent()
         {
@@ -139,25 +137,25 @@ namespace GinRummy.Client.ViewModels
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The server could not complete the email verification.");
-                ConnectionFailed?.Invoke(this, ErrorDialogKind.ServiceUnavailable);
+                RequestErrorDialog(ErrorDialogKind.ServiceUnavailable);
             }
             catch (EndpointNotFoundException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The sign-up service could not be reached.");
-                ConnectionFailed?.Invoke(this, ErrorDialogKind.ConnectionRefused);
+                RequestErrorDialog(ErrorDialogKind.ConnectionRefused);
             }
             catch (CommunicationException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The connection with the sign-up service was lost.");
-                ConnectionFailed?.Invoke(this, ErrorDialogKind.ConnectionLost);
+                RequestErrorDialog(ErrorDialogKind.ConnectionLost);
             }
             catch (TimeoutException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The sign-up service timed out.");
-                ConnectionFailed?.Invoke(this, ErrorDialogKind.ConnectionLost);
+                RequestErrorDialog(ErrorDialogKind.ConnectionLost);
             }
 
             return isCompleted;

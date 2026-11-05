@@ -198,6 +198,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\AccountSettingsServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\PlayerProfileServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -240,6 +245,11 @@
     <Compile Include="ViewModels\CountdownViewModel.cs" />
     <Compile Include="Converters\ResourceTextConverter.cs" />
     <Compile Include="ViewModels\TwoStepLogInViewModel.cs" />
+    <Compile Include="ViewModels\AccountSettingsCaller.cs" />
+    <Compile Include="ViewModels\EmailChangeVerifyEmailViewModel.cs" />
+    <Compile Include="ViewModels\PasswordChangeViewModel.cs" />
+    <Compile Include="ViewModels\TwoStepActivationViewModel.cs" />
+    <Compile Include="ViewModels\TwoStepPasswordChangeViewModel.cs" />
     <Compile Include="Views\AccountRestrictionScreenCommon.cs" />
     <Compile Include="Views\GuiMainMenu.xaml.cs">
       <DependentUpon>GuiMainMenu.xaml</DependentUpon>
@@ -362,8 +372,6 @@
     <Compile Include="Services\SampleDataService.cs" />
     <Compile Include="Converters\LocalizedFormatConverter.cs" />
     <Compile Include="Models\SocialLink.cs" />
-    <Compile Include="Models\LinkedAccount.cs" />
-    <Compile Include="Models\AccountSettings.cs" />
     <Compile Include="Models\PlayerProfile.cs" />
     <Compile Include="Models\GameRules.cs" />
     <Compile Include="Converters\CultureNumberConverter.cs" />
@@ -411,6 +419,22 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\LogInServiceReference\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AccountSettingsServiceReference\GinRummy.Client.AccountSettingsServiceReference.AccountSettingsDetails.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AccountSettingsServiceReference\GinRummy.Contracts.DataContracts.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AccountSettingsServiceReference\GinRummy.Contracts.Faults.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AccountSettingsServiceReference\service.wsdl" />
+    <None Include="Connected Services\AccountSettingsServiceReference\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AccountSettingsServiceReference\service1.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\PlayerProfileServiceReference\GinRummy.Client.PlayerProfileServiceReference.PlayerProfileDetails.datasource">
@@ -476,6 +500,7 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\LeaderboardServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\LogInServiceReference\" />
+    <WCFMetadataStorage Include="Connected Services\AccountSettingsServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\PlayerProfileServiceReference\" />    <WCFMetadataStorage Include="Connected Services\PlayerPresenceServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\SignUpServiceReference\" />
   </ItemGroup>
@@ -493,6 +518,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\LogInServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\AccountSettingsServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\AccountSettingsServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\AccountSettingsServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\PlayerProfileServiceReference\configuration91.svcinfo" />

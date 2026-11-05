@@ -30,6 +30,8 @@ namespace GinRummy.Client.ViewModels
 
         public event EventHandler CodeVerified;
 
+        public event EventHandler<ErrorDialogKind> ErrorDialogRequested;
+
         public TwoStepPurpose Purpose { get; private set; }
         public string InstructionsKey { get; private set; }
         public string Code { get; set; }
@@ -53,7 +55,7 @@ namespace GinRummy.Client.ViewModels
             get { return !string.IsNullOrEmpty(_errorMessageKey); }
         }
 
-        // Checking the code belongs to the server, so the screens whose service does not exist yet only advance the navigation.
+        // Each purpose checks the code on its own service, so this only ends the screen once the code was accepted.
         protected virtual void Verify()
         {
             CodeCountdown.Stop();
@@ -63,6 +65,11 @@ namespace GinRummy.Client.ViewModels
         protected virtual void ResendCode()
         {
             CodeCountdown.Restart(TimeSpan.FromSeconds(CodeLifetimeSeconds));
+        }
+
+        protected void RequestErrorDialog(ErrorDialogKind kind)
+        {
+            ErrorDialogRequested?.Invoke(this, kind);
         }
 
         private static string ResolveInstructionsKey(TwoStepPurpose purpose)
