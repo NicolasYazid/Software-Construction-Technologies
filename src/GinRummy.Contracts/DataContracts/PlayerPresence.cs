@@ -17,14 +17,23 @@ namespace GinRummy.Contracts.DataContracts
         [DataMember]
         public bool IsFriend { get; set; }
 
-        // The client orders its lists by the score, because a higher score always falls in a higher rank.
+        /// <summary>
+        /// Gets or sets the name of the rank that the score of the player falls in.
+        /// </summary>
         [DataMember]
         public string RankName { get; set; }
 
+        /// <summary>
+        /// Gets or sets the score of the player. The client orders its lists by it, because a higher score always
+        /// falls in a higher rank.
+        /// </summary>
         [DataMember]
         public int Score { get; set; }
 
-        // A guest has no profile or friends, so the client offers it only what CU-27 FA-04 allows.
+        /// <summary>
+        /// Gets or sets whether the player is a guest. A guest has no profile or friends, so the client offers it
+        /// only what CU-27 FA-04 allows.
+        /// </summary>
         [DataMember]
         public bool IsGuest { get; set; }
     }
