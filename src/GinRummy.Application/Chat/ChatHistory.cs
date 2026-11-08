@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-using GinRummy.Domain.Entities.ChatMessaging;
+using GinRummy.Domain.Entities.SocialCommunication;
 using GinRummy.Domain.Ports.Infrastructure;
 
 namespace GinRummy.Application.Chat

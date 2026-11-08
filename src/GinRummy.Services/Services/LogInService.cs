@@ -7,6 +7,7 @@ using GinRummy.Contracts.Faults;
 using GinRummy.Contracts.Services;
 using GinRummy.Domain;
 using GinRummy.Domain.Entities.Authentication;
+using GinRummy.Domain.Entities.PlayerModeration;
 using GinRummy.Services.Mappers;
 using Microsoft.Extensions.Logging;
 

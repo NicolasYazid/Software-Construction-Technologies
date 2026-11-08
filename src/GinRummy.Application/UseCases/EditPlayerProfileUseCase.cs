@@ -2,7 +2,7 @@
 using System.Linq;
 
 using GinRummy.Application.Ports;
-using GinRummy.Domain.Entities;
+using GinRummy.Domain.Entities.PlayerPreferences;
 using GinRummy.Domain.Entities.Players;
 using GinRummy.Domain.Ports.Infrastructure;
 using GinRummy.Domain.Ports.Repositories;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using GinRummy.Domain.Entities.PlayerRanking;
+using GinRummy.Domain.Entities.PlayerCareer;
 
 namespace GinRummy.Application.Ports
 {

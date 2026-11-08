@@ -1,8 +1,8 @@
 ﻿using System;
 
 using GinRummy.Application.Ports;
-using GinRummy.Domain.Entities.ChatMessaging;
 using GinRummy.Domain.Entities.PlayerModeration;
+using GinRummy.Domain.Entities.SocialCommunication;
 using GinRummy.Domain.Ports.Repositories;
 using GinRummy.Domain.Services;
 

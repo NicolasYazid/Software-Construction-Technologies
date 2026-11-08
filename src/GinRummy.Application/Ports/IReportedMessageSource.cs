@@ -1,4 +1,4 @@
-﻿using GinRummy.Domain.Entities.ChatMessaging;
+﻿using GinRummy.Domain.Entities.SocialCommunication;
 
 namespace GinRummy.Application.Ports
 {

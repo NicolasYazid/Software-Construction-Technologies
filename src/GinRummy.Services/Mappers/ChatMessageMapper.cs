@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 using GinRummy.Application.Chat;
 using GinRummy.Contracts.DataContracts;
-using GinRummy.Domain.Entities.ChatMessaging;
 using GinRummy.Domain.Entities.Players;
+using GinRummy.Domain.Entities.SocialCommunication;
 
 namespace GinRummy.Services.Mappers
 {

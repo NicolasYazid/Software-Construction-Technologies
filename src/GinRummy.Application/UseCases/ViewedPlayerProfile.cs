@@ -1,6 +1,6 @@
 ﻿using System;
 
-using GinRummy.Domain.Entities.PlayerRanking;
+using GinRummy.Domain.Entities.PlayerCareer;
 using GinRummy.Domain.Entities.Players;
 
 namespace GinRummy.Application.UseCases

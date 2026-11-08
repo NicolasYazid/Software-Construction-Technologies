@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
-using GinRummy.Domain.Entities.ChatMessaging;
 using GinRummy.Domain.Entities.Players;
-using GinRummy.Domain.Ports.Repositories;
+using GinRummy.Domain.Entities.SocialCommunication;
+using GinRummy.Domain.Ports.SocialCommunication;
 using GinRummy.Persistence.Persistence;
 
 namespace GinRummy.Persistence.Repositories
@@ -50,17 +49,6 @@ namespace GinRummy.Persistence.Repositories
         {
             _context.Messages.Add(newMessage);
             _context.SaveChanges();
-        }
-
-        /// <summary>
-        /// Gets the prohibited words with the locales each one applies to.
-        /// </summary>
-        /// <returns>The prohibited words.</returns>
-        public IList<ProhibitedWord> GetProhibitedWords()
-        {
-            return _context.ProhibitedWords
-                .Include(word => word.Locales)
-                .ToList();
         }
     }
 }

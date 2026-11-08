@@ -1,4 +1,4 @@
-﻿using GinRummy.Domain.Entities.Players;
+﻿using GinRummy.Domain.Entities.PlayerPresence;
 
 namespace GinRummy.Application.Presence
 {

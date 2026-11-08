@@ -2,7 +2,7 @@
 
 using GinRummy.Application.UseCases;
 using GinRummy.Contracts.DataContracts;
-using GinRummy.Domain.Entities.PlayerRanking;
+using GinRummy.Domain.Entities.PlayerCareer;
 using GinRummy.Domain.Entities.Players;
 
 namespace GinRummy.Services.Mappers

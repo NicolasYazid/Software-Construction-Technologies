@@ -5,7 +5,7 @@ using System.Linq;
 
 using GinRummy.Domain.Entities.Friendship;
 using GinRummy.Domain.Entities.Players;
-using GinRummy.Domain.Ports.Repositories;
+using GinRummy.Domain.Ports.Friendship;
 using GinRummy.Persistence.Persistence;
 
 namespace GinRummy.Persistence.Repositories

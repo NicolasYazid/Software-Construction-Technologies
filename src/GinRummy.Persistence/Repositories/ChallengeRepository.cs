@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
-using GinRummy.Domain.Entities.Game;
+using GinRummy.Domain.Entities.DirectDuel;
 using GinRummy.Domain.Entities.Players;
-using GinRummy.Domain.Ports.Repositories;
+using GinRummy.Domain.Ports.DirectDuel;
 using GinRummy.Persistence.Persistence;
 
 namespace GinRummy.Persistence.Repositories

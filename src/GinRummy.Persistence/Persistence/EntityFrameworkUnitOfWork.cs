@@ -1,6 +1,12 @@
 ﻿using System.Data.Entity;
 
+using GinRummy.Domain.Ports.DirectDuel;
+using GinRummy.Domain.Ports.Friendship;
+using GinRummy.Domain.Ports.PlayerCareer;
+using GinRummy.Domain.Ports.PlayerModeration;
+using GinRummy.Domain.Ports.PlayerPreferences;
 using GinRummy.Domain.Ports.Repositories;
+using GinRummy.Domain.Ports.SocialCommunication;
 using GinRummy.Persistence.Repositories;
 
 namespace GinRummy.Persistence.Persistence

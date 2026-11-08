@@ -1,5 +1,6 @@
 ﻿using System;
 
+using GinRummy.Domain.Entities.PlayerPresence;
 using GinRummy.Domain.Entities.Players;
 
 namespace GinRummy.Application.Presence

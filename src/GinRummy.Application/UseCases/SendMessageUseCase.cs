@@ -3,9 +3,9 @@
 using GinRummy.Application.Chat;
 using GinRummy.Application.Ports;
 using GinRummy.Domain;
-using GinRummy.Domain.Entities.ChatMessaging;
 using GinRummy.Domain.Entities.Game;
 using GinRummy.Domain.Entities.Players;
+using GinRummy.Domain.Entities.SocialCommunication;
 using GinRummy.Domain.Ports.Repositories;
 
 namespace GinRummy.Application.UseCases

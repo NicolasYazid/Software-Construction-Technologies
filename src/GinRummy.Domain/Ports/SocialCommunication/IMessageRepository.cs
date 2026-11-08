@@ -1,0 +1,25 @@
+﻿using GinRummy.Domain.Entities.SocialCommunication;
+
+namespace GinRummy.Domain.Ports.SocialCommunication
+{
+    /// <summary>
+    /// Contract the game's logic uses to reach chat messages and the prohibited word list,
+    /// without knowing how or where they are stored.
+    /// </summary>
+    public interface IMessageRepository
+    {
+        /// <summary>
+        /// Finds a message by its identifier, with its sender loaded, or null when it does
+        /// not exist.
+        /// </summary>
+        /// <param name="messageId">Identifier of the message.</param>
+        /// <returns>The matching message, or null.</returns>
+        Message FindById(int messageId);
+
+        /// <summary>
+        /// Adds a new message and persists it immediately.
+        /// </summary>
+        /// <param name="newMessage">Message to create.</param>
+        void Add(Message newMessage);
+    }
+}

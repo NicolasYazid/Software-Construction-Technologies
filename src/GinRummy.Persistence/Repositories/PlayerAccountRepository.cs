@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 
 using GinRummy.Domain;
+using GinRummy.Domain.Entities.PlayerCareer;
 using GinRummy.Domain.Entities.Players;
 using GinRummy.Domain.Ports.Repositories;
 using GinRummy.Persistence.Persistence;

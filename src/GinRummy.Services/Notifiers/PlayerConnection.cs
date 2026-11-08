@@ -5,7 +5,7 @@ using System.Threading;
 
 using GinRummy.Contracts.Callbacks;
 using GinRummy.Contracts.DataContracts;
-using GinRummy.Domain.Entities.Players;
+using GinRummy.Domain.Entities.PlayerPresence;
 using Microsoft.Extensions.Logging;
 
 namespace GinRummy.Services.Notifiers

@@ -1,8 +1,9 @@
 ﻿using System;
 
 using GinRummy.Application.Ports;
-using GinRummy.Domain.Entities.PlayerRanking;
+using GinRummy.Domain.Entities.PlayerCareer;
 using GinRummy.Domain.Entities.Players;
+using GinRummy.Domain.Ports.PlayerCareer;
 using GinRummy.Domain.Ports.Repositories;
 using GinRummy.Domain.Services;
 

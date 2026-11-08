@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 using GinRummy.Application.Ports;
-using GinRummy.Domain.Entities.PlayerRanking;
+using GinRummy.Domain.Entities.PlayerCareer;
 using GinRummy.Domain.Entities.Players;
-using GinRummy.Domain.Ports.Repositories;
-using GinRummy.Domain.Services;
+using GinRummy.Domain.Ports.PlayerCareer;
 
 namespace GinRummy.Application.UseCases
 {

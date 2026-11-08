@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using GinRummy.Application.Presence;
-using GinRummy.Domain.Entities.Players;
+using GinRummy.Domain.Entities.PlayerPresence;
 
 namespace GinRummy.Application.Ports
 {
