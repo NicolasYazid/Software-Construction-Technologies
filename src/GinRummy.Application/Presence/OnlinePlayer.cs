@@ -1,16 +1,17 @@
-﻿using GinRummy.Domain.Entities.PlayerPresence;
+﻿using GinRummy.Domain.Entities.Authentication;
+using GinRummy.Domain.Entities.PlayerPresence;
 
 namespace GinRummy.Application.Presence
 {
     public class OnlinePlayer
     {
-        public OnlinePlayer(int playerId, PlayerPresenceStatus status)
+        public OnlinePlayer(AccessTokenOwner accessTokenOwner, PlayerPresenceStatus status)
         {
-            PlayerId = playerId;
+            AccessTokenOwner = accessTokenOwner;
             Status = status;
         }
 
-        public int PlayerId { get; private set; }
+        public AccessTokenOwner AccessTokenOwner { get; private set; }
 
         public PlayerPresenceStatus Status { get; private set; }
     }

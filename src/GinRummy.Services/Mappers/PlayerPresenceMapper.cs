@@ -30,6 +30,7 @@ namespace GinRummy.Services.Mappers
                 Status = MapToPresenceStatus(status),
                 IsFriend = isFriend,
                 IsGuest = player.IsGuest,
+                GuestSessionId = player.AccessTokenOwner.GuestSessionId,
                 RankName = PlayerProfileMapper.ResolveRankName(player.Rank),
                 Score = player.Score
             };

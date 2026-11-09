@@ -26,10 +26,11 @@ namespace GinRummy.Security
         private const string Algorithm = "HS256";
         private const string Issuer = "GinRummy.Server";
         private const string HeaderJson = "{\"alg\":\"HS256\",\"typ\":\"JWT\"}";
-        private const string PayloadFormat = "{{\"iss\":\"{0}\",\"sub\":\"{1}\",\"iat\":{2},\"exp\":{3}}}";
+        private const string PayloadFormat = "{{\"iss\":\"{0}\",\"{1}\":\"{2}\",\"iat\":{3},\"exp\":{4}}}";
         private const string AlgorithmClaim = "alg";
         private const string IssuerClaim = "iss";
-        private const string SubjectClaim = "sub";
+        private const string PlayerAccountClaim = "player_account_id";
+        private const string GuestSessionClaim = "guest_session_id";
         private const string ExpirationClaim = "exp";
         private const string SegmentSeparator = ".";
         private const int SegmentCount = 3;
@@ -59,20 +60,30 @@ namespace GinRummy.Security
         }
 
         /// <summary>
-        /// Signs a new access token for a player.
+        /// Signs a new access token for a player with an account or for a guest.
         /// </summary>
-        /// <param name="playerId">Player the token identifies.</param>
+        /// <param name="owner">Whoever the token identifies.</param>
         /// <param name="issuedAt">Moment the token is issued, in UTC.</param>
         /// <param name="expiresAt">Moment the token stops being valid, in UTC.</param>
         /// <returns>The signed token.</returns>
-        public AccessToken Sign(int playerId, DateTime issuedAt, DateTime expiresAt)
+        /// <exception cref="ArgumentNullException">Thrown when the owner is null.</exception>
+        public AccessToken Sign(AccessTokenOwner owner, DateTime issuedAt, DateTime expiresAt)
         {
-            // The claims only identify the player, because anyone who holds the token can decode them.
+            if (owner == null)
+            {
+                throw new ArgumentNullException(nameof(owner));
+            }
+
+            string ownerClaim = owner.IsGuest ? GuestSessionClaim : PlayerAccountClaim;
+            int ownerId = owner.IsGuest ? owner.GuestSessionId.Value : owner.PlayerAccountId.Value;
+
+            // The claims only identify the owner, because anyone who holds the token can decode them.
             string payloadJson = string.Format(
                 CultureInfo.InvariantCulture,
                 PayloadFormat,
                 Issuer,
-                playerId,
+                ownerClaim,
+                ownerId,
                 ToUnixSeconds(issuedAt),
                 ToUnixSeconds(expiresAt));
             string signingInput = string.Concat(EncodeText(HeaderJson), SegmentSeparator, EncodeText(payloadJson));
@@ -82,13 +93,13 @@ namespace GinRummy.Security
         }
 
         /// <summary>
-        /// Checks the signature, the algorithm, the issuer and the expiry of a token and reads its player.
+        /// Checks the signature, the algorithm, the issuer and the expiry of a token and reads its owner.
         /// </summary>
         /// <param name="token">Encoded token, as the client presented it.</param>
         /// <param name="moment">Moment of the check, in UTC.</param>
-        /// <returns>The identifier of the player.</returns>
+        /// <returns>The owner of the token: a player with an account or a guest.</returns>
         /// <exception cref="InvalidAccessTokenException">Thrown when the token is malformed, altered or expired.</exception>
-        public int ReadPlayerId(string token, DateTime moment)
+        public AccessTokenOwner ReadAccessTokenOwner(string token, DateTime moment)
         {
             string[] segments = SplitSegments(token);
 
@@ -97,9 +108,9 @@ namespace GinRummy.Security
             EnsureExpectedAlgorithm(ReadSegment(segments[HeaderIndex]));
             IDictionary<string, object> claims = ReadSegment(segments[PayloadIndex]);
             EnsureIsCurrent(claims, moment);
-            int playerId = ReadSubject(claims);
+            AccessTokenOwner owner = ReadOwner(claims);
 
-            return playerId;
+            return owner;
         }
 
         private static string[] SplitSegments(string token)
@@ -168,18 +179,34 @@ namespace GinRummy.Security
             return expirySeconds;
         }
 
-        private static int ReadSubject(IDictionary<string, object> claims)
+        // A token names either an account or a guest session, never both and never none.
+        private static AccessTokenOwner ReadOwner(IDictionary<string, object> claims)
         {
-            object subject;
-            int playerId = 0;
-            bool hasPlayerId = claims.TryGetValue(SubjectClaim, out subject)
-                && int.TryParse(subject as string, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out playerId);
-            if (!hasPlayerId)
+            int playerAccountId;
+            int guestSessionId;
+            bool isPlayerAccount = TryReadIdentifier(claims, PlayerAccountClaim, out playerAccountId);
+            bool isGuestSession = TryReadIdentifier(claims, GuestSessionClaim, out guestSessionId);
+            if (isPlayerAccount == isGuestSession)
             {
-                throw new InvalidAccessTokenException("The token does not identify a player.");
+                throw new InvalidAccessTokenException("The token does not identify exactly one owner.");
             }
 
-            return playerId;
+            AccessTokenOwner owner = isPlayerAccount
+                ? AccessTokenOwner.OfPlayerAccount(playerAccountId)
+                : AccessTokenOwner.OfGuestSession(guestSessionId);
+
+            return owner;
+        }
+
+        private static bool TryReadIdentifier(IDictionary<string, object> claims, string claimName, out int identifier)
+        {
+            object claim;
+            identifier = 0;
+            bool isIdentifier = claims.TryGetValue(claimName, out claim)
+                && int.TryParse(claim as string, NumberStyles.None, CultureInfo.InvariantCulture, out identifier)
+                && (identifier > 0);
+
+            return isIdentifier;
         }
 
         // The JSON is read only after its signature matched, but a malformed segment still has to end as an invalid token.

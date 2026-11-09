@@ -95,7 +95,7 @@ namespace GinRummy.Domain.Entities.Authentication
 
             account.RegisterLogin(signedInAt);
 
-            return _tokenSigner.Sign(account.PlayerAccountId, signedInAt, expiresAt);
+            return _tokenSigner.Sign(AccessTokenOwner.OfPlayerAccount(account.PlayerAccountId), signedInAt, expiresAt);
         }
 
         /// <summary>
@@ -150,21 +150,21 @@ namespace GinRummy.Domain.Entities.Authentication
         {
             DateTime grantedAt = _clock.UtcNow;
 
-            return _tokenSigner.Sign(guest.IdentityId, grantedAt, grantedAt.AddHours(TokenLifetimeHours));
+            return _tokenSigner.Sign(AccessTokenOwner.OfGuestSession(guest.GuestSessionId), grantedAt, grantedAt.AddHours(TokenLifetimeHours));
         }
 
         /// <summary>
         /// Tells who an access token belongs to, after checking its signature and its expiry at the current moment.
         /// </summary>
         /// <param name="accessToken">Encoded token, exactly as the client presented it.</param>
-        /// <returns>The identifier of the player, or the identity id of the guest, the token was granted to.</returns>
+        /// <returns>The owner the token was granted to: a player with an account or a guest.</returns>
         /// <exception cref="InvalidAccessTokenException">Thrown when the token is malformed, altered or expired.</exception>
-        public int IdentifyByAccessToken(string accessToken)
+        public AccessTokenOwner IdentifyByAccessToken(string accessToken)
         {
-            // The identity comes from the token the server signed, never from what a client says about itself.
-            int identityId = _tokenSigner.ReadPlayerId(accessToken, _clock.UtcNow);
+            // The owner comes from the token the server signed, never from what a client says about itself.
+            AccessTokenOwner owner = _tokenSigner.ReadAccessTokenOwner(accessToken, _clock.UtcNow);
 
-            return identityId;
+            return owner;
         }
 
         /// <summary>
@@ -177,15 +177,15 @@ namespace GinRummy.Domain.Entities.Authentication
         /// </exception>
         public int IdentifyPlayerByAccessToken(string accessToken)
         {
-            int playerAccountId = IdentifyByAccessToken(accessToken);
+            AccessTokenOwner owner = IdentifyByAccessToken(accessToken);
 
             // A guest has no account, so its token never reaches what only a player may do (PRM-01).
-            if (playerAccountId <= 0)
+            if (owner.IsGuest)
             {
                 throw new InvalidAccessTokenException("The access token belongs to a guest.");
             }
 
-            return playerAccountId;
+            return owner.PlayerAccountId.Value;
         }
 
         // A permanent ban comes before a temporary one, and the temporary ban that ends last comes before the others.

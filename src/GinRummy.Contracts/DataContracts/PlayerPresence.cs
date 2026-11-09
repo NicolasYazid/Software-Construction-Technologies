@@ -9,7 +9,7 @@ namespace GinRummy.Contracts.DataContracts
         public string Username { get; set; }
 
         [DataMember]
-        public int PublicTag { get; set; }
+        public int? PublicTag { get; set; }
 
         [DataMember]
         public PresenceStatus Status { get; set; }
@@ -25,5 +25,8 @@ namespace GinRummy.Contracts.DataContracts
 
         [DataMember]
         public bool IsGuest { get; set; }
+
+        [DataMember]
+        public int? GuestSessionId { get; set; }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using GinRummy.Application.Presence;
+using GinRummy.Domain.Entities.Authentication;
 
 namespace GinRummy.Application.Ports
 {
     public interface IPlayerPresenceAnnouncer
     {
-        void SendCurrentPresenceStatusOfPlayers(int playerToNotifyId, PlayersByStatus lists);
+        void SendCurrentPresenceStatusOfPlayers(AccessTokenOwner playerToNotify, PlayersByStatus lists);
 
-        void SendPlayerPresenceChange(int playerToNotifyId, PlayerPresenceChange change);
+        void SendPlayerPresenceChange(AccessTokenOwner playerToNotify, PlayerPresenceChange change);
     }
 }

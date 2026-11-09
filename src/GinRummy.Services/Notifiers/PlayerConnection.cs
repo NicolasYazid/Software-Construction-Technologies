@@ -5,6 +5,7 @@ using System.Threading;
 
 using GinRummy.Contracts.Callbacks;
 using GinRummy.Contracts.DataContracts;
+using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Domain.Entities.PlayerPresence;
 using Microsoft.Extensions.Logging;
 
@@ -17,9 +18,9 @@ namespace GinRummy.Services.Notifiers
         private readonly BlockingCollection<Action> _pendingNotices;
         private readonly Thread _senderThread;
 
-        public PlayerConnection(int playerId, IPlayerPresenceCallback callback, ILogger<PlayerConnection> logger)
+        public PlayerConnection(AccessTokenOwner accessTokenOwner, IPlayerPresenceCallback callback, ILogger<PlayerConnection> logger)
         {
-            PlayerId = playerId;
+            AccessTokenOwner = accessTokenOwner ?? throw new ArgumentNullException(nameof(accessTokenOwner));
             Status = PlayerPresenceStatus.Online;
             _callback = callback ?? throw new ArgumentNullException(nameof(callback));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -29,7 +30,7 @@ namespace GinRummy.Services.Notifiers
             _senderThread.Start();
         }
 
-        public int PlayerId { get; private set; }
+        public AccessTokenOwner AccessTokenOwner { get; private set; }
 
         public PlayerPresenceStatus Status { get; private set; }
 

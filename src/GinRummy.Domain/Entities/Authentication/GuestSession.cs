@@ -50,15 +50,6 @@ namespace GinRummy.Domain.Entities.Authentication
         /// </summary>
         public DateTime CreatedAt { get; private set; }
 
-        /// <summary>
-        /// Gets the id that stands for the guest wherever the id of a player is expected. It is the negative of
-        /// the session id, so it never matches the id of a player.
-        /// </summary>
-        public int IdentityId
-        {
-            get { return -GuestSessionId; }
-        }
-
         // A guest is always shown with a name, and the name must fit the column.
         private static void ValidateDisplayName(string temporalDisplayName)
         {

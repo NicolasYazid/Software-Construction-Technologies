@@ -8,6 +8,7 @@ using GinRummy.Contracts.Callbacks;
 using GinRummy.Contracts.Faults;
 using GinRummy.Contracts.Services;
 using GinRummy.Domain;
+using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Domain.Entities.PlayerPresence;
 using GinRummy.Services.Notifiers;
 using Microsoft.Extensions.Logging;
@@ -17,12 +18,10 @@ namespace GinRummy.Services.Services
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession)]
     public class PlayerPresenceService : IPlayerPresenceService
     {
-        private const int NoPlayerId = 0;
-
         private readonly IPlayerPresenceOrchestrator _orchestrator;
         private readonly PlayerPresenceAnnouncer _announcer;
         private readonly ILogger<PlayerPresenceService> _logger;
-        private int _playerId;
+        private AccessTokenOwner _accessTokenOwner;
 
         public PlayerPresenceService(
             IPlayerPresenceOrchestrator orchestrator,
@@ -32,7 +31,6 @@ namespace GinRummy.Services.Services
             _orchestrator = orchestrator ?? throw new ArgumentNullException(nameof(orchestrator));
             _announcer = announcer ?? throw new ArgumentNullException(nameof(announcer));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _playerId = NoPlayerId;
         }
 
         public void SubscribeToPlayerPresence(string accessToken)
@@ -41,13 +39,13 @@ namespace GinRummy.Services.Services
             IPlayerPresenceCallback callback = context.GetCallbackChannel<IPlayerPresenceCallback>();
             try
             {
-                int playerId = _orchestrator.IdentifyByAccessToken(accessToken);
-                _announcer.RegisterPlayerConnection(playerId, callback);
-                Interlocked.Exchange(ref _playerId, playerId);
+                AccessTokenOwner accessTokenOwner = _orchestrator.IdentifyByAccessToken(accessToken);
+                _announcer.RegisterPlayerConnection(accessTokenOwner, callback);
+                Interlocked.Exchange(ref _accessTokenOwner, accessTokenOwner);
                 context.Channel.Closed += OnChannelClosed;
                 context.Channel.Faulted += OnChannelFaulted;
-                _orchestrator.AnnouncePlayerStatus(playerId, PlayerPresenceStatus.Online, _announcer.GetOnlinePlayers());
-                _orchestrator.ReportCurrentPresenceStatusOfPlayers(playerId, _announcer.GetOnlinePlayers());
+                _orchestrator.AnnouncePlayerStatus(accessTokenOwner, PlayerPresenceStatus.Online, _announcer.GetOnlinePlayers());
+                _orchestrator.ReportCurrentPresenceStatusOfPlayers(accessTokenOwner, _announcer.GetOnlinePlayers());
             }
             catch (InvalidAccessTokenException ex)
             {
@@ -68,23 +66,23 @@ namespace GinRummy.Services.Services
 
         private void Disconnect()
         {
-            int playerId = Interlocked.Exchange(ref _playerId, NoPlayerId);
-            if (playerId == NoPlayerId)
+            AccessTokenOwner accessTokenOwner = Interlocked.Exchange(ref _accessTokenOwner, null);
+            if (accessTokenOwner == null)
             {
                 return;
             }
 
-            _announcer.UnregisterPlayerConnection(playerId);
+            _announcer.UnregisterPlayerConnection(accessTokenOwner);
             try
             {
-                _orchestrator.AnnouncePlayerStatus(playerId, PlayerPresenceStatus.Offline, _announcer.GetOnlinePlayers());
+                _orchestrator.AnnouncePlayerStatus(accessTokenOwner, PlayerPresenceStatus.Offline, _announcer.GetOnlinePlayers());
             }
             catch (DataException ex)
             {
                 _logger.LogWarning(
                     ex,
-                    "The other players were not told that player {PlayerId} left, because the database failed.",
-                    playerId);
+                    "The other players were not told that {AccessTokenOwner} left, because the database failed.",
+                    accessTokenOwner);
             }
         }
 

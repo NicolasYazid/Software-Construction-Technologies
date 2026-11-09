@@ -17,14 +17,14 @@ namespace GinRummy.Application.Presence
                 throw new ArgumentNullException(nameof(player));
             }
 
-            IdentityId = player.PlayerAccountId;
+            AccessTokenOwner = AccessTokenOwner.OfPlayerAccount(player.PlayerAccountId);
             DisplayName = player.Username;
             PublicTag = player.PublicTag;
             Score = score;
             Rank = rank;
         }
 
-        // A guest has no public tag, so its identity tells its row apart without matching any tag a player types.
+        // A guest has no public tag: its session identifier tells its row apart.
         public RankedPlayer(GuestSession guest)
         {
             if (guest == null)
@@ -32,19 +32,20 @@ namespace GinRummy.Application.Presence
                 throw new ArgumentNullException(nameof(guest));
             }
 
-            IdentityId = guest.IdentityId;
+            AccessTokenOwner = AccessTokenOwner.OfGuestSession(guest.GuestSessionId);
             DisplayName = guest.TemporalDisplayName;
-            PublicTag = guest.IdentityId;
-            IsGuest = true;
         }
 
-        public int IdentityId { get; private set; }
+        public AccessTokenOwner AccessTokenOwner { get; private set; }
 
         public string DisplayName { get; private set; }
 
-        public int PublicTag { get; private set; }
+        public int? PublicTag { get; private set; }
 
-        public bool IsGuest { get; private set; }
+        public bool IsGuest
+        {
+            get { return AccessTokenOwner.IsGuest; }
+        }
 
         public int Score { get; private set; }
 

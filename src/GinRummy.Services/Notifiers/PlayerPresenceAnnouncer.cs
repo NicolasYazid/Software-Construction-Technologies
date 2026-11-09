@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using GinRummy.Application.Ports;
 using GinRummy.Application.Presence;
 using GinRummy.Contracts.Callbacks;
+using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Services.Mappers;
 using Microsoft.Extensions.Logging;
 
@@ -12,21 +13,21 @@ namespace GinRummy.Services.Notifiers
 {
     public class PlayerPresenceAnnouncer : IPlayerPresenceAnnouncer
     {
-        private readonly ConcurrentDictionary<int, PlayerConnection> _playerConnections;
+        private readonly ConcurrentDictionary<AccessTokenOwner, PlayerConnection> _playerConnections;
         private readonly ILogger<PlayerConnection> _connectionLogger;
 
         public PlayerPresenceAnnouncer(ILogger<PlayerConnection> connectionLogger)
         {
             _connectionLogger = connectionLogger ?? throw new ArgumentNullException(nameof(connectionLogger));
-            _playerConnections = new ConcurrentDictionary<int, PlayerConnection>();
+            _playerConnections = new ConcurrentDictionary<AccessTokenOwner, PlayerConnection>();
         }
 
-        public void RegisterPlayerConnection(int playerId, IPlayerPresenceCallback callback)
+        public void RegisterPlayerConnection(AccessTokenOwner accessTokenOwner, IPlayerPresenceCallback callback)
         {
-            PlayerConnection newConnection = new PlayerConnection(playerId, callback, _connectionLogger);
+            PlayerConnection newConnection = new PlayerConnection(accessTokenOwner, callback, _connectionLogger);
             PlayerConnection replacedConnection;
-            _playerConnections.TryRemove(playerId, out replacedConnection);
-            _playerConnections[playerId] = newConnection;
+            _playerConnections.TryRemove(accessTokenOwner, out replacedConnection);
+            _playerConnections[accessTokenOwner] = newConnection;
 
             if (replacedConnection != null)
             {
@@ -34,10 +35,10 @@ namespace GinRummy.Services.Notifiers
             }
         }
 
-        public void UnregisterPlayerConnection(int playerId)
+        public void UnregisterPlayerConnection(AccessTokenOwner accessTokenOwner)
         {
             PlayerConnection removedConnection;
-            _playerConnections.TryRemove(playerId, out removedConnection);
+            _playerConnections.TryRemove(accessTokenOwner, out removedConnection);
 
             if (removedConnection != null)
             {
@@ -51,15 +52,15 @@ namespace GinRummy.Services.Notifiers
 
             foreach (PlayerConnection playerConnection in _playerConnections.Values)
             {
-                onlinePlayers.Add(new OnlinePlayer(playerConnection.PlayerId, playerConnection.Status));
+                onlinePlayers.Add(new OnlinePlayer(playerConnection.AccessTokenOwner, playerConnection.Status));
             }
 
             return onlinePlayers;
         }
 
-        public void SendCurrentPresenceStatusOfPlayers(int playerToNotifyId, PlayersByStatus lists)
+        public void SendCurrentPresenceStatusOfPlayers(AccessTokenOwner playerToNotify, PlayersByStatus lists)
         {
-            PlayerConnection playerConnection = FindPlayerConnection(playerToNotifyId);
+            PlayerConnection playerConnection = FindPlayerConnection(playerToNotify);
 
             if (playerConnection == null)
             {
@@ -69,9 +70,9 @@ namespace GinRummy.Services.Notifiers
             playerConnection.SendCurrentStatus(PlayerPresenceMapper.MapToPlayerPresenceReport(lists));
         }
 
-        public void SendPlayerPresenceChange(int playerToNotifyId, PlayerPresenceChange change)
+        public void SendPlayerPresenceChange(AccessTokenOwner playerToNotify, PlayerPresenceChange change)
         {
-            PlayerConnection playerConnection = FindPlayerConnection(playerToNotifyId);
+            PlayerConnection playerConnection = FindPlayerConnection(playerToNotify);
 
             if (playerConnection == null)
             {
@@ -82,10 +83,10 @@ namespace GinRummy.Services.Notifiers
                 PlayerPresenceMapper.MapToPlayerPresence(change.Player, change.Status, change.IsFriend));
         }
 
-        private PlayerConnection FindPlayerConnection(int playerId)
+        private PlayerConnection FindPlayerConnection(AccessTokenOwner accessTokenOwner)
         {
             PlayerConnection foundConnection;
-            _playerConnections.TryGetValue(playerId, out foundConnection);
+            _playerConnections.TryGetValue(accessTokenOwner, out foundConnection);
 
             return foundConnection;
         }

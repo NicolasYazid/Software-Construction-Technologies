@@ -1,10 +1,15 @@
 ﻿using System.Collections.Generic;
 
+using GinRummy.Domain.Entities.Authentication;
+
 namespace GinRummy.Application.Presence
 {
     public class PlayersByStatus
     {
-        public PlayersByStatus(IList<RankedPlayer> players, IList<int> onlinePlayerIds, IList<int> friendPlayerIds)
+        public PlayersByStatus(
+            IList<RankedPlayer> players,
+            IList<AccessTokenOwner> onlineOwners,
+            IList<int> friendPlayerAccountIds)
         {
             AllOnlinePlayers = new List<RankedPlayer>();
             AllOfflinePlayers = new List<RankedPlayer>();
@@ -13,8 +18,9 @@ namespace GinRummy.Application.Presence
 
             foreach (RankedPlayer player in players)
             {
-                bool isOnline = onlinePlayerIds.Contains(player.IdentityId);
-                bool isFriend = friendPlayerIds.Contains(player.IdentityId);
+                bool isOnline = onlineOwners.Contains(player.AccessTokenOwner);
+                bool isFriend = player.AccessTokenOwner.PlayerAccountId.HasValue
+                    && friendPlayerAccountIds.Contains(player.AccessTokenOwner.PlayerAccountId.Value);
                 AddPlayer(player, isOnline, isFriend);
             }
         }

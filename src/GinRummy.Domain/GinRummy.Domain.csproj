@@ -47,6 +47,7 @@
     <Compile Include="EmailAlreadyVerifiedException.cs" />
     <Compile Include="EmailNotVerifiedException.cs" />
     <Compile Include="Entities\Authentication\AccessToken.cs" />
+    <Compile Include="Entities\Authentication\AccessTokenOwner.cs" />
     <Compile Include="Entities\Authentication\SignUpForm.cs" />
     <Compile Include="Entities\Authentication\SignUpResult.cs" />
     <Compile Include="Entities\PlayerModeration\Ban.cs" />

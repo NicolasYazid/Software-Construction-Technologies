@@ -11,21 +11,21 @@ namespace GinRummy.Domain.Ports.Authentication
     public interface IAccessTokenSigner
     {
         /// <summary>
-        /// Signs a new access token for a player.
+        /// Signs a new access token for a player with an account or for a guest.
         /// </summary>
-        /// <param name="playerId">Player the token identifies.</param>
+        /// <param name="owner">Whoever the token identifies.</param>
         /// <param name="issuedAt">Moment the token is issued, in UTC.</param>
         /// <param name="expiresAt">Moment the token stops being valid, in UTC.</param>
         /// <returns>The signed token.</returns>
-        AccessToken Sign(int playerId, DateTime issuedAt, DateTime expiresAt);
+        AccessToken Sign(AccessTokenOwner owner, DateTime issuedAt, DateTime expiresAt);
 
         /// <summary>
-        /// Checks the signature and the expiry of a token and reads the player it identifies.
+        /// Checks the signature and the expiry of a token and reads whoever it identifies.
         /// </summary>
         /// <param name="token">Encoded token, as the client presented it.</param>
         /// <param name="moment">Moment of the check, in UTC.</param>
-        /// <returns>The identifier of the player.</returns>
+        /// <returns>The owner of the token: a player with an account or a guest.</returns>
         /// <exception cref="InvalidAccessTokenException">Thrown when the token is malformed, altered or expired.</exception>
-        int ReadPlayerId(string token, DateTime moment);
+        AccessTokenOwner ReadAccessTokenOwner(string token, DateTime moment);
     }
 }
