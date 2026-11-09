@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using GinRummy.Application.Presence;
+using GinRummy.Application.UseCases.PlayerPresence;
 using GinRummy.Contracts.DataContracts;
 using GinRummy.Domain.Entities.PlayerPresence;
 

@@ -3,7 +3,7 @@ using System.Data;
 using System.ServiceModel;
 using System.Threading;
 
-using GinRummy.Application.Ports;
+using GinRummy.Application.Ports.PlayerPresence;
 using GinRummy.Contracts.Callbacks;
 using GinRummy.Contracts.Faults;
 using GinRummy.Contracts.Services;

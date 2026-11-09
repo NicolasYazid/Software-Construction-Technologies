@@ -2,8 +2,8 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-using GinRummy.Application.Ports;
-using GinRummy.Application.Presence;
+using GinRummy.Application.Ports.PlayerPresence;
+using GinRummy.Application.UseCases.PlayerPresence;
 using GinRummy.Contracts.Callbacks;
 using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Services.Mappers;

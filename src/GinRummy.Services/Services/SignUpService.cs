@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 
-using GinRummy.Application.Ports;
+using GinRummy.Application.Ports.Authentication;
 using GinRummy.Contracts.DataContracts;
 using GinRummy.Contracts.Faults;
 using GinRummy.Contracts.Services;

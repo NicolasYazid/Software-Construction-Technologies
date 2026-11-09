@@ -1,0 +1,55 @@
+﻿using System;
+
+using GinRummy.Domain.Entities.Authentication;
+using GinRummy.Domain.Entities.PlayerCareer;
+using GinRummy.Domain.Entities.PlayerCustomization;
+
+namespace GinRummy.Application.UseCases.PlayerPresence
+{
+    // The lists of the lobby go from the highest rank to the lowest, so every player travels with its score and its rank.
+    // A guest is listed too, without score or rank, because the lobby shows everyone who is connected (CU-27 FA-04).
+    public class RankedPlayer
+    {
+        public RankedPlayer(PlayerProfile player, int score, Rank rank)
+        {
+            if (player == null)
+            {
+                throw new ArgumentNullException(nameof(player));
+            }
+
+            AccessTokenOwner = AccessTokenOwner.OfPlayerAccount(player.PlayerAccountId);
+            DisplayName = player.Username;
+            PublicTag = player.PublicTag;
+            Score = score;
+            Rank = rank;
+        }
+
+        // A guest has no public tag: its session identifier tells its row apart.
+        public RankedPlayer(GuestSession guest)
+        {
+            if (guest == null)
+            {
+                throw new ArgumentNullException(nameof(guest));
+            }
+
+            AccessTokenOwner = AccessTokenOwner.OfGuestSession(guest.GuestSessionId);
+            DisplayName = guest.TemporalDisplayName;
+        }
+
+        public AccessTokenOwner AccessTokenOwner { get; private set; }
+
+        public string DisplayName { get; private set; }
+
+        public int? PublicTag { get; private set; }
+
+        public bool IsGuest
+        {
+            get { return AccessTokenOwner.IsGuest; }
+        }
+
+        public int Score { get; private set; }
+
+        // No rank contains the score when the catalogue leaves a gap, and the player is still listed.
+        public Rank Rank { get; private set; }
+    }
+}

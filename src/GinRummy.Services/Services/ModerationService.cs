@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 
-using GinRummy.Application.Ports;
+using GinRummy.Application.Ports.PlayerModeration;
 using GinRummy.Contracts.Faults;
 using GinRummy.Contracts.Services;
 using GinRummy.Domain;

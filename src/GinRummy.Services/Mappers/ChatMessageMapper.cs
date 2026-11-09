@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using GinRummy.Application.Chat;
+using GinRummy.Application.UseCases.SocialCommunication;
 using GinRummy.Contracts.DataContracts;
 using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Domain.Entities.SocialCommunication;

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using GinRummy.Application.Chat;
-using GinRummy.Application.Ports;
+using GinRummy.Application.Ports.SocialCommunication;
+using GinRummy.Application.UseCases.SocialCommunication;
 using GinRummy.Contracts.Callbacks;
 using GinRummy.Contracts.DataContracts;
 using GinRummy.Services.Mappers;

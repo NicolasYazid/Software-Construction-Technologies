@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ServiceModel;
 
-using GinRummy.Application.Ports;
-using GinRummy.Application.UseCases;
+using GinRummy.Application.Ports.PlayerCustomization;
+using GinRummy.Application.UseCases.PlayerCustomization;
 using GinRummy.Contracts.DataContracts;
 using GinRummy.Contracts.Faults;
 using GinRummy.Contracts.Services;

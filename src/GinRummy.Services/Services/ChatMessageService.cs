@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 
-using GinRummy.Application.Ports;
+using GinRummy.Application.Ports.SocialCommunication;
 using GinRummy.Contracts.Callbacks;
 using GinRummy.Contracts.Services;
 using GinRummy.Domain.Entities.Authentication;

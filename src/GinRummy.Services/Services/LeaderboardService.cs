@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 
-using GinRummy.Application.Ports;
+using GinRummy.Application.Ports.PlayerCareer;
 using GinRummy.Contracts.DataContracts;
 using GinRummy.Contracts.Services;
 using GinRummy.Domain.Entities.PlayerCareer;

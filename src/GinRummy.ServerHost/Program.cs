@@ -6,9 +6,12 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 
-using GinRummy.Application.Chat;
-using GinRummy.Application.Presence;
-using GinRummy.Application.UseCases;
+using GinRummy.Application.UseCases.AccountProtection;
+using GinRummy.Application.UseCases.Authentication;
+using GinRummy.Application.UseCases.PlayerCareer;
+using GinRummy.Application.UseCases.PlayerCustomization;
+using GinRummy.Application.UseCases.PlayerPresence;
+using GinRummy.Application.UseCases.SocialCommunication;
 using GinRummy.Contracts.Callbacks;
 using GinRummy.Domain.Entities.AccountProtection;
 using GinRummy.Domain.Entities.Authentication;
