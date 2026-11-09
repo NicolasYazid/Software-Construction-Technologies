@@ -26,7 +26,12 @@ using GinRummy.Persistence.Repositories;
 using GinRummy.Security;
 using GinRummy.Services.Hosting;
 using GinRummy.Services.Notifiers;
-using GinRummy.Services.Services;
+using GinRummy.Services.Services.AccountProtection;
+using GinRummy.Services.Services.Authentication;
+using GinRummy.Services.Services.PlayerCareer;
+using GinRummy.Services.Services.PlayerCustomization;
+using GinRummy.Services.Services.PlayerPresence;
+using GinRummy.Services.Services.SocialCommunication;
 using Microsoft.Extensions.Logging;
 
 namespace GinRummy.ServerHost

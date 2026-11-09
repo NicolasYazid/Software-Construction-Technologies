@@ -36,9 +36,11 @@
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import namespace="http://tempuri.org/" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.PlayerModeration" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.AccountProtection" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.Authentication" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="ILogInService_LogIn_InputMessage">
@@ -48,13 +50,13 @@
     <wsdl:part name="parameters" element="tns:LogInResponse" />
   </wsdl:message>
   <wsdl:message name="ILogInService_LogIn_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q1:ServiceFault" />
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q1:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILogInService_LogIn_SanctionFaultFault_FaultMessage">
-    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q2:SanctionFault" />
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.PlayerModeration" name="detail" element="q2:SanctionFault" />
   </wsdl:message>
   <wsdl:message name="ILogInService_LogIn_ResendLimitFaultFault_FaultMessage">
-    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q3:ResendLimitFault" />
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.AccountProtection" name="detail" element="q3:ResendLimitFault" />
   </wsdl:message>
   <wsdl:message name="ILogInService_VerifyLogInByTwoFactorAuthentication_InputMessage">
     <wsdl:part name="parameters" element="tns:VerifyLogInByTwoFactorAuthentication" />
@@ -63,10 +65,10 @@
     <wsdl:part name="parameters" element="tns:VerifyLogInByTwoFactorAuthenticationResponse" />
   </wsdl:message>
   <wsdl:message name="ILogInService_VerifyLogInByTwoFactorAuthentication_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q4:ServiceFault" />
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q4:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ILogInService_VerifyLogInByTwoFactorAuthentication_SanctionFaultFault_FaultMessage">
-    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q5:SanctionFault" />
+    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.PlayerModeration" name="detail" element="q5:SanctionFault" />
   </wsdl:message>
   <wsdl:message name="ILogInService_LogInAsGuest_InputMessage">
     <wsdl:part name="parameters" element="tns:LogInAsGuest" />

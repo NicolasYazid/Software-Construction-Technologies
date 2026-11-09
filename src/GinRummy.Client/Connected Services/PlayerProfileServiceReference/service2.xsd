@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.PlayerCustomization" />
+  <xs:element name="GetPlayerProfile">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="accessToken" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="publicTag" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPlayerProfileResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.PlayerCustomization" minOccurs="0" name="GetPlayerProfileResult" nillable="true" type="q1:PlayerProfileDetails" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveProfileChanges">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="accessToken" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="username" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="bio" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveProfileChangesResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetProfilePicture">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="accessToken" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="publicTag" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetProfilePictureResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetProfilePictureResult" nillable="true" type="xs:base64Binary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeProfilePicture">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="accessToken" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="picture" nillable="true" type="xs:base64Binary" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeProfilePictureResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveProfilePicture">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="accessToken" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="RemoveProfilePictureResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LinkSocialMedia">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="accessToken" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="platformName" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="url" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="LinkSocialMediaResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.PlayerCustomization" minOccurs="0" name="LinkSocialMediaResult" nillable="true" type="q2:SocialLinkDetails" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UnlinkSocialMedia">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="accessToken" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="socialMediaId" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UnlinkSocialMediaResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeLanguage">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="accessToken" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="localeCode" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ChangeLanguageResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

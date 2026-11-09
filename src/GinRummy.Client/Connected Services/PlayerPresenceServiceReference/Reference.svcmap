@@ -25,8 +25,8 @@
     <MetadataFile FileName="service1.wsdl" MetadataType="Wsdl" ID="8b1ef56b-57aa-4b7f-bea8-5250629fa1cb" SourceId="1" SourceUrl="net.tcp://localhost:8001/PlayerPresenceService/mex" />
     <MetadataFile FileName="service2.xsd" MetadataType="Schema" ID="59c839ae-babe-4954-86a5-a93d08993b47" SourceId="1" SourceUrl="net.tcp://localhost:8001/PlayerPresenceService/mex" />
     <MetadataFile FileName="service21.xsd" MetadataType="Schema" ID="78d376c1-fbaa-44be-8e28-6619ed498100" SourceId="1" SourceUrl="net.tcp://localhost:8001/PlayerPresenceService/mex" />
-    <MetadataFile FileName="GinRummy.Contracts.Faults1.xsd" MetadataType="Schema" ID="054ed49a-907c-479a-8bb6-9bef763dc07a" SourceId="1" SourceUrl="net.tcp://localhost:8001/PlayerPresenceService/mex" />
-    <MetadataFile FileName="GinRummy.Contracts.DataContracts1.xsd" MetadataType="Schema" ID="98327a43-d720-4986-883b-869de3dafd3c" SourceId="1" SourceUrl="net.tcp://localhost:8001/PlayerPresenceService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.Faults.Shared.xsd" MetadataType="Schema" ID="ee62b5b2-1fc3-46da-93c8-5c9b7b379181" SourceId="1" SourceUrl="net.tcp://localhost:8001/PlayerPresenceService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.DataContracts.PlayerPresence.xsd" MetadataType="Schema" ID="2929c337-0956-40a9-b8b4-3128da557a9d" SourceId="1" SourceUrl="net.tcp://localhost:8001/PlayerPresenceService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

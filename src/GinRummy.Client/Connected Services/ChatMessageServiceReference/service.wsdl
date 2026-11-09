@@ -42,9 +42,9 @@
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import namespace="http://tempuri.org/" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.SocialCommunication" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IChatMessageService_SubscribeToChat_InputMessage">
@@ -54,7 +54,7 @@
     <wsdl:part name="parameters" element="tns:SubscribeToChatResponse" />
   </wsdl:message>
   <wsdl:message name="IChatMessageService_SubscribeToChat_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q1:ServiceFault" />
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q1:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="IChatMessageService_SendLobbyMessage_InputMessage">
     <wsdl:part name="parameters" element="tns:SendLobbyMessage" />
@@ -63,7 +63,7 @@
     <wsdl:part name="parameters" element="tns:SendLobbyMessageResponse" />
   </wsdl:message>
   <wsdl:message name="IChatMessageService_SendLobbyMessage_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q2:ServiceFault" />
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q2:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="IChatMessageService_SendMatchMessage_InputMessage">
     <wsdl:part name="parameters" element="tns:SendMatchMessage" />
@@ -72,7 +72,7 @@
     <wsdl:part name="parameters" element="tns:SendMatchMessageResponse" />
   </wsdl:message>
   <wsdl:message name="IChatMessageService_SendMatchMessage_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q3:ServiceFault" />
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q3:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="IChatMessageService_UnsubscribeFromChat_InputMessage">
     <wsdl:part name="parameters" element="tns:UnsubscribeFromChat" />

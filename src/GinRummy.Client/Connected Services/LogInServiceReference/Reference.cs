@@ -15,7 +15,8 @@ namespace GinRummy.Client.LogInServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="LogInOutcome", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="LogInOutcome", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.Authenti" +
+        "cation")]
     [System.SerializableAttribute()]
     public partial class LogInOutcome : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -172,7 +173,7 @@ namespace GinRummy.Client.LogInServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
     [System.SerializableAttribute()]
     public partial class ServiceFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -216,7 +217,7 @@ namespace GinRummy.Client.LogInServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceFaultCode", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceFaultCode", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
     public enum ServiceFaultCode : int {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
@@ -288,7 +289,8 @@ namespace GinRummy.Client.LogInServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="SanctionFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SanctionFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.PlayerModeratio" +
+        "n")]
     [System.SerializableAttribute()]
     public partial class SanctionFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -349,7 +351,8 @@ namespace GinRummy.Client.LogInServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ResendLimitFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ResendLimitFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.AccountProtecti" +
+        "on")]
     [System.SerializableAttribute()]
     public partial class ResendLimitFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -397,9 +400,11 @@ namespace GinRummy.Client.LogInServiceReference {
     public interface ILogInService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILogInService/LogIn", ReplyAction="http://tempuri.org/ILogInService/LogInResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.LogInServiceReference.ServiceFault), Action="http://tempuri.org/ILogInService/LogInServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
-        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.LogInServiceReference.SanctionFault), Action="http://tempuri.org/ILogInService/LogInSanctionFaultFault", Name="SanctionFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
-        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.LogInServiceReference.ResendLimitFault), Action="http://tempuri.org/ILogInService/LogInResendLimitFaultFault", Name="ResendLimitFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.LogInServiceReference.ServiceFault), Action="http://tempuri.org/ILogInService/LogInServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.LogInServiceReference.SanctionFault), Action="http://tempuri.org/ILogInService/LogInSanctionFaultFault", Name="SanctionFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.PlayerModeratio" +
+            "n")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.LogInServiceReference.ResendLimitFault), Action="http://tempuri.org/ILogInService/LogInResendLimitFaultFault", Name="ResendLimitFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.AccountProtecti" +
+            "on")]
         GinRummy.Client.LogInServiceReference.LogInOutcome LogIn(string email, string password, bool keepSignedIn);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILogInService/LogIn", ReplyAction="http://tempuri.org/ILogInService/LogInResponse")]
@@ -407,9 +412,10 @@ namespace GinRummy.Client.LogInServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthentication", ReplyAction="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthenticationResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.LogInServiceReference.ServiceFault), Action="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthenticationServiceFault" +
-            "Fault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+            "Fault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
         [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.LogInServiceReference.SanctionFault), Action="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthenticationSanctionFaul" +
-            "tFault", Name="SanctionFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+            "tFault", Name="SanctionFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.PlayerModeratio" +
+            "n")]
         GinRummy.Client.LogInServiceReference.LogInOutcome VerifyLogInByTwoFactorAuthentication(string email, string verificationCode, bool keepSignedIn);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthentication", ReplyAction="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthenticationResponse")]

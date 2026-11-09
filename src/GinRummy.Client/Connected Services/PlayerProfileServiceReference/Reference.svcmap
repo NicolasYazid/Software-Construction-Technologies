@@ -24,11 +24,11 @@
     <MetadataSource Address="net.tcp://localhost:8001/PlayerProfileService/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="ad1e4186-9faf-48f1-abc6-e22b1a9a4cd8" SourceId="1" SourceUrl="net.tcp://localhost:8009/PlayerProfileService/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="5c53a745-2659-4400-b573-ea84ffdef418" SourceId="1" SourceUrl="net.tcp://localhost:8009/PlayerProfileService/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="6a1e4df5-ce76-4428-ac4b-d73e0ea3a284" SourceId="1" SourceUrl="net.tcp://localhost:8009/PlayerProfileService/mex" />
-    <MetadataFile FileName="GinRummy.Contracts.DataContracts.xsd" MetadataType="Schema" ID="1621fa64-6582-4753-8dde-1460bc0516b9" SourceId="1" SourceUrl="net.tcp://localhost:8009/PlayerProfileService/mex" />
-    <MetadataFile FileName="GinRummy.Contracts.Faults.xsd" MetadataType="Schema" ID="12e74599-acba-42d8-8d20-cf61405b861c" SourceId="1" SourceUrl="net.tcp://localhost:8009/PlayerProfileService/mex" />
+    <MetadataFile FileName="service1.wsdl" MetadataType="Wsdl" ID="32c75a2c-73f9-46df-b552-ac18a4bf6af1" SourceId="1" SourceUrl="net.tcp://localhost:8001/PlayerProfileService/mex" />
+    <MetadataFile FileName="service2.xsd" MetadataType="Schema" ID="b9fa831b-e2bd-4bd8-a3fa-32b85f51172c" SourceId="1" SourceUrl="net.tcp://localhost:8001/PlayerProfileService/mex" />
+    <MetadataFile FileName="service21.xsd" MetadataType="Schema" ID="669adb8a-2c4e-4213-8890-c0c9fd0c6983" SourceId="1" SourceUrl="net.tcp://localhost:8001/PlayerProfileService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.DataContracts.PlayerCustomization.xsd" MetadataType="Schema" ID="8f0966a2-28e6-40c5-bcdb-1c79bb2e4189" SourceId="1" SourceUrl="net.tcp://localhost:8001/PlayerProfileService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.Faults.Shared.xsd" MetadataType="Schema" ID="e17a7005-8eca-41c3-ad3e-997fe1160895" SourceId="1" SourceUrl="net.tcp://localhost:8001/PlayerProfileService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

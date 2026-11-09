@@ -6,7 +6,7 @@ using GinRummy.Application.Ports.PlayerPresence;
 using GinRummy.Application.UseCases.PlayerPresence;
 using GinRummy.Contracts.Services.PlayerPresence;
 using GinRummy.Domain.Entities.Authentication;
-using GinRummy.Services.Mappers;
+using GinRummy.Services.Mappers.PlayerPresence;
 using Microsoft.Extensions.Logging;
 
 namespace GinRummy.Services.Notifiers

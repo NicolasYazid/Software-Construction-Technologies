@@ -5,7 +5,7 @@ using GinRummy.Application.Ports.SocialCommunication;
 using GinRummy.Application.UseCases.SocialCommunication;
 using GinRummy.Contracts.DataContracts.SocialCommunication;
 using GinRummy.Contracts.Services.SocialCommunication;
-using GinRummy.Services.Mappers;
+using GinRummy.Services.Mappers.SocialCommunication;
 
 namespace GinRummy.Services.Notifiers
 {

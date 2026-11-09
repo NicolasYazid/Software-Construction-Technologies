@@ -15,7 +15,7 @@ namespace GinRummy.Client.PlayerPresenceServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
     [System.SerializableAttribute()]
     public partial class ServiceFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -59,7 +59,7 @@ namespace GinRummy.Client.PlayerPresenceServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceFaultCode", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceFaultCode", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
     public enum ServiceFaultCode : int {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
@@ -131,7 +131,8 @@ namespace GinRummy.Client.PlayerPresenceServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PlayerPresenceReport", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PlayerPresenceReport", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.PlayerPr" +
+        "esence")]
     [System.SerializableAttribute()]
     public partial class PlayerPresenceReport : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -224,7 +225,8 @@ namespace GinRummy.Client.PlayerPresenceServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PlayerPresence", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PlayerPresence", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.PlayerPr" +
+        "esence")]
     [System.SerializableAttribute()]
     public partial class PlayerPresence : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -380,7 +382,8 @@ namespace GinRummy.Client.PlayerPresenceServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PresenceStatus", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PresenceStatus", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.PlayerPr" +
+        "esence")]
     public enum PresenceStatus : int {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
@@ -396,7 +399,7 @@ namespace GinRummy.Client.PlayerPresenceServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerPresenceService/SubscribeToPlayerPresence", ReplyAction="http://tempuri.org/IPlayerPresenceService/SubscribeToPlayerPresenceResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.PlayerPresenceServiceReference.ServiceFault), Action="http://tempuri.org/IPlayerPresenceService/SubscribeToPlayerPresenceServiceFaultFa" +
-            "ult", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+            "ult", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
         void SubscribeToPlayerPresence(string accessToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IPlayerPresenceService/SubscribeToPlayerPresence", ReplyAction="http://tempuri.org/IPlayerPresenceService/SubscribeToPlayerPresenceResponse")]

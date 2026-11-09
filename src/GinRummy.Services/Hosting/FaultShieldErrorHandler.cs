@@ -5,7 +5,7 @@ using System.ServiceModel.Dispatcher;
 
 using GinRummy.Contracts.Faults.Shared;
 using GinRummy.Domain;
-using GinRummy.Services.Services;
+using GinRummy.Services.Services.Shared;
 using Microsoft.Extensions.Logging;
 
 namespace GinRummy.Services.Hosting

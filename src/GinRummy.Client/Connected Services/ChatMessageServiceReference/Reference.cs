@@ -15,7 +15,7 @@ namespace GinRummy.Client.ChatMessageServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
     [System.SerializableAttribute()]
     public partial class ServiceFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -59,7 +59,7 @@ namespace GinRummy.Client.ChatMessageServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceFaultCode", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceFaultCode", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
     public enum ServiceFaultCode : int {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
@@ -109,11 +109,30 @@ namespace GinRummy.Client.ChatMessageServiceReference {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         EmailAlreadyVerified = 15,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        PlayerNotFound = 16,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        MessageNotFound = 17,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        InvalidImage = 18,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        InvalidUrl = 19,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        UnsupportedLocale = 20,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        SamePassword = 21,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PlayerMessage", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PlayerMessage", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.SocialCo" +
+        "mmunication")]
     [System.SerializableAttribute()]
     public partial class PlayerMessage : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -253,7 +272,8 @@ namespace GinRummy.Client.ChatMessageServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="MessageDestination", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="MessageDestination", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.SocialCo" +
+        "mmunication")]
     public enum MessageDestination : int {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
@@ -268,21 +288,21 @@ namespace GinRummy.Client.ChatMessageServiceReference {
     public interface IChatMessageService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatMessageService/SubscribeToChat", ReplyAction="http://tempuri.org/IChatMessageService/SubscribeToChatResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.ChatMessageServiceReference.ServiceFault), Action="http://tempuri.org/IChatMessageService/SubscribeToChatServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.ChatMessageServiceReference.ServiceFault), Action="http://tempuri.org/IChatMessageService/SubscribeToChatServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
         void SubscribeToChat(string accessToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatMessageService/SubscribeToChat", ReplyAction="http://tempuri.org/IChatMessageService/SubscribeToChatResponse")]
         System.Threading.Tasks.Task SubscribeToChatAsync(string accessToken);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatMessageService/SendLobbyMessage", ReplyAction="http://tempuri.org/IChatMessageService/SendLobbyMessageResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.ChatMessageServiceReference.ServiceFault), Action="http://tempuri.org/IChatMessageService/SendLobbyMessageServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.ChatMessageServiceReference.ServiceFault), Action="http://tempuri.org/IChatMessageService/SendLobbyMessageServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
         void SendLobbyMessage(string accessToken, string content);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatMessageService/SendLobbyMessage", ReplyAction="http://tempuri.org/IChatMessageService/SendLobbyMessageResponse")]
         System.Threading.Tasks.Task SendLobbyMessageAsync(string accessToken, string content);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatMessageService/SendMatchMessage", ReplyAction="http://tempuri.org/IChatMessageService/SendMatchMessageResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.ChatMessageServiceReference.ServiceFault), Action="http://tempuri.org/IChatMessageService/SendMatchMessageServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.ChatMessageServiceReference.ServiceFault), Action="http://tempuri.org/IChatMessageService/SendMatchMessageServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
         void SendMatchMessage(string accessToken, string content);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatMessageService/SendMatchMessage", ReplyAction="http://tempuri.org/IChatMessageService/SendMatchMessageResponse")]

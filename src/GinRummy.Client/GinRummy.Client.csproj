@@ -396,10 +396,26 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\ChatMessageServiceReference\GinRummy.Contracts.DataContracts.xsd">
+    <None Include="Connected Services\AccountSettingsServiceReference\GinRummy.Contracts.DataContracts.AccountProtection.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ChatMessageServiceReference\GinRummy.Contracts.Faults.xsd">
+    <None Include="Connected Services\AccountSettingsServiceReference\GinRummy.Contracts.Faults.AccountProtection.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AccountSettingsServiceReference\GinRummy.Contracts.Faults.Shared.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AccountSettingsServiceReference\service1.wsdl" />
+    <None Include="Connected Services\AccountSettingsServiceReference\service2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AccountSettingsServiceReference\service21.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ChatMessageServiceReference\GinRummy.Contracts.DataContracts.SocialCommunication.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ChatMessageServiceReference\GinRummy.Contracts.Faults.Shared.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\ChatMessageServiceReference\service.wsdl" />
@@ -425,23 +441,16 @@
     <None Include="Connected Services\AccountSettingsServiceReference\GinRummy.Client.AccountSettingsServiceReference.AccountSettingsDetails.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\AccountSettingsServiceReference\GinRummy.Contracts.DataContracts.xsd">
+    <None Include="Connected Services\LogInServiceReference\GinRummy.Contracts.DataContracts.Authentication.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\AccountSettingsServiceReference\GinRummy.Contracts.Faults.xsd">
+    <None Include="Connected Services\LogInServiceReference\GinRummy.Contracts.Faults.AccountProtection.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\AccountSettingsServiceReference\service.wsdl" />
-    <None Include="Connected Services\AccountSettingsServiceReference\service.xsd">
+    <None Include="Connected Services\LogInServiceReference\GinRummy.Contracts.Faults.PlayerModeration.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\AccountSettingsServiceReference\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LogInServiceReference\GinRummy.Contracts.DataContracts1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LogInServiceReference\GinRummy.Contracts.Faults1.xsd">
+    <None Include="Connected Services\LogInServiceReference\GinRummy.Contracts.Faults.Shared.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\LogInServiceReference\service1.wsdl" />
@@ -451,10 +460,10 @@
     <None Include="Connected Services\LogInServiceReference\service21.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\PlayerPresenceServiceReference\GinRummy.Contracts.DataContracts1.xsd">
+    <None Include="Connected Services\PlayerPresenceServiceReference\GinRummy.Contracts.DataContracts.PlayerPresence.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\PlayerPresenceServiceReference\GinRummy.Contracts.Faults1.xsd">
+    <None Include="Connected Services\PlayerPresenceServiceReference\GinRummy.Contracts.Faults.Shared.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\PlayerPresenceServiceReference\service1.wsdl" />
@@ -467,17 +476,20 @@
     <None Include="Connected Services\PlayerProfileServiceReference\GinRummy.Client.PlayerProfileServiceReference.PlayerProfileDetails.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\PlayerProfileServiceReference\GinRummy.Contracts.DataContracts.xsd">
+    <None Include="Connected Services\PlayerProfileServiceReference\GinRummy.Client.PlayerProfileServiceReference.SocialLinkDetails.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\PlayerProfileServiceReference\GinRummy.Contracts.DataContracts.PlayerCustomization.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\PlayerProfileServiceReference\GinRummy.Contracts.Faults.xsd">
+    <None Include="Connected Services\PlayerProfileServiceReference\GinRummy.Contracts.Faults.Shared.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\PlayerProfileServiceReference\service.wsdl" />
-    <None Include="Connected Services\PlayerProfileServiceReference\service.xsd">
+    <None Include="Connected Services\PlayerProfileServiceReference\service1.wsdl" />
+    <None Include="Connected Services\PlayerProfileServiceReference\service2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\PlayerProfileServiceReference\service1.xsd">
+    <None Include="Connected Services\PlayerProfileServiceReference\service21.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\SignUpServiceReference\GinRummy.Client.SignUpServiceReference.SignUpOutcome.datasource">
