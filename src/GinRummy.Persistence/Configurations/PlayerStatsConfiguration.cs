@@ -28,7 +28,6 @@ namespace GinRummy.Persistence.Configurations
                 .HasColumnName("matches_played")
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
             Ignore(playerStats => playerStats.WinRate);
-            HasRequired(playerStats => playerStats.PlayerProfile).WithOptional();
         }
     }
 }

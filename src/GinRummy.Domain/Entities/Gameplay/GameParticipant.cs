@@ -1,7 +1,6 @@
 ﻿using System;
 
 using GinRummy.Domain.Entities.Authentication;
-using GinRummy.Domain.Entities.PlayerCustomization;
 
 namespace GinRummy.Domain.Entities.Gameplay
 {
@@ -62,7 +61,7 @@ namespace GinRummy.Domain.Entities.Gameplay
         /// <summary>
         /// Gets the registered player that holds the seat. Null when a guest holds it.
         /// </summary>
-        public virtual PlayerProfile PlayerProfile { get; private set; }
+        public virtual PlayerAccount PlayerAccount { get; private set; }
 
         /// <summary>
         /// Gets the guest that holds the seat. Null when a registered player holds it.

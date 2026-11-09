@@ -24,34 +24,39 @@ namespace GinRummy.Application.UseCases
         public IReadOnlyList<LeaderboardPosition> GetLeaderboard()
         {
             IList<PlayerStats> stats = _rankingRepository.GetStatsRankedByScore();
+            IDictionary<int, string> usernames = _rankingRepository.GetUsernamesByPlayerAccountId();
             IList<Rank> ranks = _rankingRepository.GetAllRanks();
-            IReadOnlyList<LeaderboardPosition> leaderboard = BuildLeaderboard(stats, ranks);
+            IReadOnlyList<LeaderboardPosition> leaderboard = BuildLeaderboard(stats, usernames, ranks);
 
             return leaderboard;
         }
 
-        private IReadOnlyList<LeaderboardPosition> BuildLeaderboard(IList<PlayerStats> stats, IList<Rank> ranks)
+        private IReadOnlyList<LeaderboardPosition> BuildLeaderboard(
+            IList<PlayerStats> stats,
+            IDictionary<int, string> usernames,
+            IList<Rank> ranks)
         {
             List<LeaderboardPosition> leaderboard = new List<LeaderboardPosition>();
-            IList<PlayerStats> orderedStats = OrderByLeaderboardRules(stats);
+            IList<PlayerStats> orderedStats = OrderByLeaderboardRules(stats, usernames);
             int place = FirstPlace;
             foreach (PlayerStats playerStats in orderedStats)
             {
                 Rank rank = _rankResolver.ResolveRank(playerStats.Score, ranks);
-                leaderboard.Add(new LeaderboardPosition(place, playerStats, rank));
+                string username = usernames[playerStats.PlayerAccountId];
+                leaderboard.Add(new LeaderboardPosition(place, playerStats, username, rank));
                 place++;
             }
 
             return leaderboard;
         }
 
-        private IList<PlayerStats> OrderByLeaderboardRules(IList<PlayerStats> stats)
+        private IList<PlayerStats> OrderByLeaderboardRules(IList<PlayerStats> stats, IDictionary<int, string> usernames)
         {
             IList<PlayerStats> orderedStats = stats
                 .OrderByDescending(playerStats => playerStats.Wins)
                 .ThenByDescending(playerStats => playerStats.Score)
                 .ThenBy(playerStats => playerStats.Losses)
-                .ThenBy(playerStats => playerStats.PlayerProfile.Username)
+                .ThenBy(playerStats => usernames[playerStats.PlayerAccountId])
                 .ToList();
 
             return orderedStats;

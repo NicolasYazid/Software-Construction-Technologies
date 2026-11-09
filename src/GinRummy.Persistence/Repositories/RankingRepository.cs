@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 
 using GinRummy.Domain.Entities.PlayerCareer;
@@ -42,8 +41,7 @@ namespace GinRummy.Persistence.Repositories
         }
 
         /// <summary>
-        /// Gets every player's stats ordered from the highest score to the lowest, each
-        /// with its player loaded.
+        /// Gets every player's stats ordered from the highest score to the lowest.
         /// </summary>
         /// <returns>The ranked stats.</returns>
         public IList<PlayerStats> GetStatsRankedByScore()
@@ -62,6 +60,29 @@ namespace GinRummy.Persistence.Repositories
             }
 
             return rankedStats;
+        }
+
+        /// <summary>
+        /// Gets the username of every player by the identifier of its account. Only the identifier and
+        /// the username are read, never the rest of the profile or of the account.
+        /// </summary>
+        /// <returns>The usernames by player account identifier.</returns>
+        public IDictionary<int, string> GetUsernamesByPlayerAccountId()
+        {
+            IDictionary<int, string> usernames;
+            if (_sharedContext != null)
+            {
+                usernames = ReadUsernamesByPlayerAccountId(_sharedContext);
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    usernames = ReadUsernamesByPlayerAccountId(context);
+                }
+            }
+
+            return usernames;
         }
 
         /// <summary>
@@ -86,16 +107,25 @@ namespace GinRummy.Persistence.Repositories
             return ranks;
         }
 
-        // Each player is loaded together with its stats in one query.
-        // Reading the username later therefore does not trigger a separate query per row.
         private static IList<PlayerStats> ReadStatsRankedByScore(GinRummyContext context)
         {
             IList<PlayerStats> rankedStats = context.PlayerStats
-                .Include(stats => stats.PlayerProfile)
                 .OrderByDescending(stats => stats.Score)
                 .ToList();
 
             return rankedStats;
+        }
+
+        // The query reads the identifier and the username only, so the email and the password hash
+        // of the account are never read.
+        private static IDictionary<int, string> ReadUsernamesByPlayerAccountId(GinRummyContext context)
+        {
+            IDictionary<int, string> usernames = context.PlayerProfiles
+                .Select(profile => new { profile.PlayerAccountId, profile.Username })
+                .ToList()
+                .ToDictionary(row => row.PlayerAccountId, row => row.Username);
+
+            return usernames;
         }
     }
 }

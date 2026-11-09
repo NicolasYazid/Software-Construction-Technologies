@@ -1,6 +1,6 @@
 ﻿using System;
 
-using GinRummy.Domain.Entities.PlayerCustomization;
+using GinRummy.Domain.Entities.Authentication;
 
 namespace GinRummy.Domain.Entities.SocialCommunication
 {
@@ -32,7 +32,7 @@ namespace GinRummy.Domain.Entities.SocialCommunication
         public string ChannelName { get; private set; }
         public int? GameSessionId { get; private set; }
         public DateTime SentAt { get; private set; }
-        public virtual PlayerProfile PlayerProfile { get; private set; }
+        public virtual PlayerAccount PlayerAccount { get; private set; }
 
         public MessageChannel Channel
         {

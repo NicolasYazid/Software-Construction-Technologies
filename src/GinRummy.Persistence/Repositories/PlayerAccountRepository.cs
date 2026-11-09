@@ -353,7 +353,6 @@ namespace GinRummy.Persistence.Repositories
         private static PlayerStats FindStatsIn(GinRummyContext context, int playerAccountId)
         {
             PlayerStats foundStats = context.PlayerStats
-                .Include(stats => stats.PlayerProfile)
                 .FirstOrDefault(stats => stats.PlayerAccountId == playerAccountId);
 
             return foundStats;

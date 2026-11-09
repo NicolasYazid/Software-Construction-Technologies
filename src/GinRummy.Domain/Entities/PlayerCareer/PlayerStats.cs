@@ -1,7 +1,5 @@
 ﻿using System;
 
-using GinRummy.Domain.Entities.PlayerCustomization;
-
 namespace GinRummy.Domain.Entities.PlayerCareer
 {
     /// <summary>
@@ -59,12 +57,6 @@ namespace GinRummy.Domain.Entities.PlayerCareer
         /// Gets how many matches the player has played, computed by SQL Server.
         /// </summary>
         public int MatchesPlayed { get; private set; }
-
-        /// <summary>
-        /// Gets the profile of the player these stats belong to, loaded from the relationship between the
-        /// two tables.
-        /// </summary>
-        public virtual PlayerProfile PlayerProfile { get; private set; }
 
         /// <summary>
         /// Gets the share of matches won, from zero to one. It is zero when no match has been

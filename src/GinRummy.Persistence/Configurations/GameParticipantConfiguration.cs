@@ -25,7 +25,7 @@ namespace GinRummy.Persistence.Configurations
             Property(participant => participant.CardsInHand).HasColumnName("cards_in_hand");
             Property(participant => participant.Score).HasColumnName("puntuation");
             Ignore(participant => participant.IsGuest);
-            HasOptional(participant => participant.PlayerProfile).WithMany().HasForeignKey(participant => participant.PlayerAccountId)
+            HasOptional(participant => participant.PlayerAccount).WithMany().HasForeignKey(participant => participant.PlayerAccountId)
                 .WillCascadeOnDelete(false);
             HasOptional(participant => participant.GuestSession).WithMany().HasForeignKey(participant => participant.GuestSessionId)
                 .WillCascadeOnDelete(false);

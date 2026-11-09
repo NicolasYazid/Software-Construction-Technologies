@@ -21,8 +21,8 @@ namespace GinRummy.Services.Mappers
         {
             PlayerProfileDetails details = new PlayerProfileDetails
             {
-                Username = viewedProfile.Stats.PlayerProfile.Username,
-                PublicTag = viewedProfile.Stats.PlayerProfile.PublicTag,
+                Username = viewedProfile.Profile.Username,
+                PublicTag = viewedProfile.Profile.PublicTag,
                 Bio = viewedProfile.Profile.Bio,
                 SocialLinks = MapToSocialLinks(viewedProfile.Profile.SocialMediaLinks),
                 MatchesPlayed = viewedProfile.Stats.MatchesPlayed,

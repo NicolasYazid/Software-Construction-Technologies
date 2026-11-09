@@ -11,11 +11,17 @@ namespace GinRummy.Domain.Ports.PlayerCareer
     public interface IRankingRepository
     {
         /// <summary>
-        /// Gets every player's stats ordered from the highest score to the lowest, each
-        /// with its player loaded.
+        /// Gets every player's stats ordered from the highest score to the lowest.
         /// </summary>
         /// <returns>The ranked stats.</returns>
         IList<PlayerStats> GetStatsRankedByScore();
+
+        /// <summary>
+        /// Gets the username of every player by the identifier of its account. Only the identifier and
+        /// the username are read, never the rest of the profile or of the account.
+        /// </summary>
+        /// <returns>The usernames by player account identifier.</returns>
+        IDictionary<int, string> GetUsernamesByPlayerAccountId();
 
         /// <summary>
         /// Gets the full rank catalog, used to resolve which rank a score belongs to.
