@@ -31,7 +31,7 @@ namespace GinRummy.Services.Mappers
             PlayerRanking ranking = new PlayerRanking
             {
                 Position = position.Place,
-                Username = position.Stats.PlayerProfile.Username,
+                Username = position.Username,
                 RankName = ResolveRankName(position.Rank),
                 Wins = position.Stats.Wins,
                 Losses = position.Stats.Losses,

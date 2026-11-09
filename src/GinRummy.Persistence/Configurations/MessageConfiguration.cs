@@ -32,7 +32,7 @@ namespace GinRummy.Persistence.Configurations
             Property(message => message.GameSessionId).HasColumnName("game_session_id");
             Property(message => message.SentAt).HasColumnName("sent_at");
             Ignore(message => message.Channel);
-            HasRequired(message => message.PlayerProfile).WithMany().HasForeignKey(message => message.PlayerAccountId);
+            HasRequired(message => message.PlayerAccount).WithMany().HasForeignKey(message => message.PlayerAccountId);
         }
     }
 }

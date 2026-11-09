@@ -36,7 +36,7 @@ namespace GinRummy.Persistence.Repositories
         public Message FindById(int messageId)
         {
             return _context.Messages
-                .Include(message => message.PlayerProfile)
+                .Include(message => message.PlayerAccount)
                 .FirstOrDefault(message => message.MessageId == messageId);
         }
 

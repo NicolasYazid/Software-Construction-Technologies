@@ -64,6 +64,7 @@
     <Compile Include="Entities\Authentication\EmailRequirement.cs" />
     <Compile Include="Entities\Authentication\GuestSession.cs" />
     <Compile Include="Entities\AccountProtection\IssuedVerificationCode.cs" />
+    <Compile Include="Entities\PlayerCareer\LeaderboardEntry.cs" />
     <Compile Include="Entities\PlayerCareer\LeaderboardPosition.cs" />
     <Compile Include="Entities\PlayerPreferences\Locale.cs" />
     <Compile Include="Entities\Authentication\LogInResult.cs" />

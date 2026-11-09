@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 
 using GinRummy.Domain.Entities.PlayerCareer;
@@ -42,8 +41,7 @@ namespace GinRummy.Persistence.Repositories
         }
 
         /// <summary>
-        /// Gets every player's stats ordered from the highest score to the lowest, each
-        /// with its player loaded.
+        /// Gets every player's stats ordered from the highest score to the lowest.
         /// </summary>
         /// <returns>The ranked stats.</returns>
         public IList<PlayerStats> GetStatsRankedByScore()
@@ -62,6 +60,29 @@ namespace GinRummy.Persistence.Repositories
             }
 
             return rankedStats;
+        }
+
+        /// <summary>
+        /// Gets the stats and the username of every player, ordered from the highest score to the
+        /// lowest. Only the stats and the username are read, never the rest of the profile.
+        /// </summary>
+        /// <returns>The ranked entries.</returns>
+        public IList<LeaderboardEntry> GetLeaderboardEntriesRankedByScore()
+        {
+            IList<LeaderboardEntry> rankedEntries;
+            if (_sharedContext != null)
+            {
+                rankedEntries = ReadLeaderboardEntriesRankedByScore(_sharedContext);
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    rankedEntries = ReadLeaderboardEntriesRankedByScore(context);
+                }
+            }
+
+            return rankedEntries;
         }
 
         /// <summary>
@@ -86,16 +107,34 @@ namespace GinRummy.Persistence.Repositories
             return ranks;
         }
 
-        // Each player is loaded together with its stats in one query.
-        // Reading the username later therefore does not trigger a separate query per row.
         private static IList<PlayerStats> ReadStatsRankedByScore(GinRummyContext context)
         {
             IList<PlayerStats> rankedStats = context.PlayerStats
-                .Include(stats => stats.PlayerProfile)
                 .OrderByDescending(stats => stats.Score)
                 .ToList();
 
             return rankedStats;
+        }
+
+        // The stats and the profile are joined by the account in one query that reads the username only,
+        // so the email and the password hash of the account are never read.
+        private static IList<LeaderboardEntry> ReadLeaderboardEntriesRankedByScore(GinRummyContext context)
+        {
+            var rows = context.PlayerStats
+                .Join(
+                    context.PlayerProfiles,
+                    stats => stats.PlayerAccountId,
+                    profile => profile.PlayerAccountId,
+                    (stats, profile) => new { Stats = stats, Username = profile.Username })
+                .OrderByDescending(row => row.Stats.Score)
+                .ToList();
+            IList<LeaderboardEntry> rankedEntries = new List<LeaderboardEntry>();
+            foreach (var row in rows)
+            {
+                rankedEntries.Add(new LeaderboardEntry(row.Stats, row.Username));
+            }
+
+            return rankedEntries;
         }
     }
 }
