@@ -1,8 +1,8 @@
 ﻿using System;
 
+using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Domain.Entities.PlayerCareer;
 using GinRummy.Domain.Entities.PlayerCustomization;
-using GinRummy.Domain.Entities.Players;
 
 namespace GinRummy.Application.Presence
 {

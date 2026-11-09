@@ -3,8 +3,8 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 
-using GinRummy.Domain.Ports.Security;
-using GinRummy.Domain.Security;
+using GinRummy.Domain.Entities.Authentication;
+using GinRummy.Domain.Ports.Authentication;
 using Konscious.Security.Cryptography;
 
 namespace GinRummy.Security

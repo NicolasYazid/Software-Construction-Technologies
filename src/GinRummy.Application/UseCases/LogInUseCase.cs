@@ -3,10 +3,9 @@ using System.Globalization;
 
 using GinRummy.Application.Ports;
 using GinRummy.Domain;
+using GinRummy.Domain.Entities.AccountProtection;
 using GinRummy.Domain.Entities.Authentication;
-using GinRummy.Domain.Entities.Players;
-using GinRummy.Domain.Ports.Repositories;
-using GinRummy.Domain.Services;
+using GinRummy.Domain.Shared;
 
 namespace GinRummy.Application.UseCases
 {

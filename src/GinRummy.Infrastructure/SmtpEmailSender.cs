@@ -4,8 +4,8 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
-using GinRummy.Domain.Entities.Authentication;
-using GinRummy.Domain.Ports.Infrastructure;
+using GinRummy.Domain.Entities.AccountProtection;
+using GinRummy.Domain.Ports.AccountProtection;
 
 namespace GinRummy.Infrastructure
 {

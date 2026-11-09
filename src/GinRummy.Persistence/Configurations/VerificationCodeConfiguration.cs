@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity.ModelConfiguration;
 
-using GinRummy.Domain.Entities.Authentication;
+using GinRummy.Domain.Entities.AccountProtection;
 
 namespace GinRummy.Persistence.Configurations
 {

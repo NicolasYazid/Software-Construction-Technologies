@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using GinRummy.Domain.Entities.Authentication;
-using GinRummy.Domain.Ports.Repositories;
+using GinRummy.Domain.Entities.AccountProtection;
+using GinRummy.Domain.Ports.AccountProtection;
 using GinRummy.Persistence.Persistence;
 
 namespace GinRummy.Persistence.Repositories

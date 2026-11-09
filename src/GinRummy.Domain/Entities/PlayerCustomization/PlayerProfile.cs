@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using GinRummy.Domain.Services;
+using GinRummy.Domain.Shared;
 
 namespace GinRummy.Domain.Entities.PlayerCustomization
 {

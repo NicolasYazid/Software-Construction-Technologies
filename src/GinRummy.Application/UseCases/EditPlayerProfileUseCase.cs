@@ -2,11 +2,11 @@
 using System.Linq;
 
 using GinRummy.Application.Ports;
+using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Domain.Entities.PlayerPreferences;
 using GinRummy.Domain.Ports.PlayerCustomization;
-using GinRummy.Domain.Ports.Repositories;
-using GinRummy.Domain.Services;
+using GinRummy.Domain.Shared;
 
 namespace GinRummy.Application.UseCases
 {

@@ -3,7 +3,7 @@ using System.ServiceModel;
 
 using GinRummy.Contracts.Faults;
 using GinRummy.Domain;
-using GinRummy.Domain.Services;
+using GinRummy.Domain.Entities.AccountProtection;
 
 namespace GinRummy.Services.Services
 {

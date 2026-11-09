@@ -1,9 +1,8 @@
 ﻿using System.Globalization;
 using System.Resources;
 
-using GinRummy.Domain.Entities.Authentication;
-using GinRummy.Domain.Ports.Infrastructure;
-using GinRummy.Domain.Services;
+using GinRummy.Domain.Entities.AccountProtection;
+using GinRummy.Domain.Ports.AccountProtection;
 
 namespace GinRummy.Infrastructure
 {

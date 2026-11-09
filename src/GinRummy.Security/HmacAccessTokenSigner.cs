@@ -7,7 +7,7 @@ using System.Web.Script.Serialization;
 
 using GinRummy.Domain;
 using GinRummy.Domain.Entities.Authentication;
-using GinRummy.Domain.Ports.Security;
+using GinRummy.Domain.Ports.Authentication;
 
 namespace GinRummy.Security
 {

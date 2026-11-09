@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 
-using GinRummy.Domain.Entities.Players;
-using GinRummy.Domain.Ports.Repositories;
+using GinRummy.Domain.Entities.Authentication;
+using GinRummy.Domain.Ports.Authentication;
 using GinRummy.Persistence.Persistence;
 
 namespace GinRummy.Persistence.Repositories

@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity.ModelConfiguration;
 
-using GinRummy.Domain.Entities.Game;
+using GinRummy.Domain.Entities.Gameplay;
 
 namespace GinRummy.Persistence.Configurations
 {

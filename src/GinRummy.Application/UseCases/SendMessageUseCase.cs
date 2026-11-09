@@ -3,10 +3,10 @@
 using GinRummy.Application.Chat;
 using GinRummy.Application.Ports;
 using GinRummy.Domain;
-using GinRummy.Domain.Entities.Game;
+using GinRummy.Domain.Entities.Gameplay;
 using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Domain.Entities.SocialCommunication;
-using GinRummy.Domain.Ports.Repositories;
+using GinRummy.Domain.Shared;
 
 namespace GinRummy.Application.UseCases
 {

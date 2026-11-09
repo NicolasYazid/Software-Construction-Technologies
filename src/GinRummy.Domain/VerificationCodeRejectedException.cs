@@ -1,6 +1,6 @@
 ﻿using System;
 
-using GinRummy.Domain.Services;
+using GinRummy.Domain.Entities.AccountProtection;
 
 namespace GinRummy.Domain
 {

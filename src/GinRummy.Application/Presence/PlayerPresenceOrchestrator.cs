@@ -4,13 +4,12 @@ using System.Linq;
 
 using GinRummy.Application.Ports;
 using GinRummy.Domain;
+using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Domain.Entities.Friendship;
 using GinRummy.Domain.Entities.PlayerCareer;
 using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Domain.Entities.PlayerPresence;
-using GinRummy.Domain.Entities.Players;
-using GinRummy.Domain.Ports.Repositories;
-using GinRummy.Domain.Services;
+using GinRummy.Domain.Shared;
 
 namespace GinRummy.Application.Presence
 {

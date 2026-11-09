@@ -1,10 +1,10 @@
 ﻿using System;
 
 using GinRummy.Application.Ports;
+using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Domain.Entities.PlayerModeration;
 using GinRummy.Domain.Entities.SocialCommunication;
-using GinRummy.Domain.Ports.Repositories;
-using GinRummy.Domain.Services;
+using GinRummy.Domain.Shared;
 
 namespace GinRummy.Application.UseCases
 {

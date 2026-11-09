@@ -4,7 +4,7 @@ using System.ServiceModel;
 using GinRummy.Application.Ports;
 using GinRummy.Contracts.Callbacks;
 using GinRummy.Contracts.Services;
-using GinRummy.Domain.Services;
+using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Services.Notifiers;
 
 namespace GinRummy.Services.Services

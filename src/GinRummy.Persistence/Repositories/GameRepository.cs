@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
-using GinRummy.Domain.Entities.Game;
-using GinRummy.Domain.Ports.Repositories;
+using GinRummy.Domain.Entities.Gameplay;
+using GinRummy.Domain.Ports.Gameplay;
 using GinRummy.Persistence.Persistence;
 
 namespace GinRummy.Persistence.Repositories
