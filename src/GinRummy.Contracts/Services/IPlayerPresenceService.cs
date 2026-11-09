@@ -12,7 +12,6 @@ namespace GinRummy.Contracts.Services
         [FaultContract(typeof(ServiceFault))]
         void SubscribeToPlayerPresence(string accessToken);
 
-        [OperationContract(IsOneWay = true)]
         void UnsubscribeFromPlayerPresence();
     }
 }

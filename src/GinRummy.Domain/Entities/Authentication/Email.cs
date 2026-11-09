@@ -2,21 +2,19 @@
 
 namespace GinRummy.Domain.Entities.Authentication
 {
-    /// <summary>
-    /// The email sent to deliver a verification code, mapped to the Email table. Each
-    /// verification code has at most one email. Protects its own invariants: it always
-    /// references a code and has a destination that fits the column.
-    /// </summary>
+    [DataContract]
     public class Email
     {
         /// <summary>
         /// Length of the destination_address column, the same as the account email.
         /// </summary>
+        [DataMember]
         public const int DestinationAddressMaxLength = 254;
 
         /// <summary>
         /// Length of the delivery_status column.
         /// </summary>
+        [DataMember]
         public const int DeliveryStatusNameMaxLength = 20;
 
         /// <summary>
