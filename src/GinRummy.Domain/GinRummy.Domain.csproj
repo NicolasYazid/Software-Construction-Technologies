@@ -89,6 +89,16 @@
     <Compile Include="Entities\Players\UsernameRequirement.cs" />
     <Compile Include="FieldTooLongException.cs" />
     <Compile Include="GameCoreException.cs" />
+    <Compile Include="Gameplay\Card.cs" />
+    <Compile Include="Gameplay\CardSuit.cs" />
+    <Compile Include="Gameplay\GameRound.cs" />
+    <Compile Include="Gameplay\InvalidMoveException.cs" />
+    <Compile Include="Gameplay\MeldRules.cs" />
+    <Compile Include="Gameplay\RoundOutcome.cs" />
+    <Compile Include="Gameplay\RoundResult.cs" />
+    <Compile Include="Gameplay\RoundRules.cs" />
+    <Compile Include="Gameplay\StandardDeck.cs" />
+    <Compile Include="Gameplay\TurnPhase.cs" />
     <Compile Include="InvalidAccessTokenException.cs" />
     <Compile Include="InvalidCredentialsException.cs" />
     <Compile Include="InvalidEmailFormatException.cs" />
