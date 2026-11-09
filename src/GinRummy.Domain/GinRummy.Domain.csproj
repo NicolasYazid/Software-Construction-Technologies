@@ -42,10 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\PlayerModeration\AccountBannedException.cs" />
-    <Compile Include="DisallowedCharactersException.cs" />
-    <Compile Include="EmailAlreadyRegisteredException.cs" />
-    <Compile Include="EmailAlreadyVerifiedException.cs" />
-    <Compile Include="EmailNotVerifiedException.cs" />
+    <Compile Include="Exceptions\DisallowedCharactersException.cs" />
+    <Compile Include="Exceptions\EmailAlreadyRegisteredException.cs" />
+    <Compile Include="Exceptions\EmailAlreadyVerifiedException.cs" />
+    <Compile Include="Exceptions\EmailNotVerifiedException.cs" />
     <Compile Include="Entities\Authentication\AccessToken.cs" />
     <Compile Include="Entities\Authentication\AccessTokenOwner.cs" />
     <Compile Include="Entities\Authentication\SignUpForm.cs" />
@@ -88,11 +88,11 @@
     <Compile Include="Entities\PlayerModeration\Report.cs" />
     <Compile Include="Entities\PlayerModeration\Warning.cs" />
     <Compile Include="Entities\PlayerCustomization\UsernameRequirement.cs" />
-    <Compile Include="FieldTooLongException.cs" />
-    <Compile Include="GameCoreException.cs" />
-    <Compile Include="InvalidAccessTokenException.cs" />
-    <Compile Include="InvalidCredentialsException.cs" />
-    <Compile Include="InvalidEmailFormatException.cs" />
+    <Compile Include="Exceptions\FieldTooLongException.cs" />
+    <Compile Include="Exceptions\GameCoreException.cs" />
+    <Compile Include="Exceptions\InvalidAccessTokenException.cs" />
+    <Compile Include="Exceptions\InvalidCredentialsException.cs" />
+    <Compile Include="Exceptions\InvalidEmailFormatException.cs" />
     <Compile Include="Shared\IClock.cs" />
     <Compile Include="Ports\AccountProtection\IEmailSender.cs" />
     <Compile Include="Ports\PlayerCustomization\IProfilePictureStorage.cs" />
@@ -114,7 +114,7 @@
     <Compile Include="Ports\AccountProtection\IVerificationCodeRepository.cs" />
     <Compile Include="Ports\Authentication\IPasswordHasher.cs" />
     <Compile Include="Ports\AccountProtection\IVerificationCodeGenerator.cs" />
-    <Compile Include="RequiredFieldMissingException.cs" />
+    <Compile Include="Exceptions\RequiredFieldMissingException.cs" />
     <Compile Include="Entities\Authentication\Password.cs" />
     <Compile Include="Entities\Authentication\PasswordRequirement.cs" />
     <Compile Include="Entities\Authentication\AccountAccessPolicy.cs" />
@@ -129,39 +129,18 @@
     <Compile Include="Entities\AccountProtection\VerificationCodeIssuer.cs" />
     <Compile Include="Entities\AccountProtection\VerificationCodeRedeemer.cs" />
     <Compile Include="Entities\AccountProtection\VerificationCodeSender.cs" />
-    <Compile Include="VerificationCodeRejectedException.cs" />
-    <Compile Include="VerificationEmailNotSentException.cs" />
-    <Compile Include="VerificationResendLimitException.cs" />
-    <Compile Include="SamePasswordException.cs" />
-    <Compile Include="WeakPasswordException.cs" />
+    <Compile Include="Exceptions\VerificationCodeRejectedException.cs" />
+    <Compile Include="Exceptions\VerificationEmailNotSentException.cs" />
+    <Compile Include="Exceptions\VerificationResendLimitException.cs" />
+    <Compile Include="Exceptions\SamePasswordException.cs" />
+    <Compile Include="Exceptions\WeakPasswordException.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Entities\AccountProtection\" />
     <Folder Include="Entities\AccountRecovery\" />
-    <Folder Include="Entities\Authentication\" />
-    <Folder Include="Entities\DirectDuel\" />
-    <Folder Include="Entities\Friendship\" />
-    <Folder Include="Entities\Gameplay\" />
     <Folder Include="Entities\Matchmaking\" />
-    <Folder Include="Entities\PlayerCareer\" />
-    <Folder Include="Entities\PlayerCustomization\" />
-    <Folder Include="Entities\PlayerModeration\" />
-    <Folder Include="Entities\PlayerPreferences\" />
-    <Folder Include="Entities\PlayerPresence\" />
-    <Folder Include="Entities\SocialCommunication\" />
-    <Folder Include="Ports\AccountProtection\" />
     <Folder Include="Ports\AccountRecovery\" />
-    <Folder Include="Ports\Authentication\" />
-    <Folder Include="Ports\DirectDuel\" />
-    <Folder Include="Ports\Friendship\" />
-    <Folder Include="Ports\Gameplay\" />
     <Folder Include="Ports\Matchmaking\" />
-    <Folder Include="Ports\PlayerCareer\" />
-    <Folder Include="Ports\PlayerCustomization\" />
-    <Folder Include="Ports\PlayerModeration\" />
-    <Folder Include="Ports\PlayerPreferences\" />
     <Folder Include="Ports\PlayerPresence\" />
-    <Folder Include="Ports\SocialCommunication\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
