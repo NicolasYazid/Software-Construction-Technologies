@@ -27,11 +27,11 @@ namespace GinRummy.Application.UseCases
 
         public PlayerAccount GetAccountSettings(string accessToken)
         {
-            int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
+            int playerAccountId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
             PlayerAccount account;
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                account = unitOfWork.PlayerAccounts.FindByPlayerId(playerId);
+                account = unitOfWork.PlayerAccounts.FindByPlayerAccountId(playerAccountId);
             }
 
             return account;
@@ -39,21 +39,21 @@ namespace GinRummy.Application.UseCases
 
         public void RequestTwoFactorActivation(string accessToken)
         {
-            int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
+            int playerAccountId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                PlayerAccount account = unitOfWork.PlayerAccounts.FindByPlayerId(playerId);
+                PlayerAccount account = unitOfWork.PlayerAccounts.FindByPlayerAccountId(playerAccountId);
                 CommitSentCode(unitOfWork, _codeSender.Send(unitOfWork, account, VerificationPurpose.TwoFactorSetup));
             }
         }
 
         public void DisableTwoFactor(string accessToken, string password)
         {
-            int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
+            int playerAccountId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
             TypedFieldValidator.EnsureAreTyped(password);
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                PlayerAccount account = unitOfWork.PlayerAccounts.FindByPlayerId(playerId);
+                PlayerAccount account = unitOfWork.PlayerAccounts.FindByPlayerAccountId(playerAccountId);
                 _accessPolicy.EnsureCredentialsMatch(account, password);
                 account.DisableTwoFactor();
                 unitOfWork.Commit();
@@ -62,11 +62,11 @@ namespace GinRummy.Application.UseCases
 
         public void RequestPasswordChange(string accessToken, string currentPassword, string newPassword)
         {
-            int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
+            int playerAccountId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
             TypedFieldValidator.EnsureAreTyped(currentPassword, newPassword);
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                PlayerAccount account = unitOfWork.PlayerAccounts.FindByPlayerId(playerId);
+                PlayerAccount account = unitOfWork.PlayerAccounts.FindByPlayerAccountId(playerAccountId);
                 _accessPolicy.EnsureCredentialsMatch(account, currentPassword);
                 _accessPolicy.EnsurePasswordCanReplace(account, newPassword);
                 CommitSentCode(unitOfWork, _codeSender.Send(unitOfWork, account, VerificationPurpose.PasswordChange));
@@ -75,7 +75,7 @@ namespace GinRummy.Application.UseCases
 
         public void RequestEmailChange(string accessToken, string newEmail)
         {
-            int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
+            int playerAccountId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
             TypedFieldValidator.EnsureAreTyped(newEmail);
             TypedFieldValidator.EnsureHaveNoForbiddenCharacters(newEmail);
             if (PlayerAccount.GetUnmetEmailRequirements(newEmail).Count > 0)
@@ -91,17 +91,17 @@ namespace GinRummy.Application.UseCases
                     throw new EmailAlreadyRegisteredException("The new email already belongs to an account.");
                 }
 
-                PlayerAccount account = unitOfWork.PlayerAccounts.FindByPlayerId(playerId);
+                PlayerAccount account = unitOfWork.PlayerAccounts.FindByPlayerAccountId(playerAccountId);
                 CommitSentCode(unitOfWork, _codeSender.SendToNewEmail(unitOfWork, account, normalizedEmail));
             }
         }
 
         public void ChangeChatFilter(string accessToken, bool isChatFilterEnabled)
         {
-            int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
+            int playerAccountId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                unitOfWork.Players.FindById(playerId).ChangeChatFilter(isChatFilterEnabled);
+                unitOfWork.Players.FindById(playerAccountId).ChangeChatFilter(isChatFilterEnabled);
                 unitOfWork.Commit();
             }
         }

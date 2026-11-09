@@ -21,12 +21,12 @@ namespace GinRummy.Persistence.Configurations
             HasKey(participant => participant.GameParticipantId);
             Property(participant => participant.GameParticipantId).HasColumnName("game_participant_id");
             Property(participant => participant.GameSessionId).HasColumnName("game_session_id");
-            Property(participant => participant.PlayerId).HasColumnName("player_id");
+            Property(participant => participant.PlayerAccountId).HasColumnName("player_account_id");
             Property(participant => participant.GuestSessionId).HasColumnName("guest_session_id");
             Property(participant => participant.CardsInHand).HasColumnName("cards_in_hand");
             Property(participant => participant.Score).HasColumnName("puntuation");
             Ignore(participant => participant.IsGuest);
-            HasOptional(participant => participant.Player).WithMany().HasForeignKey(participant => participant.PlayerId)
+            HasOptional(participant => participant.PlayerProfile).WithMany().HasForeignKey(participant => participant.PlayerAccountId)
                 .WillCascadeOnDelete(false);
             HasOptional(participant => participant.GuestSession).WithMany().HasForeignKey(participant => participant.GuestSessionId)
                 .WillCascadeOnDelete(false);

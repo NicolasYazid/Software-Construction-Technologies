@@ -12,17 +12,17 @@ namespace GinRummy.Domain.Entities.PlayerModeration
         /// <summary>
         /// Creates a valid new ban.
         /// </summary>
-        /// <param name="playerId">Identifier of the sanctioned player; must be positive.</param>
+        /// <param name="playerAccountId">Identifier of the sanctioned player; must be positive.</param>
         /// <param name="reasonBanId">Identifier of the reason of the sanction; must be positive.</param>
         /// <param name="issuedAt">Moment the ban was issued, in UTC.</param>
         /// <param name="expiresAt">Moment the ban ends, in UTC; null for a permanent ban.</param>
-        public Ban(int playerId, int reasonBanId, DateTime issuedAt, DateTime? expiresAt)
+        public Ban(int playerAccountId, int reasonBanId, DateTime issuedAt, DateTime? expiresAt)
         {
-            ValidateId(playerId, nameof(playerId));
+            ValidateId(playerAccountId, nameof(playerAccountId));
             ValidateId(reasonBanId, nameof(reasonBanId));
             ValidateExpiry(issuedAt, expiresAt);
 
-            PlayerId = playerId;
+            PlayerAccountId = playerAccountId;
             ReasonBanId = reasonBanId;
             IssuedAt = issuedAt;
             ExpiresAt = expiresAt;
@@ -44,7 +44,7 @@ namespace GinRummy.Domain.Entities.PlayerModeration
         /// <summary>
         /// Gets the identifier of the sanctioned player.
         /// </summary>
-        public int PlayerId { get; private set; }
+        public int PlayerAccountId { get; private set; }
 
         /// <summary>
         /// Gets the identifier of the reason of the sanction.

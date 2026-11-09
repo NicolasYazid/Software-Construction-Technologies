@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace GinRummy.Domain.Services
+namespace GinRummy.Domain.Entities.PlayerCustomization
 {
     /// <summary>
     /// Rules a profile picture must meet: a JPG or PNG image of at most 2 MB.

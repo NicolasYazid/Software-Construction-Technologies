@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
@@ -6,6 +7,7 @@ using System.Linq;
 
 using GinRummy.Domain;
 using GinRummy.Domain.Entities.PlayerCareer;
+using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Domain.Entities.Players;
 using GinRummy.Domain.Ports.Repositories;
 using GinRummy.Persistence.Persistence;
@@ -48,8 +50,8 @@ namespace GinRummy.Persistence.Repositories
         }
 
         /// <summary>
-        /// Finds the account whose email matches, with its player and the player's language loaded,
-        /// or null when no account has it.
+        /// Finds the account whose email matches, with its preferences, the language of the preferences
+        /// and its profile loaded, or null when no account has it.
         /// </summary>
         /// <param name="email">Email address to search for.</param>
         /// <returns>The matching account, or null.</returns>
@@ -59,17 +61,19 @@ namespace GinRummy.Persistence.Repositories
             if (_sharedContext != null)
             {
                 foundAccount = _sharedContext.PlayerAccounts
-                    .Include(account => account.Player.Locale)
+                    .Include(account => account.PlayerPreferences.Locale)
+                    .Include(account => account.PlayerProfile)
                     .FirstOrDefault(account => account.Email == email);
             }
             else
             {
-                // The player is loaded in the same query because the context closes before the caller reads it.
-                // A closed context can no longer load it later.
+                // The preferences and the profile are loaded in the same query because the context closes before the caller reads them.
+                // A closed context can no longer load them later.
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
                     foundAccount = context.PlayerAccounts
-                        .Include(account => account.Player.Locale)
+                        .Include(account => account.PlayerPreferences.Locale)
+                    .Include(account => account.PlayerProfile)
                         .FirstOrDefault(account => account.Email == email);
                 }
             }
@@ -78,49 +82,49 @@ namespace GinRummy.Persistence.Repositories
         }
 
         /// <summary>
-        /// Finds the account of a player, with its player loaded, or null when the player has
+        /// Finds the account of a player, with its preferences and its profile loaded, or null when the player has
         /// no account.
         /// </summary>
-        /// <param name="playerId">Identifier of the player that owns the account.</param>
+        /// <param name="playerAccountId">Identifier of the player that owns the account.</param>
         /// <returns>The matching account, or null.</returns>
-        public PlayerAccount FindByPlayerId(int playerId)
+        public PlayerAccount FindByPlayerAccountId(int playerAccountId)
         {
             PlayerAccount foundAccount;
             if (_sharedContext != null)
             {
                 foundAccount = _sharedContext.PlayerAccounts
-                    .Include(account => account.Player)
-                    .FirstOrDefault(account => account.PlayerId == playerId);
+                    .Include(account => account.PlayerPreferences)
+                    .Include(account => account.PlayerProfile)
+                    .FirstOrDefault(account => account.PlayerAccountId == playerAccountId);
             }
             else
             {
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
                     foundAccount = context.PlayerAccounts
-                        .Include(account => account.Player)
-                        .FirstOrDefault(account => account.PlayerId == playerId);
+                        .Include(account => account.PlayerPreferences)
+                    .Include(account => account.PlayerProfile)
+                        .FirstOrDefault(account => account.PlayerAccountId == playerAccountId);
                 }
             }
 
             return foundAccount;
         }
 
-        public PlayerProfile FindProfileByPlayerId(int playerId)
+        public PlayerProfile FindProfileByPlayerAccountId(int playerAccountId)
         {
             PlayerProfile foundProfile;
             if (_sharedContext != null)
             {
                 foundProfile = _sharedContext.PlayerProfiles
-                    .Include(playerProfile => playerProfile.PlayerAccount.Player)
-                    .FirstOrDefault(playerProfile => playerProfile.PlayerId == playerId);
+                    .FirstOrDefault(playerProfile => playerProfile.PlayerAccountId == playerAccountId);
             }
             else
             {
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
                     foundProfile = context.PlayerProfiles
-                        .Include(playerProfile => playerProfile.PlayerAccount.Player)
-                        .FirstOrDefault(playerProfile => playerProfile.PlayerId == playerId);
+                            .FirstOrDefault(playerProfile => playerProfile.PlayerAccountId == playerAccountId);
                 }
             }
 
@@ -204,20 +208,20 @@ namespace GinRummy.Persistence.Repositories
         /// Finds the profile of a player, with its social links loaded, or null when the player has no
         /// profile.
         /// </summary>
-        /// <param name="playerId">Identifier of the player that owns the profile.</param>
+        /// <param name="playerAccountId">Identifier of the player that owns the profile.</param>
         /// <returns>The matching profile, or null.</returns>
-        public PlayerProfile FindProfile(int playerId)
+        public PlayerProfile FindProfile(int playerAccountId)
         {
             PlayerProfile foundProfile;
             if (_sharedContext != null)
             {
-                foundProfile = FindProfileIn(_sharedContext, playerId);
+                foundProfile = FindProfileIn(_sharedContext, playerAccountId);
             }
             else
             {
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
-                    foundProfile = FindProfileIn(context, playerId);
+                    foundProfile = FindProfileIn(context, playerAccountId);
                 }
             }
 
@@ -225,22 +229,67 @@ namespace GinRummy.Persistence.Repositories
         }
 
         /// <summary>
-        /// Finds the statistics of a player, with its player loaded, or null when the player has none.
+        /// Finds a player by the public tag other players see, or null when no player has it.
         /// </summary>
-        /// <param name="playerId">Identifier of the player that owns the statistics.</param>
-        /// <returns>The matching statistics, or null.</returns>
-        public PlayerStats FindStats(int playerId)
+        /// <param name="publicTag">Public tag to search for.</param>
+        /// <returns>The matching profile, or null.</returns>
+        public PlayerProfile FindByPublicTag(int publicTag)
         {
-            PlayerStats foundStats;
+            PlayerProfile foundProfile;
             if (_sharedContext != null)
             {
-                foundStats = FindStatsIn(_sharedContext, playerId);
+                foundProfile = _sharedContext.PlayerProfiles.FirstOrDefault(playerProfile => playerProfile.PublicTag == publicTag);
             }
             else
             {
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
-                    foundStats = FindStatsIn(context, playerId);
+                    foundProfile = context.PlayerProfiles.FirstOrDefault(playerProfile => playerProfile.PublicTag == publicTag);
+                }
+            }
+
+            return foundProfile;
+        }
+
+        /// <summary>
+        /// Gets every registered player.
+        /// </summary>
+        /// <returns>All the profiles; empty when none has registered.</returns>
+        public IList<PlayerProfile> GetAllPlayers()
+        {
+            IList<PlayerProfile> allPlayers;
+            if (_sharedContext != null)
+            {
+                allPlayers = _sharedContext.PlayerProfiles.ToList();
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    allPlayers = context.PlayerProfiles.ToList();
+                }
+            }
+
+            return allPlayers;
+        }
+
+        /// <summary>
+        /// Finds the statistics of a player, with its profile loaded, or null when the player has none.
+        /// </summary>
+        /// <param name="playerAccountId">Identifier of the player that owns the statistics.</param>
+        /// <returns>The matching statistics, or null.</returns>
+        public PlayerStats FindStats(int playerAccountId)
+        {
+            PlayerStats foundStats;
+            if (_sharedContext != null)
+            {
+                foundStats = FindStatsIn(_sharedContext, playerAccountId);
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    foundStats = FindStatsIn(context, playerAccountId);
                 }
             }
 
@@ -292,20 +341,20 @@ namespace GinRummy.Persistence.Repositories
         }
 
         // The links are read in the same query, because the context closes before the profile is mapped.
-        private static PlayerProfile FindProfileIn(GinRummyContext context, int playerId)
+        private static PlayerProfile FindProfileIn(GinRummyContext context, int playerAccountId)
         {
             PlayerProfile foundProfile = context.PlayerProfiles
                 .Include(profile => profile.SocialMediaLinks)
-                .FirstOrDefault(profile => profile.PlayerId == playerId);
+                .FirstOrDefault(profile => profile.PlayerAccountId == playerAccountId);
 
             return foundProfile;
         }
 
-        private static PlayerStats FindStatsIn(GinRummyContext context, int playerId)
+        private static PlayerStats FindStatsIn(GinRummyContext context, int playerAccountId)
         {
             PlayerStats foundStats = context.PlayerStats
-                .Include(stats => stats.Player)
-                .FirstOrDefault(stats => stats.PlayerId == playerId);
+                .Include(stats => stats.PlayerProfile)
+                .FirstOrDefault(stats => stats.PlayerAccountId == playerAccountId);
 
             return foundStats;
         }

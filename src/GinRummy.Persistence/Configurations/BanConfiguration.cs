@@ -18,7 +18,7 @@ namespace GinRummy.Persistence.Configurations
             ToTable("Ban");
             HasKey(ban => ban.BanId);
             Property(ban => ban.BanId).HasColumnName("ban_id");
-            Property(ban => ban.PlayerId).HasColumnName("player_id");
+            Property(ban => ban.PlayerAccountId).HasColumnName("player_account_id");
             Property(ban => ban.ReasonBanId).HasColumnName("reason_ban_id");
             Property(ban => ban.IssuedAt).HasColumnName("issued_at");
             Property(ban => ban.ExpiresAt).HasColumnName("expires_at");

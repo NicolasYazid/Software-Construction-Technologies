@@ -4,7 +4,7 @@ using GinRummy.Application.Chat;
 using GinRummy.Application.Ports;
 using GinRummy.Domain;
 using GinRummy.Domain.Entities.Game;
-using GinRummy.Domain.Entities.Players;
+using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Domain.Entities.SocialCommunication;
 using GinRummy.Domain.Ports.Repositories;
 
@@ -12,7 +12,7 @@ namespace GinRummy.Application.UseCases
 {
     public class SendMessageUseCase : ISendMessageUseCase
     {
-        private const int NoRivalPlayerId = 0;
+        private const int NoRivalPlayerAccountId = 0;
         private readonly Func<IUnitOfWork> _unitOfWorkFactory;
         private readonly ChatHistory _chatHistory;
         private readonly IChatMessageAnnouncer _chatMessageAnnouncer;
@@ -57,7 +57,7 @@ namespace GinRummy.Application.UseCases
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
                 authorProfile = FindAuthorProfile(unitOfWork, authorId);
-                gameSessionInProgress = unitOfWork.Games.FindGameSessionInProgressByPlayerId(authorId);
+                gameSessionInProgress = unitOfWork.Games.FindGameSessionInProgressByPlayerAccountId(authorId);
             }
 
             if (gameSessionInProgress == null)
@@ -83,7 +83,7 @@ namespace GinRummy.Application.UseCases
 
         private static PlayerProfile FindAuthorProfile(IUnitOfWork unitOfWork, int authorId)
         {
-            PlayerProfile authorProfile = unitOfWork.PlayerAccounts.FindProfileByPlayerId(authorId);
+            PlayerProfile authorProfile = unitOfWork.PlayerAccounts.FindProfileByPlayerAccountId(authorId);
             if (authorProfile == null)
             {
                 throw new InvalidAccessTokenException("The access token does not belong to a registered player.");
@@ -94,13 +94,13 @@ namespace GinRummy.Application.UseCases
 
         private static int FindRivalId(GameSession gameSessionInProgress, int authorId)
         {
-            int rivalId = NoRivalPlayerId;
+            int rivalId = NoRivalPlayerAccountId;
             foreach (GameParticipant participant in gameSessionInProgress.Participants)
             {
-                bool isRegisteredRival = participant.PlayerId.HasValue && (participant.PlayerId.Value != authorId);
+                bool isRegisteredRival = participant.PlayerAccountId.HasValue && (participant.PlayerAccountId.Value != authorId);
                 if (isRegisteredRival)
                 {
-                    rivalId = participant.PlayerId.Value;
+                    rivalId = participant.PlayerAccountId.Value;
                 }
             }
 

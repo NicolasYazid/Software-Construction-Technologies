@@ -21,9 +21,9 @@ namespace GinRummy.Domain.Ports.Repositories
         /// Finds the match a registered player takes part in that is not over, or null when
         /// there is none.
         /// </summary>
-        /// <param name="playerId">Player to look for.</param>
+        /// <param name="playerAccountId">Player to look for.</param>
         /// <returns>The open match with its participants, or null.</returns>
-        GameSession FindGameSessionInProgressByPlayerId(int playerId);
+        GameSession FindGameSessionInProgressByPlayerAccountId(int playerAccountId);
 
         /// <summary>
         /// Finds the match a guest takes part in that is not over, or null when there is none.
@@ -54,8 +54,8 @@ namespace GinRummy.Domain.Ports.Repositories
         /// <summary>
         /// Gets the history of a player, newest first.
         /// </summary>
-        /// <param name="playerId">Player whose history is read.</param>
+        /// <param name="playerAccountId">Player whose history is read.</param>
         /// <returns>The entries of the player; empty when there are none.</returns>
-        IList<GameHistory> GetHistoryOf(int playerId);
+        IList<GameHistory> GetHistoryOf(int playerAccountId);
     }
 }

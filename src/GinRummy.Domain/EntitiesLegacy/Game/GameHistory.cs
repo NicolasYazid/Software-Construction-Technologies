@@ -16,17 +16,17 @@ namespace GinRummy.Domain.Entities.Game
         /// <summary>
         /// Creates a valid new history entry.
         /// </summary>
-        /// <param name="playerId">Identifier of the player the entry belongs to; must be positive.</param>
+        /// <param name="playerAccountId">Identifier of the player the entry belongs to; must be positive.</param>
         /// <param name="opponentId">Identifier of the opponent; positive and different from the player.</param>
         /// <param name="hasWon">True when the player won the match.</param>
         /// <param name="scoreEarned">Points earned in the match; not negative.</param>
         /// <param name="playedAt">Moment the match was played, in UTC.</param>
-        public GameHistory(int playerId, int opponentId, bool hasWon, int scoreEarned, DateTime playedAt)
+        public GameHistory(int playerAccountId, int opponentId, bool hasWon, int scoreEarned, DateTime playedAt)
         {
-            ValidatePlayers(playerId, opponentId);
+            ValidatePlayers(playerAccountId, opponentId);
             ValidateScore(scoreEarned);
 
-            PlayerId = playerId;
+            PlayerAccountId = playerAccountId;
             OpponentId = opponentId;
             HasWon = hasWon;
             ScoreEarned = scoreEarned;
@@ -49,7 +49,7 @@ namespace GinRummy.Domain.Entities.Game
         /// <summary>
         /// Gets the identifier of the player the entry belongs to.
         /// </summary>
-        public int PlayerId { get; private set; }
+        public int PlayerAccountId { get; private set; }
 
         /// <summary>
         /// Gets the identifier of the opponent.
@@ -82,14 +82,14 @@ namespace GinRummy.Domain.Entities.Game
         public virtual PlayerAccount Opponent { get; private set; }
 
         // Both sides are real players, and nobody plays a match against themselves.
-        private static void ValidatePlayers(int playerId, int opponentId)
+        private static void ValidatePlayers(int playerAccountId, int opponentId)
         {
-            if ((playerId <= 0) || (opponentId <= 0))
+            if ((playerAccountId <= 0) || (opponentId <= 0))
             {
-                throw new ArgumentException("Player ids must be positive.");
+                throw new ArgumentException("Player account ids must be positive.");
             }
 
-            if (playerId == opponentId)
+            if (playerAccountId == opponentId)
             {
                 throw new ArgumentException("The opponent must be another player.", nameof(opponentId));
             }

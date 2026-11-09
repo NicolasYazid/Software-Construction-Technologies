@@ -1,6 +1,6 @@
 ﻿using System;
 
-using GinRummy.Domain.Entities.Players;
+using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Domain.Entities.SocialCommunication;
 
 namespace GinRummy.Application.Chat

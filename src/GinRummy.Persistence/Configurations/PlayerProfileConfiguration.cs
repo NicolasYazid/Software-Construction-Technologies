@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
-using GinRummy.Domain.Entities.Players;
+using GinRummy.Domain.Entities.PlayerCustomization;
 
 namespace GinRummy.Persistence.Configurations
 {
@@ -17,10 +17,17 @@ namespace GinRummy.Persistence.Configurations
         public PlayerProfileConfiguration()
         {
             ToTable("PlayerProfile");
-            HasKey(playerProfile => playerProfile.PlayerId);
-            Property(playerProfile => playerProfile.PlayerId)
-                .HasColumnName("player_id")
+            HasKey(playerProfile => playerProfile.PlayerAccountId);
+            Property(playerProfile => playerProfile.PlayerAccountId)
+                .HasColumnName("player_account_id")
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            Property(playerProfile => playerProfile.Username)
+                .HasColumnName("username")
+                .IsRequired()
+                .HasMaxLength(PlayerProfile.UsernameMaxLength);
+            Property(playerProfile => playerProfile.PublicTag)
+                .HasColumnName("public_tag")
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
             Property(playerProfile => playerProfile.Bio)
                 .HasColumnName("bio")
                 .IsUnicode(false)
@@ -29,10 +36,9 @@ namespace GinRummy.Persistence.Configurations
                 .HasColumnName("profile_picture")
                 .IsUnicode(false)
                 .HasMaxLength(PlayerProfile.ProfilePictureMaxLength);
-            HasRequired(playerProfile => playerProfile.PlayerAccount).WithOptional();
             HasMany(playerProfile => playerProfile.SocialMediaLinks)
                 .WithRequired()
-                .HasForeignKey(link => link.PlayerId);
+                .HasForeignKey(link => link.PlayerAccountId);
         }
     }
 }

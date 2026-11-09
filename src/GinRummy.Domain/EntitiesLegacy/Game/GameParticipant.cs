@@ -1,5 +1,6 @@
 ﻿using System;
 
+using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Domain.Entities.Players;
 
 namespace GinRummy.Domain.Entities.Game
@@ -41,7 +42,7 @@ namespace GinRummy.Domain.Entities.Game
         /// <summary>
         /// Gets the identifier of the registered player. Null when a guest holds the seat.
         /// </summary>
-        public int? PlayerId { get; private set; }
+        public int? PlayerAccountId { get; private set; }
 
         /// <summary>
         /// Gets the identifier of the guest session. Null when a registered player holds the seat.
@@ -61,7 +62,7 @@ namespace GinRummy.Domain.Entities.Game
         /// <summary>
         /// Gets the registered player that holds the seat. Null when a guest holds it.
         /// </summary>
-        public virtual Player Player { get; private set; }
+        public virtual PlayerProfile PlayerProfile { get; private set; }
 
         /// <summary>
         /// Gets the guest that holds the seat. Null when a registered player holds it.
@@ -80,15 +81,15 @@ namespace GinRummy.Domain.Entities.Game
         /// Creates the seat of a registered player.
         /// </summary>
         /// <param name="gameSessionId">Identifier of the match; must be positive.</param>
-        /// <param name="playerId">Identifier of the player; must be positive.</param>
+        /// <param name="playerAccountId">Identifier of the player; must be positive.</param>
         /// <returns>The new seat, with the initial score.</returns>
-        public static GameParticipant ForPlayer(int gameSessionId, int playerId)
+        public static GameParticipant ForPlayer(int gameSessionId, int playerAccountId)
         {
             ValidateIdentifier(gameSessionId, nameof(gameSessionId));
-            ValidateIdentifier(playerId, nameof(playerId));
+            ValidateIdentifier(playerAccountId, nameof(playerAccountId));
 
             GameParticipant participant = new GameParticipant(gameSessionId);
-            participant.PlayerId = playerId;
+            participant.PlayerAccountId = playerAccountId;
 
             return participant;
         }

@@ -2,7 +2,6 @@
 
 using GinRummy.Contracts.DataContracts;
 using GinRummy.Domain.Entities.PlayerCareer;
-using GinRummy.Domain.Entities.Players;
 
 namespace GinRummy.Services.Mappers
 {
@@ -32,7 +31,7 @@ namespace GinRummy.Services.Mappers
             PlayerRanking ranking = new PlayerRanking
             {
                 Position = position.Place,
-                Username = position.Stats.Player.Username,
+                Username = position.Stats.PlayerProfile.Username,
                 RankName = ResolveRankName(position.Rank),
                 Wins = position.Stats.Wins,
                 Losses = position.Stats.Losses,

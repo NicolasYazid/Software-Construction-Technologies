@@ -168,11 +168,11 @@ namespace GinRummy.Services.Services
         {
             if (result.IsVerificationCodeSent)
             {
-                _logger.LogInformation("Player {PlayerId} created an account and was emailed its code.", result.Account.PlayerId);
+                _logger.LogInformation("Player {PlayerAccountId} created an account and was emailed its code.", result.Account.PlayerAccountId);
             }
             else
             {
-                _logger.LogError("Player {PlayerId} created an account, but its code could not be emailed.", result.Account.PlayerId);
+                _logger.LogError("Player {PlayerAccountId} created an account, but its code could not be emailed.", result.Account.PlayerAccountId);
             }
         }
     }

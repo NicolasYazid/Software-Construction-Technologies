@@ -40,7 +40,7 @@ namespace GinRummy.Application.UseCases
             {
                 PlayerAccount account = unitOfWork.PlayerAccounts.FindByEmail(PlayerAccount.NormalizeEmail(email));
                 _accessPolicy.EnsureCredentialsMatch(account, password);
-                _accessPolicy.EnsureAccessAllowed(account, unitOfWork.Moderation.GetBansOf(account.PlayerId));
+                _accessPolicy.EnsureAccessAllowed(account, unitOfWork.Moderation.GetBansOf(account.PlayerAccountId));
                 if (account.IsTwoFactorEnabled)
                 {
                     result = StartTwoFactor(unitOfWork, account);

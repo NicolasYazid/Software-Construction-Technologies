@@ -1,7 +1,5 @@
 ﻿using System;
 
-using GinRummy.Domain.Entities.Players;
-
 namespace GinRummy.Domain.Entities.Authentication
 {
     /// <summary>
@@ -19,23 +17,23 @@ namespace GinRummy.Domain.Entities.Authentication
         /// <summary>
         /// Creates a valid new verification code generated at the given moment.
         /// </summary>
-        /// <param name="playerId">Player this code is for; must be positive.</param>
+        /// <param name="playerAccountId">Player this code is for; must be positive.</param>
         /// <param name="purpose">Reason this code was generated.</param>
         /// <param name="codeHash">Hash of the code; required, never the plain code.</param>
         /// <param name="createdAt">Moment the code was generated, in UTC.</param>
         /// <param name="expiresAt">When the code stops being valid; must be after the creation.</param>
         public VerificationCode(
-            int playerId,
+            int playerAccountId,
             VerificationPurpose purpose,
             string codeHash,
             DateTime createdAt,
             DateTime expiresAt)
         {
-            ValidatePlayerId(playerId);
+            ValidatePlayerAccountId(playerAccountId);
             ValidateCodeHash(codeHash);
             ValidateExpiry(expiresAt, createdAt);
 
-            PlayerId = playerId;
+            PlayerAccountId = playerAccountId;
             Purpose = purpose;
             CodeHash = codeHash;
             ExpiresAt = expiresAt;
@@ -60,7 +58,7 @@ namespace GinRummy.Domain.Entities.Authentication
         /// <summary>
         /// Gets the player this code was generated for.
         /// </summary>
-        public int PlayerId { get; private set; }
+        public int PlayerAccountId { get; private set; }
 
         /// <summary>
         /// Gets the reason this code was generated.
@@ -116,11 +114,11 @@ namespace GinRummy.Domain.Entities.Authentication
         }
 
         // A code must always belong to a real player, referenced by a positive id.
-        private static void ValidatePlayerId(int playerId)
+        private static void ValidatePlayerAccountId(int playerAccountId)
         {
-            if (playerId <= 0)
+            if (playerAccountId <= 0)
             {
-                throw new ArgumentException("Player id must be positive.", nameof(playerId));
+                throw new ArgumentException("Player account id must be positive.", nameof(playerAccountId));
             }
         }
 

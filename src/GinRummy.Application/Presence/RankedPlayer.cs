@@ -1,6 +1,7 @@
 ﻿using System;
 
 using GinRummy.Domain.Entities.PlayerCareer;
+using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Domain.Entities.Players;
 
 namespace GinRummy.Application.Presence
@@ -9,14 +10,14 @@ namespace GinRummy.Application.Presence
     // A guest is listed too, without score or rank, because the lobby shows everyone who is connected (CU-27 FA-04).
     public class RankedPlayer
     {
-        public RankedPlayer(Player player, int score, Rank rank)
+        public RankedPlayer(PlayerProfile player, int score, Rank rank)
         {
             if (player == null)
             {
                 throw new ArgumentNullException(nameof(player));
             }
 
-            IdentityId = player.PlayerId;
+            IdentityId = player.PlayerAccountId;
             DisplayName = player.Username;
             PublicTag = player.PublicTag;
             Score = score;

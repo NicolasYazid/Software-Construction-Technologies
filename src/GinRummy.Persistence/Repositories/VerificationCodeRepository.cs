@@ -56,16 +56,16 @@ namespace GinRummy.Persistence.Repositories
         /// Finds the most recently created code for a player and a purpose, or null
         /// when none exists.
         /// </summary>
-        /// <param name="playerId">Player the code belongs to.</param>
+        /// <param name="playerAccountId">Player the code belongs to.</param>
         /// <param name="purpose">Reason the code was generated for.</param>
         /// <returns>The matching code, or null.</returns>
-        public VerificationCode FindMostRecent(int playerId, VerificationPurpose purpose)
+        public VerificationCode FindMostRecent(int playerAccountId, VerificationPurpose purpose)
         {
             VerificationCode mostRecentCode;
             if (_sharedContext != null)
             {
                 mostRecentCode = _sharedContext.VerificationCodes
-                    .Where(verificationCode => verificationCode.PlayerId == playerId)
+                    .Where(verificationCode => verificationCode.PlayerAccountId == playerAccountId)
                     .Where(verificationCode => verificationCode.Purpose == purpose)
                     .OrderByDescending(verificationCode => verificationCode.CreatedAt)
                     .FirstOrDefault();
@@ -75,7 +75,7 @@ namespace GinRummy.Persistence.Repositories
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
                     mostRecentCode = context.VerificationCodes
-                        .Where(verificationCode => verificationCode.PlayerId == playerId)
+                        .Where(verificationCode => verificationCode.PlayerAccountId == playerAccountId)
                         .Where(verificationCode => verificationCode.Purpose == purpose)
                         .OrderByDescending(verificationCode => verificationCode.CreatedAt)
                         .FirstOrDefault();
@@ -88,17 +88,17 @@ namespace GinRummy.Persistence.Repositories
         /// <summary>
         /// Gets the codes created for a player and a purpose from a moment on, oldest first.
         /// </summary>
-        /// <param name="playerId">Player the codes belong to.</param>
+        /// <param name="playerAccountId">Player the codes belong to.</param>
         /// <param name="purpose">Reason the codes were generated for.</param>
         /// <param name="since">Earliest creation moment to include, in UTC.</param>
         /// <returns>The matching codes, ordered by creation moment; empty when none exists.</returns>
-        public IList<VerificationCode> FindCreatedSince(int playerId, VerificationPurpose purpose, DateTime since)
+        public IList<VerificationCode> FindCreatedSince(int playerAccountId, VerificationPurpose purpose, DateTime since)
         {
             IList<VerificationCode> recentCodes;
             if (_sharedContext != null)
             {
                 recentCodes = _sharedContext.VerificationCodes
-                    .Where(verificationCode => verificationCode.PlayerId == playerId)
+                    .Where(verificationCode => verificationCode.PlayerAccountId == playerAccountId)
                     .Where(verificationCode => verificationCode.Purpose == purpose)
                     .Where(verificationCode => verificationCode.CreatedAt >= since)
                     .OrderBy(verificationCode => verificationCode.CreatedAt)
@@ -109,7 +109,7 @@ namespace GinRummy.Persistence.Repositories
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
                     recentCodes = context.VerificationCodes
-                        .Where(verificationCode => verificationCode.PlayerId == playerId)
+                        .Where(verificationCode => verificationCode.PlayerAccountId == playerAccountId)
                         .Where(verificationCode => verificationCode.Purpose == purpose)
                         .Where(verificationCode => verificationCode.CreatedAt >= since)
                         .OrderBy(verificationCode => verificationCode.CreatedAt)

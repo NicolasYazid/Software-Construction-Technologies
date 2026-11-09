@@ -14,15 +14,15 @@ namespace GinRummy.Domain.Entities.Friendship
         /// <summary>
         /// Creates a valid new friend request.
         /// </summary>
-        /// <param name="requesterPlayerId">Identifier of the player who sends the request; must be positive.</param>
-        /// <param name="recipientPlayerId">Identifier of the player who receives it; must be positive and different.</param>
+        /// <param name="requesterPlayerAccountId">Identifier of the player who sends the request; must be positive.</param>
+        /// <param name="recipientPlayerAccountId">Identifier of the player who receives it; must be positive and different.</param>
         /// <param name="createdAt">Moment the request was sent, in UTC.</param>
-        public FriendRequest(int requesterPlayerId, int recipientPlayerId, DateTime createdAt)
+        public FriendRequest(int requesterPlayerAccountId, int recipientPlayerAccountId, DateTime createdAt)
         {
-            ValidatePlayers(requesterPlayerId, recipientPlayerId);
+            ValidatePlayers(requesterPlayerAccountId, recipientPlayerAccountId);
 
-            RequesterPlayerId = requesterPlayerId;
-            RecipientPlayerId = recipientPlayerId;
+            RequesterPlayerAccountId = requesterPlayerAccountId;
+            RecipientPlayerAccountId = recipientPlayerAccountId;
             CreatedAt = createdAt;
         }
 
@@ -42,12 +42,12 @@ namespace GinRummy.Domain.Entities.Friendship
         /// <summary>
         /// Gets the identifier of the player who sent the request.
         /// </summary>
-        public int RequesterPlayerId { get; private set; }
+        public int RequesterPlayerAccountId { get; private set; }
 
         /// <summary>
         /// Gets the identifier of the player who received the request.
         /// </summary>
-        public int RecipientPlayerId { get; private set; }
+        public int RecipientPlayerAccountId { get; private set; }
 
         /// <summary>
         /// Gets the moment the request was sent, in UTC.
@@ -67,21 +67,21 @@ namespace GinRummy.Domain.Entities.Friendship
         public virtual PlayerAccount Recipient { get; private set; }
 
         // Both ids reference accounts that already exist, and nobody befriends themselves.
-        private static void ValidatePlayers(int requesterPlayerId, int recipientPlayerId)
+        private static void ValidatePlayers(int requesterPlayerAccountId, int recipientPlayerAccountId)
         {
-            if (requesterPlayerId <= 0)
+            if (requesterPlayerAccountId <= 0)
             {
-                throw new ArgumentException("Requester id must be positive.", nameof(requesterPlayerId));
+                throw new ArgumentException("Requester id must be positive.", nameof(requesterPlayerAccountId));
             }
 
-            if (recipientPlayerId <= 0)
+            if (recipientPlayerAccountId <= 0)
             {
-                throw new ArgumentException("Recipient id must be positive.", nameof(recipientPlayerId));
+                throw new ArgumentException("Recipient id must be positive.", nameof(recipientPlayerAccountId));
             }
 
-            if (requesterPlayerId == recipientPlayerId)
+            if (requesterPlayerAccountId == recipientPlayerAccountId)
             {
-                throw new ArgumentException("A player cannot send a friend request to themselves.", nameof(recipientPlayerId));
+                throw new ArgumentException("A player cannot send a friend request to themselves.", nameof(recipientPlayerAccountId));
             }
         }
     }

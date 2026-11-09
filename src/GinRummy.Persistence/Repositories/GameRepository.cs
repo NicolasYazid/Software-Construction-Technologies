@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Linq;
 
 using GinRummy.Domain.Entities.Game;
-using GinRummy.Domain.Entities.Players;
 using GinRummy.Domain.Ports.Repositories;
 using GinRummy.Persistence.Persistence;
 
@@ -45,9 +44,9 @@ namespace GinRummy.Persistence.Repositories
         /// Finds the match a registered player takes part in that is not over, or null when
         /// there is none.
         /// </summary>
-        /// <param name="playerId">Player to look for.</param>
+        /// <param name="playerAccountId">Player to look for.</param>
         /// <returns>The open match with its participants, or null.</returns>
-        public GameSession FindGameSessionInProgressByPlayerId(int playerId)
+        public GameSession FindGameSessionInProgressByPlayerAccountId(int playerAccountId)
         {
             // The stage is turned into text before the query because EF cannot translate the computed State property to SQL.
             string finished = GameState.Finished.ToString();
@@ -55,7 +54,7 @@ namespace GinRummy.Persistence.Repositories
             return _context.GameSessions
                 .Include(gameSession => gameSession.Participants)
                 .Where(gameSession => gameSession.GameStateName != finished)
-                .FirstOrDefault(gameSession => gameSession.Participants.Any(participant => participant.PlayerId == playerId));
+                .FirstOrDefault(gameSession => gameSession.Participants.Any(participant => participant.PlayerAccountId == playerAccountId));
         }
 
         /// <summary>
@@ -107,14 +106,14 @@ namespace GinRummy.Persistence.Repositories
         /// <summary>
         /// Gets the history of a player, newest first.
         /// </summary>
-        /// <param name="playerId">Player whose history is read.</param>
+        /// <param name="playerAccountId">Player whose history is read.</param>
         /// <returns>The entries of the player; empty when there are none.</returns>
-        public IList<GameHistory> GetHistoryOf(int playerId)
+        public IList<GameHistory> GetHistoryOf(int playerAccountId)
         {
             // The opponent and its player are loaded together because the caller shows the username of each opponent.
             return _context.GameHistories
-                .Include(history => history.Opponent.Player)
-                .Where(history => history.PlayerId == playerId)
+                .Include(history => history.Opponent.PlayerProfile)
+                .Where(history => history.PlayerAccountId == playerAccountId)
                 .OrderByDescending(history => history.PlayedAt)
                 .ThenByDescending(history => history.MatchId)
                 .ToList();

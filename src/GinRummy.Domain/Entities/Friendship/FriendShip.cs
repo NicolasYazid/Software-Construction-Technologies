@@ -16,14 +16,14 @@ namespace GinRummy.Domain.Entities.Friendship
         /// Creates a valid new friendship. The order of the arguments does not matter; the
         /// lower id is always stored as PlayerA.
         /// </summary>
-        /// <param name="firstPlayerId">Identifier of one friend; must be positive.</param>
-        /// <param name="secondPlayerId">Identifier of the other friend; must be positive and different.</param>
-        public FriendShip(int firstPlayerId, int secondPlayerId)
+        /// <param name="firstPlayerAccountId">Identifier of one friend; must be positive.</param>
+        /// <param name="secondPlayerAccountId">Identifier of the other friend; must be positive and different.</param>
+        public FriendShip(int firstPlayerAccountId, int secondPlayerAccountId)
         {
-            ValidatePlayers(firstPlayerId, secondPlayerId);
+            ValidatePlayers(firstPlayerAccountId, secondPlayerAccountId);
 
-            PlayerAId = Math.Min(firstPlayerId, secondPlayerId);
-            PlayerBId = Math.Max(firstPlayerId, secondPlayerId);
+            PlayerAId = Math.Min(firstPlayerAccountId, secondPlayerAccountId);
+            PlayerBId = Math.Max(firstPlayerAccountId, secondPlayerAccountId);
         }
 
         /// <summary>
@@ -64,18 +64,18 @@ namespace GinRummy.Domain.Entities.Friendship
         /// <summary>
         /// Gets the identifier of the friend who is not the given player.
         /// </summary>
-        /// <param name="playerId">Identifier of one of the two friends.</param>
+        /// <param name="playerAccountId">Identifier of one of the two friends.</param>
         /// <returns>The identifier of the other friend.</returns>
         /// <exception cref="ArgumentException">Thrown when the player is not part of the friendship.</exception>
-        public int GetFriendIdOf(int playerId)
+        public int GetFriendIdOf(int playerAccountId)
         {
-            if ((playerId != PlayerAId) && (playerId != PlayerBId))
+            if ((playerAccountId != PlayerAId) && (playerAccountId != PlayerBId))
             {
-                throw new ArgumentException("The player is not part of this friendship.", nameof(playerId));
+                throw new ArgumentException("The player is not part of this friendship.", nameof(playerAccountId));
             }
 
             int friendId = PlayerAId;
-            if (playerId == PlayerAId)
+            if (playerAccountId == PlayerAId)
             {
                 friendId = PlayerBId;
             }
@@ -84,21 +84,21 @@ namespace GinRummy.Domain.Entities.Friendship
         }
 
         // Both ids reference accounts that already exist, and nobody befriends themselves.
-        private static void ValidatePlayers(int firstPlayerId, int secondPlayerId)
+        private static void ValidatePlayers(int firstPlayerAccountId, int secondPlayerAccountId)
         {
-            if (firstPlayerId <= 0)
+            if (firstPlayerAccountId <= 0)
             {
-                throw new ArgumentException("First player id must be positive.", nameof(firstPlayerId));
+                throw new ArgumentException("First player id must be positive.", nameof(firstPlayerAccountId));
             }
 
-            if (secondPlayerId <= 0)
+            if (secondPlayerAccountId <= 0)
             {
-                throw new ArgumentException("Second player id must be positive.", nameof(secondPlayerId));
+                throw new ArgumentException("Second player id must be positive.", nameof(secondPlayerAccountId));
             }
 
-            if (firstPlayerId == secondPlayerId)
+            if (firstPlayerAccountId == secondPlayerAccountId)
             {
-                throw new ArgumentException("A player cannot be a friend of themselves.", nameof(secondPlayerId));
+                throw new ArgumentException("A player cannot be a friend of themselves.", nameof(secondPlayerAccountId));
             }
         }
     }

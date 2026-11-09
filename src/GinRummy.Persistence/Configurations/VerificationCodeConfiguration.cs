@@ -19,7 +19,7 @@ namespace GinRummy.Persistence.Configurations
             HasKey(verificationCode => verificationCode.VerificationCodeId);
             Property(verificationCode => verificationCode.VerificationCodeId)
                 .HasColumnName("verification_code_id");
-            Property(verificationCode => verificationCode.PlayerId).HasColumnName("player_id");
+            Property(verificationCode => verificationCode.PlayerAccountId).HasColumnName("player_account_id");
             Property(verificationCode => verificationCode.Purpose).HasColumnName("purpose_id");
             Property(verificationCode => verificationCode.CodeHash)
                 .HasColumnName("code_hash")

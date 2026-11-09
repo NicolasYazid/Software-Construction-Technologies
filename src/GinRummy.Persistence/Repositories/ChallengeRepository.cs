@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Linq;
 
 using GinRummy.Domain.Entities.DirectDuel;
-using GinRummy.Domain.Entities.Players;
 using GinRummy.Domain.Ports.DirectDuel;
 using GinRummy.Persistence.Persistence;
 
@@ -42,17 +41,17 @@ namespace GinRummy.Persistence.Repositories
         /// <summary>
         /// Gets the challenges a player received that still wait for an answer, oldest first.
         /// </summary>
-        /// <param name="challengedPlayerId">Player who received the challenges.</param>
+        /// <param name="challengedPlayerAccountId">Player who received the challenges.</param>
         /// <returns>The pending challenges; empty when there are none.</returns>
-        public IList<Challenge> GetPendingReceivedBy(int challengedPlayerId)
+        public IList<Challenge> GetPendingReceivedBy(int challengedPlayerAccountId)
         {
             // The status is turned into text before the query because EF cannot translate the computed Status property to SQL.
             string sent = ChallengeStatus.Sent.ToString();
 
             // The challenger and its player are loaded together because the caller needs the username of each challenger to show the list.
             return _context.Challenges
-                .Include(challenge => challenge.Challenger.Player)
-                .Where(challenge => (challenge.ChallengedPlayerId == challengedPlayerId) && (challenge.StatusName == sent))
+                .Include(challenge => challenge.Challenger.PlayerProfile)
+                .Where(challenge => (challenge.ChallengedPlayerAccountId == challengedPlayerAccountId) && (challenge.StatusName == sent))
                 .OrderBy(challenge => challenge.CreatedAt)
                 .ToList();
         }
@@ -60,15 +59,15 @@ namespace GinRummy.Persistence.Repositories
         /// <summary>
         /// Gets the challenges a player sent that still wait for an answer, oldest first.
         /// </summary>
-        /// <param name="challengerPlayerId">Player who sent the challenges.</param>
+        /// <param name="challengerPlayerAccountId">Player who sent the challenges.</param>
         /// <returns>The pending challenges; empty when there are none.</returns>
-        public IList<Challenge> GetPendingSentBy(int challengerPlayerId)
+        public IList<Challenge> GetPendingSentBy(int challengerPlayerAccountId)
         {
             string sent = ChallengeStatus.Sent.ToString();
 
             return _context.Challenges
-                .Include(challenge => challenge.Challenged.Player)
-                .Where(challenge => (challenge.ChallengerPlayerId == challengerPlayerId) && (challenge.StatusName == sent))
+                .Include(challenge => challenge.Challenged.PlayerProfile)
+                .Where(challenge => (challenge.ChallengerPlayerAccountId == challengerPlayerAccountId) && (challenge.StatusName == sent))
                 .OrderBy(challenge => challenge.CreatedAt)
                 .ToList();
         }

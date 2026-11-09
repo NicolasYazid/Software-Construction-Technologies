@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GinRummy.Domain.Entities.Players
+namespace GinRummy.Domain.Entities.PlayerCustomization
 {
     /// <summary>
     /// A link to a social network shown on a player's profile, mapped to the SocialMedia
@@ -22,16 +22,16 @@ namespace GinRummy.Domain.Entities.Players
         /// <summary>
         /// Creates a valid new social media link.
         /// </summary>
-        /// <param name="playerId">Identifier of the profile that shows the link; must be positive.</param>
+        /// <param name="playerAccountId">Identifier of the profile that shows the link; must be positive.</param>
         /// <param name="platformName">Name of the network as the player wrote it; required, at most 100 characters.</param>
         /// <param name="url">Address of the player's page; required, at most 255 characters.</param>
-        public SocialMedia(int playerId, string platformName, string url)
+        public SocialMedia(int playerAccountId, string platformName, string url)
         {
-            ValidatePlayerId(playerId);
+            ValidatePlayerAccountId(playerAccountId);
             ValidateText(platformName, PlatformNameMaxLength, nameof(platformName));
             ValidateText(url, UrlMaxLength, nameof(url));
 
-            PlayerId = playerId;
+            PlayerAccountId = playerAccountId;
             PlatformName = platformName.Trim();
             Url = url.Trim();
         }
@@ -52,7 +52,7 @@ namespace GinRummy.Domain.Entities.Players
         /// <summary>
         /// Gets the identifier of the player whose profile shows the link.
         /// </summary>
-        public int PlayerId { get; private set; }
+        public int PlayerAccountId { get; private set; }
 
         /// <summary>
         /// Gets the name of the network as the player wrote it.
@@ -80,11 +80,11 @@ namespace GinRummy.Domain.Entities.Players
         }
 
         // The link belongs to an account that already exists, so its id must be positive.
-        private static void ValidatePlayerId(int playerId)
+        private static void ValidatePlayerAccountId(int playerAccountId)
         {
-            if (playerId <= 0)
+            if (playerAccountId <= 0)
             {
-                throw new ArgumentException("Player id must be positive.", nameof(playerId));
+                throw new ArgumentException("Player account id must be positive.", nameof(playerAccountId));
             }
         }
 

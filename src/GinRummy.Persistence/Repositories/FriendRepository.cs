@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Linq;
 
 using GinRummy.Domain.Entities.Friendship;
-using GinRummy.Domain.Entities.Players;
 using GinRummy.Domain.Ports.Friendship;
 using GinRummy.Persistence.Persistence;
 
@@ -32,14 +31,14 @@ namespace GinRummy.Persistence.Repositories
         /// <summary>
         /// Finds the request one player sent to another, or null when none is pending.
         /// </summary>
-        /// <param name="requesterPlayerId">Player who sent the request.</param>
-        /// <param name="recipientPlayerId">Player who received it.</param>
+        /// <param name="requesterPlayerAccountId">Player who sent the request.</param>
+        /// <param name="recipientPlayerAccountId">Player who received it.</param>
         /// <returns>The pending request, or null.</returns>
-        public FriendRequest FindRequest(int requesterPlayerId, int recipientPlayerId)
+        public FriendRequest FindRequest(int requesterPlayerAccountId, int recipientPlayerAccountId)
         {
             return _context.FriendRequests
-                .Where(request => request.RequesterPlayerId == requesterPlayerId)
-                .FirstOrDefault(request => request.RecipientPlayerId == recipientPlayerId);
+                .Where(request => request.RequesterPlayerAccountId == requesterPlayerAccountId)
+                .FirstOrDefault(request => request.RecipientPlayerAccountId == recipientPlayerAccountId);
         }
 
         /// <summary>
@@ -55,14 +54,14 @@ namespace GinRummy.Persistence.Repositories
         /// <summary>
         /// Gets the pending requests a player has received, each with its requester loaded.
         /// </summary>
-        /// <param name="recipientPlayerId">Player who received the requests.</param>
+        /// <param name="recipientPlayerAccountId">Player who received the requests.</param>
         /// <returns>The pending requests, oldest first.</returns>
-        public IList<FriendRequest> GetRequestsReceivedBy(int recipientPlayerId)
+        public IList<FriendRequest> GetRequestsReceivedBy(int recipientPlayerAccountId)
         {
             // The requester and its player are loaded together because the caller needs the username of each requester to show the list.
             return _context.FriendRequests
-                .Include(request => request.Requester.Player)
-                .Where(request => request.RecipientPlayerId == recipientPlayerId)
+                .Include(request => request.Requester.PlayerProfile)
+                .Where(request => request.RecipientPlayerAccountId == recipientPlayerAccountId)
                 .OrderBy(request => request.CreatedAt)
                 .ToList();
         }
@@ -96,14 +95,14 @@ namespace GinRummy.Persistence.Repositories
         /// Finds the friendship between two players, in any argument order, or null when they
         /// are not friends.
         /// </summary>
-        /// <param name="firstPlayerId">One of the players.</param>
-        /// <param name="secondPlayerId">The other player.</param>
+        /// <param name="firstPlayerAccountId">One of the players.</param>
+        /// <param name="secondPlayerAccountId">The other player.</param>
         /// <returns>The friendship, or null.</returns>
-        public FriendShip FindFriendShip(int firstPlayerId, int secondPlayerId)
+        public FriendShip FindFriendShip(int firstPlayerAccountId, int secondPlayerAccountId)
         {
             // The pair is stored once with the lower id first, so the arguments are put in that order before searching.
-            int playerAId = Math.Min(firstPlayerId, secondPlayerId);
-            int playerBId = Math.Max(firstPlayerId, secondPlayerId);
+            int playerAId = Math.Min(firstPlayerAccountId, secondPlayerAccountId);
+            int playerBId = Math.Max(firstPlayerAccountId, secondPlayerAccountId);
 
             return _context.FriendShips
                 .Where(friendShip => friendShip.PlayerAId == playerAId)
@@ -113,14 +112,14 @@ namespace GinRummy.Persistence.Repositories
         /// <summary>
         /// Gets every friendship a player takes part in, each with both players loaded.
         /// </summary>
-        /// <param name="playerId">Player whose friendships are wanted.</param>
+        /// <param name="playerAccountId">Player whose friendships are wanted.</param>
         /// <returns>The friendships.</returns>
-        public IList<FriendShip> GetFriendShipsOf(int playerId)
+        public IList<FriendShip> GetFriendShipsOf(int playerAccountId)
         {
             return _context.FriendShips
-                .Include(friendShip => friendShip.PlayerA.Player)
-                .Include(friendShip => friendShip.PlayerB.Player)
-                .Where(friendShip => (friendShip.PlayerAId == playerId) || (friendShip.PlayerBId == playerId))
+                .Include(friendShip => friendShip.PlayerA.PlayerProfile)
+                .Include(friendShip => friendShip.PlayerB.PlayerProfile)
+                .Where(friendShip => (friendShip.PlayerAId == playerAccountId) || (friendShip.PlayerBId == playerAccountId))
                 .ToList();
         }
 
@@ -138,11 +137,11 @@ namespace GinRummy.Persistence.Repositories
         /// Removes the friendship between two players and persists the change. Does nothing
         /// when they are not friends.
         /// </summary>
-        /// <param name="firstPlayerId">One of the players.</param>
-        /// <param name="secondPlayerId">The other player.</param>
-        public void RemoveFriendShip(int firstPlayerId, int secondPlayerId)
+        /// <param name="firstPlayerAccountId">One of the players.</param>
+        /// <param name="secondPlayerAccountId">The other player.</param>
+        public void RemoveFriendShip(int firstPlayerAccountId, int secondPlayerAccountId)
         {
-            FriendShip friendShip = FindFriendShip(firstPlayerId, secondPlayerId);
+            FriendShip friendShip = FindFriendShip(firstPlayerAccountId, secondPlayerAccountId);
             if (friendShip != null)
             {
                 _context.FriendShips.Remove(friendShip);

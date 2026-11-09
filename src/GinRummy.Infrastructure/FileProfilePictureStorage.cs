@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.IO;
 
-using GinRummy.Domain.Ports.Infrastructure;
+using GinRummy.Domain.Ports.PlayerCustomization;
 
 namespace GinRummy.Infrastructure
 {
@@ -27,14 +27,14 @@ namespace GinRummy.Infrastructure
         /// <summary>
         /// Stores the picture of a player, replacing any previous one of the same format.
         /// </summary>
-        /// <param name="playerId">Player the picture belongs to.</param>
+        /// <param name="playerAccountId">Player the picture belongs to.</param>
         /// <param name="content">Bytes of the image file.</param>
         /// <param name="fileExtension">Extension of the image, with its dot, such as ".png".</param>
         /// <returns>Name of the file, which is what the database keeps.</returns>
-        public string Save(int playerId, byte[] content, string fileExtension)
+        public string Save(int playerAccountId, byte[] content, string fileExtension)
         {
             Directory.CreateDirectory(_folderPath);
-            string fileName = playerId.ToString(CultureInfo.InvariantCulture) + fileExtension;
+            string fileName = playerAccountId.ToString(CultureInfo.InvariantCulture) + fileExtension;
             File.WriteAllBytes(Path.Combine(_folderPath, fileName), content);
 
             return fileName;

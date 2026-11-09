@@ -1,4 +1,4 @@
-﻿namespace GinRummy.Domain.Entities.Players
+﻿namespace GinRummy.Domain.Entities.PlayerCustomization
 {
     public enum UsernameRequirement
     {

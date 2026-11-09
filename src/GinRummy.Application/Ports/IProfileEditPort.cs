@@ -1,4 +1,4 @@
-﻿using GinRummy.Domain.Entities.Players;
+﻿using GinRummy.Domain.Entities.PlayerCustomization;
 
 namespace GinRummy.Application.Ports
 {

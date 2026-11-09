@@ -4,7 +4,6 @@ using System.Linq;
 
 using GinRummy.Application.Ports;
 using GinRummy.Domain.Entities.PlayerCareer;
-using GinRummy.Domain.Entities.Players;
 using GinRummy.Domain.Ports.PlayerCareer;
 
 namespace GinRummy.Application.UseCases
@@ -52,7 +51,7 @@ namespace GinRummy.Application.UseCases
                 .OrderByDescending(playerStats => playerStats.Wins)
                 .ThenByDescending(playerStats => playerStats.Score)
                 .ThenBy(playerStats => playerStats.Losses)
-                .ThenBy(playerStats => playerStats.Player.Username)
+                .ThenBy(playerStats => playerStats.PlayerProfile.Username)
                 .ToList();
 
             return orderedStats;

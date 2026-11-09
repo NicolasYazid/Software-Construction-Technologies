@@ -20,16 +20,16 @@ namespace GinRummy.Domain.Ports.DirectDuel
         /// <summary>
         /// Gets the challenges a player received that still wait for an answer, oldest first.
         /// </summary>
-        /// <param name="challengedPlayerId">Player who received the challenges.</param>
+        /// <param name="challengedPlayerAccountId">Player who received the challenges.</param>
         /// <returns>The pending challenges; empty when there are none.</returns>
-        IList<Challenge> GetPendingReceivedBy(int challengedPlayerId);
+        IList<Challenge> GetPendingReceivedBy(int challengedPlayerAccountId);
 
         /// <summary>
         /// Gets the challenges a player sent that still wait for an answer, oldest first.
         /// </summary>
-        /// <param name="challengerPlayerId">Player who sent the challenges.</param>
+        /// <param name="challengerPlayerAccountId">Player who sent the challenges.</param>
         /// <returns>The pending challenges; empty when there are none.</returns>
-        IList<Challenge> GetPendingSentBy(int challengerPlayerId);
+        IList<Challenge> GetPendingSentBy(int challengerPlayerAccountId);
 
         /// <summary>
         /// Adds a new challenge and persists it immediately.

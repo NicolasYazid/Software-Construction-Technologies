@@ -18,8 +18,8 @@ namespace GinRummy.Persistence.Configurations
             ToTable("Challenge");
             HasKey(challenge => challenge.ChallengeId);
             Property(challenge => challenge.ChallengeId).HasColumnName("challenge_id");
-            Property(challenge => challenge.ChallengerPlayerId).HasColumnName("challenger_player_id");
-            Property(challenge => challenge.ChallengedPlayerId).HasColumnName("challenged_player_id");
+            Property(challenge => challenge.ChallengerPlayerAccountId).HasColumnName("challenger_player_account_id");
+            Property(challenge => challenge.ChallengedPlayerAccountId).HasColumnName("challenged_player_account_id");
             Property(challenge => challenge.StatusName)
                 .HasColumnName("status")
                 .IsRequired()
@@ -31,9 +31,9 @@ namespace GinRummy.Persistence.Configurations
             Property(challenge => challenge.GameSessionId).HasColumnName("game_session_id");
             Ignore(challenge => challenge.Status);
             Ignore(challenge => challenge.IsPending);
-            HasRequired(challenge => challenge.Challenger).WithMany().HasForeignKey(challenge => challenge.ChallengerPlayerId)
+            HasRequired(challenge => challenge.Challenger).WithMany().HasForeignKey(challenge => challenge.ChallengerPlayerAccountId)
                 .WillCascadeOnDelete(false);
-            HasRequired(challenge => challenge.Challenged).WithMany().HasForeignKey(challenge => challenge.ChallengedPlayerId)
+            HasRequired(challenge => challenge.Challenged).WithMany().HasForeignKey(challenge => challenge.ChallengedPlayerAccountId)
                 .WillCascadeOnDelete(false);
         }
     }

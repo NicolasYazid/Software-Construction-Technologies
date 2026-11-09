@@ -7,7 +7,7 @@ using GinRummy.Contracts.DataContracts;
 using GinRummy.Contracts.Faults;
 using GinRummy.Contracts.Services;
 using GinRummy.Domain;
-using GinRummy.Domain.Entities.Players;
+using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Services.Mappers;
 using Microsoft.Extensions.Logging;
 

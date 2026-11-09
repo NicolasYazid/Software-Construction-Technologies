@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity.ModelConfiguration;
 
-using GinRummy.Domain.Entities.Players;
+using GinRummy.Domain.Entities.PlayerCustomization;
 
 namespace GinRummy.Persistence.Configurations
 {
@@ -18,7 +18,7 @@ namespace GinRummy.Persistence.Configurations
             ToTable("SocialMedia");
             HasKey(socialMedia => socialMedia.SocialMediaId);
             Property(socialMedia => socialMedia.SocialMediaId).HasColumnName("social_media_id");
-            Property(socialMedia => socialMedia.PlayerId).HasColumnName("player_id");
+            Property(socialMedia => socialMedia.PlayerAccountId).HasColumnName("player_account_id");
             Property(socialMedia => socialMedia.PlatformName)
                 .HasColumnName("platform_name")
                 .IsRequired()

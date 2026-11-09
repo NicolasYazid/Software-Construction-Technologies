@@ -33,7 +33,7 @@ namespace GinRummy.Contracts.DataContracts
         /// Identifier of the player who signed in; zero while the second factor is pending.
         /// </summary>
         [DataMember]
-        public int PlayerId { get; set; }
+        public int PlayerAccountId { get; set; }
 
         /// <summary>
         /// Display name of the player who signed in; empty while the second factor is pending.

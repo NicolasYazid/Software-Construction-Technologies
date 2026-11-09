@@ -1,6 +1,6 @@
 ﻿using System;
 
-using GinRummy.Domain.Entities.Players;
+using GinRummy.Domain.Entities.PlayerCustomization;
 
 namespace GinRummy.Domain.Entities.SocialCommunication
 {
@@ -9,13 +9,13 @@ namespace GinRummy.Domain.Entities.SocialCommunication
         public const int ContentMaxLength = 300;
         public const int ChannelNameMaxLength = 20;
 
-        public Message(int playerId, string content, MessageChannel channel, int? gameSessionId, DateTime sentAt)
+        public Message(int playerAccountId, string content, MessageChannel channel, int? gameSessionId, DateTime sentAt)
         {
-            ValidatePlayerId(playerId);
+            ValidatePlayerAccountId(playerAccountId);
             ValidateContent(content);
             ValidateChannel(channel, gameSessionId);
 
-            PlayerId = playerId;
+            PlayerAccountId = playerAccountId;
             Content = content;
             ChannelName = channel.ToString();
             GameSessionId = gameSessionId;
@@ -27,23 +27,23 @@ namespace GinRummy.Domain.Entities.SocialCommunication
         }
 
         public int MessageId { get; private set; }
-        public int PlayerId { get; private set; }
+        public int PlayerAccountId { get; private set; }
         public string Content { get; private set; }
         public string ChannelName { get; private set; }
         public int? GameSessionId { get; private set; }
         public DateTime SentAt { get; private set; }
-        public virtual Player Player { get; private set; }
+        public virtual PlayerProfile PlayerProfile { get; private set; }
 
         public MessageChannel Channel
         {
             get { return (MessageChannel)Enum.Parse(typeof(MessageChannel), ChannelName); }
         }
 
-        private static void ValidatePlayerId(int playerId)
+        private static void ValidatePlayerAccountId(int playerAccountId)
         {
-            if (playerId <= 0)
+            if (playerAccountId <= 0)
             {
-                throw new ArgumentException("Player id must be positive.", nameof(playerId));
+                throw new ArgumentException("Player account id must be positive.", nameof(playerAccountId));
             }
         }
 

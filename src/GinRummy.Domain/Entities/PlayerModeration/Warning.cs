@@ -13,15 +13,15 @@ namespace GinRummy.Domain.Entities.PlayerModeration
         /// <summary>
         /// Creates a valid new warning that is not associated with any ban yet.
         /// </summary>
-        /// <param name="playerId">Identifier of the warned player; must be positive.</param>
+        /// <param name="playerAccountId">Identifier of the warned player; must be positive.</param>
         /// <param name="reportId">Identifier of the verified report; must be positive.</param>
         /// <param name="issuedAt">Moment the warning was issued, in UTC.</param>
-        public Warning(int playerId, int reportId, DateTime issuedAt)
+        public Warning(int playerAccountId, int reportId, DateTime issuedAt)
         {
-            ValidateId(playerId, nameof(playerId));
+            ValidateId(playerAccountId, nameof(playerAccountId));
             ValidateId(reportId, nameof(reportId));
 
-            PlayerId = playerId;
+            PlayerAccountId = playerAccountId;
             ReportId = reportId;
             IssuedAt = issuedAt;
         }
@@ -42,7 +42,7 @@ namespace GinRummy.Domain.Entities.PlayerModeration
         /// <summary>
         /// Gets the identifier of the warned player.
         /// </summary>
-        public int PlayerId { get; private set; }
+        public int PlayerAccountId { get; private set; }
 
         /// <summary>
         /// Gets the identifier of the report that produced the warning.

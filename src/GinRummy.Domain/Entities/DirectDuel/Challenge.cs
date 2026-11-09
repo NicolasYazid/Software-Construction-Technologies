@@ -20,17 +20,17 @@ namespace GinRummy.Domain.Entities.DirectDuel
         /// <summary>
         /// Creates a valid new challenge in the Sent status.
         /// </summary>
-        /// <param name="challengerPlayerId">Identifier of the player who invites; must be positive.</param>
-        /// <param name="challengedPlayerId">Identifier of the invited player; positive and different.</param>
+        /// <param name="challengerPlayerAccountId">Identifier of the player who invites; must be positive.</param>
+        /// <param name="challengedPlayerAccountId">Identifier of the invited player; positive and different.</param>
         /// <param name="createdAt">Moment the challenge was sent, in UTC.</param>
         /// <param name="expiresAt">Moment the challenge stops being valid, in UTC; after createdAt.</param>
-        public Challenge(int challengerPlayerId, int challengedPlayerId, DateTime createdAt, DateTime expiresAt)
+        public Challenge(int challengerPlayerAccountId, int challengedPlayerAccountId, DateTime createdAt, DateTime expiresAt)
         {
-            ValidatePlayers(challengerPlayerId, challengedPlayerId);
+            ValidatePlayers(challengerPlayerAccountId, challengedPlayerAccountId);
             ValidateExpiration(createdAt, expiresAt);
 
-            ChallengerPlayerId = challengerPlayerId;
-            ChallengedPlayerId = challengedPlayerId;
+            ChallengerPlayerAccountId = challengerPlayerAccountId;
+            ChallengedPlayerAccountId = challengedPlayerAccountId;
             StatusName = ChallengeStatus.Sent.ToString();
             CreatedAt = createdAt;
             ExpiresAt = expiresAt;
@@ -52,12 +52,12 @@ namespace GinRummy.Domain.Entities.DirectDuel
         /// <summary>
         /// Gets the identifier of the player who sent the challenge.
         /// </summary>
-        public int ChallengerPlayerId { get; private set; }
+        public int ChallengerPlayerAccountId { get; private set; }
 
         /// <summary>
         /// Gets the identifier of the player who received the challenge.
         /// </summary>
-        public int ChallengedPlayerId { get; private set; }
+        public int ChallengedPlayerAccountId { get; private set; }
 
         /// <summary>
         /// Gets the status exactly as the status column stores it.
@@ -185,16 +185,16 @@ namespace GinRummy.Domain.Entities.DirectDuel
         }
 
         // Both ends must be real players, and a challenge against oneself has no opponent.
-        private static void ValidatePlayers(int challengerPlayerId, int challengedPlayerId)
+        private static void ValidatePlayers(int challengerPlayerAccountId, int challengedPlayerAccountId)
         {
-            if ((challengerPlayerId <= 0) || (challengedPlayerId <= 0))
+            if ((challengerPlayerAccountId <= 0) || (challengedPlayerAccountId <= 0))
             {
-                throw new ArgumentException("Player ids must be positive.");
+                throw new ArgumentException("Player account ids must be positive.");
             }
 
-            if (challengerPlayerId == challengedPlayerId)
+            if (challengerPlayerAccountId == challengedPlayerAccountId)
             {
-                throw new ArgumentException("A player cannot challenge themselves.", nameof(challengedPlayerId));
+                throw new ArgumentException("A player cannot challenge themselves.", nameof(challengedPlayerAccountId));
             }
         }
 

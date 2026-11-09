@@ -93,13 +93,13 @@ namespace GinRummy.Persistence.Repositories
         /// Gets every ban a player has received, active or not, each with its reason and the
         /// translations of the reason loaded.
         /// </summary>
-        /// <param name="playerId">Player whose bans are wanted.</param>
+        /// <param name="playerAccountId">Player whose bans are wanted.</param>
         /// <returns>The bans, most recent first.</returns>
-        public IList<Ban> GetBansOf(int playerId)
+        public IList<Ban> GetBansOf(int playerAccountId)
         {
             return _context.Bans
                 .Include(ban => ban.ReasonBan.Translations)
-                .Where(ban => ban.PlayerId == playerId)
+                .Where(ban => ban.PlayerAccountId == playerAccountId)
                 .OrderByDescending(ban => ban.IssuedAt)
                 .ToList();
         }
@@ -107,12 +107,12 @@ namespace GinRummy.Persistence.Repositories
         /// <summary>
         /// Gets every warning a player has received.
         /// </summary>
-        /// <param name="playerId">Player whose warnings are wanted.</param>
+        /// <param name="playerAccountId">Player whose warnings are wanted.</param>
         /// <returns>The warnings, most recent first.</returns>
-        public IList<Warning> GetWarningsOf(int playerId)
+        public IList<Warning> GetWarningsOf(int playerAccountId)
         {
             return _context.Warnings
-                .Where(warning => warning.PlayerId == playerId)
+                .Where(warning => warning.PlayerAccountId == playerAccountId)
                 .OrderByDescending(warning => warning.IssuedAt)
                 .ToList();
         }

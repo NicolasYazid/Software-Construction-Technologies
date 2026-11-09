@@ -37,7 +37,7 @@ namespace GinRummy.Services.Services
             {
                 Email = account.Email,
                 IsTwoFactorEnabled = account.IsTwoFactorEnabled,
-                IsChatFilterEnabled = account.Player.IsChatFilterEnabled
+                IsChatFilterEnabled = account.PlayerPreferences.IsChatFilterEnabled
             };
         }
 

@@ -1,4 +1,4 @@
-﻿namespace GinRummy.Domain.Ports.Infrastructure
+﻿namespace GinRummy.Domain.Ports.PlayerCustomization
 {
     /// <summary>
     /// Contract the game's logic uses to keep profile pictures, without knowing whether they
@@ -9,11 +9,11 @@
         /// <summary>
         /// Stores the picture of a player, replacing any previous one.
         /// </summary>
-        /// <param name="playerId">Player the picture belongs to.</param>
+        /// <param name="playerAccountId">Player the picture belongs to.</param>
         /// <param name="content">Bytes of the image file.</param>
         /// <param name="fileExtension">Extension of the image, with its dot, such as ".png".</param>
         /// <returns>The path to save in the profile, at most 255 characters.</returns>
-        string Save(int playerId, byte[] content, string fileExtension);
+        string Save(int playerAccountId, byte[] content, string fileExtension);
 
         /// <summary>
         /// Reads a stored picture.

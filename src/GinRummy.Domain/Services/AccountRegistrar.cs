@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Domain.Entities.PlayerCareer;
+using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Domain.Entities.PlayerPreferences;
 using GinRummy.Domain.Entities.Players;
 using GinRummy.Domain.Ports.Infrastructure;
@@ -14,8 +15,8 @@ using GinRummy.Domain.Security;
 namespace GinRummy.Domain.Services
 {
     /// <summary>
-    /// Creates a new account with everything that comes with it: the player, the account with its hashed
-    /// password, the empty profile and the initial statistics (CU-01 steps 4 to 8).
+    /// Creates a new account with everything that comes with it: the account with its hashed
+    /// password, the preferences, the profile and the initial statistics (CU-01 steps 4 to 8).
     /// </summary>
     public class AccountRegistrar
     {
@@ -26,7 +27,7 @@ namespace GinRummy.Domain.Services
         /// Builds the registrar with the password hasher and the clock the composition root assembled.
         /// </summary>
         /// <param name="passwordHasher">Hashes the password before it is stored.</param>
-        /// <param name="clock">Tells the moment the player is created.</param>
+        /// <param name="clock">Tells the moment the account is created.</param>
         /// <exception cref="ArgumentNullException">Thrown when a dependency is null.</exception>
         public AccountRegistrar(IPasswordHasher passwordHasher, IClock clock)
         {
@@ -40,7 +41,7 @@ namespace GinRummy.Domain.Services
         /// <param name="unitOfWork">Unit of work of the sign-up; the caller commits it.</param>
         /// <param name="form">What the person typed to create the account.</param>
         /// <param name="localeCode">Culture code of the language the client was showing, such as es-MX.</param>
-        /// <returns>The created account, with its player loaded.</returns>
+        /// <returns>The created account, with its preferences loaded.</returns>
         /// <exception cref="ArgumentNullException">Thrown when the form is null.</exception>
         /// <exception cref="RequiredFieldMissingException">Thrown when a field is empty.</exception>
         /// <exception cref="DisallowedCharactersException">Thrown when a field contains forbidden characters.</exception>
@@ -63,16 +64,17 @@ namespace GinRummy.Domain.Services
             }
 
             Locale locale = ResolveLocale(unitOfWork.Locales, localeCode);
-            Player newPlayer = new Player(form.Username, locale.LocaleId, _clock.UtcNow);
-            unitOfWork.Players.Add(newPlayer);
 
             string passwordHash = _passwordHasher.HashPassword(new Password(form.Password));
-            unitOfWork.PlayerAccounts.Add(new PlayerAccount(newPlayer.PlayerId, email, passwordHash));
-            unitOfWork.PlayerAccounts.AddProfile(new PlayerProfile(newPlayer.PlayerId));
-            unitOfWork.PlayerAccounts.AddStats(new PlayerStats(newPlayer.PlayerId));
+            PlayerAccount newAccount = new PlayerAccount(email, passwordHash, _clock.UtcNow);
+            unitOfWork.PlayerAccounts.Add(newAccount);
 
-            // The account is read again so it arrives with its player, whose language the email of the code is written in.
-            return unitOfWork.PlayerAccounts.FindByPlayerId(newPlayer.PlayerId);
+            unitOfWork.Players.Add(new PlayerPreferences(newAccount.PlayerAccountId, locale.LocaleId));
+            unitOfWork.PlayerAccounts.AddProfile(new PlayerProfile(newAccount.PlayerAccountId, form.Username));
+            unitOfWork.PlayerAccounts.AddStats(new PlayerStats(newAccount.PlayerAccountId));
+
+            // The account is read again so it arrives with its preferences, whose language the email of the code is written in.
+            return unitOfWork.PlayerAccounts.FindByPlayerAccountId(newAccount.PlayerAccountId);
         }
 
         // The checks run before anything is created, so a rejected sign-up leaves no data behind (CU-01 FA-01 to FA-03, EX-03).
@@ -102,7 +104,7 @@ namespace GinRummy.Domain.Services
 
         private static void EnsureUsernameIsValid(string username)
         {
-            IList<UsernameRequirement> unmetRequirements = Player.GetUnmetUsernameRequirements(username);
+            IList<UsernameRequirement> unmetRequirements = PlayerProfile.GetUnmetUsernameRequirements(username);
             if (unmetRequirements.Contains(UsernameRequirement.Required))
             {
                 throw new RequiredFieldMissingException("The username has only blank characters.");

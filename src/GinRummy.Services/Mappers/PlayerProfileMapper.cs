@@ -3,7 +3,7 @@
 using GinRummy.Application.UseCases;
 using GinRummy.Contracts.DataContracts;
 using GinRummy.Domain.Entities.PlayerCareer;
-using GinRummy.Domain.Entities.Players;
+using GinRummy.Domain.Entities.PlayerCustomization;
 
 namespace GinRummy.Services.Mappers
 {
@@ -21,8 +21,8 @@ namespace GinRummy.Services.Mappers
         {
             PlayerProfileDetails details = new PlayerProfileDetails
             {
-                Username = viewedProfile.Stats.Player.Username,
-                PublicTag = viewedProfile.Stats.Player.PublicTag,
+                Username = viewedProfile.Stats.PlayerProfile.Username,
+                PublicTag = viewedProfile.Stats.PlayerProfile.PublicTag,
                 Bio = viewedProfile.Profile.Bio,
                 SocialLinks = MapToSocialLinks(viewedProfile.Profile.SocialMediaLinks),
                 MatchesPlayed = viewedProfile.Stats.MatchesPlayed,

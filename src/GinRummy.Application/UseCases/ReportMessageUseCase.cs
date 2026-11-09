@@ -26,14 +26,14 @@ namespace GinRummy.Application.UseCases
 
         public bool ReportMessage(string accessToken, int chatMessageId)
         {
-            int reporterPlayerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
+            int reporterPlayerAccountId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
             Message reportedMessage = _reportedMessageSource.SaveReportedMessage(chatMessageId);
             bool isReported = false;
             if (reportedMessage != null)
             {
                 using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
                 {
-                    Report newReport = new Report(reporterPlayerId, reportedMessage.PlayerId, reportedMessage.MessageId);
+                    Report newReport = new Report(reporterPlayerAccountId, reportedMessage.PlayerAccountId, reportedMessage.MessageId);
                     unitOfWork.Moderation.AddReport(newReport);
                     unitOfWork.Commit();
                 }

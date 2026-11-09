@@ -2,7 +2,6 @@
 using System.Data.Entity.ModelConfiguration;
 
 using GinRummy.Domain.Entities.PlayerCareer;
-using GinRummy.Domain.Entities.Players;
 
 namespace GinRummy.Persistence.Configurations
 {
@@ -18,9 +17,9 @@ namespace GinRummy.Persistence.Configurations
         public PlayerStatsConfiguration()
         {
             ToTable("PlayerStats");
-            HasKey(playerStats => playerStats.PlayerId);
-            Property(playerStats => playerStats.PlayerId)
-                .HasColumnName("player_id")
+            HasKey(playerStats => playerStats.PlayerAccountId);
+            Property(playerStats => playerStats.PlayerAccountId)
+                .HasColumnName("player_account_id")
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(playerStats => playerStats.Wins).HasColumnName("wins");
             Property(playerStats => playerStats.Losses).HasColumnName("losses");
@@ -29,7 +28,7 @@ namespace GinRummy.Persistence.Configurations
                 .HasColumnName("matches_played")
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
             Ignore(playerStats => playerStats.WinRate);
-            HasRequired(playerStats => playerStats.Player).WithOptional();
+            HasRequired(playerStats => playerStats.PlayerProfile).WithOptional();
         }
     }
 }

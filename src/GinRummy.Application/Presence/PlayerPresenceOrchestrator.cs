@@ -6,6 +6,7 @@ using GinRummy.Application.Ports;
 using GinRummy.Domain;
 using GinRummy.Domain.Entities.Friendship;
 using GinRummy.Domain.Entities.PlayerCareer;
+using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Domain.Entities.PlayerPresence;
 using GinRummy.Domain.Entities.Players;
 using GinRummy.Domain.Ports.Repositories;
@@ -80,21 +81,21 @@ namespace GinRummy.Application.Presence
 
         public void ReportCurrentPresenceStatusOfPlayers(int subscriberId, IList<OnlinePlayer> onlinePlayers)
         {
-            IList<Player> registeredPlayers;
+            IList<PlayerProfile> registeredPlayers;
             IList<PlayerStats> allStats;
             IList<Rank> ranks;
             IList<RankedPlayer> onlineGuests;
             IList<int> friendPlayerIds;
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                registeredPlayers = unitOfWork.Players.GetAllPlayers();
+                registeredPlayers = unitOfWork.PlayerAccounts.GetAllPlayers();
                 allStats = unitOfWork.Rankings.GetStatsRankedByScore();
                 ranks = unitOfWork.Rankings.GetAllRanks();
                 onlineGuests = FindOtherOnlineGuests(unitOfWork, onlinePlayers, subscriberId);
                 friendPlayerIds = GetFriendPlayerIds(unitOfWork, subscriberId);
             }
 
-            IList<Player> otherPlayers = GetPlayersExcept(registeredPlayers, subscriberId);
+            IList<PlayerProfile> otherPlayers = GetPlayersExcept(registeredPlayers, subscriberId);
             IList<RankedPlayer> rankedPlayers = RankPlayers(otherPlayers, allStats, ranks).Concat(onlineGuests).ToList();
             IList<int> onlinePlayerIds = GetOnlinePlayerIds(onlinePlayers);
             PlayersByStatus lists = new PlayersByStatus(rankedPlayers, onlinePlayerIds, friendPlayerIds);
@@ -112,7 +113,7 @@ namespace GinRummy.Application.Presence
             }
             else
             {
-                Player player = unitOfWork.Players.FindById(identityId);
+                PlayerProfile player = unitOfWork.PlayerAccounts.FindProfileByPlayerAccountId(identityId);
                 if (player != null)
                 {
                     rankedPlayer = RankPlayer(player, unitOfWork.PlayerAccounts.FindStats(identityId), unitOfWork.Rankings.GetAllRanks());
@@ -154,14 +155,14 @@ namespace GinRummy.Application.Presence
             return rankedGuest;
         }
 
-        private IList<RankedPlayer> RankPlayers(IList<Player> players, IList<PlayerStats> allStats, IList<Rank> ranks)
+        private IList<RankedPlayer> RankPlayers(IList<PlayerProfile> players, IList<PlayerStats> allStats, IList<Rank> ranks)
         {
-            Dictionary<int, PlayerStats> statsByPlayerId = allStats.ToDictionary(stats => stats.PlayerId);
+            Dictionary<int, PlayerStats> statsByPlayerAccountId = allStats.ToDictionary(stats => stats.PlayerAccountId);
             IList<RankedPlayer> rankedPlayers = new List<RankedPlayer>();
-            foreach (Player player in players)
+            foreach (PlayerProfile player in players)
             {
                 PlayerStats stats;
-                statsByPlayerId.TryGetValue(player.PlayerId, out stats);
+                statsByPlayerAccountId.TryGetValue(player.PlayerAccountId, out stats);
                 rankedPlayers.Add(RankPlayer(player, stats, ranks));
             }
 
@@ -169,7 +170,7 @@ namespace GinRummy.Application.Presence
         }
 
         // A player without statistics has not played yet, so it is ranked as a score of zero.
-        private RankedPlayer RankPlayer(Player player, PlayerStats stats, IList<Rank> ranks)
+        private RankedPlayer RankPlayer(PlayerProfile player, PlayerStats stats, IList<Rank> ranks)
         {
             int score = 0;
             if (stats != null)
@@ -192,12 +193,12 @@ namespace GinRummy.Application.Presence
             return friendPlayerIds;
         }
 
-        private static IList<Player> GetPlayersExcept(IList<Player> players, int excludedPlayerId)
+        private static IList<PlayerProfile> GetPlayersExcept(IList<PlayerProfile> players, int excludedPlayerAccountId)
         {
-            IList<Player> otherPlayers = new List<Player>();
-            foreach (Player player in players)
+            IList<PlayerProfile> otherPlayers = new List<PlayerProfile>();
+            foreach (PlayerProfile player in players)
             {
-                if (player.PlayerId != excludedPlayerId)
+                if (player.PlayerAccountId != excludedPlayerAccountId)
                 {
                     otherPlayers.Add(player);
                 }

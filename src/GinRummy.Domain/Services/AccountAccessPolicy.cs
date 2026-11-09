@@ -61,7 +61,7 @@ namespace GinRummy.Domain.Services
         /// <summary>
         /// Checks that an account whose credentials matched may sign in now.
         /// </summary>
-        /// <param name="account">Account whose credentials matched, with its player loaded.</param>
+        /// <param name="account">Account whose credentials matched, with its preferences loaded.</param>
         /// <param name="bans">Every ban the player has received, each with its reason loaded.</param>
         /// <exception cref="EmailNotVerifiedException">Thrown when the email of the account is not verified.</exception>
         /// <exception cref="AccountBannedException">Thrown when a ban that restricts the whole account is in force.</exception>
@@ -75,7 +75,7 @@ namespace GinRummy.Domain.Services
             Ban blockingBan = FindBlockingBan(bans);
             if (blockingBan != null)
             {
-                string reasonName = blockingBan.ReasonBan.GetNameFor(account.Player.LocaleId);
+                string reasonName = blockingBan.ReasonBan.GetNameFor(account.PlayerPreferences.LocaleId);
                 throw new AccountBannedException("A ban restricts the whole account.", reasonName, blockingBan.ExpiresAt);
             }
         }
@@ -97,7 +97,7 @@ namespace GinRummy.Domain.Services
 
             account.RegisterLogin(signedInAt);
 
-            return _tokenSigner.Sign(account.PlayerId, signedInAt, expiresAt);
+            return _tokenSigner.Sign(account.PlayerAccountId, signedInAt, expiresAt);
         }
 
         /// <summary>
@@ -179,15 +179,15 @@ namespace GinRummy.Domain.Services
         /// </exception>
         public int IdentifyPlayerByAccessToken(string accessToken)
         {
-            int playerId = IdentifyByAccessToken(accessToken);
+            int playerAccountId = IdentifyByAccessToken(accessToken);
 
             // A guest has no account, so its token never reaches what only a player may do (PRM-01).
-            if (playerId <= 0)
+            if (playerAccountId <= 0)
             {
                 throw new InvalidAccessTokenException("The access token belongs to a guest.");
             }
 
-            return playerId;
+            return playerAccountId;
         }
 
         // A permanent ban comes before a temporary one, and the temporary ban that ends last comes before the others.

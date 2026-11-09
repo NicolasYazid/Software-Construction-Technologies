@@ -1,7 +1,6 @@
 ﻿using System.Data.Entity.ModelConfiguration;
 
 using GinRummy.Domain.Entities.Game;
-using GinRummy.Domain.Entities.Players;
 
 namespace GinRummy.Persistence.Configurations
 {
@@ -20,12 +19,12 @@ namespace GinRummy.Persistence.Configurations
             ToTable("GameHistory");
             HasKey(history => history.MatchId);
             Property(history => history.MatchId).HasColumnName("match_id");
-            Property(history => history.PlayerId).HasColumnName("player_id");
+            Property(history => history.PlayerAccountId).HasColumnName("player_account_id");
             Property(history => history.OpponentId).HasColumnName("opponent_id");
             Property(history => history.HasWon).HasColumnName("game_result");
             Property(history => history.ScoreEarned).HasColumnName("score_earned");
             Property(history => history.PlayedAt).HasColumnName("played_at");
-            HasRequired(history => history.Player).WithMany().HasForeignKey(history => history.PlayerId)
+            HasRequired(history => history.Player).WithMany().HasForeignKey(history => history.PlayerAccountId)
                 .WillCascadeOnDelete(false);
             HasRequired(history => history.Opponent).WithMany().HasForeignKey(history => history.OpponentId)
                 .WillCascadeOnDelete(false);

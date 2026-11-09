@@ -63,7 +63,7 @@
     <Compile Include="Configurations\LocaleConfiguration.cs" />
     <Compile Include="Configurations\MessageConfiguration.cs" />
     <Compile Include="Configurations\PlayerAccountConfiguration.cs" />
-    <Compile Include="Configurations\PlayerConfiguration.cs" />
+    <Compile Include="Configurations\PlayerPreferencesConfiguration.cs" />
     <Compile Include="Configurations\PlayerProfileConfiguration.cs" />
     <Compile Include="Configurations\PlayerStatsConfiguration.cs" />
     <Compile Include="Configurations\ProhibitedWordConfiguration.cs" />

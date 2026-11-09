@@ -17,10 +17,10 @@ namespace GinRummy.Persistence.Configurations
         public PlayerAccountConfiguration()
         {
             ToTable("PlayerAccount");
-            HasKey(playerAccount => playerAccount.PlayerId);
-            Property(playerAccount => playerAccount.PlayerId)
-                .HasColumnName("player_id")
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            HasKey(playerAccount => playerAccount.PlayerAccountId);
+            Property(playerAccount => playerAccount.PlayerAccountId)
+                .HasColumnName("player_account_id")
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(playerAccount => playerAccount.Email)
                 .HasColumnName("email")
                 .IsRequired()
@@ -30,10 +30,13 @@ namespace GinRummy.Persistence.Configurations
                 .IsRequired()
                 .IsUnicode(false)
                 .HasMaxLength(PlayerAccount.PasswordHashMaxLength);
+            Property(playerAccount => playerAccount.CreatedAt).HasColumnName("created_at");
             Property(playerAccount => playerAccount.LastLoginAt).HasColumnName("last_login_at");
             Property(playerAccount => playerAccount.IsEmailVerified).HasColumnName("is_email_verified");
             Property(playerAccount => playerAccount.IsTwoFactorEnabled).HasColumnName("is_two_factor_enabled");
-            HasRequired(playerAccount => playerAccount.Player).WithOptional();
+            HasRequired(playerAccount => playerAccount.PlayerPreferences).WithRequiredPrincipal();
+            HasRequired(playerAccount => playerAccount.PlayerProfile).WithRequiredPrincipal();
+            HasRequired(playerAccount => playerAccount.PlayerStats).WithRequiredPrincipal();
         }
     }
 }

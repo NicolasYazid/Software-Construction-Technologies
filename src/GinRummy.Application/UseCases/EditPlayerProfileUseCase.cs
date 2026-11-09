@@ -2,9 +2,9 @@
 using System.Linq;
 
 using GinRummy.Application.Ports;
+using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Domain.Entities.PlayerPreferences;
-using GinRummy.Domain.Entities.Players;
-using GinRummy.Domain.Ports.Infrastructure;
+using GinRummy.Domain.Ports.PlayerCustomization;
 using GinRummy.Domain.Ports.Repositories;
 using GinRummy.Domain.Services;
 
@@ -28,16 +28,16 @@ namespace GinRummy.Application.UseCases
 
         public void SaveProfileChanges(string accessToken, string username, string bio)
         {
-            int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
+            int playerAccountId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
             string typedUsername = (username ?? string.Empty).Trim();
             TypedFieldValidator.EnsureAreTyped(typedUsername);
             TypedFieldValidator.EnsureHaveNoForbiddenCharacters(typedUsername, bio);
-            TypedFieldValidator.EnsureIsNotLongerThan(typedUsername, Player.UsernameMaxLength);
+            TypedFieldValidator.EnsureIsNotLongerThan(typedUsername, PlayerProfile.UsernameMaxLength);
             TypedFieldValidator.EnsureIsNotLongerThan(bio, PlayerProfile.BioMaxLength);
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                unitOfWork.Players.FindById(playerId).ChangeUsername(typedUsername);
-                unitOfWork.PlayerAccounts.FindProfile(playerId).ChangeBio(bio);
+                unitOfWork.PlayerAccounts.FindProfile(playerAccountId).ChangeUsername(typedUsername);
+                unitOfWork.PlayerAccounts.FindProfile(playerAccountId).ChangeBio(bio);
                 unitOfWork.Commit();
             }
         }
@@ -48,10 +48,10 @@ namespace GinRummy.Application.UseCases
             string storedPath = null;
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                Player player = unitOfWork.Players.FindByPublicTag(publicTag);
+                PlayerProfile player = unitOfWork.PlayerAccounts.FindByPublicTag(publicTag);
                 if (player != null)
                 {
-                    storedPath = unitOfWork.PlayerAccounts.FindProfile(player.PlayerId).ProfilePicture;
+                    storedPath = unitOfWork.PlayerAccounts.FindProfile(player.PlayerAccountId).ProfilePicture;
                 }
             }
 
@@ -66,13 +66,13 @@ namespace GinRummy.Application.UseCases
 
         public bool ChangeProfilePicture(string accessToken, byte[] picture)
         {
-            int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
+            int playerAccountId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
             string fileExtension = ProfilePictureCommon.FindFileExtension(picture);
             bool isAccepted = fileExtension != null;
             if (isAccepted)
             {
-                string storedPath = _pictureStorage.Save(playerId, picture, fileExtension);
-                string previousPath = UpdateProfilePicture(playerId, profile => profile.ChangeProfilePicture(storedPath));
+                string storedPath = _pictureStorage.Save(playerAccountId, picture, fileExtension);
+                string previousPath = UpdateProfilePicture(playerAccountId, profile => profile.ChangeProfilePicture(storedPath));
                 if (previousPath != storedPath)
                 {
                     DeleteStoredPicture(previousPath);
@@ -84,14 +84,14 @@ namespace GinRummy.Application.UseCases
 
         public void RemoveProfilePicture(string accessToken)
         {
-            int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
-            string previousPath = UpdateProfilePicture(playerId, profile => profile.RemoveProfilePicture());
+            int playerAccountId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
+            string previousPath = UpdateProfilePicture(playerAccountId, profile => profile.RemoveProfilePicture());
             DeleteStoredPicture(previousPath);
         }
 
         public SocialMedia LinkSocialMedia(string accessToken, string platformName, string url)
         {
-            int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
+            int playerAccountId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
             string typedPlatformName = (platformName ?? string.Empty).Trim();
             string typedUrl = (url ?? string.Empty).Trim();
             TypedFieldValidator.EnsureAreTyped(typedPlatformName, typedUrl);
@@ -101,7 +101,7 @@ namespace GinRummy.Application.UseCases
             SocialMedia newLink = null;
             if (SocialMedia.IsWebAddress(typedUrl))
             {
-                newLink = new SocialMedia(playerId, typedPlatformName, typedUrl);
+                newLink = new SocialMedia(playerAccountId, typedPlatformName, typedUrl);
                 using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
                 {
                     unitOfWork.PlayerAccounts.AddSocialMedia(newLink);
@@ -114,10 +114,10 @@ namespace GinRummy.Application.UseCases
 
         public void UnlinkSocialMedia(string accessToken, int socialMediaId)
         {
-            int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
+            int playerAccountId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                SocialMedia link = unitOfWork.PlayerAccounts.FindProfile(playerId).SocialMediaLinks
+                SocialMedia link = unitOfWork.PlayerAccounts.FindProfile(playerAccountId).SocialMediaLinks
                     .FirstOrDefault(found => found.SocialMediaId == socialMediaId);
                 if (link != null)
                 {
@@ -129,7 +129,7 @@ namespace GinRummy.Application.UseCases
 
         public bool ChangeLanguage(string accessToken, string localeCode)
         {
-            int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
+            int playerAccountId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
             bool isSupported;
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
@@ -137,7 +137,7 @@ namespace GinRummy.Application.UseCases
                 isSupported = locale != null;
                 if (isSupported)
                 {
-                    unitOfWork.Players.FindById(playerId).ChangeLocale(locale.LocaleId);
+                    unitOfWork.Players.FindById(playerAccountId).ChangeLocale(locale.LocaleId);
                     unitOfWork.Commit();
                 }
             }
@@ -145,12 +145,12 @@ namespace GinRummy.Application.UseCases
             return isSupported;
         }
 
-        private string UpdateProfilePicture(int playerId, Action<PlayerProfile> pictureChange)
+        private string UpdateProfilePicture(int playerAccountId, Action<PlayerProfile> pictureChange)
         {
             string previousPath;
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                PlayerProfile profile = unitOfWork.PlayerAccounts.FindProfile(playerId);
+                PlayerProfile profile = unitOfWork.PlayerAccounts.FindProfile(playerAccountId);
                 previousPath = profile.ProfilePicture;
                 pictureChange(profile);
                 unitOfWork.Commit();

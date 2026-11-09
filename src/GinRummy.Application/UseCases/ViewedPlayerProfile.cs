@@ -1,7 +1,7 @@
 ﻿using System;
 
 using GinRummy.Domain.Entities.PlayerCareer;
-using GinRummy.Domain.Entities.Players;
+using GinRummy.Domain.Entities.PlayerCustomization;
 
 namespace GinRummy.Application.UseCases
 {

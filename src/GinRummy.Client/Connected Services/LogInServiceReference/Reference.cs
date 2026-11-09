@@ -40,7 +40,7 @@ namespace GinRummy.Client.LogInServiceReference
         private string LocaleCodeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int PlayerIdField;
+        private int PlayerAccountIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int PublicTagField;
@@ -146,18 +146,18 @@ namespace GinRummy.Client.LogInServiceReference
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int PlayerId
+        public int PlayerAccountId
         {
             get
             {
-                return this.PlayerIdField;
+                return this.PlayerAccountIdField;
             }
             set
             {
-                if ((this.PlayerIdField.Equals(value) != true))
+                if ((this.PlayerAccountIdField.Equals(value) != true))
                 {
-                    this.PlayerIdField = value;
-                    this.RaisePropertyChanged("PlayerId");
+                    this.PlayerAccountIdField = value;
+                    this.RaisePropertyChanged("PlayerAccountId");
                 }
             }
         }

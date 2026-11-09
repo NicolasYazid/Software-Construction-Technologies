@@ -2,7 +2,6 @@
 using System.Data.Entity;
 using System.Linq;
 
-using GinRummy.Domain.Entities.Players;
 using GinRummy.Domain.Entities.SocialCommunication;
 using GinRummy.Domain.Ports.SocialCommunication;
 using GinRummy.Persistence.Persistence;
@@ -37,7 +36,7 @@ namespace GinRummy.Persistence.Repositories
         public Message FindById(int messageId)
         {
             return _context.Messages
-                .Include(message => message.Player)
+                .Include(message => message.PlayerProfile)
                 .FirstOrDefault(message => message.MessageId == messageId);
         }
 

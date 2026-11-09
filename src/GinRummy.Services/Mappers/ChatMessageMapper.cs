@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using GinRummy.Application.Chat;
 using GinRummy.Contracts.DataContracts;
-using GinRummy.Domain.Entities.Players;
+using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Domain.Entities.SocialCommunication;
 
 namespace GinRummy.Services.Mappers
@@ -17,7 +17,7 @@ namespace GinRummy.Services.Mappers
                 throw new ArgumentNullException(nameof(message));
             }
 
-            Player author = message.AuthorProfile.PlayerAccount.Player;
+            PlayerProfile author = message.AuthorProfile;
 
             return new PlayerMessage
             {

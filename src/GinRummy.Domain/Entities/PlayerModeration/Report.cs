@@ -17,22 +17,22 @@ namespace GinRummy.Domain.Entities.PlayerModeration
         /// <summary>
         /// Creates a valid new pending report. The database sets the moment it was created.
         /// </summary>
-        /// <param name="reporterPlayerId">Identifier of the player who reports; must be positive.</param>
-        /// <param name="reportedPlayerId">Identifier of the author of the message; must be positive and not the reporter.</param>
+        /// <param name="reporterPlayerAccountId">Identifier of the player who reports; must be positive.</param>
+        /// <param name="reportedPlayerAccountId">Identifier of the author of the message; must be positive and not the reporter.</param>
         /// <param name="messageId">Identifier of the reported message; must be positive.</param>
-        public Report(int reporterPlayerId, int reportedPlayerId, int messageId)
+        public Report(int reporterPlayerAccountId, int reportedPlayerAccountId, int messageId)
         {
-            ValidateId(reporterPlayerId, nameof(reporterPlayerId));
-            ValidateId(reportedPlayerId, nameof(reportedPlayerId));
+            ValidateId(reporterPlayerAccountId, nameof(reporterPlayerAccountId));
+            ValidateId(reportedPlayerAccountId, nameof(reportedPlayerAccountId));
             ValidateId(messageId, nameof(messageId));
 
-            if (reporterPlayerId == reportedPlayerId)
+            if (reporterPlayerAccountId == reportedPlayerAccountId)
             {
-                throw new ArgumentException("A player cannot report their own message.", nameof(reportedPlayerId));
+                throw new ArgumentException("A player cannot report their own message.", nameof(reportedPlayerAccountId));
             }
 
-            ReporterPlayerId = reporterPlayerId;
-            ReportedPlayerId = reportedPlayerId;
+            ReporterPlayerAccountId = reporterPlayerAccountId;
+            ReportedPlayerAccountId = reportedPlayerAccountId;
             MessageId = messageId;
             ReportStatusId = PendingStatusId;
         }
@@ -53,12 +53,12 @@ namespace GinRummy.Domain.Entities.PlayerModeration
         /// <summary>
         /// Gets the identifier of the player who reports.
         /// </summary>
-        public int ReporterPlayerId { get; private set; }
+        public int ReporterPlayerAccountId { get; private set; }
 
         /// <summary>
         /// Gets the identifier of the author of the reported message.
         /// </summary>
-        public int ReportedPlayerId { get; private set; }
+        public int ReportedPlayerAccountId { get; private set; }
 
         /// <summary>
         /// Gets the identifier of the reported message.

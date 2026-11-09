@@ -1,6 +1,5 @@
 ﻿using System.Data.Entity.ModelConfiguration;
 
-using GinRummy.Domain.Entities.Players;
 using GinRummy.Domain.Entities.SocialCommunication;
 
 namespace GinRummy.Persistence.Configurations
@@ -19,7 +18,7 @@ namespace GinRummy.Persistence.Configurations
             ToTable("Message");
             HasKey(message => message.MessageId);
             Property(message => message.MessageId).HasColumnName("message_id");
-            Property(message => message.PlayerId).HasColumnName("player_id");
+            Property(message => message.PlayerAccountId).HasColumnName("player_account_id");
             Property(message => message.Content)
                 .HasColumnName("content")
                 .IsRequired()
@@ -33,7 +32,7 @@ namespace GinRummy.Persistence.Configurations
             Property(message => message.GameSessionId).HasColumnName("game_session_id");
             Property(message => message.SentAt).HasColumnName("sent_at");
             Ignore(message => message.Channel);
-            HasRequired(message => message.Player).WithMany().HasForeignKey(message => message.PlayerId);
+            HasRequired(message => message.PlayerProfile).WithMany().HasForeignKey(message => message.PlayerAccountId);
         }
     }
 }

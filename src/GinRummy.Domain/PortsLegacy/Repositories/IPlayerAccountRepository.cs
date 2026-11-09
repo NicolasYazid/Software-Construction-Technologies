@@ -1,4 +1,7 @@
-﻿using GinRummy.Domain.Entities.PlayerCareer;
+﻿using System.Collections.Generic;
+
+using GinRummy.Domain.Entities.PlayerCareer;
+using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Domain.Entities.Players;
 
 namespace GinRummy.Domain.Ports.Repositories
@@ -21,11 +24,11 @@ namespace GinRummy.Domain.Ports.Repositories
         /// Finds the account of a player, with its player loaded, or null when the player has
         /// no account.
         /// </summary>
-        /// <param name="playerId">Identifier of the player that owns the account.</param>
+        /// <param name="playerAccountId">Identifier of the player that owns the account.</param>
         /// <returns>The matching account, or null.</returns>
-        PlayerAccount FindByPlayerId(int playerId);
+        PlayerAccount FindByPlayerAccountId(int playerAccountId);
 
-        PlayerProfile FindProfileByPlayerId(int playerId);
+        PlayerProfile FindProfileByPlayerAccountId(int playerAccountId);
 
         /// <summary>
         /// Adds a new account and persists it immediately.
@@ -50,16 +53,29 @@ namespace GinRummy.Domain.Ports.Repositories
         /// Finds the profile of a player, with its social links loaded, or null when the player has no
         /// profile.
         /// </summary>
-        /// <param name="playerId">Identifier of the player that owns the profile.</param>
+        /// <param name="playerAccountId">Identifier of the player that owns the profile.</param>
         /// <returns>The matching profile, or null.</returns>
-        PlayerProfile FindProfile(int playerId);
+        PlayerProfile FindProfile(int playerAccountId);
+
+        /// <summary>
+        /// Finds a player by the public tag other players see, or null when no player has it.
+        /// </summary>
+        /// <param name="publicTag">Public tag to search for.</param>
+        /// <returns>The matching profile, or null.</returns>
+        PlayerProfile FindByPublicTag(int publicTag);
+
+        /// <summary>
+        /// Gets every registered player.
+        /// </summary>
+        /// <returns>All the profiles; empty when none has registered.</returns>
+        IList<PlayerProfile> GetAllPlayers();
 
         /// <summary>
         /// Finds the statistics of a player, with its player loaded, or null when the player has none.
         /// </summary>
-        /// <param name="playerId">Identifier of the player that owns the statistics.</param>
+        /// <param name="playerAccountId">Identifier of the player that owns the statistics.</param>
         /// <returns>The matching statistics, or null.</returns>
-        PlayerStats FindStats(int playerId);
+        PlayerStats FindStats(int playerAccountId);
 
         /// <summary>
         /// Adds a new social media link and persists it immediately, so its identifier is known right

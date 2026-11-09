@@ -46,16 +46,16 @@ namespace GinRummy.Domain.Ports.PlayerModeration
         /// <summary>
         /// Gets every ban a player has received, active or not, each with its reason loaded.
         /// </summary>
-        /// <param name="playerId">Player whose bans are wanted.</param>
+        /// <param name="playerAccountId">Player whose bans are wanted.</param>
         /// <returns>The bans, most recent first.</returns>
-        IList<Ban> GetBansOf(int playerId);
+        IList<Ban> GetBansOf(int playerAccountId);
 
         /// <summary>
         /// Gets every warning a player has received.
         /// </summary>
-        /// <param name="playerId">Player whose warnings are wanted.</param>
+        /// <param name="playerAccountId">Player whose warnings are wanted.</param>
         /// <returns>The warnings, most recent first.</returns>
-        IList<Warning> GetWarningsOf(int playerId);
+        IList<Warning> GetWarningsOf(int playerAccountId);
 
         /// <summary>
         /// Gets the prohibited words with the locales each one applies to.

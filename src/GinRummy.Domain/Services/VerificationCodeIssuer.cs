@@ -53,17 +53,17 @@ namespace GinRummy.Domain.Services
         /// Issues a new code for a player and stores it.
         /// </summary>
         /// <param name="codes">Repository of the codes, bound to the transaction of the caller.</param>
-        /// <param name="playerId">Player the code belongs to.</param>
+        /// <param name="playerAccountId">Player the code belongs to.</param>
         /// <param name="purpose">Operation the code confirms.</param>
         /// <returns>The stored code together with its plain value.</returns>
         /// <exception cref="VerificationResendLimitException">Thrown when the limit of codes does not allow a new one yet.</exception>
-        public IssuedVerificationCode Issue(IVerificationCodeRepository codes, int playerId, VerificationPurpose purpose)
+        public IssuedVerificationCode Issue(IVerificationCodeRepository codes, int playerAccountId, VerificationPurpose purpose)
         {
             DateTime issuedAt = _clock.UtcNow;
-            VerificationCode previousCode = codes.FindMostRecent(playerId, purpose);
+            VerificationCode previousCode = codes.FindMostRecent(playerAccountId, purpose);
             EnsureCooldownElapsed(previousCode, issuedAt);
             DateTime windowStart = issuedAt.AddMinutes(-LimitWindowMinutes);
-            EnsureWindowHasRoom(codes.FindCreatedSince(playerId, purpose, windowStart), issuedAt);
+            EnsureWindowHasRoom(codes.FindCreatedSince(playerAccountId, purpose, windowStart), issuedAt);
 
             // A new code invalidates the one still pending for the same purpose, so only the last email works (CU-09 FA-01).
             if ((previousCode != null) && IsPending(previousCode, issuedAt))
@@ -74,7 +74,7 @@ namespace GinRummy.Domain.Services
             string plainCode = _codeGenerator.GenerateCode();
             DateTime expiresAt = issuedAt.AddMinutes(LifetimeMinutes);
             VerificationCode storedCode = new VerificationCode(
-                playerId,
+                playerAccountId,
                 purpose,
                 _codeHasher.ComputeHash(plainCode),
                 issuedAt,

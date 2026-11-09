@@ -5,6 +5,7 @@ using GinRummy.Domain.Entities.DirectDuel;
 using GinRummy.Domain.Entities.Friendship;
 using GinRummy.Domain.Entities.Game;
 using GinRummy.Domain.Entities.PlayerCareer;
+using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Domain.Entities.PlayerModeration;
 using GinRummy.Domain.Entities.PlayerPreferences;
 using GinRummy.Domain.Entities.Players;
@@ -45,11 +46,11 @@ namespace GinRummy.Persistence.Persistence
         }
 
         /// <summary>
-        /// Gets the Player set.
+        /// Gets the PlayerPreferences set.
         /// </summary>
-        public DbSet<Player> Players
+        public DbSet<PlayerPreferences> Players
         {
-            get { return Set<Player>(); }
+            get { return Set<PlayerPreferences>(); }
         }
 
         /// <summary>
@@ -239,7 +240,7 @@ namespace GinRummy.Persistence.Persistence
             modelBuilder.Configurations.Add(new GuestSessionConfiguration());
             modelBuilder.Configurations.Add(new LocaleConfiguration());
             modelBuilder.Configurations.Add(new MessageConfiguration());
-            modelBuilder.Configurations.Add(new PlayerConfiguration());
+            modelBuilder.Configurations.Add(new PlayerPreferencesConfiguration());
             modelBuilder.Configurations.Add(new PlayerAccountConfiguration());
             modelBuilder.Configurations.Add(new PlayerProfileConfiguration());
             modelBuilder.Configurations.Add(new PlayerStatsConfiguration());

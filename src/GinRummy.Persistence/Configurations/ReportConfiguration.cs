@@ -19,8 +19,8 @@ namespace GinRummy.Persistence.Configurations
             ToTable("Report");
             HasKey(report => report.ReportId);
             Property(report => report.ReportId).HasColumnName("report_id");
-            Property(report => report.ReporterPlayerId).HasColumnName("reporter_player_id");
-            Property(report => report.ReportedPlayerId).HasColumnName("reported_player_id");
+            Property(report => report.ReporterPlayerAccountId).HasColumnName("reporter_player_account_id");
+            Property(report => report.ReportedPlayerAccountId).HasColumnName("reported_player_account_id");
             Property(report => report.MessageId).HasColumnName("message_id");
             Property(report => report.ReportStatusId).HasColumnName("report_status_id");
             Property(report => report.CreatedAt)

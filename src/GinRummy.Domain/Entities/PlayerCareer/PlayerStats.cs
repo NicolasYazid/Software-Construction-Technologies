@@ -1,6 +1,6 @@
 ﻿using System;
 
-using GinRummy.Domain.Entities.Players;
+using GinRummy.Domain.Entities.PlayerCustomization;
 
 namespace GinRummy.Domain.Entities.PlayerCareer
 {
@@ -16,12 +16,12 @@ namespace GinRummy.Domain.Entities.PlayerCareer
         /// Creates the stats every new account starts with: no wins, no losses and the
         /// initial score.
         /// </summary>
-        /// <param name="playerId">Identifier of the account the stats belong to; must be positive.</param>
-        public PlayerStats(int playerId)
+        /// <param name="playerAccountId">Identifier of the account the stats belong to; must be positive.</param>
+        public PlayerStats(int playerAccountId)
         {
-            ValidatePlayerId(playerId);
+            ValidatePlayerAccountId(playerAccountId);
 
-            PlayerId = playerId;
+            PlayerAccountId = playerAccountId;
             Wins = 0;
             Losses = 0;
             Score = InitialScore;
@@ -38,7 +38,7 @@ namespace GinRummy.Domain.Entities.PlayerCareer
         /// <summary>
         /// Gets the identifier of the player these stats belong to.
         /// </summary>
-        public int PlayerId { get; private set; }
+        public int PlayerAccountId { get; private set; }
 
         /// <summary>
         /// Gets how many matches the player has won.
@@ -61,10 +61,10 @@ namespace GinRummy.Domain.Entities.PlayerCareer
         public int MatchesPlayed { get; private set; }
 
         /// <summary>
-        /// Gets the player these stats belong to, loaded from the relationship between the
+        /// Gets the profile of the player these stats belong to, loaded from the relationship between the
         /// two tables.
         /// </summary>
-        public virtual Player Player { get; private set; }
+        public virtual PlayerProfile PlayerProfile { get; private set; }
 
         /// <summary>
         /// Gets the share of matches won, from zero to one. It is zero when no match has been
@@ -85,11 +85,11 @@ namespace GinRummy.Domain.Entities.PlayerCareer
         }
 
         // The stats of an account are keyed by the account, which must already exist.
-        private static void ValidatePlayerId(int playerId)
+        private static void ValidatePlayerAccountId(int playerAccountId)
         {
-            if (playerId <= 0)
+            if (playerAccountId <= 0)
             {
-                throw new ArgumentException("Player id must be positive.", nameof(playerId));
+                throw new ArgumentException("Player account id must be positive.", nameof(playerAccountId));
             }
         }
     }

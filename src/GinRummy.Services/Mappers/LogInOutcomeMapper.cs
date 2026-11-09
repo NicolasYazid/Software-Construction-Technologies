@@ -54,17 +54,17 @@ namespace GinRummy.Services.Mappers
 
         private static LogInOutcome MapToSignedInOutcome(LogInResult result)
         {
-            Player player = result.Account.Player;
+            PlayerAccount account = result.Account;
             LogInOutcome outcome = new LogInOutcome
             {
                 IsTwoFactorRequired = false,
                 AccessToken = result.AccessToken.Value,
                 AccessTokenExpiresAt = result.AccessToken.ExpiresAt,
-                PlayerId = player.PlayerId,
-                Username = player.Username,
-                PublicTag = player.PublicTag,
-                LocaleCode = player.Locale.LocaleCode,
-                IsChatFilterEnabled = player.IsChatFilterEnabled
+                PlayerAccountId = account.PlayerAccountId,
+                Username = account.PlayerProfile.Username,
+                PublicTag = account.PlayerProfile.PublicTag,
+                LocaleCode = account.PlayerPreferences.Locale.LocaleCode,
+                IsChatFilterEnabled = account.PlayerPreferences.IsChatFilterEnabled
             };
 
             return outcome;

@@ -18,7 +18,7 @@ namespace GinRummy.Persistence.Configurations
             ToTable("Warning");
             HasKey(warning => warning.WarningId);
             Property(warning => warning.WarningId).HasColumnName("warning_id");
-            Property(warning => warning.PlayerId).HasColumnName("player_id");
+            Property(warning => warning.PlayerAccountId).HasColumnName("player_account_id");
             Property(warning => warning.ReportId).HasColumnName("report_id");
             Property(warning => warning.BanId).HasColumnName("ban_id");
             Property(warning => warning.IssuedAt).HasColumnName("issued_at");

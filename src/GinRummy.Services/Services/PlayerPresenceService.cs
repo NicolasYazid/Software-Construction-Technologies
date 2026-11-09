@@ -9,7 +9,6 @@ using GinRummy.Contracts.Faults;
 using GinRummy.Contracts.Services;
 using GinRummy.Domain;
 using GinRummy.Domain.Entities.PlayerPresence;
-using GinRummy.Domain.Entities.Players;
 using GinRummy.Services.Notifiers;
 using Microsoft.Extensions.Logging;
 

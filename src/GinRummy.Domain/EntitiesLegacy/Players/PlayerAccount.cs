@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Net.Mail;
 
+using GinRummy.Domain.Entities.PlayerCareer;
+using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Domain.Services;
 
 namespace GinRummy.Domain.Entities.Players
@@ -12,15 +14,14 @@ namespace GinRummy.Domain.Entities.Players
 
         public const int PasswordHashMaxLength = 255;
 
-        public PlayerAccount(int playerId, string email, string passwordHash)
+        public PlayerAccount(string email, string passwordHash, DateTime createdAt)
         {
-            ValidatePlayerId(playerId);
             ValidateEmail(email);
             ValidatePasswordHash(passwordHash);
 
-            PlayerId = playerId;
             Email = NormalizeEmail(email);
             PasswordHash = passwordHash;
+            CreatedAt = createdAt;
             IsEmailVerified = false;
             IsTwoFactorEnabled = false;
         }
@@ -29,13 +30,16 @@ namespace GinRummy.Domain.Entities.Players
         {
         }
 
-        public int PlayerId { get; private set; }
+        public int PlayerAccountId { get; private set; }
         public string Email { get; private set; }
         public string PasswordHash { get; private set; }
+        public DateTime CreatedAt { get; private set; }
         public DateTime? LastLoginAt { get; private set; }
         public bool IsEmailVerified { get; private set; }
         public bool IsTwoFactorEnabled { get; private set; }
-        public virtual Player Player { get; private set; }
+        public virtual Entities.PlayerPreferences.PlayerPreferences PlayerPreferences { get; private set; }
+        public virtual PlayerProfile PlayerProfile { get; private set; }
+        public virtual PlayerStats PlayerStats { get; private set; }
 
         public static IList<EmailRequirement> GetUnmetEmailRequirements(string email)
         {
@@ -103,14 +107,6 @@ namespace GinRummy.Domain.Entities.Players
             string normalizedEmail = email.Trim().ToLowerInvariant();
 
             return normalizedEmail;
-        }
-
-        private static void ValidatePlayerId(int playerId)
-        {
-            if (playerId <= 0)
-            {
-                throw new ArgumentException("Player id must be positive.", nameof(playerId));
-            }
         }
 
         private static void ValidateEmail(string email)

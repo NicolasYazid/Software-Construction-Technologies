@@ -27,25 +27,25 @@ namespace GinRummy.Application.UseCases
 
         public void ConfirmTwoFactorActivation(string accessToken, string verificationCode)
         {
-            int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
+            int playerAccountId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
             TypedFieldValidator.EnsureAreTyped(verificationCode);
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                VerificationCode storedCode = FindStoredCode(unitOfWork.VerificationCodes, playerId, VerificationPurpose.TwoFactorSetup);
+                VerificationCode storedCode = FindStoredCode(unitOfWork.VerificationCodes, playerAccountId, VerificationPurpose.TwoFactorSetup);
                 RedeemCode(unitOfWork, storedCode, verificationCode);
-                unitOfWork.PlayerAccounts.FindByPlayerId(playerId).EnableTwoFactor();
+                unitOfWork.PlayerAccounts.FindByPlayerAccountId(playerAccountId).EnableTwoFactor();
                 unitOfWork.Commit();
             }
         }
 
         public void ConfirmPasswordChange(string accessToken, string newPassword, string verificationCode)
         {
-            int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
+            int playerAccountId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
             TypedFieldValidator.EnsureAreTyped(newPassword, verificationCode);
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                PlayerAccount account = unitOfWork.PlayerAccounts.FindByPlayerId(playerId);
-                VerificationCode storedCode = FindStoredCode(unitOfWork.VerificationCodes, playerId, VerificationPurpose.PasswordChange);
+                PlayerAccount account = unitOfWork.PlayerAccounts.FindByPlayerAccountId(playerAccountId);
+                VerificationCode storedCode = FindStoredCode(unitOfWork.VerificationCodes, playerAccountId, VerificationPurpose.PasswordChange);
                 RedeemCode(unitOfWork, storedCode, verificationCode);
                 _accessPolicy.ReplacePassword(account, newPassword);
                 unitOfWork.Commit();
@@ -54,12 +54,12 @@ namespace GinRummy.Application.UseCases
 
         public void ConfirmEmailChange(string accessToken, string newEmail, string verificationCode)
         {
-            int playerId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
+            int playerAccountId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
             TypedFieldValidator.EnsureAreTyped(newEmail, verificationCode);
             string normalizedEmail = PlayerAccount.NormalizeEmail(newEmail);
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                VerificationCode storedCode = FindStoredCode(unitOfWork.VerificationCodes, playerId, VerificationPurpose.EmailChange);
+                VerificationCode storedCode = FindStoredCode(unitOfWork.VerificationCodes, playerAccountId, VerificationPurpose.EmailChange);
                 Email sentEmail = unitOfWork.VerificationCodes.FindEmailOf(storedCode.VerificationCodeId);
                 if ((sentEmail == null) || (sentEmail.DestinationAddress != normalizedEmail))
                 {
@@ -74,14 +74,14 @@ namespace GinRummy.Application.UseCases
                 }
 
                 RedeemCode(unitOfWork, storedCode, verificationCode);
-                unitOfWork.PlayerAccounts.FindByPlayerId(playerId).ChangeEmail(normalizedEmail);
+                unitOfWork.PlayerAccounts.FindByPlayerAccountId(playerAccountId).ChangeEmail(normalizedEmail);
                 unitOfWork.Commit();
             }
         }
 
-        private static VerificationCode FindStoredCode(IVerificationCodeRepository codes, int playerId, VerificationPurpose purpose)
+        private static VerificationCode FindStoredCode(IVerificationCodeRepository codes, int playerAccountId, VerificationPurpose purpose)
         {
-            VerificationCode storedCode = codes.FindMostRecent(playerId, purpose);
+            VerificationCode storedCode = codes.FindMostRecent(playerAccountId, purpose);
             if (storedCode == null)
             {
                 throw new VerificationCodeRejectedException("No code of the account change exists.", VerificationCodeCheckResult.Expired);

@@ -41,13 +41,13 @@ namespace GinRummy.Domain.Services
         /// Issues a code for the account and emails it.
         /// </summary>
         /// <param name="unitOfWork">Unit of work of the operation that asks for the code.</param>
-        /// <param name="account">Account that receives the code, with its player loaded.</param>
+        /// <param name="account">Account that receives the code, with its preferences loaded.</param>
         /// <param name="purpose">Operation the code confirms.</param>
         /// <returns>Sent when the mail service accepted the email; Failed otherwise.</returns>
         public EmailDeliveryStatus Send(IUnitOfWork unitOfWork, PlayerAccount account, VerificationPurpose purpose)
         {
-            IssuedVerificationCode issuedCode = _codeIssuer.Issue(unitOfWork.VerificationCodes, account.PlayerId, purpose);
-            string localeCode = FindLocaleCode(unitOfWork.Locales, account.Player.LocaleId);
+            IssuedVerificationCode issuedCode = _codeIssuer.Issue(unitOfWork.VerificationCodes, account.PlayerAccountId, purpose);
+            string localeCode = FindLocaleCode(unitOfWork.Locales, account.PlayerPreferences.LocaleId);
             Email sentEmail = Deliver(issuedCode, account.Email, localeCode);
             unitOfWork.VerificationCodes.AddEmail(sentEmail);
 
@@ -58,16 +58,16 @@ namespace GinRummy.Domain.Services
         /// Issues a code that confirms a change of email and emails it to the new address.
         /// </summary>
         /// <param name="unitOfWork">Unit of work of the operation that asks for the code.</param>
-        /// <param name="account">Account that changes its email, with its player loaded.</param>
+        /// <param name="account">Account that changes its email, with its preferences loaded.</param>
         /// <param name="newEmail">Address the account wants to use, which is the one that must prove it is reachable.</param>
         /// <returns>Sent when the mail service accepted the email; Failed otherwise.</returns>
         public EmailDeliveryStatus SendToNewEmail(IUnitOfWork unitOfWork, PlayerAccount account, string newEmail)
         {
             IssuedVerificationCode issuedCode = _codeIssuer.Issue(
                 unitOfWork.VerificationCodes,
-                account.PlayerId,
+                account.PlayerAccountId,
                 VerificationPurpose.EmailChange);
-            string localeCode = FindLocaleCode(unitOfWork.Locales, account.Player.LocaleId);
+            string localeCode = FindLocaleCode(unitOfWork.Locales, account.PlayerPreferences.LocaleId);
             Email sentEmail = Deliver(issuedCode, newEmail, localeCode);
             unitOfWork.VerificationCodes.AddEmail(sentEmail);
 

@@ -86,7 +86,7 @@ namespace GinRummy.Application.UseCases
             VerificationCode storedCode = null;
             if (account != null)
             {
-                storedCode = codes.FindMostRecent(account.PlayerId, VerificationPurpose.CreateAccount);
+                storedCode = codes.FindMostRecent(account.PlayerAccountId, VerificationPurpose.CreateAccount);
             }
 
             if (storedCode == null)

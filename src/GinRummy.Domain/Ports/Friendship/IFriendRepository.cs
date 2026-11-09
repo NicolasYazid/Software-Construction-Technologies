@@ -13,10 +13,10 @@ namespace GinRummy.Domain.Ports.Friendship
         /// <summary>
         /// Finds the request one player sent to another, or null when none is pending.
         /// </summary>
-        /// <param name="requesterPlayerId">Player who sent the request.</param>
-        /// <param name="recipientPlayerId">Player who received it.</param>
+        /// <param name="requesterPlayerAccountId">Player who sent the request.</param>
+        /// <param name="recipientPlayerAccountId">Player who received it.</param>
         /// <returns>The pending request, or null.</returns>
-        FriendRequest FindRequest(int requesterPlayerId, int recipientPlayerId);
+        FriendRequest FindRequest(int requesterPlayerAccountId, int recipientPlayerAccountId);
 
         /// <summary>
         /// Finds a request by its identifier, or null when it does not exist.
@@ -28,9 +28,9 @@ namespace GinRummy.Domain.Ports.Friendship
         /// <summary>
         /// Gets the pending requests a player has received, each with its requester loaded.
         /// </summary>
-        /// <param name="recipientPlayerId">Player who received the requests.</param>
+        /// <param name="recipientPlayerAccountId">Player who received the requests.</param>
         /// <returns>The pending requests, oldest first.</returns>
-        IList<FriendRequest> GetRequestsReceivedBy(int recipientPlayerId);
+        IList<FriendRequest> GetRequestsReceivedBy(int recipientPlayerAccountId);
 
         /// <summary>
         /// Adds a new request and persists it immediately.
@@ -48,17 +48,17 @@ namespace GinRummy.Domain.Ports.Friendship
         /// Finds the friendship between two players, in any argument order, or null when they
         /// are not friends.
         /// </summary>
-        /// <param name="firstPlayerId">One of the players.</param>
-        /// <param name="secondPlayerId">The other player.</param>
+        /// <param name="firstPlayerAccountId">One of the players.</param>
+        /// <param name="secondPlayerAccountId">The other player.</param>
         /// <returns>The friendship, or null.</returns>
-        FriendShip FindFriendShip(int firstPlayerId, int secondPlayerId);
+        FriendShip FindFriendShip(int firstPlayerAccountId, int secondPlayerAccountId);
 
         /// <summary>
         /// Gets every friendship a player takes part in.
         /// </summary>
-        /// <param name="playerId">Player whose friendships are wanted.</param>
+        /// <param name="playerAccountId">Player whose friendships are wanted.</param>
         /// <returns>The friendships.</returns>
-        IList<FriendShip> GetFriendShipsOf(int playerId);
+        IList<FriendShip> GetFriendShipsOf(int playerAccountId);
 
         /// <summary>
         /// Adds a new friendship and persists it immediately.
@@ -69,8 +69,8 @@ namespace GinRummy.Domain.Ports.Friendship
         /// <summary>
         /// Removes the friendship between two players and persists the change.
         /// </summary>
-        /// <param name="firstPlayerId">One of the players.</param>
-        /// <param name="secondPlayerId">The other player.</param>
-        void RemoveFriendShip(int firstPlayerId, int secondPlayerId);
+        /// <param name="firstPlayerAccountId">One of the players.</param>
+        /// <param name="secondPlayerAccountId">The other player.</param>
+        void RemoveFriendShip(int firstPlayerAccountId, int secondPlayerAccountId);
     }
 }

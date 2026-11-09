@@ -69,10 +69,10 @@
     <Compile Include="EntitiesLegacy\Authentication\LogInResult.cs" />
     <Compile Include="Entities\SocialCommunication\Message.cs" />
     <Compile Include="Entities\SocialCommunication\MessageChannel.cs" />
-    <Compile Include="EntitiesLegacy\Players\Player.cs" />
+    <Compile Include="Entities\PlayerPreferences\PlayerPreferences.cs" />
     <Compile Include="EntitiesLegacy\Players\PlayerAccount.cs" />
     <Compile Include="Entities\PlayerPresence\PlayerPresenceStatus.cs" />
-    <Compile Include="EntitiesLegacy\Players\PlayerProfile.cs" />
+    <Compile Include="Entities\PlayerCustomization\PlayerProfile.cs" />
     <Compile Include="Entities\PlayerCareer\PlayerStats.cs" />
     <Compile Include="Entities\PlayerModeration\ProhibitedWord.cs" />
     <Compile Include="Entities\PlayerModeration\ProhibitedWordLocale.cs" />
@@ -81,12 +81,12 @@
     <Compile Include="Entities\PlayerModeration\ReasonBan.cs" />
     <Compile Include="Entities\PlayerModeration\ReasonBanLocale.cs" />
     <Compile Include="Entities\PlayerModeration\RestrictionScope.cs" />
-    <Compile Include="EntitiesLegacy\Players\SocialMedia.cs" />
+    <Compile Include="Entities\PlayerCustomization\SocialMedia.cs" />
     <Compile Include="EntitiesLegacy\Authentication\VerificationCode.cs" />
     <Compile Include="EntitiesLegacy\Authentication\VerificationPurpose.cs" />
     <Compile Include="Entities\PlayerModeration\Report.cs" />
     <Compile Include="Entities\PlayerModeration\Warning.cs" />
-    <Compile Include="EntitiesLegacy\Players\UsernameRequirement.cs" />
+    <Compile Include="Entities\PlayerCustomization\UsernameRequirement.cs" />
     <Compile Include="FieldTooLongException.cs" />
     <Compile Include="GameCoreException.cs" />
     <Compile Include="InvalidAccessTokenException.cs" />
@@ -94,7 +94,7 @@
     <Compile Include="InvalidEmailFormatException.cs" />
     <Compile Include="PortsLegacy\Infrastructure\IClock.cs" />
     <Compile Include="PortsLegacy\Infrastructure\IEmailSender.cs" />
-    <Compile Include="PortsLegacy\Infrastructure\IProfilePictureStorage.cs" />
+    <Compile Include="Ports\PlayerCustomization\IProfilePictureStorage.cs" />
     <Compile Include="PortsLegacy\Infrastructure\IVerificationEmailComposer.cs" />
     <Compile Include="PortsLegacy\Security\IAccessTokenSigner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -106,7 +106,7 @@
     <Compile Include="Ports\SocialCommunication\IMessageRepository.cs" />
     <Compile Include="Ports\PlayerModeration\IModerationRepository.cs" />
     <Compile Include="PortsLegacy\Repositories\IPlayerAccountRepository.cs" />
-    <Compile Include="PortsLegacy\Repositories\IPlayerRepository.cs" />
+    <Compile Include="Ports\PlayerPreferences\IPlayerRepository.cs" />
     <Compile Include="Ports\PlayerCareer\IRankingRepository.cs" />
     <Compile Include="PortsLegacy\Repositories\IUnitOfWork.cs" />
     <Compile Include="PortsLegacy\Security\IVerificationCodeHasher.cs" />
@@ -119,7 +119,7 @@
     <Compile Include="Services\AccountAccessPolicy.cs" />
     <Compile Include="Services\AccountRegistrar.cs" />
     <Compile Include="Services\ForbiddenCharacterCommon.cs" />
-    <Compile Include="Services\ProfilePictureCommon.cs" />
+    <Compile Include="Entities\PlayerCustomization\ProfilePictureCommon.cs" />
     <Compile Include="Entities\PlayerModeration\ProhibitedWordDetector.cs" />
     <Compile Include="Entities\PlayerCareer\RankResolver.cs" />
     <Compile Include="Services\TypedFieldValidator.cs" />

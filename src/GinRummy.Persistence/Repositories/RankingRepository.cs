@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Linq;
 
 using GinRummy.Domain.Entities.PlayerCareer;
-using GinRummy.Domain.Entities.Players;
 using GinRummy.Domain.Ports.PlayerCareer;
 using GinRummy.Persistence.Persistence;
 
@@ -92,7 +91,7 @@ namespace GinRummy.Persistence.Repositories
         private static IList<PlayerStats> ReadStatsRankedByScore(GinRummyContext context)
         {
             IList<PlayerStats> rankedStats = context.PlayerStats
-                .Include(stats => stats.Player)
+                .Include(stats => stats.PlayerProfile)
                 .OrderByDescending(stats => stats.Score)
                 .ToList();
 

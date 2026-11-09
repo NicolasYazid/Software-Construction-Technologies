@@ -134,13 +134,13 @@ namespace GinRummy.Services.Services
         {
             if (result.IsTwoFactorRequired)
             {
-                _logger.LogInformation("Player {PlayerId} was emailed the code of the second factor.", result.Account.PlayerId);
+                _logger.LogInformation("Player {PlayerAccountId} was emailed the code of the second factor.", result.Account.PlayerAccountId);
             }
             else
             {
                 _logger.LogInformation(
-                    "Player {PlayerId} signed in with a token that expires at {ExpiresAt}.",
-                    result.Account.PlayerId,
+                    "Player {PlayerAccountId} signed in with a token that expires at {ExpiresAt}.",
+                    result.Account.PlayerAccountId,
                     result.AccessToken.ExpiresAt);
             }
         }

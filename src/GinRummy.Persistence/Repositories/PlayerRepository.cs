@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
-using GinRummy.Domain.Entities.Players;
-using GinRummy.Domain.Ports.Repositories;
+using GinRummy.Domain.Entities.PlayerPreferences;
+using GinRummy.Domain.Ports.PlayerPreferences;
 using GinRummy.Persistence.Persistence;
 
 namespace GinRummy.Persistence.Repositories
@@ -42,90 +41,44 @@ namespace GinRummy.Persistence.Repositories
         }
 
         /// <summary>
-        /// Finds a player by its internal identifier, or null when it does not exist.
+        /// Finds the preferences of a player by the identifier of its account, or null when they do not exist.
         /// </summary>
-        /// <param name="playerId">Identifier of the player.</param>
-        /// <returns>The matching player, or null.</returns>
-        public Player FindById(int playerId)
+        /// <param name="playerAccountId">Identifier of the account that owns the preferences.</param>
+        /// <returns>The matching preferences, or null.</returns>
+        public PlayerPreferences FindById(int playerAccountId)
         {
-            Player foundPlayer;
+            PlayerPreferences foundPlayerPreferences;
             if (_sharedContext != null)
             {
-                foundPlayer = _sharedContext.Players.FirstOrDefault(player => player.PlayerId == playerId);
+                foundPlayerPreferences = _sharedContext.Players.FirstOrDefault(playerPreferences => playerPreferences.PlayerAccountId == playerAccountId);
             }
             else
             {
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
-                    foundPlayer = context.Players.FirstOrDefault(player => player.PlayerId == playerId);
+                    foundPlayerPreferences = context.Players.FirstOrDefault(playerPreferences => playerPreferences.PlayerAccountId == playerAccountId);
                 }
             }
 
-            return foundPlayer;
+            return foundPlayerPreferences;
         }
 
         /// <summary>
-        /// Finds a player by the public tag other players see, or null when no player has it.
+        /// Adds new preferences and persists them immediately.
         /// </summary>
-        /// <param name="publicTag">Public tag to search for.</param>
-        /// <returns>The matching player, or null.</returns>
-        public Player FindByPublicTag(int publicTag)
-        {
-            Player foundPlayer;
-            if (_sharedContext != null)
-            {
-                foundPlayer = _sharedContext.Players.FirstOrDefault(player => player.PublicTag == publicTag);
-            }
-            else
-            {
-                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
-                {
-                    foundPlayer = context.Players.FirstOrDefault(player => player.PublicTag == publicTag);
-                }
-            }
-
-            return foundPlayer;
-        }
-
-        /// <summary>
-        /// Gets every registered player.
-        /// </summary>
-        /// <returns>All the players; empty when none has registered.</returns>
-        public IList<Player> GetAllPlayers()
-        {
-            IList<Player> allPlayers;
-            if (_sharedContext != null)
-            {
-                allPlayers = _sharedContext.Players.ToList();
-            }
-            else
-            {
-                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
-                {
-                    allPlayers = context.Players.ToList();
-                }
-            }
-
-            return allPlayers;
-        }
-
-        /// <summary>
-        /// Adds a new player and persists it immediately, so its identifier is known
-        /// right after the call.
-        /// </summary>
-        /// <param name="newPlayer">Player to create.</param>
-        public void Add(Player newPlayer)
+        /// <param name="newPlayerPreferences">Preferences to create.</param>
+        public void Add(PlayerPreferences newPlayerPreferences)
         {
             if (_sharedContext != null)
             {
-                _sharedContext.Players.Add(newPlayer);
+                _sharedContext.Players.Add(newPlayerPreferences);
                 _sharedContext.SaveChanges();
             }
             else
             {
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
-                    context.Players.Add(newPlayer);
+                    context.Players.Add(newPlayerPreferences);
                     context.SaveChanges();
                 }
             }

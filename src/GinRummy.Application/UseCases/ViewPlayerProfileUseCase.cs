@@ -2,7 +2,7 @@
 
 using GinRummy.Application.Ports;
 using GinRummy.Domain.Entities.PlayerCareer;
-using GinRummy.Domain.Entities.Players;
+using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Domain.Ports.PlayerCareer;
 using GinRummy.Domain.Ports.Repositories;
 using GinRummy.Domain.Services;
@@ -33,11 +33,11 @@ namespace GinRummy.Application.UseCases
             ViewedPlayerProfile viewedProfile = null;
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                Player player = unitOfWork.Players.FindByPublicTag(publicTag);
+                PlayerProfile player = unitOfWork.PlayerAccounts.FindByPublicTag(publicTag);
                 if (player != null)
                 {
-                    PlayerProfile profile = unitOfWork.PlayerAccounts.FindProfile(player.PlayerId);
-                    PlayerStats stats = unitOfWork.PlayerAccounts.FindStats(player.PlayerId);
+                    PlayerProfile profile = unitOfWork.PlayerAccounts.FindProfile(player.PlayerAccountId);
+                    PlayerStats stats = unitOfWork.PlayerAccounts.FindStats(player.PlayerAccountId);
                     Rank rank = _rankResolver.ResolveRank(stats.Score, _rankingRepository.GetAllRanks());
                     viewedProfile = new ViewedPlayerProfile(profile, stats, rank);
                 }

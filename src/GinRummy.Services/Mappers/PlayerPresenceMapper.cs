@@ -3,7 +3,6 @@
 using GinRummy.Application.Presence;
 using GinRummy.Contracts.DataContracts;
 using GinRummy.Domain.Entities.PlayerPresence;
-using GinRummy.Domain.Entities.Players;
 
 namespace GinRummy.Services.Mappers
 {

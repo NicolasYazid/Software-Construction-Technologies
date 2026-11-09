@@ -15,19 +15,19 @@ namespace GinRummy.Domain.Ports.Repositories
         /// Finds the most recently created code for a player and a purpose, or null
         /// when none exists.
         /// </summary>
-        /// <param name="playerId">Player the code belongs to.</param>
+        /// <param name="playerAccountId">Player the code belongs to.</param>
         /// <param name="purpose">Reason the code was generated for.</param>
         /// <returns>The matching code, or null.</returns>
-        VerificationCode FindMostRecent(int playerId, VerificationPurpose purpose);
+        VerificationCode FindMostRecent(int playerAccountId, VerificationPurpose purpose);
 
         /// <summary>
         /// Gets the codes created for a player and a purpose from a moment on, oldest first.
         /// </summary>
-        /// <param name="playerId">Player the codes belong to.</param>
+        /// <param name="playerAccountId">Player the codes belong to.</param>
         /// <param name="purpose">Reason the codes were generated for.</param>
         /// <param name="since">Earliest creation moment to include, in UTC.</param>
         /// <returns>The matching codes, ordered by creation moment; empty when none exists.</returns>
-        IList<VerificationCode> FindCreatedSince(int playerId, VerificationPurpose purpose, DateTime since);
+        IList<VerificationCode> FindCreatedSince(int playerAccountId, VerificationPurpose purpose, DateTime since);
 
         /// <summary>
         /// Adds a new code and persists it immediately.
