@@ -41,6 +41,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gameplay\CardTests.cs" />
+    <Compile Include="Gameplay\GameRoundTests.cs" />
+    <Compile Include="Gameplay\MeldRulesTests.cs" />
+    <Compile Include="Gameplay\StandardDeckTests.cs" />
     <Compile Include="ProhibitedWordDetectorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
