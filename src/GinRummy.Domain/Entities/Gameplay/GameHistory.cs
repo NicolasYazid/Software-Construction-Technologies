@@ -74,7 +74,7 @@ namespace GinRummy.Domain.Entities.Gameplay
         /// <summary>
         /// Gets the account of the player the entry belongs to.
         /// </summary>
-        public virtual PlayerAccount Player { get; private set; }
+        public virtual PlayerAccount PlayerAccount { get; private set; }
 
         /// <summary>
         /// Gets the account of the opponent.

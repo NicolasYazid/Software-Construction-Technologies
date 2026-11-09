@@ -48,7 +48,7 @@ namespace GinRummy.Persistence.Persistence
         /// <summary>
         /// Gets the PlayerPreferences set.
         /// </summary>
-        public DbSet<PlayerPreferences> Players
+        public DbSet<PlayerPreferences> PlayerPreferences
         {
             get { return Set<PlayerPreferences>(); }
         }

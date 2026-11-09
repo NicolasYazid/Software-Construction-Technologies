@@ -137,7 +137,7 @@ namespace GinRummy.Application.UseCases
                 isSupported = locale != null;
                 if (isSupported)
                 {
-                    unitOfWork.Players.FindById(playerAccountId).ChangeLocale(locale.LocaleId);
+                    unitOfWork.PlayerPreferences.FindById(playerAccountId).ChangeLocale(locale.LocaleId);
                     unitOfWork.Commit();
                 }
             }

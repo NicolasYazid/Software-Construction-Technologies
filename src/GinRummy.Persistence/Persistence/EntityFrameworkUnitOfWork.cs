@@ -22,7 +22,7 @@ namespace GinRummy.Persistence.Persistence
     {
         private readonly GinRummyContext _context;
         private readonly DbContextTransaction _transaction;
-        private readonly IPlayerRepository _players;
+        private readonly IPlayerPreferencesRepository _playerPreferences;
         private readonly IPlayerAccountRepository _playerAccounts;
         private readonly IVerificationCodeRepository _verificationCodes;
         private readonly ILocaleRepository _locales;
@@ -43,7 +43,7 @@ namespace GinRummy.Persistence.Persistence
         {
             _context = new GinRummyContext(connectionStringName);
             _transaction = _context.Database.BeginTransaction();
-            _players = new PlayerRepository(_context);
+            _playerPreferences = new PlayerPreferencesRepository(_context);
             _playerAccounts = new PlayerAccountRepository(_context);
             _verificationCodes = new VerificationCodeRepository(_context);
             _locales = new LocaleRepository(_context);
@@ -57,11 +57,11 @@ namespace GinRummy.Persistence.Persistence
         }
 
         /// <summary>
-        /// Gets the player repository bound to this unit of work.
+        /// Gets the player preferences repository bound to this unit of work.
         /// </summary>
-        public IPlayerRepository Players
+        public IPlayerPreferencesRepository PlayerPreferences
         {
-            get { return _players; }
+            get { return _playerPreferences; }
         }
 
         /// <summary>

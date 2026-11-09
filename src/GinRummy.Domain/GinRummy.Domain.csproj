@@ -107,7 +107,7 @@
     <Compile Include="Ports\SocialCommunication\IMessageRepository.cs" />
     <Compile Include="Ports\PlayerModeration\IModerationRepository.cs" />
     <Compile Include="Ports\Authentication\IPlayerAccountRepository.cs" />
-    <Compile Include="Ports\PlayerPreferences\IPlayerRepository.cs" />
+    <Compile Include="Ports\PlayerPreferences\IPlayerPreferencesRepository.cs" />
     <Compile Include="Ports\PlayerCareer\IRankingRepository.cs" />
     <Compile Include="Shared\IUnitOfWork.cs" />
     <Compile Include="Ports\AccountProtection\IVerificationCodeHasher.cs" />

@@ -20,9 +20,9 @@ namespace GinRummy.Domain.Shared
     public interface IUnitOfWork : IDisposable
     {
         /// <summary>
-        /// Gets the player repository bound to this unit of work.
+        /// Gets the player preferences repository bound to this unit of work.
         /// </summary>
-        IPlayerRepository Players { get; }
+        IPlayerPreferencesRepository PlayerPreferences { get; }
 
         /// <summary>
         /// Gets the player account repository bound to this unit of work.

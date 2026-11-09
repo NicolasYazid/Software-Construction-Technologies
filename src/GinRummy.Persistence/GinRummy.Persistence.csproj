@@ -87,7 +87,7 @@
     <Compile Include="Repositories\MessageRepository.cs" />
     <Compile Include="Repositories\ModerationRepository.cs" />
     <Compile Include="Repositories\PlayerAccountRepository.cs" />
-    <Compile Include="Repositories\PlayerRepository.cs" />
+    <Compile Include="Repositories\PlayerPreferencesRepository.cs" />
     <Compile Include="Repositories\RankingRepository.cs" />
     <Compile Include="Repositories\VerificationCodeRepository.cs" />
   </ItemGroup>

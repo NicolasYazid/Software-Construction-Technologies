@@ -8,11 +8,11 @@ using GinRummy.Persistence.Persistence;
 namespace GinRummy.Persistence.Repositories
 {
     /// <summary>
-    /// Fulfils IPlayerRepository using Entity Framework against GinRummy_Dev. By default,
+    /// Fulfils IPlayerPreferencesRepository using Entity Framework against GinRummy_Dev. By default,
     /// opens a short-lived context per operation; optionally reuses a context someone else
     /// already opened, so several repositories can share one transaction.
     /// </summary>
-    public class PlayerRepository : IPlayerRepository
+    public class PlayerPreferencesRepository : IPlayerPreferencesRepository
     {
         private readonly string _connectionStringName;
         private readonly GinRummyContext _sharedContext;
@@ -22,7 +22,7 @@ namespace GinRummy.Persistence.Repositories
         /// </summary>
         /// <param name="connectionStringName">Name of the entry in App.config.</param>
         /// <exception cref="ArgumentNullException">Thrown when the name is null.</exception>
-        public PlayerRepository(string connectionStringName)
+        public PlayerPreferencesRepository(string connectionStringName)
         {
             _connectionStringName = connectionStringName
                 ?? throw new ArgumentNullException(nameof(connectionStringName));
@@ -35,7 +35,7 @@ namespace GinRummy.Persistence.Repositories
         /// </summary>
         /// <param name="sharedContext">Context to reuse instead of opening a new one.</param>
         /// <exception cref="ArgumentNullException">Thrown when the context is null.</exception>
-        public PlayerRepository(GinRummyContext sharedContext)
+        public PlayerPreferencesRepository(GinRummyContext sharedContext)
         {
             _sharedContext = sharedContext ?? throw new ArgumentNullException(nameof(sharedContext));
         }
@@ -50,13 +50,13 @@ namespace GinRummy.Persistence.Repositories
             PlayerPreferences foundPlayerPreferences;
             if (_sharedContext != null)
             {
-                foundPlayerPreferences = _sharedContext.Players.FirstOrDefault(playerPreferences => playerPreferences.PlayerAccountId == playerAccountId);
+                foundPlayerPreferences = _sharedContext.PlayerPreferences.FirstOrDefault(playerPreferences => playerPreferences.PlayerAccountId == playerAccountId);
             }
             else
             {
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
-                    foundPlayerPreferences = context.Players.FirstOrDefault(playerPreferences => playerPreferences.PlayerAccountId == playerAccountId);
+                    foundPlayerPreferences = context.PlayerPreferences.FirstOrDefault(playerPreferences => playerPreferences.PlayerAccountId == playerAccountId);
                 }
             }
 
@@ -71,14 +71,14 @@ namespace GinRummy.Persistence.Repositories
         {
             if (_sharedContext != null)
             {
-                _sharedContext.Players.Add(newPlayerPreferences);
+                _sharedContext.PlayerPreferences.Add(newPlayerPreferences);
                 _sharedContext.SaveChanges();
             }
             else
             {
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
-                    context.Players.Add(newPlayerPreferences);
+                    context.PlayerPreferences.Add(newPlayerPreferences);
                     context.SaveChanges();
                 }
             }

@@ -66,7 +66,7 @@ namespace GinRummy.Domain.Entities.Authentication
             PlayerAccount newAccount = new PlayerAccount(email, passwordHash, _clock.UtcNow);
             unitOfWork.PlayerAccounts.Add(newAccount);
 
-            unitOfWork.Players.Add(new Entities.PlayerPreferences.PlayerPreferences(newAccount.PlayerAccountId, locale.LocaleId));
+            unitOfWork.PlayerPreferences.Add(new Entities.PlayerPreferences.PlayerPreferences(newAccount.PlayerAccountId, locale.LocaleId));
             unitOfWork.PlayerAccounts.AddProfile(new PlayerProfile(newAccount.PlayerAccountId, form.Username));
             unitOfWork.PlayerAccounts.AddStats(new PlayerStats(newAccount.PlayerAccountId));
 

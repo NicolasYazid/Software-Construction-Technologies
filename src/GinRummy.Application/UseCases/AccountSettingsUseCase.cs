@@ -100,7 +100,7 @@ namespace GinRummy.Application.UseCases
             int playerAccountId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                unitOfWork.Players.FindById(playerAccountId).ChangeChatFilter(isChatFilterEnabled);
+                unitOfWork.PlayerPreferences.FindById(playerAccountId).ChangeChatFilter(isChatFilterEnabled);
                 unitOfWork.Commit();
             }
         }

@@ -4,7 +4,7 @@
     /// Contract the game's logic uses to reach PlayerPreferences data, without knowing how or
     /// where it is stored. Infrastructure provides the implementation.
     /// </summary>
-    public interface IPlayerRepository
+    public interface IPlayerPreferencesRepository
     {
         /// <summary>
         /// Finds the preferences of a player by the identifier of its account, or null when they do not exist.
