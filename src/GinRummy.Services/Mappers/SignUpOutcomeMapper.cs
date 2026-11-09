@@ -1,4 +1,4 @@
-﻿using GinRummy.Contracts.DataContracts;
+﻿using GinRummy.Contracts.DataContracts.Authentication;
 using GinRummy.Domain.Entities.Authentication;
 
 namespace GinRummy.Services.Mappers

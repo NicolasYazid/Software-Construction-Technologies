@@ -2,8 +2,8 @@
 using System.ServiceModel;
 
 using GinRummy.Application.Ports.PlayerModeration;
-using GinRummy.Contracts.Faults;
-using GinRummy.Contracts.Services;
+using GinRummy.Contracts.Faults.Shared;
+using GinRummy.Contracts.Services.PlayerModeration;
 using GinRummy.Domain;
 using Microsoft.Extensions.Logging;
 

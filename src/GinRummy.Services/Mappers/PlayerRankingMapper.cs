@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using GinRummy.Contracts.DataContracts;
+using GinRummy.Contracts.DataContracts.PlayerCareer;
 using GinRummy.Domain.Entities.PlayerCareer;
 
 namespace GinRummy.Services.Mappers

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 using GinRummy.Application.Ports.SocialCommunication;
 using GinRummy.Application.UseCases.SocialCommunication;
-using GinRummy.Contracts.Callbacks;
-using GinRummy.Contracts.DataContracts;
+using GinRummy.Contracts.DataContracts.SocialCommunication;
+using GinRummy.Contracts.Services.SocialCommunication;
 using GinRummy.Services.Mappers;
 
 namespace GinRummy.Services.Notifiers

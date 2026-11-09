@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using GinRummy.Application.UseCases.PlayerCustomization;
-using GinRummy.Contracts.DataContracts;
+using GinRummy.Contracts.DataContracts.PlayerCustomization;
 using GinRummy.Domain.Entities.PlayerCareer;
 using GinRummy.Domain.Entities.PlayerCustomization;
 

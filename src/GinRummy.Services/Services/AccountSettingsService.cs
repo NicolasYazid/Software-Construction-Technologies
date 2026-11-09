@@ -2,9 +2,9 @@
 using System.ServiceModel;
 
 using GinRummy.Application.Ports.AccountProtection;
-using GinRummy.Contracts.DataContracts;
-using GinRummy.Contracts.Faults;
-using GinRummy.Contracts.Services;
+using GinRummy.Contracts.DataContracts.AccountProtection;
+using GinRummy.Contracts.Faults.Shared;
+using GinRummy.Contracts.Services.AccountProtection;
 using GinRummy.Domain;
 using GinRummy.Domain.Entities.Authentication;
 using Microsoft.Extensions.Logging;

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.ServiceModel;
 
-using GinRummy.Contracts.Faults;
+using GinRummy.Contracts.Faults.AccountProtection;
+using GinRummy.Contracts.Faults.Shared;
 using GinRummy.Domain;
 using GinRummy.Domain.Entities.AccountProtection;
 

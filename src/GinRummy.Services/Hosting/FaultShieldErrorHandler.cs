@@ -3,7 +3,7 @@ using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Dispatcher;
 
-using GinRummy.Contracts.Faults;
+using GinRummy.Contracts.Faults.Shared;
 using GinRummy.Domain;
 using GinRummy.Services.Services;
 using Microsoft.Extensions.Logging;

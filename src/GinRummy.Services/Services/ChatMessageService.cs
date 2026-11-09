@@ -2,8 +2,7 @@
 using System.ServiceModel;
 
 using GinRummy.Application.Ports.SocialCommunication;
-using GinRummy.Contracts.Callbacks;
-using GinRummy.Contracts.Services;
+using GinRummy.Contracts.Services.SocialCommunication;
 using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Services.Notifiers;
 

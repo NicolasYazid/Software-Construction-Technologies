@@ -3,9 +3,9 @@ using System.ServiceModel;
 
 using GinRummy.Application.Ports.PlayerCustomization;
 using GinRummy.Application.UseCases.PlayerCustomization;
-using GinRummy.Contracts.DataContracts;
-using GinRummy.Contracts.Faults;
-using GinRummy.Contracts.Services;
+using GinRummy.Contracts.DataContracts.PlayerCustomization;
+using GinRummy.Contracts.Faults.Shared;
+using GinRummy.Contracts.Services.PlayerCustomization;
 using GinRummy.Domain;
 using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Services.Mappers;

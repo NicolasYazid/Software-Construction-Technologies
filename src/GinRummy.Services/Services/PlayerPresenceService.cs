@@ -4,9 +4,8 @@ using System.ServiceModel;
 using System.Threading;
 
 using GinRummy.Application.Ports.PlayerPresence;
-using GinRummy.Contracts.Callbacks;
-using GinRummy.Contracts.Faults;
-using GinRummy.Contracts.Services;
+using GinRummy.Contracts.Faults.Shared;
+using GinRummy.Contracts.Services.PlayerPresence;
 using GinRummy.Domain;
 using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Domain.Entities.PlayerPresence;

@@ -3,8 +3,8 @@ using System.Collections.Concurrent;
 using System.ServiceModel;
 using System.Threading;
 
-using GinRummy.Contracts.Callbacks;
-using GinRummy.Contracts.DataContracts;
+using GinRummy.Contracts.DataContracts.PlayerPresence;
+using GinRummy.Contracts.Services.PlayerPresence;
 using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Domain.Entities.PlayerPresence;
 using Microsoft.Extensions.Logging;

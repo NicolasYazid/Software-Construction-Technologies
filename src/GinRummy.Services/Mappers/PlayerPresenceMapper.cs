@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
 using GinRummy.Application.UseCases.PlayerPresence;
-using GinRummy.Contracts.DataContracts;
+using GinRummy.Contracts.DataContracts.PlayerPresence;
 using GinRummy.Domain.Entities.PlayerPresence;
 
 namespace GinRummy.Services.Mappers

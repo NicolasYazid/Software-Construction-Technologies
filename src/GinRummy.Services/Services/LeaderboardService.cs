@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.ServiceModel;
 
 using GinRummy.Application.Ports.PlayerCareer;
-using GinRummy.Contracts.DataContracts;
-using GinRummy.Contracts.Services;
+using GinRummy.Contracts.DataContracts.PlayerCareer;
+using GinRummy.Contracts.Services.PlayerCareer;
 using GinRummy.Domain.Entities.PlayerCareer;
 using GinRummy.Services.Mappers;
 

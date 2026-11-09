@@ -2,9 +2,9 @@
 using System.ServiceModel;
 
 using GinRummy.Application.Ports.Authentication;
-using GinRummy.Contracts.DataContracts;
-using GinRummy.Contracts.Faults;
-using GinRummy.Contracts.Services;
+using GinRummy.Contracts.DataContracts.Authentication;
+using GinRummy.Contracts.Faults.Shared;
+using GinRummy.Contracts.Services.Authentication;
 using GinRummy.Domain;
 using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Services.Mappers;

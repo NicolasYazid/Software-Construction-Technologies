@@ -12,7 +12,7 @@ using GinRummy.Application.UseCases.PlayerCareer;
 using GinRummy.Application.UseCases.PlayerCustomization;
 using GinRummy.Application.UseCases.PlayerPresence;
 using GinRummy.Application.UseCases.SocialCommunication;
-using GinRummy.Contracts.Callbacks;
+using GinRummy.Contracts.Services.SocialCommunication;
 using GinRummy.Domain.Entities.AccountProtection;
 using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Domain.Entities.PlayerCareer;

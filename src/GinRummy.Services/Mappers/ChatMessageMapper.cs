@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 using GinRummy.Application.UseCases.SocialCommunication;
-using GinRummy.Contracts.DataContracts;
+using GinRummy.Contracts.DataContracts.SocialCommunication;
 using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Domain.Entities.SocialCommunication;
 

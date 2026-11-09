@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 using GinRummy.Application.Ports.PlayerPresence;
 using GinRummy.Application.UseCases.PlayerPresence;
-using GinRummy.Contracts.Callbacks;
+using GinRummy.Contracts.Services.PlayerPresence;
 using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Services.Mappers;
 using Microsoft.Extensions.Logging;
