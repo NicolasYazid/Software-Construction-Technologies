@@ -9,8 +9,10 @@ namespace GinRummy.Client.ViewModels
         private bool _hasPendingRequest;
 
         public string Username { get; set; }
-        // The tag identifies the player, so a change of presence finds its row even when two players share a name.
-        public int PublicTag { get; set; }
+        // The tag identifies a player with an account and the guest session identifies a guest, so a change of presence
+        // finds its row even when two players share a name.
+        public int? PublicTag { get; set; }
+        public int? GuestSessionId { get; set; }
         public string RankName { get; set; }
         public int Score { get; set; }
         public bool IsGuest { get; set; }

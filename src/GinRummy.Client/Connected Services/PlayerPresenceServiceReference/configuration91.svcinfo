@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="9.1" CheckSum="ztOG3ebJ0gf5VRwNA4mpI/OZqEILUlChbpLM1btpXgc=">
+<SavedWcfConfigurationInformation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="9.1" CheckSum="AQfSRwSxRQLtLcMx2XuOMEprOnQT2OcP7YT3+WEBsKY=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="netTcpBinding" name="PlayerPresenceService">
       <properties>
@@ -121,10 +121,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="PlayerPresenceService" contract="PlayerPresenceServiceReference.IPlayerPresenceService" bindingType="netTcpBinding" address="net.tcp://localhost:8004/PlayerPresenceService" bindingConfiguration="PlayerPresenceService">
+    <endpoint name="PlayerPresenceService" contract="PlayerPresenceServiceReference.IPlayerPresenceService" bindingType="netTcpBinding" address="net.tcp://localhost:8000/PlayerPresenceService" bindingConfiguration="PlayerPresenceService">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>net.tcp://localhost:8004/PlayerPresenceService</serializedValue>
+          <serializedValue>net.tcp://localhost:8000/PlayerPresenceService</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

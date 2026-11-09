@@ -22,11 +22,11 @@
     <MetadataSource Address="net.tcp://localhost:8001/PlayerPresenceService/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="5a2f77bd-9626-4e1d-b280-8008799bf076" SourceId="1" SourceUrl="net.tcp://localhost:8005/PlayerPresenceService/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="5ea2e1c8-d308-45b3-8cf9-53a902db6761" SourceId="1" SourceUrl="net.tcp://localhost:8005/PlayerPresenceService/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="1664b56c-02ca-430a-8d88-552215290ce0" SourceId="1" SourceUrl="net.tcp://localhost:8005/PlayerPresenceService/mex" />
-    <MetadataFile FileName="GinRummy.Contracts.Faults.xsd" MetadataType="Schema" ID="2d2756bc-bd78-45eb-9625-878092e2a67a" SourceId="1" SourceUrl="net.tcp://localhost:8005/PlayerPresenceService/mex" />
-    <MetadataFile FileName="GinRummy.Contracts.DataContracts.xsd" MetadataType="Schema" ID="8b4ed04a-7342-4f70-aa24-7e70a548726a" SourceId="1" SourceUrl="net.tcp://localhost:8005/PlayerPresenceService/mex" />
+    <MetadataFile FileName="service1.wsdl" MetadataType="Wsdl" ID="8b1ef56b-57aa-4b7f-bea8-5250629fa1cb" SourceId="1" SourceUrl="net.tcp://localhost:8001/PlayerPresenceService/mex" />
+    <MetadataFile FileName="service2.xsd" MetadataType="Schema" ID="59c839ae-babe-4954-86a5-a93d08993b47" SourceId="1" SourceUrl="net.tcp://localhost:8001/PlayerPresenceService/mex" />
+    <MetadataFile FileName="service21.xsd" MetadataType="Schema" ID="78d376c1-fbaa-44be-8e28-6619ed498100" SourceId="1" SourceUrl="net.tcp://localhost:8001/PlayerPresenceService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.Faults1.xsd" MetadataType="Schema" ID="054ed49a-907c-479a-8bb6-9bef763dc07a" SourceId="1" SourceUrl="net.tcp://localhost:8001/PlayerPresenceService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.DataContracts1.xsd" MetadataType="Schema" ID="98327a43-d720-4986-883b-869de3dafd3c" SourceId="1" SourceUrl="net.tcp://localhost:8001/PlayerPresenceService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

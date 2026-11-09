@@ -422,19 +422,6 @@
     <None Include="Connected Services\LogInServiceReference\GinRummy.Client.LogInServiceReference.LogInOutcome.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\LogInServiceReference\GinRummy.Contracts.DataContracts.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LogInServiceReference\GinRummy.Contracts.Faults.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LogInServiceReference\service.wsdl" />
-    <None Include="Connected Services\LogInServiceReference\service.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LogInServiceReference\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Connected Services\AccountSettingsServiceReference\GinRummy.Client.AccountSettingsServiceReference.AccountSettingsDetails.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -451,6 +438,32 @@
     <None Include="Connected Services\AccountSettingsServiceReference\service1.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Connected Services\LogInServiceReference\GinRummy.Contracts.DataContracts1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LogInServiceReference\GinRummy.Contracts.Faults1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LogInServiceReference\service1.wsdl" />
+    <None Include="Connected Services\LogInServiceReference\service2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LogInServiceReference\service21.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PlayerPresenceServiceReference\GinRummy.Contracts.DataContracts1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PlayerPresenceServiceReference\GinRummy.Contracts.Faults1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PlayerPresenceServiceReference\service1.wsdl" />
+    <None Include="Connected Services\PlayerPresenceServiceReference\service2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PlayerPresenceServiceReference\service21.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\PlayerProfileServiceReference\GinRummy.Client.PlayerProfileServiceReference.PlayerProfileDetails.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -465,19 +478,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\PlayerProfileServiceReference\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\PlayerPresenceServiceReference\GinRummy.Contracts.DataContracts.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\PlayerPresenceServiceReference\GinRummy.Contracts.Faults.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\PlayerPresenceServiceReference\service.wsdl" />
-    <None Include="Connected Services\PlayerPresenceServiceReference\service.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\PlayerPresenceServiceReference\service1.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\SignUpServiceReference\GinRummy.Client.SignUpServiceReference.SignUpOutcome.datasource">
@@ -516,7 +516,8 @@
     <WCFMetadataStorage Include="Connected Services\LeaderboardServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\LogInServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\AccountSettingsServiceReference\" />
-    <WCFMetadataStorage Include="Connected Services\PlayerProfileServiceReference\" />    <WCFMetadataStorage Include="Connected Services\PlayerPresenceServiceReference\" />
+    <WCFMetadataStorage Include="Connected Services\PlayerProfileServiceReference\" />
+    <WCFMetadataStorage Include="Connected Services\PlayerPresenceServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\SignUpServiceReference\" />
   </ItemGroup>
   <ItemGroup>

@@ -22,11 +22,11 @@
     <MetadataSource Address="net.tcp://localhost:8001/LogInService/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="a40398c7-6100-4db0-a6a9-f9f82700f73c" SourceId="1" SourceUrl="net.tcp://localhost:8003/LogInService/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="91b65809-0538-4fc4-bc89-65a1f155f6d3" SourceId="1" SourceUrl="net.tcp://localhost:8003/LogInService/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="c882b623-8afc-48e7-a70a-0af3436e8a39" SourceId="1" SourceUrl="net.tcp://localhost:8003/LogInService/mex" />
-    <MetadataFile FileName="GinRummy.Contracts.DataContracts.xsd" MetadataType="Schema" ID="8b7ece58-280c-42e3-a9b9-453a8ec495be" SourceId="1" SourceUrl="net.tcp://localhost:8003/LogInService/mex" />
-    <MetadataFile FileName="GinRummy.Contracts.Faults.xsd" MetadataType="Schema" ID="5c0f8f59-88bf-4ab4-a63f-217102293ea1" SourceId="1" SourceUrl="net.tcp://localhost:8003/LogInService/mex" />
+    <MetadataFile FileName="service1.wsdl" MetadataType="Wsdl" ID="a9512463-b687-4567-896c-13c1f69c87cf" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
+    <MetadataFile FileName="service2.xsd" MetadataType="Schema" ID="bbbcab99-1235-402d-a95d-37bea2030807" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
+    <MetadataFile FileName="service21.xsd" MetadataType="Schema" ID="e1a27757-ff7d-47fe-ab8e-51a80535b68d" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.DataContracts1.xsd" MetadataType="Schema" ID="009db260-09d0-4cc9-90bf-21ba003e4bc1" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.Faults1.xsd" MetadataType="Schema" ID="8df0d4d9-1032-4f92-8ea5-faf88708b6a9" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

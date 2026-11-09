@@ -246,7 +246,11 @@ namespace GinRummy.Client.ViewModels
         {
             PlayerProfile profile = new PlayerProfile();
             profile.Username = player.Username;
-            profile.PublicTag = player.PublicTag;
+            if (player.PublicTag.HasValue)
+            {
+                profile.PublicTag = player.PublicTag.Value;
+            }
+
             profile.RankName = player.RankName;
             profile.SocialLinks = new List<SocialLink>();
             profile.IsFriend = player.IsFriend;
@@ -261,7 +265,7 @@ namespace GinRummy.Client.ViewModels
             player.HasPendingRequest = profile.HasPendingRequest;
             if (profile.IsRemoved)
             {
-                RemovePlayer(player.PublicTag);
+                RemovePlayer(player);
             }
             else if (player.IsFriend && !profile.IsFriend)
             {
@@ -329,10 +333,10 @@ namespace GinRummy.Client.ViewModels
         // A player is listed in one status only, so its old row is removed before the new one is added.
         private void OnPlayerPresenceChanged(object sender, PlayerPresence presence)
         {
-            RemoveByPublicTag(Online, presence.PublicTag);
-            RemoveByPublicTag(Unavailable, presence.PublicTag);
-            RemoveByPublicTag(FriendsOnline, presence.PublicTag);
-            RemoveByPublicTag(FriendsUnavailable, presence.PublicTag);
+            RemovePlayerRow(Online, presence.PublicTag, presence.GuestSessionId);
+            RemovePlayerRow(Unavailable, presence.PublicTag, presence.GuestSessionId);
+            RemovePlayerRow(FriendsOnline, presence.PublicTag, presence.GuestSessionId);
+            RemovePlayerRow(FriendsUnavailable, presence.PublicTag, presence.GuestSessionId);
             if (presence.Status == PresenceStatus.Online)
             {
                 AddPlayer(Online, FriendsOnline, presence);
@@ -362,12 +366,12 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        private void RemovePlayer(int publicTag)
+        private void RemovePlayer(LobbyPlayerViewModel player)
         {
-            RemoveByPublicTag(Online, publicTag);
-            RemoveByPublicTag(Unavailable, publicTag);
-            RemoveByPublicTag(FriendsOnline, publicTag);
-            RemoveByPublicTag(FriendsUnavailable, publicTag);
+            RemovePlayerRow(Online, player.PublicTag, player.GuestSessionId);
+            RemovePlayerRow(Unavailable, player.PublicTag, player.GuestSessionId);
+            RemovePlayerRow(FriendsOnline, player.PublicTag, player.GuestSessionId);
+            RemovePlayerRow(FriendsUnavailable, player.PublicTag, player.GuestSessionId);
             HasNoFriends = HasNoFriendsListed();
         }
 
@@ -453,7 +457,8 @@ namespace GinRummy.Client.ViewModels
         // The tag is compared from its start, so the row appears while the player is still typing the digits.
         private static bool TagStartsWith(LobbyPlayerViewModel player, string typedTag)
         {
-            return player.PublicTag.ToString(CultureInfo.InvariantCulture).StartsWith(typedTag, StringComparison.Ordinal);
+            return player.PublicTag.HasValue
+                && player.PublicTag.Value.ToString(CultureInfo.InvariantCulture).StartsWith(typedTag, StringComparison.Ordinal);
         }
 
         private bool HasNoFriendsListed()
@@ -485,9 +490,11 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        private static void RemoveByPublicTag(IList<LobbyPlayerViewModel> players, int publicTag)
+        // A player with an account has a tag and no guest session, and a guest has the opposite, so the two never match each other.
+        private static void RemovePlayerRow(IList<LobbyPlayerViewModel> players, int? publicTag, int? guestSessionId)
         {
-            LobbyPlayerViewModel player = players.FirstOrDefault(candidate => candidate.PublicTag == publicTag);
+            LobbyPlayerViewModel player = players.FirstOrDefault(
+                candidate => (candidate.PublicTag == publicTag) && (candidate.GuestSessionId == guestSessionId));
             if (player != null)
             {
                 players.Remove(player);
@@ -499,6 +506,7 @@ namespace GinRummy.Client.ViewModels
             LobbyPlayerViewModel player = new LobbyPlayerViewModel();
             player.Username = presence.Username;
             player.PublicTag = presence.PublicTag;
+            player.GuestSessionId = presence.GuestSessionId;
             player.RankName = presence.RankName;
             player.Score = presence.Score;
             player.IsFriend = presence.IsFriend;
