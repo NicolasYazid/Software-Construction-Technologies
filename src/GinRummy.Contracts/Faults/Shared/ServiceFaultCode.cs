@@ -113,6 +113,12 @@
         /// <summary>
         /// The new password is the one the account already has (Error_AuthSamePassword).
         /// </summary>
-        SamePassword
+        SamePassword,
+
+        InvalidMove,
+
+        PlayerUnavailable,
+
+        ChallengeNotFound
     }
 }
