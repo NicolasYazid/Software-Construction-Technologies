@@ -79,6 +79,8 @@
     <Compile Include="DataContracts\Gameplay\RoundSummary.cs" />
     <Compile Include="Services\Gameplay\IGameCallback.cs" />
     <Compile Include="Services\Gameplay\IGameService.cs" />
+    <Compile Include="Services\DirectDuel\IChallengeCallback.cs" />
+    <Compile Include="Services\DirectDuel\IChallengeService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataContracts\AccountProtection\" />
