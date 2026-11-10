@@ -97,6 +97,7 @@
     <Compile Include="Gameplay\CardSuit.cs" />
     <Compile Include="Gameplay\GameRound.cs" />
     <Compile Include="Gameplay\InvalidMoveException.cs" />
+    <Compile Include="Gameplay\MeldFinder.cs" />
     <Compile Include="Gameplay\MeldRules.cs" />
     <Compile Include="Gameplay\RoundOutcome.cs" />
     <Compile Include="Gameplay\RoundResult.cs" />
