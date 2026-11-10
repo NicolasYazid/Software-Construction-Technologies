@@ -188,7 +188,17 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Connected Services\ChallengeServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\ChatMessageServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Connected Services\GameServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -396,6 +406,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Connected Services\ChallengeServiceReference\GinRummy.Contracts.Faults.Shared.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ChallengeServiceReference\service.wsdl" />
+    <None Include="Connected Services\ChallengeServiceReference\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ChallengeServiceReference\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\ChatMessageServiceReference\GinRummy.Contracts.DataContracts.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -407,6 +427,19 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\ChatMessageServiceReference\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\GameServiceReference\GinRummy.Contracts.DataContracts.Gameplay.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\GameServiceReference\GinRummy.Contracts.Faults.Shared.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\GameServiceReference\service.wsdl" />
+    <None Include="Connected Services\GameServiceReference\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\GameServiceReference\service1.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\LeaderboardServiceReference\LeaderboardService.wsdl" />
@@ -512,7 +545,9 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\ChallengeServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\ChatMessageServiceReference\" />
+    <WCFMetadataStorage Include="Connected Services\GameServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\LeaderboardServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\LogInServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\AccountSettingsServiceReference\" />
@@ -600,6 +635,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\ChatMessageServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ChallengeServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ChallengeServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\ChallengeServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\GameServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\GameServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\GameServiceReference\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

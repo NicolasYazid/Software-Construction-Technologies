@@ -1,0 +1,257 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="ChallengeService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="ChallengeService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsrm:RMAssertion xmlns:wsrm="http://schemas.xmlsoap.org/ws/2005/02/rm/policy">
+          <wsrm:InactivityTimeout Milliseconds="60000">
+          </wsrm:InactivityTimeout>
+          <wsrm:AcknowledgementInterval Milliseconds="200">
+          </wsrm:AcknowledgementInterval>
+        </wsrm:RMAssertion>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1">
+        </msb:BinaryEncoding>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256>
+                </sp:Basic256>
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict>
+                </sp:Strict>
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <wsaw:UsingAddressing>
+        </wsaw:UsingAddressing>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IChallengeService_SubscribeToChallenges_InputMessage">
+    <wsdl:part name="parameters" element="tns:SubscribeToChallenges" />
+  </wsdl:message>
+  <wsdl:message name="IChallengeService_SubscribeToChallenges_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SubscribeToChallengesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IChallengeService_SubscribeToChallenges_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q1:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="IChallengeService_ChallengePlayer_InputMessage">
+    <wsdl:part name="parameters" element="tns:ChallengePlayer" />
+  </wsdl:message>
+  <wsdl:message name="IChallengeService_ChallengePlayer_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ChallengePlayerResponse" />
+  </wsdl:message>
+  <wsdl:message name="IChallengeService_ChallengePlayer_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q2:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="IChallengeService_CancelChallenge_InputMessage">
+    <wsdl:part name="parameters" element="tns:CancelChallenge" />
+  </wsdl:message>
+  <wsdl:message name="IChallengeService_CancelChallenge_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CancelChallengeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IChallengeService_CancelChallenge_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q3:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="IChallengeService_AcceptChallenge_InputMessage">
+    <wsdl:part name="parameters" element="tns:AcceptChallenge" />
+  </wsdl:message>
+  <wsdl:message name="IChallengeService_AcceptChallenge_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AcceptChallengeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IChallengeService_AcceptChallenge_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q4:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="IChallengeService_DeclineChallenge_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeclineChallenge" />
+  </wsdl:message>
+  <wsdl:message name="IChallengeService_DeclineChallenge_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeclineChallengeResponse" />
+  </wsdl:message>
+  <wsdl:message name="IChallengeService_DeclineChallenge_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q5:ServiceFault" />
+  </wsdl:message>
+  <wsdl:message name="IChallengeService_UnsubscribeFromChallenges_InputMessage">
+    <wsdl:part name="parameters" element="tns:UnsubscribeFromChallenges" />
+  </wsdl:message>
+  <wsdl:message name="IChallengeService_OnChallengeReceived_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnChallengeReceived" />
+  </wsdl:message>
+  <wsdl:message name="IChallengeService_OnChallengeCancelled_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnChallengeCancelled" />
+  </wsdl:message>
+  <wsdl:message name="IChallengeService_OnChallengeDeclined_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnChallengeDeclined" />
+  </wsdl:message>
+  <wsdl:message name="IChallengeService_OnRoundReady_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnRoundReady" />
+  </wsdl:message>
+  <wsdl:portType msc:usingSession="true" name="IChallengeService">
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="SubscribeToChallenges">
+      <wsdl:input wsaw:Action="http://tempuri.org/IChallengeService/SubscribeToChallenges" message="tns:IChallengeService_SubscribeToChallenges_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IChallengeService/SubscribeToChallengesResponse" message="tns:IChallengeService_SubscribeToChallenges_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IChallengeService/SubscribeToChallengesServiceFaultFault" name="ServiceFaultFault" message="tns:IChallengeService_SubscribeToChallenges_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="ChallengePlayer">
+      <wsdl:input wsaw:Action="http://tempuri.org/IChallengeService/ChallengePlayer" message="tns:IChallengeService_ChallengePlayer_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IChallengeService/ChallengePlayerResponse" message="tns:IChallengeService_ChallengePlayer_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IChallengeService/ChallengePlayerServiceFaultFault" name="ServiceFaultFault" message="tns:IChallengeService_ChallengePlayer_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="CancelChallenge">
+      <wsdl:input wsaw:Action="http://tempuri.org/IChallengeService/CancelChallenge" message="tns:IChallengeService_CancelChallenge_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IChallengeService/CancelChallengeResponse" message="tns:IChallengeService_CancelChallenge_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IChallengeService/CancelChallengeServiceFaultFault" name="ServiceFaultFault" message="tns:IChallengeService_CancelChallenge_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="AcceptChallenge">
+      <wsdl:input wsaw:Action="http://tempuri.org/IChallengeService/AcceptChallenge" message="tns:IChallengeService_AcceptChallenge_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IChallengeService/AcceptChallengeResponse" message="tns:IChallengeService_AcceptChallenge_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IChallengeService/AcceptChallengeServiceFaultFault" name="ServiceFaultFault" message="tns:IChallengeService_AcceptChallenge_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="DeclineChallenge">
+      <wsdl:input wsaw:Action="http://tempuri.org/IChallengeService/DeclineChallenge" message="tns:IChallengeService_DeclineChallenge_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IChallengeService/DeclineChallengeResponse" message="tns:IChallengeService_DeclineChallenge_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IChallengeService/DeclineChallengeServiceFaultFault" name="ServiceFaultFault" message="tns:IChallengeService_DeclineChallenge_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UnsubscribeFromChallenges">
+      <wsdl:input wsaw:Action="http://tempuri.org/IChallengeService/UnsubscribeFromChallenges" message="tns:IChallengeService_UnsubscribeFromChallenges_InputMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="OnChallengeReceived">
+      <wsdl:output wsaw:Action="http://tempuri.org/IChallengeService/OnChallengeReceived" message="tns:IChallengeService_OnChallengeReceived_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="OnChallengeCancelled">
+      <wsdl:output wsaw:Action="http://tempuri.org/IChallengeService/OnChallengeCancelled" message="tns:IChallengeService_OnChallengeCancelled_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="OnChallengeDeclined">
+      <wsdl:output wsaw:Action="http://tempuri.org/IChallengeService/OnChallengeDeclined" message="tns:IChallengeService_OnChallengeDeclined_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="OnRoundReady">
+      <wsdl:output wsaw:Action="http://tempuri.org/IChallengeService/OnRoundReady" message="tns:IChallengeService_OnRoundReady_OutputCallbackMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ChallengeService" type="tns:IChallengeService">
+    <wsp:PolicyReference URI="#ChallengeService_policy">
+    </wsp:PolicyReference>
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="SubscribeToChallenges">
+      <soap12:operation soapAction="http://tempuri.org/IChallengeService/SubscribeToChallenges" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ChallengePlayer">
+      <soap12:operation soapAction="http://tempuri.org/IChallengeService/ChallengePlayer" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="CancelChallenge">
+      <soap12:operation soapAction="http://tempuri.org/IChallengeService/CancelChallenge" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="AcceptChallenge">
+      <soap12:operation soapAction="http://tempuri.org/IChallengeService/AcceptChallenge" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="DeclineChallenge">
+      <soap12:operation soapAction="http://tempuri.org/IChallengeService/DeclineChallenge" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="UnsubscribeFromChallenges">
+      <soap12:operation soapAction="http://tempuri.org/IChallengeService/UnsubscribeFromChallenges" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="OnChallengeReceived">
+      <soap12:operation soapAction="http://tempuri.org/IChallengeService/OnChallengeReceived" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnChallengeCancelled">
+      <soap12:operation soapAction="http://tempuri.org/IChallengeService/OnChallengeCancelled" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnChallengeDeclined">
+      <soap12:operation soapAction="http://tempuri.org/IChallengeService/OnChallengeDeclined" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OnRoundReady">
+      <soap12:operation soapAction="http://tempuri.org/IChallengeService/OnRoundReady" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ChallengeService">
+    <wsdl:port name="ChallengeService" binding="tns:ChallengeService">
+      <soap12:address location="net.tcp://localhost:8000/ChallengeService" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost:8000/ChallengeService</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Upn>FOSTER\neptu</Upn>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
