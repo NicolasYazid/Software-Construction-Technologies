@@ -14,22 +14,6 @@ namespace GinRummy.Contracts.Services.Gameplay
 
         [OperationContract]
         [FaultContract(typeof(ServiceFault))]
-        void ChallengePlayer(string accessToken, int challengedPublicTag);
-
-        [OperationContract]
-        [FaultContract(typeof(ServiceFault))]
-        void CancelChallenge(string accessToken);
-
-        [OperationContract]
-        [FaultContract(typeof(ServiceFault))]
-        void AcceptChallenge(string accessToken, int challengerPublicTag);
-
-        [OperationContract]
-        [FaultContract(typeof(ServiceFault))]
-        void DeclineChallenge(string accessToken, int challengerPublicTag);
-
-        [OperationContract]
-        [FaultContract(typeof(ServiceFault))]
         void TakeFirstCard(string accessToken);
 
         [OperationContract]

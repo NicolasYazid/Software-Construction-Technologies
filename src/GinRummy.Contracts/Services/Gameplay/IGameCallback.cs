@@ -7,15 +7,6 @@ namespace GinRummy.Contracts.Services.Gameplay
     public interface IGameCallback
     {
         [OperationContract(IsOneWay = true)]
-        void OnChallengeReceived(string challengerName, int challengerPublicTag);
-
-        [OperationContract(IsOneWay = true)]
-        void OnChallengeCancelled(int challengerPublicTag);
-
-        [OperationContract(IsOneWay = true)]
-        void OnChallengeDeclined(int challengedPublicTag);
-
-        [OperationContract(IsOneWay = true)]
         void OnRoundStarted(RoundDetails round);
 
         [OperationContract(IsOneWay = true)]
