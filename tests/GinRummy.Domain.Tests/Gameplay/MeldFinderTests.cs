@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-using GinRummy.Domain.Gameplay;
 using NUnit.Framework;
 
 namespace GinRummy.Domain.Tests.Gameplay

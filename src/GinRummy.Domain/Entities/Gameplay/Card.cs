@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GinRummy.Domain.Gameplay
+namespace GinRummy.Domain
 {
     public sealed class Card
     {

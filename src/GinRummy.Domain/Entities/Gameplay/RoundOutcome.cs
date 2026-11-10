@@ -1,4 +1,4 @@
-﻿namespace GinRummy.Domain.Gameplay
+﻿namespace GinRummy.Domain
 {
     public enum RoundOutcome
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GinRummy.Domain.Gameplay
+namespace GinRummy.Domain
 {
     public static class MeldFinder
     {

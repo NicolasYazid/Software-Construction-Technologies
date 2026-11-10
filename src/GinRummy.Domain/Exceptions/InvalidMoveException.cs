@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GinRummy.Domain.Gameplay
+namespace GinRummy.Domain
 {
     public class InvalidMoveException : GameCoreException
     {

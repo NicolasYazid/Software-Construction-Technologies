@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GinRummy.Domain.Gameplay
+namespace GinRummy.Domain
 {
     public static class StandardDeck
     {

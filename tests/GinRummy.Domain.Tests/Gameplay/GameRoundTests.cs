@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using GinRummy.Domain.Gameplay;
 using NUnit.Framework;
 
 namespace GinRummy.Domain.Tests.Gameplay
