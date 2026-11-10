@@ -8,10 +8,14 @@ using System.ServiceModel.Dispatcher;
 
 using GinRummy.Application.UseCases.AccountProtection;
 using GinRummy.Application.UseCases.Authentication;
+using GinRummy.Application.UseCases.DirectDuel;
+using GinRummy.Application.UseCases.Gameplay;
 using GinRummy.Application.UseCases.PlayerCareer;
 using GinRummy.Application.UseCases.PlayerCustomization;
 using GinRummy.Application.UseCases.PlayerPresence;
 using GinRummy.Application.UseCases.SocialCommunication;
+using GinRummy.Contracts.Services.DirectDuel;
+using GinRummy.Contracts.Services.Gameplay;
 using GinRummy.Contracts.Services.SocialCommunication;
 using GinRummy.Domain.Entities.AccountProtection;
 using GinRummy.Domain.Entities.Authentication;
@@ -75,9 +79,29 @@ namespace GinRummy.ServerHost
                     tokenSigner,
                     new SystemClock());
 
+                OnlinePlayers<IChallengeCallback> challengeOnlinePlayers = new OnlinePlayers<IChallengeCallback>(
+                    loggerFactory.CreateLogger<WcfCallbackDispatcher<IChallengeCallback>>());
+                OnlinePlayers<IGameCallback> gameOnlinePlayers = new OnlinePlayers<IGameCallback>(
+                    loggerFactory.CreateLogger<WcfCallbackDispatcher<IGameCallback>>());
+                RoundRegistry roundRegistry = new RoundRegistry();
+                ChallengeUseCase challengeUseCase = ComposeChallengeUseCase(challengeOnlinePlayers, roundRegistry);
+                PlayRoundUseCase playRoundUseCase = new PlayRoundUseCase(roundRegistry, new RoundAnnouncer(gameOnlinePlayers));
+                AccountAccessPolicy duelAccessPolicy = new AccountAccessPolicy(
+                    new Argon2PasswordHasher(),
+                    tokenSigner,
+                    new SystemClock());
+
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(ChatMessageService),
                     () => new ChatMessageService(chatAccessPolicy, sendMessageUseCase, chatOnlinePlayers),
+                    faultShieldBehavior));
+                hostGroup.Add(CreateIsolatedHost(
+                    typeof(ChallengeService),
+                    () => new ChallengeService(duelAccessPolicy, challengeUseCase, challengeOnlinePlayers),
+                    faultShieldBehavior));
+                hostGroup.Add(CreateIsolatedHost(
+                    typeof(GameService),
+                    () => new GameService(duelAccessPolicy, playRoundUseCase, gameOnlinePlayers),
                     faultShieldBehavior));
                 hostGroup.Add(CreateIsolatedHost(typeof(LeaderboardService), ComposeLeaderboardService, faultShieldBehavior));
                 hostGroup.Add(CreateIsolatedHost(
@@ -236,6 +260,17 @@ namespace GinRummy.ServerHost
             ChatMessageAnnouncer chatMessageAnnouncer = new ChatMessageAnnouncer(chatOnlinePlayers);
 
             return new SendMessageUseCase(unitOfWorkFactory, chatHistory, chatMessageAnnouncer);
+        }
+
+        private static ChallengeUseCase ComposeChallengeUseCase(
+            OnlinePlayers<IChallengeCallback> challengeOnlinePlayers,
+            RoundRegistry roundRegistry)
+        {
+            Func<IUnitOfWork> unitOfWorkFactory = () => new EntityFrameworkUnitOfWork(ConnectionStringName);
+            ChallengeBoard challengeBoard = new ChallengeBoard(roundRegistry);
+            ChallengeAnnouncer challengeAnnouncer = new ChallengeAnnouncer(challengeOnlinePlayers);
+
+            return new ChallengeUseCase(unitOfWorkFactory, challengeBoard, challengeAnnouncer);
         }
 
         private static SignUpService ComposeSignUpService(IEmailSender emailSender, ILogger<SignUpService> logger)
