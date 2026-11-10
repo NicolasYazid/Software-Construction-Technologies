@@ -71,6 +71,8 @@
     <Compile Include="Services\AccountSettingsService.cs" />
     <Compile Include="Services\CallerAddressCommon.cs" />
     <Compile Include="Services\ChatMessageService.cs" />
+    <Compile Include="Services\ChallengeService.cs" />
+    <Compile Include="Services\GameService.cs" />
     <Compile Include="Services\LeaderboardService.cs" />
     <Compile Include="Services\LogInService.cs" />
     <Compile Include="Services\PlayerPresenceService.cs" />
