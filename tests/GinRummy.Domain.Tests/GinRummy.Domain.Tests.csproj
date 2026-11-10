@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Gameplay\CardTests.cs" />
     <Compile Include="Gameplay\GameRoundTests.cs" />
+    <Compile Include="Gameplay\MeldFinderTests.cs" />
     <Compile Include="Gameplay\MeldRulesTests.cs" />
     <Compile Include="Gameplay\StandardDeckTests.cs" />
     <Compile Include="ProhibitedWordDetectorTests.cs" />
