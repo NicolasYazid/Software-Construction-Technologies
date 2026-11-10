@@ -47,6 +47,11 @@
     <Compile Include="UseCases\Gameplay\PlayRoundUseCase.cs" />
     <Compile Include="UseCases\Gameplay\RoundMove.cs" />
     <Compile Include="UseCases\Gameplay\RoundRegistry.cs" />
+    <Compile Include="UseCases\DirectDuel\ChallengeBoard.cs" />
+    <Compile Include="UseCases\DirectDuel\ChallengeUseCase.cs" />
+    <Compile Include="UseCases\DirectDuel\PendingChallenge.cs" />
+    <Compile Include="Ports\DirectDuel\IChallengeAnnouncer.cs" />
+    <Compile Include="Ports\DirectDuel\IChallengeUseCase.cs" />
     <Compile Include="Ports\Gameplay\IPlayRoundUseCase.cs" />
     <Compile Include="Ports\Gameplay\IRoundAnnouncer.cs" />
     <Compile Include="UseCases\SocialCommunication\SentChatMessage.cs" />
