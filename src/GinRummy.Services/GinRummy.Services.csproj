@@ -53,11 +53,14 @@
     <Compile Include="Hosting\ServiceHostGroup.cs" />
     <Compile Include="Hosting\ServiceInstanceProvider.cs" />
     <Compile Include="Mappers\ChatMessageMapper.cs" />
+    <Compile Include="Mappers\GameMapper.cs" />
     <Compile Include="Mappers\LogInOutcomeMapper.cs" />
     <Compile Include="Mappers\PlayerPresenceMapper.cs" />
     <Compile Include="Mappers\PlayerProfileMapper.cs" />
     <Compile Include="Mappers\PlayerRankingMapper.cs" />
     <Compile Include="Notifiers\ChatMessageAnnouncer.cs" />
+    <Compile Include="Notifiers\ChallengeAnnouncer.cs" />
+    <Compile Include="Notifiers\RoundAnnouncer.cs" />
     <Compile Include="Notifiers\OnlinePlayers.cs" />
     <Compile Include="Notifiers\PlayerConnection.cs" />
     <Compile Include="Notifiers\PlayerPresenceAnnouncer.cs" />
