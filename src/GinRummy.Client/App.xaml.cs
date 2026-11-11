@@ -7,6 +7,8 @@ using System.Windows.Threading;
 
 using GinRummy.Client.AccountSettingsServiceReference;
 using GinRummy.Client.ChatMessageServiceReference;
+using GinRummy.Client.DirectDuelServiceReference;
+using GinRummy.Client.GameServiceReference;
 using GinRummy.Client.LeaderboardServiceReference;
 using GinRummy.Client.Localization;
 using GinRummy.Client.Logging;
@@ -30,6 +32,8 @@ namespace GinRummy.Client
         private const string FatalErrorMessageKey = "Error_SysUnexpected";
         private const string AccountSettingsEndpointName = "AccountSettingsService";
         private const string ChatEndpointName = "ChatMessageService";
+        private const string DirectDuelEndpointName = "DirectDuelService";
+        private const string GameEndpointName = "GameService";
         private const string LeaderboardEndpointName = "LeaderboardService";
         private const string LogInEndpointName = "LogInService";
         private const string PresenceEndpointName = "PlayerPresenceService";
@@ -149,9 +153,16 @@ namespace GinRummy.Client
             return new ErrorDialogViewModel(kind);
         }
 
-        public GameTableViewModel CreateGameTableViewModel()
+        public LobbyChallengeViewModel CreateLobbyChallengeViewModel()
         {
-            return new GameTableViewModel(SampleData);
+            DirectDuelConnection duelConnection = new DirectDuelConnection(
+                callbackContext => new DirectDuelServiceClient(callbackContext, DirectDuelEndpointName),
+                _loggerFactory.CreateLogger<DirectDuelConnection>());
+            GameConnection gameConnection = new GameConnection(
+                callbackContext => new GameServiceClient(callbackContext, GameEndpointName),
+                _loggerFactory.CreateLogger<GameConnection>());
+
+            return new LobbyChallengeViewModel(duelConnection, gameConnection, SignedInPlayer);
         }
 
         public HouseRulesViewModel CreateHouseRulesViewModel()

@@ -13,7 +13,5 @@ namespace GinRummy.Client.Services
         IList<SanctionViewModel> GetSanctions();
 
         GameRules GetGameRules();
-
-        GameTableSnapshot GetGameTable();
     }
 }

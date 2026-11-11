@@ -6,6 +6,7 @@ namespace GinRummy.Client.Models
     {
         public string WinnerName { get; set; }
         public string KnockerName { get; set; }
+        public string DefenderName { get; set; }
         public int KnockerDeadwood { get; set; }
         public int DefenderDeadwood { get; set; }
         public int PointsAwarded { get; set; }

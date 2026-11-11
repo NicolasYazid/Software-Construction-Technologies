@@ -1521,4 +1521,48 @@ Tú: {0}   -   Rival: {1}</value>
     <value>Esa dirección no es válida</value>
     <comment>Mensajes del sistema de GuiEditProfile</comment>
   </data>
+  <data name="LobbyChat_ChallengeUnavailable" xml:space="preserve">
+    <value>El jugador no está disponible para un reto</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="GameTable_BtnDrawFromStock" xml:space="preserve">
+    <value>Robar del mazo</value>
+    <comment>Acciones de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_BtnDrawFromDiscardPile" xml:space="preserve">
+    <value>Tomar del pozo</value>
+    <comment>Acciones de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_BtnDiscard" xml:space="preserve">
+    <value>Descartar</value>
+    <comment>Acciones de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_BtnKnock" xml:space="preserve">
+    <value>Cerrar mano</value>
+    <comment>Acciones de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblOpponentTurn" xml:space="preserve">
+    <value>Turno de {0}</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblInvalidMove" xml:space="preserve">
+    <value>Esa jugada no es válida</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblRoundVoid" xml:space="preserve">
+    <value>MAZO AGOTADO: NADIE GANA LA MANO</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblDeadwoodOf" xml:space="preserve">
+    <value>Deadwood de {0}</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblHandRoleDefender" xml:space="preserve">
+    <value>{0} • DEFENDIÓ</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LogTookDiscardFormat" xml:space="preserve">
+    <value>Tomó {0} del pozo de descarte</value>
+    <comment>Registro de partida de GuiGameTable</comment>
+  </data>
 </root>
