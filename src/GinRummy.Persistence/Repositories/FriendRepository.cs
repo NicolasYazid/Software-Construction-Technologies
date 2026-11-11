@@ -32,13 +32,13 @@ namespace GinRummy.Persistence.Repositories
         /// Finds the request one player sent to another, or null when none is pending.
         /// </summary>
         /// <param name="requesterPlayerAccountId">Player who sent the request.</param>
-        /// <param name="recipientPlayerAccountId">Player who received it.</param>
+        /// <param name="addresseePlayerAccountId">Player who received it.</param>
         /// <returns>The pending request, or null.</returns>
-        public FriendRequest FindRequest(int requesterPlayerAccountId, int recipientPlayerAccountId)
+        public FriendRequest FindRequest(int requesterPlayerAccountId, int addresseePlayerAccountId)
         {
             return _context.FriendRequests
                 .Where(request => request.RequesterPlayerAccountId == requesterPlayerAccountId)
-                .FirstOrDefault(request => request.RecipientPlayerAccountId == recipientPlayerAccountId);
+                .FirstOrDefault(request => request.AddresseePlayerAccountId == addresseePlayerAccountId);
         }
 
         /// <summary>
@@ -54,14 +54,14 @@ namespace GinRummy.Persistence.Repositories
         /// <summary>
         /// Gets the pending requests a player has received, each with its requester loaded.
         /// </summary>
-        /// <param name="recipientPlayerAccountId">Player who received the requests.</param>
+        /// <param name="addresseePlayerAccountId">Player who received the requests.</param>
         /// <returns>The pending requests, oldest first.</returns>
-        public IList<FriendRequest> GetRequestsReceivedBy(int recipientPlayerAccountId)
+        public IList<FriendRequest> GetRequestsReceivedBy(int addresseePlayerAccountId)
         {
             // The requester and its player are loaded together because the caller needs the username of each requester to show the list.
             return _context.FriendRequests
                 .Include(request => request.Requester.PlayerProfile)
-                .Where(request => request.RecipientPlayerAccountId == recipientPlayerAccountId)
+                .Where(request => request.AddresseePlayerAccountId == addresseePlayerAccountId)
                 .OrderBy(request => request.CreatedAt)
                 .ToList();
         }
@@ -101,12 +101,12 @@ namespace GinRummy.Persistence.Repositories
         public FriendShip FindFriendShip(int firstPlayerAccountId, int secondPlayerAccountId)
         {
             // The pair is stored once with the lower id first, so the arguments are put in that order before searching.
-            int playerAId = Math.Min(firstPlayerAccountId, secondPlayerAccountId);
-            int playerBId = Math.Max(firstPlayerAccountId, secondPlayerAccountId);
+            int lowerPlayerAccountId = Math.Min(firstPlayerAccountId, secondPlayerAccountId);
+            int higherPlayerAccountId = Math.Max(firstPlayerAccountId, secondPlayerAccountId);
 
             return _context.FriendShips
-                .Where(friendShip => friendShip.PlayerAId == playerAId)
-                .FirstOrDefault(friendShip => friendShip.PlayerBId == playerBId);
+                .Where(friendShip => friendShip.LowerPlayerAccountId == lowerPlayerAccountId)
+                .FirstOrDefault(friendShip => friendShip.HigherPlayerAccountId == higherPlayerAccountId);
         }
 
         /// <summary>
@@ -117,9 +117,9 @@ namespace GinRummy.Persistence.Repositories
         public IList<FriendShip> GetFriendShipsOf(int playerAccountId)
         {
             return _context.FriendShips
-                .Include(friendShip => friendShip.PlayerA.PlayerProfile)
-                .Include(friendShip => friendShip.PlayerB.PlayerProfile)
-                .Where(friendShip => (friendShip.PlayerAId == playerAccountId) || (friendShip.PlayerBId == playerAccountId))
+                .Include(friendShip => friendShip.LowerPlayerAccount.PlayerProfile)
+                .Include(friendShip => friendShip.HigherPlayerAccount.PlayerProfile)
+                .Where(friendShip => (friendShip.LowerPlayerAccountId == playerAccountId) || (friendShip.HigherPlayerAccountId == playerAccountId))
                 .ToList();
         }
 

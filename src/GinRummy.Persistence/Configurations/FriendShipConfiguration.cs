@@ -18,11 +18,11 @@ namespace GinRummy.Persistence.Configurations
             ToTable("FriendShip");
             HasKey(friendShip => friendShip.FriendShipId);
             Property(friendShip => friendShip.FriendShipId).HasColumnName("friend_ship_id");
-            Property(friendShip => friendShip.PlayerAId).HasColumnName("player_a_id");
-            Property(friendShip => friendShip.PlayerBId).HasColumnName("player_b_id");
-            HasRequired(friendShip => friendShip.PlayerA).WithMany().HasForeignKey(friendShip => friendShip.PlayerAId)
+            Property(friendShip => friendShip.LowerPlayerAccountId).HasColumnName("player_a_id");
+            Property(friendShip => friendShip.HigherPlayerAccountId).HasColumnName("player_b_id");
+            HasRequired(friendShip => friendShip.LowerPlayerAccount).WithMany().HasForeignKey(friendShip => friendShip.LowerPlayerAccountId)
                 .WillCascadeOnDelete(false);
-            HasRequired(friendShip => friendShip.PlayerB).WithMany().HasForeignKey(friendShip => friendShip.PlayerBId)
+            HasRequired(friendShip => friendShip.HigherPlayerAccount).WithMany().HasForeignKey(friendShip => friendShip.HigherPlayerAccountId)
                 .WillCascadeOnDelete(false);
         }
     }

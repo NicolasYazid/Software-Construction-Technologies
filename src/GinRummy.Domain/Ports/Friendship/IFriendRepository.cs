@@ -14,9 +14,9 @@ namespace GinRummy.Domain.Ports.Friendship
         /// Finds the request one player sent to another, or null when none is pending.
         /// </summary>
         /// <param name="requesterPlayerAccountId">Player who sent the request.</param>
-        /// <param name="recipientPlayerAccountId">Player who received it.</param>
+        /// <param name="addresseePlayerAccountId">Player who received it.</param>
         /// <returns>The pending request, or null.</returns>
-        FriendRequest FindRequest(int requesterPlayerAccountId, int recipientPlayerAccountId);
+        FriendRequest FindRequest(int requesterPlayerAccountId, int addresseePlayerAccountId);
 
         /// <summary>
         /// Finds a request by its identifier, or null when it does not exist.
@@ -28,9 +28,9 @@ namespace GinRummy.Domain.Ports.Friendship
         /// <summary>
         /// Gets the pending requests a player has received, each with its requester loaded.
         /// </summary>
-        /// <param name="recipientPlayerAccountId">Player who received the requests.</param>
+        /// <param name="addresseePlayerAccountId">Player who received the requests.</param>
         /// <returns>The pending requests, oldest first.</returns>
-        IList<FriendRequest> GetRequestsReceivedBy(int recipientPlayerAccountId);
+        IList<FriendRequest> GetRequestsReceivedBy(int addresseePlayerAccountId);
 
         /// <summary>
         /// Adds a new request and persists it immediately.
