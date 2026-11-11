@@ -14,6 +14,7 @@ namespace GinRummy.Client.Converters
         private const string TurnedUpKey = "GameTable_LogTurnedUpFormat";
         private const string PassedKey = "GameTable_LogPassed";
         private const string DrewFromStockKey = "GameTable_LogDrewFromStock";
+        private const string TookDiscardKey = "GameTable_LogTookDiscardFormat";
         private const string DiscardedKey = "GameTable_LogDiscardedFormat";
         private const string KnockedKey = "GameTable_LogKnockedFormat";
         private const string GinKey = "GameTable_LogGin";
@@ -52,6 +53,9 @@ namespace GinRummy.Client.Converters
                     break;
                 case MatchLogKind.DrewFromStock:
                     sentence = localization.GetText(DrewFromStockKey);
+                    break;
+                case MatchLogKind.TookDiscard:
+                    sentence = localization.Format(TookDiscardKey, CardNameConverter.ToName(entry.Card, localization));
                     break;
                 case MatchLogKind.Discarded:
                     sentence = localization.Format(DiscardedKey, CardNameConverter.ToName(entry.Card, localization));

@@ -165,6 +165,7 @@
 
             <ListBox x:Name="lstHand" Grid.Row="4" Style="{StaticResource StyHandList}" HorizontalAlignment="Center"
                      ItemsSource="{Binding Hand}" ItemTemplate="{StaticResource TplCardFace}"
+                     SelectedItem="{Binding SelectedCard}"
                      PreviewMouseLeftButtonDown="OnHandPreviewMouseLeftButtonDown"
                      PreviewMouseMove="OnHandPreviewMouseMove"
                      Drop="OnHandDrop" />
@@ -187,26 +188,51 @@
                         </TextBlock.Text>
                     </TextBlock>
                 </StackPanel>
-                <!-- The buttons are hidden and not collapsed so the table keeps its shape while it waits for the opponent. -->
+                <TextBlock x:Name="lblTurnNotice" Style="{StaticResource StyTableNote}" Margin="0,12,0,0">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource CnvUpperResourceText}">
+                            <Binding Path="TurnNoticeKey" />
+                            <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                            <Binding Path="OpponentName" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,12,0,0">
-                    <StackPanel.Style>
-                        <Style TargetType="StackPanel">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsDecisionPending}" Value="False">
-                                    <Setter Property="Visibility" Value="Hidden" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </StackPanel.Style>
                     <Button x:Name="btnTake" Effect="{StaticResource EfxCardShadow}"
                             Style="{StaticResource StyLobbyActionButton}" Margin="0,0,16,0"
+                            Visibility="{Binding IsOfferingFirstCard, Converter={StaticResource CnvBooleanToVisibility}}"
                             Content="{Binding [GameTable_BtnTake], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
                             Command="{Binding TakeCommand}" />
                     <Button x:Name="btnPass" Effect="{StaticResource EfxCardShadow}" Style="{StaticResource StyLobbySecondaryButton}"
+                            Visibility="{Binding IsOfferingFirstCard, Converter={StaticResource CnvBooleanToVisibility}}"
                             Content="{Binding [GameTable_BtnPass], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
                             Command="{Binding PassCommand}" />
+                    <Button x:Name="btnDrawFromStock" Effect="{StaticResource EfxCardShadow}"
+                            Style="{StaticResource StyLobbyActionButton}" Margin="0,0,16,0"
+                            Visibility="{Binding IsDrawing, Converter={StaticResource CnvBooleanToVisibility}}"
+                            Content="{Binding [GameTable_BtnDrawFromStock], Source={StaticResource PrvLocalization},
+                                      Converter={StaticResource CnvUpperCase}}"
+                            Command="{Binding DrawFromStockCommand}" />
+                    <Button x:Name="btnDrawFromDiscardPile" Effect="{StaticResource EfxCardShadow}"
+                            Style="{StaticResource StyLobbySecondaryButton}"
+                            Visibility="{Binding IsDrawing, Converter={StaticResource CnvBooleanToVisibility}}"
+                            Content="{Binding [GameTable_BtnDrawFromDiscardPile], Source={StaticResource PrvLocalization},
+                                      Converter={StaticResource CnvUpperCase}}"
+                            Command="{Binding DrawFromDiscardPileCommand}" />
+                    <Button x:Name="btnDiscard" Effect="{StaticResource EfxCardShadow}"
+                            Style="{StaticResource StyLobbyActionButton}" Margin="0,0,16,0"
+                            Visibility="{Binding IsDiscarding, Converter={StaticResource CnvBooleanToVisibility}}"
+                            Content="{Binding [GameTable_BtnDiscard], Source={StaticResource PrvLocalization},
+                                      Converter={StaticResource CnvUpperCase}}"
+                            Command="{Binding DiscardCommand}" />
+                    <Button x:Name="btnKnock" Effect="{StaticResource EfxCardShadow}"
+                            Style="{StaticResource StyLobbySecondaryButton}"
+                            Visibility="{Binding IsDiscarding, Converter={StaticResource CnvBooleanToVisibility}}"
+                            Content="{Binding [GameTable_BtnKnock], Source={StaticResource PrvLocalization},
+                                      Converter={StaticResource CnvUpperCase}}"
+                            Command="{Binding KnockCommand}" />
                 </StackPanel>
             </StackPanel>
         </Grid>
@@ -254,18 +280,6 @@
                         <TextBlock Style="{StaticResource StyMatchStatLabel}" Text="{Binding OpponentName}" />
                     </DockPanel>
                     <DockPanel Style="{StaticResource StyMatchStatRow}">
-                        <TextBlock x:Name="lblTargetValue" Style="{StaticResource StyMatchStatValue}">
-                            <TextBlock.Text>
-                                <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="N0">
-                                    <Binding Path="TargetScore" />
-                                    <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                        <TextBlock x:Name="lblTarget" Style="{StaticResource StyMatchStatLabel}"
-                                   Text="{Binding [GameTable_LblTarget], Source={StaticResource PrvLocalization}}" />
-                    </DockPanel>
-                    <DockPanel Style="{StaticResource StyMatchStatRow}">
                         <TextBlock x:Name="lblCardsInStockValue" Style="{StaticResource StyMatchStatValue}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="N0">
@@ -291,28 +305,15 @@
 
         <!-- Each veil follows the visibility of its label, so the view model switches one element for both. -->
         <Grid Grid.ColumnSpan="3" Background="{StaticResource BrsOverlay}"
-              Visibility="{Binding Visibility, ElementName=lblPaused}">
-            <ctl:PixelBorder Style="{StaticResource StyTableOverlayCard}" Width="640">
-                <StackPanel>
-                    <TextBlock x:Name="lblPaused" Style="{StaticResource StyPanelTitle}"
-                               Visibility="{Binding IsPaused, Converter={StaticResource CnvBooleanToVisibility}}"
-                               Text="{Binding [GameTable_LblPaused], Source={StaticResource PrvLocalization}}" />
-                    <TextBlock x:Name="lblPausedHint" Style="{StaticResource StyDialogMessage}" TextAlignment="Left"
-                               Margin="0,14,0,0"
-                               Text="{Binding [GameTable_LblPausedHint], Source={StaticResource PrvLocalization}}" />
-                </StackPanel>
-            </ctl:PixelBorder>
-        </Grid>
-
-        <Grid Grid.ColumnSpan="3" Background="{StaticResource BrsOverlay}"
               Visibility="{Binding Visibility, ElementName=lblKnockWith}">
             <ctl:PixelBorder Style="{StaticResource StyTableOverlayCard}" Width="780" Padding="40,24,40,26">
                 <StackPanel>
                     <Border Style="{StaticResource StyHandWinnerPill}">
                         <TextBlock x:Name="lblHandWinner" Style="{StaticResource StyHandWinnerText}">
                             <TextBlock.Text>
-                                <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
-                                    <Binding Path="[GameTable_LblHandWinner]" Source="{StaticResource PrvLocalization}" />
+                                <MultiBinding Converter="{StaticResource CnvResourceText}">
+                                    <Binding Path="HandHeadlineKey" />
+                                    <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                                     <Binding Path="HandResult.WinnerName" />
                                 </MultiBinding>
                             </TextBlock.Text>
@@ -347,8 +348,14 @@
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
-                        <TextBlock x:Name="lblYourDeadwood" Style="{StaticResource StyHandCountLabel}"
-                                   Text="{Binding [GameTable_LblYourDeadwood], Source={StaticResource PrvLocalization}}" />
+                        <TextBlock x:Name="lblDefenderDeadwood" Style="{StaticResource StyHandCountLabel}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
+                                    <Binding Path="[GameTable_LblDeadwoodOf]" Source="{StaticResource PrvLocalization}" />
+                                    <Binding Path="HandResult.DefenderName" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                     </DockPanel>
                     <DockPanel Style="{StaticResource StyHandCountRow}">
                         <TextBlock x:Name="lblOpponentDeadwoodValue" Style="{StaticResource StyHandCountValue}">
@@ -432,8 +439,14 @@
                                         </MultiBinding>
                                     </TextBlock.Text>
                                 </TextBlock>
-                                <TextBlock x:Name="lblHandRoleDefended" Style="{StaticResource StyMeldPanelTitle}"
-                                           Text="{Binding [GameTable_LblHandRoleDefended], Source={StaticResource PrvLocalization}}" />
+                                <TextBlock x:Name="lblHandRoleDefender" Style="{StaticResource StyMeldPanelTitle}">
+                                    <TextBlock.Text>
+                                        <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
+                                            <Binding Path="[GameTable_LblHandRoleDefender]" Source="{StaticResource PrvLocalization}" />
+                                            <Binding Path="HandResult.DefenderName" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
                             </DockPanel>
                             <ItemsControl x:Name="lstDefenderMelds" ItemsSource="{Binding HandResult.DefenderMelds}"
                                           ItemTemplate="{StaticResource TplMeld}">
@@ -446,16 +459,7 @@
                         </StackPanel>
                     </ctl:PixelBorder>
 
-                    <TextBlock x:Name="lblScoreTarget" Style="{StaticResource StyMeldPanelTitle}"
-                               Foreground="{StaticResource BrsMuted}" Margin="0,18,0,6">
-                        <TextBlock.Text>
-                            <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
-                                <Binding Path="[GameTable_LblScoreTarget]" Source="{StaticResource PrvLocalization}" />
-                                <Binding Path="TargetScore" />
-                            </MultiBinding>
-                        </TextBlock.Text>
-                    </TextBlock>
-                    <DockPanel Style="{StaticResource StyHandCountRow}">
+                    <DockPanel Style="{StaticResource StyHandCountRow}" Margin="0,18,0,0">
                         <TextBlock x:Name="lblHandPlayerScore" Style="{StaticResource StyHandCountValue}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="N0">
@@ -480,10 +484,11 @@
                     </DockPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="0,18,0,0">
-                        <Button x:Name="btnNextHand" Effect="{StaticResource EfxCardShadow}" Style="{StaticResource StyDialogPrimaryButton}"
-                                Content="{Binding [GameTable_BtnNextHand], Source={StaticResource PrvLocalization},
+                        <Button x:Name="btnHandReturnToLobby" Effect="{StaticResource EfxCardShadow}"
+                                Style="{StaticResource StyDialogPrimaryButton}"
+                                Content="{Binding [GameTable_BtnReturnToLobby], Source={StaticResource PrvLocalization},
                                           Converter={StaticResource CnvUpperCase}}"
-                                Command="{Binding NextHandCommand}" />
+                                Click="OnReturnToLobbyClick" />
                         <Button Style="{StaticResource StyDialogSecondaryButton}" Margin="16,0,0,0"
                                 Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource PrvLocalization},
                                           Converter={StaticResource CnvUpperCase}}"

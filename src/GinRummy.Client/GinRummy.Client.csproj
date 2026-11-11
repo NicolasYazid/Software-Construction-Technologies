@@ -377,6 +377,7 @@
     <Compile Include="ViewModels\EditProfileViewModel.cs" />
     <Compile Include="ViewModels\LobbyChatViewModel.cs" />
     <Compile Include="ViewModels\GameTableViewModel.cs" />
+    <Compile Include="ViewModels\LobbyChallengeViewModel.cs" />
     <Compile Include="Services\ChatMessageConnection.cs" />
     <Compile Include="Services\DirectDuelConnection.cs" />
     <Compile Include="Services\GameConnection.cs" />
@@ -395,7 +396,6 @@
     <Compile Include="Models\Meld.cs" />
     <Compile Include="Models\MatchLogKind.cs" />
     <Compile Include="Models\MatchLogEntry.cs" />
-    <Compile Include="Models\GameTableSnapshot.cs" />
     <Compile Include="Models\HandResult.cs" />
     <Compile Include="Models\MatchEndReason.cs" />
     <Compile Include="Models\MatchResult.cs" />

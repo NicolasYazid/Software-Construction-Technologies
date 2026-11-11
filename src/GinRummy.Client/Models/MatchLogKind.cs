@@ -7,6 +7,7 @@
         TurnedUp,
         Passed,
         DrewFromStock,
+        TookDiscard,
         Discarded,
         Knocked,
         Gin,

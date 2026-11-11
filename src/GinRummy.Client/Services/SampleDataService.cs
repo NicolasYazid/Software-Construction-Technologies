@@ -12,8 +12,6 @@ namespace GinRummy.Client.Services
     // The screens take their data only from here, which leaves a single place to replace once the server answers.
     public sealed class SampleDataService : ISampleDataService
     {
-        private const string PlayerName = "Player A";
-        private const string OpponentName = "Player Z";
         private const int CardsPerHand = 10;
         private const int KnockThreshold = 10;
         private const int GinBonus = 25;
@@ -61,78 +59,6 @@ namespace GinRummy.Client.Services
             rules.TargetScore = TargetScore;
 
             return rules;
-        }
-
-        public GameTableSnapshot GetGameTable()
-        {
-            GameTableSnapshot table = new GameTableSnapshot();
-            table.PlayerName = PlayerName;
-            table.OpponentName = OpponentName;
-            table.OpponentCardCount = CardsPerHand;
-            table.StockCount = 31;
-            table.DiscardTop = CreateCard(CardRank.Seven, CardSuit.Spades);
-            table.Hand = new List<Card>
-            {
-                CreateCard(CardRank.Ten, CardSuit.Spades),
-                CreateCard(CardRank.Three, CardSuit.Hearts),
-                CreateCard(CardRank.Five, CardSuit.Hearts),
-                CreateCard(CardRank.Three, CardSuit.Diamonds),
-                CreateCard(CardRank.Four, CardSuit.Diamonds),
-                CreateCard(CardRank.Eight, CardSuit.Diamonds),
-                CreateCard(CardRank.Ace, CardSuit.Clubs),
-                CreateCard(CardRank.Four, CardSuit.Clubs),
-                CreateCard(CardRank.Seven, CardSuit.Clubs),
-                CreateCard(CardRank.Eight, CardSuit.Clubs)
-            };
-            table.Deadwood = 53;
-            table.TargetScore = TargetScore;
-            table.ChatEntries = new List<ChatMessage>
-            {
-                CreateMessage(OpponentName, new TimeSpan(14, 2, 0), "Gl hf!"),
-                CreateMessage(PlayerName, new TimeSpan(14, 3, 0), "You too."),
-                CreateMessage(OpponentName, new TimeSpan(14, 7, 0), "That was a lucky draw."),
-                CreateMessage(PlayerName, new TimeSpan(14, 8, 0), "Just playing the odds.")
-            };
-            MatchLogEntry dealt = CreateLogEntry(OpponentName, new TimeSpan(14, 1, 0), MatchLogKind.Dealt);
-            dealt.Amount = CardsPerHand;
-            MatchLogEntry turnedUp = CreateLogEntry(OpponentName, new TimeSpan(14, 1, 0), MatchLogKind.TurnedUp);
-            turnedUp.Card = table.DiscardTop;
-            table.MatchLog = new List<MatchLogEntry>
-            {
-                dealt,
-                turnedUp,
-                CreateLogEntry(OpponentName, new TimeSpan(14, 2, 0), MatchLogKind.Waiting)
-            };
-
-            return table;
-        }
-
-        private static Card CreateCard(CardRank rank, CardSuit suit)
-        {
-            return new Card(rank, suit);
-        }
-
-        private static MatchLogEntry CreateLogEntry(string playerName, TimeSpan timeOfDay, MatchLogKind kind)
-        {
-            MatchLogEntry entry = new MatchLogEntry();
-            entry.PlayerName = playerName;
-            entry.OccurredAt = DateTime.Today.Add(timeOfDay);
-            entry.Kind = kind;
-
-            return entry;
-        }
-
-        private static ChatMessage CreateMessage(string authorName, TimeSpan timeOfDay, string content)
-        {
-            return new ChatMessage(authorName, content, DateTime.Today.Add(timeOfDay));
-        }
-
-        private static ChatMessage CreateCensoredMessage(string authorName, TimeSpan timeOfDay)
-        {
-            ChatMessage message = CreateMessage(authorName, timeOfDay, string.Empty);
-            message.Censor();
-
-            return message;
         }
 
         private static FriendRequest CreateRequest(string senderName, int minutesAgo)
