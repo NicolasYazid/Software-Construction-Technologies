@@ -21,6 +21,7 @@
       <xs:element minOccurs="0" name="Deadwood" type="xs:int" />
       <xs:element minOccurs="0" name="Hand" nillable="true" type="tns:ArrayOfPlayingCard" />
       <xs:element minOccurs="0" name="IsYourTurn" type="xs:boolean" />
+      <xs:element minOccurs="0" name="KnockDiscards" nillable="true" type="tns:ArrayOfPlayingCard" />
       <xs:element minOccurs="0" name="LastMove" type="tns:RoundMoveKind" />
       <xs:element minOccurs="0" name="LastMoveCard" nillable="true" type="tns:PlayingCard" />
       <xs:element minOccurs="0" name="LastMoverName" nillable="true" type="xs:string" />

@@ -58,7 +58,7 @@ namespace GinRummy.Client.ViewModels
             DrawFromStockCommand = new RelayCommand(() => Play(_gameConnection.DrawFromStock), () => IsDrawing);
             DrawFromDiscardPileCommand = new RelayCommand(() => Play(_gameConnection.DrawFromDiscardPile));
             DiscardCommand = new RelayCommand(() => PlaySelectedCard(_gameConnection.Discard), IsCardSelected);
-            KnockCommand = new RelayCommand(() => PlaySelectedCard(_gameConnection.Knock), IsCardSelected);
+            KnockCommand = new RelayCommand(() => PlaySelectedCard(_gameConnection.Knock), CanKnockWithSelectedCard);
             SortHandCommand = new RelayCommand(SortHand);
             SendMessageCommand = new RelayCommand(SendMessage);
         }
@@ -340,6 +340,11 @@ namespace GinRummy.Client.ViewModels
         private bool IsCardSelected()
         {
             return _selectedCard != null;
+        }
+
+        private bool CanKnockWithSelectedCard()
+        {
+            return IsCardSelected() && _round.KnockDiscards.Any(card => IsSameCard(ToCard(card), _selectedCard));
         }
 
         private void SortHand()

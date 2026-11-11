@@ -238,6 +238,9 @@ namespace GinRummy.Client.GameServiceReference {
         private bool IsYourTurnField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private GinRummy.Client.GameServiceReference.PlayingCard[] KnockDiscardsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private GinRummy.Client.GameServiceReference.RoundMoveKind LastMoveField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -309,6 +312,19 @@ namespace GinRummy.Client.GameServiceReference {
                 if ((this.IsYourTurnField.Equals(value) != true)) {
                     this.IsYourTurnField = value;
                     this.RaisePropertyChanged("IsYourTurn");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public GinRummy.Client.GameServiceReference.PlayingCard[] KnockDiscards {
+            get {
+                return this.KnockDiscardsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.KnockDiscardsField, value) != true)) {
+                    this.KnockDiscardsField = value;
+                    this.RaisePropertyChanged("KnockDiscards");
                 }
             }
         }
