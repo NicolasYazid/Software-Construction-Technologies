@@ -448,6 +448,12 @@ You: {0}   -   Opponent: {1}</value>
   <data name="GameTable_LblMeldRun" xml:space="preserve">
     <value>RUN</value>
   </data>
+  <data name="GameTable_LblMeldThree" xml:space="preserve">
+    <value>THREE OF A KIND</value>
+  </data>
+  <data name="GameTable_LblMeldFour" xml:space="preserve">
+    <value>FOUR OF A KIND</value>
+  </data>
   <data name="GameTable_LblMeldSet" xml:space="preserve">
     <value>SET</value>
   </data>

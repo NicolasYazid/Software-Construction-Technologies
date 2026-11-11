@@ -557,6 +557,14 @@ Tú: {0}   -   Rival: {1}</value>
     <value>ESCALERA</value>
     <comment>Contenido de GuiGameTable</comment>
   </data>
+  <data name="GameTable_LblMeldThree" xml:space="preserve">
+    <value>TRIADA</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblMeldFour" xml:space="preserve">
+    <value>CUARTETO</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
   <data name="GameTable_LblMeldSet" xml:space="preserve">
     <value>GRUPO</value>
     <comment>Contenido de GuiGameTable</comment>

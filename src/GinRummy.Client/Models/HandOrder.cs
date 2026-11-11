@@ -11,6 +11,14 @@ namespace GinRummy.Client.Models
             return hand.OrderBy(card => card.Rank).ThenBy(card => card.Suit).ToList();
         }
 
+        // The melds lead the hand in the order the player gave them, and only the cards outside them are sorted.
+        public static IList<Card> SortLooseCards(IList<Card> hand, IEnumerable<IList<Card>> melds)
+        {
+            List<Card> meldCards = melds.OrderBy(meld => meld.Min(hand.IndexOf)).SelectMany(meld => meld.OrderBy(hand.IndexOf)).ToList();
+
+            return meldCards.Concat(SortByRank(hand.Except(meldCards))).ToList();
+        }
+
         public static IList<Card> PutMeldsFirst(IEnumerable<Card> hand, IList<Card> meldCards)
         {
             return meldCards.Concat(hand.Except(meldCards)).ToList();
@@ -27,6 +35,28 @@ namespace GinRummy.Client.Models
                     hand.Move(currentIndex, index);
                 }
             }
+        }
+
+        // A meld can be split across the hand, and each stretch of its cards that sit side by side gets its own caption.
+        public static IList<IList<Card>> SplitIntoNeighbors(IList<Card> hand, IEnumerable<Card> cards)
+        {
+            List<IList<Card>> stretches = new List<IList<Card>>();
+            List<Card> stretch = null;
+            int previousIndex = 0;
+            foreach (Card card in cards.Where(hand.Contains).OrderBy(hand.IndexOf))
+            {
+                int index = hand.IndexOf(card);
+                if ((stretch == null) || (index != previousIndex + 1))
+                {
+                    stretch = new List<Card>();
+                    stretches.Add(stretch);
+                }
+
+                stretch.Add(card);
+                previousIndex = index;
+            }
+
+            return stretches;
         }
     }
 }

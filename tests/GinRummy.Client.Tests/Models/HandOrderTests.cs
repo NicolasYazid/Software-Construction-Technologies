@@ -45,5 +45,28 @@ namespace GinRummy.Client.Tests.Models
 
             CollectionAssert.AreEqual(order, hand.ToList());
         }
+
+        [Test]
+        public void Test_SplitIntoNeighbors_CardApart_StartsNewStretch()
+        {
+            List<Card> hand = new List<Card> { FiveOfClubs, FiveOfHearts, KingOfClubs, AceOfSpades };
+
+            IList<IList<Card>> stretches = HandOrder.SplitIntoNeighbors(hand, new[] { AceOfSpades, FiveOfHearts, FiveOfClubs });
+
+            Assert.AreEqual(2, stretches.Count);
+            CollectionAssert.AreEqual(new[] { FiveOfClubs, FiveOfHearts }, stretches[0]);
+            CollectionAssert.AreEqual(new[] { AceOfSpades }, stretches[1]);
+        }
+
+        [Test]
+        public void Test_SortLooseCards_HandWithMeld_KeepsMeldFirstInPlayerOrder()
+        {
+            List<Card> hand = new List<Card> { KingOfClubs, FiveOfHearts, AceOfSpades, FiveOfClubs };
+            List<IList<Card>> melds = new List<IList<Card>> { new List<Card> { FiveOfClubs, FiveOfHearts } };
+
+            IList<Card> sortedHand = HandOrder.SortLooseCards(hand, melds);
+
+            CollectionAssert.AreEqual(new[] { FiveOfHearts, FiveOfClubs, AceOfSpades, KingOfClubs }, sortedHand);
+        }
     }
 }

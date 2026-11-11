@@ -321,7 +321,7 @@ namespace GinRummy.Client.Controls
             }
         }
 
-        // A short press chooses the card and only a longer movement drags it (house rule 18).
+        // A short press chooses the card and only a longer movement drags it (house rule 18), and a press on the chosen card lets it go.
         // A card of a pile cannot be chosen, so a short press on it does nothing.
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
@@ -332,7 +332,7 @@ namespace GinRummy.Client.Controls
             }
             else if ((_pressedItem != null) && !IsDragOnly)
             {
-                SelectedItem = _pressedItem;
+                SelectedItem = Equals(_pressedItem, SelectedItem) ? null : _pressedItem;
             }
 
             _pressedItem = null;

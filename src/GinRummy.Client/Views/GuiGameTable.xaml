@@ -172,7 +172,7 @@
                 </StackPanel>
             </Grid>
 
-            <DockPanel Grid.Row="3" Margin="8,16,8,0" LastChildFill="False">
+            <DockPanel Grid.Row="3" Margin="8,14,8,0" LastChildFill="False">
                 <TextBlock x:Name="lblYourHand" DockPanel.Dock="Left" Style="{StaticResource StyTableCaption}"
                            Text="{Binding [GameTable_LblYourHand], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}" />
@@ -195,14 +195,19 @@
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
-                <Button x:Name="btnSortHand" DockPanel.Dock="Right" Style="{StaticResource StyInlineTextButton}" FontSize="18"
-                        Margin="0,0,24,0"
+                <!-- The button is taller than the header, so it overflows it instead of pushing the hand and the deadwood down. -->
+                <Button x:Name="btnSortHand" DockPanel.Dock="Right" Style="{StaticResource StyLobbySmallButton}"
+                        Effect="{StaticResource EfxCardShadow}"
+                        Margin="0,-6,24,-6"
                         Content="{Binding [GameTable_BtnSortHand], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
                         Command="{Binding SortHandCommand}" />
             </DockPanel>
 
-            <ctl:CardHand x:Name="lstHand" Grid.Row="4" Style="{StaticResource StyCardHand}"
+            <!-- The captions sit behind the hand, so a card lifted by the player covers the bar of its meld. -->
+            <Canvas x:Name="cnvMeldCaptions" Grid.Row="4" IsHitTestVisible="False" />
+
+            <ctl:CardHand x:Name="lstHand" Grid.Row="4" Style="{StaticResource StyCardHand}" Margin="0,2,0,-24"
                           ItemsSource="{Binding Hand}" ItemTemplate="{StaticResource TplCardFace}"
                           BackTemplate="{StaticResource TplCardBackHand}"
                           SelectedItem="{Binding SelectedCard}"
@@ -215,7 +220,7 @@
                        Text="{Binding [GameTable_LblHandHint], Source={StaticResource PrvLocalization},
                               Converter={StaticResource CnvUpperCase}}" />
 
-            <StackPanel Grid.Row="6" VerticalAlignment="Bottom" Margin="0,0,0,57">
+            <StackPanel Grid.Row="6" VerticalAlignment="Bottom" Margin="0,0,0,49">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock x:Name="lblDeadwood" Style="{StaticResource StyDeadwoodLabel}"
                                Text="{Binding [GameTable_LblDeadwood], Source={StaticResource PrvLocalization},

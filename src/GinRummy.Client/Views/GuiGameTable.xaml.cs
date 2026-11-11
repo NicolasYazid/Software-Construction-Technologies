@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 using GinRummy.Client.Controls;
 using GinRummy.Client.Models;
@@ -20,6 +24,18 @@ namespace GinRummy.Client.Views
         // The stock shows only its top card, face down, so it holds a single placeholder item.
         private static readonly int[] _stockTopCard = { 0 };
 
+        private const string MeldRunKey = "GameTable_LblMeldRun";
+        private const string MeldThreeKey = "GameTable_LblMeldThree";
+        private const string MeldFourKey = "GameTable_LblMeldFour";
+        private const string MeldCaptionStyleKey = "StyMeldCaption";
+        private const string MeldBarStyleKey = "StyMeldBar";
+        private const int FourOfAKindCount = 4;
+        private const double MeldBarGap = 6.0;
+        private const double MeldCaptionGap = 2.0;
+
+        // Melds that sit side by side would draw a single bar, so each bar is drawn a little shorter than its cards.
+        private const double MeldBarInset = 3.0;
+
         private readonly GameTableViewModel _viewModel;
 
         public GuiGameTable(GameTableViewModel viewModel)
@@ -30,6 +46,8 @@ namespace GinRummy.Client.Views
             _viewModel.MatchLog.CollectionChanged += OnMatchLogChanged;
             _viewModel.CardDrawnFromStock += OnCardDrawnFromStock;
             _viewModel.CardTakenFromDiscardPile += OnCardTakenFromDiscardPile;
+            _viewModel.Hand.CollectionChanged += OnHandChanged;
+            _viewModel.PropertyChanged += OnTableChanged;
             lstStock.ItemsSource = _stockTopCard;
             DataContext = _viewModel;
             Loaded += OnScreenLoaded;
@@ -40,6 +58,12 @@ namespace GinRummy.Client.Views
         {
             ScrollToLatest(lstMessages);
             ScrollToLatest(lstMatchLog);
+            CompositionTarget.Rendering += OnRendering;
+        }
+
+        protected override void RefreshFormattedText()
+        {
+            ShowMeldCaptions();
         }
 
         private void OnChatMessagesChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -123,8 +147,112 @@ namespace GinRummy.Client.Views
             _viewModel.MatchLog.CollectionChanged -= OnMatchLogChanged;
             _viewModel.CardDrawnFromStock -= OnCardDrawnFromStock;
             _viewModel.CardTakenFromDiscardPile -= OnCardTakenFromDiscardPile;
+            _viewModel.Hand.CollectionChanged -= OnHandChanged;
+            _viewModel.PropertyChanged -= OnTableChanged;
+            CompositionTarget.Rendering -= OnRendering;
             Loaded -= OnScreenLoaded;
             Closed -= OnScreenClosed;
+        }
+
+        private void OnHandChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            ShowMeldCaptions();
+        }
+
+        // The table raises an empty name when a new state of the round arrives, and only then can the melds change.
+        private void OnTableChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.PropertyName))
+            {
+                ShowMeldCaptions();
+            }
+        }
+
+        // The captions are built again only when the melds or the order of the hand change, and each frame just moves them.
+        private void ShowMeldCaptions()
+        {
+            cnvMeldCaptions.Children.Clear();
+            foreach (Meld meld in _viewModel.HandMelds)
+            {
+                string caption = Localization[GetMeldCaptionKey(meld)];
+                foreach (IList<Card> stretch in HandOrder.SplitIntoNeighbors(_viewModel.Hand, meld.Cards))
+                {
+                    AddMeldCaption(caption, stretch);
+                }
+            }
+        }
+
+        // Both parts stay hidden until the first frame places them over their cards.
+        private void AddMeldCaption(string caption, IList<Card> stretch)
+        {
+            TextBlock name = new TextBlock();
+            name.Style = (Style)FindResource(MeldCaptionStyleKey);
+            name.Text = caption;
+            name.Tag = stretch;
+            name.Visibility = Visibility.Hidden;
+            Rectangle bar = new Rectangle();
+            bar.Style = (Style)FindResource(MeldBarStyleKey);
+            bar.Tag = stretch;
+            bar.Visibility = Visibility.Hidden;
+            cnvMeldCaptions.Children.Add(name);
+            cnvMeldCaptions.Children.Add(bar);
+        }
+
+        // The hand animates its cards on every frame, so the captions follow them on every frame too.
+        // The bar keeps the height of the top of the hand, so a card lifted by the player does not move it.
+        private void OnRendering(object sender, EventArgs e)
+        {
+            double barTop = lstHand.TranslatePoint(new Point(0, lstHand.TiltRoom), cnvMeldCaptions).Y - MeldBarGap;
+            foreach (FrameworkElement caption in cnvMeldCaptions.Children)
+            {
+                Rect bounds = GetStretchBounds((IList<Card>)caption.Tag);
+                caption.Visibility = bounds.IsEmpty ? Visibility.Hidden : Visibility.Visible;
+                if (!bounds.IsEmpty)
+                {
+                    PlaceMeldCaption(caption, bounds, barTop);
+                }
+            }
+        }
+
+        private Rect GetStretchBounds(IList<Card> stretch)
+        {
+            Rect bounds = Rect.Empty;
+            foreach (Card card in stretch)
+            {
+                Border host = lstHand.ItemContainerGenerator.ContainerFromItem(card) as Border;
+                if ((host != null) && (host.Child is FrameworkElement faces))
+                {
+                    bounds.Union(faces.TransformToVisual(cnvMeldCaptions).TransformBounds(new Rect(faces.RenderSize)));
+                }
+            }
+
+            return bounds;
+        }
+
+        private static void PlaceMeldCaption(FrameworkElement caption, Rect bounds, double barTop)
+        {
+            if (caption is Rectangle)
+            {
+                caption.Width = Math.Max(0, bounds.Width - (2 * MeldBarInset));
+                Canvas.SetLeft(caption, bounds.Left + MeldBarInset);
+                Canvas.SetTop(caption, barTop);
+            }
+            else
+            {
+                Canvas.SetLeft(caption, bounds.Left + ((bounds.Width - caption.ActualWidth) / 2));
+                Canvas.SetTop(caption, barTop - MeldCaptionGap - caption.ActualHeight);
+            }
+        }
+
+        private static string GetMeldCaptionKey(Meld meld)
+        {
+            string key = MeldRunKey;
+            if (meld.Kind == MeldKind.Set)
+            {
+                key = (meld.Cards.Count == FourOfAKindCount) ? MeldFourKey : MeldThreeKey;
+            }
+
+            return key;
         }
 
         private static void ScrollToLatest(ListBox list)

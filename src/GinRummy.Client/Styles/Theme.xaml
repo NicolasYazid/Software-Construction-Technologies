@@ -948,6 +948,13 @@
         <Setter Property="MinWidth" Value="160" />
     </Style>
 
+    <!-- The stepped face needs ten blocks of height and the press sinks it six pixels, so the button cannot be lower. -->
+    <Style x:Key="StyLobbySmallButton" TargetType="Button" BasedOn="{StaticResource StyCardOutlineButton}">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Height" Value="36" />
+        <Setter Property="MinWidth" Value="96" />
+    </Style>
+
     <Style x:Key="StyRailButton" TargetType="Button">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Background" Value="Transparent" />
@@ -2317,6 +2324,19 @@
         <Setter Property="Effect" Value="{StaticResource EfxSoftShadow}" />
     </Style>
 
+    <Style x:Key="StyMeldCaption" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource FntDisplay}" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Foreground" Value="{StaticResource BrsTitle}" />
+        <Setter Property="Effect" Value="{StaticResource EfxSoftShadow}" />
+    </Style>
+
+    <Style x:Key="StyMeldBar" TargetType="Rectangle">
+        <Setter Property="Height" Value="3" />
+        <Setter Property="Fill" Value="{StaticResource BrsPrimary}" />
+        <Setter Property="Effect" Value="{StaticResource EfxSoftShadow}" />
+    </Style>
+
     <Style x:Key="StyTablePill" TargetType="Border">
         <Setter Property="BorderBrush" Value="{StaticResource BrsMuted}" />
         <Setter Property="BorderThickness" Value="2" />
@@ -2417,7 +2437,7 @@
 
     <!-- The pause, the close of a hand and the result open over the table because the prototype draws them that way. -->
     <Style x:Key="StyTableOverlayCard" TargetType="Border">
-        <Setter Property="Background" Value="{StaticResource BrsArtworkPanel}" />
+        <Setter Property="Background" Value="{StaticResource BrsSurface}" />
         <Setter Property="BorderBrush" Value="{StaticResource BrsMenuInk}" />
         <Setter Property="BorderThickness" Value="0,0,0,4" />
         <Setter Property="ctl:PixelShapeCommon.CornerSteps" Value="5" />

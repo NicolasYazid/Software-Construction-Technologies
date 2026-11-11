@@ -39,7 +39,6 @@ namespace GinRummy.Client.ViewModels
         private string _handHeadlineKey;
         private bool _isHandResultShown;
         private MatchResult _matchResult;
-        private HashSet<Card> _meldCards;
 
         public GameTableViewModel(GameConnection gameConnection, LogInOutcome signedInPlayer)
         {
@@ -52,7 +51,7 @@ namespace GinRummy.Client.ViewModels
             ChatMessages = new ObservableCollection<ChatMessage>();
             MatchLog = new ObservableCollection<MatchLogEntry>();
             OpponentCards = new List<int>();
-            _meldCards = new HashSet<Card>();
+            HandMelds = new List<Meld>();
             Hand.CollectionChanged += OnHandChanged;
             TakeCommand = new RelayCommand(() => Play(_gameConnection.TakeFirstCard));
             PassCommand = new RelayCommand(() => Play(_gameConnection.PassFirstCard));
@@ -60,7 +59,7 @@ namespace GinRummy.Client.ViewModels
             DrawFromDiscardPileCommand = new RelayCommand(() => Play(_gameConnection.DrawFromDiscardPile));
             DiscardCommand = new RelayCommand(() => PlaySelectedCard(_gameConnection.Discard), IsCardSelected);
             KnockCommand = new RelayCommand(() => PlaySelectedCard(_gameConnection.Knock), IsCardSelected);
-            SortHandCommand = new RelayCommand(() => HandOrder.Arrange(Hand, HandOrder.SortByRank(Hand)));
+            SortHandCommand = new RelayCommand(SortHand);
             SendMessageCommand = new RelayCommand(SendMessage);
         }
 
@@ -72,6 +71,7 @@ namespace GinRummy.Client.ViewModels
         public ObservableCollection<ChatMessage> ChatMessages { get; private set; }
         public ObservableCollection<MatchLogEntry> MatchLog { get; private set; }
         public IList<int> OpponentCards { get; private set; }
+        public IList<Meld> HandMelds { get; private set; }
         public ICommand TakeCommand { get; private set; }
         public ICommand PassCommand { get; private set; }
         public ICommand DrawFromStockCommand { get; private set; }
@@ -342,6 +342,11 @@ namespace GinRummy.Client.ViewModels
             return _selectedCard != null;
         }
 
+        private void SortHand()
+        {
+            HandOrder.Arrange(Hand, HandOrder.SortLooseCards(Hand, HandMelds.Select(meld => meld.Cards)));
+        }
+
         // Until the server relays the chat of the match, the table shows the message of the player.
         private void SendMessage()
         {
@@ -358,7 +363,7 @@ namespace GinRummy.Client.ViewModels
             _round = round;
             _isMoveRefused = false;
             KeepHandOrder(round.Hand);
-            MarkMelds(round.Melds);
+            ArrangeMelds(round.Melds);
             DiscardPile.Clear();
             if (round.TopOfDiscardPile != null)
             {
@@ -369,7 +374,9 @@ namespace GinRummy.Client.ViewModels
             AddLastMoveToLog(round);
 
             // An empty name tells WPF that every property of the table changed.
+            // The commands are checked again too, because the new state arrives from the server and not from an input of the player.
             RaisePropertyChanged(string.Empty);
+            CommandManager.InvalidateRequerySuggested();
         }
 
         private void OnRoundFinished(object sender, RoundSummary summary)
@@ -441,21 +448,17 @@ namespace GinRummy.Client.ViewModels
         }
 
         // The melds go to the start of the hand only when they change, so the player can still move those cards afterwards.
-        private void MarkMelds(PlayingCard[][] melds)
+        private void ArrangeMelds(PlayingCard[][] melds)
         {
-            List<Card> meldCards = melds.SelectMany(meld => meld).Select(ToCard).Select(FindHeldCard).ToList();
-            foreach (Card card in Hand)
-            {
-                card.IsInMeld = meldCards.Contains(card);
-            }
-
-            bool haveMeldsChanged = !_meldCards.SetEquals(meldCards);
+            List<Meld> handMelds = melds.Select(meld => ToMeld(meld.Select(ToCard).Select(FindHeldCard).ToList())).ToList();
+            List<Card> meldCards = handMelds.SelectMany(meld => meld.Cards).ToList();
+            bool haveMeldsChanged = !new HashSet<Card>(HandMelds.SelectMany(meld => meld.Cards)).SetEquals(meldCards);
             if (haveMeldsChanged && (meldCards.Count > 0))
             {
                 HandOrder.Arrange(Hand, HandOrder.PutMeldsFirst(Hand, meldCards));
             }
 
-            _meldCards = new HashSet<Card>(meldCards);
+            HandMelds = handMelds;
         }
 
         private Card FindHeldCard(Card card)
@@ -536,9 +539,7 @@ namespace GinRummy.Client.ViewModels
             List<Meld> handMelds = new List<Meld>();
             foreach (PlayingCard[] meld in melds)
             {
-                List<Card> cards = meld.Select(ToCard).ToList();
-                MeldKind kind = cards.All(card => card.Rank == cards[0].Rank) ? MeldKind.Set : MeldKind.Run;
-                handMelds.Add(new Meld(kind, cards));
+                handMelds.Add(ToMeld(meld.Select(ToCard).ToList()));
             }
 
             if (unmatchedCards.Length > 0)
@@ -547,6 +548,13 @@ namespace GinRummy.Client.ViewModels
             }
 
             return handMelds;
+        }
+
+        private static Meld ToMeld(IList<Card> cards)
+        {
+            MeldKind kind = cards.All(card => card.Rank == cards[0].Rank) ? MeldKind.Set : MeldKind.Run;
+
+            return new Meld(kind, cards);
         }
 
         private static bool IsSameCard(Card first, Card second)

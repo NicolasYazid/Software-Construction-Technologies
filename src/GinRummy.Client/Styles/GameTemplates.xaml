@@ -4,10 +4,9 @@
 
     <!-- These templates live apart from the theme because they bind to the localization provider, created after the theme loads. -->
 
-    <!-- The rank and the suit are drawn and not written, so the card carries its spoken name for assistive technologies.
-         A card of a meld is framed in green wherever it sits, because the player may keep the meld apart. -->
+    <!-- The rank and the suit are drawn and not written, so the card carries its spoken name for assistive technologies. -->
     <DataTemplate x:Key="TplCardFace" DataType="{x:Type models:Card}">
-        <Border x:Name="brdCardFace" Style="{StaticResource StyCardFace}">
+        <Border Style="{StaticResource StyCardFace}">
             <AutomationProperties.Name>
                 <MultiBinding Converter="{StaticResource CnvCardName}">
                     <Binding />
@@ -35,12 +34,6 @@
                 </TextBlock>
             </Grid>
         </Border>
-        <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding IsInMeld}" Value="True">
-                <Setter TargetName="brdCardFace" Property="BorderBrush" Value="{StaticResource BrsHighlight}" />
-                <Setter TargetName="brdCardFace" Property="BorderThickness" Value="2,2,2,4" />
-            </DataTrigger>
-        </DataTemplate.Triggers>
     </DataTemplate>
 
     <DataTemplate x:Key="TplCardFaceLarge" DataType="{x:Type models:Card}">
