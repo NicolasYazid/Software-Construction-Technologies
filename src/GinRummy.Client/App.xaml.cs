@@ -6,7 +6,9 @@ using System.Windows.Media.Effects;
 using System.Windows.Threading;
 
 using GinRummy.Client.AccountSettingsServiceReference;
+using GinRummy.Client.ChallengeServiceReference;
 using GinRummy.Client.ChatMessageServiceReference;
+using GinRummy.Client.GameServiceReference;
 using GinRummy.Client.LeaderboardServiceReference;
 using GinRummy.Client.Localization;
 using GinRummy.Client.Logging;
@@ -29,7 +31,9 @@ namespace GinRummy.Client
         private const string FatalErrorTitleKey = "ErrorDialog_LblTitleUnexpected";
         private const string FatalErrorMessageKey = "Error_SysUnexpected";
         private const string AccountSettingsEndpointName = "AccountSettingsService";
+        private const string ChallengeEndpointName = "ChallengeService";
         private const string ChatEndpointName = "ChatMessageService";
+        private const string GameEndpointName = "GameService";
         private const string LeaderboardEndpointName = "LeaderboardService";
         private const string LogInEndpointName = "LogInService";
         private const string PresenceEndpointName = "PlayerPresenceService";
@@ -149,9 +153,22 @@ namespace GinRummy.Client
             return new ErrorDialogViewModel(kind);
         }
 
+        public LobbyChallengeViewModel CreateLobbyChallengeViewModel()
+        {
+            ChallengeConnection challengeConnection = new ChallengeConnection(
+                callbackContext => new ChallengeServiceClient(callbackContext, ChallengeEndpointName),
+                _loggerFactory.CreateLogger<ChallengeConnection>());
+
+            return new LobbyChallengeViewModel(challengeConnection, SignedInPlayer);
+        }
+
         public GameTableViewModel CreateGameTableViewModel()
         {
-            return new GameTableViewModel(SampleData);
+            GameConnection gameConnection = new GameConnection(
+                callbackContext => new GameServiceClient(callbackContext, GameEndpointName),
+                _loggerFactory.CreateLogger<GameConnection>());
+
+            return new GameTableViewModel(gameConnection, SignedInPlayer);
         }
 
         public HouseRulesViewModel CreateHouseRulesViewModel()

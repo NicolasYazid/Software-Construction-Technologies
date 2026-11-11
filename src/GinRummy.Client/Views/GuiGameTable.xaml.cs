@@ -13,8 +13,7 @@ namespace GinRummy.Client.Views
     /// Game table screen (P20). Shows a match from the side of one of its players: the hand,
     /// what can be seen of the opponent, the stock and the discard pile, the score, the log of
     /// the match and its chat (CU-17 FA-01). From it the player reads the rules (CU-21 FA-01)
-    /// and forfeits the match (CU-26). Over it open the pause of a match whose opponent lost
-    /// the connection, the close of each hand and the result of the match.
+    /// and forfeits the match (CU-26). Over it open the close of the hand and the result of the match.
     /// </summary>
     public partial class GuiGameTable : GuiWindowBase
     {
@@ -28,6 +27,7 @@ namespace GinRummy.Client.Views
             _viewModel = ((App)Application.Current).CreateGameTableViewModel();
             _viewModel.ChatMessages.CollectionChanged += OnChatMessagesChanged;
             _viewModel.MatchLog.CollectionChanged += OnMatchLogChanged;
+            _viewModel.GameUnavailable += OnGameUnavailable;
             DataContext = _viewModel;
             Loaded += OnScreenLoaded;
             Closed += OnScreenClosed;
@@ -37,6 +37,12 @@ namespace GinRummy.Client.Views
         {
             ScrollToLatest(lstMessages);
             ScrollToLatest(lstMatchLog);
+            _viewModel.Start();
+        }
+
+        private void OnGameUnavailable(object sender, EventArgs e)
+        {
+            ShowModal(new GuiErrorDialog(ErrorDialogKind.ServiceUnavailable));
         }
 
         private void OnChatMessagesChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -94,9 +100,11 @@ namespace GinRummy.Client.Views
 
         private void OnForfeitConfirmClosed(object sender, EventArgs e)
         {
-            // The table only returns the player to the lobby (CU-26 step 9) because the server records the defeat (CU-26 steps 5 to 7).
+            // The table only returns the player to the lobby (CU-26 step 9)
+            // because the server gives the round to the opponent (CU-26 steps 5 to 7).
             if (((GuiConfirmDialog)sender).IsConfirmed)
             {
+                _viewModel.Forfeit();
                 Close();
             }
         }
@@ -108,8 +116,10 @@ namespace GinRummy.Client.Views
 
         private void OnScreenClosed(object sender, EventArgs e)
         {
+            _viewModel.Stop();
             _viewModel.ChatMessages.CollectionChanged -= OnChatMessagesChanged;
             _viewModel.MatchLog.CollectionChanged -= OnMatchLogChanged;
+            _viewModel.GameUnavailable -= OnGameUnavailable;
             Loaded -= OnScreenLoaded;
             Closed -= OnScreenClosed;
         }

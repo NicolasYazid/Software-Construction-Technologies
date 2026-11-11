@@ -1171,4 +1171,37 @@ You: {0}   -   Opponent: {1}</value>
   <data name="Error_ValInvalidUrl" xml:space="preserve">
     <value>That address is not valid</value>
   </data>
+  <data name="LobbyChat_ChallengeUnavailable" xml:space="preserve">
+    <value>The player is not available for a challenge</value>
+  </data>
+  <data name="GameTable_BtnDrawFromStock" xml:space="preserve">
+    <value>Draw from stock</value>
+  </data>
+  <data name="GameTable_BtnDrawFromDiscardPile" xml:space="preserve">
+    <value>Take from discard pile</value>
+  </data>
+  <data name="GameTable_BtnDiscard" xml:space="preserve">
+    <value>Discard</value>
+  </data>
+  <data name="GameTable_BtnKnock" xml:space="preserve">
+    <value>Knock</value>
+  </data>
+  <data name="GameTable_LblOpponentTurn" xml:space="preserve">
+    <value>{0}'s turn</value>
+  </data>
+  <data name="GameTable_LblInvalidMove" xml:space="preserve">
+    <value>That move is not allowed</value>
+  </data>
+  <data name="GameTable_LblRoundVoid" xml:space="preserve">
+    <value>STOCK RAN OUT: NOBODY WINS THE HAND</value>
+  </data>
+  <data name="GameTable_LblDeadwoodOf" xml:space="preserve">
+    <value>{0}'s deadwood</value>
+  </data>
+  <data name="GameTable_LblHandRoleDefender" xml:space="preserve">
+    <value>{0} • DEFENDED</value>
+  </data>
+  <data name="GameTable_LogTookDiscardFormat" xml:space="preserve">
+    <value>Took {0} from the discard pile</value>
+  </data>
 </root>

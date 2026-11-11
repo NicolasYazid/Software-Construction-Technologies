@@ -46,7 +46,8 @@
             <ContextMenu x:Key="CtxPlayerActions" Style="{StaticResource StyPlayerMenu}"
                          DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                 <MenuItem x:Name="mniChallenge" Style="{StaticResource StyPlayerMenuChallengeItem}"
-                          Header="{Binding [LobbyChat_MniChallenge], Source={StaticResource PrvLocalization}}">
+                          Header="{Binding [LobbyChat_MniChallenge], Source={StaticResource PrvLocalization}}"
+                          Click="OnChallengeClick">
                     <MenuItem.Icon>
                         <Image Source="{StaticResource IcoChallenge}" Width="16" Height="16" />
                     </MenuItem.Icon>
@@ -205,6 +206,78 @@
                                    Text="{Binding [LobbyChat_LblChatRules], Source={StaticResource PrvLocalization}}" />
                     </StackPanel>
                 </ctl:PixelBorder>
+
+                <!-- The challenges sit at the bottom of the free row, right over the card of the search, so neither covers the other. -->
+                <StackPanel x:Name="pnlChallenges" Grid.Row="1" VerticalAlignment="Bottom">
+                    <ctl:PixelBorder Style="{StaticResource StyLobbyStatusCard}"
+                            Visibility="{Binding IsChallengeSent, Converter={StaticResource CnvBooleanToVisibility}}">
+                        <DockPanel LastChildFill="True">
+                            <Button x:Name="btnCancelChallenge" DockPanel.Dock="Right" Style="{StaticResource StyNoticeButton}"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding [LobbyChat_BtnCancelChallenge], Source={StaticResource PrvLocalization},
+                                              Converter={StaticResource CnvUpperCase}}"
+                                    Command="{Binding CancelCommand}" />
+                            <StackPanel>
+                                <TextBlock x:Name="lblChallengeSent" Style="{StaticResource StyStatusTitle}"
+                                           Text="{Binding [LobbyChat_ChallengeSent], Source={StaticResource PrvLocalization}}" />
+                                <TextBlock Style="{StaticResource StyStatusText}" Text="{Binding ChallengedPlayer.Username}" />
+                            </StackPanel>
+                        </DockPanel>
+                    </ctl:PixelBorder>
+
+                    <ItemsControl x:Name="lstReceivedChallenges" ItemsSource="{Binding ReceivedChallenges}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ctl:PixelBorder Style="{StaticResource StyLobbyStatusCard}">
+                                    <DockPanel LastChildFill="True">
+                                        <Button DockPanel.Dock="Right" Style="{StaticResource StyNoticeButton}"
+                                                VerticalAlignment="Center" Margin="8,0,0,0"
+                                                Content="{Binding [Shared_BtnDecline], Source={StaticResource PrvLocalization},
+                                                          Converter={StaticResource CnvUpperCase}}"
+                                                Command="{Binding DataContext.DeclineCommand,
+                                                          RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                CommandParameter="{Binding}" />
+                                        <Button DockPanel.Dock="Right" Style="{StaticResource StyNoticeButton}"
+                                                VerticalAlignment="Center"
+                                                Content="{Binding [Shared_BtnAccept], Source={StaticResource PrvLocalization},
+                                                          Converter={StaticResource CnvUpperCase}}"
+                                                Command="{Binding DataContext.AcceptCommand,
+                                                          RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                CommandParameter="{Binding}" />
+                                        <TextBlock Style="{StaticResource StyStatusTitle}" VerticalAlignment="Center">
+                                            <TextBlock.Text>
+                                                <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
+                                                    <Binding Path="[LobbyChat_LblChallengeReceived]"
+                                                             Source="{StaticResource PrvLocalization}" />
+                                                    <Binding Path="Username" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </DockPanel>
+                                </ctl:PixelBorder>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <ctl:PixelBorder Style="{StaticResource StyLobbyStatusCard}"
+                            Visibility="{Binding HasNotice, Converter={StaticResource CnvBooleanToVisibility}}">
+                        <DockPanel LastChildFill="True">
+                            <Button x:Name="btnDismissChallengeNotice" DockPanel.Dock="Right" Style="{StaticResource StyNoticeButton}"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding [Shared_BtnClose], Source={StaticResource PrvLocalization},
+                                              Converter={StaticResource CnvUpperCase}}"
+                                    Command="{Binding DismissNoticeCommand}" />
+                            <TextBlock x:Name="lblChallengeNotice" Style="{StaticResource StyStatusTitle}" VerticalAlignment="Center">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource CnvResourceText}">
+                                        <Binding Path="NoticeKey" />
+                                        <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DockPanel>
+                    </ctl:PixelBorder>
+                </StackPanel>
 
                 <!-- The card follows the visibility of its title, so the view model switches one element for both. -->
                 <ctl:PixelBorder Grid.Row="2" Style="{StaticResource StyLobbyStatusCard}"
