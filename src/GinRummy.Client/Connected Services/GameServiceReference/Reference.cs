@@ -247,6 +247,9 @@ namespace GinRummy.Client.GameServiceReference {
         private string LastMoverNameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private GinRummy.Client.GameServiceReference.PlayingCard[][] MeldsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int OpponentCardCountField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -345,6 +348,19 @@ namespace GinRummy.Client.GameServiceReference {
                 if ((object.ReferenceEquals(this.LastMoverNameField, value) != true)) {
                     this.LastMoverNameField = value;
                     this.RaisePropertyChanged("LastMoverName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public GinRummy.Client.GameServiceReference.PlayingCard[][] Melds {
+            get {
+                return this.MeldsField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MeldsField, value) != true)) {
+                    this.MeldsField = value;
+                    this.RaisePropertyChanged("Melds");
                 }
             }
         }

@@ -1186,6 +1186,9 @@ You: {0}   -   Opponent: {1}</value>
   <data name="GameTable_BtnKnock" xml:space="preserve">
     <value>Knock</value>
   </data>
+  <data name="GameTable_BtnSortHand" xml:space="preserve">
+    <value>Sort</value>
+  </data>
   <data name="GameTable_LblOpponentTurn" xml:space="preserve">
     <value>{0}'s turn</value>
   </data>

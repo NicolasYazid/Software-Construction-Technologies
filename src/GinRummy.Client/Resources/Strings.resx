@@ -1541,6 +1541,10 @@ Tú: {0}   -   Rival: {1}</value>
     <value>Cerrar mano</value>
     <comment>Acciones de GuiGameTable</comment>
   </data>
+  <data name="GameTable_BtnSortHand" xml:space="preserve">
+    <value>Ordenar</value>
+    <comment>Acciones de GuiGameTable</comment>
+  </data>
   <data name="GameTable_LblOpponentTurn" xml:space="preserve">
     <value>Turno de {0}</value>
     <comment>Contenido de GuiGameTable</comment>

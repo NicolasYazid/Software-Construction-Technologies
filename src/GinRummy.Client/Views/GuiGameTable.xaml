@@ -180,6 +180,11 @@
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
+                <Button x:Name="btnSortHand" DockPanel.Dock="Right" Style="{StaticResource StyInlineTextButton}" FontSize="18"
+                        Margin="0,0,24,0"
+                        Content="{Binding [GameTable_BtnSortHand], Source={StaticResource PrvLocalization},
+                                  Converter={StaticResource CnvUpperCase}}"
+                        Command="{Binding SortHandCommand}" />
             </DockPanel>
 
             <ctl:CardHand x:Name="lstHand" Grid.Row="4" Style="{StaticResource StyCardHand}"

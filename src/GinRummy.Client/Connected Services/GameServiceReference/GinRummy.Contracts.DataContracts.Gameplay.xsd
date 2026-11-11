@@ -24,6 +24,7 @@
       <xs:element minOccurs="0" name="LastMove" type="tns:RoundMoveKind" />
       <xs:element minOccurs="0" name="LastMoveCard" nillable="true" type="tns:PlayingCard" />
       <xs:element minOccurs="0" name="LastMoverName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Melds" nillable="true" type="tns:ArrayOfArrayOfPlayingCard" />
       <xs:element minOccurs="0" name="OpponentCardCount" type="xs:int" />
       <xs:element minOccurs="0" name="OpponentName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Step" type="tns:RoundStep" />
@@ -48,6 +49,12 @@
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="RoundMoveKind" nillable="true" type="tns:RoundMoveKind" />
+  <xs:complexType name="ArrayOfArrayOfPlayingCard">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ArrayOfPlayingCard" nillable="true" type="tns:ArrayOfPlayingCard" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfArrayOfPlayingCard" nillable="true" type="tns:ArrayOfArrayOfPlayingCard" />
   <xs:simpleType name="RoundStep">
     <xs:restriction base="xs:string">
       <xs:enumeration value="OfferingFirstCard" />
@@ -72,12 +79,6 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="RoundSummary" nillable="true" type="tns:RoundSummary" />
-  <xs:complexType name="ArrayOfArrayOfPlayingCard">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="ArrayOfPlayingCard" nillable="true" type="tns:ArrayOfPlayingCard" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfArrayOfPlayingCard" nillable="true" type="tns:ArrayOfArrayOfPlayingCard" />
   <xs:simpleType name="RoundEnding">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Knock" />

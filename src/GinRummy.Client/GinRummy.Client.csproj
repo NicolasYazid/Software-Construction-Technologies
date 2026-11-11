@@ -400,6 +400,7 @@
     <Compile Include="Models\CardRank.cs" />
     <Compile Include="Models\CardSuit.cs" />
     <Compile Include="Models\Card.cs" />
+    <Compile Include="Models\HandOrder.cs" />
     <Compile Include="Models\MeldKind.cs" />
     <Compile Include="Models\Meld.cs" />
     <Compile Include="Models\MatchLogKind.cs" />

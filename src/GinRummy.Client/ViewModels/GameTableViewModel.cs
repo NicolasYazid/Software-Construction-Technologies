@@ -39,6 +39,7 @@ namespace GinRummy.Client.ViewModels
         private string _handHeadlineKey;
         private bool _isHandResultShown;
         private MatchResult _matchResult;
+        private HashSet<Card> _meldCards;
 
         public GameTableViewModel(GameConnection gameConnection, LogInOutcome signedInPlayer)
         {
@@ -51,6 +52,7 @@ namespace GinRummy.Client.ViewModels
             ChatMessages = new ObservableCollection<ChatMessage>();
             MatchLog = new ObservableCollection<MatchLogEntry>();
             OpponentCards = new List<int>();
+            _meldCards = new HashSet<Card>();
             Hand.CollectionChanged += OnHandChanged;
             TakeCommand = new RelayCommand(() => Play(_gameConnection.TakeFirstCard));
             PassCommand = new RelayCommand(() => Play(_gameConnection.PassFirstCard));
@@ -58,6 +60,7 @@ namespace GinRummy.Client.ViewModels
             DrawFromDiscardPileCommand = new RelayCommand(() => Play(_gameConnection.DrawFromDiscardPile));
             DiscardCommand = new RelayCommand(() => PlaySelectedCard(_gameConnection.Discard), IsCardSelected);
             KnockCommand = new RelayCommand(() => PlaySelectedCard(_gameConnection.Knock), IsCardSelected);
+            SortHandCommand = new RelayCommand(() => HandOrder.Arrange(Hand, HandOrder.SortByRank(Hand)));
             SendMessageCommand = new RelayCommand(SendMessage);
         }
 
@@ -75,6 +78,7 @@ namespace GinRummy.Client.ViewModels
         public ICommand DrawFromDiscardPileCommand { get; private set; }
         public ICommand DiscardCommand { get; private set; }
         public ICommand KnockCommand { get; private set; }
+        public ICommand SortHandCommand { get; private set; }
         public ICommand SendMessageCommand { get; private set; }
 
         public string OpponentName
@@ -354,6 +358,7 @@ namespace GinRummy.Client.ViewModels
             _round = round;
             _isMoveRefused = false;
             KeepHandOrder(round.Hand);
+            MarkMelds(round.Melds);
             DiscardPile.Clear();
             if (round.TopOfDiscardPile != null)
             {
@@ -433,6 +438,29 @@ namespace GinRummy.Client.ViewModels
             {
                 AddDrawnCard(card);
             }
+        }
+
+        // The melds go to the start of the hand only when they change, so the player can still move those cards afterwards.
+        private void MarkMelds(PlayingCard[][] melds)
+        {
+            List<Card> meldCards = melds.SelectMany(meld => meld).Select(ToCard).Select(FindHeldCard).ToList();
+            foreach (Card card in Hand)
+            {
+                card.IsInMeld = meldCards.Contains(card);
+            }
+
+            bool haveMeldsChanged = !_meldCards.SetEquals(meldCards);
+            if (haveMeldsChanged && (meldCards.Count > 0))
+            {
+                HandOrder.Arrange(Hand, HandOrder.PutMeldsFirst(Hand, meldCards));
+            }
+
+            _meldCards = new HashSet<Card>(meldCards);
+        }
+
+        private Card FindHeldCard(Card card)
+        {
+            return Hand.First(held => IsSameCard(held, card));
         }
 
         // A card taken from the discard pile keeps the instance the pile shows, so the table can fly that same card into the hand.
