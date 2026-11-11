@@ -2156,6 +2156,12 @@
         <Setter Property="Effect" Value="{StaticResource EfxCardShadow}" />
     </Style>
 
+    <Style x:Key="StyCardBackHand" TargetType="Border" BasedOn="{StaticResource StyCardBack}">
+        <Setter Property="Width" Value="62" />
+        <Setter Property="Height" Value="92" />
+        <Setter Property="Margin" Value="0" />
+    </Style>
+
     <Style x:Key="StyCardBackLarge" TargetType="Border" BasedOn="{StaticResource StyCardBack}">
         <Setter Property="Width" Value="92" />
         <Setter Property="Height" Value="130" />
@@ -2262,52 +2268,36 @@
         <Setter Property="Height" Value="48" />
     </Style>
 
-    <Style x:Key="StyHandCard" TargetType="ListBoxItem">
-        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Margin" Value="1,0,1,0" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ListBoxItem">
-                    <ContentPresenter />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsSelected" Value="True">
-                <Setter Property="RenderTransform">
-                    <Setter.Value>
-                        <TranslateTransform Y="-14" />
-                    </Setter.Value>
-                </Setter>
-            </Trigger>
-        </Style.Triggers>
+    <!-- Each card is drawn inside a transparent room of 24 pixels where it can tilt without being cut,
+         so a 92 pixel card needs a hand 140 pixels tall. The cards rise above and fall below the hand,
+         so it does not clip them. -->
+    <Style x:Key="StyCardHand" TargetType="ctl:CardHand">
+        <Setter Property="TiltRoom" Value="24" />
+        <Setter Property="Height" Value="140" />
+        <Setter Property="Margin" Value="0,-8,0,-24" />
+        <Setter Property="ClipToBounds" Value="False" />
+        <Setter Property="Focusable" Value="False" />
     </Style>
 
-    <!-- The room above the cards is the height a chosen card rises, so it never leaves the list. -->
-    <Style x:Key="StyHandList" TargetType="ListBox">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="AllowDrop" Value="True" />
-        <Setter Property="ItemContainerStyle" Value="{StaticResource StyHandCard}" />
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ListBox">
-                    <Border Background="{TemplateBinding Background}" Padding="0,16,0,0">
-                        <ItemsPresenter />
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <!-- The hand of the opponent is seen from across the table, so its fan bends the other way, and it
+         cannot be touched, so its cards do not tilt. Its 78 pixel cards with the same room need 126 pixels. -->
+    <Style x:Key="StyOpponentHand" TargetType="ctl:CardHand" BasedOn="{StaticResource StyCardHand}">
+        <Setter Property="Height" Value="126" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="IsHoverTiltEnabled" Value="False" />
+        <Setter Property="IsFanFlipped" Value="True" />
     </Style>
 
+    <!-- A pile keeps exactly the size of its card, because a card that travels from or to it reads that
+         size, and a card lands on it in its place instead of rising into it. -->
+    <Style x:Key="StyTablePile" TargetType="ctl:CardHand">
+        <Setter Property="TiltRoom" Value="0" />
+        <Setter Property="EntryDrop" Value="0" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="IsHoverTiltEnabled" Value="False" />
+        <Setter Property="ClipToBounds" Value="False" />
+        <Setter Property="Focusable" Value="False" />
+    </Style>
     <Style x:Key="StyTableSurface" TargetType="Rectangle">
         <Setter Property="Fill" Value="{StaticResource BrsTableSurface}" />
         <Setter Property="Stroke" Value="{StaticResource BrsLobbyRule}" />

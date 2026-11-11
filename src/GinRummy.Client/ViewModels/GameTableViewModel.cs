@@ -61,6 +61,9 @@ namespace GinRummy.Client.ViewModels
             SendMessageCommand = new RelayCommand(SendMessage);
         }
 
+        public event EventHandler<Card> CardDrawnFromStock;
+        public event EventHandler<Card> CardTakenFromDiscardPile;
+
         public ObservableCollection<Card> Hand { get; private set; }
         public ObservableCollection<Card> DiscardPile { get; private set; }
         public ObservableCollection<ChatMessage> ChatMessages { get; private set; }
@@ -132,6 +135,11 @@ namespace GinRummy.Client.ViewModels
         public bool IsDiscarding
         {
             get { return _round.IsYourTurn && (_round.Step == RoundStep.Discarding); }
+        }
+
+        public bool CanTakeFromDiscardPile
+        {
+            get { return IsOfferingFirstCard || IsDrawing; }
         }
 
         public string TurnNoticeKey
@@ -263,9 +271,34 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        public void MoveCard(Card draggedCard, Card targetCard)
+        public void MoveCard(int oldIndex, int newIndex)
         {
-            Hand.Move(Hand.IndexOf(draggedCard), Hand.IndexOf(targetCard));
+            Hand.Move(oldIndex, newIndex);
+        }
+
+        public void TakeFromDiscardPile()
+        {
+            if (IsOfferingFirstCard)
+            {
+                Play(_gameConnection.TakeFirstCard);
+            }
+            else if (IsDrawing)
+            {
+                Play(_gameConnection.DrawFromDiscardPile);
+            }
+        }
+
+        // The card already flew to the pile, so a refused discard puts it back into its slot of the hand.
+        public void Discard(Card card)
+        {
+            _isMoveRefused = !_gameConnection.Discard(_signedInPlayer.AccessToken, ToPlayingCard(card));
+            RaisePropertyChanged(nameof(TurnNoticeKey));
+            if (_isMoveRefused)
+            {
+                int slot = Hand.IndexOf(card);
+                Hand.RemoveAt(slot);
+                Hand.Insert(slot, card);
+            }
         }
 
         private void OnHandChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -398,7 +431,24 @@ namespace GinRummy.Client.ViewModels
             List<Card> newCards = dealtCards.Where(dealt => !Hand.Any(held => IsSameCard(held, dealt))).ToList();
             foreach (Card card in newCards)
             {
-                Hand.Add(card);
+                AddDrawnCard(card);
+            }
+        }
+
+        // A card taken from the discard pile keeps the instance the pile shows, so the table can fly that same card into the hand.
+        // The table is told before the card is added, because the hand places a card it was not told about in its own slot.
+        private void AddDrawnCard(Card drawnCard)
+        {
+            Card topOfDiscardPile = DiscardPile.FirstOrDefault(top => IsSameCard(top, drawnCard));
+            if (topOfDiscardPile != null)
+            {
+                CardTakenFromDiscardPile?.Invoke(this, topOfDiscardPile);
+                Hand.Add(topOfDiscardPile);
+            }
+            else
+            {
+                CardDrawnFromStock?.Invoke(this, drawnCard);
+                Hand.Add(drawnCard);
             }
         }
 

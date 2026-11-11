@@ -522,7 +522,7 @@ Tú: {0}   -   Rival: {1}</value>
     <comment>Contenido de GuiGameTable</comment>
   </data>
   <data name="GameTable_LblHandHint" xml:space="preserve">
-    <value>Toca una carta para seleccionarla y arrástrala para reordenar</value>
+    <value>Toca una carta para seleccionarla, arrástrala para reordenar o suéltala en el descarte para tirarla</value>
     <comment>Contenido de GuiGameTable</comment>
   </data>
   <data name="GameTable_LblHandRoleDefended" xml:space="preserve">

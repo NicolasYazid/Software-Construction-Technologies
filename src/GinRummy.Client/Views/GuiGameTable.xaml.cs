@@ -2,8 +2,8 @@
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
+using GinRummy.Client.Controls;
 using GinRummy.Client.Models;
 using GinRummy.Client.ViewModels;
 
@@ -17,9 +17,10 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiGameTable : GuiWindowBase
     {
+        // The stock shows only its top card, face down, so it holds a single placeholder item.
+        private static readonly int[] _stockTopCard = { 0 };
+
         private readonly GameTableViewModel _viewModel;
-        private Point _dragStart;
-        private Card _pressedCard;
 
         public GuiGameTable(GameTableViewModel viewModel)
         {
@@ -27,6 +28,9 @@ namespace GinRummy.Client.Views
             _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
             _viewModel.ChatMessages.CollectionChanged += OnChatMessagesChanged;
             _viewModel.MatchLog.CollectionChanged += OnMatchLogChanged;
+            _viewModel.CardDrawnFromStock += OnCardDrawnFromStock;
+            _viewModel.CardTakenFromDiscardPile += OnCardTakenFromDiscardPile;
+            lstStock.ItemsSource = _stockTopCard;
             DataContext = _viewModel;
             Loaded += OnScreenLoaded;
             Closed += OnScreenClosed;
@@ -48,34 +52,40 @@ namespace GinRummy.Client.Views
             ScrollToLatest(lstMatchLog);
         }
 
-        private void OnHandPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void OnCardDrawnFromStock(object sender, Card drawnCard)
         {
-            _dragStart = e.GetPosition(lstHand);
-            _pressedCard = GetCard(e.OriginalSource);
+            lstHand.EnterFrom(drawnCard, lstStock, true);
         }
 
-        private void OnHandPreviewMouseMove(object sender, MouseEventArgs e)
+        // A card released over the hand goes on from where it was dropped instead of starting again from the pile.
+        private void OnCardTakenFromDiscardPile(object sender, Card takenCard)
         {
-            // The drag waits for the system drag distance so that a short press still chooses the card (house rule 18).
-            bool isCardPressed = (e.LeftButton == MouseButtonState.Pressed) && (_pressedCard != null);
-            if (isCardPressed && HasLeftClickArea(e.GetPosition(lstHand)))
+            lstHand.EnterFrom(takenCard, lstDiscard);
+        }
+
+        private void OnHandCardMoved(object sender, CardMovedEventArgs e)
+        {
+            _viewModel.MoveCard(e.OldIndex, e.NewIndex);
+        }
+
+        // A card released over the pile at any other step of the turn goes back to the hand.
+        private void OnHandCardDropped(object sender, CardEventArgs e)
+        {
+            if (_viewModel.IsDiscarding)
             {
-                Card draggedCard = _pressedCard;
-                _pressedCard = null;
-                DragDrop.DoDragDrop(lstHand, draggedCard, DragDropEffects.Move);
+                lstHand.SendTo(e.Item, lstDiscard);
             }
         }
 
-        private void OnHandDrop(object sender, DragEventArgs e)
+        // The discard is sent once the card lands, so the pile never shows it before it arrives.
+        private void OnHandCardLeft(object sender, CardEventArgs e)
         {
-            Card draggedCard = e.Data.GetData(typeof(Card)) as Card;
-            Card targetCard = GetCard(e.OriginalSource);
-            bool isDroppedOnCard = (draggedCard != null) && (targetCard != null);
-            if (isDroppedOnCard && (draggedCard != targetCard))
-            {
-                _viewModel.MoveCard(draggedCard, targetCard);
-                lstHand.SelectedItem = draggedCard;
-            }
+            _viewModel.Discard((Card)e.Item);
+        }
+
+        private void OnDiscardCardDropped(object sender, CardEventArgs e)
+        {
+            _viewModel.TakeFromDiscardPile();
         }
 
         private void OnHowToPlayClick(object sender, RoutedEventArgs e)
@@ -111,29 +121,10 @@ namespace GinRummy.Client.Views
             _viewModel.Stop();
             _viewModel.ChatMessages.CollectionChanged -= OnChatMessagesChanged;
             _viewModel.MatchLog.CollectionChanged -= OnMatchLogChanged;
+            _viewModel.CardDrawnFromStock -= OnCardDrawnFromStock;
+            _viewModel.CardTakenFromDiscardPile -= OnCardTakenFromDiscardPile;
             Loaded -= OnScreenLoaded;
             Closed -= OnScreenClosed;
-        }
-
-        private bool HasLeftClickArea(Point position)
-        {
-            Vector distance = position - _dragStart;
-            bool hasLeftClickArea = (Math.Abs(distance.X) > SystemParameters.MinimumHorizontalDragDistance)
-                || (Math.Abs(distance.Y) > SystemParameters.MinimumVerticalDragDistance);
-
-            return hasLeftClickArea;
-        }
-
-        private static Card GetCard(object source)
-        {
-            FrameworkElement element = source as FrameworkElement;
-            Card card = null;
-            if (element != null)
-            {
-                card = element.DataContext as Card;
-            }
-
-            return card;
         }
 
         private static void ScrollToLatest(ListBox list)

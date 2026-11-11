@@ -422,7 +422,7 @@ Search for a player by their public tag to send them a request.</value>
 You: {0}   -   Opponent: {1}</value>
   </data>
   <data name="GameTable_LblHandHint" xml:space="preserve">
-    <value>Tap a card to select it and drag to reorder</value>
+    <value>Tap a card to select it, drag it to reorder or drop it on the discard pile to discard it</value>
   </data>
   <data name="GameTable_LblHandRoleDefended" xml:space="preserve">
     <value>YOU • DEFENDED</value>

@@ -95,6 +95,16 @@
         <Border Style="{StaticResource StyCardBack}" />
     </DataTemplate>
 
+    <!-- The stock shows only its top card, so its single item carries nothing either. -->
+    <DataTemplate x:Key="TplCardBackLarge">
+        <Border Style="{StaticResource StyCardBackLarge}" />
+    </DataTemplate>
+
+    <!-- A card drawn face down shows this back while it turns over, at the size of the face so it does not change size. -->
+    <DataTemplate x:Key="TplCardBackHand">
+        <Border Style="{StaticResource StyCardBackHand}" />
+    </DataTemplate>
+
     <DataTemplate x:Key="TplMeld" DataType="{x:Type models:Meld}">
         <StackPanel Margin="0,0,18,0">
             <ItemsControl ItemsSource="{Binding Cards}" ItemTemplate="{StaticResource TplCardFaceMini}">
