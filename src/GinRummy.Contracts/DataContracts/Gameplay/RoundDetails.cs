@@ -34,6 +34,9 @@ namespace GinRummy.Contracts.DataContracts.Gameplay
         public List<List<PlayingCard>> Melds { get; set; }
 
         [DataMember]
+        public List<PlayingCard> KnockDiscards { get; set; }
+
+        [DataMember]
         public RoundMoveKind LastMove { get; set; }
 
         [DataMember]

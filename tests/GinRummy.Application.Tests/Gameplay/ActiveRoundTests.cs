@@ -36,6 +36,27 @@ namespace GinRummy.Application.Tests.Gameplay
             Assert.Throws<InvalidMoveException>(knock);
         }
 
+        [Test]
+        public void Test_FindKnockDiscards_DiscardStep_OffersTheLooseCards()
+        {
+            ActiveRound activeRound = StartRound(new Card(CardSuit.Diamonds, 2));
+            activeRound.TakeFirstCard(NonDealerId);
+
+            IList<Card> discards = activeRound.FindKnockDiscards(NonDealerId);
+
+            CollectionAssert.AreEquivalent(new[] { new Card(CardSuit.Diamonds, 2), new Card(CardSuit.Diamonds, 13) }, discards);
+        }
+
+        [Test]
+        public void Test_FindKnockDiscards_FirstCardOffer_ReturnsEmpty()
+        {
+            ActiveRound activeRound = StartRound(new Card(CardSuit.Diamonds, 2));
+
+            IList<Card> discards = activeRound.FindKnockDiscards(NonDealerId);
+
+            Assert.IsEmpty(discards);
+        }
+
         // The non-dealer holds three runs and a loose king, so the face-up card decides how much deadwood is left.
         private static ActiveRound StartRound(Card faceUpCard)
         {
