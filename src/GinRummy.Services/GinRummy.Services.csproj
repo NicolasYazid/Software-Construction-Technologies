@@ -64,6 +64,9 @@
     <Compile Include="Notifiers\WcfCallbackDispatcher.cs" />
     <Compile Include="Mappers\Authentication\SignUpFormMapper.cs" />
     <Compile Include="Mappers\Authentication\SignUpOutcomeMapper.cs" />
+    <Compile Include="Mappers\Gameplay\GameMapper.cs" />
+    <Compile Include="Notifiers\ChallengeAnnouncer.cs" />
+    <Compile Include="Notifiers\RoundAnnouncer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AccountProtection\AccountSettingsService.cs" />
     <Compile Include="Services\Authentication\CallerAddressCommon.cs" />
