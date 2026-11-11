@@ -241,6 +241,14 @@
     </Compile>
     <Compile Include="Controls\PaintMix.cs" />
     <Compile Include="Controls\CardBackCommon.cs" />
+    <Compile Include="Controls\CardEventArgs.cs" />
+    <Compile Include="Controls\CardHand.cs" />
+    <Compile Include="Controls\CardMotion.cs" />
+    <Compile Include="Controls\CardMovedEventArgs.cs" />
+    <Compile Include="Controls\CardTilt.cs" />
+    <Compile Include="Controls\HandFan.cs" />
+    <Compile Include="Controls\HoverBulgeCommon.cs" />
+    <Compile Include="Effects\CardTiltEffect.cs" />
     <Compile Include="Controls\PaintGeometry.cs" />
     <Compile Include="Controls\PaintPalette.cs" />
     <Compile Include="Controls\PaintFrameRequest.cs" />
@@ -679,4 +687,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildBinPath)\Microsoft.WinFX.targets" Condition="false" />
+  <ItemGroup>
+    <None Include="Effects\CardTilt.fx" />
+    <Resource Include="Effects\CardTilt.ps" />
+  </ItemGroup>
 </Project>
