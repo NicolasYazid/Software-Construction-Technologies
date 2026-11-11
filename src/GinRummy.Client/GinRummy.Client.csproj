@@ -378,6 +378,8 @@
     <Compile Include="ViewModels\LobbyChatViewModel.cs" />
     <Compile Include="ViewModels\GameTableViewModel.cs" />
     <Compile Include="Services\ChatMessageConnection.cs" />
+    <Compile Include="Services\DirectDuelConnection.cs" />
+    <Compile Include="Services\GameConnection.cs" />
     <Compile Include="Services\PlayerPresenceMonitor.cs" />
     <Compile Include="Services\ISampleDataService.cs" />
     <Compile Include="Services\SampleDataService.cs" />
