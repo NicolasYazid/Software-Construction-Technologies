@@ -8,10 +8,14 @@ using System.ServiceModel.Dispatcher;
 
 using GinRummy.Application.UseCases.AccountProtection;
 using GinRummy.Application.UseCases.Authentication;
+using GinRummy.Application.UseCases.DirectDuel;
+using GinRummy.Application.UseCases.Gameplay;
 using GinRummy.Application.UseCases.PlayerCareer;
 using GinRummy.Application.UseCases.PlayerCustomization;
 using GinRummy.Application.UseCases.PlayerPresence;
 using GinRummy.Application.UseCases.SocialCommunication;
+using GinRummy.Contracts.Services.DirectDuel;
+using GinRummy.Contracts.Services.Gameplay;
 using GinRummy.Contracts.Services.SocialCommunication;
 using GinRummy.Domain.Entities.AccountProtection;
 using GinRummy.Domain.Entities.Authentication;
@@ -28,6 +32,8 @@ using GinRummy.Services.Hosting;
 using GinRummy.Services.Notifiers;
 using GinRummy.Services.Services.AccountProtection;
 using GinRummy.Services.Services.Authentication;
+using GinRummy.Services.Services.DirectDuel;
+using GinRummy.Services.Services.Gameplay;
 using GinRummy.Services.Services.PlayerCareer;
 using GinRummy.Services.Services.PlayerCustomization;
 using GinRummy.Services.Services.PlayerPresence;
@@ -80,9 +86,34 @@ namespace GinRummy.ServerHost
                     tokenSigner,
                     new SystemClock());
 
+                // The registry of rounds is shared because the two players of a round are in different sessions.
+                OnlinePlayers<IDirectDuelCallback> duelOnlinePlayers = new OnlinePlayers<IDirectDuelCallback>(
+                    loggerFactory.CreateLogger<WcfCallbackDispatcher<IDirectDuelCallback>>());
+                OnlinePlayers<IGameCallback> gameOnlinePlayers = new OnlinePlayers<IGameCallback>(
+                    loggerFactory.CreateLogger<WcfCallbackDispatcher<IGameCallback>>());
+                RoundRegistry roundRegistry = new RoundRegistry();
+                RoundAnnouncer roundAnnouncer = new RoundAnnouncer(gameOnlinePlayers);
+                ChallengeUseCase challengeUseCase = new ChallengeUseCase(
+                    () => new EntityFrameworkUnitOfWork(ConnectionStringName),
+                    new ChallengeBoard(roundRegistry),
+                    new ChallengeAnnouncer(duelOnlinePlayers, roundAnnouncer));
+                PlayRoundUseCase playRoundUseCase = new PlayRoundUseCase(roundRegistry, roundAnnouncer);
+                AccountAccessPolicy duelAccessPolicy = new AccountAccessPolicy(
+                    new Argon2PasswordHasher(),
+                    tokenSigner,
+                    new SystemClock());
+
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(ChatMessageService),
                     () => new ChatMessageService(chatAccessPolicy, sendMessageUseCase, chatOnlinePlayers),
+                    faultShieldBehavior));
+                hostGroup.Add(CreateIsolatedHost(
+                    typeof(DirectDuelService),
+                    () => new DirectDuelService(duelAccessPolicy, challengeUseCase, duelOnlinePlayers),
+                    faultShieldBehavior));
+                hostGroup.Add(CreateIsolatedHost(
+                    typeof(GameService),
+                    () => new GameService(duelAccessPolicy, playRoundUseCase, gameOnlinePlayers),
                     faultShieldBehavior));
                 hostGroup.Add(CreateIsolatedHost(typeof(LeaderboardService), ComposeLeaderboardService, faultShieldBehavior));
                 hostGroup.Add(CreateIsolatedHost(
