@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.Gameplay" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.Gameplay" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="PlayingCard">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Rank" type="xs:int" />
+      <xs:element minOccurs="0" name="Suit" type="tns:CardSuit" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PlayingCard" nillable="true" type="tns:PlayingCard" />
+  <xs:simpleType name="CardSuit">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Clubs" />
+      <xs:enumeration value="Diamonds" />
+      <xs:enumeration value="Hearts" />
+      <xs:enumeration value="Spades" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="CardSuit" nillable="true" type="tns:CardSuit" />
+  <xs:complexType name="RoundDetails">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Deadwood" type="xs:int" />
+      <xs:element minOccurs="0" name="Hand" nillable="true" type="tns:ArrayOfPlayingCard" />
+      <xs:element minOccurs="0" name="IsYourTurn" type="xs:boolean" />
+      <xs:element minOccurs="0" name="LastMove" type="tns:RoundMoveKind" />
+      <xs:element minOccurs="0" name="LastMoveCard" nillable="true" type="tns:PlayingCard" />
+      <xs:element minOccurs="0" name="LastMoverName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OpponentCardCount" type="xs:int" />
+      <xs:element minOccurs="0" name="OpponentName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Step" type="tns:RoundStep" />
+      <xs:element minOccurs="0" name="StockCount" type="xs:int" />
+      <xs:element minOccurs="0" name="TopOfDiscardPile" nillable="true" type="tns:PlayingCard" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RoundDetails" nillable="true" type="tns:RoundDetails" />
+  <xs:complexType name="ArrayOfPlayingCard">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="PlayingCard" nillable="true" type="tns:PlayingCard" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPlayingCard" nillable="true" type="tns:ArrayOfPlayingCard" />
+  <xs:simpleType name="RoundMoveKind">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Dealt" />
+      <xs:enumeration value="PassedFirstCard" />
+      <xs:enumeration value="DrewFromStock" />
+      <xs:enumeration value="DrewFromDiscardPile" />
+      <xs:enumeration value="Discarded" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="RoundMoveKind" nillable="true" type="tns:RoundMoveKind" />
+  <xs:simpleType name="RoundStep">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="OfferingFirstCard" />
+      <xs:enumeration value="Drawing" />
+      <xs:enumeration value="Discarding" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="RoundStep" nillable="true" type="tns:RoundStep" />
+  <xs:complexType name="RoundSummary">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DefenderDeadwood" type="xs:int" />
+      <xs:element minOccurs="0" name="DefenderMelds" nillable="true" type="tns:ArrayOfArrayOfPlayingCard" />
+      <xs:element minOccurs="0" name="DefenderUnmatchedCards" nillable="true" type="tns:ArrayOfPlayingCard" />
+      <xs:element minOccurs="0" name="Ending" type="tns:RoundEnding" />
+      <xs:element minOccurs="0" name="IsWinner" type="xs:boolean" />
+      <xs:element minOccurs="0" name="KnockerDeadwood" type="xs:int" />
+      <xs:element minOccurs="0" name="KnockerMelds" nillable="true" type="tns:ArrayOfArrayOfPlayingCard" />
+      <xs:element minOccurs="0" name="KnockerName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="KnockerUnmatchedCards" nillable="true" type="tns:ArrayOfPlayingCard" />
+      <xs:element minOccurs="0" name="Points" type="xs:int" />
+      <xs:element minOccurs="0" name="WinnerName" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RoundSummary" nillable="true" type="tns:RoundSummary" />
+  <xs:complexType name="ArrayOfArrayOfPlayingCard">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ArrayOfPlayingCard" nillable="true" type="tns:ArrayOfPlayingCard" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfArrayOfPlayingCard" nillable="true" type="tns:ArrayOfArrayOfPlayingCard" />
+  <xs:simpleType name="RoundEnding">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Knock" />
+      <xs:enumeration value="Gin" />
+      <xs:enumeration value="Undercut" />
+      <xs:enumeration value="Void" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="RoundEnding" nillable="true" type="tns:RoundEnding" />
+</xs:schema>
