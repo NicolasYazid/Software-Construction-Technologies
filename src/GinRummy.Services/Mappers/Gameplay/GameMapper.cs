@@ -33,6 +33,7 @@ namespace GinRummy.Services.Mappers.Gameplay
                 StockCount = round.StockCount,
                 TopOfDiscardPile = MapToPlayingCard(round.TopOfDiscardPile),
                 Deadwood = MeldFinder.CountDeadwood(hand),
+                Melds = MapToMelds(MeldFinder.FindBestMelds(hand)),
                 LastMove = MapByName<RoundMoveKind>(activeRound.LastMove),
                 LastMoverName = activeRound.FindPlayer(activeRound.LastMoverId).Name,
                 LastMoveCard = MapToPlayingCard(activeRound.LastMoveCard)
