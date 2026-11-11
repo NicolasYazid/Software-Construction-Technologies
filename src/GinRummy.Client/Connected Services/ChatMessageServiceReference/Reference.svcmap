@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="d6501e86-7044-41a7-a5b1-7b3e6ff00f69" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="27bc26c2-d7b7-4301-bd58-6ea55b0f8a6c" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,11 +22,11 @@
     <MetadataSource Address="net.tcp://localhost:8001/ChatMessageService/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="d3ac9cee-b782-4cb9-859a-9969e7c37db6" SourceId="1" SourceUrl="net.tcp://localhost:8001/ChatMessageService/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="d27d28c8-9c84-4d5e-882f-aab5756367e5" SourceId="1" SourceUrl="net.tcp://localhost:8001/ChatMessageService/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="0bd1a9df-ad6a-4d80-b764-5f6a0903208a" SourceId="1" SourceUrl="net.tcp://localhost:8001/ChatMessageService/mex" />
-    <MetadataFile FileName="GinRummy.Contracts.Faults.xsd" MetadataType="Schema" ID="203f2592-beb4-4f2a-8ac6-0bc24b749a13" SourceId="1" SourceUrl="net.tcp://localhost:8001/ChatMessageService/mex" />
-    <MetadataFile FileName="GinRummy.Contracts.DataContracts.xsd" MetadataType="Schema" ID="fe001bd9-0f5c-4263-833a-dc4d250466ae" SourceId="1" SourceUrl="net.tcp://localhost:8001/ChatMessageService/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="500e58e0-9b29-45c8-97e1-21aa008be263" SourceId="1" SourceUrl="net.tcp://localhost:8001/ChatMessageService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="4acf6f8d-8b04-412a-87b4-3689c4dc7fa4" SourceId="1" SourceUrl="net.tcp://localhost:8001/ChatMessageService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="6692708a-490c-4d6c-a633-c61983754b61" SourceId="1" SourceUrl="net.tcp://localhost:8001/ChatMessageService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.Faults.Shared.xsd" MetadataType="Schema" ID="78dceb41-c55a-4788-b923-5c4b70e7afee" SourceId="1" SourceUrl="net.tcp://localhost:8001/ChatMessageService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.DataContracts.SocialCommunication.xsd" MetadataType="Schema" ID="6ffc8fb6-fd90-4cc7-a4c5-570d8baf40ae" SourceId="1" SourceUrl="net.tcp://localhost:8001/ChatMessageService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

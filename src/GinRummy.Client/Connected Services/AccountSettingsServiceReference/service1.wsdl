@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="AccountSettingsService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="AccountSettingsService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsp:Policy wsu:Id="AccountSettingsService_policy">
     <wsp:ExactlyOne>
       <wsp:All>
-        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1"></msb:BinaryEncoding>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1">
+        </msb:BinaryEncoding>
         <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
           <wsp:Policy>
             <sp:TransportToken>
@@ -15,26 +16,30 @@
             </sp:TransportToken>
             <sp:AlgorithmSuite>
               <wsp:Policy>
-                <sp:Basic256></sp:Basic256>
+                <sp:Basic256>
+                </sp:Basic256>
               </wsp:Policy>
             </sp:AlgorithmSuite>
             <sp:Layout>
               <wsp:Policy>
-                <sp:Strict></sp:Strict>
+                <sp:Strict>
+                </sp:Strict>
               </wsp:Policy>
             </sp:Layout>
           </wsp:Policy>
         </sp:TransportBinding>
-        <wsaw:UsingAddressing></wsaw:UsingAddressing>
+        <wsaw:UsingAddressing>
+        </wsaw:UsingAddressing>
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import namespace="http://tempuri.org/" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.AccountProtection" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.AccountProtection" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IAccountSettingsService_GetAccountSettings_InputMessage">
@@ -44,7 +49,7 @@
     <wsdl:part name="parameters" element="tns:GetAccountSettingsResponse" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_GetAccountSettings_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q1:ServiceFault" />
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q1:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_RequestTwoFactorActivation_InputMessage">
     <wsdl:part name="parameters" element="tns:RequestTwoFactorActivation" />
@@ -53,10 +58,10 @@
     <wsdl:part name="parameters" element="tns:RequestTwoFactorActivationResponse" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_RequestTwoFactorActivation_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q2:ServiceFault" />
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q2:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_RequestTwoFactorActivation_ResendLimitFaultFault_FaultMessage">
-    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q3:ResendLimitFault" />
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.AccountProtection" name="detail" element="q3:ResendLimitFault" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_ConfirmTwoFactorActivation_InputMessage">
     <wsdl:part name="parameters" element="tns:ConfirmTwoFactorActivation" />
@@ -65,7 +70,7 @@
     <wsdl:part name="parameters" element="tns:ConfirmTwoFactorActivationResponse" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_ConfirmTwoFactorActivation_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q4:ServiceFault" />
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q4:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_DisableTwoFactor_InputMessage">
     <wsdl:part name="parameters" element="tns:DisableTwoFactor" />
@@ -74,7 +79,7 @@
     <wsdl:part name="parameters" element="tns:DisableTwoFactorResponse" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_DisableTwoFactor_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q5:ServiceFault" />
+    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q5:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_RequestPasswordChange_InputMessage">
     <wsdl:part name="parameters" element="tns:RequestPasswordChange" />
@@ -83,10 +88,10 @@
     <wsdl:part name="parameters" element="tns:RequestPasswordChangeResponse" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_RequestPasswordChange_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q6:ServiceFault" />
+    <wsdl:part xmlns:q6="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q6:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_RequestPasswordChange_ResendLimitFaultFault_FaultMessage">
-    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q7:ResendLimitFault" />
+    <wsdl:part xmlns:q7="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.AccountProtection" name="detail" element="q7:ResendLimitFault" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_ConfirmPasswordChange_InputMessage">
     <wsdl:part name="parameters" element="tns:ConfirmPasswordChange" />
@@ -95,7 +100,7 @@
     <wsdl:part name="parameters" element="tns:ConfirmPasswordChangeResponse" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_ConfirmPasswordChange_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q8:ServiceFault" />
+    <wsdl:part xmlns:q8="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q8:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_RequestEmailChange_InputMessage">
     <wsdl:part name="parameters" element="tns:RequestEmailChange" />
@@ -104,10 +109,10 @@
     <wsdl:part name="parameters" element="tns:RequestEmailChangeResponse" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_RequestEmailChange_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q9:ServiceFault" />
+    <wsdl:part xmlns:q9="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q9:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_RequestEmailChange_ResendLimitFaultFault_FaultMessage">
-    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q10:ResendLimitFault" />
+    <wsdl:part xmlns:q10="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.AccountProtection" name="detail" element="q10:ResendLimitFault" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_ConfirmEmailChange_InputMessage">
     <wsdl:part name="parameters" element="tns:ConfirmEmailChange" />
@@ -116,7 +121,7 @@
     <wsdl:part name="parameters" element="tns:ConfirmEmailChangeResponse" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_ConfirmEmailChange_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q11:ServiceFault" />
+    <wsdl:part xmlns:q11="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q11:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_ChangeChatFilter_InputMessage">
     <wsdl:part name="parameters" element="tns:ChangeChatFilter" />
@@ -125,7 +130,7 @@
     <wsdl:part name="parameters" element="tns:ChangeChatFilterResponse" />
   </wsdl:message>
   <wsdl:message name="IAccountSettingsService_ChangeChatFilter_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q12:ServiceFault" />
+    <wsdl:part xmlns:q12="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q12:ServiceFault" />
   </wsdl:message>
   <wsdl:portType name="IAccountSettingsService">
     <wsdl:operation name="GetAccountSettings">
@@ -178,7 +183,8 @@
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="AccountSettingsService" type="tns:IAccountSettingsService">
-    <wsp:PolicyReference URI="#AccountSettingsService_policy"></wsp:PolicyReference>
+    <wsp:PolicyReference URI="#AccountSettingsService_policy">
+    </wsp:PolicyReference>
     <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
     <wsdl:operation name="GetAccountSettings">
       <soap12:operation soapAction="http://tempuri.org/IAccountSettingsService/GetAccountSettings" style="document" />
@@ -300,9 +306,9 @@
   </wsdl:binding>
   <wsdl:service name="AccountSettingsService">
     <wsdl:port name="AccountSettingsService" binding="tns:AccountSettingsService">
-      <soap12:address location="net.tcp://localhost:8012/AccountSettingsService" />
+      <soap12:address location="net.tcp://localhost:8000/AccountSettingsService" />
       <wsa10:EndpointReference>
-        <wsa10:Address>net.tcp://localhost:8012/AccountSettingsService</wsa10:Address>
+        <wsa10:Address>net.tcp://localhost:8000/AccountSettingsService</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
           <Upn>FOSTER\neptu</Upn>
         </Identity>

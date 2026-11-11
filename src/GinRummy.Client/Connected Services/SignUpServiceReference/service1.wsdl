@@ -36,9 +36,10 @@
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import namespace="http://tempuri.org/" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.Authentication" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.AccountProtection" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="ISignUpService_SignUp_InputMessage">
@@ -48,7 +49,7 @@
     <wsdl:part name="parameters" element="tns:SignUpResponse" />
   </wsdl:message>
   <wsdl:message name="ISignUpService_SignUp_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q1:ServiceFault" />
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q1:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ISignUpService_VerifyEmailByVerificationCode_InputMessage">
     <wsdl:part name="parameters" element="tns:VerifyEmailByVerificationCode" />
@@ -57,7 +58,7 @@
     <wsdl:part name="parameters" element="tns:VerifyEmailByVerificationCodeResponse" />
   </wsdl:message>
   <wsdl:message name="ISignUpService_VerifyEmailByVerificationCode_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q2:ServiceFault" />
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q2:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ISignUpService_ResendVerificationCode_InputMessage">
     <wsdl:part name="parameters" element="tns:ResendVerificationCode" />
@@ -66,10 +67,10 @@
     <wsdl:part name="parameters" element="tns:ResendVerificationCodeResponse" />
   </wsdl:message>
   <wsdl:message name="ISignUpService_ResendVerificationCode_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q3:ServiceFault" />
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q3:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="ISignUpService_ResendVerificationCode_ResendLimitFaultFault_FaultMessage">
-    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q4:ResendLimitFault" />
+    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.AccountProtection" name="detail" element="q4:ResendLimitFault" />
   </wsdl:message>
   <wsdl:portType name="ISignUpService">
     <wsdl:operation name="SignUp">
@@ -135,9 +136,9 @@
   </wsdl:binding>
   <wsdl:service name="SignUpService">
     <wsdl:port name="SignUpService" binding="tns:SignUpService">
-      <soap12:address location="net.tcp://localhost:8004/SignUpService" />
+      <soap12:address location="net.tcp://localhost:8000/SignUpService" />
       <wsa10:EndpointReference>
-        <wsa10:Address>net.tcp://localhost:8004/SignUpService</wsa10:Address>
+        <wsa10:Address>net.tcp://localhost:8000/SignUpService</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
           <Upn>FOSTER\neptu</Upn>
         </Identity>

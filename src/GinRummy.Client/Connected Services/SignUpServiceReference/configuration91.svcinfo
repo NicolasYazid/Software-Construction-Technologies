@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="9.1" CheckSum="FoyAGsIuTcEt1kYvbdZExrKkVXPAIE+/iYqev2O8ULo=">
+<SavedWcfConfigurationInformation xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="9.1" CheckSum="a6/Ods+sNa8/MPR1qSZXC19mQK4UVnWfCMV88A/P5EE=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="netTcpBinding" name="SignUpService">
       <properties>
@@ -121,10 +121,10 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="SignUpService" contract="SignUpServiceReference.ISignUpService" bindingType="netTcpBinding" address="net.tcp://localhost:8004/SignUpService" bindingConfiguration="SignUpService">
+    <endpoint name="SignUpService" contract="SignUpServiceReference.ISignUpService" bindingType="netTcpBinding" address="net.tcp://localhost:8000/SignUpService" bindingConfiguration="SignUpService">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>net.tcp://localhost:8004/SignUpService</serializedValue>
+          <serializedValue>net.tcp://localhost:8000/SignUpService</serializedValue>
         </property>
         <property path="/behaviorConfiguration" isComplexType="false" isExplicitlyDefined="false" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue />

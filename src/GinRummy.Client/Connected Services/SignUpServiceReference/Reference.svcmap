@@ -22,11 +22,12 @@
     <MetadataSource Address="net.tcp://localhost:8001/SignUpService/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="e8819a4b-706e-4a8c-abb2-19c2a70e7702" SourceId="1" SourceUrl="net.tcp://localhost:8005/SignUpService/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="ca1964c5-9e47-416e-9ddb-1bbd1d6001a3" SourceId="1" SourceUrl="net.tcp://localhost:8005/SignUpService/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="6a36475a-f769-4f1f-baf9-133db5bc2fbf" SourceId="1" SourceUrl="net.tcp://localhost:8005/SignUpService/mex" />
-    <MetadataFile FileName="GinRummy.Contracts.DataContracts.xsd" MetadataType="Schema" ID="37ec91c7-a2d1-4917-b13a-78badb1f1220" SourceId="1" SourceUrl="net.tcp://localhost:8005/SignUpService/mex" />
-    <MetadataFile FileName="GinRummy.Contracts.Faults.xsd" MetadataType="Schema" ID="3a2cee2d-d1d3-4705-a81c-0b5ca87625f7" SourceId="1" SourceUrl="net.tcp://localhost:8005/SignUpService/mex" />
+    <MetadataFile FileName="service1.wsdl" MetadataType="Wsdl" ID="be9e67af-5130-4204-ae25-157ce8f8aa74" SourceId="1" SourceUrl="net.tcp://localhost:8001/SignUpService/mex" />
+    <MetadataFile FileName="service2.xsd" MetadataType="Schema" ID="36d623b3-945a-45f9-a08e-4315e93d3016" SourceId="1" SourceUrl="net.tcp://localhost:8001/SignUpService/mex" />
+    <MetadataFile FileName="service21.xsd" MetadataType="Schema" ID="42c43ea9-23ac-4555-956f-5bd2f2469e63" SourceId="1" SourceUrl="net.tcp://localhost:8001/SignUpService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.DataContracts.Authentication.xsd" MetadataType="Schema" ID="580dc5f2-4e2b-4e66-b3dd-4aa1d7e0f5fb" SourceId="1" SourceUrl="net.tcp://localhost:8001/SignUpService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.Faults.Shared.xsd" MetadataType="Schema" ID="0290f779-b375-4b2c-b77b-ee4caa528221" SourceId="1" SourceUrl="net.tcp://localhost:8001/SignUpService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.Faults.AccountProtection.xsd" MetadataType="Schema" ID="048bd9f8-ff44-4887-8cc7-c7da17bfe6f3" SourceId="1" SourceUrl="net.tcp://localhost:8001/SignUpService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

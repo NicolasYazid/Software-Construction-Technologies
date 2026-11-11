@@ -15,7 +15,8 @@ namespace GinRummy.Client.LeaderboardServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="PlayerRanking", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="PlayerRanking", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.PlayerCa" +
+        "reer")]
     [System.SerializableAttribute()]
     public partial class PlayerRanking : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         

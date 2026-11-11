@@ -15,7 +15,8 @@ namespace GinRummy.Client.SignUpServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="NewAccount", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="NewAccount", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.Authenti" +
+        "cation")]
     [System.SerializableAttribute()]
     public partial class NewAccount : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -108,7 +109,8 @@ namespace GinRummy.Client.SignUpServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="SignUpOutcome", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SignUpOutcome", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.Authenti" +
+        "cation")]
     [System.SerializableAttribute()]
     public partial class SignUpOutcome : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -169,7 +171,7 @@ namespace GinRummy.Client.SignUpServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
     [System.SerializableAttribute()]
     public partial class ServiceFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -213,7 +215,7 @@ namespace GinRummy.Client.SignUpServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceFaultCode", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ServiceFaultCode", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
     public enum ServiceFaultCode : int {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
@@ -247,24 +249,55 @@ namespace GinRummy.Client.SignUpServiceReference {
         CodeTooManyAttempts = 9,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        EmailAlreadyRegistered = 10,
+        SessionExpired = 10,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        InvalidEmailFormat = 11,
+        EmailAlreadyRegistered = 11,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        FieldTooLong = 12,
+        InvalidEmailFormat = 12,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        WeakPassword = 13,
+        FieldTooLong = 13,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        EmailAlreadyVerified = 14,
+        WeakPassword = 14,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        EmailAlreadyVerified = 15,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        PlayerNotFound = 16,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        MessageNotFound = 17,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        InvalidImage = 18,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        InvalidUrl = 19,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        UnsupportedLocale = 20,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        SamePassword = 21,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        InvalidMove = 22,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        PlayerUnavailable = 23,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        ChallengeNotFound = 24,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ResendLimitFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ResendLimitFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.AccountProtecti" +
+        "on")]
     [System.SerializableAttribute()]
     public partial class ResendLimitFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -312,22 +345,23 @@ namespace GinRummy.Client.SignUpServiceReference {
     public interface ISignUpService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISignUpService/SignUp", ReplyAction="http://tempuri.org/ISignUpService/SignUpResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.SignUpServiceReference.ServiceFault), Action="http://tempuri.org/ISignUpService/SignUpServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.SignUpServiceReference.ServiceFault), Action="http://tempuri.org/ISignUpService/SignUpServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
         GinRummy.Client.SignUpServiceReference.SignUpOutcome SignUp(GinRummy.Client.SignUpServiceReference.NewAccount newAccount);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISignUpService/SignUp", ReplyAction="http://tempuri.org/ISignUpService/SignUpResponse")]
         System.Threading.Tasks.Task<GinRummy.Client.SignUpServiceReference.SignUpOutcome> SignUpAsync(GinRummy.Client.SignUpServiceReference.NewAccount newAccount);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISignUpService/VerifyEmailByVerificationCode", ReplyAction="http://tempuri.org/ISignUpService/VerifyEmailByVerificationCodeResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.SignUpServiceReference.ServiceFault), Action="http://tempuri.org/ISignUpService/VerifyEmailByVerificationCodeServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.SignUpServiceReference.ServiceFault), Action="http://tempuri.org/ISignUpService/VerifyEmailByVerificationCodeServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
         void VerifyEmailByVerificationCode(string email, string verificationCode);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISignUpService/VerifyEmailByVerificationCode", ReplyAction="http://tempuri.org/ISignUpService/VerifyEmailByVerificationCodeResponse")]
         System.Threading.Tasks.Task VerifyEmailByVerificationCodeAsync(string email, string verificationCode);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISignUpService/ResendVerificationCode", ReplyAction="http://tempuri.org/ISignUpService/ResendVerificationCodeResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.SignUpServiceReference.ServiceFault), Action="http://tempuri.org/ISignUpService/ResendVerificationCodeServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
-        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.SignUpServiceReference.ResendLimitFault), Action="http://tempuri.org/ISignUpService/ResendVerificationCodeResendLimitFaultFault", Name="ResendLimitFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.SignUpServiceReference.ServiceFault), Action="http://tempuri.org/ISignUpService/ResendVerificationCodeServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.SignUpServiceReference.ResendLimitFault), Action="http://tempuri.org/ISignUpService/ResendVerificationCodeResendLimitFaultFault", Name="ResendLimitFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.AccountProtecti" +
+            "on")]
         void ResendVerificationCode(string email);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ISignUpService/ResendVerificationCode", ReplyAction="http://tempuri.org/ISignUpService/ResendVerificationCodeResponse")]

@@ -22,11 +22,12 @@
     <MetadataSource Address="net.tcp://localhost:8001/AccountSettingsService/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="e2d956f1-f408-42c0-9ea8-6dce9efdb7f8" SourceId="1" SourceUrl="net.tcp://localhost:8013/AccountSettingsService/mex" />
-    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="9aeeb87c-d897-4238-8387-f3fd914741a5" SourceId="1" SourceUrl="net.tcp://localhost:8013/AccountSettingsService/mex" />
-    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="c6de45ee-0452-45c3-82d5-e82ef6265020" SourceId="1" SourceUrl="net.tcp://localhost:8013/AccountSettingsService/mex" />
-    <MetadataFile FileName="GinRummy.Contracts.DataContracts.xsd" MetadataType="Schema" ID="968f03e5-38f7-4743-a808-647c9990905e" SourceId="1" SourceUrl="net.tcp://localhost:8013/AccountSettingsService/mex" />
-    <MetadataFile FileName="GinRummy.Contracts.Faults.xsd" MetadataType="Schema" ID="5e38a33b-695c-44be-983d-84bb05b8576d" SourceId="1" SourceUrl="net.tcp://localhost:8013/AccountSettingsService/mex" />
+    <MetadataFile FileName="service1.wsdl" MetadataType="Wsdl" ID="640de970-bee5-4176-b371-7aa5d8470338" SourceId="1" SourceUrl="net.tcp://localhost:8001/AccountSettingsService/mex" />
+    <MetadataFile FileName="service2.xsd" MetadataType="Schema" ID="05e59a34-041e-41bd-af94-390d67063492" SourceId="1" SourceUrl="net.tcp://localhost:8001/AccountSettingsService/mex" />
+    <MetadataFile FileName="service21.xsd" MetadataType="Schema" ID="39383aa6-2645-4159-ae93-f2a3ec3a02f1" SourceId="1" SourceUrl="net.tcp://localhost:8001/AccountSettingsService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.DataContracts.AccountProtection.xsd" MetadataType="Schema" ID="70a7834d-e501-4992-8d93-fb1510d44251" SourceId="1" SourceUrl="net.tcp://localhost:8001/AccountSettingsService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.Faults.Shared.xsd" MetadataType="Schema" ID="ff32d199-3552-46ef-8626-05d7f570d9e7" SourceId="1" SourceUrl="net.tcp://localhost:8001/AccountSettingsService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.Faults.AccountProtection.xsd" MetadataType="Schema" ID="2895cafb-856d-4066-ba6c-efc8cba9520e" SourceId="1" SourceUrl="net.tcp://localhost:8001/AccountSettingsService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

@@ -42,9 +42,9 @@
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import namespace="http://tempuri.org/" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.PlayerPresence" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IPlayerPresenceService_SubscribeToPlayerPresence_InputMessage">
@@ -54,7 +54,7 @@
     <wsdl:part name="parameters" element="tns:SubscribeToPlayerPresenceResponse" />
   </wsdl:message>
   <wsdl:message name="IPlayerPresenceService_SubscribeToPlayerPresence_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults" name="detail" element="q1:ServiceFault" />
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q1:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="IPlayerPresenceService_UnsubscribeFromPlayerPresence_InputMessage">
     <wsdl:part name="parameters" element="tns:UnsubscribeFromPlayerPresence" />
@@ -122,7 +122,7 @@
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8000/PlayerPresenceService</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Upn>LAPTOP-JTEM4PAQ\yazid</Upn>
+          <Upn>FOSTER\neptu</Upn>
         </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>

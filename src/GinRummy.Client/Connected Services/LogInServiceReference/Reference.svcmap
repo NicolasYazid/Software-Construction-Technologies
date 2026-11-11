@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="677fecfd-b641-4f23-8e75-20071978ab3a" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="bada87d2-ab18-4219-9e15-11948f836939" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,11 +22,13 @@
     <MetadataSource Address="net.tcp://localhost:8001/LogInService/mex" Protocol="mex" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service1.wsdl" MetadataType="Wsdl" ID="a9512463-b687-4567-896c-13c1f69c87cf" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
-    <MetadataFile FileName="service2.xsd" MetadataType="Schema" ID="bbbcab99-1235-402d-a95d-37bea2030807" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
-    <MetadataFile FileName="service21.xsd" MetadataType="Schema" ID="e1a27757-ff7d-47fe-ab8e-51a80535b68d" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
-    <MetadataFile FileName="GinRummy.Contracts.DataContracts1.xsd" MetadataType="Schema" ID="009db260-09d0-4cc9-90bf-21ba003e4bc1" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
-    <MetadataFile FileName="GinRummy.Contracts.Faults1.xsd" MetadataType="Schema" ID="8df0d4d9-1032-4f92-8ea5-faf88708b6a9" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="ac34c528-1bc4-4dc7-9e28-8f7d15350477" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="d52bb315-c566-4e29-8cc2-a76b079d0974" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="e5835f7a-4eee-410a-8f90-ee59726351cb" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.DataContracts.Authentication.xsd" MetadataType="Schema" ID="3973849d-8852-4801-abe4-77986424d10f" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.Faults.Shared.xsd" MetadataType="Schema" ID="3f99b2e4-8c78-4b07-a068-33adb80e6145" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.Faults.PlayerModeration.xsd" MetadataType="Schema" ID="8c9c189f-46e0-4708-b3c6-549dc6795a95" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.Faults.AccountProtection.xsd" MetadataType="Schema" ID="4df7cbf0-9e0a-469a-8e0d-63df11a01ae5" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
