@@ -146,13 +146,6 @@
 
                 <DockPanel Grid.Row="2" Margin="0,40,0,0" LastChildFill="False">
                     <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                        <Button x:Name="btnAddFriend" Style="{StaticResource StyDialogPrimaryButton}"
-                                Background="{StaticResource BrsMenuEarth}" FontSize="22"
-                                Content="{Binding [PlayerProfile_BtnAddFriend], Source={StaticResource PrvLocalization},
-                                          Converter={StaticResource CnvUpperCase}}"
-                                Visibility="{Binding CanAddFriend, Converter={StaticResource CnvBooleanToVisibility}}"
-                                IsEnabled="{Binding CanSendFriendRequest}"
-                                Command="{Binding AddFriendCommand}" />
                         <!-- The action borrows the key of the lobby context menu because the language resources have none for this screen. -->
                         <Button x:Name="btnRemoveFriend" Style="{StaticResource StyDialogSecondaryButton}"
                                 FontSize="22"

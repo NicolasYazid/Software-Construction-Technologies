@@ -252,7 +252,6 @@ namespace GinRummy.Client.ViewModels
             profile.RankName = player.RankName;
             profile.SocialLinks = new List<SocialLink>();
             profile.IsFriend = player.IsFriend;
-            profile.HasPendingRequest = player.HasPendingRequest;
             profile.IsGuest = player.IsGuest;
 
             return profile;
@@ -260,7 +259,6 @@ namespace GinRummy.Client.ViewModels
 
         public void ApplyProfileChanges(LobbyPlayerViewModel player, PlayerProfile profile)
         {
-            player.HasPendingRequest = profile.HasPendingRequest;
             if (profile.IsRemoved)
             {
                 RemovePlayer(player);

@@ -838,9 +838,6 @@ You: {0}   -   Opponent: {1}</value>
   <data name="Notifications_TabSanctions" xml:space="preserve">
     <value>Sanctions</value>
   </data>
-  <data name="PlayerProfile_BtnAddFriend" xml:space="preserve">
-    <value>Send friend request</value>
-  </data>
   <data name="PlayerProfile_BtnClose" xml:space="preserve">
     <value>Close profile</value>
   </data>
