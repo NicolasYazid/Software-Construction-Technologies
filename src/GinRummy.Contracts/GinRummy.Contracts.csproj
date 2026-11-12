@@ -84,6 +84,7 @@
     <Compile Include="Services\DirectDuel\IDirectDuelService.cs" />
     <Compile Include="Services\Friendship\IFriendshipCallback.cs" />
     <Compile Include="Services\Friendship\IFriendshipService.cs" />
+    <Compile Include="Services\Friendship\IPendingFriendRequestService.cs" />
     <Compile Include="Services\Gameplay\IGameCallback.cs" />
     <Compile Include="Services\Gameplay\IGameService.cs" />
   </ItemGroup>

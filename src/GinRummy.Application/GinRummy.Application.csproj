@@ -75,12 +75,14 @@
     <Compile Include="Ports\DirectDuel\IChallengeUseCase.cs" />
     <Compile Include="Ports\Friendship\IFriendshipAnnouncer.cs" />
     <Compile Include="Ports\Friendship\ISendFriendRequestUseCase.cs" />
+    <Compile Include="Ports\Friendship\IViewPendingFriendRequestsUseCase.cs" />
     <Compile Include="UseCases\DirectDuel\ChallengeBoard.cs" />
     <Compile Include="UseCases\DirectDuel\ChallengeOutcome.cs" />
     <Compile Include="UseCases\DirectDuel\ChallengeUseCase.cs" />
     <Compile Include="UseCases\DirectDuel\DuelPlayerDirectory.cs" />
     <Compile Include="UseCases\DirectDuel\PendingChallenge.cs" />
     <Compile Include="UseCases\Friendship\FriendRequestTimeLimits.cs" />
+    <Compile Include="UseCases\Friendship\ViewPendingFriendRequestsUseCase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UseCases\AccountProtection\AccountSettingsUseCase.cs" />
     <Compile Include="UseCases\AccountProtection\ConfirmAccountChangeUseCase.cs" />
