@@ -5,7 +5,7 @@ using System.Windows.Media;
 namespace GinRummy.Client.Controls
 {
     // The formula is translated from the vertex function of "Balatro Card Hover" by Alexx.
-    public static class HoverBulgeCommon
+    public static class HoverBulge
     {
         private const double PointerScale = 2.0;
         private const double MaxPointerOffset = 2000.0;

@@ -352,9 +352,9 @@ namespace GinRummy.Client.Controls
             return (ContentPresenter)((Grid)host.Child).Children[face];
         }
 
-        private void ShowFace(Border host, bool isShowingBack)
+        private void ShowSide(Border host, bool isFaceDown)
         {
-            bool canShowBack = isShowingBack && (BackTemplate != null);
+            bool canShowBack = isFaceDown && (BackTemplate != null);
             GetFace(host, FrontFace).Visibility = canShowBack ? Visibility.Hidden : Visibility.Visible;
             GetFace(host, BackFace).Visibility = canShowBack ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -528,7 +528,7 @@ namespace GinRummy.Client.Controls
                     ((MatrixTransform)host.RenderTransform).Matrix = CreateMatrix(motion, host, cardSize);
                     bool isAboveHand = motion.IsDragged || motion.IsLeaving;
                     Panel.SetZIndex(host, isAboveHand ? DraggedLayer : index);
-                    ShowFace(host, motion.IsShowingBack);
+                    ShowSide(host, motion.IsShowingBack);
                     ApplyTilt(host, motion.Tilt, cardSize);
                 }
             }
@@ -540,7 +540,7 @@ namespace GinRummy.Client.Controls
             if (motion.IsHovered)
             {
                 matrix.Translate(-TiltRoom, -TiltRoom);
-                matrix.Append(HoverBulgeCommon.CreateMatrix(cardSize, _pointer - motion.Position));
+                matrix.Append(HoverBulge.CreateMatrix(cardSize, _pointer - motion.Position));
                 matrix.Translate(TiltRoom, TiltRoom);
             }
 

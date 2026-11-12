@@ -170,7 +170,7 @@ namespace GinRummy.Client.ViewModels
 
         private void ShowRefusal()
         {
-            DuelFaultCode? code = _duelConnection.LastRefusal;
+            DuelFaultCode? code = _duelConnection.LastFaultCode;
             string noticeKey = ChallengeUnavailableKey;
             if (code == DuelFaultCode.SessionExpired)
             {
