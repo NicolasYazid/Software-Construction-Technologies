@@ -948,7 +948,6 @@
         <Setter Property="MinWidth" Value="160" />
     </Style>
 
-    <!-- The stepped face needs ten blocks of height and the press sinks it six pixels, so the button cannot be lower. -->
     <Style x:Key="StyLobbySmallButton" TargetType="Button" BasedOn="{StaticResource StyCardOutlineButton}">
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Height" Value="36" />
@@ -2275,9 +2274,6 @@
         <Setter Property="Height" Value="48" />
     </Style>
 
-    <!-- Each card is drawn inside a transparent room of 24 pixels where it can tilt without being cut,
-         so a 92 pixel card needs a hand 140 pixels tall. The cards rise above and fall below the hand,
-         so it does not clip them. -->
     <Style x:Key="StyCardHand" TargetType="ctl:CardHand">
         <Setter Property="TiltRoom" Value="24" />
         <Setter Property="Height" Value="140" />
@@ -2286,8 +2282,6 @@
         <Setter Property="Focusable" Value="False" />
     </Style>
 
-    <!-- The hand of the opponent is seen from across the table, so its fan bends the other way, and it
-         cannot be touched, so its cards do not tilt. Its 78 pixel cards with the same room need 126 pixels. -->
     <Style x:Key="StyOpponentHand" TargetType="ctl:CardHand" BasedOn="{StaticResource StyCardHand}">
         <Setter Property="Height" Value="126" />
         <Setter Property="IsReadOnly" Value="True" />
@@ -2295,8 +2289,6 @@
         <Setter Property="IsFanFlipped" Value="True" />
     </Style>
 
-    <!-- A pile keeps exactly the size of its card, because a card that travels from or to it reads that
-         size, and a card lands on it in its place instead of rising into it. -->
     <Style x:Key="StyTablePile" TargetType="ctl:CardHand">
         <Setter Property="TiltRoom" Value="0" />
         <Setter Property="EntryDrop" Value="0" />

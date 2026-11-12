@@ -4,7 +4,6 @@ using System.Windows;
 namespace GinRummy.Client.Controls
 {
     // The constants and the order of every step are translated from the card script of "Balatro Card Hover" by Alexx.
-    // That script runs once per frame at 60 frames per second, so its factors only hold when Step is called at that fixed rate.
     public class CardMotion
     {
         public const double StepSeconds = 1.0 / 60.0;
@@ -26,11 +25,8 @@ namespace GinRummy.Client.Controls
         private const double DegreesPerRadian = 180.0 / Math.PI;
         private const double FlipSeconds = 0.13;
 
-        // A card that enters the hand follows with its own factor until it is this close to its place.
-        // That keeps the speed of the draw apart from the rest of the motion so it can be tuned on its own.
         private const double EntryFollowFactor = 0.271;
 
-        // The sway keeps a resting card close to 1.6 pixels away from its place, so arrival is counted a little farther out.
         private const double EntryArrivalDistance = 3.0;
         private const double ArrivalScaleTolerance = 0.02;
         private const double MinimumFlipWidth = 0.02;
@@ -42,8 +38,6 @@ namespace GinRummy.Client.Controls
         private bool _isEntering;
         private double _exitScale;
 
-        // The script starts every card at the same time, so a hand created at once would sway in step.
-        // The phase gives each card its own moment of the sway.
         public CardMotion(Point startPosition, double phase)
         {
             Position = startPosition;
@@ -63,12 +57,9 @@ namespace GinRummy.Client.Controls
         public bool IsHovered { get; set; }
         public CardTilt Tilt { get; private set; }
 
-        // It runs from 1 while the back faces the player to 0 once the face does.
         public double FaceDownAmount { get; private set; }
         public bool IsLeaving { get; private set; }
 
-        // A card dropped over its destination is already in place, so a leaving card must also have reached the size it goes to.
-        // Otherwise it would be swapped for the card of the destination while still growing, which reads as a jump.
         public bool HasArrived
         {
             get
@@ -90,14 +81,11 @@ namespace GinRummy.Client.Controls
             get { return FaceDownAmount > Half; }
         }
 
-        // The card turns about its vertical axis, so its width follows the cosine of the turn.
-        // The width never reaches zero because a transform without width cannot be inverted for the hit test.
         public double FlipWidth
         {
             get { return Math.Max(MinimumFlipWidth, Math.Abs(Math.Cos(FaceDownAmount * Math.PI))); }
         }
 
-        // A card that enters from elsewhere keeps the size it had there, and turns over while it travels if it came face down.
         public void PrepareEntry(double startScale, bool isFaceDown)
         {
             Scale = startScale;
@@ -105,7 +93,6 @@ namespace GinRummy.Client.Controls
             _isEntering = true;
         }
 
-        // A card that leaves the hand travels at the speed of an entering one and takes the size of the place it goes to.
         public void PrepareExit(double exitScale)
         {
             _exitScale = exitScale;
@@ -150,7 +137,6 @@ namespace GinRummy.Client.Controls
             return Math.Max(minimum, Math.Min(maximum, value));
         }
 
-        // The swing is spent in the frame that applies it, as the script does with its mouse velocity.
         private void StepDragged()
         {
             Position = Lerp(Position, Target, FollowFactor);
@@ -160,8 +146,6 @@ namespace GinRummy.Client.Controls
             _dragSwing = 0;
         }
 
-        // The previous position is not updated while the card is dragged, as in the script.
-        // The first resting step after a drop therefore swings the card toward the side it came from.
         private void StepResting()
         {
             bool isTravelling = _isEntering || IsLeaving;

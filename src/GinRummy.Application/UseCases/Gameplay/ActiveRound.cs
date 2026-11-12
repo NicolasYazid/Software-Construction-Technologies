@@ -88,7 +88,6 @@ namespace GinRummy.Application.UseCases.Gameplay
             Record(RoundMove.Discarded, playerId, discardedCard);
         }
 
-        // A knock also discards a card, so the cards offered are those whose discard leaves the deadwood within the threshold.
         public IList<Card> FindKnockDiscards(int playerId)
         {
             List<Card> hand = Round.GetHand(playerId).ToList();

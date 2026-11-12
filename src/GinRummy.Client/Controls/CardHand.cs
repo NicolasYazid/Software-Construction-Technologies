@@ -11,8 +11,6 @@ using GinRummy.Client.Effects;
 
 namespace GinRummy.Client.Controls
 {
-    // The hand moves every card through its own transform so that each card can follow the pointer, sway and tilt.
-    // A ListBox lays its items out by itself and drags them with the drag and drop of the system, which cannot animate a card.
     public class CardHand : ItemsControl
     {
         private const double DefaultTiltRoom = 24.0;
@@ -24,12 +22,10 @@ namespace GinRummy.Client.Controls
         private const int FrontFace = 0;
         private const int BackFace = 1;
 
-        // A chosen card rises as far as the ListBox used to raise it.
         private const double SelectedLift = 14.0;
 
         private const double DefaultEntryDrop = 40.0;
 
-        // Consecutive cards start their sway this many radians apart.
         private const double PhaseStep = 0.9;
 
         public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
@@ -38,29 +34,24 @@ namespace GinRummy.Client.Controls
             typeof(CardHand),
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
-        // The room is transparent space around each card where a tilted card can grow without being cut.
         public static readonly DependencyProperty TiltRoomProperty = DependencyProperty.Register(
             nameof(TiltRoom),
             typeof(double),
             typeof(CardHand),
             new FrameworkPropertyMetadata(DefaultTiltRoom));
 
-        // A card that appears in the hand without coming from elsewhere starts this far below its place and rises into it.
-        // A pile of the table sets it to zero, so a card that lands on it is not seen rising a second time.
         public static readonly DependencyProperty EntryDropProperty = DependencyProperty.Register(
             nameof(EntryDrop),
             typeof(double),
             typeof(CardHand),
             new FrameworkPropertyMetadata(DefaultEntryDrop));
 
-        // A read-only hand, such as the one of the opponent, floats and answers the pointer but cannot be chosen or dragged.
         public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register(
             nameof(IsReadOnly),
             typeof(bool),
             typeof(CardHand),
             new FrameworkPropertyMetadata(false));
 
-        // The tilt invites the player to pick the card up, so a hand that cannot be touched may turn it off.
         public static readonly DependencyProperty IsHoverTiltEnabledProperty = DependencyProperty.Register(
             nameof(IsHoverTiltEnabled),
             typeof(bool),
@@ -73,22 +64,18 @@ namespace GinRummy.Client.Controls
             typeof(CardHand),
             new FrameworkPropertyMetadata(false));
 
-        // The back is shown while a card that entered face down is still turning over.
         public static readonly DependencyProperty BackTemplateProperty = DependencyProperty.Register(
             nameof(BackTemplate),
             typeof(DataTemplate),
             typeof(CardHand),
             new FrameworkPropertyMetadata(null));
 
-        // A card released over this element is offered to the listener of CardDropped instead of being reordered.
         public static readonly DependencyProperty DropTargetProperty = DependencyProperty.Register(
             nameof(DropTarget),
             typeof(FrameworkElement),
             typeof(CardHand),
             new FrameworkPropertyMetadata(null));
 
-        // A pile lets its card be dragged only towards the drop target, and the card is never chosen nor reordered.
-        // Released anywhere else, the card goes back to its place.
         public static readonly DependencyProperty IsDragOnlyProperty = DependencyProperty.Register(
             nameof(IsDragOnly),
             typeof(bool),
@@ -101,7 +88,6 @@ namespace GinRummy.Client.Controls
             typeof(CardHand),
             new FrameworkPropertyMetadata(false));
 
-        // A dragged card can travel over the elements laid out after the hand, so the screen lifts the hand above them meanwhile.
         public static readonly DependencyProperty IsDraggingProperty = IsDraggingPropertyKey.DependencyProperty;
 
         private readonly Dictionary<object, CardMotion> _motions = new Dictionary<object, CardMotion>();
@@ -123,7 +109,6 @@ namespace GinRummy.Client.Controls
         private Point _lastDragPoint;
         private int _lastDragTimestamp;
 
-        // The transparent background lets the gaps between the cards receive the pointer too.
         public CardHand()
         {
             Background = Brushes.Transparent;
@@ -198,8 +183,6 @@ namespace GinRummy.Client.Controls
             private set { SetValue(IsDraggingPropertyKey, value); }
         }
 
-        // The card starts where the source is drawn and at its size, and then travels to its place in the hand.
-        // The caller announces the card before adding it to the items, so the card never appears in its place first.
         public void EnterFrom(object item, FrameworkElement source, bool isFaceDown)
         {
             Point sourceCenter = new Point(source.ActualWidth * Half, source.ActualHeight * Half);
@@ -208,7 +191,6 @@ namespace GinRummy.Client.Controls
             _motions[item] = motion;
         }
 
-        // A card dragged out of another hand, such as the discard pile, goes on from where that hand draws it and at the size it has there.
         public void EnterFrom(object item, CardHand source)
         {
             if (!source._motions.TryGetValue(item, out CardMotion sourceMotion))
@@ -223,8 +205,6 @@ namespace GinRummy.Client.Controls
             _motions[item] = motion;
         }
 
-        // The card leaves its place at once, so the rest of the hand closes the gap while it travels.
-        // CardLeft is raised when it lands, and the listener then removes it from the items.
         public void SendTo(object item, FrameworkElement target)
         {
             if (!_motions.TryGetValue(item, out CardMotion motion))
@@ -321,8 +301,6 @@ namespace GinRummy.Client.Controls
             }
         }
 
-        // A short press chooses the card and only a longer movement drags it (house rule 18), and a press on the chosen card lets it go.
-        // A card of a pile cannot be chosen, so a short press on it does nothing.
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonUp(e);
@@ -339,7 +317,6 @@ namespace GinRummy.Client.Controls
             ReleaseMouseCapture();
         }
 
-        // The capture can be lost without a release, for example when another window takes the focus in the middle of a drag.
         protected override void OnLostMouseCapture(MouseEventArgs e)
         {
             base.OnLostMouseCapture(e);
@@ -350,7 +327,6 @@ namespace GinRummy.Client.Controls
             }
         }
 
-        // Consecutive cards start their sway apart, so each new motion takes the next phase.
         private CardMotion CreateMotion(Point position)
         {
             CardMotion motion = new CardMotion(position, _createdCount * PhaseStep);
@@ -359,7 +335,6 @@ namespace GinRummy.Client.Controls
             return motion;
         }
 
-        // The scale at which a card of this hand is drawn as tall as the given height.
         private double GetScaleFrom(double height)
         {
             Size cardSize = GetCardSize();
@@ -377,7 +352,6 @@ namespace GinRummy.Client.Controls
             return (ContentPresenter)((Grid)host.Child).Children[face];
         }
 
-        // The face is hidden and not collapsed, so the card keeps its size while its back is shown.
         private void ShowFace(Border host, bool isShowingBack)
         {
             bool canShowBack = isShowingBack && (BackTemplate != null);
@@ -387,7 +361,6 @@ namespace GinRummy.Client.Controls
 
         private static void ApplyTilt(Border host, CardTilt tilt, Size cardSize)
         {
-            // The shader is only attached while the card leans, because a flat card looks right without it.
             if (!tilt.IsTilted)
             {
                 host.Effect = null;
@@ -414,15 +387,12 @@ namespace GinRummy.Client.Controls
             }
         }
 
-        // The rendering event is static, so a hand that left the screen must unsubscribe or it would never be released.
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
             CompositionTarget.Rendering -= OnRendering;
             _isSubscribedToRendering = false;
         }
 
-        // WPF can raise Rendering more than once for the same frame, and only a new frame time advances the cards.
-        // A long pause, such as a window being dragged, is capped so that the cards do not jump through many steps at once.
         private void OnRendering(object sender, EventArgs e)
         {
             TimeSpan renderingTime = ((RenderingEventArgs)e).RenderingTime;
@@ -479,8 +449,6 @@ namespace GinRummy.Client.Controls
             }
         }
 
-        // The listener removes the card from the items, which changes the collections this frame walks through.
-        // The arrivals are therefore announced only after the frame is done with them.
         private void AnnounceArrivals()
         {
             List<object> arrivedItems = _arrivedItems.ToList();
@@ -524,7 +492,6 @@ namespace GinRummy.Client.Controls
             return target;
         }
 
-        // The dragged card stays under the pointer, so it keeps the hover while it moves.
         private void UpdateHover()
         {
             object hoveredItem = null;
@@ -567,7 +534,6 @@ namespace GinRummy.Client.Controls
             }
         }
 
-        // The card is bent in its own space first, then scaled and turned about its center, and finally moved to its place.
         private Matrix CreateMatrix(CardMotion motion, Border host, Size cardSize)
         {
             Matrix matrix = Matrix.Identity;
@@ -586,7 +552,6 @@ namespace GinRummy.Client.Controls
             return matrix;
         }
 
-        // The cards drawn later lie on top, so the search starts from the last one.
         private object FindItemAt(Point point)
         {
             object foundItem = null;
@@ -603,7 +568,6 @@ namespace GinRummy.Client.Controls
             return foundItem;
         }
 
-        // The test undoes the transform of the card, so a turned or lifted card is hit where it is drawn.
         private bool IsOver(object item, Point point)
         {
             bool isOver = false;
@@ -636,7 +600,6 @@ namespace GinRummy.Client.Controls
             }
         }
 
-        // The other cards make room as soon as the dragged card passes over their place.
         private void TrackDrag(int timestamp)
         {
             int elapsedMilliseconds = timestamp - _lastDragTimestamp;
@@ -658,8 +621,6 @@ namespace GinRummy.Client.Controls
             }
         }
 
-        // The dropped card stays chosen, as it did in the ListBox.
-        // The hand then takes the order of its items again, so a listener that does not move the card returns it to its place.
         private void FinishDrag()
         {
             object droppedItem = _draggedItem;
@@ -670,7 +631,6 @@ namespace GinRummy.Client.Controls
                 motion.IsDragged = false;
             }
 
-            // A card released over the drop target keeps its place in the hand until the listener decides to send it away.
             if (IsOverDropTarget())
             {
                 SynchronizeOrder();
@@ -694,7 +654,6 @@ namespace GinRummy.Client.Controls
             SynchronizeOrder();
         }
 
-        // A drag keeps the dragged card at the place the pointer chose even if the items change meanwhile.
         private void SynchronizeOrder()
         {
             int draggedIndex = _order.IndexOf(_draggedItem);

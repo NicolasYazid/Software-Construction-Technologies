@@ -86,7 +86,6 @@ namespace GinRummy.ServerHost
                     tokenSigner,
                     new SystemClock());
 
-                // The registry of rounds is shared because the two players of a round are in different sessions.
                 OnlinePlayers<IDirectDuelCallback> duelOnlinePlayers = new OnlinePlayers<IDirectDuelCallback>(
                     loggerFactory.CreateLogger<WcfCallbackDispatcher<IDirectDuelCallback>>());
                 OnlinePlayers<IGameCallback> gameOnlinePlayers = new OnlinePlayers<IGameCallback>(

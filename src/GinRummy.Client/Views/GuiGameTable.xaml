@@ -105,8 +105,6 @@
             <ctl:CardHand x:Name="lstOpponentCards" Grid.Row="1" Style="{StaticResource StyOpponentHand}"
                           ItemsSource="{Binding OpponentCards}" ItemTemplate="{StaticResource TplCardBack}" />
 
-            <!-- The card dragged off the discard pile passes over the hand, which is laid out later and
-                 would otherwise cover it, so the table rises above the hand during the drag. -->
             <Grid Grid.Row="2" Height="210" Margin="0,18,0,0">
                 <Grid.Style>
                     <Style TargetType="Grid">
@@ -120,7 +118,6 @@
                 <Rectangle Style="{StaticResource StyTableSurface}" />
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel>
-                        <!-- The hand of the stock sets its own cursor while the pointer is over it, so the hand cursor of the click is given by this frame. -->
                         <Border Background="Transparent">
                             <Border.Style>
                                 <Style TargetType="Border">
@@ -149,7 +146,6 @@
                     <StackPanel Margin="32,0,0,0">
                         <Grid>
                             <Rectangle Style="{StaticResource StyCardSlot}" />
-                            <!-- The card of the pile can only be dragged while the turn lets the player take it. -->
                             <ctl:CardHand x:Name="lstDiscard" ItemsSource="{Binding DiscardPile}"
                                           ItemTemplate="{StaticResource TplCardFaceLarge}"
                                           IsDragOnly="True" DropTarget="{Binding ElementName=lstHand}"
@@ -195,7 +191,6 @@
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
-                <!-- The button is taller than the header, so it overflows it instead of pushing the hand and the deadwood down. -->
                 <Button x:Name="btnSortHand" DockPanel.Dock="Right" Style="{StaticResource StyLobbySmallButton}"
                         Effect="{StaticResource EfxCardShadow}"
                         Margin="0,-6,24,-6"
@@ -204,7 +199,6 @@
                         Command="{Binding SortHandCommand}" />
             </DockPanel>
 
-            <!-- The captions sit behind the hand, so a card lifted by the player covers the bar of its meld. -->
             <Canvas x:Name="cnvMeldCaptions" Grid.Row="4" IsHitTestVisible="False" />
 
             <ctl:CardHand x:Name="lstHand" Grid.Row="4" Style="{StaticResource StyCardHand}" Margin="0,2,0,-24"

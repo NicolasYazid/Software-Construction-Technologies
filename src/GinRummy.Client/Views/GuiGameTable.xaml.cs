@@ -21,7 +21,6 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiGameTable : GuiWindowBase
     {
-        // The stock shows only its top card, face down, so it holds a single placeholder item.
         private static readonly int[] _stockTopCard = { 0 };
 
         private const string MeldRunKey = "GameTable_LblMeldRun";
@@ -33,7 +32,6 @@ namespace GinRummy.Client.Views
         private const double MeldBarGap = 6.0;
         private const double MeldCaptionGap = 2.0;
 
-        // Melds that sit side by side would draw a single bar, so each bar is drawn a little shorter than its cards.
         private const double MeldBarInset = 3.0;
 
         private readonly GameTableViewModel _viewModel;
@@ -81,7 +79,6 @@ namespace GinRummy.Client.Views
             lstHand.EnterFrom(drawnCard, lstStock, true);
         }
 
-        // A card released over the hand goes on from where it was dropped instead of starting again from the pile.
         private void OnCardTakenFromDiscardPile(object sender, Card takenCard)
         {
             lstHand.EnterFrom(takenCard, lstDiscard);
@@ -92,7 +89,6 @@ namespace GinRummy.Client.Views
             _viewModel.MoveCard(e.OldIndex, e.NewIndex);
         }
 
-        // A card released over the pile at any other step of the turn goes back to the hand.
         private void OnHandCardDropped(object sender, CardEventArgs e)
         {
             if (_viewModel.IsDiscarding)
@@ -101,7 +97,6 @@ namespace GinRummy.Client.Views
             }
         }
 
-        // The discard is sent once the card lands, so the pile never shows it before it arrives.
         private void OnHandCardLeft(object sender, CardEventArgs e)
         {
             _viewModel.Discard((Card)e.Item);
@@ -127,8 +122,6 @@ namespace GinRummy.Client.Views
 
         private void OnForfeitConfirmClosed(object sender, EventArgs e)
         {
-            // The table only returns the player to the lobby (CU-26 step 9)
-            // because the server gives the round to the opponent (CU-26 steps 5 to 7).
             if (((GuiConfirmDialog)sender).IsConfirmed)
             {
                 Close();
@@ -159,7 +152,6 @@ namespace GinRummy.Client.Views
             ShowMeldCaptions();
         }
 
-        // The table raises an empty name when a new state of the round arrives, and only then can the melds change.
         private void OnTableChanged(object sender, PropertyChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(e.PropertyName))
@@ -168,7 +160,6 @@ namespace GinRummy.Client.Views
             }
         }
 
-        // The captions are built again only when the melds or the order of the hand change, and each frame just moves them.
         private void ShowMeldCaptions()
         {
             cnvMeldCaptions.Children.Clear();
@@ -182,7 +173,6 @@ namespace GinRummy.Client.Views
             }
         }
 
-        // Both parts stay hidden until the first frame places them over their cards.
         private void AddMeldCaption(string caption, IList<Card> stretch)
         {
             TextBlock name = new TextBlock();
@@ -198,8 +188,6 @@ namespace GinRummy.Client.Views
             cnvMeldCaptions.Children.Add(bar);
         }
 
-        // The hand animates its cards on every frame, so the captions follow them on every frame too.
-        // The bar keeps the height of the top of the hand, so a card lifted by the player does not move it.
         private void OnRendering(object sender, EventArgs e)
         {
             double barTop = lstHand.TranslatePoint(new Point(0, lstHand.TiltRoom), cnvMeldCaptions).Y - MeldBarGap;

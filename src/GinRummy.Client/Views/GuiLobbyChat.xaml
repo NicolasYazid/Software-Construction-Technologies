@@ -207,7 +207,6 @@
                     </StackPanel>
                 </ctl:PixelBorder>
 
-                <!-- The challenges sit at the bottom of the free row, right over the card of the search, so neither covers the other. -->
                 <StackPanel x:Name="pnlChallenges" Grid.Row="1" VerticalAlignment="Bottom">
                     <ctl:PixelBorder Style="{StaticResource StyLobbyStatusCard}"
                             Visibility="{Binding IsChallengeSent, Converter={StaticResource CnvBooleanToVisibility}}">

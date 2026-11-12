@@ -3,7 +3,6 @@ using System.Windows;
 
 namespace GinRummy.Client.Controls
 {
-    // The hand opens as a fan: the cards at the ends sit lower and lean outward, and the hand closes up when it no longer fits.
     public class HandFan
     {
         private const double CardGap = 2.0;
@@ -33,7 +32,6 @@ namespace GinRummy.Client.Controls
             _centerY = area.Height * Half;
         }
 
-        // The hand of the opponent is seen from the other side of the table, so its fan bends the other way.
         public bool IsFlipped { get; set; }
 
         public Point GetSlotCenter(int index)
@@ -65,7 +63,6 @@ namespace GinRummy.Client.Controls
             return IsFlipped ? FlippedBend : NormalBend;
         }
 
-        // The spread runs from -1 at the leftmost card to 1 at the rightmost one.
         private double GetSpread(int index)
         {
             double spread = 0;

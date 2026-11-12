@@ -5,8 +5,6 @@ using System.Windows.Media;
 namespace GinRummy.Client.Controls
 {
     // The formula is translated from the vertex function of "Balatro Card Hover" by Alexx.
-    // Godot moves each corner of the card on its own, while WPF can only transform the card as a whole.
-    // The four corner movements are therefore replaced by the affine transform that fits them best.
     public static class HoverBulgeCommon
     {
         private const double PointerScale = 2.0;
@@ -27,7 +25,6 @@ namespace GinRummy.Client.Controls
             Vector pointer = new Vector(
                 ClampOffset(pointerOffset.X * PointerScale),
                 ClampOffset(pointerOffset.Y * PointerScale));
-            // The original card is a centered Sprite2D, so its corners are measured from the middle of the card.
             double halfWidth = cardSize.Width * Half;
             double halfHeight = cardSize.Height * Half;
             double topLeft = GetDisplacement(new Vector(-halfWidth, -halfHeight), pointer);
@@ -48,7 +45,6 @@ namespace GinRummy.Client.Controls
             return Math.Max(-MaxPointerOffset, Math.Min(MaxPointerOffset, value));
         }
 
-        // Godot adds the same amount to both coordinates of the corner, so the corner moves along the diagonal.
         private static double GetDisplacement(Vector corner, Vector pointer)
         {
             double middleDistance = (corner - new Vector(Half, Half)).Length / _unitDiagonal;

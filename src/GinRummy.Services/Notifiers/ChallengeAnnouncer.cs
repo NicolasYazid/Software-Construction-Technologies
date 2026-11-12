@@ -43,7 +43,6 @@ namespace GinRummy.Services.Notifiers
             EnqueueNotice(challenge.Challenger.Id, callback => callback.OnChallengeDeclined(challengedPublicTag));
         }
 
-        // The start goes through the callback of the game, because the table that opens with it lives in that service.
         public void AnnounceRoundStarted(ActiveRound round)
         {
             lock (round.SyncRoot)

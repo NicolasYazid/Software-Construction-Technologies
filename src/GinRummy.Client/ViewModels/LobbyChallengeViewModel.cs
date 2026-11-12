@@ -93,7 +93,6 @@ namespace GinRummy.Client.ViewModels
             _gameConnection.RoundStarted -= OnRoundStarted;
         }
 
-        // A guest has no tag, so it cannot be challenged.
         public void Challenge(LobbyPlayerViewModel player)
         {
             bool isSent = player.PublicTag.HasValue
@@ -109,7 +108,6 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        // The card leaves even if the server refuses, because a refusal means the challenge no longer exists.
         private void Cancel()
         {
             _duelConnection.Cancel(_signedInPlayer.AccessToken);

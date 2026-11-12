@@ -6,17 +6,13 @@ using System.Windows.Media.Media3D;
 
 namespace GinRummy.Client.Effects
 {
-    // The rotation is turned into its inverse matrix here, once per frame, instead of in the shader for every pixel.
-    // That keeps the shader inside the instruction budget of shader model 2.0.
     public class CardTiltEffect : ShaderEffect
     {
-        // The field of view is the default of the original shader.
         private const double FieldOfViewDegrees = 90.0;
         private const double Half = 0.5;
         private const double DegreesPerHalfTurn = 180.0;
         private const string ShaderUri = "pack://application:,,,/GinRummy.Client;component/Effects/CardTilt.ps";
 
-        // The cards are meant to be pixel art drawn in Aseprite, and nearest sampling keeps their pixels sharp when they turn.
         public static readonly DependencyProperty InputProperty =
             RegisterPixelShaderSamplerProperty(nameof(Input), typeof(CardTiltEffect), 0, SamplingMode.NearestNeighbor);
 
@@ -51,7 +47,6 @@ namespace GinRummy.Client.Effects
                 1 / verticalRatio));
         }
 
-        // The angle around the horizontal axis leans the top and bottom of the card, and the other one its sides.
         public void Turn(double angleXDegrees, double angleYDegrees)
         {
             double sinX = Math.Sin(ToRadians(angleXDegrees));
@@ -74,7 +69,6 @@ namespace GinRummy.Client.Effects
                 new UIPropertyMetadata(new Point4D(), PixelShaderConstantCallback(register)));
         }
 
-        // Every card shares this one shader, and a frozen instance cannot be changed by any of them.
         private static PixelShader CreateShader()
         {
             PixelShader shader = new PixelShader();

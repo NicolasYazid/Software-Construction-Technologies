@@ -57,7 +57,6 @@ namespace GinRummy.Application.Tests.Gameplay
             Assert.IsEmpty(discards);
         }
 
-        // The non-dealer holds three runs and a loose king, so the face-up card decides how much deadwood is left.
         private static ActiveRound StartRound(Card faceUpCard)
         {
             IList<Card> nonDealerHand = new List<Card>

@@ -4,11 +4,8 @@ using System.Windows;
 namespace GinRummy.Client.Controls
 {
     // The angles and the return are translated from the script of "Balatro Card Tilt" by AloofMeepGamer.
-    // The card leans away from the pointer and flattens again with a quadratic ease out.
     public class CardTilt
     {
-        // The original divides by 50 and leans the card up to 25 degrees at its edges.
-        // The team found that too strong for cards this small, so the edges now lean 10 degrees.
         private const double SizeDivisor = 20.0;
         private const double ReleaseSeconds = 0.1;
         private const double FlatThresholdDegrees = 0.05;

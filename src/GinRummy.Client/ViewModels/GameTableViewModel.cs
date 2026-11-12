@@ -254,7 +254,6 @@ namespace GinRummy.Client.ViewModels
             get { return IsMatchResultShown && (_matchResult.EndReason == MatchEndReason.OpponentForfeited); }
         }
 
-        // The lobby keeps the subscription to the game open, so the table only follows the round from the state it started with.
         public void Start(RoundDetails startedRound)
         {
             _gameConnection.RoundChanged += OnRoundChanged;
@@ -263,7 +262,6 @@ namespace GinRummy.Client.ViewModels
             OnRoundChanged(this, startedRound);
         }
 
-        // Leaving the table before the round ends counts as a forfeit (CU-26), because the subscription stays with the lobby.
         public void Stop()
         {
             _gameConnection.RoundChanged -= OnRoundChanged;
@@ -292,7 +290,6 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        // The card already flew to the pile, so a refused discard puts it back into its slot of the hand.
         public void Discard(Card card)
         {
             _isMoveRefused = !_gameConnection.Discard(_signedInPlayer.AccessToken, ToPlayingCard(card));
@@ -324,7 +321,6 @@ namespace GinRummy.Client.ViewModels
             return key;
         }
 
-        // The move is not validated here because the server checks it and answers with the new state of the round.
         private void Play(Func<string, bool> move)
         {
             _isMoveRefused = !move(_signedInPlayer.AccessToken);
@@ -378,8 +374,6 @@ namespace GinRummy.Client.ViewModels
             OpponentCards = Enumerable.Range(0, round.OpponentCardCount).ToList();
             AddLastMoveToLog(round);
 
-            // An empty name tells WPF that every property of the table changed.
-            // The commands are checked again too, because the new state arrives from the server and not from an input of the player.
             RaisePropertyChanged(string.Empty);
             CommandManager.InvalidateRequerySuggested();
         }
@@ -435,7 +429,6 @@ namespace GinRummy.Client.ViewModels
             return result;
         }
 
-        // The cards the player already holds keep the order the player gave them, and a new card goes to the end of the hand.
         private void KeepHandOrder(PlayingCard[] serverHand)
         {
             List<Card> dealtCards = serverHand.Select(ToCard).ToList();
@@ -452,7 +445,6 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        // The melds go to the start of the hand only when they change, so the player can still move those cards afterwards.
         private void ArrangeMelds(PlayingCard[][] melds)
         {
             List<Meld> handMelds = melds.Select(meld => ToMeld(meld.Select(ToCard).Select(FindHeldCard).ToList())).ToList();
@@ -471,8 +463,6 @@ namespace GinRummy.Client.ViewModels
             return Hand.First(held => IsSameCard(held, card));
         }
 
-        // A card taken from the discard pile keeps the instance the pile shows, so the table can fly that same card into the hand.
-        // The table is told before the card is added, because the hand places a card it was not told about in its own slot.
         private void AddDrawnCard(Card drawnCard)
         {
             Card topOfDiscardPile = DiscardPile.FirstOrDefault(top => IsSameCard(top, drawnCard));
