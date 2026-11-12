@@ -4,36 +4,14 @@ using GinRummy.Domain.Entities.PlayerPreferences;
 
 namespace GinRummy.Domain.Ports.PlayerPreferences
 {
-    /// <summary>
-    /// Contract the game's logic uses to reach the Locale catalog, without knowing how
-    /// or where it is stored.
-    /// </summary>
     public interface ILocaleRepository
     {
-        /// <summary>
-        /// Finds the locale whose code matches, or null when no locale has it.
-        /// </summary>
-        /// <param name="localeCode">Culture code to search for, such as "es-MX".</param>
-        /// <returns>The matching locale, or null.</returns>
         Locale FindByCode(string localeCode);
 
-        /// <summary>
-        /// Finds the locale whose identifier matches, or null when no locale has it.
-        /// </summary>
-        /// <param name="localeId">Identifier of the locale.</param>
-        /// <returns>The matching locale, or null.</returns>
         Locale FindById(int localeId);
 
-        /// <summary>
-        /// Finds the locale marked as the default of the system, or null when none is marked.
-        /// </summary>
-        /// <returns>The default locale, or null.</returns>
         Locale FindDefault();
 
-        /// <summary>
-        /// Gets every locale the game supports.
-        /// </summary>
-        /// <returns>The locales, ordered by identifier.</returns>
         IList<Locale> GetAll();
     }
 }

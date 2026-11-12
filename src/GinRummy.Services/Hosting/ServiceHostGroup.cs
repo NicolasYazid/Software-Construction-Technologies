@@ -6,29 +6,17 @@ using Microsoft.Extensions.Logging;
 
 namespace GinRummy.Services.Hosting
 {
-    /// <summary>
-    /// Opens and closes the server's services, one host per service. Each host is handled on its
-    /// own, so a service that cannot open or that faults does not stop the others.
-    /// </summary>
     public class ServiceHostGroup
     {
         private readonly List<ServiceHost> _hosts;
         private readonly ILogger<ServiceHostGroup> _hostLogger;
 
-        /// <summary>
-        /// Builds an empty group.
-        /// </summary>
-        /// <param name="hostLogger">Logger of the server.</param>
         public ServiceHostGroup(ILogger<ServiceHostGroup> hostLogger)
         {
             _hostLogger = hostLogger ?? throw new ArgumentNullException(nameof(hostLogger));
             _hosts = new List<ServiceHost>();
         }
 
-        /// <summary>
-        /// Adds a host that has not been opened yet.
-        /// </summary>
-        /// <param name="host">Host of one service.</param>
         public void Add(ServiceHost host)
         {
             if (host == null)
@@ -40,9 +28,6 @@ namespace GinRummy.Services.Hosting
             _hosts.Add(host);
         }
 
-        /// <summary>
-        /// Opens every host. A host that fails to open is logged and skipped.
-        /// </summary>
         public void OpenAll()
         {
             int openedHosts = 0;
@@ -57,9 +42,6 @@ namespace GinRummy.Services.Hosting
             _hostLogger.LogInformation("{OpenedHosts} of {TotalHosts} services are listening.", openedHosts, _hosts.Count);
         }
 
-        /// <summary>
-        /// Closes every host. A host that cannot close cleanly is aborted.
-        /// </summary>
         public void CloseAll()
         {
             foreach (ServiceHost host in _hosts)
@@ -96,7 +78,6 @@ namespace GinRummy.Services.Hosting
             return isOpen;
         }
 
-        // A host that never opened or already faulted cannot close, so it is aborted to release its port.
         private void CloseHost(ServiceHost host)
         {
             try

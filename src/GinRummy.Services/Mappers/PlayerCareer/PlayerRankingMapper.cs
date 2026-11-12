@@ -5,16 +5,8 @@ using GinRummy.Domain.Entities.PlayerCareer;
 
 namespace GinRummy.Services.Mappers.PlayerCareer
 {
-    /// <summary>
-    /// Turns the leaderboard positions of the domain into the rows the client shows.
-    /// </summary>
     public static class PlayerRankingMapper
     {
-        /// <summary>
-        /// Maps every leaderboard position to its ranking row, keeping their order.
-        /// </summary>
-        /// <param name="leaderboardPositions">Positions of the leaderboard, already ordered.</param>
-        /// <returns>The ranking rows; empty when there are no positions.</returns>
         public static List<PlayerRanking> MapToPlayerRankings(IReadOnlyList<LeaderboardPosition> leaderboardPositions)
         {
             List<PlayerRanking> rankings = new List<PlayerRanking>();

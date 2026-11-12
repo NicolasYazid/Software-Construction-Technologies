@@ -2,19 +2,10 @@
 
 namespace GinRummy.Domain.Entities.PlayerCareer
 {
-    /// <summary>
-    /// A player's accumulated performance, mapped to the PlayerStats table. It always
-    /// belongs to exactly one player.
-    /// </summary>
     public class PlayerStats
     {
         private const int InitialScore = 1000;
 
-        /// <summary>
-        /// Creates the stats every new account starts with: no wins, no losses and the
-        /// initial score.
-        /// </summary>
-        /// <param name="playerAccountId">Identifier of the account the stats belong to; must be positive.</param>
         public PlayerStats(int playerAccountId)
         {
             ValidatePlayerAccountId(playerAccountId);
@@ -25,43 +16,20 @@ namespace GinRummy.Domain.Entities.PlayerCareer
             Score = InitialScore;
         }
 
-        /// <summary>
-        /// Parameterless constructor reserved for Entity Framework's materialization; not
-        /// for application code, which must use the validating constructor.
-        /// </summary>
         protected PlayerStats()
         {
         }
 
-        /// <summary>
-        /// Gets the identifier of the player these stats belong to.
-        /// </summary>
         public int PlayerAccountId { get; private set; }
 
-        /// <summary>
-        /// Gets how many matches the player has won.
-        /// </summary>
         public int Wins { get; private set; }
 
-        /// <summary>
-        /// Gets how many matches the player has lost.
-        /// </summary>
         public int Losses { get; private set; }
 
-        /// <summary>
-        /// Gets the player's score, used to rank the leaderboard.
-        /// </summary>
         public int Score { get; private set; }
 
-        /// <summary>
-        /// Gets how many matches the player has played, computed by SQL Server.
-        /// </summary>
         public int MatchesPlayed { get; private set; }
 
-        /// <summary>
-        /// Gets the share of matches won, from zero to one. It is zero when no match has been
-        /// played, so the division is never by zero.
-        /// </summary>
         public double WinRate
         {
             get
@@ -76,7 +44,6 @@ namespace GinRummy.Domain.Entities.PlayerCareer
             }
         }
 
-        // The stats of an account are keyed by the account, which must already exist.
         private static void ValidatePlayerAccountId(int playerAccountId)
         {
             if (playerAccountId <= 0)

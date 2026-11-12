@@ -82,7 +82,6 @@ namespace GinRummy.Services.Services.AccountProtection
             RunAccountChange(() => _accountSettingsPort.ChangeChatFilter(accessToken, isChatFilterEnabled));
         }
 
-        // Every change of the account breaks the same rules, so they all turn each broken rule into the same fault.
         private void RunAccountChange(Action accountChange)
         {
             try

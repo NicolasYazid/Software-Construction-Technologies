@@ -3,17 +3,8 @@ using GinRummy.Domain.Entities.Authentication;
 
 namespace GinRummy.Services.Mappers.Authentication
 {
-    /// <summary>
-    /// Turns the outcome of a sign-in into the answer the client receives.
-    /// </summary>
     public static class LogInOutcomeMapper
     {
-        /// <summary>
-        /// Maps a sign-in outcome. While the second factor is pending, only that notice travels, because the
-        /// identity of the account must not reach a client that has not confirmed the code yet.
-        /// </summary>
-        /// <param name="result">Outcome of the sign-in.</param>
-        /// <returns>The answer for the client.</returns>
         public static LogInOutcome MapToLogInOutcome(LogInResult result)
         {
             LogInOutcome outcome = new LogInOutcome
@@ -31,11 +22,6 @@ namespace GinRummy.Services.Mappers.Authentication
             return outcome;
         }
 
-        /// <summary>
-        /// Maps the entry of a guest. A guest has no account, so only its name and its token travel.
-        /// </summary>
-        /// <param name="guestAccess">Session of the guest and its access token.</param>
-        /// <returns>The answer for the client.</returns>
         public static LogInOutcome MapToGuestOutcome(GuestAccess guestAccess)
         {
             LogInOutcome outcome = new LogInOutcome

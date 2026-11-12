@@ -7,16 +7,8 @@ using GinRummy.Domain.Entities.PlayerCustomization;
 
 namespace GinRummy.Services.Mappers.PlayerCustomization
 {
-    /// <summary>
-    /// Turns the profile the use case reads into the one the client shows.
-    /// </summary>
     public static class PlayerProfileMapper
     {
-        /// <summary>
-        /// Maps the profile, the statistics and the rank of a player to the data contract of the profile.
-        /// </summary>
-        /// <param name="viewedProfile">Profile, statistics and rank of the player.</param>
-        /// <returns>The profile ready to be sent.</returns>
         public static PlayerProfileDetails MapToPlayerProfileDetails(ViewedPlayerProfile viewedProfile)
         {
             PlayerProfileDetails details = new PlayerProfileDetails
@@ -34,11 +26,6 @@ namespace GinRummy.Services.Mappers.PlayerCustomization
             return details;
         }
 
-        /// <summary>
-        /// Maps a social media link to the data contract of the link.
-        /// </summary>
-        /// <param name="link">Link of a profile.</param>
-        /// <returns>The link ready to be sent.</returns>
         public static SocialLinkDetails MapToSocialLinkDetails(SocialMedia link)
         {
             SocialLinkDetails details = new SocialLinkDetails
@@ -62,7 +49,6 @@ namespace GinRummy.Services.Mappers.PlayerCustomization
             return socialLinks;
         }
 
-        // The profile and the presence show the same rank, so both send its name the same way.
         internal static string ResolveRankName(Rank rank)
         {
             string rankName = string.Empty;
