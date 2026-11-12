@@ -2,13 +2,15 @@
 using System.ServiceModel;
 
 using GinRummy.Application.Ports.DirectDuel;
+using GinRummy.Contracts.DataContracts.DirectDuel;
 using GinRummy.Contracts.Faults.Shared;
 using GinRummy.Contracts.Services.DirectDuel;
 using GinRummy.Domain;
 using GinRummy.Domain.Entities.Authentication;
-using GinRummy.Domain.Entities.PlayerModeration;
 using GinRummy.Services.Notifiers;
 using GinRummy.Services.Services.Shared;
+
+using RequestOutcome = GinRummy.Application.UseCases.DirectDuel.ChallengeOutcome;
 
 namespace GinRummy.Services.Services.DirectDuel
 {
@@ -33,27 +35,33 @@ namespace GinRummy.Services.Services.DirectDuel
 
         public void SubscribeToDirectDuel(string accessToken)
         {
-            RunAsPlayer(accessToken, SubscribePlayer);
+            SubscribePlayer(IdentifyPlayer(accessToken));
         }
 
-        public void ChallengePlayer(string accessToken, int challengedPublicTag)
+        public ChallengeOutcome ChallengePlayer(string accessToken, int challengedPublicTag)
         {
-            RunAsPlayer(accessToken, playerId => _challengeUseCase.Challenge(playerId, challengedPublicTag));
+            int playerId = IdentifyPlayer(accessToken);
+
+            return Answer(() => _challengeUseCase.Challenge(playerId, challengedPublicTag));
         }
 
         public void CancelChallenge(string accessToken)
         {
-            RunAsPlayer(accessToken, _challengeUseCase.Cancel);
+            _challengeUseCase.Cancel(IdentifyPlayer(accessToken));
         }
 
-        public void AcceptChallenge(string accessToken, int challengerPublicTag)
+        public ChallengeOutcome AcceptChallenge(string accessToken, int challengerPublicTag)
         {
-            RunAsPlayer(accessToken, playerId => _challengeUseCase.Accept(playerId, challengerPublicTag));
+            int playerId = IdentifyPlayer(accessToken);
+
+            return Answer(() => _challengeUseCase.Accept(playerId, challengerPublicTag));
         }
 
-        public void DeclineChallenge(string accessToken, int challengerPublicTag)
+        public ChallengeOutcome DeclineChallenge(string accessToken, int challengerPublicTag)
         {
-            RunAsPlayer(accessToken, playerId => _challengeUseCase.Decline(playerId, challengerPublicTag));
+            int playerId = IdentifyPlayer(accessToken);
+
+            return Answer(() => _challengeUseCase.Decline(playerId, challengerPublicTag));
         }
 
         public void UnsubscribeFromDirectDuel()
@@ -61,46 +69,47 @@ namespace GinRummy.Services.Services.DirectDuel
             LeaveChallenges();
         }
 
-        private void RunAsPlayer(string accessToken, Action<int> action)
+        private static ChallengeOutcome Answer(Func<RequestOutcome> request)
         {
+            ChallengeOutcome outcome;
             try
             {
-                AccessTokenOwner owner = _accessPolicy.IdentifyByAccessToken(accessToken);
-                if (owner.IsGuest)
-                {
-                    throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.GuestNotAllowed);
-                }
-
-                action(owner.PlayerAccountId.Value);
+                outcome = (ChallengeOutcome)Enum.Parse(typeof(ChallengeOutcome), request().ToString());
             }
             catch (InvalidAccessTokenException)
             {
                 throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.SessionExpired);
             }
-            catch (PlayerUnavailableException)
-            {
-                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.PlayerUnavailable);
-            }
-            catch (ChallengeNotFoundException)
-            {
-                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.ChallengeNotFound);
-            }
             catch (SelfChallengeException)
             {
                 throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.CannotChallengeSelf);
-            }
-            catch (OpponentBusyException)
-            {
-                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.OpponentBusy);
             }
             catch (ConcurrentChallengeException)
             {
                 throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.ConcurrentChallenge);
             }
-            catch (AccountBannedException)
+
+            return outcome;
+        }
+
+        private int IdentifyPlayer(string accessToken)
+        {
+            AccessTokenOwner owner;
+            try
             {
-                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.AccountSuspended);
+                owner = _accessPolicy.IdentifyByAccessToken(accessToken);
             }
+            catch (InvalidAccessTokenException)
+            {
+                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.SessionExpired);
+            }
+
+            if (owner.IsGuest)
+            {
+                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.GuestNotAllowed);
+            }
+
+            return owner.PlayerAccountId.Value;
         }
 
         private void SubscribePlayer(int playerId)

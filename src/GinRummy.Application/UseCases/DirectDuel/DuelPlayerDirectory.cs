@@ -28,7 +28,6 @@ namespace GinRummy.Application.UseCases.DirectDuel
             {
                 challengerProfile = unitOfWork.PlayerAccounts.FindProfileByPlayerAccountId(challengerId);
                 challengedProfile = unitOfWork.PlayerAccounts.FindByPublicTag(challengedPublicTag);
-                EnsureNotSuspended(unitOfWork, challengerId);
             }
 
             if (challengerProfile == null)
@@ -36,26 +35,24 @@ namespace GinRummy.Application.UseCases.DirectDuel
                 throw new InvalidAccessTokenException("The access token does not belong to a registered player.");
             }
 
-            if (challengedProfile == null)
+            PendingChallenge challenge = null;
+            if (challengedProfile != null)
             {
-                throw new PlayerUnavailableException("No player has that public tag.");
+                challenge = new PendingChallenge(ToDuelPlayer(challengerProfile), ToDuelPlayer(challengedProfile));
             }
 
-            return new PendingChallenge(ToDuelPlayer(challengerProfile), ToDuelPlayer(challengedProfile));
+            return challenge;
         }
 
-        public void EnsureCanDuel(int playerId)
+        public bool CanDuel(int playerId)
         {
+            IList<Ban> bans;
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                EnsureNotSuspended(unitOfWork, playerId);
+                bans = unitOfWork.Moderation.GetBansOf(playerId);
             }
-        }
 
-        private void EnsureNotSuspended(IUnitOfWork unitOfWork, int playerId)
-        {
-            IList<Ban> bans = unitOfWork.Moderation.GetBansOf(playerId);
-            _accessPolicy.EnsureNotSuspended(bans);
+            return !_accessPolicy.IsSuspended(bans);
         }
 
         private static DuelPlayer ToDuelPlayer(PlayerProfile profile)

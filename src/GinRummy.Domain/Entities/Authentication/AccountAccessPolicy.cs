@@ -188,13 +188,9 @@ namespace GinRummy.Domain.Entities.Authentication
             return owner.PlayerAccountId.Value;
         }
 
-        public void EnsureNotSuspended(IEnumerable<Ban> bans)
+        public bool IsSuspended(IEnumerable<Ban> bans)
         {
-            Ban blockingBan = FindBlockingBan(bans);
-            if (blockingBan != null)
-            {
-                throw new AccountBannedException("A ban restricts the whole account.", blockingBan.ReasonBan.Name, blockingBan.ExpiresAt);
-            }
+            return FindBlockingBan(bans) != null;
         }
 
         // A permanent ban comes before a temporary one, and the temporary ban that ends last comes before the others.

@@ -73,6 +73,7 @@
     <Compile Include="Ports\DirectDuel\IChallengeAnnouncer.cs" />
     <Compile Include="Ports\DirectDuel\IChallengeUseCase.cs" />
     <Compile Include="UseCases\DirectDuel\ChallengeBoard.cs" />
+    <Compile Include="UseCases\DirectDuel\ChallengeOutcome.cs" />
     <Compile Include="UseCases\DirectDuel\ChallengeUseCase.cs" />
     <Compile Include="UseCases\DirectDuel\DuelPlayerDirectory.cs" />
     <Compile Include="UseCases\DirectDuel\PendingChallenge.cs" />

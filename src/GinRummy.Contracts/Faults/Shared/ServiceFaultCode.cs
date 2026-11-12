@@ -117,17 +117,9 @@
 
         InvalidMove,
 
-        PlayerUnavailable,
-
-        ChallengeNotFound,
-
         CannotChallengeSelf,
 
-        OpponentBusy,
-
         ConcurrentChallenge,
-
-        AccountSuspended,
 
         GuestNotAllowed
     }

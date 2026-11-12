@@ -20,8 +20,9 @@ namespace GinRummy.Application.UseCases.DirectDuel
             _pendingChallenges = new List<PendingChallenge>();
         }
 
-        public void Post(PendingChallenge challenge)
+        public ChallengeOutcome Post(PendingChallenge challenge)
         {
+            ChallengeOutcome outcome = ChallengeOutcome.AlreadyChallenging;
             lock (_syncRoot)
             {
                 if (challenge.Challenger.Id == challenge.Challenged.Id)
@@ -34,14 +35,18 @@ namespace GinRummy.Application.UseCases.DirectDuel
                     throw new ConcurrentChallengeException("The challenged player already challenged the challenger.");
                 }
 
-                if (_pendingChallenges.Any(pending => pending.Challenger.Id == challenge.Challenger.Id))
+                if (!_pendingChallenges.Any(pending => pending.Challenger.Id == challenge.Challenger.Id))
                 {
-                    throw new PlayerUnavailableException("The challenger already has an open challenge.");
+                    outcome = CheckPlayersFree(challenge);
                 }
 
-                EnsureFree(challenge);
-                _pendingChallenges.Add(challenge);
+                if (outcome == ChallengeOutcome.Done)
+                {
+                    _pendingChallenges.Add(challenge);
+                }
             }
+
+            return outcome;
         }
 
         public PendingChallenge RemoveFrom(int challengerId)
@@ -69,22 +74,25 @@ namespace GinRummy.Application.UseCases.DirectDuel
             return removedChallenge;
         }
 
-        public ActiveRound Accept(int challengedId, int challengerPublicTag)
+        public ChallengeOutcome Accept(int challengedId, int challengerPublicTag, out ActiveRound startedRound)
         {
-            ActiveRound startedRound;
+            ChallengeOutcome outcome = ChallengeOutcome.ChallengeExpired;
+            startedRound = null;
             lock (_syncRoot)
             {
                 PendingChallenge foundChallenge = RemoveAddressedTo(challengedId, challengerPublicTag);
-                if (foundChallenge == null)
+                if (foundChallenge != null)
                 {
-                    throw new ChallengeNotFoundException("The challenge no longer exists.");
+                    outcome = CheckPlayersFree(foundChallenge);
                 }
 
-                EnsureFree(foundChallenge);
-                startedRound = _roundRegistry.Start(foundChallenge.Challenger, foundChallenge.Challenged);
+                if (outcome == ChallengeOutcome.Done)
+                {
+                    startedRound = _roundRegistry.Start(foundChallenge.Challenger, foundChallenge.Challenged);
+                }
             }
 
-            return startedRound;
+            return outcome;
         }
 
         private static bool IsReverseOf(PendingChallenge pending, PendingChallenge challenge)
@@ -92,13 +100,15 @@ namespace GinRummy.Application.UseCases.DirectDuel
             return (pending.Challenger.Id == challenge.Challenged.Id) && (pending.Challenged.Id == challenge.Challenger.Id);
         }
 
-        private void EnsureFree(PendingChallenge challenge)
+        private ChallengeOutcome CheckPlayersFree(PendingChallenge challenge)
         {
-            bool isAnyPlaying = _roundRegistry.IsPlaying(challenge.Challenger.Id) || _roundRegistry.IsPlaying(challenge.Challenged.Id);
-            if (isAnyPlaying)
+            ChallengeOutcome outcome = ChallengeOutcome.Done;
+            if (_roundRegistry.IsPlaying(challenge.Challenger.Id) || _roundRegistry.IsPlaying(challenge.Challenged.Id))
             {
-                throw new OpponentBusyException("One of the players is already in a round.");
+                outcome = ChallengeOutcome.OpponentBusy;
             }
+
+            return outcome;
         }
     }
 }

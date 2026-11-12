@@ -1,5 +1,6 @@
 using System.ServiceModel;
 
+using GinRummy.Contracts.DataContracts.DirectDuel;
 using GinRummy.Contracts.Faults.Shared;
 
 namespace GinRummy.Contracts.Services.DirectDuel
@@ -13,7 +14,7 @@ namespace GinRummy.Contracts.Services.DirectDuel
 
         [OperationContract]
         [FaultContract(typeof(ServiceFault))]
-        void ChallengePlayer(string accessToken, int challengedPublicTag);
+        ChallengeOutcome ChallengePlayer(string accessToken, int challengedPublicTag);
 
         [OperationContract]
         [FaultContract(typeof(ServiceFault))]
@@ -21,11 +22,11 @@ namespace GinRummy.Contracts.Services.DirectDuel
 
         [OperationContract]
         [FaultContract(typeof(ServiceFault))]
-        void AcceptChallenge(string accessToken, int challengerPublicTag);
+        ChallengeOutcome AcceptChallenge(string accessToken, int challengerPublicTag);
 
         [OperationContract]
         [FaultContract(typeof(ServiceFault))]
-        void DeclineChallenge(string accessToken, int challengerPublicTag);
+        ChallengeOutcome DeclineChallenge(string accessToken, int challengerPublicTag);
 
         [OperationContract(IsOneWay = true)]
         void UnsubscribeFromDirectDuel();

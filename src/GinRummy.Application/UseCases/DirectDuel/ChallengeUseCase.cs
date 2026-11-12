@@ -2,7 +2,6 @@
 
 using GinRummy.Application.Ports.DirectDuel;
 using GinRummy.Application.UseCases.Gameplay;
-using GinRummy.Domain;
 
 namespace GinRummy.Application.UseCases.DirectDuel
 {
@@ -22,16 +21,15 @@ namespace GinRummy.Application.UseCases.DirectDuel
             _challengeAnnouncer = challengeAnnouncer ?? throw new ArgumentNullException(nameof(challengeAnnouncer));
         }
 
-        public void Challenge(int challengerId, int challengedPublicTag)
+        public ChallengeOutcome Challenge(int challengerId, int challengedPublicTag)
         {
-            PendingChallenge challenge = _playerDirectory.CreateChallenge(challengerId, challengedPublicTag);
-            if (!_challengeAnnouncer.IsPlayerOnline(challenge.Challenged.Id))
+            ChallengeOutcome outcome = ChallengeOutcome.AccountSuspended;
+            if (_playerDirectory.CanDuel(challengerId))
             {
-                throw new PlayerUnavailableException("The challenged player is not connected.");
+                outcome = Post(_playerDirectory.CreateChallenge(challengerId, challengedPublicTag));
             }
 
-            _challengeBoard.Post(challenge);
-            _challengeAnnouncer.AnnounceChallengeReceived(challenge);
+            return outcome;
         }
 
         public void Cancel(int challengerId)
@@ -43,22 +41,58 @@ namespace GinRummy.Application.UseCases.DirectDuel
             }
         }
 
-        public void Accept(int challengedId, int challengerPublicTag)
+        public ChallengeOutcome Accept(int challengedId, int challengerPublicTag)
         {
-            _playerDirectory.EnsureCanDuel(challengedId);
-            ActiveRound startedRound = _challengeBoard.Accept(challengedId, challengerPublicTag);
-            _challengeAnnouncer.AnnounceRoundStarted(startedRound);
-        }
-
-        public void Decline(int challengedId, int challengerPublicTag)
-        {
-            PendingChallenge declinedChallenge = _challengeBoard.RemoveAddressedTo(challengedId, challengerPublicTag);
-            if (declinedChallenge == null)
+            ChallengeOutcome outcome = ChallengeOutcome.AccountSuspended;
+            ActiveRound startedRound = null;
+            if (_playerDirectory.CanDuel(challengedId))
             {
-                throw new ChallengeNotFoundException("The challenge no longer exists.");
+                outcome = _challengeBoard.Accept(challengedId, challengerPublicTag, out startedRound);
             }
 
-            _challengeAnnouncer.AnnounceChallengeDeclined(declinedChallenge);
+            if (outcome == ChallengeOutcome.Done)
+            {
+                _challengeAnnouncer.AnnounceRoundStarted(startedRound);
+            }
+
+            return outcome;
+        }
+
+        public ChallengeOutcome Decline(int challengedId, int challengerPublicTag)
+        {
+            ChallengeOutcome outcome = ChallengeOutcome.ChallengeExpired;
+            PendingChallenge declinedChallenge = _challengeBoard.RemoveAddressedTo(challengedId, challengerPublicTag);
+            if (declinedChallenge != null)
+            {
+                _challengeAnnouncer.AnnounceChallengeDeclined(declinedChallenge);
+                outcome = ChallengeOutcome.Done;
+            }
+
+            return outcome;
+        }
+
+        private ChallengeOutcome Post(PendingChallenge challenge)
+        {
+            ChallengeOutcome outcome;
+            if (challenge == null)
+            {
+                outcome = ChallengeOutcome.PlayerNotFound;
+            }
+            else if (!_challengeAnnouncer.IsPlayerOnline(challenge.Challenged.Id))
+            {
+                outcome = ChallengeOutcome.PlayerNotAvailable;
+            }
+            else
+            {
+                outcome = _challengeBoard.Post(challenge);
+            }
+
+            if (outcome == ChallengeOutcome.Done)
+            {
+                _challengeAnnouncer.AnnounceChallengeReceived(challenge);
+            }
+
+            return outcome;
         }
     }
 }

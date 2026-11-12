@@ -42,9 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\PlayerModeration\AccountBannedException.cs" />
-    <Compile Include="Exceptions\ChallengeNotFoundException.cs" />
     <Compile Include="Exceptions\ConcurrentChallengeException.cs" />
-    <Compile Include="Exceptions\OpponentBusyException.cs" />
     <Compile Include="Exceptions\SelfChallengeException.cs" />
     <Compile Include="Exceptions\DisallowedCharactersException.cs" />
     <Compile Include="Exceptions\EmailAlreadyRegisteredException.cs" />
@@ -129,7 +127,6 @@
     <Compile Include="Ports\AccountProtection\IVerificationCodeRepository.cs" />
     <Compile Include="Ports\Authentication\IPasswordHasher.cs" />
     <Compile Include="Ports\AccountProtection\IVerificationCodeGenerator.cs" />
-    <Compile Include="Exceptions\PlayerUnavailableException.cs" />
     <Compile Include="Exceptions\RequiredFieldMissingException.cs" />
     <Compile Include="Entities\Authentication\Password.cs" />
     <Compile Include="Entities\Authentication\PasswordRequirement.cs" />

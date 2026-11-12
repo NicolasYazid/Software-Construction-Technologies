@@ -74,6 +74,7 @@
     <Compile Include="DataContracts\Gameplay\PlayingCard.cs" />
     <Compile Include="DataContracts\Gameplay\RoundDetails.cs" />
     <Compile Include="DataContracts\Gameplay\RoundEnding.cs" />
+    <Compile Include="DataContracts\DirectDuel\ChallengeOutcome.cs" />
     <Compile Include="DataContracts\Gameplay\RoundMoveKind.cs" />
     <Compile Include="DataContracts\Gameplay\RoundStep.cs" />
     <Compile Include="DataContracts\Gameplay\RoundSummary.cs" />
