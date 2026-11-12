@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="80be2cbc-863c-4e99-83d8-33fe5460b527" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://localhost:8001/FriendRequestResponseService/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="45a7a518-dec8-4a06-8765-148d77e6b21b" SourceId="1" SourceUrl="net.tcp://localhost:8001/FriendRequestResponseService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="5e582509-a18b-4cac-b801-e48f3be8507b" SourceId="1" SourceUrl="net.tcp://localhost:8001/FriendRequestResponseService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="e1d144c4-a01a-4c37-9e2f-8c7f9adfa93e" SourceId="1" SourceUrl="net.tcp://localhost:8001/FriendRequestResponseService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.DataContracts.Friendship.xsd" MetadataType="Schema" ID="795ff4a8-0581-4040-8f6a-a7d0381ed53e" SourceId="1" SourceUrl="net.tcp://localhost:8001/FriendRequestResponseService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.Faults.Shared.xsd" MetadataType="Schema" ID="15d11ed2-579b-436d-9cb0-c3432b3b1b7e" SourceId="1" SourceUrl="net.tcp://localhost:8001/FriendRequestResponseService/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

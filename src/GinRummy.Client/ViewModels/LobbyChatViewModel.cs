@@ -287,6 +287,30 @@ namespace GinRummy.Client.ViewModels
             HasNoFriends = HasNoFriendsListed();
         }
 
+        public void AddFriend(int publicTag)
+        {
+            LobbyPlayerViewModel onlinePlayer = FindByPublicTag(Online, publicTag);
+            LobbyPlayerViewModel unavailablePlayer = FindByPublicTag(Unavailable, publicTag);
+            bool isListedAsFriend = (FindByPublicTag(FriendsOnline, publicTag) != null)
+                || (FindByPublicTag(FriendsUnavailable, publicTag) != null);
+            if (!isListedAsFriend && (onlinePlayer != null))
+            {
+                FriendsOnline.Add(CopyAsFriend(onlinePlayer));
+            }
+            else if (!isListedAsFriend && (unavailablePlayer != null))
+            {
+                FriendsUnavailable.Add(CopyAsFriend(unavailablePlayer));
+            }
+
+            UpdateRelationOfPlayer(publicTag, true);
+            HasNoFriends = HasNoFriendsListed();
+        }
+
+        public void ClearPendingRequest(int publicTag)
+        {
+            UpdateRelationOfPlayer(publicTag, false);
+        }
+
         private void SendMessage()
         {
             string content = _messageDraft.Trim();
@@ -499,6 +523,53 @@ namespace GinRummy.Client.ViewModels
             player.IsGuest = presence.IsGuest;
 
             return player;
+        }
+
+        private void UpdateRelationOfPlayer(int publicTag, bool isFriend)
+        {
+            List<IList<LobbyPlayerViewModel>> groupsOfEveryone = new List<IList<LobbyPlayerViewModel>>
+            {
+                LookingToPlay,
+                Online,
+                Unavailable
+            };
+            foreach (IList<LobbyPlayerViewModel> players in groupsOfEveryone)
+            {
+                LobbyPlayerViewModel player = FindByPublicTag(players, publicTag);
+                if (player != null)
+                {
+                    player.IsFriend = isFriend;
+                    player.HasPendingRequest = false;
+                }
+            }
+        }
+
+        private static LobbyPlayerViewModel FindByPublicTag(IList<LobbyPlayerViewModel> players, int publicTag)
+        {
+            LobbyPlayerViewModel foundPlayer = null;
+            foreach (LobbyPlayerViewModel candidate in players)
+            {
+                if (candidate.PublicTag == publicTag)
+                {
+                    foundPlayer = candidate;
+                }
+            }
+
+            return foundPlayer;
+        }
+
+        private static LobbyPlayerViewModel CopyAsFriend(LobbyPlayerViewModel player)
+        {
+            LobbyPlayerViewModel friend = new LobbyPlayerViewModel();
+            friend.Username = player.Username;
+            friend.PublicTag = player.PublicTag;
+            friend.GuestSessionId = player.GuestSessionId;
+            friend.RankName = player.RankName;
+            friend.Score = player.Score;
+            friend.IsFriend = true;
+            friend.IsGuest = player.IsGuest;
+
+            return friend;
         }
     }
 }

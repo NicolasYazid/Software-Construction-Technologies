@@ -49,6 +49,10 @@ namespace GinRummy.Client.ViewModels
             DismissNoticeCommand = new RelayCommand(() => NoticeKey = null);
         }
 
+        public event EventHandler<int> FriendshipCreated;
+
+        public event EventHandler<int> FriendRequestDeclined;
+
         public ICommand DismissNoticeCommand { get; private set; }
 
         public string NoticeKey
@@ -69,6 +73,7 @@ namespace GinRummy.Client.ViewModels
 
         public void Start()
         {
+            _friendshipConnection.FriendshipEventReceived += OnFriendshipEventReceived;
             if (!_friendshipConnection.Start(_signedInPlayer.AccessToken))
             {
                 NoticeKey = ServiceUnavailableKey;
@@ -77,6 +82,7 @@ namespace GinRummy.Client.ViewModels
 
         public void Stop()
         {
+            _friendshipConnection.FriendshipEventReceived -= OnFriendshipEventReceived;
             _friendshipConnection.Stop();
         }
 
@@ -101,6 +107,18 @@ namespace GinRummy.Client.ViewModels
             }
 
             NoticeKey = noticeKey;
+        }
+
+        private void OnFriendshipEventReceived(object sender, FriendshipEvent friendshipEvent)
+        {
+            if (friendshipEvent.EventType == FriendshipEventType.FriendRequestAccepted)
+            {
+                FriendshipCreated?.Invoke(this, friendshipEvent.OtherPlayerPublicTag);
+            }
+            else if (friendshipEvent.EventType == FriendshipEventType.FriendRequestDeclined)
+            {
+                FriendRequestDeclined?.Invoke(this, friendshipEvent.OtherPlayerPublicTag);
+            }
         }
 
         private static string FindNoticeKey(FriendRequestOutcome outcome)

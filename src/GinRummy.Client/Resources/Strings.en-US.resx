@@ -832,6 +832,15 @@ You: {0}   -   Opponent: {1}</value>
   <data name="Notifications_NoPendingRequests" xml:space="preserve">
     <value>You have no pending requests</value>
   </data>
+  <data name="Notifications_OwnFriendLimit" xml:space="preserve">
+    <value>You already have the maximum of 30 friends</value>
+  </data>
+  <data name="Notifications_RequestAccepted" xml:space="preserve">
+    <value>You are now friends</value>
+  </data>
+  <data name="Notifications_RequesterFriendLimit" xml:space="preserve">
+    <value>That player already has the maximum of 30 friends</value>
+  </data>
   <data name="Notifications_TabFriendRequests" xml:space="preserve">
     <value>Requests</value>
   </data>

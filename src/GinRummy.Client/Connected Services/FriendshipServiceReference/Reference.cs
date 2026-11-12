@@ -132,10 +132,13 @@ namespace GinRummy.Client.FriendshipServiceReference {
         InvalidMove = 22,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        PlayerUnavailable = 23,
+        CannotChallengeSelf = 23,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        ChallengeNotFound = 24,
+        ConcurrentChallenge = 24,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        GuestNotAllowed = 25,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
@@ -179,22 +182,25 @@ namespace GinRummy.Client.FriendshipServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="FriendRequest", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.Friendsh" +
+    [System.Runtime.Serialization.DataContractAttribute(Name="FriendshipEvent", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.Friendsh" +
         "ip")]
     [System.SerializableAttribute()]
-    public partial class FriendRequest : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class FriendshipEvent : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private GinRummy.Client.FriendshipServiceReference.FriendshipEventType EventTypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int FriendRequestIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int RequesterPublicTagField;
+        private int OtherPlayerPublicTagField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string RequesterUsernameField;
+        private string OtherPlayerUsernameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private System.DateTime SentAtField;
@@ -206,6 +212,19 @@ namespace GinRummy.Client.FriendshipServiceReference {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public GinRummy.Client.FriendshipServiceReference.FriendshipEventType EventType {
+            get {
+                return this.EventTypeField;
+            }
+            set {
+                if ((this.EventTypeField.Equals(value) != true)) {
+                    this.EventTypeField = value;
+                    this.RaisePropertyChanged("EventType");
+                }
             }
         }
         
@@ -223,27 +242,27 @@ namespace GinRummy.Client.FriendshipServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public int RequesterPublicTag {
+        public int OtherPlayerPublicTag {
             get {
-                return this.RequesterPublicTagField;
+                return this.OtherPlayerPublicTagField;
             }
             set {
-                if ((this.RequesterPublicTagField.Equals(value) != true)) {
-                    this.RequesterPublicTagField = value;
-                    this.RaisePropertyChanged("RequesterPublicTag");
+                if ((this.OtherPlayerPublicTagField.Equals(value) != true)) {
+                    this.OtherPlayerPublicTagField = value;
+                    this.RaisePropertyChanged("OtherPlayerPublicTag");
                 }
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string RequesterUsername {
+        public string OtherPlayerUsername {
             get {
-                return this.RequesterUsernameField;
+                return this.OtherPlayerUsernameField;
             }
             set {
-                if ((object.ReferenceEquals(this.RequesterUsernameField, value) != true)) {
-                    this.RequesterUsernameField = value;
-                    this.RaisePropertyChanged("RequesterUsername");
+                if ((object.ReferenceEquals(this.OtherPlayerUsernameField, value) != true)) {
+                    this.OtherPlayerUsernameField = value;
+                    this.RaisePropertyChanged("OtherPlayerUsername");
                 }
             }
         }
@@ -269,6 +288,21 @@ namespace GinRummy.Client.FriendshipServiceReference {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="FriendshipEventType", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.Friendsh" +
+        "ip")]
+    public enum FriendshipEventType : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        FriendRequestReceived = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        FriendRequestAccepted = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        FriendRequestDeclined = 2,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -299,8 +333,8 @@ namespace GinRummy.Client.FriendshipServiceReference {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface IFriendshipServiceCallback {
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IFriendshipService/OnFriendRequestReceived")]
-        void OnFriendRequestReceived(GinRummy.Client.FriendshipServiceReference.FriendRequest request);
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IFriendshipService/OnFriendshipEvent")]
+        void OnFriendshipEvent(GinRummy.Client.FriendshipServiceReference.FriendshipEvent friendshipEvent);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]

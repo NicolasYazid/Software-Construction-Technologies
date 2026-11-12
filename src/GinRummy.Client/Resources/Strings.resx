@@ -1069,6 +1069,18 @@ Tú: {0}   -   Rival: {1}</value>
     <value>No tienes solicitudes pendientes</value>
     <comment>Contenido de GuiNotifications</comment>
   </data>
+  <data name="Notifications_OwnFriendLimit" xml:space="preserve">
+    <value>Ya tienes el máximo de 30 amigos</value>
+    <comment>Aviso de GuiNotifications</comment>
+  </data>
+  <data name="Notifications_RequestAccepted" xml:space="preserve">
+    <value>Ahora son amigos</value>
+    <comment>Aviso de GuiNotifications</comment>
+  </data>
+  <data name="Notifications_RequesterFriendLimit" xml:space="preserve">
+    <value>Ese jugador ya tiene el máximo de 30 amigos</value>
+    <comment>Aviso de GuiNotifications</comment>
+  </data>
   <data name="Notifications_TabFriendRequests" xml:space="preserve">
     <value>Solicitudes</value>
     <comment>Pestañas de GuiNotifications</comment>

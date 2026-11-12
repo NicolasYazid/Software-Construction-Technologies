@@ -126,6 +126,85 @@ namespace GinRummy.Domain.Tests.Friendship
             Assert.Throws<ArgumentNullException>(checkWithoutRepository);
         }
 
+        [Test]
+        public void Test_CheckAcceptance_NoLimitReached_ReturnsAccepted()
+        {
+            FriendRequestResponseResult result = FriendRequestRules.CheckAcceptance(_friendRepository, SenderId, AddresseeId);
+
+            Assert.AreEqual(FriendRequestResponseResult.Accepted, result);
+        }
+
+        [Test]
+        public void Test_CheckAcceptance_RequesterHasMaxFriends_ReturnsRequesterFriendLimitReached()
+        {
+            AddFriendsTo(SenderId, FriendRequestRules.MaxFriendsPerPlayer);
+
+            FriendRequestResponseResult result = FriendRequestRules.CheckAcceptance(_friendRepository, SenderId, AddresseeId);
+
+            Assert.AreEqual(FriendRequestResponseResult.RequesterFriendLimitReached, result);
+        }
+
+        [Test]
+        public void Test_CheckAcceptance_RequesterHasOneFriendLessThanMax_ReturnsAccepted()
+        {
+            AddFriendsTo(SenderId, FriendRequestRules.MaxFriendsPerPlayer - 1);
+
+            FriendRequestResponseResult result = FriendRequestRules.CheckAcceptance(_friendRepository, SenderId, AddresseeId);
+
+            Assert.AreEqual(FriendRequestResponseResult.Accepted, result);
+        }
+
+        [Test]
+        public void Test_CheckAcceptance_AddresseeHasMaxFriends_ReturnsAddresseeFriendLimitReached()
+        {
+            AddFriendsTo(AddresseeId, FriendRequestRules.MaxFriendsPerPlayer);
+
+            FriendRequestResponseResult result = FriendRequestRules.CheckAcceptance(_friendRepository, SenderId, AddresseeId);
+
+            Assert.AreEqual(FriendRequestResponseResult.AddresseeFriendLimitReached, result);
+        }
+
+        [Test]
+        public void Test_CheckAcceptance_AddresseeHasOneFriendLessThanMax_ReturnsAccepted()
+        {
+            AddFriendsTo(AddresseeId, FriendRequestRules.MaxFriendsPerPlayer - 1);
+
+            FriendRequestResponseResult result = FriendRequestRules.CheckAcceptance(_friendRepository, SenderId, AddresseeId);
+
+            Assert.AreEqual(FriendRequestResponseResult.Accepted, result);
+        }
+
+        [Test]
+        public void Test_CheckAcceptance_BothHaveMaxFriends_ReturnsRequesterFriendLimitReached()
+        {
+            AddFriendsTo(SenderId, FriendRequestRules.MaxFriendsPerPlayer);
+            AddFriendsTo(AddresseeId, FriendRequestRules.MaxFriendsPerPlayer);
+
+            FriendRequestResponseResult result = FriendRequestRules.CheckAcceptance(_friendRepository, SenderId, AddresseeId);
+
+            Assert.AreEqual(FriendRequestResponseResult.RequesterFriendLimitReached, result);
+        }
+
+        [Test]
+        public void Test_CheckAcceptance_PlayersAreFriendsAndBothHaveMaxFriends_ReturnsAccepted()
+        {
+            _friendRepository.AddFriendShip(new FriendShip(SenderId, AddresseeId));
+            AddFriendsTo(SenderId, FriendRequestRules.MaxFriendsPerPlayer - 1);
+            AddFriendsTo(AddresseeId, FriendRequestRules.MaxFriendsPerPlayer - 1);
+
+            FriendRequestResponseResult result = FriendRequestRules.CheckAcceptance(_friendRepository, SenderId, AddresseeId);
+
+            Assert.AreEqual(FriendRequestResponseResult.Accepted, result);
+        }
+
+        [Test]
+        public void Test_CheckAcceptance_NullRepository_ThrowsArgumentNullException()
+        {
+            TestDelegate checkWithoutRepository = () => FriendRequestRules.CheckAcceptance(null, SenderId, AddresseeId);
+
+            Assert.Throws<ArgumentNullException>(checkWithoutRepository);
+        }
+
         private void AddFriendsTo(int playerAccountId, int friendCount)
         {
             for (int i = 0; i < friendCount; i++)

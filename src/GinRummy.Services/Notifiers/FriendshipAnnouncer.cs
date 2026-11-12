@@ -1,10 +1,10 @@
 ﻿using System;
 
 using GinRummy.Application.Ports.Friendship;
+using GinRummy.Contracts.DataContracts.Friendship;
 using GinRummy.Contracts.Services.Friendship;
 using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Services.Mappers.Friendship;
-using ContractFriendRequest = GinRummy.Contracts.DataContracts.Friendship.FriendRequest;
 using DomainFriendRequest = GinRummy.Domain.Entities.Friendship.FriendRequest;
 
 namespace GinRummy.Services.Notifiers
@@ -30,15 +30,48 @@ namespace GinRummy.Services.Notifiers
                 throw new ArgumentNullException(nameof(requesterProfile));
             }
 
-            WcfCallbackDispatcher<IFriendshipCallback> addresseeDispatcher =
-                _onlinePlayers.FindDispatcherOfPlayer(newRequest.AddresseePlayerAccountId);
-            if (addresseeDispatcher == null)
+            FriendshipEvent eventForAddressee = FriendshipMapper.MapToReceivedFriendshipEvent(newRequest, requesterProfile);
+            SendFriendshipEvent(newRequest.AddresseePlayerAccountId, eventForAddressee);
+        }
+
+        public void AnnounceFriendshipCreated(PlayerProfile requesterProfile, PlayerProfile addresseeProfile)
+        {
+            if (requesterProfile == null)
             {
-                return;
+                throw new ArgumentNullException(nameof(requesterProfile));
             }
 
-            ContractFriendRequest receivedRequest = FriendshipMapper.MapToFriendRequest(newRequest, requesterProfile);
-            addresseeDispatcher.EnqueueNotice(callback => callback.OnFriendRequestReceived(receivedRequest));
+            if (addresseeProfile == null)
+            {
+                throw new ArgumentNullException(nameof(addresseeProfile));
+            }
+
+            FriendshipEventType eventType = FriendshipEventType.FriendRequestAccepted;
+            FriendshipEvent eventForRequester = FriendshipMapper.MapToFriendshipEvent(eventType, addresseeProfile);
+            FriendshipEvent eventForAddressee = FriendshipMapper.MapToFriendshipEvent(eventType, requesterProfile);
+            SendFriendshipEvent(requesterProfile.PlayerAccountId, eventForRequester);
+            SendFriendshipEvent(addresseeProfile.PlayerAccountId, eventForAddressee);
+        }
+
+        public void AnnounceFriendRequestDeclined(int requesterId, PlayerProfile declinerProfile)
+        {
+            if (declinerProfile == null)
+            {
+                throw new ArgumentNullException(nameof(declinerProfile));
+            }
+
+            FriendshipEventType eventType = FriendshipEventType.FriendRequestDeclined;
+            FriendshipEvent eventForRequester = FriendshipMapper.MapToFriendshipEvent(eventType, declinerProfile);
+            SendFriendshipEvent(requesterId, eventForRequester);
+        }
+
+        private void SendFriendshipEvent(int playerId, FriendshipEvent friendshipEvent)
+        {
+            WcfCallbackDispatcher<IFriendshipCallback> playerDispatcher = _onlinePlayers.FindDispatcherOfPlayer(playerId);
+            if (playerDispatcher != null)
+            {
+                playerDispatcher.EnqueueNotice(callback => callback.OnFriendshipEvent(friendshipEvent));
+            }
         }
     }
 }

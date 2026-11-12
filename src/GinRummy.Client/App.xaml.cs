@@ -8,6 +8,7 @@ using System.Windows.Threading;
 using GinRummy.Client.AccountSettingsServiceReference;
 using GinRummy.Client.ChatMessageServiceReference;
 using GinRummy.Client.DirectDuelServiceReference;
+using GinRummy.Client.FriendRequestResponseServiceReference;
 using GinRummy.Client.FriendshipServiceReference;
 using GinRummy.Client.PendingFriendRequestServiceReference;
 using GinRummy.Client.GameServiceReference;
@@ -37,6 +38,7 @@ namespace GinRummy.Client
         private const string DirectDuelEndpointName = "DirectDuelService";
         private const string FriendshipEndpointName = "FriendshipService";
         private const string PendingFriendRequestEndpointName = "PendingFriendRequestService";
+        private const string FriendRequestResponseEndpointName = "FriendRequestResponseService";
         private const string GameEndpointName = "GameService";
         private const string LeaderboardEndpointName = "LeaderboardService";
         private const string LogInEndpointName = "LogInService";
@@ -197,8 +199,12 @@ namespace GinRummy.Client
                 () => new PendingFriendRequestServiceClient(PendingFriendRequestEndpointName),
                 SignedInPlayer.AccessToken,
                 _loggerFactory.CreateLogger<PendingFriendRequestsConnection>());
+            FriendRequestResponseConnection responseConnection = new FriendRequestResponseConnection(
+                () => new FriendRequestResponseServiceClient(FriendRequestResponseEndpointName),
+                SignedInPlayer.AccessToken,
+                _loggerFactory.CreateLogger<FriendRequestResponseConnection>());
 
-            return new NotificationsViewModel(friendshipConnection, pendingRequestsConnection);
+            return new NotificationsViewModel(friendshipConnection, pendingRequestsConnection, responseConnection);
         }
 
         public PlayerProfileViewModel CreatePlayerProfileViewModel(PlayerProfile profile)

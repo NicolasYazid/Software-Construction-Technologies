@@ -1,6 +1,7 @@
 ﻿<views:GuiModalBase x:Class="GinRummy.Client.Views.GuiNotifications"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ctl="clr-namespace:GinRummy.Client.Controls"
         xmlns:views="clr-namespace:GinRummy.Client.Views"
         UseLayoutRounding="True"
         TextOptions.TextFormattingMode="Display"
@@ -27,6 +28,25 @@
                              Header="{Binding [Notifications_TabSanctions], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
                 </TabControl>
+
+                <ctl:PixelBorder x:Name="pnlResponseNotice" Style="{StaticResource StyLobbyStatusCard}" Margin="32,12,32,0"
+                        Visibility="{Binding HasNotice, Converter={StaticResource CnvBooleanToVisibility}}">
+                    <DockPanel LastChildFill="True">
+                        <Button x:Name="btnDismissResponseNotice" DockPanel.Dock="Right" Style="{StaticResource StyNoticeButton}"
+                                VerticalAlignment="Center"
+                                Content="{Binding [Shared_BtnClose], Source={StaticResource PrvLocalization},
+                                          Converter={StaticResource CnvUpperCase}}"
+                                Command="{Binding DismissNoticeCommand}" />
+                        <TextBlock x:Name="lblResponseNotice" Style="{StaticResource StyStatusTitle}" VerticalAlignment="Center">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CnvResourceText}">
+                                    <Binding Path="NoticeKey" />
+                                    <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DockPanel>
+                </ctl:PixelBorder>
 
                 <ScrollViewer Height="420" VerticalScrollBarVisibility="Auto" Margin="32,12,22,24">
                     <StackPanel Margin="0,0,10,0">

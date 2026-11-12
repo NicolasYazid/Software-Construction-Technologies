@@ -10,10 +10,10 @@ namespace GinRummy.Contracts.Services.Friendship
     public interface IFriendshipCallback
     {
         /// <summary>
-        /// Delivers a friend request that another player has just sent to this player (CU-12 step 9).
+        /// Delivers a change in the friendship between this player and another player: a request received, accepted or declined.
         /// </summary>
-        /// <param name="request">Request received, already stored by the server.</param>
+        /// <param name="friendshipEvent">What happened and with which player.</param>
         [OperationContract(IsOneWay = true)]
-        void OnFriendRequestReceived(FriendRequest request);
+        void OnFriendshipEvent(FriendshipEvent friendshipEvent);
     }
 }

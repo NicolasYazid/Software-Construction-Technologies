@@ -51,5 +51,26 @@ namespace GinRummy.Domain.Entities.Friendship
 
             return result;
         }
+
+        public static FriendRequestResponseResult CheckAcceptance(IFriendRepository friendRepository, int requesterId, int addresseeId)
+        {
+            if (friendRepository == null)
+            {
+                throw new ArgumentNullException(nameof(friendRepository));
+            }
+
+            FriendRequestResponseResult result = FriendRequestResponseResult.Accepted;
+            bool areAlreadyFriends = friendRepository.FindFriendShip(requesterId, addresseeId) != null;
+            if (!areAlreadyFriends && (friendRepository.CountFriendShipsOf(requesterId) >= MaxFriendsPerPlayer))
+            {
+                result = FriendRequestResponseResult.RequesterFriendLimitReached;
+            }
+            else if (!areAlreadyFriends && (friendRepository.CountFriendShipsOf(addresseeId) >= MaxFriendsPerPlayer))
+            {
+                result = FriendRequestResponseResult.AddresseeFriendLimitReached;
+            }
+
+            return result;
+        }
     }
 }

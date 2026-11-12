@@ -59,6 +59,7 @@
     <Compile Include="Entities\Authentication\GuestAccess.cs" />
     <Compile Include="Entities\AccountProtection\EmailDeliveryStatus.cs" />
     <Compile Include="Entities\Friendship\FriendRequest.cs" />
+    <Compile Include="Entities\Friendship\FriendRequestResponseResult.cs" />
     <Compile Include="Entities\Friendship\FriendRequestResult.cs" />
     <Compile Include="Entities\Friendship\FriendRequestRules.cs" />
     <Compile Include="Entities\Friendship\FriendShip.cs" />
