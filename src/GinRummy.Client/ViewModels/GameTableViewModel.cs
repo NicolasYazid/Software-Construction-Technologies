@@ -411,13 +411,13 @@ namespace GinRummy.Client.ViewModels
                 _opponentScore += summary.Points;
             }
 
-            if (summary.Ending != RoundEnding.Void)
+            if (summary.Ending != RoundOutcome.Void)
             {
-                MatchLogKind closeKind = (summary.Ending == RoundEnding.Gin) ? MatchLogKind.Gin : MatchLogKind.Knocked;
+                MatchLogKind closeKind = (summary.Ending == RoundOutcome.Gin) ? MatchLogKind.Gin : MatchLogKind.Knocked;
                 AddLogEntry(summary.KnockerName, closeKind, null).Amount = summary.KnockerDeadwood;
             }
 
-            HandHeadlineKey = (summary.Ending == RoundEnding.Void) ? RoundVoidKey : HandWinnerKey;
+            HandHeadlineKey = (summary.Ending == RoundOutcome.Void) ? RoundVoidKey : HandWinnerKey;
             HandResult = ToHandResult(summary);
             IsHandResultShown = true;
             RaisePropertyChanged(string.Empty);
