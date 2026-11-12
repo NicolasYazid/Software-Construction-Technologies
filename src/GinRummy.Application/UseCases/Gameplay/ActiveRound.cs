@@ -94,7 +94,10 @@ namespace GinRummy.Application.UseCases.Gameplay
             List<Card> discards = new List<Card>();
             if ((Round.CurrentPlayerId == playerId) && (Round.Phase == TurnPhase.Discard))
             {
-                discards = hand.Where(card => CountDeadwoodWithout(hand, card) <= RoundRules.KnockThreshold).ToList();
+                discards = hand
+                    .Where(card => !card.Equals(Round.CardTakenFromDiscardPile))
+                    .Where(card => CountDeadwoodWithout(hand, card) <= RoundRules.KnockThreshold)
+                    .ToList();
             }
 
             return discards;

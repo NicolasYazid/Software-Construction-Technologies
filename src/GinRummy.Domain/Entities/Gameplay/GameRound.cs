@@ -11,7 +11,6 @@ namespace GinRummy.Domain
         private readonly Dictionary<int, List<Card>> _hands;
         private readonly Stack<Card> _stock;
         private readonly Stack<Card> _discardPile;
-        private Card _cardTakenFromDiscardPile;
         private bool _isDiscardPileClosed;
         private int _knockerId;
         private int _knockerDeadwood;
@@ -50,6 +49,7 @@ namespace GinRummy.Domain
         public int CurrentPlayerId { get; private set; }
         public TurnPhase Phase { get; private set; }
         public RoundResult Result { get; private set; }
+        public Card CardTakenFromDiscardPile { get; private set; }
 
         public int StockCount
         {
@@ -101,7 +101,7 @@ namespace GinRummy.Domain
         {
             EnsureTurn(playerId, TurnPhase.Draw);
             FindHand(playerId).Add(_stock.Pop());
-            _cardTakenFromDiscardPile = null;
+            CardTakenFromDiscardPile = null;
             _isDiscardPileClosed = false;
             Phase = TurnPhase.Discard;
         }
@@ -238,7 +238,7 @@ namespace GinRummy.Domain
                 throw new InvalidMoveException("The card is not in the hand of the player.");
             }
 
-            if (card.Equals(_cardTakenFromDiscardPile))
+            if (card.Equals(CardTakenFromDiscardPile))
             {
                 throw new InvalidMoveException("The card just taken from the discard pile cannot be discarded in the same turn.");
             }
@@ -262,8 +262,8 @@ namespace GinRummy.Domain
 
         private void TakeTopOfDiscardPile(int playerId)
         {
-            _cardTakenFromDiscardPile = _discardPile.Pop();
-            FindHand(playerId).Add(_cardTakenFromDiscardPile);
+            CardTakenFromDiscardPile = _discardPile.Pop();
+            FindHand(playerId).Add(CardTakenFromDiscardPile);
             Phase = TurnPhase.Discard;
         }
 
@@ -276,7 +276,7 @@ namespace GinRummy.Domain
         private void PassTurn()
         {
             CurrentPlayerId = FindOpponentOf(CurrentPlayerId);
-            _cardTakenFromDiscardPile = null;
+            CardTakenFromDiscardPile = null;
             Phase = TurnPhase.Draw;
         }
 

@@ -37,14 +37,14 @@ namespace GinRummy.Application.Tests.Gameplay
         }
 
         [Test]
-        public void Test_FindKnockDiscards_DiscardStep_OffersTheLooseCards()
+        public void Test_FindKnockDiscards_CardTakenFromDiscardPile_LeavesItOut()
         {
             ActiveRound activeRound = StartRound(new Card(CardSuit.Diamonds, 2));
             activeRound.TakeFirstCard(NonDealerId);
 
             IList<Card> discards = activeRound.FindKnockDiscards(NonDealerId);
 
-            CollectionAssert.AreEquivalent(new[] { new Card(CardSuit.Diamonds, 2), new Card(CardSuit.Diamonds, 13) }, discards);
+            CollectionAssert.AreEquivalent(new[] { new Card(CardSuit.Diamonds, 13) }, discards);
         }
 
         [Test]
