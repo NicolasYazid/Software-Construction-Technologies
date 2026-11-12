@@ -41,6 +41,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Friendship\FakeFriendRepository.cs" />
+    <Compile Include="Friendship\FriendRequestRulesTests.cs" />
     <Compile Include="Gameplay\CardTests.cs" />
     <Compile Include="Gameplay\GameRoundTests.cs" />
     <Compile Include="Gameplay\MeldFinderTests.cs" />
