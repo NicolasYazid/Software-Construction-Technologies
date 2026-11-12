@@ -53,6 +53,7 @@
     <Compile Include="Hosting\ServiceHostGroup.cs" />
     <Compile Include="Hosting\ServiceInstanceProvider.cs" />
     <Compile Include="Mappers\SocialCommunication\ChatMessageMapper.cs" />
+    <Compile Include="Mappers\Friendship\FriendshipMapper.cs" />
     <Compile Include="Mappers\Authentication\LogInOutcomeMapper.cs" />
     <Compile Include="Mappers\PlayerPresence\PlayerPresenceMapper.cs" />
     <Compile Include="Mappers\PlayerCustomization\PlayerProfileMapper.cs" />
@@ -66,8 +67,10 @@
     <Compile Include="Mappers\Authentication\SignUpOutcomeMapper.cs" />
     <Compile Include="Mappers\Gameplay\GameMapper.cs" />
     <Compile Include="Notifiers\ChallengeAnnouncer.cs" />
+    <Compile Include="Notifiers\FriendshipAnnouncer.cs" />
     <Compile Include="Notifiers\RoundAnnouncer.cs" />
     <Compile Include="Services\DirectDuel\DirectDuelService.cs" />
+    <Compile Include="Services\Friendship\FriendshipService.cs" />
     <Compile Include="Services\Gameplay\GameService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AccountProtection\AccountSettingsService.cs" />

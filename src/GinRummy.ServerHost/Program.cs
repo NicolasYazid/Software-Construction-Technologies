@@ -9,12 +9,14 @@ using System.ServiceModel.Dispatcher;
 using GinRummy.Application.UseCases.AccountProtection;
 using GinRummy.Application.UseCases.Authentication;
 using GinRummy.Application.UseCases.DirectDuel;
+using GinRummy.Application.UseCases.Friendship;
 using GinRummy.Application.UseCases.Gameplay;
 using GinRummy.Application.UseCases.PlayerCareer;
 using GinRummy.Application.UseCases.PlayerCustomization;
 using GinRummy.Application.UseCases.PlayerPresence;
 using GinRummy.Application.UseCases.SocialCommunication;
 using GinRummy.Contracts.Services.DirectDuel;
+using GinRummy.Contracts.Services.Friendship;
 using GinRummy.Contracts.Services.Gameplay;
 using GinRummy.Contracts.Services.SocialCommunication;
 using GinRummy.Domain.Entities.AccountProtection;
@@ -33,6 +35,7 @@ using GinRummy.Services.Notifiers;
 using GinRummy.Services.Services.AccountProtection;
 using GinRummy.Services.Services.Authentication;
 using GinRummy.Services.Services.DirectDuel;
+using GinRummy.Services.Services.Friendship;
 using GinRummy.Services.Services.Gameplay;
 using GinRummy.Services.Services.PlayerCareer;
 using GinRummy.Services.Services.PlayerCustomization;
@@ -103,6 +106,19 @@ namespace GinRummy.ServerHost
                     tokenSigner,
                     new SystemClock());
 
+                OnlinePlayers<IFriendshipCallback> friendshipOnlinePlayers = new OnlinePlayers<IFriendshipCallback>(
+                    loggerFactory.CreateLogger<WcfCallbackDispatcher<IFriendshipCallback>>());
+                FriendshipAnnouncer friendshipAnnouncer = new FriendshipAnnouncer(friendshipOnlinePlayers);
+                FriendRequestTimeLimits friendRequestTimeLimits = new FriendRequestTimeLimits(new SystemClock());
+                SendFriendRequestUseCase sendFriendRequestUseCase = new SendFriendRequestUseCase(
+                    () => new EntityFrameworkUnitOfWork(ConnectionStringName),
+                    friendshipAnnouncer,
+                    friendRequestTimeLimits);
+                AccountAccessPolicy friendshipAccessPolicy = new AccountAccessPolicy(
+                    new Argon2PasswordHasher(),
+                    tokenSigner,
+                    new SystemClock());
+
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(ChatMessageService),
                     () => new ChatMessageService(chatAccessPolicy, sendMessageUseCase, chatOnlinePlayers),
@@ -110,6 +126,10 @@ namespace GinRummy.ServerHost
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(DirectDuelService),
                     () => new DirectDuelService(duelAccessPolicy, challengeUseCase, duelOnlinePlayers),
+                    faultShieldBehavior));
+                hostGroup.Add(CreateIsolatedHost(
+                    typeof(FriendshipService),
+                    () => new FriendshipService(friendshipAccessPolicy, sendFriendRequestUseCase, friendshipOnlinePlayers),
                     faultShieldBehavior));
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(GameService),
