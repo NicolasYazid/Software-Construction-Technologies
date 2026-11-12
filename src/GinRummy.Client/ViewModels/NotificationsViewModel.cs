@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-using GinRummy.Client.Models;
+using GinRummy.Client.FriendshipServiceReference;
 using GinRummy.Client.Mvvm;
 using GinRummy.Client.Services;
 
@@ -10,16 +10,13 @@ namespace GinRummy.Client.ViewModels
 {
     public class NotificationsViewModel : ViewModelBase
     {
+        private readonly FriendshipConnection _friendshipConnection;
         private bool _hasNoPendingRequests;
 
-        public NotificationsViewModel(ISampleDataService dataService)
+        public NotificationsViewModel(FriendshipConnection friendshipConnection)
         {
-            if (dataService == null)
-            {
-                throw new ArgumentNullException(nameof(dataService));
-            }
-
-            FriendRequests = new ObservableCollection<FriendRequest>(dataService.GetFriendRequests());
+            _friendshipConnection = friendshipConnection ?? throw new ArgumentNullException(nameof(friendshipConnection));
+            FriendRequests = new ObservableCollection<FriendRequest>();
             AcceptRequestCommand = new RelayCommand(AcceptRequest);
             DeclineRequestCommand = new RelayCommand(DeclineRequest);
             HasNoPendingRequests = FriendRequests.Count == 0;
@@ -39,6 +36,16 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
+        public void StartReceivingRequests()
+        {
+            _friendshipConnection.FriendRequestReceived += OnFriendRequestReceived;
+        }
+
+        public void StopReceivingRequests()
+        {
+            _friendshipConnection.FriendRequestReceived -= OnFriendRequestReceived;
+        }
+
         // The screen only takes the request off the list because the server creates the friendship (CU-14).
         private void AcceptRequest(object parameter)
         {
@@ -54,6 +61,12 @@ namespace GinRummy.Client.ViewModels
         {
             FriendRequests.Remove(request);
             HasNoPendingRequests = FriendRequests.Count == 0;
+        }
+
+        private void OnFriendRequestReceived(object sender, FriendRequest request)
+        {
+            FriendRequests.Insert(0, request);
+            HasNoPendingRequests = false;
         }
     }
 }

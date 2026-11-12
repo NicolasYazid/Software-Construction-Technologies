@@ -66,6 +66,11 @@ namespace GinRummy.Persistence.Repositories
                 .ToList();
         }
 
+        public int CountRequestsReceivedBy(int addresseePlayerAccountId)
+        {
+            return _context.FriendRequests.Count(request => request.AddresseePlayerAccountId == addresseePlayerAccountId);
+        }
+
         /// <summary>
         /// Adds a new request and persists it immediately.
         /// </summary>
@@ -121,6 +126,12 @@ namespace GinRummy.Persistence.Repositories
                 .Include(friendShip => friendShip.HigherPlayerAccount.PlayerProfile)
                 .Where(friendShip => (friendShip.LowerPlayerAccountId == playerAccountId) || (friendShip.HigherPlayerAccountId == playerAccountId))
                 .ToList();
+        }
+
+        public int CountFriendShipsOf(int playerAccountId)
+        {
+            return _context.FriendShips
+                .Count(friendShip => (friendShip.LowerPlayerAccountId == playerAccountId) || (friendShip.HigherPlayerAccountId == playerAccountId));
         }
 
         /// <summary>

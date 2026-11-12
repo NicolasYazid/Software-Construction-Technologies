@@ -54,6 +54,8 @@
     <Compile Include="DataContracts\PlayerPresence\PresenceStatus.cs" />
     <Compile Include="DataContracts\Authentication\NewAccount.cs" />
     <Compile Include="DataContracts\Authentication\SignUpOutcome.cs" />
+    <Compile Include="DataContracts\Friendship\FriendRequest.cs" />
+    <Compile Include="DataContracts\Friendship\FriendRequestOutcome.cs" />
     <Compile Include="Faults\AccountProtection\ResendLimitFault.cs" />
     <Compile Include="Faults\PlayerModeration\SanctionFault.cs" />
     <Compile Include="Faults\Shared\ServiceFault.cs" />
@@ -80,6 +82,8 @@
     <Compile Include="DataContracts\Gameplay\RoundSummary.cs" />
     <Compile Include="Services\DirectDuel\IDirectDuelCallback.cs" />
     <Compile Include="Services\DirectDuel\IDirectDuelService.cs" />
+    <Compile Include="Services\Friendship\IFriendshipCallback.cs" />
+    <Compile Include="Services\Friendship\IFriendshipService.cs" />
     <Compile Include="Services\Gameplay\IGameCallback.cs" />
     <Compile Include="Services\Gameplay\IGameService.cs" />
   </ItemGroup>

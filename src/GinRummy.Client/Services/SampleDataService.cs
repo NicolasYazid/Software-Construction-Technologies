@@ -22,18 +22,6 @@ namespace GinRummy.Client.Services
         private const string OffensiveLanguageReasonKey = "Reason_OffensiveLanguage";
         private const string SpamReasonKey = "Reason_Spam";
 
-        public IList<FriendRequest> GetFriendRequests()
-        {
-            return new List<FriendRequest>
-            {
-                CreateRequest("Player Z", 5),
-                CreateRequest("Player Y", 30),
-                CreateRequest("Player W", 90),
-                CreateRequest("Player V", 240),
-                CreateRequest("Player U", 600)
-            };
-        }
-
         public IList<SanctionViewModel> GetSanctions()
         {
             // The reasons of a ban are a catalogue of the database, translated there.
@@ -59,11 +47,6 @@ namespace GinRummy.Client.Services
             rules.TargetScore = TargetScore;
 
             return rules;
-        }
-
-        private static FriendRequest CreateRequest(string senderName, int minutesAgo)
-        {
-            return new FriendRequest(senderName, DateTime.Now.AddMinutes(-minutesAgo));
         }
 
         private static SanctionViewModel CreateActiveSanction(string reasonName, TimeSpan remainingTime)

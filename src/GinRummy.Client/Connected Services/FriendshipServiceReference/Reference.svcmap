@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="fdc799b3-1f25-4c42-8c3c-c80ddfdaca7d" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://localhost:8001/FriendshipService/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="cc879992-8650-4ef4-b660-40b66bf1e16d" SourceId="1" SourceUrl="net.tcp://localhost:8001/FriendshipService/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="bcb4c49f-ebff-40b4-b0ea-d6568204b4a0" SourceId="1" SourceUrl="net.tcp://localhost:8001/FriendshipService/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="8b7cf845-fec8-454f-bfb2-d16f1f013e0c" SourceId="1" SourceUrl="net.tcp://localhost:8001/FriendshipService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.Faults.Shared.xsd" MetadataType="Schema" ID="093daf27-c48f-40b9-a44e-ebf17d1386f3" SourceId="1" SourceUrl="net.tcp://localhost:8001/FriendshipService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.DataContracts.Friendship.xsd" MetadataType="Schema" ID="2dbaa590-206b-4a68-b803-45ca20cb0ce4" SourceId="1" SourceUrl="net.tcp://localhost:8001/FriendshipService/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

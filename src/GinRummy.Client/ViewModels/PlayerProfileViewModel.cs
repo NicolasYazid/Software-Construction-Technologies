@@ -29,13 +29,11 @@ namespace GinRummy.Client.ViewModels
             _playerProfileServiceFactory = playerProfileServiceFactory
                 ?? throw new ArgumentNullException(nameof(playerProfileServiceFactory));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            AddFriendCommand = new RelayCommand(AddFriend);
             RemoveFriendCommand = new RelayCommand(RemoveFriend);
         }
 
         public event EventHandler<ErrorDialogKind> ProfileUnavailable;
 
-        public ICommand AddFriendCommand { get; private set; }
         public ICommand RemoveFriendCommand { get; private set; }
 
         public string Username
@@ -113,16 +111,6 @@ namespace GinRummy.Client.ViewModels
             get { return IsPlayer && (_profile.MatchesPlayed == 0); }
         }
 
-        public bool CanAddFriend
-        {
-            get { return IsOtherPlayer && !_profile.IsFriend; }
-        }
-
-        public bool CanSendFriendRequest
-        {
-            get { return !_profile.HasPendingRequest; }
-        }
-
         public bool CanRemoveFriend
         {
             get { return IsOtherPlayer && _profile.IsFriend; }
@@ -173,18 +161,9 @@ namespace GinRummy.Client.ViewModels
             RaisePropertyChanged(string.Empty);
         }
 
-        // Once the server creates the request, the action stays disabled while it waits for an answer.
-        // This keeps a second request from being sent (CU-12 and its EX-07).
-        private void AddFriend()
-        {
-            _profile.HasPendingRequest = true;
-            RaisePropertyChanged(nameof(CanSendFriendRequest));
-        }
-
         private void RemoveFriend()
         {
             _profile.IsFriend = false;
-            RaisePropertyChanged(nameof(CanAddFriend));
             RaisePropertyChanged(nameof(CanRemoveFriend));
         }
 

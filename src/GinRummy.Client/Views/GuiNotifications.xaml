@@ -58,7 +58,7 @@
                                                     <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
                                                         <Binding Path="[Notifications_LblFriendRequest]"
                                                                  Source="{StaticResource PrvLocalization}" />
-                                                        <Binding Path="SenderName" />
+                                                        <Binding Path="RequesterUsername" />
                                                     </MultiBinding>
                                                 </TextBlock.Text>
                                             </TextBlock>

@@ -19,7 +19,6 @@ namespace GinRummy.Client.Models
         public bool IsGuest { get; set; }
         public bool IsOwnProfile { get; set; }
         public bool IsFriend { get; set; }
-        public bool HasPendingRequest { get; set; }
         public bool IsRemoved { get; set; }
     }
 }

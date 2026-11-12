@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 
+using GinRummy.Client.Services;
 using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
@@ -11,10 +13,17 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiNotifications : GuiModalBase
     {
-        public GuiNotifications()
+        private readonly FriendshipConnection _friendshipConnection;
+        private readonly NotificationsViewModel _viewModel;
+
+        public GuiNotifications(FriendshipConnection friendshipConnection)
         {
             InitializeComponent();
-            DataContext = ((App)Application.Current).CreateNotificationsViewModel();
+            _friendshipConnection = friendshipConnection ?? throw new ArgumentNullException(nameof(friendshipConnection));
+            _viewModel = ((App)Application.Current).CreateNotificationsViewModel(_friendshipConnection);
+            _viewModel.StartReceivingRequests();
+            DataContext = _viewModel;
+            Closed += OnScreenClosed;
         }
 
         private void OnTabSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -23,13 +32,19 @@ namespace GinRummy.Client.Views
             // The selection the tab control makes while it loads is not a choice of the player.
             if (IsLoaded && tabSanctions.IsSelected)
             {
-                NavigateTo(new GuiSanctions());
+                NavigateTo(new GuiSanctions(_friendshipConnection));
             }
         }
 
         private void OnCloseClick(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void OnScreenClosed(object sender, EventArgs e)
+        {
+            _viewModel.StopReceivingRequests();
+            Closed -= OnScreenClosed;
         }
     }
 }

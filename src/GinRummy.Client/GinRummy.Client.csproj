@@ -198,6 +198,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\FriendshipServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\GameServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -376,7 +381,6 @@
     <Compile Include="Models\ChatMessage.cs" />
     <Compile Include="ViewModels\LobbyPlayerViewModel.cs" />
     <Compile Include="Models\MatchPair.cs" />
-    <Compile Include="Models\FriendRequest.cs" />
     <Compile Include="ViewModels\SanctionViewModel.cs" />
     <Compile Include="ViewModels\NotificationsViewModel.cs" />
     <Compile Include="ViewModels\SanctionsViewModel.cs" />
@@ -386,8 +390,10 @@
     <Compile Include="ViewModels\LobbyChatViewModel.cs" />
     <Compile Include="ViewModels\GameTableViewModel.cs" />
     <Compile Include="ViewModels\LobbyChallengeViewModel.cs" />
+    <Compile Include="ViewModels\LobbyFriendshipViewModel.cs" />
     <Compile Include="Services\ChatMessageConnection.cs" />
     <Compile Include="Services\DirectDuelConnection.cs" />
+    <Compile Include="Services\FriendshipConnection.cs" />
     <Compile Include="Services\GameConnection.cs" />
     <Compile Include="Services\PlayerPresenceMonitor.cs" />
     <Compile Include="Services\ISampleDataService.cs" />
@@ -457,6 +463,22 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\DirectDuelServiceReference\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\FriendshipServiceReference\GinRummy.Client.FriendshipServiceReference.FriendRequestOutcome.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\FriendshipServiceReference\GinRummy.Contracts.DataContracts.Friendship.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\FriendshipServiceReference\GinRummy.Contracts.Faults.Shared.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\FriendshipServiceReference\service.wsdl" />
+    <None Include="Connected Services\FriendshipServiceReference\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\FriendshipServiceReference\service1.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\GameServiceReference\GinRummy.Contracts.DataContracts.Gameplay.xsd">
@@ -573,6 +595,7 @@
   <ItemGroup>
     <WCFMetadataStorage Include="Connected Services\ChatMessageServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\DirectDuelServiceReference\" />
+    <WCFMetadataStorage Include="Connected Services\FriendshipServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\GameServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\LeaderboardServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\LogInServiceReference\" />
@@ -694,5 +717,17 @@
   <ItemGroup>
     <None Include="Effects\CardTilt.fx" />
     <Resource Include="Effects\CardTilt.ps" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\FriendshipServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\FriendshipServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\FriendshipServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 </Project>
