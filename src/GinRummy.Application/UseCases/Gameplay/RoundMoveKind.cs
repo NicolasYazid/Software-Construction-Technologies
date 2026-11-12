@@ -1,6 +1,6 @@
 ﻿namespace GinRummy.Application.UseCases.Gameplay
 {
-    public enum RoundMove
+    public enum RoundMoveKind
     {
         Dealt,
         PassedFirstCard,

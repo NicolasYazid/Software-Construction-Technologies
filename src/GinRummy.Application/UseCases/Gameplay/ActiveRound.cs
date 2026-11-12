@@ -16,7 +16,7 @@ namespace GinRummy.Application.UseCases.Gameplay
             Round = round ?? throw new ArgumentNullException(nameof(round));
             _players = new List<DuelPlayer> { dealer, nonDealer };
             SyncRoot = new object();
-            Record(RoundMove.Dealt, dealer.Id, null);
+            Record(RoundMoveKind.Dealt, dealer.Id, null);
         }
 
         public GameRound Round { get; private set; }
@@ -30,7 +30,7 @@ namespace GinRummy.Application.UseCases.Gameplay
 
         public int? KnockerId { get; private set; }
 
-        public RoundMove LastMove { get; private set; }
+        public RoundMoveKind LastMove { get; private set; }
 
         public int LastMoverId { get; private set; }
 
@@ -50,32 +50,32 @@ namespace GinRummy.Application.UseCases.Gameplay
         {
             Card takenCard = Round.TopOfDiscardPile;
             Round.TakeFirstCard(playerId);
-            Record(RoundMove.DrewFromDiscardPile, playerId, takenCard);
+            Record(RoundMoveKind.DrewFromDiscardPile, playerId, takenCard);
         }
 
         public void PassFirstCard(int playerId)
         {
             Round.PassFirstCard(playerId);
-            Record(RoundMove.PassedFirstCard, playerId, null);
+            Record(RoundMoveKind.PassedFirstCard, playerId, null);
         }
 
         public void DrawFromStock(int playerId)
         {
             Round.DrawFromStock(playerId);
-            Record(RoundMove.DrewFromStock, playerId, null);
+            Record(RoundMoveKind.DrewFromStock, playerId, null);
         }
 
         public void DrawFromDiscardPile(int playerId)
         {
             Card takenCard = Round.TopOfDiscardPile;
             Round.DrawFromDiscardPile(playerId);
-            Record(RoundMove.DrewFromDiscardPile, playerId, takenCard);
+            Record(RoundMoveKind.DrewFromDiscardPile, playerId, takenCard);
         }
 
         public void Discard(int playerId, Card card)
         {
             Round.Discard(playerId, card);
-            Record(RoundMove.Discarded, playerId, card);
+            Record(RoundMoveKind.Discarded, playerId, card);
         }
 
         public void Knock(int playerId, Card discardedCard)
@@ -85,7 +85,7 @@ namespace GinRummy.Application.UseCases.Gameplay
             KnockerId = playerId;
             int defenderId = FindOpponent(playerId).Id;
             Round.LayDownDefenderHand(defenderId, MeldFinder.FindBestMelds(Round.GetHand(defenderId).ToList()));
-            Record(RoundMove.Discarded, playerId, discardedCard);
+            Record(RoundMoveKind.Discarded, playerId, discardedCard);
         }
 
         public IList<Card> FindKnockDiscards(int playerId)
@@ -108,7 +108,7 @@ namespace GinRummy.Application.UseCases.Gameplay
             return MeldFinder.CountDeadwood(hand.Where(card => !card.Equals(discardedCard)).ToList());
         }
 
-        private void Record(RoundMove move, int playerId, Card card)
+        private void Record(RoundMoveKind move, int playerId, Card card)
         {
             LastMove = move;
             LastMoverId = playerId;
