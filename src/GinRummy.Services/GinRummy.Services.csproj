@@ -71,6 +71,7 @@
     <Compile Include="Notifiers\RoundAnnouncer.cs" />
     <Compile Include="Services\DirectDuel\DirectDuelService.cs" />
     <Compile Include="Services\Friendship\FriendshipService.cs" />
+    <Compile Include="Services\Friendship\PendingFriendRequestService.cs" />
     <Compile Include="Services\Gameplay\GameService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AccountProtection\AccountSettingsService.cs" />

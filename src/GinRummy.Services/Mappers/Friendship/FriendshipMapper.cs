@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using GinRummy.Contracts.DataContracts.Friendship;
 using GinRummy.Domain.Entities.Friendship;
@@ -29,6 +30,22 @@ namespace GinRummy.Services.Mappers.Friendship
                 RequesterPublicTag = requesterProfile.PublicTag,
                 SentAt = newRequest.CreatedAt
             };
+        }
+
+        public static List<ContractFriendRequest> MapToFriendRequests(IList<DomainFriendRequest> pendingRequests)
+        {
+            if (pendingRequests == null)
+            {
+                throw new ArgumentNullException(nameof(pendingRequests));
+            }
+
+            List<ContractFriendRequest> mappedRequests = new List<ContractFriendRequest>();
+            foreach (DomainFriendRequest pendingRequest in pendingRequests)
+            {
+                mappedRequests.Add(MapToFriendRequest(pendingRequest, pendingRequest.Requester.PlayerProfile));
+            }
+
+            return mappedRequests;
         }
 
         public static FriendRequestOutcome MapToFriendRequestOutcome(FriendRequestResult result)

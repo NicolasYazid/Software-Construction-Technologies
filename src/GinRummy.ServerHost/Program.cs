@@ -117,6 +117,8 @@ namespace GinRummy.ServerHost
                     new Argon2PasswordHasher(),
                     tokenSigner,
                     new SystemClock());
+                ViewPendingFriendRequestsUseCase viewPendingFriendRequestsUseCase = new ViewPendingFriendRequestsUseCase(
+                    () => new EntityFrameworkUnitOfWork(ConnectionStringName));
 
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(ChatMessageService),
@@ -129,6 +131,10 @@ namespace GinRummy.ServerHost
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(FriendshipService),
                     () => new FriendshipService(friendshipAccessPolicy, sendFriendRequestUseCase, friendshipOnlinePlayers),
+                    faultShieldBehavior));
+                hostGroup.Add(CreateIsolatedHost(
+                    typeof(PendingFriendRequestService),
+                    () => new PendingFriendRequestService(friendshipAccessPolicy, viewPendingFriendRequestsUseCase),
                     faultShieldBehavior));
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(GameService),
