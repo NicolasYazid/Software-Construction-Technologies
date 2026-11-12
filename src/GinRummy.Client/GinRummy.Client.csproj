@@ -223,6 +223,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Connected Services\PendingFriendRequestServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\PlayerProfileServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -383,6 +388,7 @@
     <Compile Include="Models\MatchPair.cs" />
     <Compile Include="ViewModels\SanctionViewModel.cs" />
     <Compile Include="ViewModels\NotificationsViewModel.cs" />
+    <Compile Include="ViewModels\PendingFriendRequestViewModel.cs" />
     <Compile Include="ViewModels\SanctionsViewModel.cs" />
     <Compile Include="ViewModels\PlayerProfileViewModel.cs" />
     <Compile Include="ViewModels\ProfilePanelViewModel.cs" />
@@ -394,6 +400,7 @@
     <Compile Include="Services\ChatMessageConnection.cs" />
     <Compile Include="Services\DirectDuelConnection.cs" />
     <Compile Include="Services\FriendshipConnection.cs" />
+    <Compile Include="Services\PendingFriendRequestsConnection.cs" />
     <Compile Include="Services\GameConnection.cs" />
     <Compile Include="Services\PlayerPresenceMonitor.cs" />
     <Compile Include="Services\ISampleDataService.cs" />
@@ -529,6 +536,22 @@
     <None Include="Connected Services\LogInServiceReference\service21.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Connected Services\PendingFriendRequestServiceReference\GinRummy.Client.PendingFriendRequestServiceReference.FriendRequest.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\PendingFriendRequestServiceReference\GinRummy.Contracts.DataContracts.Friendship.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PendingFriendRequestServiceReference\GinRummy.Contracts.Faults.Shared.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PendingFriendRequestServiceReference\service.wsdl" />
+    <None Include="Connected Services\PendingFriendRequestServiceReference\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\PendingFriendRequestServiceReference\service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\PlayerPresenceServiceReference\GinRummy.Contracts.DataContracts.PlayerPresence.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -600,6 +623,7 @@
     <WCFMetadataStorage Include="Connected Services\LeaderboardServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\LogInServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\AccountSettingsServiceReference\" />
+    <WCFMetadataStorage Include="Connected Services\PendingFriendRequestServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\PlayerProfileServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\PlayerPresenceServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\SignUpServiceReference\" />
@@ -726,6 +750,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\FriendshipServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\PendingFriendRequestServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\PendingFriendRequestServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\PendingFriendRequestServiceReference\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
