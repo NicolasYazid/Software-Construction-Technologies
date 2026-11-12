@@ -119,6 +119,16 @@
 
         PlayerUnavailable,
 
-        ChallengeNotFound
+        ChallengeNotFound,
+
+        CannotChallengeSelf,
+
+        OpponentBusy,
+
+        ConcurrentChallenge,
+
+        AccountSuspended,
+
+        GuestNotAllowed
     }
 }

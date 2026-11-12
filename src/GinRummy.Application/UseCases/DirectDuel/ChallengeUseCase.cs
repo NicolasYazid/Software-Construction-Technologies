@@ -3,36 +3,34 @@
 using GinRummy.Application.Ports.DirectDuel;
 using GinRummy.Application.UseCases.Gameplay;
 using GinRummy.Domain;
-using GinRummy.Domain.Entities.PlayerCustomization;
-using GinRummy.Domain.Shared;
 
 namespace GinRummy.Application.UseCases.DirectDuel
 {
     public class ChallengeUseCase : IChallengeUseCase
     {
-        private readonly Func<IUnitOfWork> _unitOfWorkFactory;
+        private readonly DuelPlayerDirectory _playerDirectory;
         private readonly ChallengeBoard _challengeBoard;
         private readonly IChallengeAnnouncer _challengeAnnouncer;
 
         public ChallengeUseCase(
-            Func<IUnitOfWork> unitOfWorkFactory,
+            DuelPlayerDirectory playerDirectory,
             ChallengeBoard challengeBoard,
             IChallengeAnnouncer challengeAnnouncer)
         {
-            _unitOfWorkFactory = unitOfWorkFactory ?? throw new ArgumentNullException(nameof(unitOfWorkFactory));
+            _playerDirectory = playerDirectory ?? throw new ArgumentNullException(nameof(playerDirectory));
             _challengeBoard = challengeBoard ?? throw new ArgumentNullException(nameof(challengeBoard));
             _challengeAnnouncer = challengeAnnouncer ?? throw new ArgumentNullException(nameof(challengeAnnouncer));
         }
 
         public void Challenge(int challengerId, int challengedPublicTag)
         {
-            PendingChallenge challenge = BuildChallenge(challengerId, challengedPublicTag);
-            bool isChallengedOnline = _challengeAnnouncer.IsPlayerOnline(challenge.Challenged.Id);
-            if (!isChallengedOnline || !_challengeBoard.TryPost(challenge))
+            PendingChallenge challenge = _playerDirectory.CreateChallenge(challengerId, challengedPublicTag);
+            if (!_challengeAnnouncer.IsPlayerOnline(challenge.Challenged.Id))
             {
-                throw new PlayerUnavailableException("The player cannot be challenged right now.");
+                throw new PlayerUnavailableException("The challenged player is not connected.");
             }
 
+            _challengeBoard.Post(challenge);
             _challengeAnnouncer.AnnounceChallengeReceived(challenge);
         }
 
@@ -47,12 +45,8 @@ namespace GinRummy.Application.UseCases.DirectDuel
 
         public void Accept(int challengedId, int challengerPublicTag)
         {
+            _playerDirectory.EnsureCanDuel(challengedId);
             ActiveRound startedRound = _challengeBoard.Accept(challengedId, challengerPublicTag);
-            if (startedRound == null)
-            {
-                throw new ChallengeNotFoundException("The challenge no longer exists.");
-            }
-
             _challengeAnnouncer.AnnounceRoundStarted(startedRound);
         }
 
@@ -65,34 +59,6 @@ namespace GinRummy.Application.UseCases.DirectDuel
             }
 
             _challengeAnnouncer.AnnounceChallengeDeclined(declinedChallenge);
-        }
-
-        private PendingChallenge BuildChallenge(int challengerId, int challengedPublicTag)
-        {
-            PlayerProfile challengerProfile;
-            PlayerProfile challengedProfile;
-            using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
-            {
-                challengerProfile = unitOfWork.PlayerAccounts.FindProfileByPlayerAccountId(challengerId);
-                challengedProfile = unitOfWork.PlayerAccounts.FindByPublicTag(challengedPublicTag);
-            }
-
-            if (challengerProfile == null)
-            {
-                throw new InvalidAccessTokenException("The access token does not belong to a registered player.");
-            }
-
-            if (challengedProfile == null)
-            {
-                throw new PlayerUnavailableException("No player has that public tag.");
-            }
-
-            return new PendingChallenge(BuildDuelPlayer(challengerProfile), BuildDuelPlayer(challengedProfile));
-        }
-
-        private static DuelPlayer BuildDuelPlayer(PlayerProfile profile)
-        {
-            return new DuelPlayer(profile.PlayerAccountId, profile.Username, profile.PublicTag);
         }
     }
 }

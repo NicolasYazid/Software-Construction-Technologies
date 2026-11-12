@@ -6,6 +6,7 @@ using GinRummy.Contracts.Faults.Shared;
 using GinRummy.Contracts.Services.DirectDuel;
 using GinRummy.Domain;
 using GinRummy.Domain.Entities.Authentication;
+using GinRummy.Domain.Entities.PlayerModeration;
 using GinRummy.Services.Notifiers;
 using GinRummy.Services.Services.Shared;
 
@@ -64,7 +65,13 @@ namespace GinRummy.Services.Services.DirectDuel
         {
             try
             {
-                action(_accessPolicy.IdentifyPlayerByAccessToken(accessToken));
+                AccessTokenOwner owner = _accessPolicy.IdentifyByAccessToken(accessToken);
+                if (owner.IsGuest)
+                {
+                    throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.GuestNotAllowed);
+                }
+
+                action(owner.PlayerAccountId.Value);
             }
             catch (InvalidAccessTokenException)
             {
@@ -77,6 +84,22 @@ namespace GinRummy.Services.Services.DirectDuel
             catch (ChallengeNotFoundException)
             {
                 throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.ChallengeNotFound);
+            }
+            catch (SelfChallengeException)
+            {
+                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.CannotChallengeSelf);
+            }
+            catch (OpponentBusyException)
+            {
+                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.OpponentBusy);
+            }
+            catch (ConcurrentChallengeException)
+            {
+                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.ConcurrentChallenge);
+            }
+            catch (AccountBannedException)
+            {
+                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.AccountSuspended);
             }
         }
 

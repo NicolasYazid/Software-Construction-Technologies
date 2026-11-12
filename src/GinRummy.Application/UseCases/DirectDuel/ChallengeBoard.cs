@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using GinRummy.Application.UseCases.Gameplay;
+using GinRummy.Domain;
 
 namespace GinRummy.Application.UseCases.DirectDuel
 {
@@ -19,21 +20,28 @@ namespace GinRummy.Application.UseCases.DirectDuel
             _pendingChallenges = new List<PendingChallenge>();
         }
 
-        public bool TryPost(PendingChallenge challenge)
+        public void Post(PendingChallenge challenge)
         {
-            bool isPosted;
             lock (_syncRoot)
             {
-                bool areDifferentPlayers = challenge.Challenger.Id != challenge.Challenged.Id;
-                bool hasOpenChallenge = _pendingChallenges.Any(pending => pending.Challenger.Id == challenge.Challenger.Id);
-                isPosted = areDifferentPlayers && !hasOpenChallenge && AreFree(challenge);
-                if (isPosted)
+                if (challenge.Challenger.Id == challenge.Challenged.Id)
                 {
-                    _pendingChallenges.Add(challenge);
+                    throw new SelfChallengeException("A player cannot challenge themselves.");
                 }
-            }
 
-            return isPosted;
+                if (_pendingChallenges.Any(pending => IsReverseOf(pending, challenge)))
+                {
+                    throw new ConcurrentChallengeException("The challenged player already challenged the challenger.");
+                }
+
+                if (_pendingChallenges.Any(pending => pending.Challenger.Id == challenge.Challenger.Id))
+                {
+                    throw new PlayerUnavailableException("The challenger already has an open challenge.");
+                }
+
+                EnsureFree(challenge);
+                _pendingChallenges.Add(challenge);
+            }
         }
 
         public PendingChallenge RemoveFrom(int challengerId)
@@ -63,26 +71,34 @@ namespace GinRummy.Application.UseCases.DirectDuel
 
         public ActiveRound Accept(int challengedId, int challengerPublicTag)
         {
-            ActiveRound startedRound = null;
+            ActiveRound startedRound;
             lock (_syncRoot)
             {
                 PendingChallenge foundChallenge = RemoveAddressedTo(challengedId, challengerPublicTag);
-                bool canStartRound = (foundChallenge != null) && AreFree(foundChallenge);
-                if (canStartRound)
+                if (foundChallenge == null)
                 {
-                    startedRound = _roundRegistry.Start(foundChallenge.Challenger, foundChallenge.Challenged);
+                    throw new ChallengeNotFoundException("The challenge no longer exists.");
                 }
+
+                EnsureFree(foundChallenge);
+                startedRound = _roundRegistry.Start(foundChallenge.Challenger, foundChallenge.Challenged);
             }
 
             return startedRound;
         }
 
-        private bool AreFree(PendingChallenge challenge)
+        private static bool IsReverseOf(PendingChallenge pending, PendingChallenge challenge)
         {
-            bool isChallengerFree = !_roundRegistry.IsPlaying(challenge.Challenger.Id);
-            bool isChallengedFree = !_roundRegistry.IsPlaying(challenge.Challenged.Id);
+            return (pending.Challenger.Id == challenge.Challenged.Id) && (pending.Challenged.Id == challenge.Challenger.Id);
+        }
 
-            return isChallengerFree && isChallengedFree;
+        private void EnsureFree(PendingChallenge challenge)
+        {
+            bool isAnyPlaying = _roundRegistry.IsPlaying(challenge.Challenger.Id) || _roundRegistry.IsPlaying(challenge.Challenged.Id);
+            if (isAnyPlaying)
+            {
+                throw new OpponentBusyException("One of the players is already in a round.");
+            }
         }
     }
 }

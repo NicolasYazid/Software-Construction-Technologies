@@ -1,5 +1,6 @@
 ﻿using GinRummy.Application.UseCases.DirectDuel;
 using GinRummy.Application.UseCases.Gameplay;
+using GinRummy.Domain;
 using NUnit.Framework;
 
 namespace GinRummy.Application.Tests.DirectDuel
@@ -12,37 +13,48 @@ namespace GinRummy.Application.Tests.DirectDuel
         private const int ThirdPlayerId = 3;
 
         [Test]
-        public void Test_TryPost_ChallengeToOneself_ReturnsFalse()
+        public void Test_Post_ChallengeToOneself_ThrowsSelfChallengeException()
         {
             ChallengeBoard board = new ChallengeBoard(new RoundRegistry());
             DuelPlayer player = CreatePlayer(ChallengerId);
 
-            bool isPosted = board.TryPost(new PendingChallenge(player, player));
+            TestDelegate post = () => board.Post(new PendingChallenge(player, player));
 
-            Assert.IsFalse(isPosted);
+            Assert.Throws<SelfChallengeException>(post);
         }
 
         [Test]
-        public void Test_TryPost_SecondOpenChallenge_ReturnsFalse()
+        public void Test_Post_SecondOpenChallenge_ThrowsPlayerUnavailableException()
         {
             ChallengeBoard board = new ChallengeBoard(new RoundRegistry());
-            board.TryPost(new PendingChallenge(CreatePlayer(ChallengerId), CreatePlayer(ChallengedId)));
+            board.Post(new PendingChallenge(CreatePlayer(ChallengerId), CreatePlayer(ChallengedId)));
 
-            bool isPosted = board.TryPost(new PendingChallenge(CreatePlayer(ChallengerId), CreatePlayer(ThirdPlayerId)));
+            TestDelegate post = () => board.Post(new PendingChallenge(CreatePlayer(ChallengerId), CreatePlayer(ThirdPlayerId)));
 
-            Assert.IsFalse(isPosted);
+            Assert.Throws<PlayerUnavailableException>(post);
         }
 
         [Test]
-        public void Test_TryPost_ChallengedPlayerInRound_ReturnsFalse()
+        public void Test_Post_ChallengedPlayerInRound_ThrowsOpponentBusyException()
         {
             RoundRegistry roundRegistry = new RoundRegistry();
             roundRegistry.Start(CreatePlayer(ChallengedId), CreatePlayer(ThirdPlayerId));
             ChallengeBoard board = new ChallengeBoard(roundRegistry);
 
-            bool isPosted = board.TryPost(new PendingChallenge(CreatePlayer(ChallengerId), CreatePlayer(ChallengedId)));
+            TestDelegate post = () => board.Post(new PendingChallenge(CreatePlayer(ChallengerId), CreatePlayer(ChallengedId)));
 
-            Assert.IsFalse(isPosted);
+            Assert.Throws<OpponentBusyException>(post);
+        }
+
+        [Test]
+        public void Test_Post_CrossedChallenge_ThrowsConcurrentChallengeException()
+        {
+            ChallengeBoard board = new ChallengeBoard(new RoundRegistry());
+            board.Post(new PendingChallenge(CreatePlayer(ChallengerId), CreatePlayer(ChallengedId)));
+
+            TestDelegate post = () => board.Post(new PendingChallenge(CreatePlayer(ChallengedId), CreatePlayer(ChallengerId)));
+
+            Assert.Throws<ConcurrentChallengeException>(post);
         }
 
         [Test]
@@ -51,7 +63,7 @@ namespace GinRummy.Application.Tests.DirectDuel
             RoundRegistry roundRegistry = new RoundRegistry();
             ChallengeBoard board = new ChallengeBoard(roundRegistry);
             DuelPlayer challenger = CreatePlayer(ChallengerId);
-            board.TryPost(new PendingChallenge(challenger, CreatePlayer(ChallengedId)));
+            board.Post(new PendingChallenge(challenger, CreatePlayer(ChallengedId)));
 
             board.Accept(ChallengedId, challenger.PublicTag);
 
@@ -59,16 +71,30 @@ namespace GinRummy.Application.Tests.DirectDuel
         }
 
         [Test]
-        public void Test_Accept_CancelledChallenge_ReturnsNull()
+        public void Test_Accept_CancelledChallenge_ThrowsChallengeNotFoundException()
         {
             ChallengeBoard board = new ChallengeBoard(new RoundRegistry());
             DuelPlayer challenger = CreatePlayer(ChallengerId);
-            board.TryPost(new PendingChallenge(challenger, CreatePlayer(ChallengedId)));
+            board.Post(new PendingChallenge(challenger, CreatePlayer(ChallengedId)));
             board.RemoveFrom(ChallengerId);
 
-            ActiveRound startedRound = board.Accept(ChallengedId, challenger.PublicTag);
+            TestDelegate accept = () => board.Accept(ChallengedId, challenger.PublicTag);
 
-            Assert.IsNull(startedRound);
+            Assert.Throws<ChallengeNotFoundException>(accept);
+        }
+
+        [Test]
+        public void Test_Accept_ChallengerInRound_ThrowsOpponentBusyException()
+        {
+            RoundRegistry roundRegistry = new RoundRegistry();
+            ChallengeBoard board = new ChallengeBoard(roundRegistry);
+            DuelPlayer challenger = CreatePlayer(ChallengerId);
+            board.Post(new PendingChallenge(challenger, CreatePlayer(ChallengedId)));
+            roundRegistry.Start(challenger, CreatePlayer(ThirdPlayerId));
+
+            TestDelegate accept = () => board.Accept(ChallengedId, challenger.PublicTag);
+
+            Assert.Throws<OpponentBusyException>(accept);
         }
 
         private static DuelPlayer CreatePlayer(int id)

@@ -43,6 +43,9 @@
   <ItemGroup>
     <Compile Include="Entities\PlayerModeration\AccountBannedException.cs" />
     <Compile Include="Exceptions\ChallengeNotFoundException.cs" />
+    <Compile Include="Exceptions\ConcurrentChallengeException.cs" />
+    <Compile Include="Exceptions\OpponentBusyException.cs" />
+    <Compile Include="Exceptions\SelfChallengeException.cs" />
     <Compile Include="Exceptions\DisallowedCharactersException.cs" />
     <Compile Include="Exceptions\EmailAlreadyRegisteredException.cs" />
     <Compile Include="Exceptions\EmailAlreadyVerifiedException.cs" />

@@ -92,15 +92,15 @@ namespace GinRummy.ServerHost
                     loggerFactory.CreateLogger<WcfCallbackDispatcher<IGameCallback>>());
                 RoundRegistry roundRegistry = new RoundRegistry();
                 RoundAnnouncer roundAnnouncer = new RoundAnnouncer(gameOnlinePlayers);
-                ChallengeUseCase challengeUseCase = new ChallengeUseCase(
-                    () => new EntityFrameworkUnitOfWork(ConnectionStringName),
-                    new ChallengeBoard(roundRegistry),
-                    new ChallengeAnnouncer(duelOnlinePlayers, roundAnnouncer));
                 PlayRoundUseCase playRoundUseCase = new PlayRoundUseCase(roundRegistry, roundAnnouncer);
                 AccountAccessPolicy duelAccessPolicy = new AccountAccessPolicy(
                     new Argon2PasswordHasher(),
                     tokenSigner,
                     new SystemClock());
+                ChallengeUseCase challengeUseCase = new ChallengeUseCase(
+                    new DuelPlayerDirectory(() => new EntityFrameworkUnitOfWork(ConnectionStringName), duelAccessPolicy),
+                    new ChallengeBoard(roundRegistry),
+                    new ChallengeAnnouncer(duelOnlinePlayers, roundAnnouncer));
 
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(ChatMessageService),
