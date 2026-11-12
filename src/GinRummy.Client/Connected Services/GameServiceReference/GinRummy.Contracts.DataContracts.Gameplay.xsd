@@ -69,7 +69,7 @@
       <xs:element minOccurs="0" name="DefenderDeadwood" type="xs:int" />
       <xs:element minOccurs="0" name="DefenderMelds" nillable="true" type="tns:ArrayOfArrayOfPlayingCard" />
       <xs:element minOccurs="0" name="DefenderUnmatchedCards" nillable="true" type="tns:ArrayOfPlayingCard" />
-      <xs:element minOccurs="0" name="Ending" type="tns:RoundEnding" />
+      <xs:element minOccurs="0" name="Ending" type="tns:RoundOutcome" />
       <xs:element minOccurs="0" name="IsWinner" type="xs:boolean" />
       <xs:element minOccurs="0" name="KnockerDeadwood" type="xs:int" />
       <xs:element minOccurs="0" name="KnockerMelds" nillable="true" type="tns:ArrayOfArrayOfPlayingCard" />
@@ -80,7 +80,7 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="RoundSummary" nillable="true" type="tns:RoundSummary" />
-  <xs:simpleType name="RoundEnding">
+  <xs:simpleType name="RoundOutcome">
     <xs:restriction base="xs:string">
       <xs:enumeration value="Knock" />
       <xs:enumeration value="Gin" />
@@ -88,5 +88,5 @@
       <xs:enumeration value="Void" />
     </xs:restriction>
   </xs:simpleType>
-  <xs:element name="RoundEnding" nillable="true" type="tns:RoundEnding" />
+  <xs:element name="RoundOutcome" nillable="true" type="tns:RoundOutcome" />
 </xs:schema>

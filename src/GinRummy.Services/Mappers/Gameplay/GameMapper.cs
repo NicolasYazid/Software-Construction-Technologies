@@ -7,6 +7,8 @@ using GinRummy.Application.UseCases.Gameplay;
 using GinRummy.Contracts.DataContracts.Gameplay;
 using GinRummy.Domain;
 using ContractCardSuit = GinRummy.Contracts.DataContracts.Gameplay.CardSuit;
+using ContractRoundMoveKind = GinRummy.Contracts.DataContracts.Gameplay.RoundMoveKind;
+using ContractRoundOutcome = GinRummy.Contracts.DataContracts.Gameplay.RoundOutcome;
 using DomainCardSuit = GinRummy.Domain.CardSuit;
 
 namespace GinRummy.Services.Mappers.Gameplay
@@ -35,7 +37,7 @@ namespace GinRummy.Services.Mappers.Gameplay
                 Deadwood = MeldFinder.CountDeadwood(hand),
                 Melds = MapToMelds(MeldFinder.FindBestMelds(hand)),
                 KnockDiscards = MapToPlayingCards(activeRound.FindKnockDiscards(viewerId)),
-                LastMove = MapByName<RoundMoveKind>(activeRound.LastMove),
+                LastMove = MapByName<ContractRoundMoveKind>(activeRound.LastMove),
                 LastMoverName = activeRound.FindPlayer(activeRound.LastMoverId).Name,
                 LastMoveCard = MapToPlayingCard(activeRound.LastMoveCard)
             };
@@ -48,7 +50,7 @@ namespace GinRummy.Services.Mappers.Gameplay
             RoundResult result = activeRound.Round.Result;
             RoundSummary summary = new RoundSummary
             {
-                Ending = MapByName<RoundEnding>(result.Outcome),
+                Ending = MapByName<ContractRoundOutcome>(result.Outcome),
                 Points = result.Points,
                 IsWinner = result.WinnerId == viewerId,
                 WinnerName = FindPlayerName(activeRound, result.WinnerId),

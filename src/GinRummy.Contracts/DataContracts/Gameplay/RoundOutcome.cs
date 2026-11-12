@@ -1,6 +1,6 @@
 ﻿namespace GinRummy.Contracts.DataContracts.Gameplay
 {
-    public enum RoundEnding
+    public enum RoundOutcome
     {
         Knock,
         Gin,

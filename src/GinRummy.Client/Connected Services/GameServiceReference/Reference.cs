@@ -512,7 +512,7 @@ namespace GinRummy.Client.GameServiceReference {
         private GinRummy.Client.GameServiceReference.PlayingCard[] DefenderUnmatchedCardsField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private GinRummy.Client.GameServiceReference.RoundEnding EndingField;
+        private GinRummy.Client.GameServiceReference.RoundOutcome EndingField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool IsWinnerField;
@@ -585,7 +585,7 @@ namespace GinRummy.Client.GameServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public GinRummy.Client.GameServiceReference.RoundEnding Ending {
+        public GinRummy.Client.GameServiceReference.RoundOutcome Ending {
             get {
                 return this.EndingField;
             }
@@ -699,9 +699,9 @@ namespace GinRummy.Client.GameServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="RoundEnding", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.Gameplay" +
+    [System.Runtime.Serialization.DataContractAttribute(Name="RoundOutcome", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.Gameplay" +
         "")]
-    public enum RoundEnding : int {
+    public enum RoundOutcome : int {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         Knock = 0,

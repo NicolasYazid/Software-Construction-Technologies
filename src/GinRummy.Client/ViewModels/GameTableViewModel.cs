@@ -56,7 +56,7 @@ namespace GinRummy.Client.ViewModels
             TakeCommand = new RelayCommand(() => Play(_gameConnection.TakeFirstCard));
             PassCommand = new RelayCommand(() => Play(_gameConnection.PassFirstCard));
             DrawFromStockCommand = new RelayCommand(() => Play(_gameConnection.DrawFromStock), () => IsDrawing);
-            DrawFromDiscardPileCommand = new RelayCommand(() => Play(_gameConnection.DrawFromDiscardPile));
+            DrawFromDiscardPileCommand = new RelayCommand(() => Play(_gameConnection.DrawFromDiscardPile), () => CanDrawFromDiscardPile);
             DiscardCommand = new RelayCommand(() => PlaySelectedCard(_gameConnection.Discard), CanDiscardSelectedCard);
             KnockCommand = new RelayCommand(() => PlaySelectedCard(_gameConnection.Knock), CanKnockWithSelectedCard);
             SortHandCommand = new RelayCommand(SortHand);
@@ -141,9 +141,14 @@ namespace GinRummy.Client.ViewModels
             get { return _round.IsYourTurn && (_round.Step == RoundStep.Discarding); }
         }
 
+        public bool CanDrawFromDiscardPile
+        {
+            get { return IsDrawing && (_round.LastMove != RoundMoveKind.PassedFirstCard); }
+        }
+
         public bool CanTakeFromDiscardPile
         {
-            get { return IsOfferingFirstCard || IsDrawing; }
+            get { return IsOfferingFirstCard || CanDrawFromDiscardPile; }
         }
 
         public string TurnNoticeKey
@@ -406,13 +411,13 @@ namespace GinRummy.Client.ViewModels
                 _opponentScore += summary.Points;
             }
 
-            if (summary.Ending != RoundEnding.Void)
+            if (summary.Ending != RoundOutcome.Void)
             {
-                MatchLogKind closeKind = (summary.Ending == RoundEnding.Gin) ? MatchLogKind.Gin : MatchLogKind.Knocked;
+                MatchLogKind closeKind = (summary.Ending == RoundOutcome.Gin) ? MatchLogKind.Gin : MatchLogKind.Knocked;
                 AddLogEntry(summary.KnockerName, closeKind, null).Amount = summary.KnockerDeadwood;
             }
 
-            HandHeadlineKey = (summary.Ending == RoundEnding.Void) ? RoundVoidKey : HandWinnerKey;
+            HandHeadlineKey = (summary.Ending == RoundOutcome.Void) ? RoundVoidKey : HandWinnerKey;
             HandResult = ToHandResult(summary);
             IsHandResultShown = true;
             RaisePropertyChanged(string.Empty);

@@ -7,7 +7,7 @@ namespace GinRummy.Contracts.DataContracts.Gameplay
     public class RoundSummary
     {
         [DataMember]
-        public RoundEnding Ending { get; set; }
+        public RoundOutcome Ending { get; set; }
 
         [DataMember]
         public string WinnerName { get; set; }

@@ -26,7 +26,7 @@ namespace GinRummy.Client.Services
         public event EventHandler<int> ChallengeCancelled;
         public event EventHandler<int> ChallengeDeclined;
 
-        public ServiceFaultCode? LastRefusal { get; private set; }
+        public ServiceFaultCode? LastFaultCode { get; private set; }
 
         public bool Start(string accessToken)
         {
@@ -48,7 +48,7 @@ namespace GinRummy.Client.Services
 
         public ChallengeOutcome? Challenge(string accessToken, int challengedPublicTag)
         {
-            return Ask("challenge the player", service => service.ChallengePlayer(accessToken, challengedPublicTag));
+            return CallForOutcome("challenge the player", service => service.ChallengePlayer(accessToken, challengedPublicTag));
         }
 
         public bool Cancel(string accessToken)
@@ -58,12 +58,12 @@ namespace GinRummy.Client.Services
 
         public ChallengeOutcome? Accept(string accessToken, int challengerPublicTag)
         {
-            return Ask("accept the challenge", service => service.AcceptChallenge(accessToken, challengerPublicTag));
+            return CallForOutcome("accept the challenge", service => service.AcceptChallenge(accessToken, challengerPublicTag));
         }
 
         public ChallengeOutcome? Decline(string accessToken, int challengerPublicTag)
         {
-            return Ask("decline the challenge", service => service.DeclineChallenge(accessToken, challengerPublicTag));
+            return CallForOutcome("decline the challenge", service => service.DeclineChallenge(accessToken, challengerPublicTag));
         }
 
         public void Stop()
@@ -110,7 +110,7 @@ namespace GinRummy.Client.Services
             return (service != null) && TryCall(operation, () => call(service));
         }
 
-        private ChallengeOutcome? Ask(string operation, Func<IDirectDuelService, ChallengeOutcome> request)
+        private ChallengeOutcome? CallForOutcome(string operation, Func<IDirectDuelService, ChallengeOutcome> request)
         {
             ChallengeOutcome? outcome = null;
             Call(operation, service => outcome = request(service));
@@ -126,7 +126,7 @@ namespace GinRummy.Client.Services
         private bool TryCall(string operation, Action call)
         {
             bool isDone = false;
-            LastRefusal = null;
+            LastFaultCode = null;
             try
             {
                 call();
@@ -134,7 +134,7 @@ namespace GinRummy.Client.Services
             }
             catch (FaultException<ServiceFault> ex)
             {
-                LastRefusal = ex.Detail.Code;
+                LastFaultCode = ex.Detail.Code;
                 _logger.LogWarning(ex, "The server refused to {Operation} with the fault {FaultCode}.", operation, ex.Detail.Code);
             }
             catch (FaultException ex)

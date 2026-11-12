@@ -262,7 +262,7 @@
     <Compile Include="Controls\CardMovedEventArgs.cs" />
     <Compile Include="Controls\CardTilt.cs" />
     <Compile Include="Controls\HandFan.cs" />
-    <Compile Include="Controls\HoverBulgeCommon.cs" />
+    <Compile Include="Controls\HoverBulge.cs" />
     <Compile Include="Effects\CardTiltEffect.cs" />
     <Compile Include="Controls\PaintGeometry.cs" />
     <Compile Include="Controls\PaintPalette.cs" />

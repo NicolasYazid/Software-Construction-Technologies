@@ -69,7 +69,7 @@
     <Compile Include="UseCases\DirectDuel\DuelPlayer.cs" />
     <Compile Include="UseCases\Gameplay\ActiveRound.cs" />
     <Compile Include="UseCases\Gameplay\PlayRoundUseCase.cs" />
-    <Compile Include="UseCases\Gameplay\RoundMove.cs" />
+    <Compile Include="UseCases\Gameplay\RoundMoveKind.cs" />
     <Compile Include="UseCases\Gameplay\RoundRegistry.cs" />
     <Compile Include="Ports\DirectDuel\IChallengeAnnouncer.cs" />
     <Compile Include="Ports\DirectDuel\IChallengeUseCase.cs" />
