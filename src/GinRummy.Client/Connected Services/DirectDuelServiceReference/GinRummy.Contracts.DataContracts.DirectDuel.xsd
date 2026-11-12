@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.DirectDuel" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.DirectDuel" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="ChallengeOutcome">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Done" />
+      <xs:enumeration value="PlayerNotAvailable" />
+      <xs:enumeration value="PlayerNotFound" />
+      <xs:enumeration value="AlreadyChallenging" />
+      <xs:enumeration value="OpponentBusy" />
+      <xs:enumeration value="AccountSuspended" />
+      <xs:enumeration value="ChallengeExpired" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="ChallengeOutcome" nillable="true" type="tns:ChallengeOutcome" />
+</xs:schema>

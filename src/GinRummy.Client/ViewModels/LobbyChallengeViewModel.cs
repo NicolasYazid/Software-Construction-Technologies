@@ -9,6 +9,7 @@ using GinRummy.Client.LogInServiceReference;
 using GinRummy.Client.Mvvm;
 using GinRummy.Client.Services;
 
+using ChallengeOutcome = GinRummy.Client.DirectDuelServiceReference.ChallengeOutcome;
 using DuelFaultCode = GinRummy.Client.DirectDuelServiceReference.ServiceFaultCode;
 
 namespace GinRummy.Client.ViewModels
@@ -19,14 +20,19 @@ namespace GinRummy.Client.ViewModels
         private const string ChallengeUnavailableKey = "LobbyChat_ChallengeUnavailable";
         private const string ChallengeCancelledKey = "LobbyChat_ChallengeCancelled";
 
+        private static readonly Dictionary<ChallengeOutcome, string> _outcomeNoticeKeys = new Dictionary<ChallengeOutcome, string>
+        {
+            { ChallengeOutcome.PlayerNotAvailable, "LobbyChat_PlayerNotAvailable" },
+            { ChallengeOutcome.PlayerNotFound, "Error_DataNotFound" },
+            { ChallengeOutcome.OpponentBusy, "Error_GameOpponentBusy" },
+            { ChallengeOutcome.AccountSuspended, "Error_ModAccountSuspended" },
+            { ChallengeOutcome.ChallengeExpired, "Error_GameChallengeExpired" }
+        };
+
         private static readonly Dictionary<DuelFaultCode, string> _refusalNoticeKeys = new Dictionary<DuelFaultCode, string>
         {
             { DuelFaultCode.CannotChallengeSelf, "Error_GameCannotChallengeSelf" },
-            { DuelFaultCode.OpponentBusy, "Error_GameOpponentBusy" },
-            { DuelFaultCode.ChallengeNotFound, "Error_GameChallengeExpired" },
-            { DuelFaultCode.PlayerUnavailable, "LobbyChat_PlayerNotAvailable" },
             { DuelFaultCode.ConcurrentChallenge, "Error_DataConcurrentChallenge" },
-            { DuelFaultCode.AccountSuspended, "Error_ModAccountSuspended" },
             { DuelFaultCode.GuestNotAllowed, "Error_PermGuestNotAllowed" }
         };
 
@@ -115,14 +121,15 @@ namespace GinRummy.Client.ViewModels
             {
                 NoticeKey = ChallengeUnavailableKey;
             }
-            else if (_duelConnection.Challenge(_signedInPlayer.AccessToken, player.PublicTag.Value))
-            {
-                ChallengedPlayer = player;
-                NoticeKey = null;
-            }
             else
             {
-                ShowRefusal();
+                ChallengeOutcome? outcome = _duelConnection.Challenge(_signedInPlayer.AccessToken, player.PublicTag.Value);
+                if (outcome == ChallengeOutcome.Done)
+                {
+                    ChallengedPlayer = player;
+                }
+
+                ShowOutcome(outcome);
             }
         }
 
@@ -137,17 +144,25 @@ namespace GinRummy.Client.ViewModels
         {
             LobbyPlayerViewModel challenger = (LobbyPlayerViewModel)parameter;
             ReceivedChallenges.Remove(challenger);
-            if (!_duelConnection.Accept(_signedInPlayer.AccessToken, challenger.PublicTag.Value))
-            {
-                ShowRefusal();
-            }
+            ShowOutcome(_duelConnection.Accept(_signedInPlayer.AccessToken, challenger.PublicTag.Value));
         }
 
         private void Decline(object parameter)
         {
             LobbyPlayerViewModel challenger = (LobbyPlayerViewModel)parameter;
             ReceivedChallenges.Remove(challenger);
-            if (!_duelConnection.Decline(_signedInPlayer.AccessToken, challenger.PublicTag.Value))
+            ShowOutcome(_duelConnection.Decline(_signedInPlayer.AccessToken, challenger.PublicTag.Value));
+        }
+
+        private void ShowOutcome(ChallengeOutcome? outcome)
+        {
+            if (outcome.HasValue)
+            {
+                string noticeKey;
+                _outcomeNoticeKeys.TryGetValue(outcome.Value, out noticeKey);
+                NoticeKey = noticeKey;
+            }
+            else
             {
                 ShowRefusal();
             }

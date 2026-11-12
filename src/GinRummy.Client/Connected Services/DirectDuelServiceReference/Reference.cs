@@ -132,25 +132,39 @@ namespace GinRummy.Client.DirectDuelServiceReference {
         InvalidMove = 22,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        PlayerUnavailable = 23,
+        CannotChallengeSelf = 23,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        ChallengeNotFound = 24,
+        ConcurrentChallenge = 24,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        CannotChallengeSelf = 25,
+        GuestNotAllowed = 25
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ChallengeOutcome", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.DirectDuel")]
+    public enum ChallengeOutcome : int {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        OpponentBusy = 26,
+        Done = 0,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        ConcurrentChallenge = 27,
+        PlayerNotAvailable = 1,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        AccountSuspended = 28,
+        PlayerNotFound = 2,
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
-        GuestNotAllowed = 29
+        AlreadyChallenging = 3,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        OpponentBusy = 4,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        AccountSuspended = 5,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        ChallengeExpired = 6
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -166,10 +180,10 @@ namespace GinRummy.Client.DirectDuelServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectDuelService/ChallengePlayer", ReplyAction="http://tempuri.org/IDirectDuelService/ChallengePlayerResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.DirectDuelServiceReference.ServiceFault), Action="http://tempuri.org/IDirectDuelService/ChallengePlayerServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
-        void ChallengePlayer(string accessToken, int challengedPublicTag);
+        GinRummy.Client.DirectDuelServiceReference.ChallengeOutcome ChallengePlayer(string accessToken, int challengedPublicTag);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectDuelService/ChallengePlayer", ReplyAction="http://tempuri.org/IDirectDuelService/ChallengePlayerResponse")]
-        System.Threading.Tasks.Task ChallengePlayerAsync(string accessToken, int challengedPublicTag);
+        System.Threading.Tasks.Task<GinRummy.Client.DirectDuelServiceReference.ChallengeOutcome> ChallengePlayerAsync(string accessToken, int challengedPublicTag);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectDuelService/CancelChallenge", ReplyAction="http://tempuri.org/IDirectDuelService/CancelChallengeResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.DirectDuelServiceReference.ServiceFault), Action="http://tempuri.org/IDirectDuelService/CancelChallengeServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
@@ -180,17 +194,17 @@ namespace GinRummy.Client.DirectDuelServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectDuelService/AcceptChallenge", ReplyAction="http://tempuri.org/IDirectDuelService/AcceptChallengeResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.DirectDuelServiceReference.ServiceFault), Action="http://tempuri.org/IDirectDuelService/AcceptChallengeServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
-        void AcceptChallenge(string accessToken, int challengerPublicTag);
+        GinRummy.Client.DirectDuelServiceReference.ChallengeOutcome AcceptChallenge(string accessToken, int challengerPublicTag);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectDuelService/AcceptChallenge", ReplyAction="http://tempuri.org/IDirectDuelService/AcceptChallengeResponse")]
-        System.Threading.Tasks.Task AcceptChallengeAsync(string accessToken, int challengerPublicTag);
+        System.Threading.Tasks.Task<GinRummy.Client.DirectDuelServiceReference.ChallengeOutcome> AcceptChallengeAsync(string accessToken, int challengerPublicTag);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectDuelService/DeclineChallenge", ReplyAction="http://tempuri.org/IDirectDuelService/DeclineChallengeResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.DirectDuelServiceReference.ServiceFault), Action="http://tempuri.org/IDirectDuelService/DeclineChallengeServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
-        void DeclineChallenge(string accessToken, int challengerPublicTag);
+        GinRummy.Client.DirectDuelServiceReference.ChallengeOutcome DeclineChallenge(string accessToken, int challengerPublicTag);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDirectDuelService/DeclineChallenge", ReplyAction="http://tempuri.org/IDirectDuelService/DeclineChallengeResponse")]
-        System.Threading.Tasks.Task DeclineChallengeAsync(string accessToken, int challengerPublicTag);
+        System.Threading.Tasks.Task<GinRummy.Client.DirectDuelServiceReference.ChallengeOutcome> DeclineChallengeAsync(string accessToken, int challengerPublicTag);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IDirectDuelService/UnsubscribeFromDirectDuel")]
         void UnsubscribeFromDirectDuel();
@@ -248,11 +262,11 @@ namespace GinRummy.Client.DirectDuelServiceReference {
             return base.Channel.SubscribeToDirectDuelAsync(accessToken);
         }
         
-        public void ChallengePlayer(string accessToken, int challengedPublicTag) {
-            base.Channel.ChallengePlayer(accessToken, challengedPublicTag);
+        public GinRummy.Client.DirectDuelServiceReference.ChallengeOutcome ChallengePlayer(string accessToken, int challengedPublicTag) {
+            return base.Channel.ChallengePlayer(accessToken, challengedPublicTag);
         }
         
-        public System.Threading.Tasks.Task ChallengePlayerAsync(string accessToken, int challengedPublicTag) {
+        public System.Threading.Tasks.Task<GinRummy.Client.DirectDuelServiceReference.ChallengeOutcome> ChallengePlayerAsync(string accessToken, int challengedPublicTag) {
             return base.Channel.ChallengePlayerAsync(accessToken, challengedPublicTag);
         }
         
@@ -264,19 +278,19 @@ namespace GinRummy.Client.DirectDuelServiceReference {
             return base.Channel.CancelChallengeAsync(accessToken);
         }
         
-        public void AcceptChallenge(string accessToken, int challengerPublicTag) {
-            base.Channel.AcceptChallenge(accessToken, challengerPublicTag);
+        public GinRummy.Client.DirectDuelServiceReference.ChallengeOutcome AcceptChallenge(string accessToken, int challengerPublicTag) {
+            return base.Channel.AcceptChallenge(accessToken, challengerPublicTag);
         }
         
-        public System.Threading.Tasks.Task AcceptChallengeAsync(string accessToken, int challengerPublicTag) {
+        public System.Threading.Tasks.Task<GinRummy.Client.DirectDuelServiceReference.ChallengeOutcome> AcceptChallengeAsync(string accessToken, int challengerPublicTag) {
             return base.Channel.AcceptChallengeAsync(accessToken, challengerPublicTag);
         }
         
-        public void DeclineChallenge(string accessToken, int challengerPublicTag) {
-            base.Channel.DeclineChallenge(accessToken, challengerPublicTag);
+        public GinRummy.Client.DirectDuelServiceReference.ChallengeOutcome DeclineChallenge(string accessToken, int challengerPublicTag) {
+            return base.Channel.DeclineChallenge(accessToken, challengerPublicTag);
         }
         
-        public System.Threading.Tasks.Task DeclineChallengeAsync(string accessToken, int challengerPublicTag) {
+        public System.Threading.Tasks.Task<GinRummy.Client.DirectDuelServiceReference.ChallengeOutcome> DeclineChallengeAsync(string accessToken, int challengerPublicTag) {
             return base.Channel.DeclineChallengeAsync(accessToken, challengerPublicTag);
         }
         

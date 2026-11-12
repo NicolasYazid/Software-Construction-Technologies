@@ -46,9 +46,9 @@ namespace GinRummy.Client.Services
             return isSubscribed;
         }
 
-        public bool Challenge(string accessToken, int challengedPublicTag)
+        public ChallengeOutcome? Challenge(string accessToken, int challengedPublicTag)
         {
-            return Call("challenge the player", service => service.ChallengePlayer(accessToken, challengedPublicTag));
+            return Ask("challenge the player", service => service.ChallengePlayer(accessToken, challengedPublicTag));
         }
 
         public bool Cancel(string accessToken)
@@ -56,14 +56,14 @@ namespace GinRummy.Client.Services
             return Call("cancel the challenge", service => service.CancelChallenge(accessToken));
         }
 
-        public bool Accept(string accessToken, int challengerPublicTag)
+        public ChallengeOutcome? Accept(string accessToken, int challengerPublicTag)
         {
-            return Call("accept the challenge", service => service.AcceptChallenge(accessToken, challengerPublicTag));
+            return Ask("accept the challenge", service => service.AcceptChallenge(accessToken, challengerPublicTag));
         }
 
-        public bool Decline(string accessToken, int challengerPublicTag)
+        public ChallengeOutcome? Decline(string accessToken, int challengerPublicTag)
         {
-            return Call("decline the challenge", service => service.DeclineChallenge(accessToken, challengerPublicTag));
+            return Ask("decline the challenge", service => service.DeclineChallenge(accessToken, challengerPublicTag));
         }
 
         public void Stop()
@@ -108,6 +108,14 @@ namespace GinRummy.Client.Services
             IDirectDuelService service = _service;
 
             return (service != null) && TryCall(operation, () => call(service));
+        }
+
+        private ChallengeOutcome? Ask(string operation, Func<IDirectDuelService, ChallengeOutcome> request)
+        {
+            ChallengeOutcome? outcome = null;
+            Call(operation, service => outcome = request(service));
+
+            return outcome;
         }
 
         private void OnChannelFaulted(object sender, EventArgs e)

@@ -31,12 +31,8 @@
       <xs:enumeration value="UnsupportedLocale" />
       <xs:enumeration value="SamePassword" />
       <xs:enumeration value="InvalidMove" />
-      <xs:enumeration value="PlayerUnavailable" />
-      <xs:enumeration value="ChallengeNotFound" />
       <xs:enumeration value="CannotChallengeSelf" />
-      <xs:enumeration value="OpponentBusy" />
       <xs:enumeration value="ConcurrentChallenge" />
-      <xs:enumeration value="AccountSuspended" />
       <xs:enumeration value="GuestNotAllowed" />
     </xs:restriction>
   </xs:simpleType>

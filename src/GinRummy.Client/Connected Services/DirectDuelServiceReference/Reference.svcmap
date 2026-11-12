@@ -25,6 +25,7 @@
     <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="c46ca656-276d-4654-9faa-4c3b6469152b" SourceId="1" SourceUrl="net.tcp://localhost:8001/DirectDuelService/mex" />
     <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="4886a668-b5de-421f-9a9f-6dd6d1004926" SourceId="1" SourceUrl="net.tcp://localhost:8001/DirectDuelService/mex" />
     <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="fc3cb0e1-990e-4f2c-98c6-b85f48945d85" SourceId="1" SourceUrl="net.tcp://localhost:8001/DirectDuelService/mex" />
+    <MetadataFile FileName="GinRummy.Contracts.DataContracts.DirectDuel.xsd" MetadataType="Schema" ID="68e10ddd-14c5-42a0-89fd-8948a5aedb52" SourceId="1" SourceUrl="net.tcp://localhost:8001/DirectDuelService/mex" />
     <MetadataFile FileName="GinRummy.Contracts.Faults.Shared.xsd" MetadataType="Schema" ID="93cc21f5-de3c-475c-9f09-69ad58f608c3" SourceId="1" SourceUrl="net.tcp://localhost:8001/DirectDuelService/mex" />
   </Metadata>
   <Extensions>

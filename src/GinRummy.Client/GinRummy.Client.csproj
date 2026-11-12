@@ -446,6 +446,9 @@
     <None Include="Connected Services\ChatMessageServiceReference\service1.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Connected Services\DirectDuelServiceReference\GinRummy.Contracts.DataContracts.DirectDuel.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\DirectDuelServiceReference\GinRummy.Contracts.Faults.Shared.xsd">
       <SubType>Designer</SubType>
     </None>
