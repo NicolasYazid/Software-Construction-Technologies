@@ -59,7 +59,6 @@ namespace GinRummy.Client.ViewModels
             SendMessageCommand = new RelayCommand(SendMessage);
             FindMatchCommand = new RelayCommand(FindMatch);
             CancelSearchCommand = new RelayCommand(CancelSearch);
-            FriendRequestCommand = new RelayCommand(SendFriendRequest);
         }
 
         public event EventHandler PresenceUnavailable;
@@ -70,7 +69,6 @@ namespace GinRummy.Client.ViewModels
         public ICommand SendMessageCommand { get; private set; }
         public ICommand FindMatchCommand { get; private set; }
         public ICommand CancelSearchCommand { get; private set; }
-        public ICommand FriendRequestCommand { get; private set; }
         public IList<LobbyPlayerViewModel> LookingToPlay { get; private set; }
         public IList<LobbyPlayerViewModel> Online { get; private set; }
         public IList<MatchPair> MatchesInProgress { get; private set; }
@@ -309,16 +307,6 @@ namespace GinRummy.Client.ViewModels
         private void CancelSearch()
         {
             IsSearchingMatch = false;
-        }
-
-        // The option turns into the pending request mark so a second request cannot be sent while the first one waits (CU-12 step 8).
-        private void SendFriendRequest(object parameter)
-        {
-            LobbyPlayerViewModel player = parameter as LobbyPlayerViewModel;
-            if (player != null)
-            {
-                player.HasPendingRequest = true;
-            }
         }
 
         private void OnCurrentStatusReported(object sender, PlayerPresenceReport report)

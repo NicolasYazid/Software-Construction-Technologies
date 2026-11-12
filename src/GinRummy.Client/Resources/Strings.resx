@@ -901,6 +901,46 @@ Tú: {0}   -   Rival: {1}</value>
     <value>Solicitud de amistad</value>
     <comment>Menú contextual de GuiLobbyChat</comment>
   </data>
+  <data name="LobbyChat_MniFriendRequestSent" xml:space="preserve">
+    <value>Solicitud enviada</value>
+    <comment>Menú contextual de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_FriendRequestToYourself" xml:space="preserve">
+    <value>No puedes enviarte una solicitud a ti mismo</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_FriendRequestAlreadyFriends" xml:space="preserve">
+    <value>Ese jugador ya es tu amigo</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_FriendRequestAlreadySent" xml:space="preserve">
+    <value>Ya le enviaste una solicitud a ese jugador</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_IncomingRequestExists" xml:space="preserve">
+    <value>Ese jugador ya te envió una solicitud</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_FriendRequestTooManyPending" xml:space="preserve">
+    <value>Este jugador ya tiene muchas solicitudes pendientes</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_FriendRequestOwnFriendLimit" xml:space="preserve">
+    <value>Ya alcanzaste el límite de amigos</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_FriendRequestPlayerFriendLimit" xml:space="preserve">
+    <value>Este jugador ya alcanzó el límite de amigos</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_FriendRequestTooManyPerMinute" xml:space="preserve">
+    <value>Enviaste demasiadas solicitudes, espera un momento</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_FriendRequestWaitingTime" xml:space="preserve">
+    <value>Espera un momento antes de volver a enviarle una solicitud a este jugador</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
   <data name="LobbyChat_MniProfile" xml:space="preserve">
     <value>Perfil</value>
     <comment>Menú contextual de GuiLobbyChat</comment>

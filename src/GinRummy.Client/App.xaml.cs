@@ -8,6 +8,7 @@ using System.Windows.Threading;
 using GinRummy.Client.AccountSettingsServiceReference;
 using GinRummy.Client.ChatMessageServiceReference;
 using GinRummy.Client.DirectDuelServiceReference;
+using GinRummy.Client.FriendshipServiceReference;
 using GinRummy.Client.GameServiceReference;
 using GinRummy.Client.LeaderboardServiceReference;
 using GinRummy.Client.Localization;
@@ -33,6 +34,7 @@ namespace GinRummy.Client
         private const string AccountSettingsEndpointName = "AccountSettingsService";
         private const string ChatEndpointName = "ChatMessageService";
         private const string DirectDuelEndpointName = "DirectDuelService";
+        private const string FriendshipEndpointName = "FriendshipService";
         private const string GameEndpointName = "GameService";
         private const string LeaderboardEndpointName = "LeaderboardService";
         private const string LogInEndpointName = "LogInService";
@@ -165,6 +167,18 @@ namespace GinRummy.Client
             return new LobbyChallengeViewModel(duelConnection, gameConnection, SignedInPlayer);
         }
 
+        public FriendshipConnection CreateFriendshipConnection()
+        {
+            return new FriendshipConnection(
+                callbackContext => new FriendshipServiceClient(callbackContext, FriendshipEndpointName),
+                _loggerFactory.CreateLogger<FriendshipConnection>());
+        }
+
+        public LobbyFriendshipViewModel CreateLobbyFriendshipViewModel(FriendshipConnection friendshipConnection)
+        {
+            return new LobbyFriendshipViewModel(friendshipConnection, SignedInPlayer);
+        }
+
         public HouseRulesViewModel CreateHouseRulesViewModel()
         {
             return new HouseRulesViewModel(SampleData);
@@ -175,9 +189,9 @@ namespace GinRummy.Client
             return new NewPasswordViewModel(false);
         }
 
-        public NotificationsViewModel CreateNotificationsViewModel()
+        public NotificationsViewModel CreateNotificationsViewModel(FriendshipConnection friendshipConnection)
         {
-            return new NotificationsViewModel(SampleData);
+            return new NotificationsViewModel(friendshipConnection);
         }
 
         public PlayerProfileViewModel CreatePlayerProfileViewModel(PlayerProfile profile)

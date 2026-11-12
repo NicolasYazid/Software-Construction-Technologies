@@ -55,9 +55,19 @@
                 <MenuItem x:Name="mniProfile"
                           Header="{Binding [LobbyChat_MniProfile], Source={StaticResource PrvLocalization}}"
                           Click="OnPlayerProfileClick" />
-                <MenuItem x:Name="mniFriendRequest" Style="{StaticResource StyPlayerMenuStrangerItem}"
-                          Header="{Binding [LobbyChat_MniFriendRequest], Source={StaticResource PrvLocalization}}"
-                          Click="OnFriendRequestClick">
+                <MenuItem x:Name="mniFriendRequest" Click="OnFriendRequestClick">
+                    <MenuItem.Style>
+                        <Style TargetType="MenuItem" BasedOn="{StaticResource StyPlayerMenuStrangerItem}">
+                            <Setter Property="Header"
+                                    Value="{Binding [LobbyChat_MniFriendRequest], Source={StaticResource PrvLocalization}}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasPendingRequest}" Value="True">
+                                    <Setter Property="Header"
+                                            Value="{Binding [LobbyChat_MniFriendRequestSent], Source={StaticResource PrvLocalization}}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </MenuItem.Style>
                     <MenuItem.Icon>
                         <Image Source="{StaticResource IcoSend}" Style="{StaticResource StyPendingRequestMark}" />
                     </MenuItem.Icon>
@@ -268,6 +278,25 @@
                                               Converter={StaticResource CnvUpperCase}}"
                                     Command="{Binding DismissNoticeCommand}" />
                             <TextBlock x:Name="lblChallengeNotice" Style="{StaticResource StyStatusTitle}" VerticalAlignment="Center">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource CnvResourceText}">
+                                        <Binding Path="NoticeKey" />
+                                        <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DockPanel>
+                    </ctl:PixelBorder>
+
+                    <ctl:PixelBorder x:Name="pnlFriendshipNotice" Style="{StaticResource StyLobbyStatusCard}"
+                            Visibility="{Binding HasNotice, Converter={StaticResource CnvBooleanToVisibility}}">
+                        <DockPanel LastChildFill="True">
+                            <Button x:Name="btnDismissFriendshipNotice" DockPanel.Dock="Right" Style="{StaticResource StyNoticeButton}"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding [Shared_BtnClose], Source={StaticResource PrvLocalization},
+                                              Converter={StaticResource CnvUpperCase}}"
+                                    Command="{Binding DismissNoticeCommand}" />
+                            <TextBlock x:Name="lblFriendshipNotice" Style="{StaticResource StyStatusTitle}" VerticalAlignment="Center">
                                 <TextBlock.Text>
                                     <MultiBinding Converter="{StaticResource CnvResourceText}">
                                         <Binding Path="NoticeKey" />

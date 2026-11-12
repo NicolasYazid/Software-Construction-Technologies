@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
+using GinRummy.Client.Services;
 using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
@@ -13,11 +14,13 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiSanctions : GuiModalBase
     {
+        private readonly FriendshipConnection _friendshipConnection;
         private readonly SanctionsViewModel _viewModel;
 
-        public GuiSanctions()
+        public GuiSanctions(FriendshipConnection friendshipConnection)
         {
             InitializeComponent();
+            _friendshipConnection = friendshipConnection ?? throw new ArgumentNullException(nameof(friendshipConnection));
             _viewModel = ((App)Application.Current).CreateSanctionsViewModel();
             DataContext = _viewModel;
             Closed += OnScreenClosed;
@@ -32,7 +35,7 @@ namespace GinRummy.Client.Views
         {
             if (IsLoaded && tabFriendRequests.IsSelected)
             {
-                NavigateTo(new GuiNotifications());
+                NavigateTo(new GuiNotifications(_friendshipConnection));
             }
         }
 

@@ -706,6 +706,36 @@ You: {0}   -   Opponent: {1}</value>
   <data name="LobbyChat_MniFriendRequest" xml:space="preserve">
     <value>Friend request</value>
   </data>
+  <data name="LobbyChat_MniFriendRequestSent" xml:space="preserve">
+    <value>Request sent</value>
+  </data>
+  <data name="LobbyChat_FriendRequestToYourself" xml:space="preserve">
+    <value>You cannot send a request to yourself</value>
+  </data>
+  <data name="LobbyChat_FriendRequestAlreadyFriends" xml:space="preserve">
+    <value>That player is already your friend</value>
+  </data>
+  <data name="LobbyChat_FriendRequestAlreadySent" xml:space="preserve">
+    <value>You already sent a request to that player</value>
+  </data>
+  <data name="LobbyChat_IncomingRequestExists" xml:space="preserve">
+    <value>That player already sent you a request</value>
+  </data>
+  <data name="LobbyChat_FriendRequestTooManyPending" xml:space="preserve">
+    <value>This player already has too many pending requests</value>
+  </data>
+  <data name="LobbyChat_FriendRequestOwnFriendLimit" xml:space="preserve">
+    <value>You already reached the friend limit</value>
+  </data>
+  <data name="LobbyChat_FriendRequestPlayerFriendLimit" xml:space="preserve">
+    <value>This player already reached the friend limit</value>
+  </data>
+  <data name="LobbyChat_FriendRequestTooManyPerMinute" xml:space="preserve">
+    <value>You sent too many requests, wait a moment</value>
+  </data>
+  <data name="LobbyChat_FriendRequestWaitingTime" xml:space="preserve">
+    <value>Wait a moment before sending this player another request</value>
+  </data>
   <data name="LobbyChat_MniProfile" xml:space="preserve">
     <value>Profile</value>
   </data>
