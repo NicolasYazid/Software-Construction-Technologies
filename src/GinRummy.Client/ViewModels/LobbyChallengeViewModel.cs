@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -8,12 +9,26 @@ using GinRummy.Client.LogInServiceReference;
 using GinRummy.Client.Mvvm;
 using GinRummy.Client.Services;
 
+using DuelFaultCode = GinRummy.Client.DirectDuelServiceReference.ServiceFaultCode;
+
 namespace GinRummy.Client.ViewModels
 {
     public class LobbyChallengeViewModel : ViewModelBase
     {
         private const string ChallengeDeclinedKey = "LobbyChat_ChallengeDeclined";
         private const string ChallengeUnavailableKey = "LobbyChat_ChallengeUnavailable";
+        private const string ChallengeCancelledKey = "LobbyChat_ChallengeCancelled";
+
+        private static readonly Dictionary<DuelFaultCode, string> _refusalNoticeKeys = new Dictionary<DuelFaultCode, string>
+        {
+            { DuelFaultCode.CannotChallengeSelf, "Error_GameCannotChallengeSelf" },
+            { DuelFaultCode.OpponentBusy, "Error_GameOpponentBusy" },
+            { DuelFaultCode.ChallengeNotFound, "Error_GameChallengeExpired" },
+            { DuelFaultCode.PlayerUnavailable, "LobbyChat_PlayerNotAvailable" },
+            { DuelFaultCode.ConcurrentChallenge, "Error_DataConcurrentChallenge" },
+            { DuelFaultCode.AccountSuspended, "Error_ModAccountSuspended" },
+            { DuelFaultCode.GuestNotAllowed, "Error_PermGuestNotAllowed" }
+        };
 
         private readonly DirectDuelConnection _duelConnection;
         private readonly GameConnection _gameConnection;
@@ -34,6 +49,7 @@ namespace GinRummy.Client.ViewModels
         }
 
         public event EventHandler<GameTableViewModel> RoundStarted;
+        public event EventHandler SessionExpired;
 
         public ObservableCollection<LobbyPlayerViewModel> ReceivedChallenges { get; private set; }
         public ICommand CancelCommand { get; private set; }
@@ -95,16 +111,18 @@ namespace GinRummy.Client.ViewModels
 
         public void Challenge(LobbyPlayerViewModel player)
         {
-            bool isSent = player.PublicTag.HasValue
-                && _duelConnection.Challenge(_signedInPlayer.AccessToken, player.PublicTag.Value);
-            if (isSent)
+            if (!player.PublicTag.HasValue)
+            {
+                NoticeKey = ChallengeUnavailableKey;
+            }
+            else if (_duelConnection.Challenge(_signedInPlayer.AccessToken, player.PublicTag.Value))
             {
                 ChallengedPlayer = player;
                 NoticeKey = null;
             }
             else
             {
-                NoticeKey = ChallengeUnavailableKey;
+                ShowRefusal();
             }
         }
 
@@ -112,6 +130,7 @@ namespace GinRummy.Client.ViewModels
         {
             _duelConnection.Cancel(_signedInPlayer.AccessToken);
             ChallengedPlayer = null;
+            NoticeKey = ChallengeCancelledKey;
         }
 
         private void Accept(object parameter)
@@ -120,7 +139,7 @@ namespace GinRummy.Client.ViewModels
             ReceivedChallenges.Remove(challenger);
             if (!_duelConnection.Accept(_signedInPlayer.AccessToken, challenger.PublicTag.Value))
             {
-                NoticeKey = ChallengeUnavailableKey;
+                ShowRefusal();
             }
         }
 
@@ -128,7 +147,27 @@ namespace GinRummy.Client.ViewModels
         {
             LobbyPlayerViewModel challenger = (LobbyPlayerViewModel)parameter;
             ReceivedChallenges.Remove(challenger);
-            _duelConnection.Decline(_signedInPlayer.AccessToken, challenger.PublicTag.Value);
+            if (!_duelConnection.Decline(_signedInPlayer.AccessToken, challenger.PublicTag.Value))
+            {
+                ShowRefusal();
+            }
+        }
+
+        private void ShowRefusal()
+        {
+            DuelFaultCode? code = _duelConnection.LastRefusal;
+            string noticeKey = ChallengeUnavailableKey;
+            if (code == DuelFaultCode.SessionExpired)
+            {
+                noticeKey = null;
+                SessionExpired?.Invoke(this, EventArgs.Empty);
+            }
+            else if (code.HasValue && _refusalNoticeKeys.ContainsKey(code.Value))
+            {
+                noticeKey = _refusalNoticeKeys[code.Value];
+            }
+
+            NoticeKey = noticeKey;
         }
 
         private void OnChallengeReceived(object sender, Tuple<string, int> challenger)

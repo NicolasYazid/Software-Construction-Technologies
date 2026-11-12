@@ -26,6 +26,8 @@ namespace GinRummy.Client.Services
         public event EventHandler<int> ChallengeCancelled;
         public event EventHandler<int> ChallengeDeclined;
 
+        public ServiceFaultCode? LastRefusal { get; private set; }
+
         public bool Start(string accessToken)
         {
             IDirectDuelService service = _serviceFactory(new InstanceContext(this));
@@ -116,6 +118,7 @@ namespace GinRummy.Client.Services
         private bool TryCall(string operation, Action call)
         {
             bool isDone = false;
+            LastRefusal = null;
             try
             {
                 call();
@@ -123,6 +126,7 @@ namespace GinRummy.Client.Services
             }
             catch (FaultException<ServiceFault> ex)
             {
+                LastRefusal = ex.Detail.Code;
                 _logger.LogWarning(ex, "The server refused to {Operation} with the fault {FaultCode}.", operation, ex.Detail.Code);
             }
             catch (FaultException ex)

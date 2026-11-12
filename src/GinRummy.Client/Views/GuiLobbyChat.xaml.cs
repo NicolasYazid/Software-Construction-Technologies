@@ -32,6 +32,7 @@ namespace GinRummy.Client.Views
             DataContext = _viewModel;
             _challengeViewModel = ((App)Application.Current).CreateLobbyChallengeViewModel();
             _challengeViewModel.RoundStarted += OnRoundStarted;
+            _challengeViewModel.SessionExpired += OnSessionExpired;
             pnlChallenges.DataContext = _challengeViewModel;
 
             // The rail, the profile screen and the panel share one own profile, so a new picture shows on all of them (CU-28).
@@ -79,6 +80,19 @@ namespace GinRummy.Client.Views
         private void OnRoundStarted(object sender, GameTableViewModel table)
         {
             OpenOver(new GuiGameTable(table));
+        }
+
+        private void OnSessionExpired(object sender, EventArgs e)
+        {
+            GuiErrorDialog errorDialog = new GuiErrorDialog(ErrorDialogKind.SessionExpired);
+            errorDialog.Closed += OnSessionExpiredDialogClosed;
+            ShowModal(errorDialog);
+        }
+
+        private void OnSessionExpiredDialogClosed(object sender, EventArgs e)
+        {
+            Close();
+            ((App)Application.Current).ForgetSignedInPlayer();
         }
 
         private void OnFriendRequestClick(object sender, RoutedEventArgs e)
@@ -163,6 +177,7 @@ namespace GinRummy.Client.Views
             _viewModel.StopChat();
             _challengeViewModel.Stop();
             _challengeViewModel.RoundStarted -= OnRoundStarted;
+            _challengeViewModel.SessionExpired -= OnSessionExpired;
             _viewModel.PresenceUnavailable -= OnPresenceUnavailable;
             _viewModel.ChatEntries.CollectionChanged -= OnChatEntriesChanged;
             Loaded -= OnScreenLoaded;

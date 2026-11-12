@@ -1577,4 +1577,32 @@ Tú: {0}   -   Rival: {1}</value>
     <value>Tomó {0} del pozo de descarte</value>
     <comment>Registro de partida de GuiGameTable</comment>
   </data>
+  <data name="Error_GameCannotChallengeSelf" xml:space="preserve">
+    <value>No puedes retarte a ti mismo</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="Error_GameOpponentBusy" xml:space="preserve">
+    <value>Ese jugador ya está en una partida</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="Error_GameChallengeExpired" xml:space="preserve">
+    <value>Ese reto ya no está disponible</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="Error_DataConcurrentChallenge" xml:space="preserve">
+    <value>Ese jugador te retó al mismo tiempo</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="Error_PermGuestNotAllowed" xml:space="preserve">
+    <value>Crea una cuenta para usar esta función</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_PlayerNotAvailable" xml:space="preserve">
+    <value>Ese jugador no está disponible</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
+  <data name="LobbyChat_ChallengeCancelled" xml:space="preserve">
+    <value>Cancelaste tu reto</value>
+    <comment>Mensajes del sistema de GuiLobbyChat</comment>
+  </data>
 </root>

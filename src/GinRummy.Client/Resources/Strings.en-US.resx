@@ -1213,4 +1213,25 @@ You: {0}   -   Opponent: {1}</value>
   <data name="GameTable_LogTookDiscardFormat" xml:space="preserve">
     <value>Took {0} from the discard pile</value>
   </data>
+  <data name="Error_GameCannotChallengeSelf" xml:space="preserve">
+    <value>You cannot challenge yourself</value>
+  </data>
+  <data name="Error_GameOpponentBusy" xml:space="preserve">
+    <value>That player is already in a match</value>
+  </data>
+  <data name="Error_GameChallengeExpired" xml:space="preserve">
+    <value>That challenge is no longer available</value>
+  </data>
+  <data name="Error_DataConcurrentChallenge" xml:space="preserve">
+    <value>That player challenged you at the same time</value>
+  </data>
+  <data name="Error_PermGuestNotAllowed" xml:space="preserve">
+    <value>Create an account to use this feature</value>
+  </data>
+  <data name="LobbyChat_PlayerNotAvailable" xml:space="preserve">
+    <value>That player is not available</value>
+  </data>
+  <data name="LobbyChat_ChallengeCancelled" xml:space="preserve">
+    <value>You cancelled your challenge</value>
+  </data>
 </root>

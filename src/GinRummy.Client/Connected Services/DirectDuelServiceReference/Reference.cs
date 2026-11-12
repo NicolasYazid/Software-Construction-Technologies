@@ -136,6 +136,21 @@ namespace GinRummy.Client.DirectDuelServiceReference {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         ChallengeNotFound = 24,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        CannotChallengeSelf = 25,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        OpponentBusy = 26,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        ConcurrentChallenge = 27,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        AccountSuspended = 28,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        GuestNotAllowed = 29
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
