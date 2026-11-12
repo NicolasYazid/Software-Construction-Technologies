@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UseCases\Friendship\SendFriendRequestUseCase.cs" />
     <Compile Include="UseCases\SocialCommunication\ChatHistory.cs" />
     <Compile Include="UseCases\SocialCommunication\SentChatMessage.cs" />
     <Compile Include="Ports\AccountProtection\IAccountChangeConfirmationPort.cs" />
@@ -96,32 +97,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Ports\AccountProtection\" />
     <Folder Include="Ports\AccountRecovery\" />
-    <Folder Include="Ports\Authentication\" />
-    <Folder Include="Ports\DirectDuel\" />
     <Folder Include="Ports\Friendship\" />
-    <Folder Include="Ports\Gameplay\" />
     <Folder Include="Ports\Matchmaking\" />
-    <Folder Include="Ports\PlayerCareer\" />
-    <Folder Include="Ports\PlayerCustomization\" />
-    <Folder Include="Ports\PlayerModeration\" />
     <Folder Include="Ports\PlayerPreferences\" />
-    <Folder Include="Ports\PlayerPresence\" />
-    <Folder Include="Ports\SocialCommunication\" />
-    <Folder Include="UseCases\AccountProtection\" />
     <Folder Include="UseCases\AccountRecovery\" />
-    <Folder Include="UseCases\Authentication\" />
-    <Folder Include="UseCases\DirectDuel\" />
-    <Folder Include="UseCases\Friendship\" />
-    <Folder Include="UseCases\Gameplay\" />
     <Folder Include="UseCases\Matchmaking\" />
-    <Folder Include="UseCases\PlayerCareer\" />
-    <Folder Include="UseCases\PlayerCustomization\" />
-    <Folder Include="UseCases\PlayerModeration\" />
     <Folder Include="UseCases\PlayerPreferences\" />
-    <Folder Include="UseCases\PlayerPresence\" />
-    <Folder Include="UseCases\SocialCommunication\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
