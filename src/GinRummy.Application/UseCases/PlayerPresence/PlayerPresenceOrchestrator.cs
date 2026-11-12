@@ -31,7 +31,6 @@ namespace GinRummy.Application.UseCases.PlayerPresence
             _rankResolver = new RankResolver();
         }
 
-        // A guest is followed like a player, so the lobby of a guest has the same panel of players (CU-02 FA-01).
         public AccessTokenOwner IdentifyByAccessToken(string accessToken)
         {
             AccessTokenOwner owner = _accessPolicy.IdentifyByAccessToken(accessToken);
@@ -123,7 +122,6 @@ namespace GinRummy.Application.UseCases.PlayerPresence
             return rankedPlayer;
         }
 
-        // A guest leaves no row when it goes offline, so only the guests that are connected are listed.
         private static IList<RankedPlayer> FindOtherOnlineGuests(
             IUnitOfWork unitOfWork,
             IList<OnlinePlayer> onlinePlayers,
@@ -170,7 +168,6 @@ namespace GinRummy.Application.UseCases.PlayerPresence
             return rankedPlayers;
         }
 
-        // A player without statistics has not played yet, so it is ranked as a score of zero.
         private RankedPlayer RankPlayer(PlayerProfile player, PlayerStats stats, IList<Rank> ranks)
         {
             int score = 0;
@@ -182,7 +179,6 @@ namespace GinRummy.Application.UseCases.PlayerPresence
             return new RankedPlayer(player, score, _rankResolver.ResolveRank(score, ranks));
         }
 
-        // A guest has no account, so it has no friends.
         private static IList<int> GetFriendPlayerAccountIds(IUnitOfWork unitOfWork, AccessTokenOwner owner)
         {
             IList<int> friendPlayerAccountIds = new List<int>();

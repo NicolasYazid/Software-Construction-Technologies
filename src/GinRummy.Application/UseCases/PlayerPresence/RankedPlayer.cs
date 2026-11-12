@@ -6,8 +6,6 @@ using GinRummy.Domain.Entities.PlayerCustomization;
 
 namespace GinRummy.Application.UseCases.PlayerPresence
 {
-    // The lists of the lobby go from the highest rank to the lowest, so every player travels with its score and its rank.
-    // A guest is listed too, without score or rank, because the lobby shows everyone who is connected (CU-27 FA-04).
     public class RankedPlayer
     {
         public RankedPlayer(PlayerProfile player, int score, Rank rank)
@@ -24,7 +22,6 @@ namespace GinRummy.Application.UseCases.PlayerPresence
             Rank = rank;
         }
 
-        // A guest has no public tag: its session identifier tells its row apart.
         public RankedPlayer(GuestSession guest)
         {
             if (guest == null)
@@ -49,7 +46,6 @@ namespace GinRummy.Application.UseCases.PlayerPresence
 
         public int Score { get; private set; }
 
-        // No rank contains the score when the catalogue leaves a gap, and the player is still listed.
         public Rank Rank { get; private set; }
     }
 }
