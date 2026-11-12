@@ -6,10 +6,6 @@ using GinRummy.Domain.Shared;
 
 namespace GinRummy.Domain.Entities.Authentication
 {
-    /// <summary>
-    /// A password exactly as the player typed it, protected as a read-once object: it can only exist when it
-    /// meets every requirement, it never shows its value, and its value can be read a single time.
-    /// </summary>
     public sealed class Password
     {
         public const int MinimumLength = 8;

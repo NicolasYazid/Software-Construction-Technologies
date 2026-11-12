@@ -22,9 +22,6 @@ namespace GinRummy.Domain.Entities.PlayerPreferences
         public int LocaleId { get; private set; }
         public bool IsChatFilterEnabled { get; private set; }
 
-        /// <summary>
-        /// Gets the language the player chose, loaded from the relationship between the two tables.
-        /// </summary>
         public virtual Locale Locale { get; private set; }
 
         public void ChangeChatFilter(bool isChatFilterEnabled)
