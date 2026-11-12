@@ -91,7 +91,7 @@ namespace GinRummy.Client.Views
 
         private void OnHandCardDropped(object sender, CardEventArgs e)
         {
-            if (_viewModel.IsDiscarding)
+            if (_viewModel.CanDiscard((Card)e.Item))
             {
                 lstHand.SendTo(e.Item, lstDiscard);
             }
