@@ -111,7 +111,6 @@ namespace GinRummy.Services.Services.PlayerCustomization
             }
         }
 
-        // Every edit breaks the same rules, so they all turn each broken rule into the same fault.
         private void RunProfileEdit(Action profileEdit)
         {
             try

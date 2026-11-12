@@ -13,10 +13,6 @@ using Microsoft.Extensions.Logging;
 
 namespace GinRummy.Services.Services.Authentication
 {
-    /// <summary>
-    /// Implements the sign-up contract. Delegates each operation to its port and turns the broken rules into
-    /// the faults the contract declares, so the client can choose the message of each one.
-    /// </summary>
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public class SignUpService : ISignUpService
     {
@@ -24,13 +20,6 @@ namespace GinRummy.Services.Services.Authentication
         private readonly IEmailVerificationPort _emailVerificationPort;
         private readonly ILogger<SignUpService> _logger;
 
-        /// <summary>
-        /// Builds the service with the ports and the logger the composition root assembled.
-        /// </summary>
-        /// <param name="signUpPort">Port of the creation of an account.</param>
-        /// <param name="emailVerificationPort">Port of the verification of the email and of its new codes.</param>
-        /// <param name="logger">Logger of the server.</param>
-        /// <exception cref="ArgumentNullException">Thrown when a dependency is null.</exception>
         public SignUpService(
             ISignUpPort signUpPort,
             IEmailVerificationPort emailVerificationPort,
@@ -41,11 +30,6 @@ namespace GinRummy.Services.Services.Authentication
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        /// <summary>
-        /// Creates an account and emails the code that verifies its email.
-        /// </summary>
-        /// <param name="newAccount">What the person typed, with the language the client was showing.</param>
-        /// <returns>The stored email of the account and whether its code was sent.</returns>
         public SignUpOutcome SignUp(NewAccount newAccount)
         {
             SignUpOutcome outcome;
@@ -93,11 +77,6 @@ namespace GinRummy.Services.Services.Authentication
             return outcome;
         }
 
-        /// <summary>
-        /// Verifies the email of an account with the code emailed to it.
-        /// </summary>
-        /// <param name="email">Email of the account, as the server stored it.</param>
-        /// <param name="verificationCode">Code that verifies the email, as the player typed it.</param>
         public void VerifyEmailByVerificationCode(string email, string verificationCode)
         {
             try
@@ -127,10 +106,6 @@ namespace GinRummy.Services.Services.Authentication
             }
         }
 
-        /// <summary>
-        /// Emails a new code to an account whose email is not verified yet.
-        /// </summary>
-        /// <param name="email">Email of the account, as the server stored it.</param>
         public void ResendVerificationCode(string email)
         {
             try
