@@ -24,7 +24,7 @@ namespace GinRummy.Client.Services
             _screenContext = SynchronizationContext.Current ?? new SynchronizationContext();
         }
 
-        public event EventHandler<FriendRequest> FriendRequestReceived;
+        public event EventHandler<FriendshipEvent> FriendshipEventReceived;
 
         public bool Start(string accessToken)
         {
@@ -113,14 +113,14 @@ namespace GinRummy.Client.Services
             }
         }
 
-        public void OnFriendRequestReceived(FriendRequest request)
+        public void OnFriendshipEvent(FriendshipEvent friendshipEvent)
         {
-            if (request == null)
+            if (friendshipEvent == null)
             {
-                throw new ArgumentNullException(nameof(request));
+                throw new ArgumentNullException(nameof(friendshipEvent));
             }
 
-            _screenContext.Post(state => FriendRequestReceived?.Invoke(this, request), null);
+            _screenContext.Post(state => FriendshipEventReceived?.Invoke(this, friendshipEvent), null);
         }
 
         private FriendRequestOutcome? CallSendFriendRequest(string accessToken, int addresseePublicTag)

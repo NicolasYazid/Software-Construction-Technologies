@@ -48,9 +48,50 @@ namespace GinRummy.Services.Mappers.Friendship
             return mappedRequests;
         }
 
+        public static FriendshipEvent MapToReceivedFriendshipEvent(DomainFriendRequest newRequest, PlayerProfile requesterProfile)
+        {
+            if (newRequest == null)
+            {
+                throw new ArgumentNullException(nameof(newRequest));
+            }
+
+            if (requesterProfile == null)
+            {
+                throw new ArgumentNullException(nameof(requesterProfile));
+            }
+
+            return new FriendshipEvent
+            {
+                EventType = FriendshipEventType.FriendRequestReceived,
+                OtherPlayerPublicTag = requesterProfile.PublicTag,
+                FriendRequestId = newRequest.FriendRequestId,
+                OtherPlayerUsername = requesterProfile.Username,
+                SentAt = newRequest.CreatedAt
+            };
+        }
+
+        public static FriendshipEvent MapToFriendshipEvent(FriendshipEventType eventType, PlayerProfile otherPlayerProfile)
+        {
+            if (otherPlayerProfile == null)
+            {
+                throw new ArgumentNullException(nameof(otherPlayerProfile));
+            }
+
+            return new FriendshipEvent
+            {
+                EventType = eventType,
+                OtherPlayerPublicTag = otherPlayerProfile.PublicTag
+            };
+        }
+
         public static FriendRequestOutcome MapToFriendRequestOutcome(FriendRequestResult result)
         {
             return (FriendRequestOutcome)Enum.Parse(typeof(FriendRequestOutcome), result.ToString());
+        }
+
+        public static FriendRequestResponseOutcome MapToFriendRequestResponseOutcome(FriendRequestResponseResult result)
+        {
+            return (FriendRequestResponseOutcome)Enum.Parse(typeof(FriendRequestResponseOutcome), result.ToString());
         }
     }
 }

@@ -33,10 +33,10 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
-  <xs:element name="OnFriendRequestReceived">
+  <xs:element name="OnFriendshipEvent">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.Friendship" minOccurs="0" name="request" nillable="true" type="q2:FriendRequest" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.Friendship" minOccurs="0" name="friendshipEvent" nillable="true" type="q2:FriendshipEvent" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

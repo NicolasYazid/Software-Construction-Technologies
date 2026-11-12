@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.Friendship" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.Friendship" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="FriendRequestResponseOutcome">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Accepted" />
+      <xs:enumeration value="Declined" />
+      <xs:enumeration value="RequestNotFound" />
+      <xs:enumeration value="RequesterFriendLimitReached" />
+      <xs:enumeration value="AddresseeFriendLimitReached" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="FriendRequestResponseOutcome" nillable="true" type="tns:FriendRequestResponseOutcome" />
+</xs:schema>

@@ -119,6 +119,13 @@ namespace GinRummy.ServerHost
                     new SystemClock());
                 ViewPendingFriendRequestsUseCase viewPendingFriendRequestsUseCase = new ViewPendingFriendRequestsUseCase(
                     () => new EntityFrameworkUnitOfWork(ConnectionStringName));
+                AcceptFriendRequestUseCase acceptFriendRequestUseCase = new AcceptFriendRequestUseCase(
+                    () => new EntityFrameworkUnitOfWork(ConnectionStringName),
+                    friendshipAnnouncer);
+                DeclineFriendRequestUseCase declineFriendRequestUseCase = new DeclineFriendRequestUseCase(
+                    () => new EntityFrameworkUnitOfWork(ConnectionStringName),
+                    friendshipAnnouncer,
+                    friendRequestTimeLimits);
 
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(ChatMessageService),
@@ -135,6 +142,10 @@ namespace GinRummy.ServerHost
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(PendingFriendRequestService),
                     () => new PendingFriendRequestService(friendshipAccessPolicy, viewPendingFriendRequestsUseCase),
+                    faultShieldBehavior));
+                hostGroup.Add(CreateIsolatedHost(
+                    typeof(FriendRequestResponseService),
+                    () => new FriendRequestResponseService(friendshipAccessPolicy, acceptFriendRequestUseCase, declineFriendRequestUseCase),
                     faultShieldBehavior));
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(GameService),

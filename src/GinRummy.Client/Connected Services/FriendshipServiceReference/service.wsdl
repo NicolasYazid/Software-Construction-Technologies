@@ -68,8 +68,8 @@
   <wsdl:message name="IFriendshipService_UnsubscribeFromFriendship_InputMessage">
     <wsdl:part name="parameters" element="tns:UnsubscribeFromFriendship" />
   </wsdl:message>
-  <wsdl:message name="IFriendshipService_OnFriendRequestReceived_OutputCallbackMessage">
-    <wsdl:part name="parameters" element="tns:OnFriendRequestReceived" />
+  <wsdl:message name="IFriendshipService_OnFriendshipEvent_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:OnFriendshipEvent" />
   </wsdl:message>
   <wsdl:portType msc:usingSession="true" name="IFriendshipService">
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="SubscribeToFriendship">
@@ -85,8 +85,8 @@
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UnsubscribeFromFriendship">
       <wsdl:input wsaw:Action="http://tempuri.org/IFriendshipService/UnsubscribeFromFriendship" message="tns:IFriendshipService_UnsubscribeFromFriendship_InputMessage" />
     </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="OnFriendRequestReceived">
-      <wsdl:output wsaw:Action="http://tempuri.org/IFriendshipService/OnFriendRequestReceived" message="tns:IFriendshipService_OnFriendRequestReceived_OutputCallbackMessage" />
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="OnFriendshipEvent">
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendshipService/OnFriendshipEvent" message="tns:IFriendshipService_OnFriendshipEvent_OutputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="FriendshipService" type="tns:IFriendshipService">
@@ -123,8 +123,8 @@
         <soap12:body use="literal" />
       </wsdl:input>
     </wsdl:operation>
-    <wsdl:operation name="OnFriendRequestReceived">
-      <soap12:operation soapAction="http://tempuri.org/IFriendshipService/OnFriendRequestReceived" style="document" />
+    <wsdl:operation name="OnFriendshipEvent">
+      <soap12:operation soapAction="http://tempuri.org/IFriendshipService/OnFriendshipEvent" style="document" />
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>

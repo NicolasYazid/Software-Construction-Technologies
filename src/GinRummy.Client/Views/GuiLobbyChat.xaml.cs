@@ -40,6 +40,8 @@ namespace GinRummy.Client.Views
             _friendshipConnection = ((App)Application.Current).CreateFriendshipConnection();
             _friendshipViewModel = ((App)Application.Current).CreateLobbyFriendshipViewModel(_friendshipConnection);
             pnlFriendshipNotice.DataContext = _friendshipViewModel;
+            _friendshipViewModel.FriendshipCreated += OnFriendshipCreated;
+            _friendshipViewModel.FriendRequestDeclined += OnFriendRequestDeclined;
 
             // The rail, the profile screen and the panel share one own profile, so a new picture shows on all of them (CU-28).
             _ownProfile = _viewModel.GetOwnProfile();
@@ -109,6 +111,16 @@ namespace GinRummy.Client.Views
             {
                 _friendshipViewModel.SendFriendRequest(player);
             }
+        }
+
+        private void OnFriendshipCreated(object sender, int publicTag)
+        {
+            _viewModel.AddFriend(publicTag);
+        }
+
+        private void OnFriendRequestDeclined(object sender, int publicTag)
+        {
+            _viewModel.ClearPendingRequest(publicTag);
         }
 
         private void OnPlayerProfileClick(object sender, RoutedEventArgs e)
@@ -188,6 +200,8 @@ namespace GinRummy.Client.Views
             _viewModel.StopChat();
             _challengeViewModel.Stop();
             _friendshipViewModel.Stop();
+            _friendshipViewModel.FriendshipCreated -= OnFriendshipCreated;
+            _friendshipViewModel.FriendRequestDeclined -= OnFriendRequestDeclined;
             _challengeViewModel.RoundStarted -= OnRoundStarted;
             _challengeViewModel.SessionExpired -= OnSessionExpired;
             _viewModel.PresenceUnavailable -= OnPresenceUnavailable;

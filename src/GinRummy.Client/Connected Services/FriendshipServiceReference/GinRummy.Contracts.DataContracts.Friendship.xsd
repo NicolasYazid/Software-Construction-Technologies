@@ -16,13 +16,22 @@
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="FriendRequestOutcome" nillable="true" type="tns:FriendRequestOutcome" />
-  <xs:complexType name="FriendRequest">
+  <xs:complexType name="FriendshipEvent">
     <xs:sequence>
+      <xs:element minOccurs="0" name="EventType" type="tns:FriendshipEventType" />
       <xs:element minOccurs="0" name="FriendRequestId" type="xs:int" />
-      <xs:element minOccurs="0" name="RequesterPublicTag" type="xs:int" />
-      <xs:element minOccurs="0" name="RequesterUsername" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OtherPlayerPublicTag" type="xs:int" />
+      <xs:element minOccurs="0" name="OtherPlayerUsername" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="SentAt" type="xs:dateTime" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="FriendRequest" nillable="true" type="tns:FriendRequest" />
+  <xs:element name="FriendshipEvent" nillable="true" type="tns:FriendshipEvent" />
+  <xs:simpleType name="FriendshipEventType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="FriendRequestReceived" />
+      <xs:enumeration value="FriendRequestAccepted" />
+      <xs:enumeration value="FriendRequestDeclined" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="FriendshipEventType" nillable="true" type="tns:FriendshipEventType" />
 </xs:schema>
