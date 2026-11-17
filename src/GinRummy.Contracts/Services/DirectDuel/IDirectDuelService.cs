@@ -1,4 +1,4 @@
-using System.ServiceModel;
+﻿using System.ServiceModel;
 
 using GinRummy.Contracts.DataContracts.DirectDuel;
 using GinRummy.Contracts.Faults.Shared;
