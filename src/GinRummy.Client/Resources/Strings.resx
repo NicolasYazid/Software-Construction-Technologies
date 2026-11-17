@@ -949,6 +949,10 @@ Tú: {0}   -   Rival: {1}</value>
     <value>Eliminar amigo</value>
     <comment>Menú contextual de GuiLobbyChat</comment>
   </data>
+  <data name="LobbyChat_MniSendMessage" xml:space="preserve">
+    <value>Enviar mensaje</value>
+    <comment>Menú contextual de GuiLobbyChat</comment>
+  </data>
   <data name="LobbyChat_MniReport" xml:space="preserve">
     <value>Reportar</value>
     <comment>Menú contextual de GuiLobbyChat</comment>
