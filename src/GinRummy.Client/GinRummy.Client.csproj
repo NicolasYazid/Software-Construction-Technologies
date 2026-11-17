@@ -401,6 +401,7 @@
     <Compile Include="ViewModels\LobbyChatViewModel.cs" />
     <Compile Include="ViewModels\GameTableViewModel.cs" />
     <Compile Include="ViewModels\LobbyChallengeViewModel.cs" />
+    <Compile Include="ViewModels\LobbyFriendChatViewModel.cs" />
     <Compile Include="ViewModels\LobbyFriendshipViewModel.cs" />
     <Compile Include="Services\ChatMessageConnection.cs" />
     <Compile Include="Services\DirectDuelConnection.cs" />
