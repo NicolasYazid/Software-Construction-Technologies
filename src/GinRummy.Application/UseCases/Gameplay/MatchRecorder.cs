@@ -44,6 +44,20 @@ namespace GinRummy.Application.UseCases.Gameplay
             }
         }
 
+        public void FinishInterruptedMatches()
+        {
+            DateTime endedAt = _clock.UtcNow;
+            using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
+            {
+                foreach (GameSession gameSession in unitOfWork.Games.GetUnfinishedGameSessions())
+                {
+                    gameSession.Finish(endedAt);
+                }
+
+                unitOfWork.Commit();
+            }
+        }
+
         private static GameSession FindGameSession(IUnitOfWork unitOfWork, ActiveMatch activeMatch)
         {
             return unitOfWork.Games.FindGameSessionInProgressByPlayerAccountId(activeMatch.Players[0].Id);

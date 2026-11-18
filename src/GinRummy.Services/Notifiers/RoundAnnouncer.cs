@@ -50,6 +50,11 @@ namespace GinRummy.Services.Notifiers
             EnqueueNotice(playerId, callback => callback.OnOpponentReconnected());
         }
 
+        public bool IsPlayerOnline(int playerId)
+        {
+            return _onlinePlayers.FindDispatcherOfPlayer(playerId) != null;
+        }
+
         private void EnqueueNotice(int playerId, Action<IGameCallback> notice)
         {
             WcfCallbackDispatcher<IGameCallback> playerDispatcher = _onlinePlayers.FindDispatcherOfPlayer(playerId);

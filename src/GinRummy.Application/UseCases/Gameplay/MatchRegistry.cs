@@ -11,12 +11,14 @@ namespace GinRummy.Application.UseCases.Gameplay
         private readonly object _syncRoot;
         private readonly Func<IList<Card>> _createShuffledDeck;
         private readonly Dictionary<int, ActiveMatch> _matchesByPlayerId;
+        private readonly HashSet<int> _playerIdsWithPendingVictory;
 
         public MatchRegistry(Func<IList<Card>> createShuffledDeck)
         {
             _createShuffledDeck = createShuffledDeck ?? throw new ArgumentNullException(nameof(createShuffledDeck));
             _syncRoot = new object();
             _matchesByPlayerId = new Dictionary<int, ActiveMatch>();
+            _playerIdsWithPendingVictory = new HashSet<int>();
         }
 
         public ActiveMatch Start(DuelPlayer dealer, DuelPlayer nonDealer)
@@ -27,6 +29,8 @@ namespace GinRummy.Application.UseCases.Gameplay
             {
                 _matchesByPlayerId[dealer.Id] = activeMatch;
                 _matchesByPlayerId[nonDealer.Id] = activeMatch;
+                _playerIdsWithPendingVictory.Remove(dealer.Id);
+                _playerIdsWithPendingVictory.Remove(nonDealer.Id);
             }
 
             return activeMatch;
@@ -68,6 +72,25 @@ namespace GinRummy.Application.UseCases.Gameplay
             }
 
             return isRemoved;
+        }
+
+        public void KeepPendingVictory(int winnerId)
+        {
+            lock (_syncRoot)
+            {
+                _playerIdsWithPendingVictory.Add(winnerId);
+            }
+        }
+
+        public bool TakePendingVictory(int playerId)
+        {
+            bool hadPendingVictory;
+            lock (_syncRoot)
+            {
+                hadPendingVictory = _playerIdsWithPendingVictory.Remove(playerId);
+            }
+
+            return hadPendingVictory;
         }
 
         private IList<Card> ShuffleDeck()

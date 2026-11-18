@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Data;
 using System.IO;
 using System.Security.Cryptography;
 using System.ServiceModel;
@@ -98,10 +99,9 @@ namespace GinRummy.ServerHost
                 MatchRegistry matchRegistry = new MatchRegistry(() => StandardDeck.CreateShuffled(deckRandom));
                 RoundAnnouncer roundAnnouncer = new RoundAnnouncer(gameOnlinePlayers);
                 Func<IUnitOfWork> duelUnitOfWorkFactory = () => new EntityFrameworkUnitOfWork(ConnectionStringName);
-                PlayRoundUseCase playRoundUseCase = new PlayRoundUseCase(
-                    matchRegistry,
-                    roundAnnouncer,
-                    new MatchRecorder(duelUnitOfWorkFactory, new SystemClock()));
+                MatchRecorder matchRecorder = new MatchRecorder(duelUnitOfWorkFactory, new SystemClock());
+                FinishInterruptedMatches(matchRecorder, hostLogger);
+                PlayRoundUseCase playRoundUseCase = new PlayRoundUseCase(matchRegistry, roundAnnouncer, matchRecorder);
                 AccountAccessPolicy duelAccessPolicy = new AccountAccessPolicy(
                     new Argon2PasswordHasher(),
                     tokenSigner,
@@ -215,6 +215,18 @@ namespace GinRummy.ServerHost
             string logFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, LogFolderName);
 
             return Path.Combine(logFolder, LogFileName);
+        }
+
+        private static void FinishInterruptedMatches(MatchRecorder matchRecorder, ILogger<Program> logger)
+        {
+            try
+            {
+                matchRecorder.FinishInterruptedMatches();
+            }
+            catch (DataException ex)
+            {
+                logger.LogWarning(ex, "The matches left in progress by the previous run could not be finished.");
+            }
         }
 
         // The mail settings come from SmtpSettings.config, which stays out of the repository because it holds the sender password.

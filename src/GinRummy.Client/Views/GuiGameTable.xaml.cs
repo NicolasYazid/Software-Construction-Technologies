@@ -47,6 +47,7 @@ namespace GinRummy.Client.Views
             _viewModel.Hand.CollectionChanged += OnHandChanged;
             _viewModel.PropertyChanged += OnTableChanged;
             _viewModel.ConnectionLost += OnConnectionLost;
+            _viewModel.SessionExpired += OnSessionExpired;
             lstStock.ItemsSource = _stockTopCard;
             DataContext = _viewModel;
             Loaded += OnScreenLoaded;
@@ -144,6 +145,21 @@ namespace GinRummy.Client.Views
             }
         }
 
+        private void OnSessionExpired(object sender, EventArgs e)
+        {
+            GuiErrorDialog errorDialog = new GuiErrorDialog(ErrorDialogKind.SessionExpired);
+            errorDialog.Closed += OnSessionExpiredDialogClosed;
+            ShowModal(errorDialog);
+        }
+
+        private void OnSessionExpiredDialogClosed(object sender, EventArgs e)
+        {
+            Window lobby = Owner;
+            Close();
+            lobby.Close();
+            ((App)Application.Current).ForgetSignedInPlayer();
+        }
+
         private void OnReturnToLobbyClick(object sender, RoutedEventArgs e)
         {
             Close();
@@ -159,6 +175,7 @@ namespace GinRummy.Client.Views
             _viewModel.Hand.CollectionChanged -= OnHandChanged;
             _viewModel.PropertyChanged -= OnTableChanged;
             _viewModel.ConnectionLost -= OnConnectionLost;
+            _viewModel.SessionExpired -= OnSessionExpired;
             CompositionTarget.Rendering -= OnRendering;
             Loaded -= OnScreenLoaded;
             Closed -= OnScreenClosed;

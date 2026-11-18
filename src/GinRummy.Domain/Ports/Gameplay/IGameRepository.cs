@@ -12,6 +12,8 @@ namespace GinRummy.Domain.Ports.Gameplay
 
         GameSession FindOpenByGuestSessionId(int guestSessionId);
 
+        IList<GameSession> GetUnfinishedGameSessions();
+
         void Add(GameSession newGameSession);
 
         void AddParticipant(GameParticipant newParticipant);

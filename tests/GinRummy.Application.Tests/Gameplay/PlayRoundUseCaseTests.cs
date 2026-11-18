@@ -116,6 +116,32 @@ namespace GinRummy.Application.Tests.Gameplay
         }
 
         [Test]
+        public void Test_PassFirstCard_OpponentNeverJoined_ThrowsInvalidMoveException()
+        {
+            FakeRoundAnnouncer announcer = new FakeRoundAnnouncer();
+            announcer.OfflinePlayerIds.Add(DealerId);
+            PlayRoundUseCase useCase = CreateUseCaseWithRound(announcer);
+            useCase.Rejoin(NonDealerId);
+
+            TestDelegate passFirstCard = () => useCase.PassFirstCard(NonDealerId);
+
+            Assert.Throws<InvalidMoveException>(passFirstCard);
+        }
+
+        [Test]
+        public void Test_Rejoin_OpponentForfeitedWhileAway_AnnouncesTheVictory()
+        {
+            FakeRoundAnnouncer announcer = new FakeRoundAnnouncer();
+            PlayRoundUseCase useCase = CreateUseCaseWithRound(announcer);
+            useCase.WaitForReconnection(NonDealerId);
+            useCase.ForfeitRound(DealerId);
+
+            useCase.Rejoin(NonDealerId);
+
+            CollectionAssert.AreEqual(new[] { NonDealerId, NonDealerId }, announcer.LeftPlayerIds);
+        }
+
+        [Test]
         public void Test_ForfeitRound_SecondTime_AnnouncesOnlyOnce()
         {
             FakeRoundAnnouncer announcer = new FakeRoundAnnouncer();
