@@ -10,11 +10,13 @@ namespace GinRummy.Application.UseCases.Gameplay
     {
         private readonly MatchRegistry _matchRegistry;
         private readonly IRoundAnnouncer _roundAnnouncer;
+        private readonly IMatchRecorder _matchRecorder;
 
-        public PlayRoundUseCase(MatchRegistry matchRegistry, IRoundAnnouncer roundAnnouncer)
+        public PlayRoundUseCase(MatchRegistry matchRegistry, IRoundAnnouncer roundAnnouncer, IMatchRecorder matchRecorder)
         {
             _matchRegistry = matchRegistry ?? throw new ArgumentNullException(nameof(matchRegistry));
             _roundAnnouncer = roundAnnouncer ?? throw new ArgumentNullException(nameof(roundAnnouncer));
+            _matchRecorder = matchRecorder ?? throw new ArgumentNullException(nameof(matchRecorder));
         }
 
         public void TakeFirstCard(int playerId)
@@ -50,9 +52,19 @@ namespace GinRummy.Application.UseCases.Gameplay
         public void ForfeitRound(int playerId)
         {
             ActiveMatch activeMatch = _matchRegistry.Find(playerId);
-            if ((activeMatch != null) && _matchRegistry.Remove(activeMatch))
+            if (activeMatch == null)
             {
-                _roundAnnouncer.AnnounceOpponentLeft(activeMatch.FindOpponent(playerId).Id);
+                return;
+            }
+
+            lock (activeMatch.SyncRoot)
+            {
+                if (_matchRegistry.Remove(activeMatch))
+                {
+                    int winnerId = activeMatch.FindOpponent(playerId).Id;
+                    _roundAnnouncer.AnnounceOpponentLeft(winnerId);
+                    _matchRecorder.RecordEnd(activeMatch, winnerId);
+                }
             }
         }
 
@@ -85,9 +97,11 @@ namespace GinRummy.Application.UseCases.Gameplay
             if (activeMatch.Match.IsOver)
             {
                 _matchRegistry.Remove(activeMatch);
+                _matchRecorder.RecordEnd(activeMatch, activeMatch.Match.WinnerId.Value);
             }
             else
             {
+                _matchRecorder.RecordRoundScores(activeMatch);
                 _matchRegistry.DealNextRound(activeMatch);
                 AnnounceToPlayers(activeMatch, _roundAnnouncer.AnnounceRoundChanged);
             }

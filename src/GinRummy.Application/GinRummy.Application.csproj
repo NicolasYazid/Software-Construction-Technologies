@@ -65,12 +65,14 @@
     <Compile Include="UseCases\PlayerPresence\PlayersByStatus.cs" />
     <Compile Include="UseCases\PlayerPresence\RankedPlayer.cs" />
     <Compile Include="Ports\Gameplay\IPlayRoundUseCase.cs" />
+    <Compile Include="Ports\Gameplay\IMatchRecorder.cs" />
     <Compile Include="Ports\Gameplay\IRoundAnnouncer.cs" />
     <Compile Include="UseCases\DirectDuel\DuelPlayer.cs" />
     <Compile Include="UseCases\Gameplay\ActiveMatch.cs" />
     <Compile Include="UseCases\Gameplay\PlayRoundUseCase.cs" />
     <Compile Include="UseCases\Gameplay\RoundMoveKind.cs" />
     <Compile Include="UseCases\Gameplay\MatchRegistry.cs" />
+    <Compile Include="UseCases\Gameplay\MatchRecorder.cs" />
     <Compile Include="Ports\DirectDuel\IChallengeAnnouncer.cs" />
     <Compile Include="Ports\DirectDuel\IChallengeRecorder.cs" />
     <Compile Include="Ports\DirectDuel\IChallengeUseCase.cs" />

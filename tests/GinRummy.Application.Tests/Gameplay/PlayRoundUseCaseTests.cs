@@ -58,6 +58,17 @@ namespace GinRummy.Application.Tests.Gameplay
         }
 
         [Test]
+        public void Test_ForfeitRound_PlayerInRound_RecordsTheOpponentAsWinner()
+        {
+            FakeMatchRecorder matchRecorder = new FakeMatchRecorder();
+            PlayRoundUseCase useCase = new PlayRoundUseCase(BuildRegistryWithMatch(), new FakeRoundAnnouncer(), matchRecorder);
+
+            useCase.ForfeitRound(NonDealerId);
+
+            CollectionAssert.AreEqual(new[] { DealerId }, matchRecorder.WinnerIds);
+        }
+
+        [Test]
         public void Test_ForfeitRound_SecondTime_AnnouncesOnlyOnce()
         {
             FakeRoundAnnouncer announcer = new FakeRoundAnnouncer();
@@ -74,7 +85,7 @@ namespace GinRummy.Application.Tests.Gameplay
         {
             FakeRoundAnnouncer announcer = new FakeRoundAnnouncer();
             MatchRegistry matchRegistry = BuildRegistryWithMatch();
-            PlayRoundUseCase useCase = new PlayRoundUseCase(matchRegistry, announcer);
+            PlayRoundUseCase useCase = new PlayRoundUseCase(matchRegistry, announcer, new FakeMatchRecorder());
 
             PlayUntilTheStockRunsOut(useCase, matchRegistry);
 
@@ -85,7 +96,7 @@ namespace GinRummy.Application.Tests.Gameplay
         public void Test_Discard_StockRunsOut_DealsTheNextRoundWithTheDealerSwapped()
         {
             MatchRegistry matchRegistry = BuildRegistryWithMatch();
-            PlayRoundUseCase useCase = new PlayRoundUseCase(matchRegistry, new FakeRoundAnnouncer());
+            PlayRoundUseCase useCase = new PlayRoundUseCase(matchRegistry, new FakeRoundAnnouncer(), new FakeMatchRecorder());
 
             PlayUntilTheStockRunsOut(useCase, matchRegistry);
 
@@ -100,7 +111,7 @@ namespace GinRummy.Application.Tests.Gameplay
             decks.Enqueue(BuildDeck(CreateDefenderHand(), CreateKnockerHand()));
             MatchRegistry matchRegistry = new MatchRegistry(decks.Dequeue);
             matchRegistry.Start(new DuelPlayer(DealerId, "Dealer", 1001), new DuelPlayer(NonDealerId, "Non-dealer", 1002));
-            PlayRoundUseCase useCase = new PlayRoundUseCase(matchRegistry, new FakeRoundAnnouncer());
+            PlayRoundUseCase useCase = new PlayRoundUseCase(matchRegistry, new FakeRoundAnnouncer(), new FakeMatchRecorder());
             useCase.TakeFirstCard(NonDealerId);
             useCase.Knock(NonDealerId, new Card(CardSuit.Diamonds, Card.KingRank));
             useCase.PassFirstCard(DealerId);
@@ -113,7 +124,7 @@ namespace GinRummy.Application.Tests.Gameplay
 
         private static PlayRoundUseCase CreateUseCaseWithRound(FakeRoundAnnouncer announcer)
         {
-            return new PlayRoundUseCase(BuildRegistryWithMatch(), announcer);
+            return new PlayRoundUseCase(BuildRegistryWithMatch(), announcer, new FakeMatchRecorder());
         }
 
         private static MatchRegistry BuildRegistryWithMatch()

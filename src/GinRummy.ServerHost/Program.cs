@@ -97,12 +97,15 @@ namespace GinRummy.ServerHost
                 Random deckRandom = new Random();
                 MatchRegistry matchRegistry = new MatchRegistry(() => StandardDeck.CreateShuffled(deckRandom));
                 RoundAnnouncer roundAnnouncer = new RoundAnnouncer(gameOnlinePlayers);
-                PlayRoundUseCase playRoundUseCase = new PlayRoundUseCase(matchRegistry, roundAnnouncer);
+                Func<IUnitOfWork> duelUnitOfWorkFactory = () => new EntityFrameworkUnitOfWork(ConnectionStringName);
+                PlayRoundUseCase playRoundUseCase = new PlayRoundUseCase(
+                    matchRegistry,
+                    roundAnnouncer,
+                    new MatchRecorder(duelUnitOfWorkFactory, new SystemClock()));
                 AccountAccessPolicy duelAccessPolicy = new AccountAccessPolicy(
                     new Argon2PasswordHasher(),
                     tokenSigner,
                     new SystemClock());
-                Func<IUnitOfWork> duelUnitOfWorkFactory = () => new EntityFrameworkUnitOfWork(ConnectionStringName);
                 ChallengeUseCase challengeUseCase = new ChallengeUseCase(
                     new DuelPlayerDirectory(duelUnitOfWorkFactory, duelAccessPolicy),
                     new ChallengeBoard(matchRegistry, new ChallengeRecorder(duelUnitOfWorkFactory, new SystemClock())),
