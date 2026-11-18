@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using GinRummy.Application.Ports.DirectDuel;
+
 using GinRummy.Application.UseCases.Gameplay;
 using GinRummy.Domain;
 
@@ -11,11 +13,13 @@ namespace GinRummy.Application.UseCases.DirectDuel
     {
         private readonly object _syncRoot;
         private readonly MatchRegistry _matchRegistry;
+        private readonly IChallengeRecorder _challengeRecorder;
         private readonly List<PendingChallenge> _pendingChallenges;
 
-        public ChallengeBoard(MatchRegistry matchRegistry)
+        public ChallengeBoard(MatchRegistry matchRegistry, IChallengeRecorder challengeRecorder)
         {
             _matchRegistry = matchRegistry ?? throw new ArgumentNullException(nameof(matchRegistry));
+            _challengeRecorder = challengeRecorder ?? throw new ArgumentNullException(nameof(challengeRecorder));
             _syncRoot = new object();
             _pendingChallenges = new List<PendingChallenge>();
         }
@@ -42,6 +46,7 @@ namespace GinRummy.Application.UseCases.DirectDuel
 
                 if (outcome == ChallengeOutcome.Done)
                 {
+                    _challengeRecorder.RecordSent(challenge);
                     _pendingChallenges.Add(challenge);
                 }
             }
@@ -49,29 +54,35 @@ namespace GinRummy.Application.UseCases.DirectDuel
             return outcome;
         }
 
-        public PendingChallenge RemoveFrom(int challengerId)
+        public PendingChallenge Cancel(int challengerId)
         {
-            PendingChallenge removedChallenge;
+            PendingChallenge cancelledChallenge;
             lock (_syncRoot)
             {
-                removedChallenge = _pendingChallenges.FirstOrDefault(pending => pending.Challenger.Id == challengerId);
-                _pendingChallenges.Remove(removedChallenge);
+                cancelledChallenge = _pendingChallenges.FirstOrDefault(pending => pending.Challenger.Id == challengerId);
+                if (cancelledChallenge != null)
+                {
+                    _pendingChallenges.Remove(cancelledChallenge);
+                    _challengeRecorder.RecordCancelled(cancelledChallenge);
+                }
             }
 
-            return removedChallenge;
+            return cancelledChallenge;
         }
 
-        public PendingChallenge RemoveAddressedTo(int challengedId, int challengerPublicTag)
+        public PendingChallenge Decline(int challengedId, int challengerPublicTag)
         {
-            PendingChallenge removedChallenge;
+            PendingChallenge declinedChallenge;
             lock (_syncRoot)
             {
-                removedChallenge = _pendingChallenges.FirstOrDefault(
-                    pending => (pending.Challenged.Id == challengedId) && (pending.Challenger.PublicTag == challengerPublicTag));
-                _pendingChallenges.Remove(removedChallenge);
+                declinedChallenge = RemoveAddressedTo(challengedId, challengerPublicTag);
+                if (declinedChallenge != null)
+                {
+                    _challengeRecorder.RecordDeclined(declinedChallenge);
+                }
             }
 
-            return removedChallenge;
+            return declinedChallenge;
         }
 
         public ChallengeOutcome Accept(int challengedId, int challengerPublicTag, out ActiveMatch startedMatch)
@@ -86,6 +97,15 @@ namespace GinRummy.Application.UseCases.DirectDuel
                     outcome = CheckPlayersFree(foundChallenge);
                 }
 
+                if (outcome == ChallengeOutcome.OpponentBusy)
+                {
+                    _challengeRecorder.RecordExpired(foundChallenge);
+                }
+                else if ((outcome == ChallengeOutcome.Done) && !_challengeRecorder.RecordAccepted(foundChallenge))
+                {
+                    outcome = ChallengeOutcome.ChallengeExpired;
+                }
+
                 if (outcome == ChallengeOutcome.Done)
                 {
                     startedMatch = _matchRegistry.Start(foundChallenge.Challenger, foundChallenge.Challenged);
@@ -93,6 +113,15 @@ namespace GinRummy.Application.UseCases.DirectDuel
             }
 
             return outcome;
+        }
+
+        private PendingChallenge RemoveAddressedTo(int challengedId, int challengerPublicTag)
+        {
+            PendingChallenge removedChallenge = _pendingChallenges.FirstOrDefault(
+                pending => (pending.Challenged.Id == challengedId) && (pending.Challenger.PublicTag == challengerPublicTag));
+            _pendingChallenges.Remove(removedChallenge);
+
+            return removedChallenge;
         }
 
         private static bool IsReverseOf(PendingChallenge pending, PendingChallenge challenge)

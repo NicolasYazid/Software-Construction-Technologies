@@ -15,7 +15,7 @@ namespace GinRummy.Application.Tests.DirectDuel
         [Test]
         public void Test_Post_ChallengeToOneself_ThrowsSelfChallengeException()
         {
-            ChallengeBoard board = new ChallengeBoard(new MatchRegistry(StandardDeck.CreateOrdered));
+            ChallengeBoard board = new ChallengeBoard(new MatchRegistry(StandardDeck.CreateOrdered), new FakeChallengeRecorder());
             DuelPlayer player = CreatePlayer(ChallengerId);
 
             TestDelegate post = () => board.Post(new PendingChallenge(player, player));
@@ -26,7 +26,7 @@ namespace GinRummy.Application.Tests.DirectDuel
         [Test]
         public void Test_Post_SecondOpenChallenge_ReturnsAlreadyChallenging()
         {
-            ChallengeBoard board = new ChallengeBoard(new MatchRegistry(StandardDeck.CreateOrdered));
+            ChallengeBoard board = new ChallengeBoard(new MatchRegistry(StandardDeck.CreateOrdered), new FakeChallengeRecorder());
             board.Post(new PendingChallenge(CreatePlayer(ChallengerId), CreatePlayer(ChallengedId)));
 
             ChallengeOutcome outcome = board.Post(new PendingChallenge(CreatePlayer(ChallengerId), CreatePlayer(ThirdPlayerId)));
@@ -39,7 +39,7 @@ namespace GinRummy.Application.Tests.DirectDuel
         {
             MatchRegistry matchRegistry = new MatchRegistry(StandardDeck.CreateOrdered);
             matchRegistry.Start(CreatePlayer(ChallengedId), CreatePlayer(ThirdPlayerId));
-            ChallengeBoard board = new ChallengeBoard(matchRegistry);
+            ChallengeBoard board = new ChallengeBoard(matchRegistry, new FakeChallengeRecorder());
 
             ChallengeOutcome outcome = board.Post(new PendingChallenge(CreatePlayer(ChallengerId), CreatePlayer(ChallengedId)));
 
@@ -49,7 +49,7 @@ namespace GinRummy.Application.Tests.DirectDuel
         [Test]
         public void Test_Post_CrossedChallenge_ThrowsConcurrentChallengeException()
         {
-            ChallengeBoard board = new ChallengeBoard(new MatchRegistry(StandardDeck.CreateOrdered));
+            ChallengeBoard board = new ChallengeBoard(new MatchRegistry(StandardDeck.CreateOrdered), new FakeChallengeRecorder());
             board.Post(new PendingChallenge(CreatePlayer(ChallengerId), CreatePlayer(ChallengedId)));
 
             TestDelegate post = () => board.Post(new PendingChallenge(CreatePlayer(ChallengedId), CreatePlayer(ChallengerId)));
@@ -61,7 +61,7 @@ namespace GinRummy.Application.Tests.DirectDuel
         public void Test_Accept_PostedChallenge_StartsTheRound()
         {
             MatchRegistry matchRegistry = new MatchRegistry(StandardDeck.CreateOrdered);
-            ChallengeBoard board = new ChallengeBoard(matchRegistry);
+            ChallengeBoard board = new ChallengeBoard(matchRegistry, new FakeChallengeRecorder());
             DuelPlayer challenger = CreatePlayer(ChallengerId);
             board.Post(new PendingChallenge(challenger, CreatePlayer(ChallengedId)));
 
@@ -73,10 +73,10 @@ namespace GinRummy.Application.Tests.DirectDuel
         [Test]
         public void Test_Accept_CancelledChallenge_ReturnsChallengeExpired()
         {
-            ChallengeBoard board = new ChallengeBoard(new MatchRegistry(StandardDeck.CreateOrdered));
+            ChallengeBoard board = new ChallengeBoard(new MatchRegistry(StandardDeck.CreateOrdered), new FakeChallengeRecorder());
             DuelPlayer challenger = CreatePlayer(ChallengerId);
             board.Post(new PendingChallenge(challenger, CreatePlayer(ChallengedId)));
-            board.RemoveFrom(ChallengerId);
+            board.Cancel(ChallengerId);
 
             ChallengeOutcome outcome = board.Accept(ChallengedId, challenger.PublicTag, out ActiveMatch startedMatch);
 
@@ -87,7 +87,7 @@ namespace GinRummy.Application.Tests.DirectDuel
         public void Test_Accept_ChallengerInRound_ReturnsOpponentBusy()
         {
             MatchRegistry matchRegistry = new MatchRegistry(StandardDeck.CreateOrdered);
-            ChallengeBoard board = new ChallengeBoard(matchRegistry);
+            ChallengeBoard board = new ChallengeBoard(matchRegistry, new FakeChallengeRecorder());
             DuelPlayer challenger = CreatePlayer(ChallengerId);
             board.Post(new PendingChallenge(challenger, CreatePlayer(ChallengedId)));
             matchRegistry.Start(challenger, CreatePlayer(ThirdPlayerId));
@@ -95,6 +95,20 @@ namespace GinRummy.Application.Tests.DirectDuel
             ChallengeOutcome outcome = board.Accept(ChallengedId, challenger.PublicTag, out ActiveMatch startedMatch);
 
             Assert.AreEqual(ChallengeOutcome.OpponentBusy, outcome);
+        }
+
+        [Test]
+        public void Test_Accept_ExpiredChallenge_ReturnsChallengeExpired()
+        {
+            FakeChallengeRecorder challengeRecorder = new FakeChallengeRecorder();
+            challengeRecorder.IsChallengeExpired = true;
+            ChallengeBoard board = new ChallengeBoard(new MatchRegistry(StandardDeck.CreateOrdered), challengeRecorder);
+            DuelPlayer challenger = CreatePlayer(ChallengerId);
+            board.Post(new PendingChallenge(challenger, CreatePlayer(ChallengedId)));
+
+            ChallengeOutcome outcome = board.Accept(ChallengedId, challenger.PublicTag, out ActiveMatch startedMatch);
+
+            Assert.AreEqual(ChallengeOutcome.ChallengeExpired, outcome);
         }
 
         private static DuelPlayer CreatePlayer(int id)

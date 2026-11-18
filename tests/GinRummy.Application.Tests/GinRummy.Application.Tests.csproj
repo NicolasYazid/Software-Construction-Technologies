@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DirectDuel\ChallengeBoardTests.cs" />
+    <Compile Include="DirectDuel\FakeChallengeRecorder.cs" />
     <Compile Include="Friendship\FakeClock.cs" />
     <Compile Include="Friendship\FriendRequestTimeLimitsTests.cs" />
     <Compile Include="Gameplay\ActiveMatchTests.cs" />

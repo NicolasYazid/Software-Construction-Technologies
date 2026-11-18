@@ -34,7 +34,7 @@ namespace GinRummy.Application.UseCases.DirectDuel
 
         public void Cancel(int challengerId)
         {
-            PendingChallenge cancelledChallenge = _challengeBoard.RemoveFrom(challengerId);
+            PendingChallenge cancelledChallenge = _challengeBoard.Cancel(challengerId);
             if (cancelledChallenge != null)
             {
                 _challengeAnnouncer.AnnounceChallengeCancelled(cancelledChallenge);
@@ -61,7 +61,7 @@ namespace GinRummy.Application.UseCases.DirectDuel
         public ChallengeOutcome Decline(int challengedId, int challengerPublicTag)
         {
             ChallengeOutcome outcome = ChallengeOutcome.ChallengeExpired;
-            PendingChallenge declinedChallenge = _challengeBoard.RemoveAddressedTo(challengedId, challengerPublicTag);
+            PendingChallenge declinedChallenge = _challengeBoard.Decline(challengedId, challengerPublicTag);
             if (declinedChallenge != null)
             {
                 _challengeAnnouncer.AnnounceChallengeDeclined(declinedChallenge);

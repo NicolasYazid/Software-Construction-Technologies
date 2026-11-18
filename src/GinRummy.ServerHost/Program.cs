@@ -102,9 +102,10 @@ namespace GinRummy.ServerHost
                     new Argon2PasswordHasher(),
                     tokenSigner,
                     new SystemClock());
+                Func<IUnitOfWork> duelUnitOfWorkFactory = () => new EntityFrameworkUnitOfWork(ConnectionStringName);
                 ChallengeUseCase challengeUseCase = new ChallengeUseCase(
-                    new DuelPlayerDirectory(() => new EntityFrameworkUnitOfWork(ConnectionStringName), duelAccessPolicy),
-                    new ChallengeBoard(matchRegistry),
+                    new DuelPlayerDirectory(duelUnitOfWorkFactory, duelAccessPolicy),
+                    new ChallengeBoard(matchRegistry, new ChallengeRecorder(duelUnitOfWorkFactory, new SystemClock())),
                     new ChallengeAnnouncer(duelOnlinePlayers, roundAnnouncer));
 
                 OnlinePlayers<IFriendshipCallback> friendshipOnlinePlayers = new OnlinePlayers<IFriendshipCallback>(
