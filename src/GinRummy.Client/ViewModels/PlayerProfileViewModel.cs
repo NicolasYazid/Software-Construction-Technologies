@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.ServiceModel;
-using System.Windows.Input;
 
 using GinRummy.Client.Models;
 using GinRummy.Client.Mvvm;
@@ -29,12 +28,9 @@ namespace GinRummy.Client.ViewModels
             _playerProfileServiceFactory = playerProfileServiceFactory
                 ?? throw new ArgumentNullException(nameof(playerProfileServiceFactory));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            RemoveFriendCommand = new RelayCommand(RemoveFriend);
         }
 
         public event EventHandler<ErrorDialogKind> ProfileUnavailable;
-
-        public ICommand RemoveFriendCommand { get; private set; }
 
         public string Username
         {
@@ -111,16 +107,6 @@ namespace GinRummy.Client.ViewModels
             get { return IsPlayer && (_profile.MatchesPlayed == 0); }
         }
 
-        public bool CanRemoveFriend
-        {
-            get { return IsOtherPlayer && _profile.IsFriend; }
-        }
-
-        private bool IsOtherPlayer
-        {
-            get { return IsPlayer && !_profile.IsOwnProfile; }
-        }
-
         // A guest has no profile on the server, so only the profile of a registered player is read from it (CU-27 FA-04).
         public void LoadProfile(string accessToken)
         {
@@ -159,12 +145,6 @@ namespace GinRummy.Client.ViewModels
         public void RefreshProfile()
         {
             RaisePropertyChanged(string.Empty);
-        }
-
-        private void RemoveFriend()
-        {
-            _profile.IsFriend = false;
-            RaisePropertyChanged(nameof(CanRemoveFriend));
         }
 
         private void ReadProfileFromServer(string accessToken)

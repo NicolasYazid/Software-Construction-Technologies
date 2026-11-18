@@ -60,21 +60,6 @@ namespace GinRummy.Client.Views
             LeaveLobby();
         }
 
-        private void OnRemoveFriendClick(object sender, RoutedEventArgs e)
-        {
-            GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.RemoveFriend);
-            confirmDialog.Closed += OnRemoveFriendConfirmClosed;
-            ShowModal(confirmDialog);
-        }
-
-        private void OnRemoveFriendConfirmClosed(object sender, EventArgs e)
-        {
-            if (((GuiConfirmDialog)sender).IsConfirmed)
-            {
-                _viewModel.RemoveFriendCommand.Execute(null);
-            }
-        }
-
         private void OnEditProfileClick(object sender, RoutedEventArgs e)
         {
             GuiEditProfile editProfile = new GuiEditProfile(_profile);

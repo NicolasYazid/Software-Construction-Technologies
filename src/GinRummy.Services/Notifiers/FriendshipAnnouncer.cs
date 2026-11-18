@@ -65,6 +65,25 @@ namespace GinRummy.Services.Notifiers
             SendFriendshipEvent(requesterId, eventForRequester);
         }
 
+        public void AnnounceFriendRemoved(PlayerProfile removerProfile, PlayerProfile removedFriendProfile)
+        {
+            if (removerProfile == null)
+            {
+                throw new ArgumentNullException(nameof(removerProfile));
+            }
+
+            if (removedFriendProfile == null)
+            {
+                throw new ArgumentNullException(nameof(removedFriendProfile));
+            }
+
+            FriendshipEventType eventType = FriendshipEventType.FriendRemoved;
+            FriendshipEvent eventForRemover = FriendshipMapper.MapToFriendshipEvent(eventType, removedFriendProfile);
+            FriendshipEvent eventForRemovedFriend = FriendshipMapper.MapToFriendshipEvent(eventType, removerProfile);
+            SendFriendshipEvent(removerProfile.PlayerAccountId, eventForRemover);
+            SendFriendshipEvent(removedFriendProfile.PlayerAccountId, eventForRemovedFriend);
+        }
+
         private void SendFriendshipEvent(int playerId, FriendshipEvent friendshipEvent)
         {
             WcfCallbackDispatcher<IFriendshipCallback> playerDispatcher = _onlinePlayers.FindDispatcherOfPlayer(playerId);

@@ -303,6 +303,9 @@ namespace GinRummy.Client.FriendshipServiceReference {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         FriendRequestDeclined = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        FriendRemoved = 3,
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -322,6 +325,13 @@ namespace GinRummy.Client.FriendshipServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendshipService/SendFriendRequest", ReplyAction="http://tempuri.org/IFriendshipService/SendFriendRequestResponse")]
         System.Threading.Tasks.Task<GinRummy.Client.FriendshipServiceReference.FriendRequestOutcome> SendFriendRequestAsync(string accessToken, int addresseePublicTag);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendshipService/RemoveFriend", ReplyAction="http://tempuri.org/IFriendshipService/RemoveFriendResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.FriendshipServiceReference.ServiceFault), Action="http://tempuri.org/IFriendshipService/RemoveFriendServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
+        void RemoveFriend(string accessToken, int friendPublicTag);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IFriendshipService/RemoveFriend", ReplyAction="http://tempuri.org/IFriendshipService/RemoveFriendResponse")]
+        System.Threading.Tasks.Task RemoveFriendAsync(string accessToken, int friendPublicTag);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IFriendshipService/UnsubscribeFromFriendship")]
         void UnsubscribeFromFriendship();
@@ -379,6 +389,14 @@ namespace GinRummy.Client.FriendshipServiceReference {
         
         public System.Threading.Tasks.Task<GinRummy.Client.FriendshipServiceReference.FriendRequestOutcome> SendFriendRequestAsync(string accessToken, int addresseePublicTag) {
             return base.Channel.SendFriendRequestAsync(accessToken, addresseePublicTag);
+        }
+        
+        public void RemoveFriend(string accessToken, int friendPublicTag) {
+            base.Channel.RemoveFriend(accessToken, friendPublicTag);
+        }
+        
+        public System.Threading.Tasks.Task RemoveFriendAsync(string accessToken, int friendPublicTag) {
+            return base.Channel.RemoveFriendAsync(accessToken, friendPublicTag);
         }
         
         public void UnsubscribeFromFriendship() {

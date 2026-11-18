@@ -26,6 +26,8 @@ namespace GinRummy.Client.Services
 
         public event EventHandler<FriendshipEvent> FriendshipEventReceived;
 
+        public event EventHandler SessionExpired;
+
         public bool Start(string accessToken)
         {
             if (accessToken == null)
@@ -84,6 +86,22 @@ namespace GinRummy.Client.Services
             }
 
             return outcome;
+        }
+
+        public bool RemoveFriend(string accessToken, int friendPublicTag)
+        {
+            if (accessToken == null)
+            {
+                throw new ArgumentNullException(nameof(accessToken));
+            }
+
+            bool isRemovalSent = false;
+            if (_friendshipService != null)
+            {
+                isRemovalSent = CallRemoveFriend(accessToken, friendPublicTag);
+            }
+
+            return isRemovalSent;
         }
 
         public void Stop()
@@ -148,6 +166,38 @@ namespace GinRummy.Client.Services
             }
 
             return outcome;
+        }
+
+        private bool CallRemoveFriend(string accessToken, int friendPublicTag)
+        {
+            bool isRemovalSent = false;
+            try
+            {
+                _friendshipService.RemoveFriend(accessToken, friendPublicTag);
+                isRemovalSent = true;
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                _logger.LogWarning(ex, "The server refused to remove the friend with the fault {FaultCode}.", ex.Detail.Code);
+                if (ex.Detail.Code == ServiceFaultCode.SessionExpired)
+                {
+                    SessionExpired?.Invoke(this, EventArgs.Empty);
+                }
+            }
+            catch (FaultException ex)
+            {
+                _logger.LogError(ex, "The server could not remove the friend.");
+            }
+            catch (CommunicationException ex)
+            {
+                _logger.LogError(ex, "The friendship service could not be reached to remove the friend.");
+            }
+            catch (TimeoutException ex)
+            {
+                _logger.LogError(ex, "The friendship service timed out while removing the friend.");
+            }
+
+            return isRemovalSent;
         }
 
         private void OnChannelFaulted(object sender, EventArgs e)
