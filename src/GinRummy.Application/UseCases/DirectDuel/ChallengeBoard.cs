@@ -10,12 +10,12 @@ namespace GinRummy.Application.UseCases.DirectDuel
     public class ChallengeBoard
     {
         private readonly object _syncRoot;
-        private readonly RoundRegistry _roundRegistry;
+        private readonly MatchRegistry _matchRegistry;
         private readonly List<PendingChallenge> _pendingChallenges;
 
-        public ChallengeBoard(RoundRegistry roundRegistry)
+        public ChallengeBoard(MatchRegistry matchRegistry)
         {
-            _roundRegistry = roundRegistry ?? throw new ArgumentNullException(nameof(roundRegistry));
+            _matchRegistry = matchRegistry ?? throw new ArgumentNullException(nameof(matchRegistry));
             _syncRoot = new object();
             _pendingChallenges = new List<PendingChallenge>();
         }
@@ -74,10 +74,10 @@ namespace GinRummy.Application.UseCases.DirectDuel
             return removedChallenge;
         }
 
-        public ChallengeOutcome Accept(int challengedId, int challengerPublicTag, out ActiveRound startedRound)
+        public ChallengeOutcome Accept(int challengedId, int challengerPublicTag, out ActiveMatch startedMatch)
         {
             ChallengeOutcome outcome = ChallengeOutcome.ChallengeExpired;
-            startedRound = null;
+            startedMatch = null;
             lock (_syncRoot)
             {
                 PendingChallenge foundChallenge = RemoveAddressedTo(challengedId, challengerPublicTag);
@@ -88,7 +88,7 @@ namespace GinRummy.Application.UseCases.DirectDuel
 
                 if (outcome == ChallengeOutcome.Done)
                 {
-                    startedRound = _roundRegistry.Start(foundChallenge.Challenger, foundChallenge.Challenged);
+                    startedMatch = _matchRegistry.Start(foundChallenge.Challenger, foundChallenge.Challenged);
                 }
             }
 
@@ -103,7 +103,7 @@ namespace GinRummy.Application.UseCases.DirectDuel
         private ChallengeOutcome CheckPlayersFree(PendingChallenge challenge)
         {
             ChallengeOutcome outcome = ChallengeOutcome.Done;
-            if (_roundRegistry.IsPlaying(challenge.Challenger.Id) || _roundRegistry.IsPlaying(challenge.Challenged.Id))
+            if (_matchRegistry.IsPlaying(challenge.Challenger.Id) || _matchRegistry.IsPlaying(challenge.Challenged.Id))
             {
                 outcome = ChallengeOutcome.OpponentBusy;
             }

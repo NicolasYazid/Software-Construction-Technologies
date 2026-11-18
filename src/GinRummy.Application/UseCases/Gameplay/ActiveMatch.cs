@@ -7,11 +7,11 @@ using GinRummy.Domain;
 
 namespace GinRummy.Application.UseCases.Gameplay
 {
-    public class ActiveRound
+    public class ActiveMatch
     {
         private readonly List<DuelPlayer> _players;
 
-        public ActiveRound(GameRound round, DuelPlayer dealer, DuelPlayer nonDealer)
+        public ActiveMatch(GameRound round, DuelPlayer dealer, DuelPlayer nonDealer)
         {
             Round = round ?? throw new ArgumentNullException(nameof(round));
             _players = new List<DuelPlayer> { dealer, nonDealer };

@@ -8,86 +8,86 @@ namespace GinRummy.Application.UseCases.Gameplay
 {
     public class PlayRoundUseCase : IPlayRoundUseCase
     {
-        private readonly RoundRegistry _roundRegistry;
+        private readonly MatchRegistry _matchRegistry;
         private readonly IRoundAnnouncer _roundAnnouncer;
 
-        public PlayRoundUseCase(RoundRegistry roundRegistry, IRoundAnnouncer roundAnnouncer)
+        public PlayRoundUseCase(MatchRegistry matchRegistry, IRoundAnnouncer roundAnnouncer)
         {
-            _roundRegistry = roundRegistry ?? throw new ArgumentNullException(nameof(roundRegistry));
+            _matchRegistry = matchRegistry ?? throw new ArgumentNullException(nameof(matchRegistry));
             _roundAnnouncer = roundAnnouncer ?? throw new ArgumentNullException(nameof(roundAnnouncer));
         }
 
         public void TakeFirstCard(int playerId)
         {
-            ApplyMove(playerId, activeRound => activeRound.TakeFirstCard(playerId));
+            ApplyMove(playerId, activeMatch => activeMatch.TakeFirstCard(playerId));
         }
 
         public void PassFirstCard(int playerId)
         {
-            ApplyMove(playerId, activeRound => activeRound.PassFirstCard(playerId));
+            ApplyMove(playerId, activeMatch => activeMatch.PassFirstCard(playerId));
         }
 
         public void DrawFromStock(int playerId)
         {
-            ApplyMove(playerId, activeRound => activeRound.DrawFromStock(playerId));
+            ApplyMove(playerId, activeMatch => activeMatch.DrawFromStock(playerId));
         }
 
         public void DrawFromDiscardPile(int playerId)
         {
-            ApplyMove(playerId, activeRound => activeRound.DrawFromDiscardPile(playerId));
+            ApplyMove(playerId, activeMatch => activeMatch.DrawFromDiscardPile(playerId));
         }
 
         public void Discard(int playerId, Card card)
         {
-            ApplyMove(playerId, activeRound => activeRound.Discard(playerId, card));
+            ApplyMove(playerId, activeMatch => activeMatch.Discard(playerId, card));
         }
 
         public void Knock(int playerId, Card discardedCard)
         {
-            ApplyMove(playerId, activeRound => activeRound.Knock(playerId, discardedCard));
+            ApplyMove(playerId, activeMatch => activeMatch.Knock(playerId, discardedCard));
         }
 
         public void ForfeitRound(int playerId)
         {
-            ActiveRound activeRound = _roundRegistry.Find(playerId);
-            if ((activeRound != null) && _roundRegistry.Remove(activeRound))
+            ActiveMatch activeMatch = _matchRegistry.Find(playerId);
+            if ((activeMatch != null) && _matchRegistry.Remove(activeMatch))
             {
-                _roundAnnouncer.AnnounceOpponentLeft(activeRound.FindOpponent(playerId).Id);
+                _roundAnnouncer.AnnounceOpponentLeft(activeMatch.FindOpponent(playerId).Id);
             }
         }
 
-        private void ApplyMove(int playerId, Action<ActiveRound> play)
+        private void ApplyMove(int playerId, Action<ActiveMatch> play)
         {
-            ActiveRound activeRound = _roundRegistry.Find(playerId);
-            if (activeRound == null)
+            ActiveMatch activeMatch = _matchRegistry.Find(playerId);
+            if (activeMatch == null)
             {
                 throw new InvalidMoveException("The player is not playing a round.");
             }
 
-            lock (activeRound.SyncRoot)
+            lock (activeMatch.SyncRoot)
             {
-                play(activeRound);
-                bool isFinished = activeRound.Round.Phase == TurnPhase.Finished;
+                play(activeMatch);
+                bool isFinished = activeMatch.Round.Phase == TurnPhase.Finished;
                 if (isFinished)
                 {
-                    _roundRegistry.Remove(activeRound);
+                    _matchRegistry.Remove(activeMatch);
                 }
 
-                AnnounceToPlayers(activeRound, isFinished);
+                AnnounceToPlayers(activeMatch, isFinished);
             }
         }
 
-        private void AnnounceToPlayers(ActiveRound activeRound, bool isFinished)
+        private void AnnounceToPlayers(ActiveMatch activeMatch, bool isFinished)
         {
-            foreach (DuelPlayer player in activeRound.Players)
+            foreach (DuelPlayer player in activeMatch.Players)
             {
                 if (isFinished)
                 {
-                    _roundAnnouncer.AnnounceRoundFinished(player.Id, activeRound);
+                    _roundAnnouncer.AnnounceRoundFinished(player.Id, activeMatch);
                 }
                 else
                 {
-                    _roundAnnouncer.AnnounceRoundChanged(player.Id, activeRound);
+                    _roundAnnouncer.AnnounceRoundChanged(player.Id, activeMatch);
                 }
             }
         }

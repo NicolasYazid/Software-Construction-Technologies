@@ -18,16 +18,16 @@ namespace GinRummy.Application.Tests.Gameplay
         public IList<int> FinishedPlayerIds { get; private set; }
         public IList<int> LeftPlayerIds { get; private set; }
 
-        public void AnnounceRoundStarted(int playerId, ActiveRound round)
+        public void AnnounceRoundStarted(int playerId, ActiveMatch match)
         {
         }
 
-        public void AnnounceRoundChanged(int playerId, ActiveRound round)
+        public void AnnounceRoundChanged(int playerId, ActiveMatch match)
         {
             ChangedPlayerIds.Add(playerId);
         }
 
-        public void AnnounceRoundFinished(int playerId, ActiveRound round)
+        public void AnnounceRoundFinished(int playerId, ActiveMatch match)
         {
             FinishedPlayerIds.Add(playerId);
         }

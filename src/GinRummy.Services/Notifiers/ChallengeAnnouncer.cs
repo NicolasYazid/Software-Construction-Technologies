@@ -43,13 +43,13 @@ namespace GinRummy.Services.Notifiers
             EnqueueNotice(challenge.Challenger.Id, callback => callback.OnChallengeDeclined(challengedPublicTag));
         }
 
-        public void AnnounceRoundStarted(ActiveRound round)
+        public void AnnounceRoundStarted(ActiveMatch match)
         {
-            lock (round.SyncRoot)
+            lock (match.SyncRoot)
             {
-                foreach (DuelPlayer player in round.Players)
+                foreach (DuelPlayer player in match.Players)
                 {
-                    _roundAnnouncer.AnnounceRoundStarted(player.Id, round);
+                    _roundAnnouncer.AnnounceRoundStarted(player.Id, match);
                 }
             }
         }

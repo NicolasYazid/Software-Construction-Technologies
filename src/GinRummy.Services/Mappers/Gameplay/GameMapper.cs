@@ -20,10 +20,10 @@ namespace GinRummy.Services.Mappers.Gameplay
             return new Card(MapByName<DomainCardSuit>(playingCard.Suit), playingCard.Rank);
         }
 
-        public static RoundDetails MapToRoundDetails(ActiveRound activeRound, int viewerId)
+        public static RoundDetails MapToRoundDetails(ActiveMatch activeMatch, int viewerId)
         {
-            GameRound round = activeRound.Round;
-            DuelPlayer opponent = activeRound.FindOpponent(viewerId);
+            GameRound round = activeMatch.Round;
+            DuelPlayer opponent = activeMatch.FindOpponent(viewerId);
             List<Card> hand = round.GetHand(viewerId).ToList();
             RoundDetails details = new RoundDetails
             {
@@ -36,44 +36,44 @@ namespace GinRummy.Services.Mappers.Gameplay
                 TopOfDiscardPile = MapToPlayingCard(round.TopOfDiscardPile),
                 Deadwood = MeldFinder.CountDeadwood(hand),
                 Melds = MapToMelds(MeldFinder.FindBestMelds(hand)),
-                KnockDiscards = MapToPlayingCards(activeRound.FindKnockDiscards(viewerId)),
-                LastMove = MapByName<ContractRoundMoveKind>(activeRound.LastMove),
-                LastMoverName = activeRound.FindPlayer(activeRound.LastMoverId).Name,
-                LastMoveCard = MapToPlayingCard(activeRound.LastMoveCard)
+                KnockDiscards = MapToPlayingCards(activeMatch.FindKnockDiscards(viewerId)),
+                LastMove = MapByName<ContractRoundMoveKind>(activeMatch.LastMove),
+                LastMoverName = activeMatch.FindPlayer(activeMatch.LastMoverId).Name,
+                LastMoveCard = MapToPlayingCard(activeMatch.LastMoveCard)
             };
 
             return details;
         }
 
-        public static RoundSummary MapToRoundSummary(ActiveRound activeRound, int viewerId)
+        public static RoundSummary MapToRoundSummary(ActiveMatch activeMatch, int viewerId)
         {
-            RoundResult result = activeRound.Round.Result;
+            RoundResult result = activeMatch.Round.Result;
             RoundSummary summary = new RoundSummary
             {
                 Ending = MapByName<ContractRoundOutcome>(result.Outcome),
                 Points = result.Points,
                 IsWinner = result.WinnerId == viewerId,
-                WinnerName = FindPlayerName(activeRound, result.WinnerId),
-                KnockerName = FindPlayerName(activeRound, activeRound.KnockerId),
+                WinnerName = FindPlayerName(activeMatch, result.WinnerId),
+                KnockerName = FindPlayerName(activeMatch, activeMatch.KnockerId),
                 KnockerMelds = new List<List<PlayingCard>>(),
                 KnockerUnmatchedCards = new List<PlayingCard>(),
                 DefenderMelds = new List<List<PlayingCard>>(),
                 DefenderUnmatchedCards = new List<PlayingCard>()
             };
-            if (activeRound.KnockerId.HasValue)
+            if (activeMatch.KnockerId.HasValue)
             {
-                AddHandsToSummary(summary, activeRound);
+                AddHandsToSummary(summary, activeMatch);
             }
 
             return summary;
         }
 
-        private static void AddHandsToSummary(RoundSummary summary, ActiveRound activeRound)
+        private static void AddHandsToSummary(RoundSummary summary, ActiveMatch activeMatch)
         {
-            int knockerId = activeRound.KnockerId.Value;
-            int defenderId = activeRound.FindOpponent(knockerId).Id;
-            List<Card> knockerHand = activeRound.Round.GetHand(knockerId).ToList();
-            List<Card> defenderHand = activeRound.Round.GetHand(defenderId).ToList();
+            int knockerId = activeMatch.KnockerId.Value;
+            int defenderId = activeMatch.FindOpponent(knockerId).Id;
+            List<Card> knockerHand = activeMatch.Round.GetHand(knockerId).ToList();
+            List<Card> defenderHand = activeMatch.Round.GetHand(defenderId).ToList();
             IList<IList<Card>> knockerMelds = MeldFinder.FindBestMelds(knockerHand);
             IList<IList<Card>> defenderMelds = MeldFinder.FindBestMelds(defenderHand);
             summary.KnockerDeadwood = MeldFinder.CountDeadwood(knockerHand);
@@ -84,12 +84,12 @@ namespace GinRummy.Services.Mappers.Gameplay
             summary.DefenderUnmatchedCards = MapToUnmatchedCards(defenderHand, defenderMelds);
         }
 
-        private static string FindPlayerName(ActiveRound activeRound, int? playerId)
+        private static string FindPlayerName(ActiveMatch activeMatch, int? playerId)
         {
             string playerName = null;
             if (playerId.HasValue)
             {
-                playerName = activeRound.FindPlayer(playerId.Value).Name;
+                playerName = activeMatch.FindPlayer(playerId.Value).Name;
             }
 
             return playerName;

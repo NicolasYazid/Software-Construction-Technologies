@@ -13,6 +13,6 @@ namespace GinRummy.Application.Ports.DirectDuel
 
         void AnnounceChallengeDeclined(PendingChallenge challenge);
 
-        void AnnounceRoundStarted(ActiveRound round);
+        void AnnounceRoundStarted(ActiveMatch match);
     }
 }

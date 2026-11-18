@@ -68,10 +68,10 @@ namespace GinRummy.Application.Tests.Gameplay
 
         private static PlayRoundUseCase CreateUseCaseWithRound(FakeRoundAnnouncer announcer)
         {
-            RoundRegistry roundRegistry = new RoundRegistry();
-            roundRegistry.Start(new DuelPlayer(DealerId, "Dealer", 1001), new DuelPlayer(NonDealerId, "Non-dealer", 1002));
+            MatchRegistry matchRegistry = new MatchRegistry();
+            matchRegistry.Start(new DuelPlayer(DealerId, "Dealer", 1001), new DuelPlayer(NonDealerId, "Non-dealer", 1002));
 
-            return new PlayRoundUseCase(roundRegistry, announcer);
+            return new PlayRoundUseCase(matchRegistry, announcer);
         }
     }
 }

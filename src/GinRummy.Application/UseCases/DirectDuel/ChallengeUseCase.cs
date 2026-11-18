@@ -44,15 +44,15 @@ namespace GinRummy.Application.UseCases.DirectDuel
         public ChallengeOutcome Accept(int challengedId, int challengerPublicTag)
         {
             ChallengeOutcome outcome = ChallengeOutcome.AccountSuspended;
-            ActiveRound startedRound = null;
+            ActiveMatch startedMatch = null;
             if (_playerDirectory.CanDuel(challengedId))
             {
-                outcome = _challengeBoard.Accept(challengedId, challengerPublicTag, out startedRound);
+                outcome = _challengeBoard.Accept(challengedId, challengerPublicTag, out startedMatch);
             }
 
             if (outcome == ChallengeOutcome.Done)
             {
-                _challengeAnnouncer.AnnounceRoundStarted(startedRound);
+                _challengeAnnouncer.AnnounceRoundStarted(startedMatch);
             }
 
             return outcome;

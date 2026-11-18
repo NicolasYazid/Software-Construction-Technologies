@@ -93,16 +93,16 @@ namespace GinRummy.ServerHost
                     loggerFactory.CreateLogger<WcfCallbackDispatcher<IDirectDuelCallback>>());
                 OnlinePlayers<IGameCallback> gameOnlinePlayers = new OnlinePlayers<IGameCallback>(
                     loggerFactory.CreateLogger<WcfCallbackDispatcher<IGameCallback>>());
-                RoundRegistry roundRegistry = new RoundRegistry();
+                MatchRegistry matchRegistry = new MatchRegistry();
                 RoundAnnouncer roundAnnouncer = new RoundAnnouncer(gameOnlinePlayers);
-                PlayRoundUseCase playRoundUseCase = new PlayRoundUseCase(roundRegistry, roundAnnouncer);
+                PlayRoundUseCase playRoundUseCase = new PlayRoundUseCase(matchRegistry, roundAnnouncer);
                 AccountAccessPolicy duelAccessPolicy = new AccountAccessPolicy(
                     new Argon2PasswordHasher(),
                     tokenSigner,
                     new SystemClock());
                 ChallengeUseCase challengeUseCase = new ChallengeUseCase(
                     new DuelPlayerDirectory(() => new EntityFrameworkUnitOfWork(ConnectionStringName), duelAccessPolicy),
-                    new ChallengeBoard(roundRegistry),
+                    new ChallengeBoard(matchRegistry),
                     new ChallengeAnnouncer(duelOnlinePlayers, roundAnnouncer));
 
                 OnlinePlayers<IFriendshipCallback> friendshipOnlinePlayers = new OnlinePlayers<IFriendshipCallback>(

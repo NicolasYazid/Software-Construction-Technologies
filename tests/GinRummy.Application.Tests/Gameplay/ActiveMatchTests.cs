@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace GinRummy.Application.Tests.Gameplay
 {
     [TestFixture]
-    public class ActiveRoundTests
+    public class ActiveMatchTests
     {
         private const int NonDealerId = 1;
         private const int DealerId = 2;
@@ -17,21 +17,21 @@ namespace GinRummy.Application.Tests.Gameplay
         [Test]
         public void Test_Knock_DeadwoodWithinThreshold_FinishesTheRound()
         {
-            ActiveRound activeRound = StartRound(new Card(CardSuit.Diamonds, 2));
-            activeRound.TakeFirstCard(NonDealerId);
+            ActiveMatch activeMatch = StartRound(new Card(CardSuit.Diamonds, 2));
+            activeMatch.TakeFirstCard(NonDealerId);
 
-            activeRound.Knock(NonDealerId, new Card(CardSuit.Diamonds, 13));
+            activeMatch.Knock(NonDealerId, new Card(CardSuit.Diamonds, 13));
 
-            Assert.AreEqual(TurnPhase.Finished, activeRound.Round.Phase);
+            Assert.AreEqual(TurnPhase.Finished, activeMatch.Round.Phase);
         }
 
         [Test]
         public void Test_Knock_DeadwoodAboveThreshold_ThrowsInvalidMoveException()
         {
-            ActiveRound activeRound = StartRound(new Card(CardSuit.Diamonds, 11));
-            activeRound.TakeFirstCard(NonDealerId);
+            ActiveMatch activeMatch = StartRound(new Card(CardSuit.Diamonds, 11));
+            activeMatch.TakeFirstCard(NonDealerId);
 
-            TestDelegate knock = () => activeRound.Knock(NonDealerId, new Card(CardSuit.Hearts, Card.AceRank));
+            TestDelegate knock = () => activeMatch.Knock(NonDealerId, new Card(CardSuit.Hearts, Card.AceRank));
 
             Assert.Throws<InvalidMoveException>(knock);
         }
@@ -39,10 +39,10 @@ namespace GinRummy.Application.Tests.Gameplay
         [Test]
         public void Test_FindKnockDiscards_CardTakenFromDiscardPile_LeavesItOut()
         {
-            ActiveRound activeRound = StartRound(new Card(CardSuit.Diamonds, 2));
-            activeRound.TakeFirstCard(NonDealerId);
+            ActiveMatch activeMatch = StartRound(new Card(CardSuit.Diamonds, 2));
+            activeMatch.TakeFirstCard(NonDealerId);
 
-            IList<Card> discards = activeRound.FindKnockDiscards(NonDealerId);
+            IList<Card> discards = activeMatch.FindKnockDiscards(NonDealerId);
 
             CollectionAssert.AreEquivalent(new[] { new Card(CardSuit.Diamonds, 13) }, discards);
         }
@@ -50,14 +50,14 @@ namespace GinRummy.Application.Tests.Gameplay
         [Test]
         public void Test_FindKnockDiscards_FirstCardOffer_ReturnsEmpty()
         {
-            ActiveRound activeRound = StartRound(new Card(CardSuit.Diamonds, 2));
+            ActiveMatch activeMatch = StartRound(new Card(CardSuit.Diamonds, 2));
 
-            IList<Card> discards = activeRound.FindKnockDiscards(NonDealerId);
+            IList<Card> discards = activeMatch.FindKnockDiscards(NonDealerId);
 
             Assert.IsEmpty(discards);
         }
 
-        private static ActiveRound StartRound(Card faceUpCard)
+        private static ActiveMatch StartRound(Card faceUpCard)
         {
             IList<Card> nonDealerHand = new List<Card>
             {
@@ -84,7 +84,7 @@ namespace GinRummy.Application.Tests.Gameplay
             deck.AddRange(StandardDeck.CreateOrdered().Where(card => !deck.Contains(card)));
             GameRound round = new GameRound(DealerId, NonDealerId, deck);
 
-            return new ActiveRound(round, new DuelPlayer(DealerId, "Dealer", 1002), new DuelPlayer(NonDealerId, "Non-dealer", 1001));
+            return new ActiveMatch(round, new DuelPlayer(DealerId, "Dealer", 1002), new DuelPlayer(NonDealerId, "Non-dealer", 1001));
         }
     }
 }
