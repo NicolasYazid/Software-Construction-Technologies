@@ -10,5 +10,7 @@ namespace GinRummy.Application.Ports.Friendship
         void AnnounceFriendshipCreated(PlayerProfile requesterProfile, PlayerProfile addresseeProfile);
 
         void AnnounceFriendRequestDeclined(int requesterId, PlayerProfile declinerProfile);
+
+        void AnnounceFriendRemoved(PlayerProfile removerProfile, PlayerProfile removedFriendProfile);
     }
 }

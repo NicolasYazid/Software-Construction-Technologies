@@ -18,7 +18,6 @@ namespace GinRummy.Client.Models
         public int Score { get; set; }
         public bool IsGuest { get; set; }
         public bool IsOwnProfile { get; set; }
-        public bool IsFriend { get; set; }
         public bool IsRemoved { get; set; }
     }
 }

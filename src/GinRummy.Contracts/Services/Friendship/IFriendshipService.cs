@@ -16,6 +16,10 @@ namespace GinRummy.Contracts.Services.Friendship
         [FaultContract(typeof(ServiceFault))]
         FriendRequestOutcome SendFriendRequest(string accessToken, int addresseePublicTag);
 
+        [OperationContract]
+        [FaultContract(typeof(ServiceFault))]
+        void RemoveFriend(string accessToken, int friendPublicTag);
+
         [OperationContract(IsOneWay = true)]
         void UnsubscribeFromFriendship();
     }

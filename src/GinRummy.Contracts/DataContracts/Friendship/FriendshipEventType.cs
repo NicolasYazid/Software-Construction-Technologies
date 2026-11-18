@@ -4,6 +4,7 @@
     {
         FriendRequestReceived,
         FriendRequestAccepted,
-        FriendRequestDeclined
+        FriendRequestDeclined,
+        FriendRemoved
     }
 }

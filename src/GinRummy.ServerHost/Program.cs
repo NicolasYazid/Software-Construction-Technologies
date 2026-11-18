@@ -126,6 +126,13 @@ namespace GinRummy.ServerHost
                     () => new EntityFrameworkUnitOfWork(ConnectionStringName),
                     friendshipAnnouncer,
                     friendRequestTimeLimits);
+                RemoveFriendUseCase removeFriendUseCase = new RemoveFriendUseCase(
+                    () => new EntityFrameworkUnitOfWork(ConnectionStringName),
+                    friendshipAnnouncer,
+                    friendRequestTimeLimits);
+                FriendshipServiceTools friendshipServiceTools = new FriendshipServiceTools(
+                    friendshipAccessPolicy,
+                    friendshipOnlinePlayers);
 
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(ChatMessageService),
@@ -137,7 +144,7 @@ namespace GinRummy.ServerHost
                     faultShieldBehavior));
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(FriendshipService),
-                    () => new FriendshipService(friendshipAccessPolicy, sendFriendRequestUseCase, friendshipOnlinePlayers),
+                    () => new FriendshipService(friendshipServiceTools, sendFriendRequestUseCase, removeFriendUseCase),
                     faultShieldBehavior));
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(PendingFriendRequestService),

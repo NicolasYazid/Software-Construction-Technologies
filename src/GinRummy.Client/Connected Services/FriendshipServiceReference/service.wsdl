@@ -65,6 +65,15 @@
   <wsdl:message name="IFriendshipService_SendFriendRequest_ServiceFaultFault_FaultMessage">
     <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q2:ServiceFault" />
   </wsdl:message>
+  <wsdl:message name="IFriendshipService_RemoveFriend_InputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveFriend" />
+  </wsdl:message>
+  <wsdl:message name="IFriendshipService_RemoveFriend_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveFriendResponse" />
+  </wsdl:message>
+  <wsdl:message name="IFriendshipService_RemoveFriend_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q3:ServiceFault" />
+  </wsdl:message>
   <wsdl:message name="IFriendshipService_UnsubscribeFromFriendship_InputMessage">
     <wsdl:part name="parameters" element="tns:UnsubscribeFromFriendship" />
   </wsdl:message>
@@ -81,6 +90,11 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IFriendshipService/SendFriendRequest" message="tns:IFriendshipService_SendFriendRequest_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IFriendshipService/SendFriendRequestResponse" message="tns:IFriendshipService_SendFriendRequest_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IFriendshipService/SendFriendRequestServiceFaultFault" name="ServiceFaultFault" message="tns:IFriendshipService_SendFriendRequest_ServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="RemoveFriend">
+      <wsdl:input wsaw:Action="http://tempuri.org/IFriendshipService/RemoveFriend" message="tns:IFriendshipService_RemoveFriend_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IFriendshipService/RemoveFriendResponse" message="tns:IFriendshipService_RemoveFriend_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IFriendshipService/RemoveFriendServiceFaultFault" name="ServiceFaultFault" message="tns:IFriendshipService_RemoveFriend_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UnsubscribeFromFriendship">
       <wsdl:input wsaw:Action="http://tempuri.org/IFriendshipService/UnsubscribeFromFriendship" message="tns:IFriendshipService_UnsubscribeFromFriendship_InputMessage" />
@@ -107,6 +121,18 @@
     </wsdl:operation>
     <wsdl:operation name="SendFriendRequest">
       <soap12:operation soapAction="http://tempuri.org/IFriendshipService/SendFriendRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveFriend">
+      <soap12:operation soapAction="http://tempuri.org/IFriendshipService/RemoveFriend" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

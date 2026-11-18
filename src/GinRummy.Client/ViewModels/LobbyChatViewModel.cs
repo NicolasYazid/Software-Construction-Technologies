@@ -251,7 +251,6 @@ namespace GinRummy.Client.ViewModels
 
             profile.RankName = player.RankName;
             profile.SocialLinks = new List<SocialLink>();
-            profile.IsFriend = player.IsFriend;
             profile.IsGuest = player.IsGuest;
 
             return profile;
@@ -263,27 +262,23 @@ namespace GinRummy.Client.ViewModels
             {
                 RemovePlayer(player);
             }
-            else if (player.IsFriend && !profile.IsFriend)
-            {
-                RemoveFriend(player.Username);
-            }
         }
 
-        // The friend leaves the friends tab, as CU-16 Post-2 and Post-3 require.
-        // Every other row that lists the player offers a friend request again instead of the removal.
-        public void RemoveFriend(string username)
+        public void RemoveFriend(int publicTag)
         {
-            RemoveByName(FriendsOnline, username);
-            RemoveByName(FriendsUnavailable, username);
-            IEnumerable<LobbyPlayerViewModel> otherRows = LookingToPlay
-                .Concat(Online)
-                .Concat(Unavailable)
-                .Where(candidate => candidate.Username == username);
-            foreach (LobbyPlayerViewModel player in otherRows)
+            LobbyPlayerViewModel onlineFriend = FindByPublicTag(FriendsOnline, publicTag);
+            LobbyPlayerViewModel unavailableFriend = FindByPublicTag(FriendsUnavailable, publicTag);
+            if (onlineFriend != null)
             {
-                player.IsFriend = false;
+                FriendsOnline.Remove(onlineFriend);
             }
 
+            if (unavailableFriend != null)
+            {
+                FriendsUnavailable.Remove(unavailableFriend);
+            }
+
+            UpdateRelationOfPlayer(publicTag, false);
             HasNoFriends = HasNoFriendsListed();
         }
 
@@ -383,15 +378,6 @@ namespace GinRummy.Client.ViewModels
             RemovePlayerRow(FriendsOnline, player.PublicTag, player.GuestSessionId);
             RemovePlayerRow(FriendsUnavailable, player.PublicTag, player.GuestSessionId);
             HasNoFriends = HasNoFriendsListed();
-        }
-
-        private static void RemoveByName(IList<LobbyPlayerViewModel> players, string username)
-        {
-            LobbyPlayerViewModel player = players.FirstOrDefault(candidate => candidate.Username == username);
-            if (player != null)
-            {
-                players.Remove(player);
-            }
         }
 
         // Presence already sends every registered player with its relation, so the search filters the rows the panel has (CU-10).

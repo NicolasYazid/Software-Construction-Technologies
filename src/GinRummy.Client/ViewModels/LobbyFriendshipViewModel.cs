@@ -53,6 +53,10 @@ namespace GinRummy.Client.ViewModels
 
         public event EventHandler<int> FriendRequestDeclined;
 
+        public event EventHandler<int> FriendRemoved;
+
+        public event EventHandler SessionExpired;
+
         public ICommand DismissNoticeCommand { get; private set; }
 
         public string NoticeKey
@@ -74,6 +78,7 @@ namespace GinRummy.Client.ViewModels
         public void Start()
         {
             _friendshipConnection.FriendshipEventReceived += OnFriendshipEventReceived;
+            _friendshipConnection.SessionExpired += OnSessionExpired;
             if (!_friendshipConnection.Start(_signedInPlayer.AccessToken))
             {
                 NoticeKey = ServiceUnavailableKey;
@@ -83,6 +88,7 @@ namespace GinRummy.Client.ViewModels
         public void Stop()
         {
             _friendshipConnection.FriendshipEventReceived -= OnFriendshipEventReceived;
+            _friendshipConnection.SessionExpired -= OnSessionExpired;
             _friendshipConnection.Stop();
         }
 
@@ -109,6 +115,25 @@ namespace GinRummy.Client.ViewModels
             NoticeKey = noticeKey;
         }
 
+        public void RemoveFriend(LobbyPlayerViewModel friend)
+        {
+            if (friend == null)
+            {
+                throw new ArgumentNullException(nameof(friend));
+            }
+
+            if (!friend.PublicTag.HasValue)
+            {
+                return;
+            }
+
+            bool isRemovalSent = _friendshipConnection.RemoveFriend(_signedInPlayer.AccessToken, friend.PublicTag.Value);
+            if (!isRemovalSent)
+            {
+                NoticeKey = ServiceUnavailableKey;
+            }
+        }
+
         private void OnFriendshipEventReceived(object sender, FriendshipEvent friendshipEvent)
         {
             if (friendshipEvent.EventType == FriendshipEventType.FriendRequestAccepted)
@@ -119,6 +144,15 @@ namespace GinRummy.Client.ViewModels
             {
                 FriendRequestDeclined?.Invoke(this, friendshipEvent.OtherPlayerPublicTag);
             }
+            else if (friendshipEvent.EventType == FriendshipEventType.FriendRemoved)
+            {
+                FriendRemoved?.Invoke(this, friendshipEvent.OtherPlayerPublicTag);
+            }
+        }
+
+        private void OnSessionExpired(object sender, EventArgs e)
+        {
+            SessionExpired?.Invoke(this, EventArgs.Empty);
         }
 
         private static string FindNoticeKey(FriendRequestOutcome outcome)
