@@ -77,6 +77,15 @@ namespace GinRummy.Persistence.Repositories
         /// Adds a new match and persists it immediately.
         /// </summary>
         /// <param name="newGameSession">Match to create.</param>
+        public IList<GameSession> GetUnfinishedGameSessions()
+        {
+            string finished = GameState.Finished.ToString();
+
+            return _context.GameSessions
+                .Where(gameSession => gameSession.GameStateName != finished)
+                .ToList();
+        }
+
         public void Add(GameSession newGameSession)
         {
             _context.GameSessions.Add(newGameSession);
