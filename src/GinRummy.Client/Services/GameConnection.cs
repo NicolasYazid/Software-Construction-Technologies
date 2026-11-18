@@ -30,6 +30,8 @@ namespace GinRummy.Client.Services
         public event EventHandler OpponentReconnected;
         public event EventHandler ConnectionLost;
 
+        public ServiceFaultCode? LastFaultCode { get; private set; }
+
         public bool Start(string accessToken)
         {
             IGameService service = _serviceFactory(new InstanceContext(this));
@@ -150,6 +152,7 @@ namespace GinRummy.Client.Services
         private bool TryCall(string operation, Action call)
         {
             bool isDone = false;
+            LastFaultCode = null;
             try
             {
                 call();
@@ -157,6 +160,7 @@ namespace GinRummy.Client.Services
             }
             catch (FaultException<ServiceFault> ex)
             {
+                LastFaultCode = ex.Detail.Code;
                 _logger.LogWarning(ex, "The server refused to {Operation} with the fault {FaultCode}.", operation, ex.Detail.Code);
             }
             catch (FaultException ex)

@@ -11,6 +11,7 @@ using GinRummy.Client.Models;
 using GinRummy.Client.Mvvm;
 using GinRummy.Client.Services;
 
+using GameFaultCode = GinRummy.Client.GameServiceReference.ServiceFaultCode;
 using ModelCardSuit = GinRummy.Client.Models.CardSuit;
 using ServiceCardSuit = GinRummy.Client.GameServiceReference.CardSuit;
 
@@ -69,6 +70,7 @@ namespace GinRummy.Client.ViewModels
         public event EventHandler<Card> CardDrawnFromStock;
         public event EventHandler<Card> CardTakenFromDiscardPile;
         public event EventHandler ConnectionLost;
+        public event EventHandler SessionExpired;
 
         public ObservableCollection<Card> Hand { get; private set; }
         public ObservableCollection<Card> DiscardPile { get; private set; }
@@ -328,8 +330,7 @@ namespace GinRummy.Client.ViewModels
 
         public void Discard(Card card)
         {
-            _isMoveRefused = !_gameConnection.Discard(_signedInPlayer.AccessToken, ToPlayingCard(card));
-            RaisePropertyChanged(nameof(TurnNoticeKey));
+            ShowMoveOutcome(_gameConnection.Discard(_signedInPlayer.AccessToken, ToPlayingCard(card)));
             if (_isMoveRefused)
             {
                 int slot = Hand.IndexOf(card);
@@ -359,14 +360,22 @@ namespace GinRummy.Client.ViewModels
 
         private void Play(Func<string, bool> move)
         {
-            _isMoveRefused = !move(_signedInPlayer.AccessToken);
-            RaisePropertyChanged(nameof(TurnNoticeKey));
+            ShowMoveOutcome(move(_signedInPlayer.AccessToken));
         }
 
         private void PlaySelectedCard(Func<string, PlayingCard, bool> move)
         {
-            _isMoveRefused = !move(_signedInPlayer.AccessToken, ToPlayingCard(_selectedCard));
+            ShowMoveOutcome(move(_signedInPlayer.AccessToken, ToPlayingCard(_selectedCard)));
+        }
+
+        private void ShowMoveOutcome(bool isMoveDone)
+        {
+            _isMoveRefused = !isMoveDone;
             RaisePropertyChanged(nameof(TurnNoticeKey));
+            if (_isMoveRefused && (_gameConnection.LastFaultCode == GameFaultCode.SessionExpired))
+            {
+                SessionExpired?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         private bool IsCardSelected()
