@@ -19,6 +19,15 @@ namespace GinRummy.Contracts.DataContracts.Gameplay
         public int Points { get; set; }
 
         [DataMember]
+        public int PlayerScore { get; set; }
+
+        [DataMember]
+        public int OpponentScore { get; set; }
+
+        [DataMember]
+        public bool IsMatchOver { get; set; }
+
+        [DataMember]
         public string KnockerName { get; set; }
 
         [DataMember]

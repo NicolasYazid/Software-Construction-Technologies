@@ -57,6 +57,19 @@ namespace GinRummy.Application.Tests.Gameplay
             Assert.IsEmpty(discards);
         }
 
+        [Test]
+        public void Test_DealNextRound_AfterAScoredKnock_RecordsTheDealOfTheNewDealer()
+        {
+            ActiveMatch activeMatch = StartRound(new Card(CardSuit.Diamonds, 2));
+            activeMatch.TakeFirstCard(NonDealerId);
+            activeMatch.Knock(NonDealerId, new Card(CardSuit.Diamonds, 13));
+            activeMatch.Match.ScoreFinishedRound();
+
+            activeMatch.DealNextRound(StandardDeck.CreateOrdered());
+
+            Assert.AreEqual(NonDealerId, activeMatch.LastMoverId);
+        }
+
         private static ActiveMatch StartRound(Card faceUpCard)
         {
             IList<Card> nonDealerHand = new List<Card>
@@ -84,7 +97,10 @@ namespace GinRummy.Application.Tests.Gameplay
             deck.AddRange(StandardDeck.CreateOrdered().Where(card => !deck.Contains(card)));
             GameRound round = new GameRound(DealerId, NonDealerId, deck);
 
-            return new ActiveMatch(round, new DuelPlayer(DealerId, "Dealer", 1002), new DuelPlayer(NonDealerId, "Non-dealer", 1001));
+            return new ActiveMatch(
+                new GameMatch(round),
+                new DuelPlayer(DealerId, "Dealer", 1002),
+                new DuelPlayer(NonDealerId, "Non-dealer", 1001));
         }
     }
 }

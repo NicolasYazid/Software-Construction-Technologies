@@ -52,6 +52,9 @@ namespace GinRummy.Services.Mappers.Gameplay
             {
                 Ending = MapByName<ContractRoundOutcome>(result.Outcome),
                 Points = result.Points,
+                PlayerScore = activeMatch.Match.GetScore(viewerId),
+                OpponentScore = activeMatch.Match.GetScore(activeMatch.FindOpponent(viewerId).Id),
+                IsMatchOver = activeMatch.Match.IsOver,
                 IsWinner = result.WinnerId == viewerId,
                 WinnerName = FindPlayerName(activeMatch, result.WinnerId),
                 KnockerName = FindPlayerName(activeMatch, activeMatch.KnockerId),

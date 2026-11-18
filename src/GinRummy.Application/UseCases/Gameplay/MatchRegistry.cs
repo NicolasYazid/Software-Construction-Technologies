@@ -21,8 +21,8 @@ namespace GinRummy.Application.UseCases.Gameplay
 
         public ActiveMatch Start(DuelPlayer dealer, DuelPlayer nonDealer)
         {
-            GameRound round = new GameRound(dealer.Id, nonDealer.Id, StandardDeck.CreateShuffled(_random));
-            ActiveMatch activeMatch = new ActiveMatch(round, dealer, nonDealer);
+            GameRound firstRound = new GameRound(dealer.Id, nonDealer.Id, ShuffleDeck());
+            ActiveMatch activeMatch = new ActiveMatch(new GameMatch(firstRound), dealer, nonDealer);
             lock (_syncRoot)
             {
                 _matchesByPlayerId[dealer.Id] = activeMatch;
@@ -30,6 +30,11 @@ namespace GinRummy.Application.UseCases.Gameplay
             }
 
             return activeMatch;
+        }
+
+        public void DealNextRound(ActiveMatch activeMatch)
+        {
+            activeMatch.DealNextRound(ShuffleDeck());
         }
 
         public ActiveMatch Find(int playerId)
@@ -63,6 +68,17 @@ namespace GinRummy.Application.UseCases.Gameplay
             }
 
             return isRemoved;
+        }
+
+        private IList<Card> ShuffleDeck()
+        {
+            IList<Card> shuffledDeck;
+            lock (_syncRoot)
+            {
+                shuffledDeck = StandardDeck.CreateShuffled(_random);
+            }
+
+            return shuffledDeck;
         }
 
         private void RemovePlayersOf(ActiveMatch activeMatch)

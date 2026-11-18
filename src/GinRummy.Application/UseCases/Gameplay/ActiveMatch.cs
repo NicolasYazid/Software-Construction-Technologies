@@ -11,15 +11,20 @@ namespace GinRummy.Application.UseCases.Gameplay
     {
         private readonly List<DuelPlayer> _players;
 
-        public ActiveMatch(GameRound round, DuelPlayer dealer, DuelPlayer nonDealer)
+        public ActiveMatch(GameMatch match, DuelPlayer dealer, DuelPlayer nonDealer)
         {
-            Round = round ?? throw new ArgumentNullException(nameof(round));
+            Match = match ?? throw new ArgumentNullException(nameof(match));
             _players = new List<DuelPlayer> { dealer, nonDealer };
             SyncRoot = new object();
             Record(RoundMoveKind.Dealt, dealer.Id, null);
         }
 
-        public GameRound Round { get; private set; }
+        public GameMatch Match { get; private set; }
+
+        public GameRound Round
+        {
+            get { return Match.CurrentRound; }
+        }
 
         public object SyncRoot { get; private set; }
 
@@ -86,6 +91,13 @@ namespace GinRummy.Application.UseCases.Gameplay
             int defenderId = FindOpponent(playerId).Id;
             Round.LayDownDefenderHand(defenderId, MeldFinder.FindBestMelds(Round.GetHand(defenderId).ToList()));
             Record(RoundMoveKind.Discarded, playerId, discardedCard);
+        }
+
+        public void DealNextRound(IList<Card> shuffledDeck)
+        {
+            Match.DealNextRound(shuffledDeck);
+            KnockerId = null;
+            Record(RoundMoveKind.Dealt, Round.DealerId, null);
         }
 
         public IList<Card> FindKnockDiscards(int playerId)

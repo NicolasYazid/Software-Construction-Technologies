@@ -67,28 +67,37 @@ namespace GinRummy.Application.UseCases.Gameplay
             lock (activeMatch.SyncRoot)
             {
                 play(activeMatch);
-                bool isFinished = activeMatch.Round.Phase == TurnPhase.Finished;
-                if (isFinished)
+                if (activeMatch.Round.Phase == TurnPhase.Finished)
                 {
-                    _matchRegistry.Remove(activeMatch);
-                }
-
-                AnnounceToPlayers(activeMatch, isFinished);
-            }
-        }
-
-        private void AnnounceToPlayers(ActiveMatch activeMatch, bool isFinished)
-        {
-            foreach (DuelPlayer player in activeMatch.Players)
-            {
-                if (isFinished)
-                {
-                    _roundAnnouncer.AnnounceRoundFinished(player.Id, activeMatch);
+                    FinishRound(activeMatch);
                 }
                 else
                 {
-                    _roundAnnouncer.AnnounceRoundChanged(player.Id, activeMatch);
+                    AnnounceToPlayers(activeMatch, _roundAnnouncer.AnnounceRoundChanged);
                 }
+            }
+        }
+
+        private void FinishRound(ActiveMatch activeMatch)
+        {
+            activeMatch.Match.ScoreFinishedRound();
+            AnnounceToPlayers(activeMatch, _roundAnnouncer.AnnounceRoundFinished);
+            if (activeMatch.Match.IsOver)
+            {
+                _matchRegistry.Remove(activeMatch);
+            }
+            else
+            {
+                _matchRegistry.DealNextRound(activeMatch);
+                AnnounceToPlayers(activeMatch, _roundAnnouncer.AnnounceRoundChanged);
+            }
+        }
+
+        private static void AnnounceToPlayers(ActiveMatch activeMatch, Action<int, ActiveMatch> announce)
+        {
+            foreach (DuelPlayer player in activeMatch.Players)
+            {
+                announce(player.Id, activeMatch);
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿using GinRummy.Application.UseCases.DirectDuel;
+﻿using System.Linq;
+
+using GinRummy.Application.UseCases.DirectDuel;
 using GinRummy.Application.UseCases.Gameplay;
 using GinRummy.Domain;
 using NUnit.Framework;
@@ -66,12 +68,53 @@ namespace GinRummy.Application.Tests.Gameplay
             Assert.AreEqual(1, announcer.LeftPlayerIds.Count);
         }
 
+        [Test]
+        public void Test_Discard_StockRunsOut_AnnouncesTheFinishedRoundToBothPlayers()
+        {
+            FakeRoundAnnouncer announcer = new FakeRoundAnnouncer();
+            MatchRegistry matchRegistry = BuildRegistryWithMatch();
+            PlayRoundUseCase useCase = new PlayRoundUseCase(matchRegistry, announcer);
+
+            PlayUntilTheStockRunsOut(useCase, matchRegistry);
+
+            CollectionAssert.AreEquivalent(new[] { DealerId, NonDealerId }, announcer.FinishedPlayerIds);
+        }
+
+        [Test]
+        public void Test_Discard_StockRunsOut_DealsTheNextRoundWithTheDealerSwapped()
+        {
+            MatchRegistry matchRegistry = BuildRegistryWithMatch();
+            PlayRoundUseCase useCase = new PlayRoundUseCase(matchRegistry, new FakeRoundAnnouncer());
+
+            PlayUntilTheStockRunsOut(useCase, matchRegistry);
+
+            Assert.AreEqual(NonDealerId, matchRegistry.Find(DealerId).Round.DealerId);
+        }
+
         private static PlayRoundUseCase CreateUseCaseWithRound(FakeRoundAnnouncer announcer)
+        {
+            return new PlayRoundUseCase(BuildRegistryWithMatch(), announcer);
+        }
+
+        private static MatchRegistry BuildRegistryWithMatch()
         {
             MatchRegistry matchRegistry = new MatchRegistry();
             matchRegistry.Start(new DuelPlayer(DealerId, "Dealer", 1001), new DuelPlayer(NonDealerId, "Non-dealer", 1002));
 
-            return new PlayRoundUseCase(matchRegistry, announcer);
+            return matchRegistry;
+        }
+
+        private static void PlayUntilTheStockRunsOut(PlayRoundUseCase useCase, MatchRegistry matchRegistry)
+        {
+            useCase.PassFirstCard(NonDealerId);
+            useCase.PassFirstCard(DealerId);
+            GameRound firstRound = matchRegistry.Find(DealerId).Round;
+            while (firstRound.Phase != TurnPhase.Finished)
+            {
+                int playerId = firstRound.CurrentPlayerId;
+                useCase.DrawFromStock(playerId);
+                useCase.Discard(playerId, firstRound.GetHand(playerId).Last());
+            }
         }
     }
 }
