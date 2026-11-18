@@ -4,7 +4,9 @@ namespace GinRummy.Domain.Entities.PlayerCareer
 {
     public class PlayerStats
     {
+        public const int PointsPerMatch = 25;
         private const int InitialScore = 1000;
+        private const int LowestScore = 0;
 
         public PlayerStats(int playerAccountId)
         {
@@ -42,6 +44,18 @@ namespace GinRummy.Domain.Entities.PlayerCareer
 
                 return winRate;
             }
+        }
+
+        public void RecordWin()
+        {
+            Wins++;
+            Score += PointsPerMatch;
+        }
+
+        public void RecordLoss()
+        {
+            Losses++;
+            Score = Math.Max(LowestScore, Score - PointsPerMatch);
         }
 
         private static void ValidatePlayerAccountId(int playerAccountId)
