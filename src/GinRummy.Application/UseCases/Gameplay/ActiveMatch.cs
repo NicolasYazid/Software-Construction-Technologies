@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 using GinRummy.Application.UseCases.DirectDuel;
 using GinRummy.Domain;
@@ -10,11 +11,13 @@ namespace GinRummy.Application.UseCases.Gameplay
     public class ActiveMatch
     {
         private readonly List<DuelPlayer> _players;
+        private readonly Dictionary<int, Timer> _reconnectionTimersByPlayerId;
 
         public ActiveMatch(GameMatch match, DuelPlayer dealer, DuelPlayer nonDealer)
         {
             Match = match ?? throw new ArgumentNullException(nameof(match));
             _players = new List<DuelPlayer> { dealer, nonDealer };
+            _reconnectionTimersByPlayerId = new Dictionary<int, Timer>();
             SyncRoot = new object();
             Record(RoundMoveKind.Dealt, dealer.Id, null);
         }
@@ -27,6 +30,11 @@ namespace GinRummy.Application.UseCases.Gameplay
         }
 
         public object SyncRoot { get; private set; }
+
+        public bool IsPaused
+        {
+            get { return _reconnectionTimersByPlayerId.Count > 0; }
+        }
 
         public IReadOnlyList<DuelPlayer> Players
         {
@@ -91,6 +99,44 @@ namespace GinRummy.Application.UseCases.Gameplay
             int defenderId = FindOpponent(playerId).Id;
             Round.LayDownDefenderHand(defenderId, MeldFinder.FindBestMelds(Round.GetHand(defenderId).ToList()));
             Record(RoundMoveKind.Discarded, playerId, discardedCard);
+        }
+
+        public bool IsWaitingForReconnection(int playerId)
+        {
+            return _reconnectionTimersByPlayerId.ContainsKey(playerId);
+        }
+
+        public void WaitForReconnection(int playerId, TimeSpan reconnectionWindow, Action onWindowExpired)
+        {
+            StopWaitingForReconnection(playerId);
+            _reconnectionTimersByPlayerId[playerId] = new Timer(
+                state => onWindowExpired(),
+                null,
+                reconnectionWindow,
+                Timeout.InfiniteTimeSpan);
+        }
+
+        public bool StopWaitingForReconnection(int playerId)
+        {
+            Timer reconnectionTimer;
+            bool wasWaiting = _reconnectionTimersByPlayerId.TryGetValue(playerId, out reconnectionTimer);
+            if (wasWaiting)
+            {
+                reconnectionTimer.Dispose();
+                _reconnectionTimersByPlayerId.Remove(playerId);
+            }
+
+            return wasWaiting;
+        }
+
+        public void StopWaitingForReconnections()
+        {
+            foreach (Timer reconnectionTimer in _reconnectionTimersByPlayerId.Values)
+            {
+                reconnectionTimer.Dispose();
+            }
+
+            _reconnectionTimersByPlayerId.Clear();
         }
 
         public void DealNextRound(IList<Card> shuffledDeck)

@@ -12,11 +12,17 @@ namespace GinRummy.Application.Tests.Gameplay
             ChangedPlayerIds = new List<int>();
             FinishedPlayerIds = new List<int>();
             LeftPlayerIds = new List<int>();
+            DisconnectedNoticePlayerIds = new List<int>();
+            ReconnectedNoticePlayerIds = new List<int>();
         }
 
         public IList<int> ChangedPlayerIds { get; private set; }
         public IList<int> FinishedPlayerIds { get; private set; }
         public IList<int> LeftPlayerIds { get; private set; }
+
+        public IList<int> DisconnectedNoticePlayerIds { get; private set; }
+
+        public IList<int> ReconnectedNoticePlayerIds { get; private set; }
 
         public void AnnounceRoundStarted(int playerId, ActiveMatch match)
         {
@@ -35,6 +41,16 @@ namespace GinRummy.Application.Tests.Gameplay
         public void AnnounceOpponentLeft(int playerId)
         {
             LeftPlayerIds.Add(playerId);
+        }
+
+        public void AnnounceOpponentDisconnected(int playerId)
+        {
+            DisconnectedNoticePlayerIds.Add(playerId);
+        }
+
+        public void AnnounceOpponentReconnected(int playerId)
+        {
+            ReconnectedNoticePlayerIds.Add(playerId);
         }
     }
 }

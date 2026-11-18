@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 
 using GinRummy.Application.Ports.Gameplay;
 using GinRummy.Application.UseCases.DirectDuel;
@@ -8,6 +9,7 @@ namespace GinRummy.Application.UseCases.Gameplay
 {
     public class PlayRoundUseCase : IPlayRoundUseCase
     {
+        private const int ReconnectionWindowSeconds = 60;
         private readonly MatchRegistry _matchRegistry;
         private readonly IRoundAnnouncer _roundAnnouncer;
         private readonly IMatchRecorder _matchRecorder;
@@ -59,12 +61,50 @@ namespace GinRummy.Application.UseCases.Gameplay
 
             lock (activeMatch.SyncRoot)
             {
-                if (_matchRegistry.Remove(activeMatch))
+                EndByForfeit(activeMatch, playerId);
+            }
+        }
+
+        public void WaitForReconnection(int playerId)
+        {
+            ActiveMatch activeMatch = _matchRegistry.Find(playerId);
+            if (activeMatch == null)
+            {
+                return;
+            }
+
+            lock (activeMatch.SyncRoot)
+            {
+                activeMatch.WaitForReconnection(
+                    playerId,
+                    TimeSpan.FromSeconds(ReconnectionWindowSeconds),
+                    () => ForfeitAfterDisconnection(activeMatch, playerId));
+                _roundAnnouncer.AnnounceOpponentDisconnected(activeMatch.FindOpponent(playerId).Id);
+            }
+        }
+
+        public void Rejoin(int playerId)
+        {
+            ActiveMatch activeMatch = _matchRegistry.Find(playerId);
+            if (activeMatch == null)
+            {
+                return;
+            }
+
+            lock (activeMatch.SyncRoot)
+            {
+                int opponentId = activeMatch.FindOpponent(playerId).Id;
+                if (activeMatch.StopWaitingForReconnection(playerId))
                 {
-                    int winnerId = activeMatch.FindOpponent(playerId).Id;
-                    _roundAnnouncer.AnnounceOpponentLeft(winnerId);
-                    _matchRecorder.RecordEnd(activeMatch, winnerId);
+                    _roundAnnouncer.AnnounceOpponentReconnected(opponentId);
                 }
+
+                if (activeMatch.IsWaitingForReconnection(opponentId))
+                {
+                    _roundAnnouncer.AnnounceOpponentDisconnected(playerId);
+                }
+
+                _roundAnnouncer.AnnounceRoundChanged(playerId, activeMatch);
             }
         }
 
@@ -78,6 +118,11 @@ namespace GinRummy.Application.UseCases.Gameplay
 
             lock (activeMatch.SyncRoot)
             {
+                if (activeMatch.IsPaused)
+                {
+                    throw new InvalidMoveException("The match is paused until the disconnected player comes back.");
+                }
+
                 play(activeMatch);
                 if (activeMatch.Round.Phase == TurnPhase.Finished)
                 {
@@ -104,6 +149,36 @@ namespace GinRummy.Application.UseCases.Gameplay
                 _matchRecorder.RecordRoundScores(activeMatch);
                 _matchRegistry.DealNextRound(activeMatch);
                 AnnounceToPlayers(activeMatch, _roundAnnouncer.AnnounceRoundChanged);
+            }
+        }
+
+        private void ForfeitAfterDisconnection(ActiveMatch activeMatch, int playerId)
+        {
+            lock (activeMatch.SyncRoot)
+            {
+                if (activeMatch.IsWaitingForReconnection(playerId))
+                {
+                    try
+                    {
+                        EndByForfeit(activeMatch, playerId);
+                    }
+                    catch (DataException)
+                    {
+                        // The window ends on a timer thread, where an unhandled exception would stop the whole server.
+                        // The rival was already told about the victory, so only the record of the match is lost.
+                    }
+                }
+            }
+        }
+
+        private void EndByForfeit(ActiveMatch activeMatch, int forfeitingPlayerId)
+        {
+            if (_matchRegistry.Remove(activeMatch))
+            {
+                activeMatch.StopWaitingForReconnections();
+                int winnerId = activeMatch.FindOpponent(forfeitingPlayerId).Id;
+                _roundAnnouncer.AnnounceOpponentLeft(winnerId);
+                _matchRecorder.RecordEnd(activeMatch, winnerId);
             }
         }
 

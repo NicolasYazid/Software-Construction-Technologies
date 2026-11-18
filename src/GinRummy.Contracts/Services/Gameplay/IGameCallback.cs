@@ -17,5 +17,11 @@ namespace GinRummy.Contracts.Services.Gameplay
 
         [OperationContract(IsOneWay = true)]
         void OnOpponentLeft();
+
+        [OperationContract(IsOneWay = true)]
+        void OnOpponentDisconnected();
+
+        [OperationContract(IsOneWay = true)]
+        void OnOpponentReconnected();
     }
 }

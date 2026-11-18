@@ -104,29 +104,48 @@ namespace GinRummy.Services.Services.Gameplay
             _subscribedCallback = callback;
             context.Channel.Closed += OnChannelClosed;
             context.Channel.Faulted += OnChannelFaulted;
+            _playRoundUseCase.Rejoin(playerId);
         }
 
         private void LeaveGame()
         {
-            IGameCallback callbackToRemove = _subscribedCallback;
-            if (callbackToRemove == null)
+            if (RemoveSubscription())
             {
-                return;
+                _playRoundUseCase.ForfeitRound(_subscribedPlayerId);
+            }
+        }
+
+        private void HandleLostConnection()
+        {
+            bool wasSubscribed = RemoveSubscription();
+            bool hasNewerSession = _onlinePlayers.FindDispatcherOfPlayer(_subscribedPlayerId) != null;
+            if (wasSubscribed && !hasNewerSession)
+            {
+                _playRoundUseCase.WaitForReconnection(_subscribedPlayerId);
+            }
+        }
+
+        private bool RemoveSubscription()
+        {
+            IGameCallback callbackToRemove = _subscribedCallback;
+            bool wasSubscribed = callbackToRemove != null;
+            if (wasSubscribed)
+            {
+                _subscribedCallback = null;
+                _onlinePlayers.RemovePlayer(_subscribedPlayerId, callbackToRemove);
             }
 
-            _subscribedCallback = null;
-            _onlinePlayers.RemovePlayer(_subscribedPlayerId, callbackToRemove);
-            _playRoundUseCase.ForfeitRound(_subscribedPlayerId);
+            return wasSubscribed;
         }
 
         private void OnChannelClosed(object sender, EventArgs e)
         {
-            LeaveGame();
+            HandleLostConnection();
         }
 
         private void OnChannelFaulted(object sender, EventArgs e)
         {
-            LeaveGame();
+            HandleLostConnection();
         }
     }
 }

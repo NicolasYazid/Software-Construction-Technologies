@@ -17,5 +17,9 @@ namespace GinRummy.Application.Ports.Gameplay
         void Knock(int playerId, Card discardedCard);
 
         void ForfeitRound(int playerId);
+
+        void WaitForReconnection(int playerId);
+
+        void Rejoin(int playerId);
     }
 }

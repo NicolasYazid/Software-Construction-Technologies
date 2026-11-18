@@ -69,6 +69,53 @@ namespace GinRummy.Application.Tests.Gameplay
         }
 
         [Test]
+        public void Test_WaitForReconnection_PlayerInRound_TellsTheOpponent()
+        {
+            FakeRoundAnnouncer announcer = new FakeRoundAnnouncer();
+            PlayRoundUseCase useCase = CreateUseCaseWithRound(announcer);
+
+            useCase.WaitForReconnection(NonDealerId);
+
+            CollectionAssert.AreEqual(new[] { DealerId }, announcer.DisconnectedNoticePlayerIds);
+        }
+
+        [Test]
+        public void Test_PassFirstCard_OpponentDisconnected_ThrowsInvalidMoveException()
+        {
+            PlayRoundUseCase useCase = CreateUseCaseWithRound(new FakeRoundAnnouncer());
+            useCase.WaitForReconnection(DealerId);
+
+            TestDelegate passFirstCard = () => useCase.PassFirstCard(NonDealerId);
+
+            Assert.Throws<InvalidMoveException>(passFirstCard);
+        }
+
+        [Test]
+        public void Test_Rejoin_DisconnectedPlayer_TellsTheOpponent()
+        {
+            FakeRoundAnnouncer announcer = new FakeRoundAnnouncer();
+            PlayRoundUseCase useCase = CreateUseCaseWithRound(announcer);
+            useCase.WaitForReconnection(NonDealerId);
+
+            useCase.Rejoin(NonDealerId);
+
+            CollectionAssert.AreEqual(new[] { DealerId }, announcer.ReconnectedNoticePlayerIds);
+        }
+
+        [Test]
+        public void Test_PassFirstCard_DisconnectedPlayerRejoined_AnnouncesTheChange()
+        {
+            FakeRoundAnnouncer announcer = new FakeRoundAnnouncer();
+            PlayRoundUseCase useCase = CreateUseCaseWithRound(announcer);
+            useCase.WaitForReconnection(DealerId);
+            useCase.Rejoin(DealerId);
+
+            useCase.PassFirstCard(NonDealerId);
+
+            CollectionAssert.Contains(announcer.ChangedPlayerIds, NonDealerId);
+        }
+
+        [Test]
         public void Test_ForfeitRound_SecondTime_AnnouncesOnlyOnce()
         {
             FakeRoundAnnouncer announcer = new FakeRoundAnnouncer();

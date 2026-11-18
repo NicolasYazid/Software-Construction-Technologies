@@ -11,5 +11,9 @@ namespace GinRummy.Application.Ports.Gameplay
         void AnnounceRoundFinished(int playerId, ActiveMatch match);
 
         void AnnounceOpponentLeft(int playerId);
+
+        void AnnounceOpponentDisconnected(int playerId);
+
+        void AnnounceOpponentReconnected(int playerId);
     }
 }
