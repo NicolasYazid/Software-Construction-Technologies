@@ -25,7 +25,7 @@ namespace GinRummy.Client.Controls
         private const int AlphaShift = 24;
 
         private const int DefaultShortSide = 150;
-        private const double FramesPerSecond = 24.0;
+        private const double FramesPerSecond = 12.0;
         private const double FrameInterval = 1.0 / FramesPerSecond;
         private const double DefaultPatternScale = 1.0;
         private const int MinimumSideInPixels = 2;
@@ -327,7 +327,7 @@ namespace GinRummy.Client.Controls
                 return;
             }
 
-            // The paint moves slowly, so it is redrawn at most two dozen times a second and not on every frame of the screen.
+            // The paint moves slowly, so it is redrawn at most a dozen times a second and not on every frame of the screen.
             double elapsedSeconds = _clock.Elapsed.TotalSeconds;
             if (elapsedSeconds - _lastFrameSeconds < FrameInterval)
             {

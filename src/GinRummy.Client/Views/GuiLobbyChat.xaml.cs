@@ -24,6 +24,7 @@ namespace GinRummy.Client.Views
         private readonly PlayerProfileViewModel _ownProfileViewModel;
         private readonly FriendshipConnection _friendshipConnection;
         private readonly LobbyFriendshipViewModel _friendshipViewModel;
+        private readonly LobbyFriendChatViewModel _friendChatViewModel;
         private LobbyPlayerViewModel _friendToRemove;
 
         public GuiLobbyChat()
@@ -44,6 +45,8 @@ namespace GinRummy.Client.Views
             _friendshipViewModel.FriendRequestDeclined += OnFriendRequestDeclined;
             _friendshipViewModel.FriendRemoved += OnFriendRemoved;
             _friendshipViewModel.SessionExpired += OnSessionExpired;
+            _friendChatViewModel = new LobbyFriendChatViewModel();
+            pnlFriendChat.DataContext = _friendChatViewModel;
 
             // The rail, the profile screen and the panel share one own profile, so a new picture shows on all of them (CU-28).
             _ownProfile = _viewModel.GetOwnProfile();
@@ -158,6 +161,15 @@ namespace GinRummy.Client.Views
             }
 
             _friendToRemove = null;
+        }
+
+        private void OnSendMessageClick(object sender, RoutedEventArgs e)
+        {
+            LobbyPlayerViewModel friend = GetMenuPlayer(sender);
+            if (friend != null)
+            {
+                _friendChatViewModel.Open(friend);
+            }
         }
 
         private void OnMessageMenuOpening(object sender, ContextMenuEventArgs e)
