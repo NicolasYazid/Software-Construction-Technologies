@@ -107,6 +107,52 @@ namespace GinRummy.Persistence.Repositories
             return ranks;
         }
 
+        public IList<PlayerStats> GetStatsOfPlayers(IList<int> playerAccountIds)
+        {
+            if (playerAccountIds == null)
+            {
+                throw new ArgumentNullException(nameof(playerAccountIds));
+            }
+
+            IList<PlayerStats> playersStats;
+            if (_sharedContext != null)
+            {
+                playersStats = ReadStatsOfPlayers(_sharedContext, playerAccountIds);
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    playersStats = ReadStatsOfPlayers(context, playerAccountIds);
+                }
+            }
+
+            return playersStats;
+        }
+
+        public IDictionary<int, string> GetUsernamesOfPlayers(IList<int> playerAccountIds)
+        {
+            if (playerAccountIds == null)
+            {
+                throw new ArgumentNullException(nameof(playerAccountIds));
+            }
+
+            IDictionary<int, string> usernames;
+            if (_sharedContext != null)
+            {
+                usernames = ReadUsernamesOfPlayers(_sharedContext, playerAccountIds);
+            }
+            else
+            {
+                using (GinRummyContext context = new GinRummyContext(_connectionStringName))
+                {
+                    usernames = ReadUsernamesOfPlayers(context, playerAccountIds);
+                }
+            }
+
+            return usernames;
+        }
+
         private static IList<PlayerStats> ReadStatsRankedByScore(GinRummyContext context)
         {
             IList<PlayerStats> rankedStats = context.PlayerStats
@@ -121,6 +167,28 @@ namespace GinRummy.Persistence.Repositories
         private static IDictionary<int, string> ReadUsernamesByPlayerAccountId(GinRummyContext context)
         {
             IDictionary<int, string> usernames = context.PlayerProfiles
+                .Select(profile => new { profile.PlayerAccountId, profile.Username })
+                .ToList()
+                .ToDictionary(row => row.PlayerAccountId, row => row.Username);
+
+            return usernames;
+        }
+
+        private static IList<PlayerStats> ReadStatsOfPlayers(GinRummyContext context, IList<int> playerAccountIds)
+        {
+            List<int> searchedPlayerAccountIds = new List<int>(playerAccountIds);
+            IList<PlayerStats> playersStats = context.PlayerStats
+                .Where(stats => searchedPlayerAccountIds.Contains(stats.PlayerAccountId))
+                .ToList();
+
+            return playersStats;
+        }
+
+        private static IDictionary<int, string> ReadUsernamesOfPlayers(GinRummyContext context, IList<int> playerAccountIds)
+        {
+            List<int> searchedPlayerAccountIds = new List<int>(playerAccountIds);
+            IDictionary<int, string> usernames = context.PlayerProfiles
+                .Where(profile => searchedPlayerAccountIds.Contains(profile.PlayerAccountId))
                 .Select(profile => new { profile.PlayerAccountId, profile.Username })
                 .ToList()
                 .ToDictionary(row => row.PlayerAccountId, row => row.Username);

@@ -508,14 +508,20 @@
     <None Include="Connected Services\GameServiceReference\service1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LeaderboardServiceReference\LeaderboardService.wsdl" />
-    <None Include="Connected Services\LeaderboardServiceReference\LeaderboardService.xsd">
+    <None Include="Connected Services\LeaderboardServiceReference\GinRummy.Client.LeaderboardServiceReference.PlayerRanking.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\LeaderboardServiceReference\GinRummy.Contracts.DataContracts.PlayerCareer.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LeaderboardServiceReference\LeaderboardService1.xsd">
+    <None Include="Connected Services\LeaderboardServiceReference\GinRummy.Contracts.Faults.Shared.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\LeaderboardServiceReference\LeaderboardService2.xsd">
+    <None Include="Connected Services\LeaderboardServiceReference\service.wsdl" />
+    <None Include="Connected Services\LeaderboardServiceReference\service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\LeaderboardServiceReference\service1.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\LogInServiceReference\GinRummy.Client.LogInServiceReference.LogInOutcome.datasource">
@@ -653,18 +659,6 @@
     <WCFMetadataStorage Include="Connected Services\SignUpServiceReference\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\LeaderboardServiceReference\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\LeaderboardServiceReference\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\LeaderboardServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Connected Services\LogInServiceReference\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
@@ -798,6 +792,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Connected Services\FriendRequestResponseServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\LeaderboardServiceReference\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\LeaderboardServiceReference\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\LeaderboardServiceReference\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

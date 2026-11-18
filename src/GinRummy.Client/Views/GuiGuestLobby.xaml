@@ -84,10 +84,11 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <!-- The list keeps room at its ends because the rules and the state of the search float over the messages. -->
-                <ListBox x:Name="lstMessages" Grid.RowSpan="3" Style="{StaticResource StyChatList}"
+                <ListBox x:Name="lstMessages" Grid.RowSpan="4" Style="{StaticResource StyChatList}"
                          ItemsSource="{Binding ChatEntries}" ctl:OverlayInsetCommon.IsInset="True" />
 
                 <ctl:PixelBorder Style="{StaticResource StyChatRulesCard}" Margin="20,20,20,8">
@@ -118,7 +119,20 @@
                     </DockPanel>
                 </ctl:PixelBorder>
 
-                <Border Grid.Row="3" Style="{StaticResource StyChatComposer}">
+                <ctl:PixelBorder x:Name="pnlRankingsNotice" Grid.Row="3" Style="{StaticResource StyLobbyStatusCard}"
+                        Visibility="Collapsed">
+                    <DockPanel LastChildFill="True">
+                        <Button x:Name="btnDismissRankingsNotice" DockPanel.Dock="Right" Style="{StaticResource StyNoticeButton}"
+                                VerticalAlignment="Center"
+                                Content="{Binding [Shared_BtnClose], Source={StaticResource PrvLocalization},
+                                          Converter={StaticResource CnvUpperCase}}"
+                                Click="OnDismissRankingsNoticeClick" />
+                        <TextBlock x:Name="lblRankingsNotice" Style="{StaticResource StyStatusTitle}" VerticalAlignment="Center"
+                                   Text="{Binding [GuestLobby_RankingsDisabled], Source={StaticResource PrvLocalization}}" />
+                    </DockPanel>
+                </ctl:PixelBorder>
+
+                <Border Grid.Row="4" Style="{StaticResource StyChatComposer}">
                     <ctl:PixelBorder Style="{StaticResource StyLobbyFieldShell}">
                         <DockPanel LastChildFill="True">
                             <Button x:Name="btnCreateAccount" DockPanel.Dock="Right"

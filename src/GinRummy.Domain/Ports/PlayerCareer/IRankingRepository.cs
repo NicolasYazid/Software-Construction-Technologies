@@ -11,5 +11,9 @@ namespace GinRummy.Domain.Ports.PlayerCareer
         IDictionary<int, string> GetUsernamesByPlayerAccountId();
 
         IList<Rank> GetAllRanks();
+
+        IList<PlayerStats> GetStatsOfPlayers(IList<int> playerAccountIds);
+
+        IDictionary<int, string> GetUsernamesOfPlayers(IList<int> playerAccountIds);
     }
 }

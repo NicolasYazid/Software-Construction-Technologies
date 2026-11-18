@@ -681,6 +681,10 @@ Tú: {0}   -   Rival: {1}</value>
     <value>Crea una cuenta para tener amigos</value>
     <comment>Mensajes del sistema de GuiGuestLobby</comment>
   </data>
+  <data name="GuestLobby_RankingsDisabled" xml:space="preserve">
+    <value>¡Únete a la partida! Crea una cuenta para entrar en las clasificaciones y retar a tus amigos.</value>
+    <comment>Mensajes del sistema de GuiGuestLobby</comment>
+  </data>
   <data name="HouseRules_LblCardHead" xml:space="preserve">
     <value>Reglas de la casa</value>
     <comment>Encabezado de GuiHouseRules</comment>
@@ -1248,6 +1252,10 @@ Tú: {0}   -   Rival: {1}</value>
   <data name="Rankings_LossesShortFormat" xml:space="preserve">
     <value>{0}D</value>
     <comment>Podio de GuiRankings</comment>
+  </data>
+  <data name="Rankings_NoFriends" xml:space="preserve">
+    <value>¡La competencia es mejor acompañado! Agrega amigos para comparar sus puntuaciones.</value>
+    <comment>Contenido de GuiRankings</comment>
   </data>
   <data name="Rankings_NoMatches" xml:space="preserve">
     <value>Ningún jugador coincide con la búsqueda</value>

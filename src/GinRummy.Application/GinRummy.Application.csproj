@@ -48,7 +48,7 @@
     <Compile Include="Ports\AccountProtection\IAccountSettingsPort.cs" />
     <Compile Include="Ports\SocialCommunication\IChatMessageAnnouncer.cs" />
     <Compile Include="Ports\Authentication\IEmailVerificationPort.cs" />
-    <Compile Include="Ports\PlayerCareer\ILeaderboardPort.cs" />
+    <Compile Include="Ports\PlayerCareer\IViewLeaderboardUseCase.cs" />
     <Compile Include="Ports\Authentication\ILogInPort.cs" />
     <Compile Include="Ports\PlayerModeration\IMessageReportPort.cs" />
     <Compile Include="Ports\PlayerCustomization\IPlayerProfilePort.cs" />
