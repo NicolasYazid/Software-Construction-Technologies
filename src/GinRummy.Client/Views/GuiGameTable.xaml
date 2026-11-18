@@ -524,11 +524,23 @@
                     </DockPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="0,18,0,0">
-                        <Button x:Name="btnHandReturnToLobby" Effect="{StaticResource EfxCardShadow}"
-                                Style="{StaticResource StyDialogPrimaryButton}"
-                                Content="{Binding [GameTable_BtnReturnToLobby], Source={StaticResource PrvLocalization},
-                                          Converter={StaticResource CnvUpperCase}}"
-                                Click="OnReturnToLobbyClick" />
+                        <Button x:Name="btnNextHand" Effect="{StaticResource EfxCardShadow}"
+                                Command="{Binding CloseHandResultCommand}">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource StyDialogPrimaryButton}">
+                                    <Setter Property="Content"
+                                            Value="{Binding [GameTable_BtnNextHand], Source={StaticResource PrvLocalization},
+                                                    Converter={StaticResource CnvUpperCase}}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMatchOver}" Value="True">
+                                            <Setter Property="Content"
+                                                    Value="{Binding [GameTable_BtnSeeMatchResult], Source={StaticResource PrvLocalization},
+                                                            Converter={StaticResource CnvUpperCase}}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                         <Button Style="{StaticResource StyDialogSecondaryButton}" Margin="16,0,0,0"
                                 Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource PrvLocalization},
                                           Converter={StaticResource CnvUpperCase}}"

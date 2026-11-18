@@ -515,6 +515,9 @@ namespace GinRummy.Client.GameServiceReference {
         private GinRummy.Client.GameServiceReference.RoundOutcome EndingField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool IsMatchOverField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool IsWinnerField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -528,6 +531,12 @@ namespace GinRummy.Client.GameServiceReference {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private GinRummy.Client.GameServiceReference.PlayingCard[] KnockerUnmatchedCardsField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int OpponentScoreField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int PlayerScoreField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int PointsField;
@@ -598,6 +607,19 @@ namespace GinRummy.Client.GameServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool IsMatchOver {
+            get {
+                return this.IsMatchOverField;
+            }
+            set {
+                if ((this.IsMatchOverField.Equals(value) != true)) {
+                    this.IsMatchOverField = value;
+                    this.RaisePropertyChanged("IsMatchOver");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public bool IsWinner {
             get {
                 return this.IsWinnerField;
@@ -658,6 +680,32 @@ namespace GinRummy.Client.GameServiceReference {
                 if ((object.ReferenceEquals(this.KnockerUnmatchedCardsField, value) != true)) {
                     this.KnockerUnmatchedCardsField = value;
                     this.RaisePropertyChanged("KnockerUnmatchedCards");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int OpponentScore {
+            get {
+                return this.OpponentScoreField;
+            }
+            set {
+                if ((this.OpponentScoreField.Equals(value) != true)) {
+                    this.OpponentScoreField = value;
+                    this.RaisePropertyChanged("OpponentScore");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int PlayerScore {
+            get {
+                return this.PlayerScoreField;
+            }
+            set {
+                if ((this.PlayerScoreField.Equals(value) != true)) {
+                    this.PlayerScoreField = value;
+                    this.RaisePropertyChanged("PlayerScore");
                 }
             }
         }

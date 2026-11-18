@@ -32,13 +32,14 @@ namespace GinRummy.Client.ViewModels
         private Card _selectedCard;
         private string _messageDraft;
         private bool _isMoveRefused;
-        private bool _isRoundOver;
+        private bool _isMatchOver;
         private int _playerScore;
         private int _opponentScore;
         private HandResult _handResult;
         private string _handHeadlineKey;
         private bool _isHandResultShown;
         private MatchResult _matchResult;
+        private MatchResult _finalMatchResult;
 
         public GameTableViewModel(GameConnection gameConnection, LogInOutcome signedInPlayer)
         {
@@ -61,6 +62,7 @@ namespace GinRummy.Client.ViewModels
             KnockCommand = new RelayCommand(() => PlaySelectedCard(_gameConnection.Knock), CanKnockWithSelectedCard);
             SortHandCommand = new RelayCommand(SortHand);
             SendMessageCommand = new RelayCommand(SendMessage);
+            CloseHandResultCommand = new RelayCommand(CloseHandResult);
         }
 
         public event EventHandler<Card> CardDrawnFromStock;
@@ -80,6 +82,7 @@ namespace GinRummy.Client.ViewModels
         public ICommand KnockCommand { get; private set; }
         public ICommand SortHandCommand { get; private set; }
         public ICommand SendMessageCommand { get; private set; }
+        public ICommand CloseHandResultCommand { get; private set; }
 
         public string OpponentName
         {
@@ -219,6 +222,11 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
+        public bool IsMatchOver
+        {
+            get { return _isMatchOver; }
+        }
+
         public MatchResult MatchResult
         {
             get { return _matchResult; }
@@ -272,7 +280,7 @@ namespace GinRummy.Client.ViewModels
             _gameConnection.RoundChanged -= OnRoundChanged;
             _gameConnection.RoundFinished -= OnRoundFinished;
             _gameConnection.OpponentLeft -= OnOpponentLeft;
-            if (!_isRoundOver)
+            if (!_isMatchOver)
             {
                 _gameConnection.Forfeit(_signedInPlayer.AccessToken);
             }
@@ -400,15 +408,14 @@ namespace GinRummy.Client.ViewModels
 
         private void OnRoundFinished(object sender, RoundSummary summary)
         {
-            _isRoundOver = true;
             _round.IsYourTurn = false;
-            if (summary.IsWinner)
+            _playerScore = summary.PlayerScore;
+            _opponentScore = summary.OpponentScore;
+            if (summary.IsMatchOver)
             {
-                _playerScore += summary.Points;
-            }
-            else
-            {
-                _opponentScore += summary.Points;
+                _isMatchOver = true;
+                MatchEndReason endReason = summary.IsWinner ? MatchEndReason.PlayerReachedTarget : MatchEndReason.OpponentReachedTarget;
+                _finalMatchResult = new MatchResult(endReason, _playerScore, _opponentScore);
             }
 
             if (summary.Ending != RoundOutcome.Void)
@@ -425,11 +432,20 @@ namespace GinRummy.Client.ViewModels
 
         private void OnOpponentLeft(object sender, EventArgs e)
         {
-            _isRoundOver = true;
+            _isMatchOver = true;
             _round.IsYourTurn = false;
             IsHandResultShown = false;
             MatchResult = new MatchResult(MatchEndReason.OpponentForfeited, _playerScore, _opponentScore);
             RaisePropertyChanged(string.Empty);
+        }
+
+        private void CloseHandResult()
+        {
+            IsHandResultShown = false;
+            if (_finalMatchResult != null)
+            {
+                MatchResult = _finalMatchResult;
+            }
         }
 
         private HandResult ToHandResult(RoundSummary summary)

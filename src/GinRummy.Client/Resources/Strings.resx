@@ -463,6 +463,10 @@ Busca a un jugador por su etiqueta pública para enviarle una solicitud.</value>
     <value>SIGUIENTE MANO</value>
     <comment>Acciones de GuiGameTable</comment>
   </data>
+  <data name="GameTable_BtnSeeMatchResult" xml:space="preserve">
+    <value>VER RESULTADO</value>
+    <comment>Acciones de GuiGameTable</comment>
+  </data>
   <data name="GameTable_BtnPass" xml:space="preserve">
     <value>Pasar</value>
     <comment>Acciones de GuiGameTable</comment>

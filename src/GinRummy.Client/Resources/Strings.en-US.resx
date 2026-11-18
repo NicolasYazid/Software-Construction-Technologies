@@ -377,6 +377,9 @@ Search for a player by their public tag to send them a request.</value>
   <data name="GameTable_BtnNextHand" xml:space="preserve">
     <value>NEXT HAND</value>
   </data>
+  <data name="GameTable_BtnSeeMatchResult" xml:space="preserve">
+    <value>SEE RESULT</value>
+  </data>
   <data name="GameTable_BtnPass" xml:space="preserve">
     <value>Pass</value>
   </data>
