@@ -19,6 +19,7 @@ using GinRummy.Contracts.Services.DirectDuel;
 using GinRummy.Contracts.Services.Friendship;
 using GinRummy.Contracts.Services.Gameplay;
 using GinRummy.Contracts.Services.SocialCommunication;
+using GinRummy.Domain;
 using GinRummy.Domain.Entities.AccountProtection;
 using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Domain.Entities.PlayerCareer;
@@ -93,7 +94,8 @@ namespace GinRummy.ServerHost
                     loggerFactory.CreateLogger<WcfCallbackDispatcher<IDirectDuelCallback>>());
                 OnlinePlayers<IGameCallback> gameOnlinePlayers = new OnlinePlayers<IGameCallback>(
                     loggerFactory.CreateLogger<WcfCallbackDispatcher<IGameCallback>>());
-                MatchRegistry matchRegistry = new MatchRegistry();
+                Random deckRandom = new Random();
+                MatchRegistry matchRegistry = new MatchRegistry(() => StandardDeck.CreateShuffled(deckRandom));
                 RoundAnnouncer roundAnnouncer = new RoundAnnouncer(gameOnlinePlayers);
                 PlayRoundUseCase playRoundUseCase = new PlayRoundUseCase(matchRegistry, roundAnnouncer);
                 AccountAccessPolicy duelAccessPolicy = new AccountAccessPolicy(

@@ -9,13 +9,13 @@ namespace GinRummy.Application.UseCases.Gameplay
     public class MatchRegistry
     {
         private readonly object _syncRoot;
-        private readonly Random _random;
+        private readonly Func<IList<Card>> _createShuffledDeck;
         private readonly Dictionary<int, ActiveMatch> _matchesByPlayerId;
 
-        public MatchRegistry()
+        public MatchRegistry(Func<IList<Card>> createShuffledDeck)
         {
+            _createShuffledDeck = createShuffledDeck ?? throw new ArgumentNullException(nameof(createShuffledDeck));
             _syncRoot = new object();
-            _random = new Random();
             _matchesByPlayerId = new Dictionary<int, ActiveMatch>();
         }
 
@@ -75,7 +75,7 @@ namespace GinRummy.Application.UseCases.Gameplay
             IList<Card> shuffledDeck;
             lock (_syncRoot)
             {
-                shuffledDeck = StandardDeck.CreateShuffled(_random);
+                shuffledDeck = _createShuffledDeck();
             }
 
             return shuffledDeck;

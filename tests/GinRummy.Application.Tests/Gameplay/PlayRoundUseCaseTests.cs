@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 using GinRummy.Application.UseCases.DirectDuel;
 using GinRummy.Application.UseCases.Gameplay;
@@ -91,6 +92,25 @@ namespace GinRummy.Application.Tests.Gameplay
             Assert.AreEqual(NonDealerId, matchRegistry.Find(DealerId).Round.DealerId);
         }
 
+        [Test]
+        public void Test_Knock_WinnerReachesTheTarget_RemovesTheMatch()
+        {
+            Queue<IList<Card>> decks = new Queue<IList<Card>>();
+            decks.Enqueue(BuildDeck(CreateKnockerHand(), CreateDefenderHand()));
+            decks.Enqueue(BuildDeck(CreateDefenderHand(), CreateKnockerHand()));
+            MatchRegistry matchRegistry = new MatchRegistry(decks.Dequeue);
+            matchRegistry.Start(new DuelPlayer(DealerId, "Dealer", 1001), new DuelPlayer(NonDealerId, "Non-dealer", 1002));
+            PlayRoundUseCase useCase = new PlayRoundUseCase(matchRegistry, new FakeRoundAnnouncer());
+            useCase.TakeFirstCard(NonDealerId);
+            useCase.Knock(NonDealerId, new Card(CardSuit.Diamonds, Card.KingRank));
+            useCase.PassFirstCard(DealerId);
+            useCase.TakeFirstCard(NonDealerId);
+
+            useCase.Knock(NonDealerId, new Card(CardSuit.Diamonds, Card.KingRank));
+
+            Assert.IsNull(matchRegistry.Find(NonDealerId));
+        }
+
         private static PlayRoundUseCase CreateUseCaseWithRound(FakeRoundAnnouncer announcer)
         {
             return new PlayRoundUseCase(BuildRegistryWithMatch(), announcer);
@@ -98,10 +118,47 @@ namespace GinRummy.Application.Tests.Gameplay
 
         private static MatchRegistry BuildRegistryWithMatch()
         {
-            MatchRegistry matchRegistry = new MatchRegistry();
+            MatchRegistry matchRegistry = new MatchRegistry(StandardDeck.CreateOrdered);
             matchRegistry.Start(new DuelPlayer(DealerId, "Dealer", 1001), new DuelPlayer(NonDealerId, "Non-dealer", 1002));
 
             return matchRegistry;
+        }
+
+        private static IList<Card> BuildDeck(IList<Card> nonDealerHand, IList<Card> dealerHand)
+        {
+            List<Card> deck = new List<Card>();
+            for (int index = 0; index < nonDealerHand.Count; index++)
+            {
+                deck.Add(nonDealerHand[index]);
+                deck.Add(dealerHand[index]);
+            }
+
+            deck.Add(new Card(CardSuit.Diamonds, 2));
+            deck.AddRange(StandardDeck.CreateOrdered().Where(card => !deck.Contains(card)));
+
+            return deck;
+        }
+
+        private static IList<Card> CreateKnockerHand()
+        {
+            return new List<Card>
+            {
+                new Card(CardSuit.Hearts, Card.AceRank), new Card(CardSuit.Hearts, 2), new Card(CardSuit.Hearts, 3),
+                new Card(CardSuit.Spades, 4), new Card(CardSuit.Spades, 5), new Card(CardSuit.Spades, 6),
+                new Card(CardSuit.Clubs, 7), new Card(CardSuit.Clubs, 8), new Card(CardSuit.Clubs, 9),
+                new Card(CardSuit.Diamonds, Card.KingRank)
+            };
+        }
+
+        private static IList<Card> CreateDefenderHand()
+        {
+            return new List<Card>
+            {
+                new Card(CardSuit.Diamonds, Card.AceRank), new Card(CardSuit.Diamonds, 3), new Card(CardSuit.Diamonds, 5),
+                new Card(CardSuit.Diamonds, 7), new Card(CardSuit.Diamonds, 9), new Card(CardSuit.Hearts, 5),
+                new Card(CardSuit.Hearts, 7), new Card(CardSuit.Hearts, 9), new Card(CardSuit.Spades, 11),
+                new Card(CardSuit.Spades, Card.KingRank)
+            };
         }
 
         private static void PlayUntilTheStockRunsOut(PlayRoundUseCase useCase, MatchRegistry matchRegistry)
