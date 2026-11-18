@@ -46,6 +46,16 @@ namespace GinRummy.Domain
             Phase = TurnPhase.FirstCardOfferToNonDealer;
         }
 
+        public int DealerId
+        {
+            get { return _dealerId; }
+        }
+
+        public int NonDealerId
+        {
+            get { return _nonDealerId; }
+        }
+
         public int CurrentPlayerId { get; private set; }
         public TurnPhase Phase { get; private set; }
         public RoundResult Result { get; private set; }

@@ -99,6 +99,7 @@
     <Compile Include="Exceptions\InvalidCredentialsException.cs" />
     <Compile Include="Exceptions\InvalidEmailFormatException.cs" />
     <Compile Include="Entities\Gameplay\Card.cs" />
+    <Compile Include="Entities\Gameplay\GameMatch.cs" />
     <Compile Include="Entities\Gameplay\CardSuit.cs" />
     <Compile Include="Entities\Gameplay\GameRound.cs" />
     <Compile Include="Exceptions\InvalidMoveException.cs" />

@@ -44,6 +44,7 @@
     <Compile Include="Friendship\FakeFriendRepository.cs" />
     <Compile Include="Friendship\FriendRequestRulesTests.cs" />
     <Compile Include="Gameplay\CardTests.cs" />
+    <Compile Include="Gameplay\GameMatchTests.cs" />
     <Compile Include="Gameplay\GameRoundTests.cs" />
     <Compile Include="Gameplay\MeldFinderTests.cs" />
     <Compile Include="Gameplay\MeldRulesTests.cs" />

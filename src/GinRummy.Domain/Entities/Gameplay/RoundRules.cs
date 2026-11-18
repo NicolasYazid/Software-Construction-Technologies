@@ -7,5 +7,6 @@
         public const int GinBonus = 25;
         public const int UndercutBonus = 25;
         public const int StockCardsToVoid = 2;
+        public const int TargetScore = 100;
     }
 }
