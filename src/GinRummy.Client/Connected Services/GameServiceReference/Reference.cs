@@ -845,6 +845,12 @@ namespace GinRummy.Client.GameServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameService/OnOpponentLeft")]
         void OnOpponentLeft();
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameService/OnOpponentDisconnected")]
+        void OnOpponentDisconnected();
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IGameService/OnOpponentReconnected")]
+        void OnOpponentReconnected();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]

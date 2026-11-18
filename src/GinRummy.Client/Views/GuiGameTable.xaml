@@ -551,6 +551,17 @@
         </Grid>
 
         <Grid Grid.ColumnSpan="3" Background="{StaticResource BrsOverlay}"
+              Visibility="{Binding IsOpponentDisconnected, Converter={StaticResource CnvBooleanToVisibility}}">
+            <ctl:PixelBorder Style="{StaticResource StyTableOverlayCard}" Width="560">
+                <StackPanel>
+                    <TextBlock x:Name="lblPaused" Style="{StaticResource StyResultTitle}"
+                               Text="{Binding [GameTable_LblPaused], Source={StaticResource PrvLocalization}}" />
+                    <TextBlock x:Name="lblPausedHint" Style="{StaticResource StyResultReason}"
+                               Text="{Binding [GameTable_LblPausedHint], Source={StaticResource PrvLocalization}}" />
+                </StackPanel>
+            </ctl:PixelBorder>
+        </Grid>
+        <Grid Grid.ColumnSpan="3" Background="{StaticResource BrsOverlay}"
               Visibility="{Binding Visibility, ElementName=lblFinalScore}">
             <ctl:PixelBorder Style="{StaticResource StyTableOverlayCard}" Width="560">
                 <StackPanel>

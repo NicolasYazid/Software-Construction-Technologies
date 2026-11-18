@@ -13,12 +13,33 @@ namespace GinRummy.Client.Views
     {
         private readonly ReconnectingViewModel _viewModel;
 
-        public GuiReconnecting()
+        public GuiReconnecting(Func<bool> tryReconnect)
         {
             InitializeComponent();
-            _viewModel = ((App)Application.Current).CreateReconnectingViewModel();
+            _viewModel = ((App)Application.Current).CreateReconnectingViewModel(tryReconnect);
+            _viewModel.Reconnected += OnReconnected;
+            _viewModel.GaveUp += OnGaveUp;
             DataContext = _viewModel;
+            Loaded += OnScreenLoaded;
             Closed += OnScreenClosed;
+        }
+
+        public bool IsReconnected { get; private set; }
+
+        private void OnScreenLoaded(object sender, RoutedEventArgs e)
+        {
+            _viewModel.Start();
+        }
+
+        private void OnReconnected(object sender, EventArgs e)
+        {
+            IsReconnected = true;
+            Close();
+        }
+
+        private void OnGaveUp(object sender, EventArgs e)
+        {
+            Close();
         }
 
         private void OnCancelClick(object sender, RoutedEventArgs e)
@@ -28,7 +49,10 @@ namespace GinRummy.Client.Views
 
         private void OnScreenClosed(object sender, EventArgs e)
         {
-            _viewModel.Countdown.Stop();
+            _viewModel.Stop();
+            _viewModel.Reconnected -= OnReconnected;
+            _viewModel.GaveUp -= OnGaveUp;
+            Loaded -= OnScreenLoaded;
             Closed -= OnScreenClosed;
         }
     }

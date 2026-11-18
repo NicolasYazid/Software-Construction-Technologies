@@ -46,6 +46,7 @@ namespace GinRummy.Client.Views
             _viewModel.CardTakenFromDiscardPile += OnCardTakenFromDiscardPile;
             _viewModel.Hand.CollectionChanged += OnHandChanged;
             _viewModel.PropertyChanged += OnTableChanged;
+            _viewModel.ConnectionLost += OnConnectionLost;
             lstStock.ItemsSource = _stockTopCard;
             DataContext = _viewModel;
             Loaded += OnScreenLoaded;
@@ -128,6 +129,21 @@ namespace GinRummy.Client.Views
             }
         }
 
+        private void OnConnectionLost(object sender, EventArgs e)
+        {
+            GuiReconnecting reconnecting = new GuiReconnecting(_viewModel.Reconnect);
+            reconnecting.Closed += OnReconnectingClosed;
+            ShowModal(reconnecting);
+        }
+
+        private void OnReconnectingClosed(object sender, EventArgs e)
+        {
+            if (!((GuiReconnecting)sender).IsReconnected)
+            {
+                Close();
+            }
+        }
+
         private void OnReturnToLobbyClick(object sender, RoutedEventArgs e)
         {
             Close();
@@ -142,6 +158,7 @@ namespace GinRummy.Client.Views
             _viewModel.CardTakenFromDiscardPile -= OnCardTakenFromDiscardPile;
             _viewModel.Hand.CollectionChanged -= OnHandChanged;
             _viewModel.PropertyChanged -= OnTableChanged;
+            _viewModel.ConnectionLost -= OnConnectionLost;
             CompositionTarget.Rendering -= OnRendering;
             Loaded -= OnScreenLoaded;
             Closed -= OnScreenClosed;

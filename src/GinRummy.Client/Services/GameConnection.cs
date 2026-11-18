@@ -26,6 +26,9 @@ namespace GinRummy.Client.Services
         public event EventHandler<RoundDetails> RoundChanged;
         public event EventHandler<RoundSummary> RoundFinished;
         public event EventHandler OpponentLeft;
+        public event EventHandler OpponentDisconnected;
+        public event EventHandler OpponentReconnected;
+        public event EventHandler ConnectionLost;
 
         public bool Start(string accessToken)
         {
@@ -121,6 +124,16 @@ namespace GinRummy.Client.Services
             _screenContext.Post(state => OpponentLeft?.Invoke(this, EventArgs.Empty), null);
         }
 
+        public void OnOpponentDisconnected()
+        {
+            _screenContext.Post(state => OpponentDisconnected?.Invoke(this, EventArgs.Empty), null);
+        }
+
+        public void OnOpponentReconnected()
+        {
+            _screenContext.Post(state => OpponentReconnected?.Invoke(this, EventArgs.Empty), null);
+        }
+
         private bool Call(string operation, Action<IGameService> call)
         {
             IGameService service = _service;
@@ -131,6 +144,7 @@ namespace GinRummy.Client.Services
         private void OnChannelFaulted(object sender, EventArgs e)
         {
             _logger.LogWarning("The channel of the round failed, so the moves no longer arrive.");
+            _screenContext.Post(state => ConnectionLost?.Invoke(this, EventArgs.Empty), null);
         }
 
         private bool TryCall(string operation, Action call)

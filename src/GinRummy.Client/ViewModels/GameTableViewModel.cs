@@ -33,6 +33,7 @@ namespace GinRummy.Client.ViewModels
         private string _messageDraft;
         private bool _isMoveRefused;
         private bool _isMatchOver;
+        private bool _isOpponentDisconnected;
         private int _playerScore;
         private int _opponentScore;
         private HandResult _handResult;
@@ -67,6 +68,7 @@ namespace GinRummy.Client.ViewModels
 
         public event EventHandler<Card> CardDrawnFromStock;
         public event EventHandler<Card> CardTakenFromDiscardPile;
+        public event EventHandler ConnectionLost;
 
         public ObservableCollection<Card> Hand { get; private set; }
         public ObservableCollection<Card> DiscardPile { get; private set; }
@@ -227,6 +229,16 @@ namespace GinRummy.Client.ViewModels
             get { return _isMatchOver; }
         }
 
+        public bool IsOpponentDisconnected
+        {
+            get { return _isOpponentDisconnected; }
+            private set
+            {
+                _isOpponentDisconnected = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public MatchResult MatchResult
         {
             get { return _matchResult; }
@@ -272,6 +284,9 @@ namespace GinRummy.Client.ViewModels
             _gameConnection.RoundChanged += OnRoundChanged;
             _gameConnection.RoundFinished += OnRoundFinished;
             _gameConnection.OpponentLeft += OnOpponentLeft;
+            _gameConnection.OpponentDisconnected += OnOpponentDisconnected;
+            _gameConnection.OpponentReconnected += OnOpponentReconnected;
+            _gameConnection.ConnectionLost += OnConnectionLost;
             OnRoundChanged(this, startedRound);
         }
 
@@ -280,10 +295,18 @@ namespace GinRummy.Client.ViewModels
             _gameConnection.RoundChanged -= OnRoundChanged;
             _gameConnection.RoundFinished -= OnRoundFinished;
             _gameConnection.OpponentLeft -= OnOpponentLeft;
+            _gameConnection.OpponentDisconnected -= OnOpponentDisconnected;
+            _gameConnection.OpponentReconnected -= OnOpponentReconnected;
+            _gameConnection.ConnectionLost -= OnConnectionLost;
             if (!_isMatchOver)
             {
                 _gameConnection.Forfeit(_signedInPlayer.AccessToken);
             }
+        }
+
+        public bool Reconnect()
+        {
+            return _gameConnection.Start(_signedInPlayer.AccessToken);
         }
 
         public void MoveCard(int oldIndex, int newIndex)
@@ -433,10 +456,29 @@ namespace GinRummy.Client.ViewModels
         private void OnOpponentLeft(object sender, EventArgs e)
         {
             _isMatchOver = true;
+            _isOpponentDisconnected = false;
             _round.IsYourTurn = false;
             IsHandResultShown = false;
             MatchResult = new MatchResult(MatchEndReason.OpponentForfeited, _playerScore, _opponentScore);
             RaisePropertyChanged(string.Empty);
+        }
+
+        private void OnOpponentDisconnected(object sender, EventArgs e)
+        {
+            IsOpponentDisconnected = true;
+        }
+
+        private void OnOpponentReconnected(object sender, EventArgs e)
+        {
+            IsOpponentDisconnected = false;
+        }
+
+        private void OnConnectionLost(object sender, EventArgs e)
+        {
+            if (!_isMatchOver)
+            {
+                ConnectionLost?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         private void CloseHandResult()

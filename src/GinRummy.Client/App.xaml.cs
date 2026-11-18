@@ -243,9 +243,9 @@ namespace GinRummy.Client
             return new EmailChangeVerifyEmailViewModel(CreateAccountSettingsCaller(), newEmail);
         }
 
-        public ReconnectingViewModel CreateReconnectingViewModel()
+        public ReconnectingViewModel CreateReconnectingViewModel(Func<bool> tryReconnect)
         {
-            return new ReconnectingViewModel();
+            return new ReconnectingViewModel(tryReconnect);
         }
 
         public RecoverPasswordViewModel CreateRecoverPasswordViewModel()
