@@ -73,19 +73,22 @@ namespace GinRummy.Persistence.Repositories
                 .FirstOrDefault(gameSession => gameSession.Participants.Any(participant => participant.GuestSessionId == guestSessionId));
         }
 
+        public GameSession FindActiveGameSessionByPlayerAccountId(int playerAccountId)
+        {
+            return QueryActiveGameSessions()
+                .OrderByDescending(gameSession => gameSession.GameSessionId)
+                .FirstOrDefault(gameSession => gameSession.Participants.Any(participant => participant.PlayerAccountId == playerAccountId));
+        }
+
+        public IList<GameSession> GetActiveGameSessions()
+        {
+            return QueryActiveGameSessions().ToList();
+        }
+
         /// <summary>
         /// Adds a new match and persists it immediately.
         /// </summary>
         /// <param name="newGameSession">Match to create.</param>
-        public IList<GameSession> GetUnfinishedGameSessions()
-        {
-            string finished = GameState.Finished.ToString();
-
-            return _context.GameSessions
-                .Where(gameSession => gameSession.GameStateName != finished)
-                .ToList();
-        }
-
         public void Add(GameSession newGameSession)
         {
             _context.GameSessions.Add(newGameSession);
@@ -126,6 +129,16 @@ namespace GinRummy.Persistence.Repositories
                 .OrderByDescending(history => history.PlayedAt)
                 .ThenByDescending(history => history.MatchId)
                 .ToList();
+        }
+
+        private IQueryable<GameSession> QueryActiveGameSessions()
+        {
+            string inProgress = GameState.InProgress.ToString();
+            string paused = GameState.Paused.ToString();
+
+            return _context.GameSessions
+                .Include(gameSession => gameSession.Participants)
+                .Where(gameSession => (gameSession.GameStateName == inProgress) || (gameSession.GameStateName == paused));
         }
     }
 }

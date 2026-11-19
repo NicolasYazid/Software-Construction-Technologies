@@ -58,7 +58,7 @@ namespace GinRummy.Application.UseCases.Gameplay
             DateTime endedAt = _clock.UtcNow;
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                foreach (GameSession gameSession in unitOfWork.Games.GetUnfinishedGameSessions())
+                foreach (GameSession gameSession in unitOfWork.Games.GetActiveGameSessions())
                 {
                     gameSession.Finish(endedAt);
                 }
@@ -69,7 +69,7 @@ namespace GinRummy.Application.UseCases.Gameplay
 
         private static GameSession FindGameSession(IUnitOfWork unitOfWork, ActiveMatch activeMatch)
         {
-            return unitOfWork.Games.FindGameSessionInProgressByPlayerAccountId(activeMatch.Players[0].Id);
+            return unitOfWork.Games.FindActiveGameSessionByPlayerAccountId(activeMatch.Players[0].Id);
         }
 
         private static void RecordScores(GameSession gameSession, ActiveMatch activeMatch)

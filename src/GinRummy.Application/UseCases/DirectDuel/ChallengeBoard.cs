@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 using GinRummy.Application.Ports.DirectDuel;
-
 using GinRummy.Application.UseCases.Gameplay;
 using GinRummy.Domain;
 

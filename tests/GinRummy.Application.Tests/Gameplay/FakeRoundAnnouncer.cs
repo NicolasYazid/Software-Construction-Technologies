@@ -19,9 +19,7 @@ namespace GinRummy.Application.Tests.Gameplay
         public IList<int> ChangedPlayerIds { get; private set; }
         public IList<int> FinishedPlayerIds { get; private set; }
         public IList<int> LeftPlayerIds { get; private set; }
-
         public IList<int> DisconnectedNoticePlayerIds { get; private set; }
-
         public IList<int> ReconnectedNoticePlayerIds { get; private set; }
 
         public void AnnounceRoundStarted(int playerId, ActiveMatch match)
