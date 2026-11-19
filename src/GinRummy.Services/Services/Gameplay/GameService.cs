@@ -37,6 +37,11 @@ namespace GinRummy.Services.Services.Gameplay
             RunAsPlayer(accessToken, SubscribePlayer);
         }
 
+        public void RejoinGame(string accessToken)
+        {
+            RunAsPlayer(accessToken, RejoinPlayer);
+        }
+
         public void TakeFirstCard(string accessToken)
         {
             RunAsPlayer(accessToken, _playRoundUseCase.TakeFirstCard);
@@ -104,6 +109,11 @@ namespace GinRummy.Services.Services.Gameplay
             _subscribedCallback = callback;
             context.Channel.Closed += OnChannelClosed;
             context.Channel.Faulted += OnChannelFaulted;
+        }
+
+        private void RejoinPlayer(int playerId)
+        {
+            SubscribePlayer(playerId);
             if (!_playRoundUseCase.Rejoin(playerId))
             {
                 RemoveSubscription();

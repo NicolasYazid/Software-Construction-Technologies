@@ -34,20 +34,12 @@ namespace GinRummy.Client.Services
 
         public bool Start(string accessToken)
         {
-            IGameService service = _serviceFactory(new InstanceContext(this));
-            ICommunicationObject channel = (ICommunicationObject)service;
-            bool isSubscribed = TryCall("subscribe to the round", () => service.SubscribeToGame(accessToken));
-            if (isSubscribed)
-            {
-                channel.Faulted += OnChannelFaulted;
-                _service = service;
-            }
-            else
-            {
-                channel.Abort();
-            }
+            return Open("subscribe to the round", service => service.SubscribeToGame(accessToken));
+        }
 
-            return isSubscribed;
+        public bool Rejoin(string accessToken)
+        {
+            return Open("rejoin the match", service => service.RejoinGame(accessToken));
         }
 
         public bool TakeFirstCard(string accessToken)
@@ -134,6 +126,24 @@ namespace GinRummy.Client.Services
         public void OnOpponentReconnected()
         {
             _screenContext.Post(state => OpponentReconnected?.Invoke(this, EventArgs.Empty), null);
+        }
+
+        private bool Open(string operation, Action<IGameService> subscribe)
+        {
+            IGameService service = _serviceFactory(new InstanceContext(this));
+            ICommunicationObject channel = (ICommunicationObject)service;
+            bool isSubscribed = TryCall(operation, () => subscribe(service));
+            if (isSubscribed)
+            {
+                channel.Faulted += OnChannelFaulted;
+                _service = service;
+            }
+            else
+            {
+                channel.Abort();
+            }
+
+            return isSubscribed;
         }
 
         private bool Call(string operation, Action<IGameService> call)

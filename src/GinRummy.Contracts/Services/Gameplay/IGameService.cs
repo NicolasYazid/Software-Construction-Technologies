@@ -14,6 +14,10 @@ namespace GinRummy.Contracts.Services.Gameplay
 
         [OperationContract]
         [FaultContract(typeof(ServiceFault))]
+        void RejoinGame(string accessToken);
+
+        [OperationContract]
+        [FaultContract(typeof(ServiceFault))]
         void TakeFirstCard(string accessToken);
 
         [OperationContract]

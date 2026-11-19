@@ -778,6 +778,13 @@ namespace GinRummy.Client.GameServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/SubscribeToGame", ReplyAction="http://tempuri.org/IGameService/SubscribeToGameResponse")]
         System.Threading.Tasks.Task SubscribeToGameAsync(string accessToken);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/RejoinGame", ReplyAction="http://tempuri.org/IGameService/RejoinGameResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.GameServiceReference.ServiceFault), Action="http://tempuri.org/IGameService/RejoinGameServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
+        void RejoinGame(string accessToken);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/RejoinGame", ReplyAction="http://tempuri.org/IGameService/RejoinGameResponse")]
+        System.Threading.Tasks.Task RejoinGameAsync(string accessToken);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IGameService/TakeFirstCard", ReplyAction="http://tempuri.org/IGameService/TakeFirstCardResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.GameServiceReference.ServiceFault), Action="http://tempuri.org/IGameService/TakeFirstCardServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
         void TakeFirstCard(string accessToken);
@@ -890,6 +897,14 @@ namespace GinRummy.Client.GameServiceReference {
         
         public System.Threading.Tasks.Task SubscribeToGameAsync(string accessToken) {
             return base.Channel.SubscribeToGameAsync(accessToken);
+        }
+        
+        public void RejoinGame(string accessToken) {
+            base.Channel.RejoinGame(accessToken);
+        }
+        
+        public System.Threading.Tasks.Task RejoinGameAsync(string accessToken) {
+            return base.Channel.RejoinGameAsync(accessToken);
         }
         
         public void TakeFirstCard(string accessToken) {

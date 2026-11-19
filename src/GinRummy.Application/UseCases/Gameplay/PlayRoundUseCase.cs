@@ -104,7 +104,10 @@ namespace GinRummy.Application.UseCases.Gameplay
             {
                 foreach (DuelPlayer player in activeMatch.Players)
                 {
-                    StartReconnectionWindow(activeMatch, player.Id);
+                    if (!_roundAnnouncer.IsPlayerOnline(player.Id))
+                    {
+                        StartReconnectionWindow(activeMatch, player.Id);
+                    }
                 }
             }
         }

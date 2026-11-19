@@ -316,7 +316,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool Reconnect()
         {
-            bool isReconnected = _gameConnection.Start(_signedInPlayer.AccessToken);
+            bool isReconnected = _gameConnection.Rejoin(_signedInPlayer.AccessToken);
             if (!isReconnected && (_gameConnection.LastFaultCode == GameFaultCode.MatchFinished))
             {
                 MatchAlreadyOver?.Invoke(this, EventArgs.Empty);

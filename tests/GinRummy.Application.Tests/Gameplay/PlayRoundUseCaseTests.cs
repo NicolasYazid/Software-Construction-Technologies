@@ -116,16 +116,30 @@ namespace GinRummy.Application.Tests.Gameplay
         }
 
         [Test]
-        public void Test_PassFirstCard_OpponentNotJoinedYet_ThrowsInvalidMoveException()
+        public void Test_PassFirstCard_OpponentOfflineWhenTheMatchStarts_ThrowsInvalidMoveException()
         {
+            FakeRoundAnnouncer announcer = new FakeRoundAnnouncer();
+            announcer.OfflinePlayerIds.Add(DealerId);
             MatchRegistry matchRegistry = new MatchRegistry(StandardDeck.CreateOrdered);
-            PlayRoundUseCase useCase = new PlayRoundUseCase(matchRegistry, new FakeRoundAnnouncer(), new FakeMatchRecorder());
+            PlayRoundUseCase useCase = new PlayRoundUseCase(matchRegistry, announcer, new FakeMatchRecorder());
             matchRegistry.Start(new DuelPlayer(DealerId, "Dealer", 1001), new DuelPlayer(NonDealerId, "Non-dealer", 1002));
-            useCase.Rejoin(NonDealerId);
 
             TestDelegate passFirstCard = () => useCase.PassFirstCard(NonDealerId);
 
             Assert.Throws<InvalidMoveException>(passFirstCard);
+        }
+
+        [Test]
+        public void Test_PassFirstCard_BothPlayersOnlineWhenTheMatchStarts_AnnouncesTheChange()
+        {
+            FakeRoundAnnouncer announcer = new FakeRoundAnnouncer();
+            MatchRegistry matchRegistry = new MatchRegistry(StandardDeck.CreateOrdered);
+            PlayRoundUseCase useCase = new PlayRoundUseCase(matchRegistry, announcer, new FakeMatchRecorder());
+            matchRegistry.Start(new DuelPlayer(DealerId, "Dealer", 1001), new DuelPlayer(NonDealerId, "Non-dealer", 1002));
+
+            useCase.PassFirstCard(NonDealerId);
+
+            CollectionAssert.Contains(announcer.ChangedPlayerIds, NonDealerId);
         }
 
         [Test]
