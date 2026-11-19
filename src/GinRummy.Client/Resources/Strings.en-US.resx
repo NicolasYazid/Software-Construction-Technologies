@@ -430,6 +430,15 @@ Search for a player by their public tag to send them a request.</value>
 
 You: {0}   -   Opponent: {1}</value>
   </data>
+  <data name="GameTable_LblGinAnnounce" xml:space="preserve">
+    <value>{0} KNOCKED WITH NO UNMATCHED CARDS, SO {2} CANNOT LAY OFF</value>
+  </data>
+  <data name="GameTable_LblGinBonus" xml:space="preserve">
+    <value>Plus the gin bonus</value>
+  </data>
+  <data name="GameTable_LblGinTitle" xml:space="preserve">
+    <value>Gin</value>
+  </data>
   <data name="GameTable_LblHandHint" xml:space="preserve">
     <value>Tap a card to select it, drag it to reorder or drop it on the discard pile to discard it</value>
   </data>
@@ -496,6 +505,15 @@ You: {0}   -   Opponent: {1}</value>
   <data name="GameTable_LblTarget" xml:space="preserve">
     <value>Target</value>
   </data>
+  <data name="GameTable_LblUndercutAnnounce" xml:space="preserve">
+    <value>{0} KNOCKED WITH {1} AND {2} ENDED WITH THE SAME OR LESS DEADWOOD</value>
+  </data>
+  <data name="GameTable_LblUndercutBonus" xml:space="preserve">
+    <value>Plus the undercut bonus</value>
+  </data>
+  <data name="GameTable_LblUndercutTitle" xml:space="preserve">
+    <value>Undercut</value>
+  </data>
   <data name="GameTable_LblUnmatched" xml:space="preserve">
     <value>UNMATCHED</value>
   </data>
@@ -504,6 +522,12 @@ You: {0}   -   Opponent: {1}</value>
   </data>
   <data name="GameTable_LblVictoryReasonTarget" xml:space="preserve">
     <value>You reached the target score!</value>
+  </data>
+  <data name="GameTable_LblVoidAnnounce" xml:space="preserve">
+    <value>NOBODY KNOCKED BEFORE THE STOCK RAN OUT, SO NOBODY SCORES</value>
+  </data>
+  <data name="GameTable_LblVoidTitle" xml:space="preserve">
+    <value>Void hand</value>
   </data>
   <data name="GameTable_LblWaiting" xml:space="preserve">
     <value>Waiting for your move</value>
