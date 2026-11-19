@@ -19,10 +19,26 @@ namespace GinRummy.Domain.Entities.PlayerModeration
         }
 
         public int WarningId { get; private set; }
+
         public int PlayerAccountId { get; private set; }
+
         public int ReportId { get; private set; }
+
+        public int? BanId { get; private set; }
+
         public DateTime IssuedAt { get; private set; }
-        public virtual Report Report { get; private set; }
+
+        public void AssociateWithBan(int banId)
+        {
+            ValidateId(banId, nameof(banId));
+
+            if (BanId.HasValue)
+            {
+                throw new InvalidOperationException("The warning is already associated with a ban.");
+            }
+
+            BanId = banId;
+        }
 
         private static void ValidateId(int id, string parameterName)
         {

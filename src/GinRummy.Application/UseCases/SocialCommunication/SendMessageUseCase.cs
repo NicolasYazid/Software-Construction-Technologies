@@ -121,7 +121,7 @@ namespace GinRummy.Application.UseCases.SocialCommunication
 
         private static bool IsContentValid(string content)
         {
-            return !string.IsNullOrWhiteSpace(content) && (content.Length <= SentChatMessage.ContentMaxLength) ? true : false;
+            return !string.IsNullOrWhiteSpace(content) && (content.Length <= Message.ContentMaxLength) ? true : false;
         }
 
         private static PlayerProfile FindAuthorProfile(IUnitOfWork unitOfWork, int authorId)

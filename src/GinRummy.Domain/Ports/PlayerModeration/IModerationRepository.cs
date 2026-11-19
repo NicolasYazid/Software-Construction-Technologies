@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using GinRummy.Domain.Entities.PlayerModeration;
 
@@ -7,25 +6,19 @@ namespace GinRummy.Domain.Ports.PlayerModeration
 {
     public interface IModerationRepository
     {
-        void AddReport(Report newReport);
+        ReasonBan FindReasonBanById(int reasonBanId);
 
         void AddWarning(Warning newWarning);
 
-        void AddSanction(Sanction newSanction);
+        void AddReport(Report newReport);
 
-        void AddPermanentBan(PermanentBan newPermanentBan);
+        void AddBan(Ban newBan);
 
-        int CountWarningsOf(int playerAccountId);
+        void AssociateWarningWithBan(int warningId, int banId);
 
-        int CountSanctionsOf(int playerAccountId);
-
-        IList<Sanction> GetUnfinishedSanctionsOf(int playerAccountId, DateTime moment);
+        IList<Ban> GetBansOf(int playerAccountId);
 
         IList<Warning> GetWarningsOf(int playerAccountId);
-
-        bool IsPermanentlyBanned(int playerAccountId);
-
-        IList<int> GetPermanentlyBannedPlayerIds();
 
         IList<ProhibitedWord> GetProhibitedWords();
     }

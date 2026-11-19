@@ -7,8 +7,6 @@ namespace GinRummy.Application.UseCases.SocialCommunication
 {
     public class SentChatMessage
     {
-        public const int ContentMaxLength = 300;
-
         private SentChatMessage(PlayerProfile authorProfile, string content, MessageChannel channel)
         {
             MessageId = Guid.NewGuid();

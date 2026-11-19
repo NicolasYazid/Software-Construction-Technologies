@@ -82,6 +82,7 @@
     <Compile Include="Services\PlayerCareer\LeaderboardService.cs" />
     <Compile Include="Services\Authentication\LogInService.cs" />
     <Compile Include="Services\PlayerPresence\PlayerPresenceService.cs" />
+    <Compile Include="Services\PlayerModeration\ModerationService.cs" />
     <Compile Include="Services\PlayerCustomization\PlayerProfileService.cs" />
     <Compile Include="Services\Shared\ServiceFaultCommon.cs" />
     <Compile Include="Services\Authentication\SignUpService.cs" />

@@ -61,7 +61,7 @@
     <Compile Include="DataContracts\Friendship\FriendshipEvent.cs" />
     <Compile Include="DataContracts\Friendship\FriendshipEventType.cs" />
     <Compile Include="Faults\AccountProtection\ResendLimitFault.cs" />
-    <Compile Include="Faults\PlayerModeration\AccountBannedFault.cs" />
+    <Compile Include="Faults\PlayerModeration\SanctionFault.cs" />
     <Compile Include="Faults\Shared\ServiceFault.cs" />
     <Compile Include="Faults\Shared\ServiceFaultCode.cs" />
     <Compile Include="Services\Authentication\ILogInService.cs" />
@@ -76,6 +76,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Authentication\ISignUpService.cs" />
     <Compile Include="Services\PlayerCustomization\IPlayerProfileService.cs" />
+    <Compile Include="Services\PlayerModeration\IModerationService.cs" />
     <Compile Include="DataContracts\Gameplay\CardSuit.cs" />
     <Compile Include="DataContracts\Gameplay\PlayingCard.cs" />
     <Compile Include="DataContracts\Gameplay\RoundDetails.cs" />

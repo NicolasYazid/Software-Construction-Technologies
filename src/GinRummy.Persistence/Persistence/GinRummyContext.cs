@@ -9,6 +9,7 @@ using GinRummy.Domain.Entities.PlayerCareer;
 using GinRummy.Domain.Entities.PlayerCustomization;
 using GinRummy.Domain.Entities.PlayerModeration;
 using GinRummy.Domain.Entities.PlayerPreferences;
+using GinRummy.Domain.Entities.SocialCommunication;
 using GinRummy.Persistence.Configurations;
 
 namespace GinRummy.Persistence.Persistence
@@ -133,19 +134,19 @@ namespace GinRummy.Persistence.Persistence
         }
 
         /// <summary>
-        /// Gets the Sanction set.
+        /// Gets the Ban set.
         /// </summary>
-        public DbSet<Sanction> Sanctions
+        public DbSet<Ban> Bans
         {
-            get { return Set<Sanction>(); }
+            get { return Set<Ban>(); }
         }
 
         /// <summary>
-        /// Gets the PermanentBan set.
+        /// Gets the Message set.
         /// </summary>
-        public DbSet<PermanentBan> PermanentBans
+        public DbSet<Message> Messages
         {
-            get { return Set<PermanentBan>(); }
+            get { return Set<Message>(); }
         }
 
         /// <summary>
@@ -170,6 +171,14 @@ namespace GinRummy.Persistence.Persistence
         public DbSet<Rank> Ranks
         {
             get { return Set<Rank>(); }
+        }
+
+        /// <summary>
+        /// Gets the ReasonBan set.
+        /// </summary>
+        public DbSet<ReasonBan> ReasonBans
+        {
+            get { return Set<ReasonBan>(); }
         }
 
         /// <summary>
@@ -213,13 +222,14 @@ namespace GinRummy.Persistence.Persistence
         }
 
         /// <summary>
-        /// Registers one configuration per entity. The translation tables (RankLocale and
-        /// ProhibitedWordLocale) have no set of their own because they are always reached
-        /// through their parent.
+        /// Registers one configuration per entity. The translation tables (RankLocale,
+        /// ReasonBanLocale and ProhibitedWordLocale) have no set of
+        /// their own because they are always reached through their parent.
         /// </summary>
         /// <param name="modelBuilder">Builder EF uses to configure the model.</param>
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Configurations.Add(new BanConfiguration());
             modelBuilder.Configurations.Add(new ChallengeConfiguration());
             modelBuilder.Configurations.Add(new EmailConfiguration());
             modelBuilder.Configurations.Add(new FriendRequestConfiguration());
@@ -229,7 +239,7 @@ namespace GinRummy.Persistence.Persistence
             modelBuilder.Configurations.Add(new GameSessionConfiguration());
             modelBuilder.Configurations.Add(new GuestSessionConfiguration());
             modelBuilder.Configurations.Add(new LocaleConfiguration());
-            modelBuilder.Configurations.Add(new PermanentBanConfiguration());
+            modelBuilder.Configurations.Add(new MessageConfiguration());
             modelBuilder.Configurations.Add(new PlayerPreferencesConfiguration());
             modelBuilder.Configurations.Add(new PlayerAccountConfiguration());
             modelBuilder.Configurations.Add(new PlayerProfileConfiguration());
@@ -238,8 +248,9 @@ namespace GinRummy.Persistence.Persistence
             modelBuilder.Configurations.Add(new ProhibitedWordLocaleConfiguration());
             modelBuilder.Configurations.Add(new RankConfiguration());
             modelBuilder.Configurations.Add(new RankLocaleConfiguration());
+            modelBuilder.Configurations.Add(new ReasonBanConfiguration());
+            modelBuilder.Configurations.Add(new ReasonBanLocaleConfiguration());
             modelBuilder.Configurations.Add(new ReportConfiguration());
-            modelBuilder.Configurations.Add(new SanctionConfiguration());
             modelBuilder.Configurations.Add(new SocialMediaConfiguration());
             modelBuilder.Configurations.Add(new VerificationCodeConfiguration());
             modelBuilder.Configurations.Add(new WarningConfiguration());

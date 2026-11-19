@@ -52,6 +52,7 @@
     <Compile Include="Entities\Authentication\AccessTokenOwner.cs" />
     <Compile Include="Entities\Authentication\SignUpForm.cs" />
     <Compile Include="Entities\Authentication\SignUpResult.cs" />
+    <Compile Include="Entities\PlayerModeration\Ban.cs" />
     <Compile Include="Entities\DirectDuel\Challenge.cs" />
     <Compile Include="Entities\DirectDuel\ChallengeStatus.cs" />
     <Compile Include="Entities\AccountProtection\Email.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Entities\PlayerCareer\LeaderboardType.cs" />
     <Compile Include="Entities\PlayerPreferences\Locale.cs" />
     <Compile Include="Entities\Authentication\LogInResult.cs" />
+    <Compile Include="Entities\SocialCommunication\Message.cs" />
     <Compile Include="Entities\SocialCommunication\MessageChannel.cs" />
     <Compile Include="Entities\PlayerPreferences\PlayerPreferences.cs" />
     <Compile Include="Entities\Authentication\PlayerAccount.cs" />
@@ -84,14 +86,13 @@
     <Compile Include="Entities\PlayerModeration\ProhibitedWordLocale.cs" />
     <Compile Include="Entities\PlayerCareer\Rank.cs" />
     <Compile Include="Entities\PlayerCareer\RankLocale.cs" />
+    <Compile Include="Entities\PlayerModeration\ReasonBan.cs" />
+    <Compile Include="Entities\PlayerModeration\ReasonBanLocale.cs" />
+    <Compile Include="Entities\PlayerModeration\RestrictionScope.cs" />
     <Compile Include="Entities\PlayerCustomization\SocialMedia.cs" />
     <Compile Include="Entities\AccountProtection\VerificationCode.cs" />
     <Compile Include="Entities\AccountProtection\VerificationPurpose.cs" />
     <Compile Include="Entities\PlayerModeration\Report.cs" />
-    <Compile Include="Entities\PlayerModeration\PermanentBan.cs" />
-    <Compile Include="Entities\PlayerModeration\ReportedMessage.cs" />
-    <Compile Include="Entities\PlayerModeration\Sanction.cs" />
-    <Compile Include="Entities\PlayerModeration\SanctionSchedule.cs" />
     <Compile Include="Entities\PlayerModeration\Warning.cs" />
     <Compile Include="Entities\PlayerCustomization\UsernameRequirement.cs" />
     <Compile Include="Exceptions\FieldTooLongException.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Ports\Gameplay\IGameRepository.cs" />
     <Compile Include="Ports\Authentication\IGuestSessionRepository.cs" />
     <Compile Include="Ports\PlayerPreferences\ILocaleRepository.cs" />
+    <Compile Include="Ports\SocialCommunication\IMessageRepository.cs" />
     <Compile Include="Ports\PlayerModeration\IModerationRepository.cs" />
     <Compile Include="Ports\Authentication\IPlayerAccountRepository.cs" />
     <Compile Include="Ports\PlayerPreferences\IPlayerPreferencesRepository.cs" />

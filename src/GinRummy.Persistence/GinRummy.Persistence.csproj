@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configurations\BanConfiguration.cs" />
     <Compile Include="Configurations\ChallengeConfiguration.cs" />
     <Compile Include="Configurations\EmailConfiguration.cs" />
     <Compile Include="Configurations\FriendRequestConfiguration.cs" />
@@ -60,7 +61,7 @@
     <Compile Include="Configurations\GameSessionConfiguration.cs" />
     <Compile Include="Configurations\GuestSessionConfiguration.cs" />
     <Compile Include="Configurations\LocaleConfiguration.cs" />
-    <Compile Include="Configurations\PermanentBanConfiguration.cs" />
+    <Compile Include="Configurations\MessageConfiguration.cs" />
     <Compile Include="Configurations\PlayerAccountConfiguration.cs" />
     <Compile Include="Configurations\PlayerPreferencesConfiguration.cs" />
     <Compile Include="Configurations\PlayerProfileConfiguration.cs" />
@@ -69,10 +70,11 @@
     <Compile Include="Configurations\ProhibitedWordLocaleConfiguration.cs" />
     <Compile Include="Configurations\RankConfiguration.cs" />
     <Compile Include="Configurations\RankLocaleConfiguration.cs" />
+    <Compile Include="Configurations\ReasonBanConfiguration.cs" />
+    <Compile Include="Configurations\ReasonBanLocaleConfiguration.cs" />
     <Compile Include="Configurations\SocialMediaConfiguration.cs" />
     <Compile Include="Configurations\VerificationCodeConfiguration.cs" />
     <Compile Include="Configurations\ReportConfiguration.cs" />
-    <Compile Include="Configurations\SanctionConfiguration.cs" />
     <Compile Include="Configurations\WarningConfiguration.cs" />
     <Compile Include="Persistence\EntityFrameworkUnitOfWork.cs" />
     <Compile Include="Persistence\GinRummyContext.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="Repositories\GameRepository.cs" />
     <Compile Include="Repositories\GuestSessionRepository.cs" />
     <Compile Include="Repositories\LocaleRepository.cs" />
+    <Compile Include="Repositories\MessageRepository.cs" />
     <Compile Include="Repositories\ModerationRepository.cs" />
     <Compile Include="Repositories\PlayerAccountRepository.cs" />
     <Compile Include="Repositories\PlayerPreferencesRepository.cs" />

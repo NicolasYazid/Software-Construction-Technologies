@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 using GinRummy.Domain.Entities.Authentication;
 using GinRummy.Domain.Entities.PlayerModeration;
@@ -31,16 +33,18 @@ namespace GinRummy.Domain.Entities.Authentication
             }
         }
 
-        public void EnsureAccessAllowed(PlayerAccount account, bool isPermanentlyBanned)
+        public void EnsureAccessAllowed(PlayerAccount account, IEnumerable<Ban> bans)
         {
             if (!account.IsEmailVerified)
             {
                 throw new EmailNotVerifiedException("The email of the account is not verified.");
             }
 
-            if (isPermanentlyBanned)
+            Ban blockingBan = FindBlockingBan(bans);
+            if (blockingBan != null)
             {
-                throw new AccountBannedException("The account is permanently banned.");
+                string reasonName = blockingBan.ReasonBan.GetNameFor(account.PlayerPreferences.LocaleId);
+                throw new AccountBannedException("A ban restricts the whole account.", reasonName, blockingBan.ExpiresAt);
             }
         }
 
@@ -109,6 +113,27 @@ namespace GinRummy.Domain.Entities.Authentication
             }
 
             return owner.PlayerAccountId.Value;
+        }
+
+        public bool IsSuspended(IEnumerable<Ban> bans)
+        {
+            return FindBlockingBan(bans) != null ? true : false;
+        }
+
+        private Ban FindBlockingBan(IEnumerable<Ban> bans)
+        {
+            DateTime now = _clock.UtcNow;
+            Ban blockingBan = bans
+                .Where(ban => IsBlocking(ban, now))
+                .OrderByDescending(ban => ban.ExpiresAt ?? DateTime.MaxValue)
+                .FirstOrDefault();
+
+            return blockingBan;
+        }
+
+        private static bool IsBlocking(Ban ban, DateTime moment)
+        {
+            return ban.ReasonBan.IsAccountRestricted && ban.IsActiveAt(moment) ? true : false;
         }
     }
 }

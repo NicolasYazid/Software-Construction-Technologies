@@ -23,7 +23,13 @@ namespace GinRummy.Application.UseCases.DirectDuel
 
         public ChallengeOutcome Challenge(int challengerId, int challengedPublicTag)
         {
-            return Post(_playerDirectory.CreateChallenge(challengerId, challengedPublicTag));
+            ChallengeOutcome outcome = ChallengeOutcome.AccountSuspended;
+            if (_playerDirectory.CanDuel(challengerId))
+            {
+                outcome = Post(_playerDirectory.CreateChallenge(challengerId, challengedPublicTag));
+            }
+
+            return outcome;
         }
 
         public void Cancel(int challengerId)
@@ -37,8 +43,13 @@ namespace GinRummy.Application.UseCases.DirectDuel
 
         public ChallengeOutcome Accept(int challengedId, int challengerPublicTag)
         {
-            ActiveMatch startedMatch;
-            ChallengeOutcome outcome = _challengeBoard.Accept(challengedId, challengerPublicTag, out startedMatch);
+            ChallengeOutcome outcome = ChallengeOutcome.AccountSuspended;
+            ActiveMatch startedMatch = null;
+            if (_playerDirectory.CanDuel(challengedId))
+            {
+                outcome = _challengeBoard.Accept(challengedId, challengerPublicTag, out startedMatch);
+            }
+
             if (outcome == ChallengeOutcome.Done)
             {
                 _challengeAnnouncer.AnnounceRoundStarted(startedMatch);

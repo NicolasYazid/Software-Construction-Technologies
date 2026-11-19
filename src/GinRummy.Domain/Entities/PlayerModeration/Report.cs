@@ -1,33 +1,26 @@
 ﻿using System;
 
-using GinRummy.Domain.Entities.SocialCommunication;
-
 namespace GinRummy.Domain.Entities.PlayerModeration
 {
     public class Report
     {
-        public const int OriginNameMaxLength = 20;
+        public const int PendingStatusId = 1;
 
-        public Report(int reporterPlayerAccountId, int reportedPlayerAccountId, ReportedMessage message)
+        public Report(int reporterPlayerAccountId, int reportedPlayerAccountId, int messageId)
         {
             ValidateId(reporterPlayerAccountId, nameof(reporterPlayerAccountId));
             ValidateId(reportedPlayerAccountId, nameof(reportedPlayerAccountId));
+            ValidateId(messageId, nameof(messageId));
 
             if (reporterPlayerAccountId == reportedPlayerAccountId)
             {
                 throw new ArgumentException("A player cannot report their own message.", nameof(reportedPlayerAccountId));
             }
 
-            if (message == null)
-            {
-                throw new ArgumentNullException(nameof(message));
-            }
-
             ReporterPlayerAccountId = reporterPlayerAccountId;
             ReportedPlayerAccountId = reportedPlayerAccountId;
-            ReportedContent = message.Content;
-            MessageSentAt = message.SentAt;
-            OriginName = message.Origin.ToString();
+            MessageId = messageId;
+            ReportStatusId = PendingStatusId;
         }
 
         protected Report()
@@ -35,17 +28,16 @@ namespace GinRummy.Domain.Entities.PlayerModeration
         }
 
         public int ReportId { get; private set; }
-        public int ReporterPlayerAccountId { get; private set; }
-        public int ReportedPlayerAccountId { get; private set; }
-        public string ReportedContent { get; private set; }
-        public DateTime MessageSentAt { get; private set; }
-        public string OriginName { get; private set; }
-        public DateTime CreatedAt { get; private set; }
 
-        public MessageChannel Origin
-        {
-            get { return (MessageChannel)Enum.Parse(typeof(MessageChannel), OriginName); }
-        }
+        public int ReporterPlayerAccountId { get; private set; }
+
+        public int ReportedPlayerAccountId { get; private set; }
+
+        public int MessageId { get; private set; }
+
+        public int ReportStatusId { get; private set; }
+
+        public DateTime CreatedAt { get; private set; }
 
         private static void ValidateId(int id, string parameterName)
         {
