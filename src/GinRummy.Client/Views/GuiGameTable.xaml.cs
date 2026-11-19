@@ -13,12 +13,6 @@ using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
 {
-    /// <summary>
-    /// Game table screen (P20). Shows a match from the side of one of its players: the hand,
-    /// what can be seen of the opponent, the stock and the discard pile, the score, the log of
-    /// the match and its chat (CU-17 FA-01). From it the player reads the rules (CU-21 FA-01)
-    /// and forfeits the match (CU-26). Over it open the close of the hand and the result of the match.
-    /// </summary>
     public partial class GuiGameTable : GuiWindowBase
     {
         private static readonly int[] s_stockTopCard = { 0 };

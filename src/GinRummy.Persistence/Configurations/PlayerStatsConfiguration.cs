@@ -5,15 +5,8 @@ using GinRummy.Domain.Entities.PlayerCareer;
 
 namespace GinRummy.Persistence.Configurations
 {
-    /// <summary>
-    /// Maps the PlayerStats entity to the PlayerStats table of GinRummy_Dev. Entity Framework only reads and
-    /// writes the table; the SQL scripts own its structure.
-    /// </summary>
     internal class PlayerStatsConfiguration : EntityTypeConfiguration<PlayerStats>
     {
-        /// <summary>
-        /// Declares the table, the key and the column of every property.
-        /// </summary>
         public PlayerStatsConfiguration()
         {
             ToTable("PlayerStats");

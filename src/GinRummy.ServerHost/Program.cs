@@ -47,11 +47,6 @@ using Microsoft.Extensions.Logging;
 
 namespace GinRummy.ServerHost
 {
-    /// <summary>
-    /// Entry point and composition root of the server process. Each service gets its own host,
-    /// built from the system.serviceModel section of App.config, so a failure in one service
-    /// stays in that service.
-    /// </summary>
     public class Program
     {
         private const string ConnectionStringName = "GinRummyDb";
@@ -60,10 +55,6 @@ namespace GinRummy.ServerHost
         private const string LogFileName = "GinRummy.ServerHost.log";
         private const string SigningKeyVariableName = "GINRUMMY_TOKEN_SIGNING_KEY";
 
-        /// <summary>
-        /// Composes and opens every service and keeps them listening until Enter is pressed.
-        /// </summary>
-        /// <param name="args">Command line arguments; not used.</param>
         public static void Main(string[] args)
         {
             using (ILoggerFactory loggerFactory = new FileLoggerFactory(BuildLogFilePath(), LogLevel.Information))
@@ -79,7 +70,6 @@ namespace GinRummy.ServerHost
                 ILogger<PlayerProfileService> playerProfileLogger = loggerFactory.CreateLogger<PlayerProfileService>();
                 ILogger<AccountSettingsService> accountSettingsLogger = loggerFactory.CreateLogger<AccountSettingsService>();
 
-                // One announcer serves every session, because it keeps the connection of every player who is online.
                 PlayerPresenceAnnouncer presenceAnnouncer = new PlayerPresenceAnnouncer(loggerFactory.CreateLogger<PlayerConnection>());
                 PlayerPresenceOrchestrator presenceOrchestrator = ComposePlayerPresenceOrchestrator(tokenSigner, presenceAnnouncer);
                 ILogger<PlayerPresenceService> presenceLogger = loggerFactory.CreateLogger<PlayerPresenceService>();
@@ -191,13 +181,11 @@ namespace GinRummy.ServerHost
 
                 hostGroup.OpenAll();
 
-                // The hosts serve requests on their own threads, so the process waits here until someone presses Enter.
                 Console.ReadLine();
                 hostGroup.CloseAll();
             }
         }
 
-        // The address, binding, timeouts and throttling come from App.config, so the code holds no network values.
         private static ServiceHost CreateIsolatedHost(
             Type serviceType,
             Func<object> createInstance,
@@ -232,8 +220,6 @@ namespace GinRummy.ServerHost
             }
         }
 
-        // The mail settings come from SmtpSettings.config, which stays out of the repository because it holds the sender password.
-        // Without that file the server still starts and every email ends as Failed, so the warning tells why no code arrives.
         private static IEmailSender CreateEmailSender(ILogger<Program> logger)
         {
             SmtpSettings smtpSettings = SmtpSettings.FromAppSettings(ConfigurationManager.AppSettings);
@@ -245,8 +231,6 @@ namespace GinRummy.ServerHost
             return new SmtpEmailSender(smtpSettings);
         }
 
-        // The key that signs the access tokens is injected through an environment variable, never written in the code or in a file.
-        // Without it, a random key lives only while the process runs, so every token stops working when the server restarts.
         private static IAccessTokenSigner CreateAccessTokenSigner(ILogger<Program> logger)
         {
             byte[] signingKey = ReadSigningKey();
@@ -265,7 +249,6 @@ namespace GinRummy.ServerHost
             return new HmacAccessTokenSigner(signingKey);
         }
 
-        // A missing or malformed variable is reported as an empty key, which the caller replaces with a temporary one.
         private static byte[] ReadSigningKey()
         {
             byte[] signingKey = Array.Empty<byte>();

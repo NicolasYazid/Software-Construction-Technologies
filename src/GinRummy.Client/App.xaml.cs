@@ -26,7 +26,6 @@ using Microsoft.Extensions.Logging;
 
 namespace GinRummy.Client
 {
-    // This composition root is the only place allowed to know the concrete adapters, so the rest of the app depends on interfaces.
     public partial class App : Application
     {
         public const string LocalizationResourceKey = "PrvLocalization";
@@ -63,7 +62,6 @@ namespace GinRummy.Client
         private readonly ILoggerFactory _loggerFactory;
         private readonly ILogger<App> _logger;
 
-        // Debug entries are kept while the client is in development because they record why an input was rejected.
         public App()
         {
             string logFilePath = Path.Combine(
@@ -77,10 +75,8 @@ namespace GinRummy.Client
 
         internal SampleDataService SampleData { get; private set; }
 
-        // The access token lives only in memory, so no session identifier is written to a disk that other users of the computer can read.
         internal LogInOutcome SignedInPlayer { get; private set; }
 
-        // A guest is kept apart from a player, because every screen that needs an account looks only at the player.
         internal LogInOutcome SignedInGuest { get; private set; }
 
         public RankingsViewModel CreateRankingsViewModel()
@@ -264,7 +260,6 @@ namespace GinRummy.Client
             return new VerifyEmailViewModel(purpose, destinationAddress);
         }
 
-        // The language the player chose in an earlier session replaces the one of the menu (CU-20 Post-1).
         internal void StoreSignedInPlayer(LogInOutcome signedInPlayer)
         {
             SignedInPlayer = signedInPlayer ?? throw new ArgumentNullException(nameof(signedInPlayer));
@@ -276,7 +271,6 @@ namespace GinRummy.Client
             SignedInGuest = signedInGuest ?? throw new ArgumentNullException(nameof(signedInGuest));
         }
 
-        // Whoever leaves the lobby forgets its token, whether it was a player or a guest.
         internal void ForgetSignedInPlayer()
         {
             SignedInPlayer = null;
@@ -297,7 +291,6 @@ namespace GinRummy.Client
             base.OnStartup(e);
         }
 
-        // An exception that reaches this handler had no catch block, so the state of the screen and of the session is unknown.
         private void HandleDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             _logger.LogCritical(e.Exception, "An unexpected error closed the client.");
@@ -306,7 +299,6 @@ namespace GinRummy.Client
             Shutdown();
         }
 
-        // The runtime ends the process once this handler returns, so the handler only records the failure and tells the player.
         private void HandleDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             _logger.LogCritical(e.ExceptionObject as Exception, "An unexpected error outside the interface thread closed the client.");
@@ -323,15 +315,11 @@ namespace GinRummy.Client
                 MessageBoxImage.Error);
         }
 
-        // WPF reports tier 0 when no graphics hardware is drawing the window.
-        // On those machines the processor computes every shadow blur at a cost that grows with its radius, so the radius is shortened.
-        // The hard-edged raised text shadow has no blur, so it is left out of the shortened keys.
         private static bool IsSoftwareRendering()
         {
             return (RenderCapability.Tier >> RenderingTierShift) == SoftwareRenderingTier ? true : false;
         }
 
-        // The shared instances are edited in place before any window exists, so every element using them by key gets the shorter blur.
         private void ShortenShadowBlur()
         {
             foreach (string shadowKey in s_blurredShadowKeys)
@@ -344,7 +332,6 @@ namespace GinRummy.Client
             }
         }
 
-        // The main menu opens the panel without a session, so its caller has no token and the panel hides the account (CU-20 FA-01).
         private AccountSettingsCaller CreateAccountSettingsCaller()
         {
             string accessToken = null;
@@ -359,7 +346,6 @@ namespace GinRummy.Client
                 _loggerFactory.CreateLogger<AccountSettingsCaller>());
         }
 
-        // The monitor and the connection are created for every lobby because a channel that failed cannot be opened again.
         private LobbyChatViewModel CreateLobbyChatViewModel(LogInOutcome signedInPlayer)
         {
             PlayerPresenceMonitor presenceMonitor = new PlayerPresenceMonitor(

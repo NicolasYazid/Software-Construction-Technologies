@@ -369,8 +369,6 @@ namespace GinRummy.Client.ViewModels
             OnPropertyChanged(nameof(HandCountKey));
         }
 
-        // Spanish and English only change the word for a single card.
-        // The dictionary keeps that form as a key of its own so that a language with more forms can add them.
         private static string ResolveCardCountKey(int count)
         {
             string key = CardCountKey;

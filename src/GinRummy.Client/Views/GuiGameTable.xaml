@@ -17,7 +17,6 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <!-- The table has the size of the lobby because it takes its place while a match lasts. -->
     <Grid Width="1360" Height="780" Background="{StaticResource BrsMenuRoot}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="280" />
@@ -49,7 +48,6 @@
                 <Border Grid.Row="2" Style="{StaticResource StyChatComposer}" Padding="14,14,14,16">
                     <ctl:PixelBorder Style="{StaticResource StyPanelSearchShell}">
                         <DockPanel LastChildFill="True">
-                            <!-- The button borrows the tooltip of the chat of the lobby because the language resources give this one none. -->
                             <Button x:Name="btnSend" Effect="{StaticResource EfxCardShadow}"
                                     DockPanel.Dock="Right" Style="{StaticResource StyIconButton}"
                                     Width="28" Height="28" Margin="8,0,0,0" VerticalAlignment="Center"
@@ -86,7 +84,6 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- The name of the opponent is data and keeps the case the player gave it. -->
             <StackPanel Orientation="Horizontal" Margin="8,24,0,0">
                 <TextBlock Style="{StaticResource StyTableCaption}" Text="{Binding OpponentName}" />
                 <Border Style="{StaticResource StyTablePill}">
@@ -343,7 +340,6 @@
             </DockPanel>
         </ctl:PixelBorder>
 
-        <!-- Each veil follows the visibility of its label, so the view model switches one element for both. -->
         <Grid Grid.ColumnSpan="3" Background="{StaticResource BrsOverlay}"
               Visibility="{Binding Visibility, ElementName=lblKnockWith}">
             <ctl:PixelBorder Style="{StaticResource StyTableOverlayCard}" Width="780" Padding="40,24,40,26">

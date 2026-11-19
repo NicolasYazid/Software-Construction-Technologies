@@ -187,8 +187,6 @@ namespace GinRummy.Application.UseCases.Gameplay
                     }
                     catch (DataException)
                     {
-                        // The window ends on a timer thread, where an unhandled exception would stop the whole server.
-                        // The match is already over for the players, so only its record is lost.
                     }
                 }
             }
