@@ -23,7 +23,9 @@ namespace GinRummy.Persistence.Configurations
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             Property(playerPreferences => playerPreferences.LocaleId).HasColumnName("locale_id");
             Property(playerPreferences => playerPreferences.IsChatFilterEnabled).HasColumnName("is_chat_filter_enabled");
-            HasRequired(playerPreferences => playerPreferences.Locale).WithMany().HasForeignKey(playerPreferences => playerPreferences.LocaleId);
+            HasRequired(playerPreferences => playerPreferences.Locale)
+                .WithMany()
+                .HasForeignKey(playerPreferences => playerPreferences.LocaleId);
         }
     }
 }

@@ -136,7 +136,9 @@ namespace GinRummy.Services.Services.Authentication
         {
             if (result.IsTwoFactorRequired)
             {
-                _logger.LogInformation("Player {PlayerAccountId} was emailed the code of the second factor.", result.Account.PlayerAccountId);
+                _logger.LogInformation(
+                    "Player {PlayerAccountId} was emailed the code of the second factor.",
+                    result.Account.PlayerAccountId);
             }
             else
             {

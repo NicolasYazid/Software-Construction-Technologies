@@ -117,7 +117,10 @@ namespace GinRummy.Application.UseCases.PlayerPresence
                 PlayerProfile player = unitOfWork.PlayerAccounts.FindProfileByPlayerAccountId(playerAccountId);
                 if (player != null)
                 {
-                    rankedPlayer = RankPlayer(player, unitOfWork.PlayerAccounts.FindStats(playerAccountId), unitOfWork.Rankings.GetAllRanks());
+                    rankedPlayer = RankPlayer(
+                        player,
+                        unitOfWork.PlayerAccounts.FindStats(playerAccountId),
+                        unitOfWork.Rankings.GetAllRanks());
                 }
             }
 

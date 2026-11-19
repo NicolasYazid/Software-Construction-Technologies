@@ -90,7 +90,10 @@ namespace GinRummy.Domain.Entities.Authentication
         {
             DateTime grantedAt = _clock.UtcNow;
 
-            return _tokenSigner.Sign(AccessTokenOwner.OfGuestSession(guest.GuestSessionId), grantedAt, grantedAt.AddHours(TokenLifetimeHours));
+            return _tokenSigner.Sign(
+                AccessTokenOwner.OfGuestSession(guest.GuestSessionId),
+                grantedAt,
+                grantedAt.AddHours(TokenLifetimeHours));
         }
 
         public AccessTokenOwner IdentifyByAccessToken(string accessToken)

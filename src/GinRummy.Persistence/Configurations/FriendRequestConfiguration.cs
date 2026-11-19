@@ -21,9 +21,13 @@ namespace GinRummy.Persistence.Configurations
             Property(friendRequest => friendRequest.RequesterPlayerAccountId).HasColumnName("requester_player_account_id");
             Property(friendRequest => friendRequest.AddresseePlayerAccountId).HasColumnName("recipient_player_account_id");
             Property(friendRequest => friendRequest.CreatedAt).HasColumnName("created_at");
-            HasRequired(friendRequest => friendRequest.Requester).WithMany().HasForeignKey(friendRequest => friendRequest.RequesterPlayerAccountId)
+            HasRequired(friendRequest => friendRequest.Requester)
+                .WithMany()
+                .HasForeignKey(friendRequest => friendRequest.RequesterPlayerAccountId)
                 .WillCascadeOnDelete(false);
-            HasRequired(friendRequest => friendRequest.Addressee).WithMany().HasForeignKey(friendRequest => friendRequest.AddresseePlayerAccountId)
+            HasRequired(friendRequest => friendRequest.Addressee)
+                .WithMany()
+                .HasForeignKey(friendRequest => friendRequest.AddresseePlayerAccountId)
                 .WillCascadeOnDelete(false);
         }
     }
