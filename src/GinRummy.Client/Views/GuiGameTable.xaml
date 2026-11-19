@@ -362,8 +362,9 @@
                     <TextBlock x:Name="lblKnockWith" Style="{StaticResource StyCardTitle}"
                                Visibility="{Binding IsHandResultShown, Converter={StaticResource CnvBooleanToVisibility}}">
                         <TextBlock.Text>
-                            <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
-                                <Binding Path="[GameTable_LblKnockWith]" Source="{StaticResource PrvLocalization}" />
+                            <MultiBinding Converter="{StaticResource CnvResourceText}">
+                                <Binding Path="HandResult.TitleKey" />
+                                <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                                 <Binding Path="HandResult.KnockerDeadwood" />
                             </MultiBinding>
                         </TextBlock.Text>
@@ -371,19 +372,22 @@
                     <TextBlock x:Name="lblKnockAnnounce" Style="{StaticResource StyTableNote}" HorizontalAlignment="Left"
                                Margin="0,2,0,12">
                         <TextBlock.Text>
-                            <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
-                                <Binding Path="[GameTable_LblKnockAnnounce]" Source="{StaticResource PrvLocalization}" />
+                            <MultiBinding Converter="{StaticResource CnvResourceText}">
+                                <Binding Path="HandResult.AnnounceKey" />
+                                <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                                 <Binding Path="HandResult.KnockerName" />
                                 <Binding Path="HandResult.KnockerDeadwood" />
+                                <Binding Path="HandResult.DefenderName" />
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
 
-                    <DockPanel Style="{StaticResource StyHandCountRow}">
+                    <DockPanel Style="{StaticResource StyHandCountRow}"
+                               Visibility="{Binding HandResult.HasScoreBreakdown, Converter={StaticResource CnvBooleanToVisibility}}">
                         <TextBlock x:Name="lblYourDeadwoodValue" Style="{StaticResource StyHandCountValue}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="N0">
-                                    <Binding Path="HandResult.DefenderDeadwood" />
+                                    <Binding Path="HandResult.BaseDeadwood" />
                                     <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                                 </MultiBinding>
                             </TextBlock.Text>
@@ -392,16 +396,17 @@
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
                                     <Binding Path="[GameTable_LblDeadwoodOf]" Source="{StaticResource PrvLocalization}" />
-                                    <Binding Path="HandResult.DefenderName" />
+                                    <Binding Path="HandResult.BaseName" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
                     </DockPanel>
-                    <DockPanel Style="{StaticResource StyHandCountRow}">
+                    <DockPanel Style="{StaticResource StyHandCountRow}"
+                               Visibility="{Binding HandResult.HasSubtraction, Converter={StaticResource CnvBooleanToVisibility}}">
                         <TextBlock x:Name="lblOpponentDeadwoodValue" Style="{StaticResource StyHandCountValue}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="-#,0;-#,0;0">
-                                    <Binding Path="HandResult.KnockerDeadwood" />
+                                    <Binding Path="HandResult.SubtractedDeadwood" />
                                     <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                                 </MultiBinding>
                             </TextBlock.Text>
@@ -410,13 +415,34 @@
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
                                     <Binding Path="[GameTable_LblMinusOpponentDeadwood]" Source="{StaticResource PrvLocalization}" />
-                                    <Binding Path="HandResult.KnockerName" />
+                                    <Binding Path="HandResult.SubtractedName" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
                     </DockPanel>
-                    <Border Style="{StaticResource StyGroupRule}" Margin="0,6,0,6" />
-                    <DockPanel Style="{StaticResource StyHandCountRow}">
+                    <DockPanel Style="{StaticResource StyHandCountRow}"
+                               Visibility="{Binding HandResult.HasBonus, Converter={StaticResource CnvBooleanToVisibility}}">
+                        <TextBlock x:Name="lblBonusValue" Style="{StaticResource StyHandCountValue}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="+#,0;-#,0;0">
+                                    <Binding Path="HandResult.BonusPoints" />
+                                    <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock x:Name="lblBonus" Style="{StaticResource StyHandCountLabel}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CnvResourceText}">
+                                    <Binding Path="HandResult.BonusKey" />
+                                    <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DockPanel>
+                    <Border Style="{StaticResource StyGroupRule}" Margin="0,6,0,6"
+                            Visibility="{Binding HandResult.HasScoreBreakdown, Converter={StaticResource CnvBooleanToVisibility}}" />
+                    <DockPanel Style="{StaticResource StyHandCountRow}"
+                               Visibility="{Binding HandResult.HasScoreBreakdown, Converter={StaticResource CnvBooleanToVisibility}}">
                         <TextBlock x:Name="lblPointsForValue" Style="{StaticResource StyHandCountValue}" FontSize="24">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="+#,0;-#,0;0">
@@ -436,7 +462,8 @@
                         </TextBlock>
                     </DockPanel>
 
-                    <ctl:PixelBorder Style="{StaticResource StyMeldPanel}">
+                    <ctl:PixelBorder Style="{StaticResource StyMeldPanel}"
+                                     Visibility="{Binding HandResult.HasScoreBreakdown, Converter={StaticResource CnvBooleanToVisibility}}">
                         <StackPanel>
                             <DockPanel LastChildFill="False" Margin="0,0,0,10">
                                 <TextBlock x:Name="lblDeadwoodCount" DockPanel.Dock="Right"
@@ -467,7 +494,8 @@
                             </ItemsControl>
                         </StackPanel>
                     </ctl:PixelBorder>
-                    <ctl:PixelBorder Style="{StaticResource StyMeldPanel}">
+                    <ctl:PixelBorder Style="{StaticResource StyMeldPanel}"
+                                     Visibility="{Binding HandResult.HasScoreBreakdown, Converter={StaticResource CnvBooleanToVisibility}}">
                         <StackPanel>
                             <DockPanel LastChildFill="False" Margin="0,0,0,10">
                                 <TextBlock x:Name="lblDefenderDeadwoodCount" DockPanel.Dock="Right"

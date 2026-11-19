@@ -26,6 +26,16 @@ namespace GinRummy.Client.ViewModels
         private const string InvalidMoveKey = "GameTable_LblInvalidMove";
         private const string HandWinnerKey = "GameTable_LblHandWinner";
         private const string RoundVoidKey = "GameTable_LblRoundVoid";
+        private const string KnockTitleKey = "GameTable_LblKnockWith";
+        private const string GinTitleKey = "GameTable_LblGinTitle";
+        private const string UndercutTitleKey = "GameTable_LblUndercutTitle";
+        private const string VoidTitleKey = "GameTable_LblVoidTitle";
+        private const string KnockAnnounceKey = "GameTable_LblKnockAnnounce";
+        private const string GinAnnounceKey = "GameTable_LblGinAnnounce";
+        private const string UndercutAnnounceKey = "GameTable_LblUndercutAnnounce";
+        private const string VoidAnnounceKey = "GameTable_LblVoidAnnounce";
+        private const string GinBonusKey = "GameTable_LblGinBonus";
+        private const string UndercutBonusKey = "GameTable_LblUndercutBonus";
         private const int SingleCardCount = 1;
         private const int PauseNoticeDelaySeconds = 2;
 
@@ -538,8 +548,47 @@ namespace GinRummy.Client.ViewModels
             result.DefenderMelds = ToMelds(summary.DefenderMelds, summary.DefenderUnmatchedCards);
             result.PlayerScore = _playerScore;
             result.OpponentScore = _opponentScore;
+            ExplainScore(result, summary.Ending);
 
             return result;
+        }
+
+        private static void ExplainScore(HandResult result, RoundOutcome ending)
+        {
+            result.HasScoreBreakdown = ending != RoundOutcome.Void;
+            switch (ending)
+            {
+                case RoundOutcome.Gin:
+                    result.TitleKey = GinTitleKey;
+                    result.AnnounceKey = GinAnnounceKey;
+                    result.BaseName = result.DefenderName;
+                    result.BaseDeadwood = result.DefenderDeadwood;
+                    result.BonusKey = GinBonusKey;
+                    result.BonusPoints = result.PointsAwarded - result.DefenderDeadwood;
+                    break;
+                case RoundOutcome.Undercut:
+                    result.TitleKey = UndercutTitleKey;
+                    result.AnnounceKey = UndercutAnnounceKey;
+                    result.BaseName = result.KnockerName;
+                    result.BaseDeadwood = result.KnockerDeadwood;
+                    result.SubtractedName = result.DefenderName;
+                    result.SubtractedDeadwood = result.DefenderDeadwood;
+                    result.BonusKey = UndercutBonusKey;
+                    result.BonusPoints = result.PointsAwarded - (result.KnockerDeadwood - result.DefenderDeadwood);
+                    break;
+                case RoundOutcome.Void:
+                    result.TitleKey = VoidTitleKey;
+                    result.AnnounceKey = VoidAnnounceKey;
+                    break;
+                default:
+                    result.TitleKey = KnockTitleKey;
+                    result.AnnounceKey = KnockAnnounceKey;
+                    result.BaseName = result.DefenderName;
+                    result.BaseDeadwood = result.DefenderDeadwood;
+                    result.SubtractedName = result.KnockerName;
+                    result.SubtractedDeadwood = result.KnockerDeadwood;
+                    break;
+            }
         }
 
         private void KeepHandOrder(PlayingCard[] serverHand)
