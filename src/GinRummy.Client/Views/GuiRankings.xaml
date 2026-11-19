@@ -136,7 +136,7 @@
                     <TabItem x:Name="tabGlobal" IsSelected="True"
                              Header="{Binding [Rankings_TabGlobal], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
-                    <TabItem x:Name="tabFriends"
+                    <TabItem x:Name="tabFriends" IsSelected="{Binding IsFriendsTabSelected}"
                              Header="{Binding [Shared_TabFriends], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />
                 </TabControl>
@@ -201,8 +201,13 @@
                             </Grid.RowDefinitions>
 
                             <ScrollViewer VerticalScrollBarVisibility="Visible">
-                                <ItemsControl x:Name="lstRankings" ItemsSource="{Binding Rankings}"
-                                              ItemTemplate="{StaticResource TplRankingRow}" />
+                                <StackPanel>
+                                    <ItemsControl x:Name="lstRankings" ItemsSource="{Binding Rankings}"
+                                                  ItemTemplate="{StaticResource TplRankingRow}" />
+                                    <TextBlock x:Name="lblNoFriends" Style="{StaticResource StyPanelEmpty}" Margin="20,16,20,0"
+                                               Visibility="{Binding HasNoFriends, Converter={StaticResource CnvBooleanToVisibility}}"
+                                               Text="{Binding [Rankings_NoFriends], Source={StaticResource PrvLocalization}}" />
+                                </StackPanel>
                             </ScrollViewer>
                             <TextBlock x:Name="lblNoMatches" Style="{StaticResource StyPanelEmpty}" Margin="20,16,28,0"
                                        Visibility="{Binding HasNoMatches, Converter={StaticResource CnvBooleanToVisibility}}"

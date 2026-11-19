@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.Windows.Input;
 
 using GinRummy.Client.LeaderboardServiceReference;
+using GinRummy.Client.Models;
 using GinRummy.Client.Mvvm;
 using Microsoft.Extensions.Logging;
 
@@ -14,26 +15,39 @@ namespace GinRummy.Client.ViewModels
     public class RankingsViewModel : ViewModelBase
     {
         private const int PodiumSize = 3;
+        private const int OwnEntryOnly = 1;
 
         private readonly Func<ILeaderboardService> _leaderboardServiceFactory;
+        private readonly string _accessToken;
         private readonly ILogger<RankingsViewModel> _logger;
+        private List<PlayerRanking> _globalRankings;
+        private List<PlayerRanking> _friendRankings;
         private List<PlayerRanking> _allRankings;
         private string _searchText;
         private bool _hasNoMatches;
+        private bool _isFriendsTabSelected;
+        private bool _hasNoFriends;
+        private bool _isLeaderboardUnavailable;
 
         // A client is created for every load because a client whose channel failed cannot be opened again.
-        public RankingsViewModel(Func<ILeaderboardService> leaderboardServiceFactory, ILogger<RankingsViewModel> logger)
+        public RankingsViewModel(
+            Func<ILeaderboardService> leaderboardServiceFactory,
+            string accessToken,
+            ILogger<RankingsViewModel> logger)
         {
             _leaderboardServiceFactory = leaderboardServiceFactory
                 ?? throw new ArgumentNullException(nameof(leaderboardServiceFactory));
+            _accessToken = accessToken ?? throw new ArgumentNullException(nameof(accessToken));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _globalRankings = new List<PlayerRanking>();
+            _friendRankings = new List<PlayerRanking>();
             _allRankings = new List<PlayerRanking>();
             Rankings = new ObservableCollection<PlayerRanking>();
             Podium = new ObservableCollection<PlayerRanking>();
             LoadRankingsCommand = new RelayCommand(LoadRankings);
         }
 
-        public event EventHandler LeaderboardUnavailable;
+        public event EventHandler<ErrorDialogKind> LeaderboardUnavailable;
 
         public ObservableCollection<PlayerRanking> Rankings { get; private set; }
         public ObservableCollection<PlayerRanking> Podium { get; private set; }
@@ -60,9 +74,46 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
+        public bool IsFriendsTabSelected
+        {
+            get { return _isFriendsTabSelected; }
+            set
+            {
+                _isFriendsTabSelected = value;
+                RaisePropertyChanged();
+                ShowSelectedLeaderboard();
+            }
+        }
+
+        public bool HasNoFriends
+        {
+            get { return _hasNoFriends; }
+            private set
+            {
+                _hasNoFriends = value;
+                RaisePropertyChanged();
+            }
+        }
+
         private void LoadRankings()
         {
-            _allRankings = LoadRankingsFromService();
+            _globalRankings = LoadRankingsFromService(LeaderboardType.Global);
+            if (!_isLeaderboardUnavailable)
+            {
+                _friendRankings = LoadRankingsFromService(LeaderboardType.Friends);
+            }
+
+            ShowSelectedLeaderboard();
+        }
+
+        private void ShowSelectedLeaderboard()
+        {
+            _allRankings = _globalRankings;
+            if (_isFriendsTabSelected)
+            {
+                _allRankings = _friendRankings;
+            }
+
             Podium.Clear();
             foreach (PlayerRanking podiumEntry in _allRankings.Take(PodiumSize))
             {
@@ -72,33 +123,49 @@ namespace GinRummy.Client.ViewModels
             ShowMatchingRankings();
         }
 
-        private List<PlayerRanking> LoadRankingsFromService()
+        private List<PlayerRanking> LoadRankingsFromService(LeaderboardType leaderboardType)
         {
             List<PlayerRanking> rankings = new List<PlayerRanking>();
             ILeaderboardService leaderboardService = _leaderboardServiceFactory();
             ICommunicationObject communicationObject = (ICommunicationObject)leaderboardService;
             try
             {
-                rankings = leaderboardService.GetLeaderboard();
+                rankings = leaderboardService.GetLeaderboard(_accessToken, leaderboardType);
                 communicationObject.Close();
+            }
+            catch (FaultException<ServiceFault> ex)
+            {
+                communicationObject.Abort();
+                _logger.LogWarning(
+                    ex,
+                    "The server refused the {LeaderboardType} leaderboard with the fault {FaultCode}.",
+                    leaderboardType,
+                    ex.Detail.Code);
+                NotifyLeaderboardUnavailable(FindErrorDialogKind(ex.Detail.Code));
             }
             catch (FaultException ex)
             {
                 communicationObject.Abort();
-                _logger.LogError(ex, "The server could not read the global leaderboard.");
-                NotifyLeaderboardUnavailable();
+                _logger.LogError(ex, "The server could not read the {LeaderboardType} leaderboard.", leaderboardType);
+                NotifyLeaderboardUnavailable(ErrorDialogKind.ServiceUnavailable);
             }
             catch (CommunicationException ex)
             {
                 communicationObject.Abort();
-                _logger.LogError(ex, "The leaderboard service could not be reached to load the global leaderboard.");
-                NotifyLeaderboardUnavailable();
+                _logger.LogError(
+                    ex,
+                    "The leaderboard service could not be reached to load the {LeaderboardType} leaderboard.",
+                    leaderboardType);
+                NotifyLeaderboardUnavailable(ErrorDialogKind.ServiceUnavailable);
             }
             catch (TimeoutException ex)
             {
                 communicationObject.Abort();
-                _logger.LogError(ex, "The leaderboard service timed out while loading the global leaderboard.");
-                NotifyLeaderboardUnavailable();
+                _logger.LogError(
+                    ex,
+                    "The leaderboard service timed out while loading the {LeaderboardType} leaderboard.",
+                    leaderboardType);
+                NotifyLeaderboardUnavailable(ErrorDialogKind.ServiceUnavailable);
             }
 
             return rankings;
@@ -113,6 +180,9 @@ namespace GinRummy.Client.ViewModels
             }
 
             HasNoMatches = (_allRankings.Count > 0) && (Rankings.Count == 0);
+            HasNoFriends = _isFriendsTabSelected
+                && (_friendRankings.Count == OwnEntryOnly)
+                && (Rankings.Count == OwnEntryOnly);
         }
 
         private bool IsSearchMatch(PlayerRanking ranking)
@@ -123,9 +193,21 @@ namespace GinRummy.Client.ViewModels
             return isMatch;
         }
 
-        private void NotifyLeaderboardUnavailable()
+        private static ErrorDialogKind FindErrorDialogKind(ServiceFaultCode faultCode)
         {
-            LeaderboardUnavailable?.Invoke(this, EventArgs.Empty);
+            ErrorDialogKind errorDialogKind = ErrorDialogKind.ServiceUnavailable;
+            if (faultCode == ServiceFaultCode.SessionExpired)
+            {
+                errorDialogKind = ErrorDialogKind.SessionExpired;
+            }
+
+            return errorDialogKind;
+        }
+
+        private void NotifyLeaderboardUnavailable(ErrorDialogKind errorDialogKind)
+        {
+            _isLeaderboardUnavailable = true;
+            LeaderboardUnavailable?.Invoke(this, errorDialogKind);
         }
     }
 }

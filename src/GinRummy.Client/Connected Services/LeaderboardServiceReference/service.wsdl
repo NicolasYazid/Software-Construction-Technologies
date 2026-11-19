@@ -36,8 +36,9 @@
   <wsdl:types>
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.PlayerCareer" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="ILeaderboardService_GetLeaderboard_InputMessage">
@@ -46,10 +47,14 @@
   <wsdl:message name="ILeaderboardService_GetLeaderboard_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetLeaderboardResponse" />
   </wsdl:message>
+  <wsdl:message name="ILeaderboardService_GetLeaderboard_ServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q1:ServiceFault" />
+  </wsdl:message>
   <wsdl:portType name="ILeaderboardService">
     <wsdl:operation name="GetLeaderboard">
       <wsdl:input wsaw:Action="http://tempuri.org/ILeaderboardService/GetLeaderboard" message="tns:ILeaderboardService_GetLeaderboard_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ILeaderboardService/GetLeaderboardResponse" message="tns:ILeaderboardService_GetLeaderboard_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/ILeaderboardService/GetLeaderboardServiceFaultFault" name="ServiceFaultFault" message="tns:ILeaderboardService_GetLeaderboard_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="LeaderboardService" type="tns:ILeaderboardService">
@@ -64,6 +69,9 @@
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
+      <wsdl:fault name="ServiceFaultFault">
+        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
+      </wsdl:fault>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="LeaderboardService">
@@ -72,7 +80,7 @@
       <wsa10:EndpointReference>
         <wsa10:Address>net.tcp://localhost:8000/LeaderboardService</wsa10:Address>
         <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
-          <Upn>FOSTER\neptu</Upn>
+          <Upn>LAPTOP-JTEM4PAQ\yazid</Upn>
         </Identity>
       </wsa10:EndpointReference>
     </wsdl:port>

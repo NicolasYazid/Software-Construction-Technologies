@@ -1,16 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using GinRummy.Contracts.DataContracts.PlayerCareer;
 using GinRummy.Domain.Entities.PlayerCareer;
+using ContractLeaderboardType = GinRummy.Contracts.DataContracts.PlayerCareer.LeaderboardType;
+using DomainLeaderboardType = GinRummy.Domain.Entities.PlayerCareer.LeaderboardType;
 
 namespace GinRummy.Services.Mappers.PlayerCareer
 {
     public static class PlayerRankingMapper
     {
-        public static List<PlayerRanking> MapToPlayerRankings(IReadOnlyList<LeaderboardPosition> leaderboardPositions)
+        public static List<PlayerRanking> MapToPlayerRankings(IReadOnlyList<LeaderboardPlayerPosition> leaderboardPositions)
         {
             List<PlayerRanking> rankings = new List<PlayerRanking>();
-            foreach (LeaderboardPosition position in leaderboardPositions)
+            foreach (LeaderboardPlayerPosition position in leaderboardPositions)
             {
                 rankings.Add(MapToPlayerRanking(position));
             }
@@ -18,7 +21,12 @@ namespace GinRummy.Services.Mappers.PlayerCareer
             return rankings;
         }
 
-        private static PlayerRanking MapToPlayerRanking(LeaderboardPosition position)
+        public static DomainLeaderboardType MapToDomainLeaderboardType(ContractLeaderboardType leaderboardType)
+        {
+            return (DomainLeaderboardType)Enum.Parse(typeof(DomainLeaderboardType), leaderboardType.ToString());
+        }
+
+        private static PlayerRanking MapToPlayerRanking(LeaderboardPlayerPosition position)
         {
             PlayerRanking ranking = new PlayerRanking
             {

@@ -2,6 +2,7 @@
 using System.ServiceModel;
 
 using GinRummy.Contracts.DataContracts.PlayerCareer;
+using GinRummy.Contracts.Faults.Shared;
 
 namespace GinRummy.Contracts.Services.PlayerCareer
 {
@@ -9,6 +10,7 @@ namespace GinRummy.Contracts.Services.PlayerCareer
     public interface ILeaderboardService
     {
         [OperationContract]
-        List<PlayerRanking> GetLeaderboard();
+        [FaultContract(typeof(ServiceFault))]
+        List<PlayerRanking> GetLeaderboard(string accessToken, LeaderboardType leaderboardType);
     }
 }

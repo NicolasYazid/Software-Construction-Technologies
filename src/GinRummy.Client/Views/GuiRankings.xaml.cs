@@ -8,7 +8,7 @@ namespace GinRummy.Client.Views
 {
     /// <summary>
     /// Leaderboard screen (P18). Implements CU-19: the podium of the first three places and the table
-    /// of the global leaderboard, filtered by the name the player searches.
+    /// of the global leaderboard or of the leaderboard among friends, filtered by the name the player searches.
     /// </summary>
     public partial class GuiRankings : GuiModalBase
     {
@@ -29,9 +29,20 @@ namespace GinRummy.Client.Views
             viewModel.LoadRankingsCommand.Execute(null);
         }
 
-        private void OnLeaderboardUnavailable(object sender, EventArgs e)
+        private void OnLeaderboardUnavailable(object sender, ErrorDialogKind errorDialogKind)
         {
-            ShowModal(new GuiErrorDialog(ErrorDialogKind.ServiceUnavailable));
+            GuiErrorDialog errorDialog = new GuiErrorDialog(errorDialogKind);
+            if (errorDialogKind == ErrorDialogKind.SessionExpired)
+            {
+                errorDialog.Closed += OnSessionExpiredDialogClosed;
+            }
+
+            ShowModal(errorDialog);
+        }
+
+        private void OnSessionExpiredDialogClosed(object sender, EventArgs e)
+        {
+            LeaveLobby();
         }
 
         private void OnSearchClick(object sender, RoutedEventArgs e)

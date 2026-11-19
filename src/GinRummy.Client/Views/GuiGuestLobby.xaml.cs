@@ -9,8 +9,8 @@ namespace GinRummy.Client.Views
 {
     /// <summary>
     /// Lobby of a guest (P16). Serves CU-02 FA-01 and the guest flows of CU-11 FA-02, CU-17
-    /// FA-02 and CU-22 FA-01: the guest follows the players, searches them by tag and reads the
-    /// rankings, but can neither write nor have friends until it creates an account (CU-01 FA-05).
+    /// FA-02 and CU-22 FA-01: the guest follows the players and searches them by tag, but can neither
+    /// write, have friends nor enter the rankings until it creates an account (CU-01 FA-05).
     /// </summary>
     public partial class GuiGuestLobby : GuiWindowBase
     {
@@ -54,7 +54,12 @@ namespace GinRummy.Client.Views
 
         private void OnRankingsClick(object sender, RoutedEventArgs e)
         {
-            ShowModal(new GuiRankings());
+            pnlRankingsNotice.Visibility = Visibility.Visible;
+        }
+
+        private void OnDismissRankingsNoticeClick(object sender, RoutedEventArgs e)
+        {
+            pnlRankingsNotice.Visibility = Visibility.Collapsed;
         }
 
         private void OnHowToPlayClick(object sender, RoutedEventArgs e)

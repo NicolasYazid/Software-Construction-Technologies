@@ -68,6 +68,7 @@
     <Compile Include="Services\PlayerPresence\IPlayerPresenceService.cs" />
     <Compile Include="Services\AccountProtection\IAccountSettingsService.cs" />
     <Compile Include="Services\PlayerCareer\ILeaderboardService.cs" />
+    <Compile Include="DataContracts\PlayerCareer\LeaderboardType.cs" />
     <Compile Include="DataContracts\PlayerCareer\PlayerRanking.cs" />
     <Compile Include="DataContracts\PlayerCustomization\PlayerProfileDetails.cs" />
     <Compile Include="DataContracts\PlayerCustomization\SocialLinkDetails.cs" />

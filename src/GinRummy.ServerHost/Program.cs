@@ -164,7 +164,10 @@ namespace GinRummy.ServerHost
                     typeof(GameService),
                     () => new GameService(duelAccessPolicy, playRoundUseCase, gameOnlinePlayers),
                     faultShieldBehavior));
-                hostGroup.Add(CreateIsolatedHost(typeof(LeaderboardService), ComposeLeaderboardService, faultShieldBehavior));
+                hostGroup.Add(CreateIsolatedHost(
+                    typeof(LeaderboardService),
+                    () => ComposeLeaderboardService(tokenSigner),
+                    faultShieldBehavior));
                 hostGroup.Add(CreateIsolatedHost(
                     typeof(LogInService),
                     () => ComposeLogInService(emailSender, tokenSigner, logInLogger),
@@ -279,12 +282,16 @@ namespace GinRummy.ServerHost
             return signingKey;
         }
 
-        private static LeaderboardService ComposeLeaderboardService()
+        private static LeaderboardService ComposeLeaderboardService(IAccessTokenSigner tokenSigner)
         {
             IRankingRepository rankingRepository = new RankingRepository(ConnectionStringName);
             RankResolver rankResolver = new RankResolver();
-            ViewLeaderboardUseCase useCase = new ViewLeaderboardUseCase(rankingRepository, rankResolver);
-            LeaderboardService leaderboardService = new LeaderboardService(useCase);
+            ViewLeaderboardUseCase useCase = new ViewLeaderboardUseCase(
+                rankingRepository,
+                rankResolver,
+                () => new EntityFrameworkUnitOfWork(ConnectionStringName));
+            AccountAccessPolicy accessPolicy = new AccountAccessPolicy(new Argon2PasswordHasher(), tokenSigner, new SystemClock());
+            LeaderboardService leaderboardService = new LeaderboardService(accessPolicy, useCase);
 
             return leaderboardService;
         }

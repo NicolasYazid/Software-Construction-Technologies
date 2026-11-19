@@ -547,6 +547,9 @@ You: {0}   -   Opponent: {1}</value>
   <data name="GuestLobby_FriendsDisabled" xml:space="preserve">
     <value>Create an account to have friends</value>
   </data>
+  <data name="GuestLobby_RankingsDisabled" xml:space="preserve">
+    <value>Join the match! Create an account to enter the leaderboards and challenge your friends.</value>
+  </data>
   <data name="HouseRules_LblCardHead" xml:space="preserve">
     <value>House rules</value>
   </data>
@@ -972,6 +975,9 @@ You: {0}   -   Opponent: {1}</value>
   </data>
   <data name="Rankings_LossesShortFormat" xml:space="preserve">
     <value>{0}L</value>
+  </data>
+  <data name="Rankings_NoFriends" xml:space="preserve">
+    <value>Competition is better together! Add friends to compare your scores.</value>
   </data>
   <data name="Rankings_NoMatches" xml:space="preserve">
     <value>No player matches the search</value>

@@ -87,6 +87,7 @@ namespace GinRummy.Client
         {
             return new RankingsViewModel(
                 () => new LeaderboardServiceClient(LeaderboardEndpointName),
+                SignedInPlayer.AccessToken,
                 _loggerFactory.CreateLogger<RankingsViewModel>());
         }
 
