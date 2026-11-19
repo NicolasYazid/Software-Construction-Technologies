@@ -169,9 +169,15 @@ namespace GinRummy.Domain.Tests.Gameplay
         {
             return new List<Card>
             {
-                new Card(CardSuit.Hearts, Card.AceRank), new Card(CardSuit.Hearts, 2), new Card(CardSuit.Hearts, 3),
-                new Card(CardSuit.Spades, 4), new Card(CardSuit.Spades, 5), new Card(CardSuit.Spades, 6),
-                new Card(CardSuit.Clubs, 7), new Card(CardSuit.Clubs, 8), new Card(CardSuit.Clubs, 9),
+                new Card(CardSuit.Hearts, Card.AceRank),
+                new Card(CardSuit.Hearts, 2),
+                new Card(CardSuit.Hearts, 3),
+                new Card(CardSuit.Spades, 4),
+                new Card(CardSuit.Spades, 5),
+                new Card(CardSuit.Spades, 6),
+                new Card(CardSuit.Clubs, 7),
+                new Card(CardSuit.Clubs, 8),
+                new Card(CardSuit.Clubs, 9),
                 new Card(CardSuit.Diamonds, 13)
             };
         }
@@ -180,9 +186,15 @@ namespace GinRummy.Domain.Tests.Gameplay
         {
             return new List<Card>
             {
-                new Card(CardSuit.Diamonds, Card.AceRank), new Card(CardSuit.Diamonds, 3), new Card(CardSuit.Diamonds, 5),
-                new Card(CardSuit.Diamonds, 7), new Card(CardSuit.Diamonds, 9), new Card(CardSuit.Hearts, 5),
-                new Card(CardSuit.Hearts, 7), new Card(CardSuit.Hearts, 9), new Card(CardSuit.Spades, 11),
+                new Card(CardSuit.Diamonds, Card.AceRank),
+                new Card(CardSuit.Diamonds, 3),
+                new Card(CardSuit.Diamonds, 5),
+                new Card(CardSuit.Diamonds, 7),
+                new Card(CardSuit.Diamonds, 9),
+                new Card(CardSuit.Hearts, 5),
+                new Card(CardSuit.Hearts, 7),
+                new Card(CardSuit.Hearts, 9),
+                new Card(CardSuit.Spades, 11),
                 new Card(CardSuit.Spades, 13)
             };
         }

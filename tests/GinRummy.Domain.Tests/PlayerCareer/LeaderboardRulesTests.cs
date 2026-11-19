@@ -96,7 +96,10 @@ namespace GinRummy.Domain.Tests.PlayerCareer
         [Test]
         public void Test_OrderByLeaderboardRules_NullUsernames_ThrowsArgumentNullException()
         {
-            List<PlayerStats> stats = new List<PlayerStats> { new PlayerStats(FirstPlayerId) };
+            List<PlayerStats> stats = new List<PlayerStats>
+            {
+                new PlayerStats(FirstPlayerId)
+            };
 
             Assert.Throws<ArgumentNullException>(() => LeaderboardRules.OrderByLeaderboardRules(stats, null));
         }

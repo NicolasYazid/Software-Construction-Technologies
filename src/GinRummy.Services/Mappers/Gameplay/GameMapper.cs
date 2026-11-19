@@ -121,7 +121,11 @@ namespace GinRummy.Services.Mappers.Gameplay
             PlayingCard playingCard = null;
             if (card != null)
             {
-                playingCard = new PlayingCard { Suit = MapByName<ContractCardSuit>(card.Suit), Rank = card.Rank };
+                playingCard = new PlayingCard
+                {
+                    Suit = MapByName<ContractCardSuit>(card.Suit),
+                    Rank = card.Rank
+                };
             }
 
             return playingCard;

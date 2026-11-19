@@ -156,11 +156,7 @@ namespace GinRummy.Client.Controls
         // A window covered by another one is still visible for WPF, so the hosting screen pauses the paint itself.
         public bool IsPaused
         {
-            get
-            {
-                return _isPaused;
-            }
-
+            get { return _isPaused; }
             set
             {
                 _isPaused = value;

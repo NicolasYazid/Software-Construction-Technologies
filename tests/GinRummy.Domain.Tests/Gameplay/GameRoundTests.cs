@@ -172,7 +172,9 @@ namespace GinRummy.Domain.Tests.Gameplay
             round.TakeFirstCard(NonDealerId);
             IList<Card> notAMeld = new List<Card>
             {
-                new Card(CardSuit.Hearts, Card.AceRank), new Card(CardSuit.Hearts, 2), new Card(CardSuit.Spades, 4)
+                new Card(CardSuit.Hearts, Card.AceRank),
+                new Card(CardSuit.Hearts, 2),
+                new Card(CardSuit.Spades, 4)
             };
             IList<IList<Card>> melds = new List<IList<Card>> { notAMeld };
 
@@ -292,27 +294,45 @@ namespace GinRummy.Domain.Tests.Gameplay
         {
             return new List<Card>
             {
-                new Card(CardSuit.Hearts, Card.AceRank), new Card(CardSuit.Hearts, 2), new Card(CardSuit.Hearts, 3)
+                new Card(CardSuit.Hearts, Card.AceRank),
+                new Card(CardSuit.Hearts, 2),
+                new Card(CardSuit.Hearts, 3)
             };
         }
 
         private static IList<Card> CreateSpadesRun()
         {
-            return new List<Card> { new Card(CardSuit.Spades, 4), new Card(CardSuit.Spades, 5), new Card(CardSuit.Spades, 6) };
+            return new List<Card>
+            {
+                new Card(CardSuit.Spades, 4),
+                new Card(CardSuit.Spades, 5),
+                new Card(CardSuit.Spades, 6)
+            };
         }
 
         private static IList<Card> CreateClubsRun()
         {
-            return new List<Card> { new Card(CardSuit.Clubs, 7), new Card(CardSuit.Clubs, 8), new Card(CardSuit.Clubs, 9) };
+            return new List<Card>
+            {
+                new Card(CardSuit.Clubs, 7),
+                new Card(CardSuit.Clubs, 8),
+                new Card(CardSuit.Clubs, 9)
+            };
         }
 
         private static IList<Card> CreateDefenderHand()
         {
             return new List<Card>
             {
-                new Card(CardSuit.Diamonds, Card.AceRank), new Card(CardSuit.Diamonds, 3), new Card(CardSuit.Diamonds, 5),
-                new Card(CardSuit.Diamonds, 7), new Card(CardSuit.Diamonds, 9), new Card(CardSuit.Hearts, 5),
-                new Card(CardSuit.Hearts, 7), new Card(CardSuit.Hearts, 9), new Card(CardSuit.Spades, 11),
+                new Card(CardSuit.Diamonds, Card.AceRank),
+                new Card(CardSuit.Diamonds, 3),
+                new Card(CardSuit.Diamonds, 5),
+                new Card(CardSuit.Diamonds, 7),
+                new Card(CardSuit.Diamonds, 9),
+                new Card(CardSuit.Hearts, 5),
+                new Card(CardSuit.Hearts, 7),
+                new Card(CardSuit.Hearts, 9),
+                new Card(CardSuit.Spades, 11),
                 new Card(CardSuit.Spades, 13)
             };
         }
@@ -329,9 +349,24 @@ namespace GinRummy.Domain.Tests.Gameplay
         {
             return new List<IList<Card>>
             {
-                new List<Card> { new Card(CardSuit.Hearts, 13), new Card(CardSuit.Spades, 13), new Card(CardSuit.Clubs, 13) },
-                new List<Card> { new Card(CardSuit.Hearts, 11), new Card(CardSuit.Diamonds, 11), new Card(CardSuit.Clubs, 11) },
-                new List<Card> { new Card(CardSuit.Hearts, 12), new Card(CardSuit.Diamonds, 12), new Card(CardSuit.Clubs, 12) }
+                new List<Card>
+                {
+                    new Card(CardSuit.Hearts, 13),
+                    new Card(CardSuit.Spades, 13),
+                    new Card(CardSuit.Clubs, 13)
+                },
+                new List<Card>
+                {
+                    new Card(CardSuit.Hearts, 11),
+                    new Card(CardSuit.Diamonds, 11),
+                    new Card(CardSuit.Clubs, 11)
+                },
+                new List<Card>
+                {
+                    new Card(CardSuit.Hearts, 12),
+                    new Card(CardSuit.Diamonds, 12),
+                    new Card(CardSuit.Clubs, 12)
+                }
             };
         }
     }

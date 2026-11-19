@@ -38,7 +38,13 @@ namespace GinRummy.Client.Tests.Models
         [Test]
         public void Test_Arrange_ShuffledHand_MatchesOrder()
         {
-            ObservableCollection<Card> hand = new ObservableCollection<Card> { s_kingOfClubs, s_fiveOfHearts, s_aceOfSpades, s_fiveOfClubs };
+            ObservableCollection<Card> hand = new ObservableCollection<Card>
+            {
+                s_kingOfClubs,
+                s_fiveOfHearts,
+                s_aceOfSpades,
+                s_fiveOfClubs
+            };
             List<Card> order = new List<Card> { s_aceOfSpades, s_fiveOfClubs, s_fiveOfHearts, s_kingOfClubs };
 
             HandOrder.Arrange(hand, order);
@@ -62,7 +68,10 @@ namespace GinRummy.Client.Tests.Models
         public void Test_SortLooseCards_HandWithMeld_KeepsMeldFirstInPlayerOrder()
         {
             List<Card> hand = new List<Card> { s_kingOfClubs, s_fiveOfHearts, s_aceOfSpades, s_fiveOfClubs };
-            List<IList<Card>> melds = new List<IList<Card>> { new List<Card> { s_fiveOfClubs, s_fiveOfHearts } };
+            List<IList<Card>> melds = new List<IList<Card>>
+            {
+                new List<Card> { s_fiveOfClubs, s_fiveOfHearts }
+            };
 
             IList<Card> sortedHand = HandOrder.SortLooseCards(hand, melds);
 
