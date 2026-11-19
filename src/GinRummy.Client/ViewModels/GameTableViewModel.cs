@@ -437,6 +437,11 @@ namespace GinRummy.Client.ViewModels
         {
             _round = round;
             _isMoveRefused = false;
+            if (round.LastMove == RoundMoveKind.Dealt)
+            {
+                DiscardPile.Clear();
+            }
+
             KeepHandOrder(round.Hand);
             ArrangeMelds(round.Melds);
             DiscardPile.Clear();
