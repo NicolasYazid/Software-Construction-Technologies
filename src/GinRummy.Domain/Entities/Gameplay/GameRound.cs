@@ -12,10 +12,7 @@ namespace GinRummy.Domain
         private readonly Stack<Card> _stock;
         private readonly Stack<Card> _discardPile;
         private bool _isDiscardPileClosed;
-        private int _knockerId;
-        private int _knockerDeadwood;
-        private List<List<Card>> _knockerMelds;
-        private List<Card> _defenderUnmatchedCards;
+        private KnockedHand _knockedHand;
 
         public GameRound(int dealerId, int nonDealerId, IList<Card> shuffledDeck)
         {
@@ -61,16 +58,20 @@ namespace GinRummy.Domain
         public TurnPhase Phase { get; private set; }
         public RoundResult Result { get; private set; }
         public Card CardTakenFromDiscardPile { get; private set; }
-        public int DefenderDeadwood { get; private set; }
+
+        public int DefenderDeadwood
+        {
+            get { return _knockedHand.DefenderDeadwood; }
+        }
 
         public IList<IList<Card>> KnockerMelds
         {
-            get { return _knockerMelds.Select(meld => (IList<Card>)meld.OrderBy(card => card.Rank).ToList()).ToList(); }
+            get { return _knockedHand.Melds; }
         }
 
         public IReadOnlyList<Card> DefenderUnmatchedCards
         {
-            get { return _defenderUnmatchedCards.AsReadOnly(); }
+            get { return _knockedHand.DefenderUnmatchedCards; }
         }
 
         public int StockCount
@@ -175,9 +176,7 @@ namespace GinRummy.Domain
             }
 
             PutOnDiscardPile(hand, discardedCard);
-            _knockerId = playerId;
-            _knockerDeadwood = deadwood;
-            _knockerMelds = melds.Select(meld => meld.ToList()).ToList();
+            _knockedHand = new KnockedHand(playerId, deadwood, melds);
             Phase = TurnPhase.DefenderLayDown;
             CurrentPlayerId = FindOpponentOf(playerId);
         }
@@ -192,16 +191,7 @@ namespace GinRummy.Domain
             EnsureTurn(playerId, TurnPhase.DefenderLayDown);
             List<Card> hand = FindHand(playerId);
             EnsureMeldsOfHand(hand, melds);
-            List<Card> unmatchedCards = FindUnmatchedCards(hand, melds);
-
-            if (_knockerDeadwood > 0)
-            {
-                LayOff(unmatchedCards);
-            }
-
-            _defenderUnmatchedCards = unmatchedCards;
-            DefenderDeadwood = CountUnmatchedPoints(unmatchedCards);
-            Result = Score(playerId, DefenderDeadwood);
+            Result = _knockedHand.ResolveDefense(playerId, FindUnmatchedCards(hand, melds));
             Phase = TurnPhase.Finished;
 
             return Result;
@@ -302,45 +292,6 @@ namespace GinRummy.Domain
             CurrentPlayerId = FindOpponentOf(CurrentPlayerId);
             CardTakenFromDiscardPile = null;
             Phase = TurnPhase.Draw;
-        }
-
-        private void LayOff(List<Card> unmatchedCards)
-        {
-            bool hasLaidOffCard = true;
-            while (hasLaidOffCard)
-            {
-                hasLaidOffCard = false;
-                foreach (Card card in unmatchedCards.ToList())
-                {
-                    List<Card> meld = _knockerMelds.FirstOrDefault(knockerMeld => MeldRules.CanLayOff(card, knockerMeld));
-                    if (meld != null)
-                    {
-                        meld.Add(card);
-                        unmatchedCards.Remove(card);
-                        hasLaidOffCard = true;
-                    }
-                }
-            }
-        }
-
-        private RoundResult Score(int defenderId, int defenderDeadwood)
-        {
-            RoundResult result;
-            if (_knockerDeadwood == 0)
-            {
-                result = new RoundResult(_knockerId, defenderDeadwood + RoundRules.GinBonus, RoundOutcome.Gin);
-            }
-            else if (defenderDeadwood <= _knockerDeadwood)
-            {
-                int points = (_knockerDeadwood - defenderDeadwood) + RoundRules.UndercutBonus;
-                result = new RoundResult(defenderId, points, RoundOutcome.Undercut);
-            }
-            else
-            {
-                result = new RoundResult(_knockerId, defenderDeadwood - _knockerDeadwood, RoundOutcome.Knock);
-            }
-
-            return result;
         }
 
         private static List<Card> FindUnmatchedCards(List<Card> hand, IList<IList<Card>> melds)

@@ -104,6 +104,7 @@
     <Compile Include="Entities\Gameplay\GameMatch.cs" />
     <Compile Include="Entities\Gameplay\CardSuit.cs" />
     <Compile Include="Entities\Gameplay\GameRound.cs" />
+    <Compile Include="Entities\Gameplay\KnockedHand.cs" />
     <Compile Include="Exceptions\InvalidMoveException.cs" />
     <Compile Include="Entities\Gameplay\MeldFinder.cs" />
     <Compile Include="Entities\Gameplay\MeldRules.cs" />
