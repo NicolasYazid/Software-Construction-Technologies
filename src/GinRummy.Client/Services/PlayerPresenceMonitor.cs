@@ -38,7 +38,7 @@ namespace GinRummy.Client.Services
             try
             {
                 presenceService.SubscribeToPlayerPresence(accessToken);
-                communicationObject.Faulted += OnChannelFaulted;
+                communicationObject.Faulted += HandleChannelFaulted;
                 _presenceService = presenceService;
                 isSubscribed = true;
             }
@@ -108,7 +108,7 @@ namespace GinRummy.Client.Services
         }
 
         // The lists stay as they were, and the player has to open the lobby again to follow the presence of the others.
-        private void OnChannelFaulted(object sender, EventArgs e)
+        private void HandleChannelFaulted(object sender, EventArgs e)
         {
             _logger.LogWarning("The channel of the presence of the players failed, so the lists may no longer be up to date.");
         }

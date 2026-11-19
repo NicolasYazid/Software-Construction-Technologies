@@ -21,52 +21,52 @@ namespace GinRummy.Client.Views
         {
             InitializeComponent();
             _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
-            _viewModel.CodeVerified += OnCodeVerified;
-            _viewModel.ErrorDialogRequested += OnErrorDialogRequested;
+            _viewModel.CodeVerified += HandleCodeVerified;
+            _viewModel.ErrorDialogRequested += HandleErrorDialogRequested;
             _logInViewModel = viewModel as TwoStepLogInViewModel;
             if (_logInViewModel != null)
             {
-                _logInViewModel.SignedIn += OnSignedIn;
-                _logInViewModel.AccountRestricted += OnAccountRestricted;
+                _logInViewModel.SignedIn += HandleSignedIn;
+                _logInViewModel.AccountRestricted += HandleAccountRestricted;
             }
 
             DataContext = _viewModel;
-            Closed += OnScreenClosed;
+            Closed += HandleScreenClosed;
         }
 
-        private void OnCodeVerified(object sender, EventArgs e)
+        private void HandleCodeVerified(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void OnSignedIn(object sender, LogInOutcome signedInPlayer)
+        private void HandleSignedIn(object sender, LogInOutcome signedInPlayer)
         {
             ((App)Application.Current).StoreSignedInPlayer(signedInPlayer);
             EnterLobby(new GuiLobbyChat());
         }
 
-        private void OnAccountRestricted(object sender, AccountRestriction restriction)
+        private void HandleAccountRestricted(object sender, AccountRestriction restriction)
         {
             NavigateTo(AccountRestrictionScreenCommon.CreateScreen(restriction));
         }
 
-        private void OnErrorDialogRequested(object sender, ErrorDialogKind kind)
+        private void HandleErrorDialogRequested(object sender, ErrorDialogKind kind)
         {
             ShowModal(new GuiErrorDialog(kind));
         }
 
-        private void OnScreenClosed(object sender, EventArgs e)
+        private void HandleScreenClosed(object sender, EventArgs e)
         {
             _viewModel.CodeCountdown.Stop();
-            _viewModel.CodeVerified -= OnCodeVerified;
-            _viewModel.ErrorDialogRequested -= OnErrorDialogRequested;
+            _viewModel.CodeVerified -= HandleCodeVerified;
+            _viewModel.ErrorDialogRequested -= HandleErrorDialogRequested;
             if (_logInViewModel != null)
             {
-                _logInViewModel.SignedIn -= OnSignedIn;
-                _logInViewModel.AccountRestricted -= OnAccountRestricted;
+                _logInViewModel.SignedIn -= HandleSignedIn;
+                _logInViewModel.AccountRestricted -= HandleAccountRestricted;
             }
 
-            Closed -= OnScreenClosed;
+            Closed -= HandleScreenClosed;
         }
     }
 }

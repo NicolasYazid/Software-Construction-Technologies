@@ -268,7 +268,7 @@
                         Margin="0,22,0,0"
                         Content="{Binding [Shared_BtnClose], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
-                        Click="OnCloseClick" />
+                        Click="HandleCloseClick" />
 
             </StackPanel>
         </Border>

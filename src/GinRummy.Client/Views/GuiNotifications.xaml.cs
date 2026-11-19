@@ -23,13 +23,13 @@ namespace GinRummy.Client.Views
             _friendshipConnection = friendshipConnection ?? throw new ArgumentNullException(nameof(friendshipConnection));
             _viewModel = ((App)Application.Current).CreateNotificationsViewModel(_friendshipConnection);
             _viewModel.StartReceivingRequests();
-            _viewModel.RequestsUnavailable += OnRequestsUnavailable;
+            _viewModel.RequestsUnavailable += HandleRequestsUnavailable;
             DataContext = _viewModel;
-            Loaded += OnNotificationsLoaded;
-            Closed += OnScreenClosed;
+            Loaded += HandleNotificationsLoaded;
+            Closed += HandleScreenClosed;
         }
 
-        private void OnTabSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void HandleTabSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             // The two tabs are two screens of the prototype, so choosing the other tab opens its screen here instead of switching a panel.
             // The selection the tab control makes while it loads is not a choice of the player.
@@ -39,45 +39,45 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnCloseClick(object sender, RoutedEventArgs e)
+        private void HandleCloseClick(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        private void OnScreenClosed(object sender, EventArgs e)
+        private void HandleScreenClosed(object sender, EventArgs e)
         {
             _viewModel.StopReceivingRequests();
-            _viewModel.RequestsUnavailable -= OnRequestsUnavailable;
-            Closed -= OnScreenClosed;
+            _viewModel.RequestsUnavailable -= HandleRequestsUnavailable;
+            Closed -= HandleScreenClosed;
         }
 
-        private void OnNotificationsLoaded(object sender, RoutedEventArgs e)
+        private void HandleNotificationsLoaded(object sender, RoutedEventArgs e)
         {
-            Loaded -= OnNotificationsLoaded;
+            Loaded -= HandleNotificationsLoaded;
             _viewModel.LoadPendingRequests();
         }
 
-        private void OnRequestsUnavailable(object sender, ErrorDialogKind errorDialogKind)
+        private void HandleRequestsUnavailable(object sender, ErrorDialogKind errorDialogKind)
         {
             GuiErrorDialog errorDialog = new GuiErrorDialog(errorDialogKind);
             if (errorDialogKind == ErrorDialogKind.SessionExpired)
             {
-                errorDialog.Closed += OnSessionExpiredDialogClosed;
+                errorDialog.Closed += HandleSessionExpiredDialogClosed;
             }
             else
             {
-                errorDialog.Closed += OnErrorDialogClosed;
+                errorDialog.Closed += HandleErrorDialogClosed;
             }
 
             ShowModal(errorDialog);
         }
 
-        private void OnErrorDialogClosed(object sender, EventArgs e)
+        private void HandleErrorDialogClosed(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void OnSessionExpiredDialogClosed(object sender, EventArgs e)
+        private void HandleSessionExpiredDialogClosed(object sender, EventArgs e)
         {
             LeaveLobby();
         }

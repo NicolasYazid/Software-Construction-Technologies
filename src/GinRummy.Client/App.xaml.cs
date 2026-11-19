@@ -285,8 +285,8 @@ namespace GinRummy.Client
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            DispatcherUnhandledException += OnDispatcherUnhandledException;
-            AppDomain.CurrentDomain.UnhandledException += OnDomainUnhandledException;
+            DispatcherUnhandledException += HandleDispatcherUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += HandleDomainUnhandledException;
             Resources[LocalizationResourceKey] = LocalizationProvider.Instance;
             LocalizationProvider.Instance.SetCulture(LocalizationProvider.DefaultCultureCode);
             if (IsSoftwareRendering())
@@ -298,7 +298,7 @@ namespace GinRummy.Client
         }
 
         // An exception that reaches this handler had no catch block, so the state of the screen and of the session is unknown.
-        private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        private void HandleDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             _logger.LogCritical(e.Exception, "An unexpected error closed the client.");
             ShowFatalErrorMessage();
@@ -307,7 +307,7 @@ namespace GinRummy.Client
         }
 
         // The runtime ends the process once this handler returns, so the handler only records the failure and tells the player.
-        private void OnDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private void HandleDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             _logger.LogCritical(e.ExceptionObject as Exception, "An unexpected error outside the interface thread closed the client.");
             ShowFatalErrorMessage();

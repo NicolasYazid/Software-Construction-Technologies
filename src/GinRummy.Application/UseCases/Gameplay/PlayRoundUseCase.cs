@@ -19,7 +19,7 @@ namespace GinRummy.Application.UseCases.Gameplay
             _matchRegistry = matchRegistry ?? throw new ArgumentNullException(nameof(matchRegistry));
             _roundAnnouncer = roundAnnouncer ?? throw new ArgumentNullException(nameof(roundAnnouncer));
             _matchRecorder = matchRecorder ?? throw new ArgumentNullException(nameof(matchRecorder));
-            _matchRegistry.MatchStarted += OnMatchStarted;
+            _matchRegistry.MatchStarted += HandleMatchStarted;
         }
 
         public void TakeFirstCard(int playerId)
@@ -98,7 +98,7 @@ namespace GinRummy.Application.UseCases.Gameplay
             return hasMatchToShow;
         }
 
-        private void OnMatchStarted(object sender, ActiveMatch activeMatch)
+        private void HandleMatchStarted(object sender, ActiveMatch activeMatch)
         {
             lock (activeMatch.SyncRoot)
             {

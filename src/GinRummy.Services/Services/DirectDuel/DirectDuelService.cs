@@ -119,8 +119,8 @@ namespace GinRummy.Services.Services.DirectDuel
             _onlinePlayers.AddPlayer(playerId, callback);
             _subscribedPlayerId = playerId;
             _subscribedCallback = callback;
-            context.Channel.Closed += OnChannelClosed;
-            context.Channel.Faulted += OnChannelFaulted;
+            context.Channel.Closed += HandleChannelClosed;
+            context.Channel.Faulted += HandleChannelFaulted;
         }
 
         private void LeaveChallenges()
@@ -136,12 +136,12 @@ namespace GinRummy.Services.Services.DirectDuel
             _challengeUseCase.Cancel(_subscribedPlayerId);
         }
 
-        private void OnChannelClosed(object sender, EventArgs e)
+        private void HandleChannelClosed(object sender, EventArgs e)
         {
             LeaveChallenges();
         }
 
-        private void OnChannelFaulted(object sender, EventArgs e)
+        private void HandleChannelFaulted(object sender, EventArgs e)
         {
             LeaveChallenges();
         }

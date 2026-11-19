@@ -17,47 +17,47 @@ namespace GinRummy.Client.Views
             InitializeComponent();
         }
 
-        private void OnLogInClick(object sender, RoutedEventArgs e)
+        private void HandleLogInClick(object sender, RoutedEventArgs e)
         {
             ShowModal(new GuiLogIn());
         }
 
-        private void OnCreateAccountClick(object sender, RoutedEventArgs e)
+        private void HandleCreateAccountClick(object sender, RoutedEventArgs e)
         {
             ShowModal(new GuiSignUp());
         }
 
-        private void OnPlayAsGuestClick(object sender, RoutedEventArgs e)
+        private void HandlePlayAsGuestClick(object sender, RoutedEventArgs e)
         {
             LogInViewModel logIn = ((App)Application.Current).CreateLogInViewModel();
-            logIn.GuestSignedIn += OnGuestSignedIn;
-            logIn.ConnectionFailed += OnConnectionFailed;
+            logIn.GuestSignedIn += HandleGuestSignedIn;
+            logIn.ConnectionFailed += HandleConnectionFailed;
             logIn.LogInAsGuest();
         }
 
-        private void OnGuestSignedIn(object sender, LogInOutcome signedInGuest)
+        private void HandleGuestSignedIn(object sender, LogInOutcome signedInGuest)
         {
             ((App)Application.Current).StoreSignedInGuest(signedInGuest);
             EnterLobby(new GuiGuestLobby());
         }
 
-        private void OnConnectionFailed(object sender, ErrorDialogKind kind)
+        private void HandleConnectionFailed(object sender, ErrorDialogKind kind)
         {
             ShowModal(new GuiErrorDialog(kind));
         }
 
-        private void OnSettingsClick(object sender, RoutedEventArgs e)
+        private void HandleSettingsClick(object sender, RoutedEventArgs e)
         {
             ShowModal(new GuiProfilePanel());
         }
 
-        private void OnHowToPlayClick(object sender, RoutedEventArgs e)
+        private void HandleHowToPlayClick(object sender, RoutedEventArgs e)
         {
             GuiHouseRules houseRules = new GuiHouseRules();
             ShowModal(houseRules);
         }
 
-        private void OnExitClick(object sender, RoutedEventArgs e)
+        private void HandleExitClick(object sender, RoutedEventArgs e)
         {
             Close();
         }

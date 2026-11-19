@@ -25,29 +25,29 @@ namespace GinRummy.Client.Views
         {
             InitializeComponent();
             _viewModel = ((App)Application.Current).CreateSignUpViewModel(isGuestSessionActive);
-            _viewModel.AccountCreated += OnAccountCreated;
-            _viewModel.ConnectionFailed += OnConnectionFailed;
+            _viewModel.AccountCreated += HandleAccountCreated;
+            _viewModel.ConnectionFailed += HandleConnectionFailed;
             DataContext = _viewModel;
-            Closed += OnScreenClosed;
+            Closed += HandleScreenClosed;
         }
 
-        private void OnTogglePasswordClick(object sender, RoutedEventArgs e)
+        private void HandleTogglePasswordClick(object sender, RoutedEventArgs e)
         {
             PasswordRevealCommon.Toggle(pwdPassword, txtPasswordShown);
         }
 
-        private void OnToggleConfirmPasswordClick(object sender, RoutedEventArgs e)
+        private void HandleToggleConfirmPasswordClick(object sender, RoutedEventArgs e)
         {
             PasswordRevealCommon.Toggle(pwdConfirmPassword, txtConfirmPasswordShown);
         }
 
-        private void OnCancelClick(object sender, RoutedEventArgs e)
+        private void HandleCancelClick(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
         // The verification screen works with the email as the server stored it (CU-01 step 11).
-        private void OnAccountCreated(object sender, SignUpOutcome outcome)
+        private void HandleAccountCreated(object sender, SignUpOutcome outcome)
         {
             SignUpVerifyEmailViewModel verifyEmailViewModel =
                 ((App)Application.Current).CreateSignUpVerifyEmailViewModel(outcome.Email);
@@ -59,16 +59,16 @@ namespace GinRummy.Client.Views
             NavigateTo(new GuiVerifyEmail(verifyEmailViewModel));
         }
 
-        private void OnConnectionFailed(object sender, ErrorDialogKind kind)
+        private void HandleConnectionFailed(object sender, ErrorDialogKind kind)
         {
             ShowModal(new GuiErrorDialog(kind));
         }
 
-        private void OnScreenClosed(object sender, EventArgs e)
+        private void HandleScreenClosed(object sender, EventArgs e)
         {
-            _viewModel.AccountCreated -= OnAccountCreated;
-            _viewModel.ConnectionFailed -= OnConnectionFailed;
-            Closed -= OnScreenClosed;
+            _viewModel.AccountCreated -= HandleAccountCreated;
+            _viewModel.ConnectionFailed -= HandleConnectionFailed;
+            Closed -= HandleScreenClosed;
         }
     }
 }

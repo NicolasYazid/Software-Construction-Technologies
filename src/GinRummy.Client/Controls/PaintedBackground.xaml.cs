@@ -78,7 +78,7 @@ namespace GinRummy.Client.Controls
                 nameof(BlockResolution),
                 typeof(int),
                 typeof(PaintedBackground),
-                new PropertyMetadata(DefaultShortSide, OnBlockResolutionChanged));
+                new PropertyMetadata(DefaultShortSide, HandleBlockResolutionChanged));
 
         public static readonly DependencyProperty DeepColourProperty =
             DependencyProperty.Register(
@@ -118,9 +118,9 @@ namespace GinRummy.Client.Controls
         {
             InitializeComponent();
             _clock = new Stopwatch();
-            SizeChanged += OnControlSizeChanged;
-            IsVisibleChanged += OnControlVisibilityChanged;
-            Unloaded += OnControlUnloaded;
+            SizeChanged += HandleControlSizeChanged;
+            IsVisibleChanged += HandleControlVisibilityChanged;
+            Unloaded += HandleControlUnloaded;
         }
 
         public double PatternScale
@@ -184,7 +184,7 @@ namespace GinRummy.Client.Controls
             }
         }
 
-        private static void OnBlockResolutionChanged(
+        private static void HandleBlockResolutionChanged(
             DependencyObject source,
             DependencyPropertyChangedEventArgs arguments)
         {
@@ -195,12 +195,12 @@ namespace GinRummy.Client.Controls
             }
         }
 
-        private void OnControlSizeChanged(object sender, SizeChangedEventArgs e)
+        private void HandleControlSizeChanged(object sender, SizeChangedEventArgs e)
         {
             CreateSurface(e.NewSize);
         }
 
-        private void OnControlVisibilityChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void HandleControlVisibilityChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (IsVisible && !_isPaused)
             {
@@ -212,12 +212,12 @@ namespace GinRummy.Client.Controls
             }
         }
 
-        private void OnControlUnloaded(object sender, RoutedEventArgs e)
+        private void HandleControlUnloaded(object sender, RoutedEventArgs e)
         {
             StopAnimation();
         }
 
-        private void OnRendering(object sender, EventArgs e)
+        private void HandleRendering(object sender, EventArgs e)
         {
             PresentFinishedFrame();
             RequestNextFrame();
@@ -228,7 +228,7 @@ namespace GinRummy.Client.Controls
             _clock.Start();
             if (!_isSubscribedToRendering)
             {
-                CompositionTarget.Rendering += OnRendering;
+                CompositionTarget.Rendering += HandleRendering;
                 _isSubscribedToRendering = true;
             }
         }
@@ -237,7 +237,7 @@ namespace GinRummy.Client.Controls
         {
             if (_isSubscribedToRendering)
             {
-                CompositionTarget.Rendering -= OnRendering;
+                CompositionTarget.Rendering -= HandleRendering;
                 _isSubscribedToRendering = false;
             }
 

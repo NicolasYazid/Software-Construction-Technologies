@@ -18,7 +18,7 @@ namespace GinRummy.Client.Views
             DataContext = ((App)Application.Current).CreateHouseRulesViewModel();
         }
 
-        private void OnCloseClick(object sender, RoutedEventArgs e)
+        private void HandleCloseClick(object sender, RoutedEventArgs e)
         {
             Close();
         }

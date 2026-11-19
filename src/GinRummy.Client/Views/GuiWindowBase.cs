@@ -33,10 +33,10 @@ namespace GinRummy.Client.Views
         protected GuiWindowBase()
         {
             _localization = LocalizationProvider.Instance;
-            _localization.PropertyChanged += OnLocalizationChanged;
+            _localization.PropertyChanged += HandleLocalizationChanged;
             _modals = new List<GuiModalBase>();
-            Closed += OnWindowClosed;
-            PreviewKeyDown += OnWindowPreviewKeyDown;
+            Closed += HandleWindowClosed;
+            PreviewKeyDown += HandleWindowPreviewKeyDown;
         }
 
         protected LocalizationProvider Localization
@@ -203,13 +203,13 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnLocalizationChanged(object sender, PropertyChangedEventArgs e)
+        private void HandleLocalizationChanged(object sender, PropertyChangedEventArgs e)
         {
             RefreshFormattedText();
         }
 
         // Escape closes the top modal to keep the behavior modals had when they were windows of their own.
-        private void OnWindowPreviewKeyDown(object sender, KeyEventArgs e)
+        private void HandleWindowPreviewKeyDown(object sender, KeyEventArgs e)
         {
             if ((e.Key == Key.Escape) && (_modals.Count > 0))
             {
@@ -218,13 +218,13 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnWindowClosed(object sender, EventArgs e)
+        private void HandleWindowClosed(object sender, EventArgs e)
         {
             _isClosed = true;
             CloseAllModals();
-            _localization.PropertyChanged -= OnLocalizationChanged;
-            PreviewKeyDown -= OnWindowPreviewKeyDown;
-            Closed -= OnWindowClosed;
+            _localization.PropertyChanged -= HandleLocalizationChanged;
+            PreviewKeyDown -= HandleWindowPreviewKeyDown;
+            Closed -= HandleWindowClosed;
 
             if (_isInPlaceOfMenu && !_isHandingOver)
             {

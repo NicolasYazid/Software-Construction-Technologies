@@ -46,7 +46,7 @@ namespace GinRummy.Client.Services
             bool isSubscribed = TryCall("subscribe to the challenges", () => service.SubscribeToDirectDuel(accessToken));
             if (isSubscribed)
             {
-                channel.Faulted += OnChannelFaulted;
+                channel.Faulted += HandleChannelFaulted;
                 _service = service;
             }
             else
@@ -129,7 +129,7 @@ namespace GinRummy.Client.Services
             return outcome;
         }
 
-        private void OnChannelFaulted(object sender, EventArgs e)
+        private void HandleChannelFaulted(object sender, EventArgs e)
         {
             _logger.LogWarning("The channel of the challenges failed, so no challenge arrives anymore.");
             _screenContext.Post(state => ConnectionLost?.Invoke(this, EventArgs.Empty), null);

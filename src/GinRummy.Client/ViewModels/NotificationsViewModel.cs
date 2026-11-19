@@ -41,8 +41,8 @@ namespace GinRummy.Client.ViewModels
             _pendingRequestsConnection = pendingRequestsConnection
                 ?? throw new ArgumentNullException(nameof(pendingRequestsConnection));
             _responseConnection = responseConnection ?? throw new ArgumentNullException(nameof(responseConnection));
-            _pendingRequestsConnection.RequestsUnavailable += OnRequestsUnavailable;
-            _responseConnection.ResponseUnavailable += OnRequestsUnavailable;
+            _pendingRequestsConnection.RequestsUnavailable += HandleRequestsUnavailable;
+            _responseConnection.ResponseUnavailable += HandleRequestsUnavailable;
             FriendRequests = new ObservableCollection<PendingFriendRequestViewModel>();
             AcceptRequestCommand = new RelayCommand(AcceptRequest);
             DeclineRequestCommand = new RelayCommand(DeclineRequest);
@@ -85,12 +85,12 @@ namespace GinRummy.Client.ViewModels
 
         public void StartReceivingRequests()
         {
-            _friendshipConnection.FriendshipEventReceived += OnFriendshipEventReceived;
+            _friendshipConnection.FriendshipEventReceived += HandleFriendshipEventReceived;
         }
 
         public void StopReceivingRequests()
         {
-            _friendshipConnection.FriendshipEventReceived -= OnFriendshipEventReceived;
+            _friendshipConnection.FriendshipEventReceived -= HandleFriendshipEventReceived;
         }
 
         public void LoadPendingRequests()
@@ -143,7 +143,7 @@ namespace GinRummy.Client.ViewModels
             HasNoPendingRequests = FriendRequests.Count == 0;
         }
 
-        private void OnFriendshipEventReceived(object sender, FriendshipEvent friendshipEvent)
+        private void HandleFriendshipEventReceived(object sender, FriendshipEvent friendshipEvent)
         {
             if (friendshipEvent.EventType == FriendshipEventType.FriendRequestReceived)
             {
@@ -169,7 +169,7 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        private void OnRequestsUnavailable(object sender, ErrorDialogKind errorDialogKind)
+        private void HandleRequestsUnavailable(object sender, ErrorDialogKind errorDialogKind)
         {
             RequestsUnavailable?.Invoke(this, errorDialogKind);
         }

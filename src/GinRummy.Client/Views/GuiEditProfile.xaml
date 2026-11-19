@@ -27,10 +27,10 @@
                 </Grid>
                 <Button x:Name="btnChangePhoto" Style="{StaticResource StyCenteredTextButton}" Margin="0,14,0,0"
                         Content="{Binding [EditProfile_BtnChangePhoto], Source={StaticResource PrvLocalization}}"
-                        Click="OnChangePhotoClick" />
+                        Click="HandleChangePhotoClick" />
                 <Button x:Name="btnRemovePhoto" Style="{StaticResource StyCenteredTextButton}" Margin="0,6,0,0"
                         Content="{Binding [EditProfile_BtnRemovePhoto], Source={StaticResource PrvLocalization}}"
-                        Click="OnRemovePhotoClick" />
+                        Click="HandleRemovePhotoClick" />
                 <TextBlock x:Name="lblImageRequirements" Style="{StaticResource StySettingHint}"
                            TextAlignment="Center" Margin="0,8,0,0">
                     <TextBlock.Text>
@@ -134,11 +134,11 @@
                 <Button x:Name="btnSave" Style="{StaticResource StyCardPrimaryButton}" Margin="0,24,0,0"
                         Content="{Binding [Shared_BtnSave], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
-                        Click="OnSaveClick" />
+                        Click="HandleSaveClick" />
                 <Button x:Name="btnCancel" Style="{StaticResource StyCardOutlineButton}" Margin="0,14,0,0"
                         Content="{Binding [Shared_BtnCancel], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
-                        Click="OnCancelClick" />
+                        Click="HandleCancelClick" />
 
             </StackPanel>
         </ScrollViewer>

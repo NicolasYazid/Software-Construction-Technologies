@@ -145,7 +145,7 @@ namespace GinRummy.Client.Services
             bool isSubscribed = TryCall(operation, () => subscribe(service));
             if (isSubscribed)
             {
-                channel.Faulted += OnChannelFaulted;
+                channel.Faulted += HandleChannelFaulted;
                 _service = service;
             }
             else
@@ -163,7 +163,7 @@ namespace GinRummy.Client.Services
             return (service != null) && TryCall(operation, () => call(service));
         }
 
-        private void OnChannelFaulted(object sender, EventArgs e)
+        private void HandleChannelFaulted(object sender, EventArgs e)
         {
             _logger.LogWarning("The channel of the round failed, so the moves no longer arrive.");
             _screenContext.Post(state => ConnectionLost?.Invoke(this, EventArgs.Empty), null);

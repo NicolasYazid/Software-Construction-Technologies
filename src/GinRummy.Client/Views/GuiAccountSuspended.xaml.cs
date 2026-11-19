@@ -18,19 +18,19 @@ namespace GinRummy.Client.Views
             InitializeComponent();
             _viewModel = ((App)Application.Current).CreateAccountSuspendedViewModel(reasonName, remainingTime);
             DataContext = _viewModel;
-            Closed += OnScreenClosed;
+            Closed += HandleScreenClosed;
         }
 
-        private void OnLogOutClick(object sender, RoutedEventArgs e)
+        private void HandleLogOutClick(object sender, RoutedEventArgs e)
         {
             // Leaving only closes the screen because a suspended account never gets a session to end (CU-02 EX-04).
             Close();
         }
 
-        private void OnScreenClosed(object sender, EventArgs e)
+        private void HandleScreenClosed(object sender, EventArgs e)
         {
             _viewModel.Countdown.Stop();
-            Closed -= OnScreenClosed;
+            Closed -= HandleScreenClosed;
         }
     }
 }

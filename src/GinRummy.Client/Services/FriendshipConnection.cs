@@ -41,7 +41,7 @@ namespace GinRummy.Client.Services
             try
             {
                 friendshipService.SubscribeToFriendship(accessToken);
-                communicationObject.Faulted += OnChannelFaulted;
+                communicationObject.Faulted += HandleChannelFaulted;
                 _friendshipService = friendshipService;
                 isSubscribed = true;
             }
@@ -200,7 +200,7 @@ namespace GinRummy.Client.Services
             return isRemovalSent;
         }
 
-        private void OnChannelFaulted(object sender, EventArgs e)
+        private void HandleChannelFaulted(object sender, EventArgs e)
         {
             _logger.LogWarning("The channel of the friendship notices failed, so the new friend requests no longer arrive.");
         }

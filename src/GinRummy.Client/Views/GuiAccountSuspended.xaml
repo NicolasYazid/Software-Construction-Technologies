@@ -23,7 +23,7 @@
                         Margin="0,24,0,0"
                         Content="{Binding [Shared_BtnLogOut], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
-                        Click="OnLogOutClick" />
+                        Click="HandleLogOutClick" />
 
                 <TextBlock x:Name="lblTimeRemaining" Style="{StaticResource StyDialogEmphasis}" Margin="0,14,0,0">
                     <TextBlock.Text>

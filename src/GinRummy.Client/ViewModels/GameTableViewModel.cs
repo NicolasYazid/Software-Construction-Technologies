@@ -68,10 +68,10 @@ namespace GinRummy.Client.ViewModels
             MatchLog = new ObservableCollection<MatchLogEntry>();
             OpponentCards = new List<int>();
             HandMelds = new List<Meld>();
-            Hand.CollectionChanged += OnHandChanged;
+            Hand.CollectionChanged += HandleHandChanged;
             _pauseNoticeTimer = new DispatcherTimer();
             _pauseNoticeTimer.Interval = TimeSpan.FromSeconds(PauseNoticeDelaySeconds);
-            _pauseNoticeTimer.Tick += OnPauseNoticeTimerTick;
+            _pauseNoticeTimer.Tick += HandlePauseNoticeTimerTick;
             TakeCommand = new RelayCommand(() => Play(_gameConnection.TakeFirstCard));
             PassCommand = new RelayCommand(() => Play(_gameConnection.PassFirstCard));
             DrawFromStockCommand = new RelayCommand(() => Play(_gameConnection.DrawFromStock), () => IsDrawing);
@@ -300,23 +300,23 @@ namespace GinRummy.Client.ViewModels
 
         public void Start(RoundDetails startedRound)
         {
-            _gameConnection.RoundChanged += OnRoundChanged;
-            _gameConnection.RoundFinished += OnRoundFinished;
-            _gameConnection.OpponentLeft += OnOpponentLeft;
-            _gameConnection.OpponentDisconnected += OnOpponentDisconnected;
-            _gameConnection.OpponentReconnected += OnOpponentReconnected;
-            _gameConnection.ConnectionLost += OnConnectionLost;
-            OnRoundChanged(this, startedRound);
+            _gameConnection.RoundChanged += HandleRoundChanged;
+            _gameConnection.RoundFinished += HandleRoundFinished;
+            _gameConnection.OpponentLeft += HandleOpponentLeft;
+            _gameConnection.OpponentDisconnected += HandleOpponentDisconnected;
+            _gameConnection.OpponentReconnected += HandleOpponentReconnected;
+            _gameConnection.ConnectionLost += HandleConnectionLost;
+            HandleRoundChanged(this, startedRound);
         }
 
         public void Stop()
         {
-            _gameConnection.RoundChanged -= OnRoundChanged;
-            _gameConnection.RoundFinished -= OnRoundFinished;
-            _gameConnection.OpponentLeft -= OnOpponentLeft;
-            _gameConnection.OpponentDisconnected -= OnOpponentDisconnected;
-            _gameConnection.OpponentReconnected -= OnOpponentReconnected;
-            _gameConnection.ConnectionLost -= OnConnectionLost;
+            _gameConnection.RoundChanged -= HandleRoundChanged;
+            _gameConnection.RoundFinished -= HandleRoundFinished;
+            _gameConnection.OpponentLeft -= HandleOpponentLeft;
+            _gameConnection.OpponentDisconnected -= HandleOpponentDisconnected;
+            _gameConnection.OpponentReconnected -= HandleOpponentReconnected;
+            _gameConnection.ConnectionLost -= HandleConnectionLost;
             _pauseNoticeTimer.Stop();
             if (!_isMatchOver)
             {
@@ -363,7 +363,7 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        private void OnHandChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void HandleHandChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             RaisePropertyChanged(nameof(HandCount));
             RaisePropertyChanged(nameof(HandCountKey));
@@ -442,7 +442,7 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        private void OnRoundChanged(object sender, RoundDetails round)
+        private void HandleRoundChanged(object sender, RoundDetails round)
         {
             _round = round;
             _isMoveRefused = false;
@@ -466,7 +466,7 @@ namespace GinRummy.Client.ViewModels
             CommandManager.InvalidateRequerySuggested();
         }
 
-        private void OnRoundFinished(object sender, RoundSummary summary)
+        private void HandleRoundFinished(object sender, RoundSummary summary)
         {
             _round.IsYourTurn = false;
             _playerScore = summary.PlayerScore;
@@ -490,7 +490,7 @@ namespace GinRummy.Client.ViewModels
             RaisePropertyChanged(string.Empty);
         }
 
-        private void OnOpponentLeft(object sender, EventArgs e)
+        private void HandleOpponentLeft(object sender, EventArgs e)
         {
             _isMatchOver = true;
             _pauseNoticeTimer.Stop();
@@ -501,24 +501,24 @@ namespace GinRummy.Client.ViewModels
             RaisePropertyChanged(string.Empty);
         }
 
-        private void OnOpponentDisconnected(object sender, EventArgs e)
+        private void HandleOpponentDisconnected(object sender, EventArgs e)
         {
             _pauseNoticeTimer.Start();
         }
 
-        private void OnPauseNoticeTimerTick(object sender, EventArgs e)
+        private void HandlePauseNoticeTimerTick(object sender, EventArgs e)
         {
             _pauseNoticeTimer.Stop();
             IsOpponentDisconnected = true;
         }
 
-        private void OnOpponentReconnected(object sender, EventArgs e)
+        private void HandleOpponentReconnected(object sender, EventArgs e)
         {
             _pauseNoticeTimer.Stop();
             IsOpponentDisconnected = false;
         }
 
-        private void OnConnectionLost(object sender, EventArgs e)
+        private void HandleConnectionLost(object sender, EventArgs e)
         {
             if (!_isMatchOver)
             {

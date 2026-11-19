@@ -17,11 +17,11 @@ namespace GinRummy.Client.Views
         {
             InitializeComponent();
             _viewModel = ((App)Application.Current).CreateRecoverPasswordViewModel();
-            _viewModel.CodeRequested += OnCodeRequested;
+            _viewModel.CodeRequested += HandleCodeRequested;
             DataContext = _viewModel;
         }
 
-        private void OnCodeRequested(object sender, EventArgs e)
+        private void HandleCodeRequested(object sender, EventArgs e)
         {
             NavigateTo(new GuiVerifyEmail(VerificationPurpose.PasswordRecovery, _viewModel.Email));
         }

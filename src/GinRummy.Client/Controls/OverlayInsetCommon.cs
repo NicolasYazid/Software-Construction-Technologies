@@ -18,7 +18,7 @@ namespace GinRummy.Client.Controls
                 "IsInset",
                 typeof(bool),
                 typeof(OverlayInsetCommon),
-                new PropertyMetadata(false, OnIsInsetChanged));
+                new PropertyMetadata(false, HandleIsInsetChanged));
 
         // Each list keeps the handler it subscribed, so turning the inset off and on again never leaves two handlers measuring it.
         private static readonly DependencyProperty s_layoutHandlerProperty =
@@ -50,7 +50,7 @@ namespace GinRummy.Client.Controls
             }
         }
 
-        private static void OnIsInsetChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
+        private static void HandleIsInsetChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
         {
             Control list = element as Control;
             if (list != null)

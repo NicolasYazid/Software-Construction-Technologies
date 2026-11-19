@@ -22,7 +22,7 @@ namespace GinRummy.Client.Controls
                 "CornerSteps",
                 typeof(int),
                 typeof(PixelShapeCommon),
-                new PropertyMetadata(NoSteps, OnOutlineChanged));
+                new PropertyMetadata(NoSteps, HandleOutlineChanged));
 
         // Small elements take a smaller block so that their corners still read as round.
         public static readonly DependencyProperty PixelUnitProperty =
@@ -30,7 +30,7 @@ namespace GinRummy.Client.Controls
                 "PixelUnit",
                 typeof(double),
                 typeof(PixelShapeCommon),
-                new PropertyMetadata(DefaultPixelUnit, OnOutlineChanged));
+                new PropertyMetadata(DefaultPixelUnit, HandleOutlineChanged));
 
         public static int GetCornerSteps(DependencyObject element)
         {
@@ -165,7 +165,7 @@ namespace GinRummy.Client.Controls
 
         // The outline is measured from the size the layout grants.
         // It therefore follows the element every time that size changes instead of being fixed once.
-        private static void OnOutlineChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
+        private static void HandleOutlineChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
         {
             FrameworkElement target = element as FrameworkElement;
             if (target == null)
@@ -173,16 +173,16 @@ namespace GinRummy.Client.Controls
                 return;
             }
 
-            target.SizeChanged -= OnTargetSizeChanged;
+            target.SizeChanged -= HandleTargetSizeChanged;
             if (GetCornerSteps(target) > NoSteps)
             {
-                target.SizeChanged += OnTargetSizeChanged;
+                target.SizeChanged += HandleTargetSizeChanged;
             }
 
             ApplyOutline(target);
         }
 
-        private static void OnTargetSizeChanged(object sender, SizeChangedEventArgs e)
+        private static void HandleTargetSizeChanged(object sender, SizeChangedEventArgs e)
         {
             ApplyOutline((FrameworkElement)sender);
         }

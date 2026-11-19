@@ -24,7 +24,7 @@ namespace GinRummy.Services.Hosting
                 throw new ArgumentNullException(nameof(host));
             }
 
-            host.Faulted += OnHostFaulted;
+            host.Faulted += HandleHostFaulted;
             _hosts.Add(host);
         }
 
@@ -103,7 +103,7 @@ namespace GinRummy.Services.Hosting
             }
         }
 
-        private void OnHostFaulted(object sender, EventArgs e)
+        private void HandleHostFaulted(object sender, EventArgs e)
         {
             if (sender is ServiceHostBase host)
             {

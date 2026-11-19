@@ -40,7 +40,7 @@ namespace GinRummy.Client.Services
             try
             {
                 chatService.SubscribeToChat(accessToken);
-                communicationObject.Faulted += OnChannelFaulted;
+                communicationObject.Faulted += HandleChannelFaulted;
                 _chatService = chatService;
                 isSubscribed = true;
             }
@@ -157,7 +157,7 @@ namespace GinRummy.Client.Services
             _screenContext.Post(state => ChatMessageReceived?.Invoke(this, message), null);
         }
 
-        private void OnChannelFaulted(object sender, EventArgs e)
+        private void HandleChannelFaulted(object sender, EventArgs e)
         {
             _logger.LogWarning("The channel of the chat failed, so the new messages of the lobby no longer arrive.");
         }

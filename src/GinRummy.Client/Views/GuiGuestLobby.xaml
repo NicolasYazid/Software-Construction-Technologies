@@ -59,7 +59,7 @@
                     <Button x:Name="btnRankings" Style="{StaticResource StyLobbyNavButton}"
                             Content="{Binding [LobbyChat_BtnRankings], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
-                            Click="OnRankingsClick" />
+                            Click="HandleRankingsClick" />
                     <Button x:Name="btnFindMatch" Style="{StaticResource StyLobbyActionButton}" Margin="0,0,12,0"
                             Content="{Binding [LobbyChat_BtnFindMatch], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
@@ -68,11 +68,11 @@
                     <Button x:Name="btnLogIn" Style="{StaticResource StyLobbySecondaryButton}" Margin="0,0,12,0"
                             Content="{Binding [Shared_BtnLogIn], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
-                            Click="OnLogInClick" />
+                            Click="HandleLogInClick" />
                     <Button x:Name="btnHowToPlay" Style="{StaticResource StyLobbySecondaryButton}"
                             Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
-                            Click="OnHowToPlayClick" />
+                            Click="HandleHowToPlayClick" />
                 </StackPanel>
             </DockPanel>
         </ctl:PixelBorder>
@@ -126,7 +126,7 @@
                                 VerticalAlignment="Center"
                                 Content="{Binding [Shared_BtnClose], Source={StaticResource PrvLocalization},
                                           Converter={StaticResource CnvUpperCase}}"
-                                Click="OnDismissRankingsNoticeClick" />
+                                Click="HandleDismissRankingsNoticeClick" />
                         <TextBlock x:Name="lblRankingsNotice" Style="{StaticResource StyStatusTitle}" VerticalAlignment="Center"
                                    Text="{Binding [GuestLobby_RankingsDisabled], Source={StaticResource PrvLocalization}}" />
                     </DockPanel>
@@ -139,7 +139,7 @@
                                     Style="{StaticResource StyInlineTextButton}"
                                     Content="{Binding [Shared_BtnCreateAccount], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}"
-                                    Click="OnCreateAccountClick" />
+                                    Click="HandleCreateAccountClick" />
                             <TextBlock x:Name="lblChatDisabled" Style="{StaticResource StyFieldPlaceholder}"
                                        Text="{Binding [GuestLobby_ChatDisabled], Source={StaticResource PrvLocalization}}" />
                         </DockPanel>

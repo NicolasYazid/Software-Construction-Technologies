@@ -22,7 +22,7 @@ namespace GinRummy.Client.ViewModels
             _dataService = dataService ?? throw new ArgumentNullException(nameof(dataService));
             _countdownTimer = new DispatcherTimer();
             _countdownTimer.Interval = TimeSpan.FromSeconds(StepSeconds);
-            _countdownTimer.Tick += OnCountdownTick;
+            _countdownTimer.Tick += HandleCountdownTick;
             LoadSanctions();
             _countdownTimer.Start();
         }
@@ -66,7 +66,7 @@ namespace GinRummy.Client.ViewModels
             _countdownTimer.Stop();
         }
 
-        private void OnCountdownTick(object sender, EventArgs e)
+        private void HandleCountdownTick(object sender, EventArgs e)
         {
             _elapsedTime = _elapsedTime.Add(_countdownTimer.Interval);
             foreach (SanctionViewModel sanction in _sanctions)

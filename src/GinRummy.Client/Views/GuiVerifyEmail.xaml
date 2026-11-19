@@ -106,13 +106,13 @@
                         Visibility="{Binding IsAlreadyVerified, Converter={StaticResource CnvBooleanToVisibility}}"
                         Content="{Binding [Shared_BtnLogIn], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
-                        Click="OnLogInClick" />
+                        Click="HandleLogInClick" />
 
                 <Button x:Name="btnVerifyLater" Style="{StaticResource StyCardTextButton}"
                         Width="402" HorizontalAlignment="Left" Margin="0,20,0,0"
                         Content="{Binding [VerifyEmail_BtnVerifyLater], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
-                        Click="OnVerifyLaterClick" />
+                        Click="HandleVerifyLaterClick" />
 
             </StackPanel>
         </Border>

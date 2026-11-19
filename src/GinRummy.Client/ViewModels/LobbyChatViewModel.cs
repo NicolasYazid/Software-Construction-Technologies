@@ -188,8 +188,8 @@ namespace GinRummy.Client.ViewModels
         // The server reports the current status of the players once the subscription is made, and every change after that.
         public void StartPresence()
         {
-            _presenceMonitor.CurrentStatusReported += OnCurrentStatusReported;
-            _presenceMonitor.PlayerPresenceChanged += OnPlayerPresenceChanged;
+            _presenceMonitor.CurrentStatusReported += HandleCurrentStatusReported;
+            _presenceMonitor.PlayerPresenceChanged += HandlePlayerPresenceChanged;
             if (!_presenceMonitor.Start(_signedInPlayer.AccessToken))
             {
                 PresenceUnavailable?.Invoke(this, EventArgs.Empty);
@@ -199,14 +199,14 @@ namespace GinRummy.Client.ViewModels
         public void StopPresence()
         {
             _presenceMonitor.Stop();
-            _presenceMonitor.CurrentStatusReported -= OnCurrentStatusReported;
-            _presenceMonitor.PlayerPresenceChanged -= OnPlayerPresenceChanged;
+            _presenceMonitor.CurrentStatusReported -= HandleCurrentStatusReported;
+            _presenceMonitor.PlayerPresenceChanged -= HandlePlayerPresenceChanged;
         }
 
         public void StartChat()
         {
-            _chatConnection.LobbyChatHistoryReceived += OnLobbyChatHistoryReceived;
-            _chatConnection.ChatMessageReceived += OnChatMessageReceived;
+            _chatConnection.LobbyChatHistoryReceived += HandleLobbyChatHistoryReceived;
+            _chatConnection.ChatMessageReceived += HandleChatMessageReceived;
             if (!_chatConnection.Start(_signedInPlayer.AccessToken))
             {
                 _isChatUnavailable = true;
@@ -217,8 +217,8 @@ namespace GinRummy.Client.ViewModels
         public void StopChat()
         {
             _chatConnection.Stop();
-            _chatConnection.LobbyChatHistoryReceived -= OnLobbyChatHistoryReceived;
-            _chatConnection.ChatMessageReceived -= OnChatMessageReceived;
+            _chatConnection.LobbyChatHistoryReceived -= HandleLobbyChatHistoryReceived;
+            _chatConnection.ChatMessageReceived -= HandleChatMessageReceived;
         }
 
         // Only the messages of other players can be reported, so the own messages open no menu.
@@ -326,7 +326,7 @@ namespace GinRummy.Client.ViewModels
             IsSearchingMatch = false;
         }
 
-        private void OnCurrentStatusReported(object sender, PlayerPresenceReport report)
+        private void HandleCurrentStatusReported(object sender, PlayerPresenceReport report)
         {
             ReplacePlayers(OnlinePlayers, report.AllOnlinePlayers);
             ReplacePlayers(UnavailablePlayers, report.AllOfflinePlayers);
@@ -336,7 +336,7 @@ namespace GinRummy.Client.ViewModels
         }
 
         // A player is listed in one status only, so its old row is removed before the new one is added.
-        private void OnPlayerPresenceChanged(object sender, PlayerPresence presence)
+        private void HandlePlayerPresenceChanged(object sender, PlayerPresence presence)
         {
             RemovePlayerRow(OnlinePlayers, presence.PublicTag, presence.GuestSessionId);
             RemovePlayerRow(UnavailablePlayers, presence.PublicTag, presence.GuestSessionId);
@@ -355,7 +355,7 @@ namespace GinRummy.Client.ViewModels
             HasNoFriends = HasNoFriendsListed();
         }
 
-        private void OnLobbyChatHistoryReceived(object sender, PlayerMessage[] messages)
+        private void HandleLobbyChatHistoryReceived(object sender, PlayerMessage[] messages)
         {
             foreach (PlayerMessage message in messages)
             {
@@ -363,7 +363,7 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        private void OnChatMessageReceived(object sender, PlayerMessage message)
+        private void HandleChatMessageReceived(object sender, PlayerMessage message)
         {
             if (message.Destination == MessageDestination.Lobby)
             {

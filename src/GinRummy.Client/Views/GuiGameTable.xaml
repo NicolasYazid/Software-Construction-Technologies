@@ -149,7 +149,7 @@
                             <ctl:CardHand x:Name="lstDiscard" ItemsSource="{Binding DiscardPile}"
                                           ItemTemplate="{StaticResource TplCardFaceLarge}"
                                           IsDragOnly="True" DropTarget="{Binding ElementName=lstHand}"
-                                          CardDropped="OnDiscardCardDropped">
+                                          CardDropped="HandleDiscardCardDropped">
                                 <ctl:CardHand.Style>
                                     <Style TargetType="ctl:CardHand" BasedOn="{StaticResource StyTablePile}">
                                         <Style.Triggers>
@@ -206,9 +206,9 @@
                           BackTemplate="{StaticResource TplCardBackHand}"
                           SelectedItem="{Binding SelectedCard}"
                           DropTarget="{Binding ElementName=lstDiscard}"
-                          CardMoved="OnHandCardMoved"
-                          CardDropped="OnHandCardDropped"
-                          CardLeft="OnHandCardLeft" />
+                          CardMoved="HandleHandCardMoved"
+                          CardDropped="HandleHandCardDropped"
+                          CardLeft="HandleHandCardLeft" />
 
             <TextBlock x:Name="lblHandHint" Grid.Row="5" Style="{StaticResource StyTableNote}" Margin="0,10,0,0"
                        Text="{Binding [GameTable_LblHandHint], Source={StaticResource PrvLocalization},
@@ -283,12 +283,12 @@
                     <Button x:Name="btnHowToPlay" Effect="{StaticResource EfxCardShadow}" Style="{StaticResource StyLobbySecondaryButton}"
                             Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
-                            Click="OnHowToPlayClick" />
+                            Click="HandleHowToPlayClick" />
                     <Button x:Name="btnForfeit" Effect="{StaticResource EfxCardShadow}"
                             Style="{StaticResource StyForfeitButton}" Margin="0,12,0,0"
                             Content="{Binding [GameTable_BtnForfeit], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
-                            Click="OnForfeitClick" />
+                            Click="HandleForfeitClick" />
                 </StackPanel>
 
                 <StackPanel DockPanel.Dock="Top">
@@ -620,7 +620,7 @@
                             HorizontalAlignment="Center" Margin="0,24,0,0"
                             Content="{Binding [GameTable_BtnReturnToLobby], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
-                            Click="OnReturnToLobbyClick" />
+                            Click="HandleReturnToLobbyClick" />
                 </StackPanel>
             </ctl:PixelBorder>
         </Grid>

@@ -123,7 +123,7 @@
             <StackPanel>
 
                 <DockPanel>
-                    <Button DockPanel.Dock="Right" Style="{StaticResource StyDialogCloseButton}" Click="OnCloseClick">
+                    <Button DockPanel.Dock="Right" Style="{StaticResource StyDialogCloseButton}" Click="HandleCloseClick">
                         <Image Source="{StaticResource IcoClose}" Width="24" Height="24" />
                     </Button>
                     <TextBlock Style="{StaticResource StyPanelTitle}"
@@ -225,7 +225,7 @@
                         <Button x:Name="btnSearch" DockPanel.Dock="Right" Style="{StaticResource StyIconButton}"
                                 Width="28" Height="28"
                                 ToolTip="{Binding [Rankings_TipSearch], Source={StaticResource PrvLocalization}}"
-                                Click="OnSearchClick">
+                                Click="HandleSearchClick">
                             <Image Source="{StaticResource IcoSearch}" Width="20" Height="20" />
                         </Button>
                         <Grid>

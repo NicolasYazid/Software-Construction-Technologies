@@ -113,8 +113,8 @@ namespace GinRummy.Client.Controls
         {
             Background = Brushes.Transparent;
             ItemsPanel = new ItemsPanelTemplate(new FrameworkElementFactory(typeof(Canvas)));
-            Loaded += OnLoaded;
-            Unloaded += OnUnloaded;
+            Loaded += HandleLoaded;
+            Unloaded += HandleUnloaded;
         }
 
         public event EventHandler<CardMovedEventArgs> CardMoved;
@@ -378,22 +378,22 @@ namespace GinRummy.Client.Controls
             effect.Turn(tilt.AngleX, tilt.AngleY);
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        private void HandleLoaded(object sender, RoutedEventArgs e)
         {
             if (!_isSubscribedToRendering)
             {
-                CompositionTarget.Rendering += OnRendering;
+                CompositionTarget.Rendering += HandleRendering;
                 _isSubscribedToRendering = true;
             }
         }
 
-        private void OnUnloaded(object sender, RoutedEventArgs e)
+        private void HandleUnloaded(object sender, RoutedEventArgs e)
         {
-            CompositionTarget.Rendering -= OnRendering;
+            CompositionTarget.Rendering -= HandleRendering;
             _isSubscribedToRendering = false;
         }
 
-        private void OnRendering(object sender, EventArgs e)
+        private void HandleRendering(object sender, EventArgs e)
         {
             TimeSpan renderingTime = ((RenderingEventArgs)e).RenderingTime;
             HandFan fan = CreateFan(GetSeatedItems().Count);
