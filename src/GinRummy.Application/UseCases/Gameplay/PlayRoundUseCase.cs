@@ -166,9 +166,9 @@ namespace GinRummy.Application.UseCases.Gameplay
             }
             else
             {
-                _matchRecorder.RecordRoundScores(activeMatch);
                 _matchRegistry.DealNextRound(activeMatch);
                 AnnounceToPlayers(activeMatch, _roundAnnouncer.AnnounceRoundChanged);
+                _matchRecorder.RecordRoundScores(activeMatch);
             }
         }
 
@@ -185,7 +185,7 @@ namespace GinRummy.Application.UseCases.Gameplay
                     catch (DataException)
                     {
                         // The window ends on a timer thread, where an unhandled exception would stop the whole server.
-                        // The rival was already told about the victory, so only the record of the match is lost.
+                        // The match is already over for the players, so only its record is lost.
                     }
                 }
             }
