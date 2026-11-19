@@ -32,8 +32,8 @@ namespace GinRummy.Domain.Entities.PlayerModeration
         {
             get
             {
-                bool isChatOnly = RestrictionScope == RestrictionScope.ChatOnly;
-                bool isChatRestricted = isChatOnly || IsAccountRestricted;
+                bool isChatOnly = RestrictionScope == RestrictionScope.ChatOnly ? true : false;
+                bool isChatRestricted = isChatOnly || IsAccountRestricted ? true : false;
 
                 return isChatRestricted;
             }
@@ -41,7 +41,7 @@ namespace GinRummy.Domain.Entities.PlayerModeration
 
         public bool IsAccountRestricted
         {
-            get { return RestrictionScope == RestrictionScope.FullAccount; }
+            get { return RestrictionScope == RestrictionScope.FullAccount ? true : false; }
         }
 
         public string GetNameFor(int localeId)

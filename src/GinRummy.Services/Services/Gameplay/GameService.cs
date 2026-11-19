@@ -132,7 +132,7 @@ namespace GinRummy.Services.Services.Gameplay
         private void HandleLostConnection()
         {
             bool wasSubscribed = RemoveSubscription();
-            bool hasNewerSession = _onlinePlayers.FindDispatcherOfPlayer(_subscribedPlayerId) != null;
+            bool hasNewerSession = _onlinePlayers.FindDispatcherOfPlayer(_subscribedPlayerId) != null ? true : false;
             if (wasSubscribed && !hasNewerSession)
             {
                 _playRoundUseCase.WaitForReconnection(_subscribedPlayerId);
@@ -142,7 +142,7 @@ namespace GinRummy.Services.Services.Gameplay
         private bool RemoveSubscription()
         {
             IGameCallback callbackToRemove = _subscribedCallback;
-            bool wasSubscribed = callbackToRemove != null;
+            bool wasSubscribed = callbackToRemove != null ? true : false;
             if (wasSubscribed)
             {
                 _subscribedCallback = null;

@@ -73,7 +73,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool HasErrorMessage
         {
-            get { return !string.IsNullOrEmpty(_errorMessageKey); }
+            get { return !string.IsNullOrEmpty(_errorMessageKey) ? true : false; }
         }
 
         public bool IsAlreadyVerified
@@ -89,7 +89,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool IsVerificationPending
         {
-            get { return !_isAlreadyVerified; }
+            get { return !_isAlreadyVerified ? true : false; }
         }
 
         public bool IsCodeNotSentShown

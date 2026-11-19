@@ -38,7 +38,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool IsOpen
         {
-            get { return _friend != null; }
+            get { return _friend != null ? true : false; }
         }
 
         public string MessageDraft

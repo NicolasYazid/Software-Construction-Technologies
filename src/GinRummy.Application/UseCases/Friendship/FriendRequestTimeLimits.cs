@@ -24,7 +24,7 @@ namespace GinRummy.Application.UseCases.Friendship
             ConcurrentQueue<DateTime> sentRequestTimes = _sentRequestTimesBySender.GetOrAdd(senderId, new ConcurrentQueue<DateTime>());
             RemoveTimesOutsideCountingPeriod(sentRequestTimes);
 
-            return sentRequestTimes.Count < FriendRequestRules.MaxRequestsPerPeriod;
+            return sentRequestTimes.Count < FriendRequestRules.MaxRequestsPerPeriod ? true : false;
         }
 
         public DateTime RegisterSentRequest(int senderId)
@@ -47,7 +47,7 @@ namespace GinRummy.Application.UseCases.Friendship
             if (_rejectionOrRemovalTimes.TryGetValue((senderId, addresseeId), out rejectedOrRemovedAt))
             {
                 DateTime waitingTimeEnd = rejectedOrRemovedAt.Add(FriendRequestRules.WaitingTimeAfterRejectionOrRemoval);
-                hasWaitingTimeEnded = _requestTimesClock.UtcNow >= waitingTimeEnd;
+                hasWaitingTimeEnded = _requestTimesClock.UtcNow >= waitingTimeEnd ? true : false;
             }
 
             return hasWaitingTimeEnded;

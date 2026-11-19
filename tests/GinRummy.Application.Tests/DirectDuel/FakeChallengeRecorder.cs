@@ -25,7 +25,7 @@ namespace GinRummy.Application.Tests.DirectDuel
 
         public bool RecordAccepted(PendingChallenge challenge)
         {
-            return !IsChallengeExpired;
+            return !IsChallengeExpired ? true : false;
         }
     }
 }

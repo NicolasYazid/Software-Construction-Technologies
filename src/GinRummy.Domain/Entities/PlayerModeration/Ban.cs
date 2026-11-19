@@ -39,12 +39,12 @@ namespace GinRummy.Domain.Entities.PlayerModeration
 
         public bool IsPermanent
         {
-            get { return !ExpiresAt.HasValue; }
+            get { return !ExpiresAt.HasValue ? true : false; }
         }
 
         public bool IsActiveAt(DateTime moment)
         {
-            bool isActive = IsPermanent || (ExpiresAt.Value > moment);
+            bool isActive = IsPermanent || (ExpiresAt.Value > moment) ? true : false;
 
             return isActive;
         }

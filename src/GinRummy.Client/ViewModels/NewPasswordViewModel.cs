@@ -52,7 +52,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool HasErrorMessage
         {
-            get { return !string.IsNullOrEmpty(_errorMessageKey); }
+            get { return !string.IsNullOrEmpty(_errorMessageKey) ? true : false; }
         }
 
         protected virtual void SubmitPassword()

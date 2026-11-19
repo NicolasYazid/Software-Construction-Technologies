@@ -125,7 +125,7 @@ namespace GinRummy.Client.Views
         private void HandleLanguageSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             App application = (App)Application.Current;
-            bool isPlayerChange = (e.RemovedItems.Count > 0) && (e.AddedItems.Count > 0);
+            bool isPlayerChange = (e.RemovedItems.Count > 0) && (e.AddedItems.Count > 0) ? true : false;
             if (isPlayerChange && (application.SignedInPlayer != null))
             {
                 string localeCode = ((CultureOption)e.AddedItems[0]).Code;

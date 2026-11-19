@@ -56,7 +56,7 @@ namespace GinRummy.Application.UseCases.DirectDuel
             {
                 DateTime acceptedAt = _clock.UtcNow;
                 Challenge storedChallenge = FindPendingChallenge(unitOfWork, challenge);
-                isAccepted = (storedChallenge != null) && !storedChallenge.IsExpiredAt(acceptedAt);
+                isAccepted = (storedChallenge != null) && !storedChallenge.IsExpiredAt(acceptedAt) ? true : false;
                 if (isAccepted)
                 {
                     storedChallenge.Accept(StartGameSession(unitOfWork, challenge, acceptedAt), acceptedAt);

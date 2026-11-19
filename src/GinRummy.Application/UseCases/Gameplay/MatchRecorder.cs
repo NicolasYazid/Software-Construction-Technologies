@@ -100,12 +100,14 @@ namespace GinRummy.Application.UseCases.Gameplay
         {
             return gameSession.Participants.Any(participant => participant.GameParticipantId == gameSession.CurrentTurn)
                 && (gameSession.Participants.Count == SeatsPerMatch)
-                && gameSession.Participants.All(IsResumableSeat);
+                && gameSession.Participants.All(IsResumableSeat)
+                ? true
+                : false;
         }
 
         private static bool IsResumableSeat(GameParticipant participant)
         {
-            return participant.PlayerAccountId.HasValue && (participant.Score < RoundRules.TargetScore);
+            return participant.PlayerAccountId.HasValue && (participant.Score < RoundRules.TargetScore) ? true : false;
         }
 
         private static MatchSnapshot TakeSnapshot(IUnitOfWork unitOfWork, GameSession gameSession)

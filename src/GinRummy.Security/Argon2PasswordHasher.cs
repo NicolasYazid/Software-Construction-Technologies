@@ -139,7 +139,7 @@ namespace GinRummy.Security
                 difference |= first[index] ^ second[index];
             }
 
-            return difference == 0;
+            return difference == 0 ? true : false;
         }
     }
 }

@@ -60,14 +60,14 @@ namespace GinRummy.Domain.Entities.AccountProtection
 
         private static bool HasValidFormat(string typedCode)
         {
-            bool hasExpectedLength = (typedCode != null) && (typedCode.Length == CodeLength);
+            bool hasExpectedLength = (typedCode != null) && (typedCode.Length == CodeLength) ? true : false;
 
-            return hasExpectedLength && typedCode.All(IsAsciiDigit);
+            return hasExpectedLength && typedCode.All(IsAsciiDigit) ? true : false;
         }
 
         private static bool IsAsciiDigit(char character)
         {
-            return (character >= '0') && (character <= '9');
+            return (character >= '0') && (character <= '9') ? true : false;
         }
     }
 }

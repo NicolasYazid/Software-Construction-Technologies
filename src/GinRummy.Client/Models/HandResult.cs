@@ -26,12 +26,12 @@ namespace GinRummy.Client.Models
 
         public bool HasSubtraction
         {
-            get { return SubtractedName != null; }
+            get { return SubtractedName != null ? true : false; }
         }
 
         public bool HasBonus
         {
-            get { return BonusKey != null; }
+            get { return BonusKey != null ? true : false; }
         }
     }
 }

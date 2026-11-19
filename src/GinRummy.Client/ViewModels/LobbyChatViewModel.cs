@@ -52,7 +52,7 @@ namespace GinRummy.Client.ViewModels
             FriendsOnline = new ObservableCollection<LobbyPlayerViewModel>();
             FriendsInMatch = new ObservableCollection<MatchPair>();
             FriendsUnavailable = new ObservableCollection<LobbyPlayerViewModel>();
-            HasNoPlayersLookingToPlay = (PlayersLookingToPlay.Count == 0);
+            HasNoPlayersLookingToPlay = (PlayersLookingToPlay.Count == 0) ? true : false;
             _hasNoFriends = HasNoFriendsListed();
             SortPlayersByRank();
             BanCountdown = new CountdownViewModel(TimeSpan.Zero);
@@ -107,7 +107,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool CanFindMatch
         {
-            get { return !_isSearchingMatch; }
+            get { return !_isSearchingMatch ? true : false; }
         }
 
         public bool IsChatBlocked
@@ -123,7 +123,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool CanWriteMessage
         {
-            get { return !_isChatBlocked && !_isChatUnavailable; }
+            get { return !_isChatBlocked && !_isChatUnavailable ? true : false; }
         }
 
         public string BanReasonName
@@ -170,7 +170,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool HasSearchNotice
         {
-            get { return _searchNoticeKey != null; }
+            get { return _searchNoticeKey != null ? true : false; }
         }
 
         public void BlockChat(string reasonName, TimeSpan remainingTime)
@@ -224,7 +224,7 @@ namespace GinRummy.Client.ViewModels
         // Only the messages of other players can be reported, so the own messages open no menu.
         public bool CanReport(PlayerMessage message)
         {
-            return (message != null) && (message.PublicTag != _signedInPlayer.PublicTag);
+            return (message != null) && (message.PublicTag != _signedInPlayer.PublicTag) ? true : false;
         }
 
         // Only the tag is needed, because the profile screen reads everything else from the server (CU-27 FA-02).
@@ -287,7 +287,9 @@ namespace GinRummy.Client.ViewModels
             LobbyPlayerViewModel onlinePlayer = FindByPublicTag(OnlinePlayers, publicTag);
             LobbyPlayerViewModel unavailablePlayer = FindByPublicTag(UnavailablePlayers, publicTag);
             bool isListedAsFriend = (FindByPublicTag(FriendsOnline, publicTag) != null)
-                || (FindByPublicTag(FriendsUnavailable, publicTag) != null);
+                || (FindByPublicTag(FriendsUnavailable, publicTag) != null)
+                ? true
+                : false;
             if (!isListedAsFriend && (onlinePlayer != null))
             {
                 FriendsOnline.Add(CopyAsFriend(onlinePlayer));
@@ -454,14 +456,18 @@ namespace GinRummy.Client.ViewModels
         private static bool TagStartsWith(LobbyPlayerViewModel player, string typedTag)
         {
             return player.PublicTag.HasValue
-                && player.PublicTag.Value.ToString(CultureInfo.InvariantCulture).StartsWith(typedTag, StringComparison.Ordinal);
+                && player.PublicTag.Value.ToString(CultureInfo.InvariantCulture).StartsWith(typedTag, StringComparison.Ordinal)
+                ? true
+                : false;
         }
 
         private bool HasNoFriendsListed()
         {
             return (FriendsOnline.Count == 0)
                 && (FriendsInMatch.Count == 0)
-                && (FriendsUnavailable.Count == 0);
+                && (FriendsUnavailable.Count == 0)
+                ? true
+                : false;
         }
 
         private static void ReplacePlayers(IList<LobbyPlayerViewModel> players, IList<PlayerPresence> presences)

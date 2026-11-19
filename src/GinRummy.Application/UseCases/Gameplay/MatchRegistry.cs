@@ -55,7 +55,7 @@ namespace GinRummy.Application.UseCases.Gameplay
 
         public bool IsPlaying(int playerId)
         {
-            return Find(playerId) != null;
+            return Find(playerId) != null ? true : false;
         }
 
         public bool Remove(ActiveMatch activeMatch)

@@ -52,7 +52,7 @@ namespace GinRummy.Infrastructure
         /// <returns>True when the level is at or above the minimum level.</returns>
         public bool IsEnabled(LogLevel logLevel)
         {
-            return (logLevel != LogLevel.None) && (logLevel >= _minimumLevel);
+            return (logLevel != LogLevel.None) && (logLevel >= _minimumLevel) ? true : false;
         }
 
         /// <summary>

@@ -354,7 +354,7 @@ namespace GinRummy.Client.Controls
 
         private void ShowSide(Border host, bool isFaceDown)
         {
-            bool canShowBack = isFaceDown && (BackTemplate != null);
+            bool canShowBack = isFaceDown && (BackTemplate != null) ? true : false;
             GetFace(host, FrontFace).Visibility = canShowBack ? Visibility.Hidden : Visibility.Visible;
             GetFace(host, BackFace).Visibility = canShowBack ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -441,7 +441,7 @@ namespace GinRummy.Client.Controls
             motion.TargetSlotAngle = 0;
             motion.IsHovered = false;
             motion.Step();
-            bool hasJustArrived = motion.HasArrived && !_departedItems.Contains(item);
+            bool hasJustArrived = motion.HasArrived && !_departedItems.Contains(item) ? true : false;
             if (hasJustArrived)
             {
                 _departedItems.Add(item);
@@ -500,16 +500,16 @@ namespace GinRummy.Client.Controls
                 hoveredItem = _draggedItem ?? FindItemAt(_pointer);
             }
 
-            bool hasHoverChanged = !Equals(hoveredItem, _hoveredItem);
+            bool hasHoverChanged = !Equals(hoveredItem, _hoveredItem) ? true : false;
             if (hasHoverChanged && (_hoveredItem != null) && _motions.TryGetValue(_hoveredItem, out CardMotion previousMotion))
             {
                 previousMotion.Tilt.Release();
             }
 
             _hoveredItem = hoveredItem;
-            bool canPickHoveredCard = (hoveredItem != null) && !IsReadOnly;
+            bool canPickHoveredCard = (hoveredItem != null) && !IsReadOnly ? true : false;
             Cursor = canPickHoveredCard ? Cursors.Hand : null;
-            bool canTiltHoveredCard = (hoveredItem != null) && IsHoverTiltEnabled;
+            bool canTiltHoveredCard = (hoveredItem != null) && IsHoverTiltEnabled ? true : false;
             if (canTiltHoveredCard && _motions.TryGetValue(hoveredItem, out CardMotion hoveredMotion))
             {
                 hoveredMotion.Tilt.Follow(_pointer - hoveredMotion.Position, GetCardSize());
@@ -526,7 +526,7 @@ namespace GinRummy.Client.Controls
                 if ((host != null) && _motions.TryGetValue(item, out CardMotion motion))
                 {
                     ((MatrixTransform)host.RenderTransform).Matrix = CreateMatrix(motion, host, cardSize);
-                    bool isAboveHand = motion.IsDragged || motion.IsLeaving;
+                    bool isAboveHand = motion.IsDragged || motion.IsLeaving ? true : false;
                     Panel.SetZIndex(host, isAboveHand ? DraggedLayer : index);
                     ShowSide(host, motion.IsShowingBack);
                     ApplyTilt(host, motion.Tilt, cardSize);
@@ -695,7 +695,9 @@ namespace GinRummy.Client.Controls
         {
             Vector distance = position - _pressPoint;
             bool hasLeftClickArea = (Math.Abs(distance.X) > SystemParameters.MinimumHorizontalDragDistance)
-                || (Math.Abs(distance.Y) > SystemParameters.MinimumVerticalDragDistance);
+                || (Math.Abs(distance.Y) > SystemParameters.MinimumVerticalDragDistance)
+                ? true
+                : false;
 
             return hasLeftClickArea;
         }

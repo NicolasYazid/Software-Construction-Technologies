@@ -84,7 +84,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool IsChallengeSent
         {
-            get { return _challengedPlayer != null; }
+            get { return _challengedPlayer != null ? true : false; }
         }
 
         public string NoticeKey
@@ -100,7 +100,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool HasNotice
         {
-            get { return _noticeKey != null; }
+            get { return _noticeKey != null ? true : false; }
         }
 
         public void Start()
@@ -256,10 +256,14 @@ namespace GinRummy.Client.ViewModels
 
         private void HandleReconnectionTimerTick(object sender, EventArgs e)
         {
-            bool isDuelConnected = _duelConnection.IsConnected || _duelConnection.Start(_signedInPlayer.AccessToken);
-            bool isGameConnected = _isPlayingMatch || _gameConnection.IsConnected || _gameConnection.Start(_signedInPlayer.AccessToken);
+            bool isDuelConnected = _duelConnection.IsConnected || _duelConnection.Start(_signedInPlayer.AccessToken) ? true : false;
+            bool isGameConnected = _isPlayingMatch || _gameConnection.IsConnected || _gameConnection.Start(_signedInPlayer.AccessToken)
+                ? true
+                : false;
             bool isSessionExpired = (_duelConnection.LastFaultCode == DuelFaultCode.SessionExpired)
-                || (_gameConnection.LastFaultCode == GameFaultCode.SessionExpired);
+                || (_gameConnection.LastFaultCode == GameFaultCode.SessionExpired)
+                ? true
+                : false;
             if (isSessionExpired || (isDuelConnected && isGameConnected))
             {
                 _reconnectionTimer.Stop();

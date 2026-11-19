@@ -15,7 +15,7 @@ namespace GinRummy.Domain.Entities.PlayerCustomization
         public static string FindFileExtension(byte[] picture)
         {
             string fileExtension = null;
-            bool hasAllowedSize = (picture != null) && (picture.Length > 0) && (picture.Length <= MaxSizeInBytes);
+            bool hasAllowedSize = (picture != null) && (picture.Length > 0) && (picture.Length <= MaxSizeInBytes) ? true : false;
             if (hasAllowedSize && StartsWith(picture, s_pngSignature))
             {
                 fileExtension = PngExtension;
@@ -30,7 +30,7 @@ namespace GinRummy.Domain.Entities.PlayerCustomization
 
         private static bool StartsWith(byte[] picture, byte[] signature)
         {
-            return (picture.Length >= signature.Length) && picture.Take(signature.Length).SequenceEqual(signature);
+            return (picture.Length >= signature.Length) && picture.Take(signature.Length).SequenceEqual(signature) ? true : false;
         }
     }
 }

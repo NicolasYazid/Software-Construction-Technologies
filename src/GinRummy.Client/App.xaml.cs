@@ -328,7 +328,7 @@ namespace GinRummy.Client
         // The hard-edged raised text shadow has no blur, so it is left out of the shortened keys.
         private static bool IsSoftwareRendering()
         {
-            return (RenderCapability.Tier >> RenderingTierShift) == SoftwareRenderingTier;
+            return (RenderCapability.Tier >> RenderingTierShift) == SoftwareRenderingTier ? true : false;
         }
 
         // The shared instances are edited in place before any window exists, so every element using them by key gets the shorter blur.

@@ -90,8 +90,8 @@ namespace GinRummy.Client.Controls
                         Rect bounds = BoundsIn(card, parent);
                         double cardTop = bounds.Top - card.Margin.Top;
                         double cardBottom = bounds.Bottom + card.Margin.Bottom;
-                        bool isOverlappingList = (cardBottom > listBounds.Top) && (cardTop < listBounds.Bottom);
-                        bool isAbove = (bounds.Top + (bounds.Height * Half)) < listMiddle;
+                        bool isOverlappingList = (cardBottom > listBounds.Top) && (cardTop < listBounds.Bottom) ? true : false;
+                        bool isAbove = (bounds.Top + (bounds.Height * Half)) < listMiddle ? true : false;
                         if (isOverlappingList && isAbove)
                         {
                             top = Math.Max(top, cardBottom - listBounds.Top);
@@ -109,7 +109,7 @@ namespace GinRummy.Client.Controls
 
         private static bool IsFloatingCard(FrameworkElement card, Control list)
         {
-            return (card != null) && !ReferenceEquals(card, list) && card.IsVisible;
+            return (card != null) && !ReferenceEquals(card, list) && card.IsVisible ? true : false;
         }
 
         // The padding is written only when it changes, because each write triggers a new layout pass that runs this measurement again.
@@ -117,7 +117,9 @@ namespace GinRummy.Client.Controls
         {
             Thickness current = list.Padding;
             bool hasChanged = (Math.Abs(current.Top - top) > Tolerance)
-                || (Math.Abs(current.Bottom - bottom) > Tolerance);
+                || (Math.Abs(current.Bottom - bottom) > Tolerance)
+                ? true
+                : false;
             if (hasChanged)
             {
                 list.Padding = new Thickness(current.Left, top, current.Right, bottom);

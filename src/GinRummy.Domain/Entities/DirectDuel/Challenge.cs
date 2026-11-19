@@ -57,12 +57,12 @@ namespace GinRummy.Domain.Entities.DirectDuel
 
         public bool IsPending
         {
-            get { return Status == ChallengeStatus.Sent; }
+            get { return Status == ChallengeStatus.Sent ? true : false; }
         }
 
         public bool IsExpiredAt(DateTime moment)
         {
-            return IsPending && (moment >= ExpiresAt);
+            return IsPending && (moment >= ExpiresAt) ? true : false;
         }
 
         public void Accept(int gameSessionId, DateTime resolvedAt)

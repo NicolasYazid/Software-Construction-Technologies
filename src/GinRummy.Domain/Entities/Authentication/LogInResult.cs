@@ -16,7 +16,7 @@ namespace GinRummy.Domain.Entities.Authentication
 
         public bool IsTwoFactorRequired
         {
-            get { return AccessToken == null; }
+            get { return AccessToken == null ? true : false; }
         }
 
         public static LogInResult ForSignedIn(PlayerAccount account, AccessToken accessToken)

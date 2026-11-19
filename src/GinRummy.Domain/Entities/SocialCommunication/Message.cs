@@ -72,8 +72,8 @@ namespace GinRummy.Domain.Entities.SocialCommunication
                 throw new ArgumentOutOfRangeException(nameof(channel), "Channel is not valid.");
             }
 
-            bool isMatchWithoutSession = (channel == MessageChannel.Match) && !gameSessionId.HasValue;
-            bool isLobbyWithSession = (channel == MessageChannel.Lobby) && gameSessionId.HasValue;
+            bool isMatchWithoutSession = (channel == MessageChannel.Match) && !gameSessionId.HasValue ? true : false;
+            bool isLobbyWithSession = (channel == MessageChannel.Lobby) && gameSessionId.HasValue ? true : false;
             if (isMatchWithoutSession || isLobbyWithSession)
             {
                 throw new ArgumentException("The game session must be set only for match messages.", nameof(gameSessionId));

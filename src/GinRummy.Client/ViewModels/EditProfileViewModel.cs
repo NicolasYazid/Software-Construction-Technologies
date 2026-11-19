@@ -132,7 +132,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool IsAddLinkOffered
         {
-            get { return !_isNewLinkFormOpen; }
+            get { return !_isNewLinkFormOpen ? true : false; }
         }
 
         public string ErrorMessageKey
@@ -148,7 +148,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool HasErrorMessage
         {
-            get { return _errorMessageKey != null; }
+            get { return _errorMessageKey != null ? true : false; }
         }
 
         public bool IsUsernameChangedShown
@@ -192,8 +192,8 @@ namespace GinRummy.Client.ViewModels
         {
             IsUsernameChangedShown = false;
             ErrorMessageKey = null;
-            bool isLinkComplete = (_socialPlatformName.Trim().Length > 0) && (_socialUrl.Trim().Length > 0);
-            bool isComplete = !string.IsNullOrWhiteSpace(Username) && (!_isNewLinkFormOpen || isLinkComplete);
+            bool isLinkComplete = (_socialPlatformName.Trim().Length > 0) && (_socialUrl.Trim().Length > 0) ? true : false;
+            bool isComplete = !string.IsNullOrWhiteSpace(Username) && (!_isNewLinkFormOpen || isLinkComplete) ? true : false;
             if (!isComplete)
             {
                 ErrorMessageKey = RequiredFieldKey;

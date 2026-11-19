@@ -61,11 +61,11 @@ namespace GinRummy.Infrastructure
         {
             get
             {
-                bool isPortValid = (Port >= MinPort) && (Port <= MaxPort);
-                bool isTimeoutValid = (TimeoutSeconds >= MinTimeoutSeconds) && (TimeoutSeconds <= MaxTimeoutSeconds);
-                bool hasServer = !string.IsNullOrWhiteSpace(Host) && isPortValid;
-                bool hasSender = !string.IsNullOrWhiteSpace(SenderAddress) && !string.IsNullOrWhiteSpace(SenderPassword);
-                bool isComplete = hasServer && hasSender && isTimeoutValid;
+                bool isPortValid = (Port >= MinPort) && (Port <= MaxPort) ? true : false;
+                bool isTimeoutValid = (TimeoutSeconds >= MinTimeoutSeconds) && (TimeoutSeconds <= MaxTimeoutSeconds) ? true : false;
+                bool hasServer = !string.IsNullOrWhiteSpace(Host) && isPortValid ? true : false;
+                bool hasSender = !string.IsNullOrWhiteSpace(SenderAddress) && !string.IsNullOrWhiteSpace(SenderPassword) ? true : false;
+                bool isComplete = hasServer && hasSender && isTimeoutValid ? true : false;
 
                 return isComplete;
             }

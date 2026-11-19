@@ -77,7 +77,7 @@ namespace GinRummy.Application.UseCases.SocialCommunication
 
         private static bool IsContentValid(string content)
         {
-            return !string.IsNullOrWhiteSpace(content) && (content.Length <= Message.ContentMaxLength);
+            return !string.IsNullOrWhiteSpace(content) && (content.Length <= Message.ContentMaxLength) ? true : false;
         }
 
         private static PlayerProfile FindAuthorProfile(IUnitOfWork unitOfWork, int authorId)
@@ -96,7 +96,9 @@ namespace GinRummy.Application.UseCases.SocialCommunication
             int rivalId = NoRivalPlayerAccountId;
             foreach (GameParticipant participant in gameSessionInProgress.Participants)
             {
-                bool isRegisteredRival = participant.PlayerAccountId.HasValue && (participant.PlayerAccountId.Value != authorId);
+                bool isRegisteredRival = participant.PlayerAccountId.HasValue && (participant.PlayerAccountId.Value != authorId)
+                    ? true
+                    : false;
                 if (isRegisteredRival)
                 {
                     rivalId = participant.PlayerAccountId.Value;

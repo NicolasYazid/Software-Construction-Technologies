@@ -32,7 +32,7 @@ namespace GinRummy.Client.Logging
 
         public bool IsEnabled(LogLevel logLevel)
         {
-            return (logLevel != LogLevel.None) && (logLevel >= _minimumLevel);
+            return (logLevel != LogLevel.None) && (logLevel >= _minimumLevel) ? true : false;
         }
 
         public void Log<TState>(

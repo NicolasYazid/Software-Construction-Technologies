@@ -71,7 +71,7 @@ namespace GinRummy.Domain.Entities.AccountProtection
 
         private static bool IsPending(VerificationCode code, DateTime moment)
         {
-            return !code.UsedAt.HasValue && (code.ExpiresAt > moment);
+            return !code.UsedAt.HasValue && (code.ExpiresAt > moment) ? true : false;
         }
     }
 }

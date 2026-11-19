@@ -72,7 +72,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool HasNotice
         {
-            get { return _noticeKey != null; }
+            get { return _noticeKey != null ? true : false; }
         }
 
         public void Start()

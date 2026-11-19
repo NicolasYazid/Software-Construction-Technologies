@@ -26,7 +26,7 @@ namespace GinRummy.Domain.Entities.Authentication
 
         public void EnsureCredentialsMatch(PlayerAccount account, string password)
         {
-            bool isMatch = (account != null) && _passwordHasher.VerifyPassword(password, account.PasswordHash);
+            bool isMatch = (account != null) && _passwordHasher.VerifyPassword(password, account.PasswordHash) ? true : false;
             if (!isMatch)
             {
                 throw new InvalidCredentialsException("The email or the password is not valid.");
@@ -114,7 +114,7 @@ namespace GinRummy.Domain.Entities.Authentication
 
         public bool IsSuspended(IEnumerable<Ban> bans)
         {
-            return FindBlockingBan(bans) != null;
+            return FindBlockingBan(bans) != null ? true : false;
         }
 
         private Ban FindBlockingBan(IEnumerable<Ban> bans)
@@ -130,7 +130,7 @@ namespace GinRummy.Domain.Entities.Authentication
 
         private static bool IsBlocking(Ban ban, DateTime moment)
         {
-            return ban.ReasonBan.IsAccountRestricted && ban.IsActiveAt(moment);
+            return ban.ReasonBan.IsAccountRestricted && ban.IsActiveAt(moment) ? true : false;
         }
     }
 }

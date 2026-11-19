@@ -40,7 +40,9 @@ namespace GinRummy.Domain.Entities.Authentication
         {
             bool isSameOwner = (other != null)
                 && (PlayerAccountId == other.PlayerAccountId)
-                && (GuestSessionId == other.GuestSessionId);
+                && (GuestSessionId == other.GuestSessionId)
+                ? true
+                : false;
 
             return isSameOwner;
         }

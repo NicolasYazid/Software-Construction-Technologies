@@ -128,7 +128,7 @@ namespace GinRummy.Security
         private static void EnsureExpectedAlgorithm(IDictionary<string, object> header)
         {
             object algorithm;
-            bool isExpected = header.TryGetValue(AlgorithmClaim, out algorithm) && (Algorithm == (algorithm as string));
+            bool isExpected = header.TryGetValue(AlgorithmClaim, out algorithm) && (Algorithm == (algorithm as string)) ? true : false;
             if (!isExpected)
             {
                 throw new InvalidAccessTokenException("The token was not signed with the expected algorithm.");
@@ -138,7 +138,7 @@ namespace GinRummy.Security
         private static void EnsureIsCurrent(IDictionary<string, object> claims, DateTime moment)
         {
             object issuer;
-            bool isOwnToken = claims.TryGetValue(IssuerClaim, out issuer) && (Issuer == (issuer as string));
+            bool isOwnToken = claims.TryGetValue(IssuerClaim, out issuer) && (Issuer == (issuer as string)) ? true : false;
             if (!isOwnToken)
             {
                 throw new InvalidAccessTokenException("The token was not issued by this server.");
@@ -204,7 +204,9 @@ namespace GinRummy.Security
             identifier = 0;
             bool isIdentifier = claims.TryGetValue(claimName, out claim)
                 && int.TryParse(claim as string, NumberStyles.None, CultureInfo.InvariantCulture, out identifier)
-                && (identifier > 0);
+                && (identifier > 0)
+                ? true
+                : false;
 
             return isIdentifier;
         }
@@ -273,7 +275,7 @@ namespace GinRummy.Security
                 difference |= first[index] ^ second[index];
             }
 
-            return difference == 0;
+            return difference == 0 ? true : false;
         }
 
         private void EnsureSignatureMatches(string[] segments)

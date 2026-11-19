@@ -152,27 +152,27 @@ namespace GinRummy.Client.ViewModels
 
         public bool IsOfferingFirstCard
         {
-            get { return _round.IsYourTurn && (_round.Step == RoundStep.OfferingFirstCard); }
+            get { return _round.IsYourTurn && (_round.Step == RoundStep.OfferingFirstCard) ? true : false; }
         }
 
         public bool IsDrawing
         {
-            get { return _round.IsYourTurn && (_round.Step == RoundStep.Drawing); }
+            get { return _round.IsYourTurn && (_round.Step == RoundStep.Drawing) ? true : false; }
         }
 
         public bool IsDiscarding
         {
-            get { return _round.IsYourTurn && (_round.Step == RoundStep.Discarding); }
+            get { return _round.IsYourTurn && (_round.Step == RoundStep.Discarding) ? true : false; }
         }
 
         public bool CanDrawFromDiscardPile
         {
-            get { return IsDrawing && (_round.LastMove != RoundMoveKind.PassedFirstCard); }
+            get { return IsDrawing && (_round.LastMove != RoundMoveKind.PassedFirstCard) ? true : false; }
         }
 
         public bool CanTakeFromDiscardPile
         {
-            get { return IsOfferingFirstCard || CanDrawFromDiscardPile; }
+            get { return IsOfferingFirstCard || CanDrawFromDiscardPile ? true : false; }
         }
 
         public string TurnNoticeKey
@@ -275,27 +275,27 @@ namespace GinRummy.Client.ViewModels
 
         public bool IsMatchResultShown
         {
-            get { return _matchResult != null; }
+            get { return _matchResult != null ? true : false; }
         }
 
         public bool IsDefeat
         {
-            get { return IsMatchResultShown && (_matchResult.EndReason == MatchEndReason.OpponentReachedTarget); }
+            get { return IsMatchResultShown && (_matchResult.EndReason == MatchEndReason.OpponentReachedTarget) ? true : false; }
         }
 
         public bool IsVictory
         {
-            get { return IsMatchResultShown && !IsDefeat; }
+            get { return IsMatchResultShown && !IsDefeat ? true : false; }
         }
 
         public bool IsVictoryByTarget
         {
-            get { return IsMatchResultShown && (_matchResult.EndReason == MatchEndReason.PlayerReachedTarget); }
+            get { return IsMatchResultShown && (_matchResult.EndReason == MatchEndReason.PlayerReachedTarget) ? true : false; }
         }
 
         public bool IsVictoryByForfeit
         {
-            get { return IsMatchResultShown && (_matchResult.EndReason == MatchEndReason.OpponentForfeited); }
+            get { return IsMatchResultShown && (_matchResult.EndReason == MatchEndReason.OpponentForfeited) ? true : false; }
         }
 
         public void Start(RoundDetails startedRound)
@@ -394,7 +394,7 @@ namespace GinRummy.Client.ViewModels
 
         private void ShowMoveOutcome(bool isMoveDone)
         {
-            _isMoveRefused = !isMoveDone;
+            _isMoveRefused = !isMoveDone ? true : false;
             OnPropertyChanged(nameof(TurnNoticeKey));
             if (_isMoveRefused && (_gameConnection.LastFaultCode == GameFaultCode.SessionExpired))
             {
@@ -404,27 +404,27 @@ namespace GinRummy.Client.ViewModels
 
         private bool IsCardSelected()
         {
-            return _selectedCard != null;
+            return _selectedCard != null ? true : false;
         }
 
         public bool CanDiscard(Card card)
         {
-            return IsDiscarding && !IsTakenFromDiscardPile(card);
+            return IsDiscarding && !IsTakenFromDiscardPile(card) ? true : false;
         }
 
         private bool CanDiscardSelectedCard()
         {
-            return IsCardSelected() && CanDiscard(_selectedCard);
+            return IsCardSelected() && CanDiscard(_selectedCard) ? true : false;
         }
 
         private bool IsTakenFromDiscardPile(Card card)
         {
-            return (_round.LastMove == RoundMoveKind.DrewFromDiscardPile) && IsSameCard(ToCard(_round.LastMoveCard), card);
+            return (_round.LastMove == RoundMoveKind.DrewFromDiscardPile) && IsSameCard(ToCard(_round.LastMoveCard), card) ? true : false;
         }
 
         private bool CanKnockWithSelectedCard()
         {
-            return IsCardSelected() && _round.KnockDiscards.Any(card => IsSameCard(ToCard(card), _selectedCard));
+            return IsCardSelected() && _round.KnockDiscards.Any(card => IsSameCard(ToCard(card), _selectedCard)) ? true : false;
         }
 
         private void SortHand()
@@ -555,7 +555,7 @@ namespace GinRummy.Client.ViewModels
 
         private static void ExplainScore(HandResult result, RoundOutcome ending)
         {
-            result.HasScoreBreakdown = ending != RoundOutcome.Void;
+            result.HasScoreBreakdown = ending != RoundOutcome.Void ? true : false;
             switch (ending)
             {
                 case RoundOutcome.Gin:
@@ -611,7 +611,7 @@ namespace GinRummy.Client.ViewModels
         {
             List<Meld> handMelds = melds.Select(meld => ToMeld(meld.Select(ToCard).Select(FindHeldCard).ToList())).ToList();
             List<Card> meldCards = handMelds.SelectMany(meld => meld.Cards).ToList();
-            bool haveMeldsChanged = !new HashSet<Card>(HandMelds.SelectMany(meld => meld.Cards)).SetEquals(meldCards);
+            bool haveMeldsChanged = !new HashSet<Card>(HandMelds.SelectMany(meld => meld.Cards)).SetEquals(meldCards) ? true : false;
             if (haveMeldsChanged && (meldCards.Count > 0))
             {
                 HandOrder.Arrange(Hand, HandOrder.PutMeldsFirst(Hand, meldCards));
@@ -716,7 +716,7 @@ namespace GinRummy.Client.ViewModels
 
         private static bool IsSameCard(Card first, Card second)
         {
-            return (first.Rank == second.Rank) && (first.Suit == second.Suit);
+            return (first.Rank == second.Rank) && (first.Suit == second.Suit) ? true : false;
         }
 
         private static Card ToCard(PlayingCard playingCard)

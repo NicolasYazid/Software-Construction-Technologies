@@ -183,7 +183,7 @@ namespace GinRummy.Client.Views
         private void HandleMessageMenuOpening(object sender, ContextMenuEventArgs e)
         {
             PlayerMessage message = ((FrameworkElement)sender).DataContext as PlayerMessage;
-            e.Handled = !_viewModel.CanReport(message);
+            e.Handled = !_viewModel.CanReport(message) ? true : false;
         }
 
         private void HandleNotificationsClick(object sender, RoutedEventArgs e)

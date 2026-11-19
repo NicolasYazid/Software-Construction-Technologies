@@ -60,7 +60,7 @@ namespace GinRummy.Domain.Entities.Friendship
             }
 
             FriendRequestResponseResult result = FriendRequestResponseResult.Accepted;
-            bool areAlreadyFriends = friendRepository.FindFriendShip(requesterId, addresseeId) != null;
+            bool areAlreadyFriends = friendRepository.FindFriendShip(requesterId, addresseeId) != null ? true : false;
             if (!areAlreadyFriends && (friendRepository.CountFriendShipsOf(requesterId) >= MaxFriendsPerPlayer))
             {
                 result = FriendRequestResponseResult.RequesterFriendLimitReached;

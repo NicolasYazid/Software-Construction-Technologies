@@ -38,7 +38,7 @@ namespace GinRummy.Client.Services
             {
                 IGameService service = _service;
 
-                return (service != null) && (((ICommunicationObject)service).State == CommunicationState.Opened);
+                return (service != null) && (((ICommunicationObject)service).State == CommunicationState.Opened) ? true : false;
             }
         }
 
@@ -160,7 +160,7 @@ namespace GinRummy.Client.Services
         {
             IGameService service = _service;
 
-            return (service != null) && TryCall(operation, () => call(service));
+            return (service != null) && TryCall(operation, () => call(service)) ? true : false;
         }
 
         private void HandleChannelFaulted(object sender, EventArgs e)

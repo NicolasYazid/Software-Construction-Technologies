@@ -125,7 +125,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool HasEmailError
         {
-            get { return !string.IsNullOrEmpty(_emailErrorKey); }
+            get { return !string.IsNullOrEmpty(_emailErrorKey) ? true : false; }
         }
 
         public bool IsEmailChangedShown
@@ -181,7 +181,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool HasTwoStepNotice
         {
-            get { return !string.IsNullOrEmpty(_twoStepNoticeKey); }
+            get { return !string.IsNullOrEmpty(_twoStepNoticeKey) ? true : false; }
         }
 
         public string TwoStepErrorKey
@@ -197,7 +197,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool HasTwoStepError
         {
-            get { return !string.IsNullOrEmpty(_twoStepErrorKey); }
+            get { return !string.IsNullOrEmpty(_twoStepErrorKey) ? true : false; }
         }
 
         // The settings are read from the server every time, because only the server knows what the codes already confirmed.
@@ -385,7 +385,7 @@ namespace GinRummy.Client.ViewModels
             }
             else
             {
-                IsChatFilterEnabled = !_isChatFilterEnabled;
+                IsChatFilterEnabled = !_isChatFilterEnabled ? true : false;
             }
         }
 

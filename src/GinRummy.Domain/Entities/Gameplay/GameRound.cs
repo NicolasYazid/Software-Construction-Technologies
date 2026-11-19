@@ -248,7 +248,7 @@ namespace GinRummy.Domain
 
         private void EnsureFirstCardOffer(int playerId)
         {
-            bool isOffering = (Phase == TurnPhase.FirstCardOfferToNonDealer) || (Phase == TurnPhase.FirstCardOfferToDealer);
+            bool isOffering = (Phase == TurnPhase.FirstCardOfferToNonDealer) || (Phase == TurnPhase.FirstCardOfferToDealer) ? true : false;
             if (!isOffering || (playerId != CurrentPlayerId))
             {
                 throw new InvalidMoveException("The face-up card is not being offered to this player.");
@@ -274,8 +274,8 @@ namespace GinRummy.Domain
             if (areMeldsOfHand)
             {
                 List<Card> meldedCards = melds.SelectMany(meld => meld).ToList();
-                bool isEachCardInOneMeld = meldedCards.Distinct().Count() == meldedCards.Count;
-                areMeldsOfHand = isEachCardInOneMeld && meldedCards.All(card => hand.Contains(card));
+                bool isEachCardInOneMeld = meldedCards.Distinct().Count() == meldedCards.Count ? true : false;
+                areMeldsOfHand = isEachCardInOneMeld && meldedCards.All(card => hand.Contains(card)) ? true : false;
             }
 
             if (!areMeldsOfHand)

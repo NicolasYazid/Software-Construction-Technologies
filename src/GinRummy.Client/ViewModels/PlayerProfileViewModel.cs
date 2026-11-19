@@ -84,7 +84,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool IsPlayer
         {
-            get { return !_profile.IsGuest; }
+            get { return !_profile.IsGuest ? true : false; }
         }
 
         public bool IsOwnProfile
@@ -94,17 +94,17 @@ namespace GinRummy.Client.ViewModels
 
         public bool HasSocialLinks
         {
-            get { return IsPlayer && (_profile.SocialLinks.Count > 0); }
+            get { return IsPlayer && (_profile.SocialLinks.Count > 0) ? true : false; }
         }
 
         public bool HasMatches
         {
-            get { return IsPlayer && (_profile.MatchesPlayed > 0); }
+            get { return IsPlayer && (_profile.MatchesPlayed > 0) ? true : false; }
         }
 
         public bool HasNoMatchesYet
         {
-            get { return IsPlayer && (_profile.MatchesPlayed == 0); }
+            get { return IsPlayer && (_profile.MatchesPlayed == 0) ? true : false; }
         }
 
         // A guest has no profile on the server, so only the profile of a registered player is read from it (CU-27 FA-04).
@@ -122,7 +122,9 @@ namespace GinRummy.Client.ViewModels
             Uri address;
             bool isAbsolute = Uri.TryCreate(link.Url, UriKind.Absolute, out address);
             bool isWebAddress = isAbsolute
-                && ((address.Scheme == Uri.UriSchemeHttp) || (address.Scheme == Uri.UriSchemeHttps));
+                && ((address.Scheme == Uri.UriSchemeHttp) || (address.Scheme == Uri.UriSchemeHttps))
+                ? true
+                : false;
             if (!isWebAddress)
             {
                 _logger.LogWarning("The social link of {PublicTag} was not opened because it is not a web address.", _profile.PublicTag);

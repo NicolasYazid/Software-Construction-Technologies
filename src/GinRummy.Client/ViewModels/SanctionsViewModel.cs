@@ -58,7 +58,7 @@ namespace GinRummy.Client.ViewModels
             }
 
             Sanctions = sanctions;
-            HasNoSanctions = sanctions.Count == 0;
+            HasNoSanctions = sanctions.Count == 0 ? true : false;
         }
 
         public void StopCountdown()

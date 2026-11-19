@@ -9,7 +9,7 @@ namespace GinRummy.Client.Controls
     {
         internal static void SwapVisibleField(PasswordBox passwordField, TextBox clearField)
         {
-            bool isRevealed = clearField.Visibility == Visibility.Visible;
+            bool isRevealed = clearField.Visibility == Visibility.Visible ? true : false;
             if (isRevealed)
             {
                 passwordField.Password = clearField.Text;

@@ -51,7 +51,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool HasSession
         {
-            get { return !string.IsNullOrEmpty(_accessToken); }
+            get { return !string.IsNullOrEmpty(_accessToken) ? true : false; }
         }
 
         public ServiceFaultCode? FaultCode { get; private set; }

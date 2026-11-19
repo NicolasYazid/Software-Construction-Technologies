@@ -52,7 +52,7 @@ namespace GinRummy.Application.UseCases.DirectDuel
                 bans = unitOfWork.Moderation.GetBansOf(playerId);
             }
 
-            return !_accessPolicy.IsSuspended(bans);
+            return !_accessPolicy.IsSuspended(bans) ? true : false;
         }
 
         private static DuelPlayer ToDuelPlayer(PlayerProfile profile)

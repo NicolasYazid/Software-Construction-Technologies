@@ -18,7 +18,7 @@ namespace GinRummy.Domain.Entities.Authentication
 
         public bool IsVerificationCodeSent
         {
-            get { return DeliveryStatus == EmailDeliveryStatus.Sent; }
+            get { return DeliveryStatus == EmailDeliveryStatus.Sent ? true : false; }
         }
     }
 }

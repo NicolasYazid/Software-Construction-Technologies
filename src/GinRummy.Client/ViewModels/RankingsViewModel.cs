@@ -179,17 +179,21 @@ namespace GinRummy.Client.ViewModels
                 Rankings.Add(ranking);
             }
 
-            HasNoMatches = (_allRankings.Count > 0) && (Rankings.Count == 0);
+            HasNoMatches = (_allRankings.Count > 0) && (Rankings.Count == 0) ? true : false;
             HasNoFriends = _isFriendsTabSelected
                 && (_friendRankings.Count == OwnEntryOnly)
-                && (Rankings.Count == OwnEntryOnly);
+                && (Rankings.Count == OwnEntryOnly)
+                ? true
+                : false;
         }
 
         private bool IsSearchMatch(PlayerRanking ranking)
         {
             bool isMatch = string.IsNullOrWhiteSpace(_searchText)
                 || ((ranking.Username != null)
-                    && (ranking.Username.IndexOf(_searchText.Trim(), StringComparison.OrdinalIgnoreCase) >= 0));
+                    && (ranking.Username.IndexOf(_searchText.Trim(), StringComparison.OrdinalIgnoreCase) >= 0))
+                ? true
+                : false;
             return isMatch;
         }
 

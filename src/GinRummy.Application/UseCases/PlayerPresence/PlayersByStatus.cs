@@ -20,7 +20,9 @@ namespace GinRummy.Application.UseCases.PlayerPresence
             {
                 bool isOnline = onlineOwners.Contains(player.AccessTokenOwner);
                 bool isFriend = player.AccessTokenOwner.PlayerAccountId.HasValue
-                    && friendPlayerAccountIds.Contains(player.AccessTokenOwner.PlayerAccountId.Value);
+                    && friendPlayerAccountIds.Contains(player.AccessTokenOwner.PlayerAccountId.Value)
+                    ? true
+                    : false;
                 AddPlayer(player, isOnline, isFriend);
             }
         }

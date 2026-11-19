@@ -52,7 +52,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool HasErrorMessage
         {
-            get { return !string.IsNullOrEmpty(_errorMessageKey); }
+            get { return !string.IsNullOrEmpty(_errorMessageKey) ? true : false; }
         }
 
         // Each purpose checks the code on its own service, so this only ends the screen once the code was accepted.
