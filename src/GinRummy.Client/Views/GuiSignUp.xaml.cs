@@ -33,12 +33,12 @@ namespace GinRummy.Client.Views
 
         private void HandleTogglePasswordClick(object sender, RoutedEventArgs e)
         {
-            PasswordRevealCommon.Toggle(pwdPassword, txtPasswordShown);
+            PasswordRevealCommon.SwapVisibleField(pwdPassword, txtPasswordShown);
         }
 
         private void HandleToggleConfirmPasswordClick(object sender, RoutedEventArgs e)
         {
-            PasswordRevealCommon.Toggle(pwdConfirmPassword, txtConfirmPasswordShown);
+            PasswordRevealCommon.SwapVisibleField(pwdConfirmPassword, txtConfirmPasswordShown);
         }
 
         private void HandleCancelClick(object sender, RoutedEventArgs e)

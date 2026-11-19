@@ -51,7 +51,7 @@ namespace GinRummy.Client.ViewModels
             ChangeEmailCommand = new RelayCommand(OpenChangeEmail);
             CancelEmailCommand = new RelayCommand(CancelChangeEmail);
             SaveEmailCommand = new RelayCommand(SaveEmail);
-            ToggleTwoStepCommand = new RelayCommand(ToggleTwoStep);
+            ToggleTwoStepCommand = new RelayCommand(ChangeTwoStep);
             ToggleChatFilterCommand = new RelayCommand(ChangeChatFilter);
         }
 
@@ -335,7 +335,7 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        private void ToggleTwoStep()
+        private void ChangeTwoStep()
         {
             TwoStepNoticeKey = null;
             TwoStepErrorKey = null;

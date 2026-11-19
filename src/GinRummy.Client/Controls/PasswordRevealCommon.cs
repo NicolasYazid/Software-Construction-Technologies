@@ -7,7 +7,7 @@ namespace GinRummy.Client.Controls
     // The field that becomes visible takes the value of the one that was shown, so the toggle never loses what the player typed.
     internal static class PasswordRevealCommon
     {
-        internal static void Toggle(PasswordBox passwordField, TextBox clearField)
+        internal static void SwapVisibleField(PasswordBox passwordField, TextBox clearField)
         {
             bool isRevealed = clearField.Visibility == Visibility.Visible;
             if (isRevealed)

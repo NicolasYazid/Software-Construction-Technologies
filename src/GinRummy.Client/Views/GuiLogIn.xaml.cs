@@ -30,7 +30,7 @@ namespace GinRummy.Client.Views
 
         private void HandleTogglePasswordClick(object sender, RoutedEventArgs e)
         {
-            PasswordRevealCommon.Toggle(pwdPassword, txtPasswordShown);
+            PasswordRevealCommon.SwapVisibleField(pwdPassword, txtPasswordShown);
         }
 
         private void HandleForgotPasswordClick(object sender, RoutedEventArgs e)
