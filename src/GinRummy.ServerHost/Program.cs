@@ -100,8 +100,8 @@ namespace GinRummy.ServerHost
                 RoundAnnouncer roundAnnouncer = new RoundAnnouncer(gameOnlinePlayers);
                 Func<IUnitOfWork> duelUnitOfWorkFactory = () => new EntityFrameworkUnitOfWork(ConnectionStringName);
                 MatchRecorder matchRecorder = new MatchRecorder(duelUnitOfWorkFactory, new SystemClock());
-                FinishInterruptedMatches(matchRecorder, hostLogger);
                 PlayRoundUseCase playRoundUseCase = new PlayRoundUseCase(matchRegistry, roundAnnouncer, matchRecorder);
+                ResumeInterruptedMatches(matchRecorder, matchRegistry, hostLogger);
                 AccountAccessPolicy duelAccessPolicy = new AccountAccessPolicy(
                     new Argon2PasswordHasher(),
                     tokenSigner,
@@ -217,15 +217,18 @@ namespace GinRummy.ServerHost
             return Path.Combine(logFolder, LogFileName);
         }
 
-        private static void FinishInterruptedMatches(MatchRecorder matchRecorder, ILogger<Program> logger)
+        private static void ResumeInterruptedMatches(MatchRecorder matchRecorder, MatchRegistry matchRegistry, ILogger<Program> logger)
         {
             try
             {
-                matchRecorder.FinishInterruptedMatches();
+                foreach (MatchSnapshot snapshot in matchRecorder.RecoverInterruptedMatches())
+                {
+                    matchRegistry.Resume(snapshot);
+                }
             }
             catch (DataException ex)
             {
-                logger.LogWarning(ex, "The matches left in progress by the previous run could not be finished.");
+                logger.LogWarning(ex, "The matches left in progress by the previous run could not be recovered.");
             }
         }
 

@@ -92,7 +92,9 @@ namespace GinRummy.Application.UseCases.DirectDuel
             gameSession.Start(startedAt);
             unitOfWork.Games.Add(gameSession);
             unitOfWork.Games.AddParticipant(GameParticipant.ForPlayer(gameSession.GameSessionId, challenge.Challenger.Id));
-            unitOfWork.Games.AddParticipant(GameParticipant.ForPlayer(gameSession.GameSessionId, challenge.Challenged.Id));
+            GameParticipant firstToPlay = GameParticipant.ForPlayer(gameSession.GameSessionId, challenge.Challenged.Id);
+            unitOfWork.Games.AddParticipant(firstToPlay);
+            gameSession.GiveTurnTo(firstToPlay.GameParticipantId);
 
             return gameSession.GameSessionId;
         }

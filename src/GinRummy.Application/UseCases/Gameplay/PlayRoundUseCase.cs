@@ -171,7 +171,7 @@ namespace GinRummy.Application.UseCases.Gameplay
             {
                 _matchRegistry.DealNextRound(activeMatch);
                 AnnounceToPlayers(activeMatch, _roundAnnouncer.AnnounceRoundChanged);
-                _matchRecorder.RecordRoundScores(activeMatch);
+                _matchRecorder.RecordRoundSnapshot(activeMatch);
             }
         }
 

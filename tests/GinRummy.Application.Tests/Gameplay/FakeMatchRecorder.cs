@@ -14,7 +14,7 @@ namespace GinRummy.Application.Tests.Gameplay
 
         public IList<int> WinnerIds { get; private set; }
 
-        public void RecordRoundScores(ActiveMatch activeMatch)
+        public void RecordRoundSnapshot(ActiveMatch activeMatch)
         {
         }
 
