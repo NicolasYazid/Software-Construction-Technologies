@@ -45,8 +45,8 @@ namespace GinRummy.Application.UseCases.Gameplay
                 GameSession gameSession = FindGameSession(unitOfWork, activeMatch);
                 RecordScores(gameSession, activeMatch);
                 gameSession.Finish(endedAt);
-                unitOfWork.Games.AddHistory(new GameHistory(winnerId, loserId, true, PlayerStats.PointsPerMatch, endedAt));
-                unitOfWork.Games.AddHistory(new GameHistory(loserId, winnerId, false, PlayerStats.PointsPerMatch, endedAt));
+                unitOfWork.Games.AddHistory(new GameHistory(winnerId, loserId, new MatchOutcome(true, PlayerStats.PointsPerMatch, endedAt)));
+                unitOfWork.Games.AddHistory(new GameHistory(loserId, winnerId, new MatchOutcome(false, PlayerStats.PointsPerMatch, endedAt)));
                 unitOfWork.PlayerAccounts.FindStats(winnerId).RecordWin();
                 unitOfWork.PlayerAccounts.FindStats(loserId).RecordLoss();
                 unitOfWork.Commit();

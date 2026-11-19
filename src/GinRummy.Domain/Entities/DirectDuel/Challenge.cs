@@ -1,6 +1,7 @@
 ﻿using System;
 
 using GinRummy.Domain.Entities.Authentication;
+using GinRummy.Domain.Shared;
 
 namespace GinRummy.Domain.Entities.DirectDuel
 {
@@ -8,16 +9,21 @@ namespace GinRummy.Domain.Entities.DirectDuel
     {
         public const int StatusNameMaxLength = 20;
 
-        public Challenge(int challengerPlayerAccountId, int challengedPlayerAccountId, DateTime createdAt, DateTime expiresAt)
+        public Challenge(int challengerPlayerAccountId, int challengedPlayerAccountId, ValidityPeriod lifetime)
         {
+            if (lifetime == null)
+            {
+                throw new ArgumentNullException(nameof(lifetime));
+            }
+
             ValidatePlayers(challengerPlayerAccountId, challengedPlayerAccountId);
-            ValidateExpiration(createdAt, expiresAt);
+            ValidateExpiration(lifetime.CreatedAt, lifetime.ExpiresAt);
 
             ChallengerPlayerAccountId = challengerPlayerAccountId;
             ChallengedPlayerAccountId = challengedPlayerAccountId;
             StatusName = ChallengeStatus.Sent.ToString();
-            CreatedAt = createdAt;
-            ExpiresAt = expiresAt;
+            CreatedAt = lifetime.CreatedAt;
+            ExpiresAt = lifetime.ExpiresAt;
         }
 
         protected Challenge()

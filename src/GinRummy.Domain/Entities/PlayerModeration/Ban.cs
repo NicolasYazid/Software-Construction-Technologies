@@ -4,16 +4,21 @@ namespace GinRummy.Domain.Entities.PlayerModeration
 {
     public class Ban
     {
-        public Ban(int playerAccountId, int reasonBanId, DateTime issuedAt, DateTime? expiresAt)
+        public Ban(int playerAccountId, int reasonBanId, BanTerm term)
         {
+            if (term == null)
+            {
+                throw new ArgumentNullException(nameof(term));
+            }
+
             ValidateId(playerAccountId, nameof(playerAccountId));
             ValidateId(reasonBanId, nameof(reasonBanId));
-            ValidateExpiry(issuedAt, expiresAt);
+            ValidateExpiry(term.IssuedAt, term.ExpiresAt);
 
             PlayerAccountId = playerAccountId;
             ReasonBanId = reasonBanId;
-            IssuedAt = issuedAt;
-            ExpiresAt = expiresAt;
+            IssuedAt = term.IssuedAt;
+            ExpiresAt = term.ExpiresAt;
         }
 
         protected Ban()

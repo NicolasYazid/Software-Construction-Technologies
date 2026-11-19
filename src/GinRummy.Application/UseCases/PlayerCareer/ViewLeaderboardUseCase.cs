@@ -73,7 +73,7 @@ namespace GinRummy.Application.UseCases.PlayerCareer
             {
                 Rank rank = _rankResolver.ResolveRank(playerStats.Score, ranks);
                 string username = usernames[playerStats.PlayerAccountId];
-                leaderboard.Add(new LeaderboardPlayerPosition(place, playerStats, username, rank));
+                leaderboard.Add(new LeaderboardPlayerPosition(place, playerStats, new RankedUsername(username, rank)));
                 place++;
             }
 

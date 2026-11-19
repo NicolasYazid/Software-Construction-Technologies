@@ -143,6 +143,13 @@
     <Compile Include="Entities\PlayerModeration\ProhibitedWordDetector.cs" />
     <Compile Include="Entities\PlayerCareer\RankResolver.cs" />
     <Compile Include="Shared\TypedFieldValidator.cs" />
+    <Compile Include="Shared\ValidityPeriod.cs" />
+    <Compile Include="Entities\PlayerModeration\BanTerm.cs" />
+    <Compile Include="Entities\SocialCommunication\MessageDraft.cs" />
+    <Compile Include="Entities\Gameplay\MatchOutcome.cs" />
+    <Compile Include="Entities\AccountProtection\EmailDelivery.cs" />
+    <Compile Include="Entities\AccountProtection\VerificationRequest.cs" />
+    <Compile Include="Entities\PlayerCareer\RankedUsername.cs" />
     <Compile Include="Entities\AccountProtection\VerificationCodeChecker.cs" />
     <Compile Include="Entities\AccountProtection\VerificationCodeCheckResult.cs" />
     <Compile Include="Entities\AccountProtection\VerificationCodeIssuer.cs" />

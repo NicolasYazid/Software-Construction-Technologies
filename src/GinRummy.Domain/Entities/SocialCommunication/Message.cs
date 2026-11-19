@@ -9,16 +9,21 @@ namespace GinRummy.Domain.Entities.SocialCommunication
         public const int ContentMaxLength = 300;
         public const int ChannelNameMaxLength = 20;
 
-        public Message(int playerAccountId, string content, MessageChannel channel, int? gameSessionId, DateTime sentAt)
+        public Message(int playerAccountId, MessageDraft draft, DateTime sentAt)
         {
+            if (draft == null)
+            {
+                throw new ArgumentNullException(nameof(draft));
+            }
+
             ValidatePlayerAccountId(playerAccountId);
-            ValidateContent(content);
-            ValidateChannel(channel, gameSessionId);
+            ValidateContent(draft.Content);
+            ValidateChannel(draft.Channel, draft.GameSessionId);
 
             PlayerAccountId = playerAccountId;
-            Content = content;
-            ChannelName = channel.ToString();
-            GameSessionId = gameSessionId;
+            Content = draft.Content;
+            ChannelName = draft.Channel.ToString();
+            GameSessionId = draft.GameSessionId;
             SentAt = sentAt;
         }
 

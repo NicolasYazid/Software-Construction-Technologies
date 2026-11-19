@@ -1,27 +1,34 @@
 ﻿using System;
 
+using GinRummy.Domain.Shared;
+
 namespace GinRummy.Domain.Entities.AccountProtection
 {
     public class VerificationCode
     {
         public const int CodeHashLength = 64;
 
-        public VerificationCode(
-            int playerAccountId,
-            VerificationPurpose purpose,
-            string codeHash,
-            DateTime createdAt,
-            DateTime expiresAt)
+        public VerificationCode(VerificationRequest request, string codeHash, ValidityPeriod validity)
         {
-            ValidatePlayerAccountId(playerAccountId);
-            ValidateCodeHash(codeHash);
-            ValidateExpiry(expiresAt, createdAt);
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
 
-            PlayerAccountId = playerAccountId;
-            Purpose = purpose;
+            if (validity == null)
+            {
+                throw new ArgumentNullException(nameof(validity));
+            }
+
+            ValidatePlayerAccountId(request.PlayerAccountId);
+            ValidateCodeHash(codeHash);
+            ValidateExpiry(validity.ExpiresAt, validity.CreatedAt);
+
+            PlayerAccountId = request.PlayerAccountId;
+            Purpose = request.Purpose;
             CodeHash = codeHash;
-            ExpiresAt = expiresAt;
-            CreatedAt = createdAt;
+            ExpiresAt = validity.ExpiresAt;
+            CreatedAt = validity.CreatedAt;
             Attempts = 0;
             UsedAt = null;
         }

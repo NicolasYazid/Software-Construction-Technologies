@@ -26,8 +26,7 @@ namespace GinRummy.Application.UseCases.DirectDuel
             Challenge sentChallenge = new Challenge(
                 challenge.Challenger.Id,
                 challenge.Challenged.Id,
-                sentAt,
-                sentAt.AddMinutes(ChallengeLifetimeMinutes));
+                new ValidityPeriod(sentAt, sentAt.AddMinutes(ChallengeLifetimeMinutes)));
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
                 unitOfWork.Challenges.Add(sentChallenge);

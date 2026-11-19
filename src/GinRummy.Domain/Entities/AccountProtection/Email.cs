@@ -8,16 +8,21 @@ namespace GinRummy.Domain.Entities.AccountProtection
 
         public const int DeliveryStatusNameMaxLength = 20;
 
-        public Email(int verificationCodeId, string destinationAddress, DateTime sendAt, EmailDeliveryStatus deliveryStatus)
+        public Email(int verificationCodeId, string destinationAddress, EmailDelivery delivery)
         {
+            if (delivery == null)
+            {
+                throw new ArgumentNullException(nameof(delivery));
+            }
+
             ValidateVerificationCodeId(verificationCodeId);
             ValidateDestinationAddress(destinationAddress);
-            ValidateDeliveryStatus(deliveryStatus);
+            ValidateDeliveryStatus(delivery.DeliveryStatus);
 
             VerificationCodeId = verificationCodeId;
             DestinationAddress = destinationAddress.Trim();
-            SendAt = sendAt;
-            DeliveryStatusName = deliveryStatus.ToString();
+            SendAt = delivery.SendAt;
+            DeliveryStatusName = delivery.DeliveryStatus.ToString();
         }
 
         protected Email()
