@@ -32,6 +32,16 @@ namespace GinRummy.Client.Services
 
         public ServiceFaultCode? LastFaultCode { get; private set; }
 
+        public bool IsConnected
+        {
+            get
+            {
+                IGameService service = _service;
+
+                return (service != null) && (((ICommunicationObject)service).State == CommunicationState.Opened);
+            }
+        }
+
         public bool Start(string accessToken)
         {
             return Open("subscribe to the round", service => service.SubscribeToGame(accessToken));

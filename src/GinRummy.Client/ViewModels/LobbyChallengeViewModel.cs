@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 using GinRummy.Client.GameServiceReference;
 using GinRummy.Client.LogInServiceReference;
@@ -11,6 +12,7 @@ using GinRummy.Client.Services;
 
 using ChallengeOutcome = GinRummy.Client.DirectDuelServiceReference.ChallengeOutcome;
 using DuelFaultCode = GinRummy.Client.DirectDuelServiceReference.ServiceFaultCode;
+using GameFaultCode = GinRummy.Client.GameServiceReference.ServiceFaultCode;
 
 namespace GinRummy.Client.ViewModels
 {
@@ -19,6 +21,7 @@ namespace GinRummy.Client.ViewModels
         private const string ChallengeDeclinedKey = "LobbyChat_ChallengeDeclined";
         private const string ChallengeUnavailableKey = "LobbyChat_ChallengeUnavailable";
         private const string ChallengeCancelledKey = "LobbyChat_ChallengeCancelled";
+        private const int SecondsBetweenReconnectionAttempts = 10;
 
         private static readonly Dictionary<ChallengeOutcome, string> _outcomeNoticeKeys = new Dictionary<ChallengeOutcome, string>
         {
@@ -39,8 +42,10 @@ namespace GinRummy.Client.ViewModels
         private readonly DirectDuelConnection _duelConnection;
         private readonly GameConnection _gameConnection;
         private readonly LogInOutcome _signedInPlayer;
+        private readonly DispatcherTimer _reconnectionTimer;
         private LobbyPlayerViewModel _challengedPlayer;
         private string _noticeKey;
+        private bool _isPlayingMatch;
 
         public LobbyChallengeViewModel(DirectDuelConnection duelConnection, GameConnection gameConnection, LogInOutcome signedInPlayer)
         {
@@ -52,6 +57,9 @@ namespace GinRummy.Client.ViewModels
             AcceptCommand = new RelayCommand(Accept);
             DeclineCommand = new RelayCommand(Decline);
             DismissNoticeCommand = new RelayCommand(() => NoticeKey = null);
+            _reconnectionTimer = new DispatcherTimer();
+            _reconnectionTimer.Interval = TimeSpan.FromSeconds(SecondsBetweenReconnectionAttempts);
+            _reconnectionTimer.Tick += OnReconnectionTimerTick;
         }
 
         public event EventHandler<GameTableViewModel> RoundStarted;
@@ -101,6 +109,8 @@ namespace GinRummy.Client.ViewModels
             _duelConnection.ChallengeCancelled += OnChallengeCancelled;
             _duelConnection.ChallengeDeclined += OnChallengeDeclined;
             _gameConnection.RoundStarted += OnRoundStarted;
+            _duelConnection.ConnectionLost += OnDuelConnectionLost;
+            _gameConnection.ConnectionLost += OnGameConnectionLost;
             _duelConnection.Start(_signedInPlayer.AccessToken);
             _gameConnection.Start(_signedInPlayer.AccessToken);
         }
@@ -113,6 +123,18 @@ namespace GinRummy.Client.ViewModels
             _duelConnection.ChallengeCancelled -= OnChallengeCancelled;
             _duelConnection.ChallengeDeclined -= OnChallengeDeclined;
             _gameConnection.RoundStarted -= OnRoundStarted;
+            _duelConnection.ConnectionLost -= OnDuelConnectionLost;
+            _gameConnection.ConnectionLost -= OnGameConnectionLost;
+            _reconnectionTimer.Stop();
+        }
+
+        public void LeaveMatch()
+        {
+            _isPlayingMatch = false;
+            if (!_duelConnection.IsConnected || !_gameConnection.IsConnected)
+            {
+                _reconnectionTimer.Start();
+            }
         }
 
         public void Challenge(LobbyPlayerViewModel player)
@@ -210,11 +232,43 @@ namespace GinRummy.Client.ViewModels
 
         private void OnRoundStarted(object sender, RoundDetails startedRound)
         {
+            _isPlayingMatch = true;
             ChallengedPlayer = null;
             NoticeKey = null;
             GameTableViewModel table = new GameTableViewModel(_gameConnection, _signedInPlayer);
             table.Start(startedRound);
             RoundStarted?.Invoke(this, table);
+        }
+
+        private void OnDuelConnectionLost(object sender, EventArgs e)
+        {
+            ChallengedPlayer = null;
+            _reconnectionTimer.Start();
+        }
+
+        private void OnGameConnectionLost(object sender, EventArgs e)
+        {
+            if (!_isPlayingMatch)
+            {
+                _reconnectionTimer.Start();
+            }
+        }
+
+        private void OnReconnectionTimerTick(object sender, EventArgs e)
+        {
+            bool isDuelConnected = _duelConnection.IsConnected || _duelConnection.Start(_signedInPlayer.AccessToken);
+            bool isGameConnected = _isPlayingMatch || _gameConnection.IsConnected || _gameConnection.Start(_signedInPlayer.AccessToken);
+            bool isSessionExpired = (_duelConnection.LastFaultCode == DuelFaultCode.SessionExpired)
+                || (_gameConnection.LastFaultCode == GameFaultCode.SessionExpired);
+            if (isSessionExpired || (isDuelConnected && isGameConnected))
+            {
+                _reconnectionTimer.Stop();
+            }
+
+            if (isSessionExpired)
+            {
+                SessionExpired?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         private void RemoveReceived(int challengerPublicTag)

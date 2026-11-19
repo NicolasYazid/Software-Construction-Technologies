@@ -25,8 +25,19 @@ namespace GinRummy.Client.Services
         public event EventHandler<Tuple<string, int>> ChallengeReceived;
         public event EventHandler<int> ChallengeCancelled;
         public event EventHandler<int> ChallengeDeclined;
+        public event EventHandler ConnectionLost;
 
         public ServiceFaultCode? LastFaultCode { get; private set; }
+
+        public bool IsConnected
+        {
+            get
+            {
+                IDirectDuelService service = _service;
+
+                return (service != null) && (((ICommunicationObject)service).State == CommunicationState.Opened);
+            }
+        }
 
         public bool Start(string accessToken)
         {
@@ -121,6 +132,7 @@ namespace GinRummy.Client.Services
         private void OnChannelFaulted(object sender, EventArgs e)
         {
             _logger.LogWarning("The channel of the challenges failed, so no challenge arrives anymore.");
+            _screenContext.Post(state => ConnectionLost?.Invoke(this, EventArgs.Empty), null);
         }
 
         private bool TryCall(string operation, Action call)

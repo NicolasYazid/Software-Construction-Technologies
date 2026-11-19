@@ -93,7 +93,15 @@ namespace GinRummy.Client.Views
 
         private void OnRoundStarted(object sender, GameTableViewModel table)
         {
-            OpenOver(new GuiGameTable(table));
+            GuiGameTable gameTable = new GuiGameTable(table);
+            gameTable.Closed += OnGameTableClosed;
+            OpenOver(gameTable);
+        }
+
+        private void OnGameTableClosed(object sender, EventArgs e)
+        {
+            ((Window)sender).Closed -= OnGameTableClosed;
+            _challengeViewModel.LeaveMatch();
         }
 
         private void OnSessionExpired(object sender, EventArgs e)
