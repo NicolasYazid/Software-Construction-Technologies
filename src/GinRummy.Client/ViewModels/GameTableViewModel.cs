@@ -422,7 +422,6 @@ namespace GinRummy.Client.ViewModels
             HandOrder.Arrange(Hand, HandOrder.SortLooseCards(Hand, HandMelds.Select(meld => meld.Cards)));
         }
 
-        // Until the server relays the chat of the match, the table shows the message of the player.
         private void SendMessage()
         {
             string content = _messageDraft.Trim();
