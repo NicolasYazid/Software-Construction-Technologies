@@ -18,7 +18,7 @@ namespace GinRummy.Client.Controls
         private const double Half = 0.5;
         private const double Quarter = 0.25;
 
-        private static readonly double _unitDiagonal = Math.Sqrt(2.0);
+        private static readonly double s_unitDiagonal = Math.Sqrt(2.0);
 
         public static Matrix CreateMatrix(Size cardSize, Vector pointerOffset)
         {
@@ -47,7 +47,7 @@ namespace GinRummy.Client.Controls
 
         private static double GetDisplacement(Vector corner, Vector pointer)
         {
-            double middleDistance = (corner - new Vector(Half, Half)).Length / _unitDiagonal;
+            double middleDistance = (corner - new Vector(Half, Half)).Length / s_unitDiagonal;
             double squaredOffset = ((corner + pointer) / ScreenScale).LengthSquared;
             double weight = EdgeBias - (CenterWeight * Math.Max(0, CenterRadius - middleDistance));
 

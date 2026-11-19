@@ -39,7 +39,7 @@ namespace GinRummy.Security
         private const int SignatureIndex = 2;
         private const int Base64BlockSize = 4;
         private const char Base64Padding = '=';
-        private static readonly DateTime _unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        private static readonly DateTime s_unixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         private readonly byte[] _signingKey;
 
         /// <summary>
@@ -260,7 +260,7 @@ namespace GinRummy.Security
 
         private static long ToUnixSeconds(DateTime moment)
         {
-            return (long)Math.Floor((moment - _unixEpoch).TotalSeconds);
+            return (long)Math.Floor((moment - s_unixEpoch).TotalSeconds);
         }
 
         // Every byte is compared without stopping at the first difference, so the time taken does not reveal how much matched.

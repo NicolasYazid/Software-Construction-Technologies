@@ -51,7 +51,7 @@ namespace GinRummy.Client
         private const int SoftwareRenderingTier = 0;
         private const double SoftwareBlurScale = 0.3;
 
-        private static readonly string[] _blurredShadowKeys =
+        private static readonly string[] s_blurredShadowKeys =
         {
             "EfxPanelShadow",
             "EfxTextShadow",
@@ -334,7 +334,7 @@ namespace GinRummy.Client
         // The shared instances are edited in place before any window exists, so every element using them by key gets the shorter blur.
         private void ShortenShadowBlur()
         {
-            foreach (string shadowKey in _blurredShadowKeys)
+            foreach (string shadowKey in s_blurredShadowKeys)
             {
                 DropShadowEffect shadow = TryFindResource(shadowKey) as DropShadowEffect;
                 if ((shadow != null) && !shadow.IsFrozen)

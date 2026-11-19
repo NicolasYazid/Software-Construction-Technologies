@@ -15,7 +15,7 @@ namespace GinRummy.Infrastructure
         private const string EntryFormat = "{0:yyyy-MM-dd HH:mm:ss.fff} [{1}] {2}: {3}";
 
         // Every category writes to the same file, so the lock keeps entries from different threads from mixing.
-        private static readonly object _fileLock = new object();
+        private static readonly object s_fileLock = new object();
 
         private readonly string _categoryName;
         private readonly string _logFilePath;
@@ -97,7 +97,7 @@ namespace GinRummy.Infrastructure
         {
             try
             {
-                lock (_fileLock)
+                lock (s_fileLock)
                 {
                     Directory.CreateDirectory(Path.GetDirectoryName(_logFilePath));
                     File.AppendAllText(_logFilePath, entry + Environment.NewLine);

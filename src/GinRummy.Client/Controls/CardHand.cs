@@ -82,13 +82,13 @@ namespace GinRummy.Client.Controls
             typeof(CardHand),
             new FrameworkPropertyMetadata(false));
 
-        private static readonly DependencyPropertyKey IsDraggingPropertyKey = DependencyProperty.RegisterReadOnly(
+        private static readonly DependencyPropertyKey s_isDraggingPropertyKey = DependencyProperty.RegisterReadOnly(
             nameof(IsDragging),
             typeof(bool),
             typeof(CardHand),
             new FrameworkPropertyMetadata(false));
 
-        public static readonly DependencyProperty IsDraggingProperty = IsDraggingPropertyKey.DependencyProperty;
+        public static readonly DependencyProperty IsDraggingProperty = s_isDraggingPropertyKey.DependencyProperty;
 
         private readonly Dictionary<object, CardMotion> _motions = new Dictionary<object, CardMotion>();
         private readonly Dictionary<object, Point> _exitTargets = new Dictionary<object, Point>();
@@ -180,7 +180,7 @@ namespace GinRummy.Client.Controls
         public bool IsDragging
         {
             get { return (bool)GetValue(IsDraggingProperty); }
-            private set { SetValue(IsDraggingPropertyKey, value); }
+            private set { SetValue(s_isDraggingPropertyKey, value); }
         }
 
         public void EnterFrom(object item, FrameworkElement source, bool isFaceDown)

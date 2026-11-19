@@ -21,7 +21,7 @@ namespace GinRummy.Client.Controls
                 new PropertyMetadata(false, OnIsInsetChanged));
 
         // Each list keeps the handler it subscribed, so turning the inset off and on again never leaves two handlers measuring it.
-        private static readonly DependencyProperty _layoutHandlerProperty =
+        private static readonly DependencyProperty s_layoutHandlerProperty =
             DependencyProperty.RegisterAttached(
                 "LayoutHandler",
                 typeof(EventHandler),
@@ -55,17 +55,17 @@ namespace GinRummy.Client.Controls
             Control list = element as Control;
             if (list != null)
             {
-                EventHandler handler = (EventHandler)list.GetValue(_layoutHandlerProperty);
+                EventHandler handler = (EventHandler)list.GetValue(s_layoutHandlerProperty);
                 if (handler != null)
                 {
                     list.LayoutUpdated -= handler;
-                    list.ClearValue(_layoutHandlerProperty);
+                    list.ClearValue(s_layoutHandlerProperty);
                 }
 
                 if ((bool)e.NewValue)
                 {
                     handler = (sender, args) => ApplyInset(list);
-                    list.SetValue(_layoutHandlerProperty, handler);
+                    list.SetValue(s_layoutHandlerProperty, handler);
                     list.LayoutUpdated += handler;
                 }
             }

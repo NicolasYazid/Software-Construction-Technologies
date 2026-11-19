@@ -12,8 +12,8 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiNewPassword : GuiModalBase
     {
-        private static readonly Thickness _newPasswordLabelAfterText = new Thickness(0, 28, 0, 8);
-        private static readonly Thickness _newPasswordLabelAfterField = new Thickness(0, 22, 0, 8);
+        private static readonly Thickness s_newPasswordLabelAfterText = new Thickness(0, 28, 0, 8);
+        private static readonly Thickness s_newPasswordLabelAfterField = new Thickness(0, 22, 0, 8);
 
         private readonly NewPasswordViewModel _viewModel;
 
@@ -40,10 +40,10 @@ namespace GinRummy.Client.Views
 
         private void ApplyFlowLayout()
         {
-            Thickness newPasswordLabelMargin = _newPasswordLabelAfterText;
+            Thickness newPasswordLabelMargin = s_newPasswordLabelAfterText;
             if (_viewModel.IsChangeFromProfile)
             {
-                newPasswordLabelMargin = _newPasswordLabelAfterField;
+                newPasswordLabelMargin = s_newPasswordLabelAfterField;
             }
 
             lblNewPassword.Margin = newPasswordLabelMargin;

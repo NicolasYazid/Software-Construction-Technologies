@@ -20,7 +20,7 @@ namespace GinRummy.Infrastructure
         private const string SignUpBodyKey = "SignUpBody";
         private const string GenericSubjectKey = "GenericSubject";
         private const string GenericBodyKey = "GenericBody";
-        private static readonly ResourceManager _texts =
+        private static readonly ResourceManager s_texts =
             new ResourceManager(TextsBaseName, typeof(VerificationEmailComposer).Assembly);
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace GinRummy.Infrastructure
         /// <returns>The translated subject.</returns>
         public string ComposeSubject(VerificationPurpose purpose, string localeCode)
         {
-            return _texts.GetString(ResolveSubjectKey(purpose), ResolveCulture(localeCode));
+            return s_texts.GetString(ResolveSubjectKey(purpose), ResolveCulture(localeCode));
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace GinRummy.Infrastructure
             CultureInfo culture = ResolveCulture(localeCode);
             string body = string.Format(
                 culture,
-                _texts.GetString(ResolveBodyKey(purpose), culture),
+                s_texts.GetString(ResolveBodyKey(purpose), culture),
                 plainCode,
                 VerificationCodeIssuer.LifetimeMinutes);
 

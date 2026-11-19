@@ -6,7 +6,7 @@ namespace GinRummy.Domain.Shared
     {
         private const string ForbiddenCharacterPattern = @"[\p{So}\uD800-\uDFFF\r\n]";
 
-        private static readonly Regex _forbiddenCharactersRegex = new Regex(ForbiddenCharacterPattern);
+        private static readonly Regex s_forbiddenCharactersRegex = new Regex(ForbiddenCharacterPattern);
 
         public static bool ContainsForbiddenCharacters(string text)
         {
@@ -14,7 +14,7 @@ namespace GinRummy.Domain.Shared
 
             if (text != null)
             {
-                hasForbiddenCharacters = _forbiddenCharactersRegex.IsMatch(text);
+                hasForbiddenCharacters = s_forbiddenCharactersRegex.IsMatch(text);
             }
 
             return hasForbiddenCharacters;

@@ -23,7 +23,7 @@ namespace GinRummy.Client.ViewModels
         private const string ChallengeCancelledKey = "LobbyChat_ChallengeCancelled";
         private const int SecondsBetweenReconnectionAttempts = 10;
 
-        private static readonly Dictionary<ChallengeOutcome, string> _outcomeNoticeKeys = new Dictionary<ChallengeOutcome, string>
+        private static readonly Dictionary<ChallengeOutcome, string> s_outcomeNoticeKeys = new Dictionary<ChallengeOutcome, string>
         {
             { ChallengeOutcome.PlayerNotAvailable, "LobbyChat_PlayerNotAvailable" },
             { ChallengeOutcome.PlayerNotFound, "Error_DataNotFound" },
@@ -32,7 +32,7 @@ namespace GinRummy.Client.ViewModels
             { ChallengeOutcome.ChallengeExpired, "Error_GameChallengeExpired" }
         };
 
-        private static readonly Dictionary<DuelFaultCode, string> _refusalNoticeKeys = new Dictionary<DuelFaultCode, string>
+        private static readonly Dictionary<DuelFaultCode, string> s_refusalNoticeKeys = new Dictionary<DuelFaultCode, string>
         {
             { DuelFaultCode.CannotChallengeSelf, "Error_GameCannotChallengeSelf" },
             { DuelFaultCode.ConcurrentChallenge, "Error_DataConcurrentChallenge" },
@@ -181,7 +181,7 @@ namespace GinRummy.Client.ViewModels
             if (outcome.HasValue)
             {
                 string noticeKey;
-                _outcomeNoticeKeys.TryGetValue(outcome.Value, out noticeKey);
+                s_outcomeNoticeKeys.TryGetValue(outcome.Value, out noticeKey);
                 NoticeKey = noticeKey;
             }
             else
@@ -199,9 +199,9 @@ namespace GinRummy.Client.ViewModels
                 noticeKey = null;
                 SessionExpired?.Invoke(this, EventArgs.Empty);
             }
-            else if (code.HasValue && _refusalNoticeKeys.ContainsKey(code.Value))
+            else if (code.HasValue && s_refusalNoticeKeys.ContainsKey(code.Value))
             {
-                noticeKey = _refusalNoticeKeys[code.Value];
+                noticeKey = s_refusalNoticeKeys[code.Value];
             }
 
             NoticeKey = noticeKey;

@@ -23,7 +23,7 @@ namespace GinRummy.Client.ViewModels
         private const string TooManyRequestsPerMinuteKey = "LobbyChat_FriendRequestTooManyPerMinute";
         private const string WaitingTimeKey = "LobbyChat_FriendRequestWaitingTime";
 
-        private static readonly Dictionary<FriendRequestOutcome, string> _noticeKeysByOutcome =
+        private static readonly Dictionary<FriendRequestOutcome, string> s_noticeKeysByOutcome =
             new Dictionary<FriendRequestOutcome, string>
             {
                 { FriendRequestOutcome.PlayerNotFound, PlayerNotFoundKey },
@@ -158,7 +158,7 @@ namespace GinRummy.Client.ViewModels
         private static string FindNoticeKey(FriendRequestOutcome outcome)
         {
             string noticeKey;
-            _noticeKeysByOutcome.TryGetValue(outcome, out noticeKey);
+            s_noticeKeysByOutcome.TryGetValue(outcome, out noticeKey);
 
             return noticeKey;
         }

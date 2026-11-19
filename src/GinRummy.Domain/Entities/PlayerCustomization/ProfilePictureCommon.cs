@@ -9,18 +9,18 @@ namespace GinRummy.Domain.Entities.PlayerCustomization
         private const string PngExtension = ".png";
         private const string JpgExtension = ".jpg";
 
-        private static readonly byte[] _pngSignature = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
-        private static readonly byte[] _jpgSignature = { 0xFF, 0xD8, 0xFF };
+        private static readonly byte[] s_pngSignature = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
+        private static readonly byte[] s_jpgSignature = { 0xFF, 0xD8, 0xFF };
 
         public static string FindFileExtension(byte[] picture)
         {
             string fileExtension = null;
             bool hasAllowedSize = (picture != null) && (picture.Length > 0) && (picture.Length <= MaxSizeInBytes);
-            if (hasAllowedSize && StartsWith(picture, _pngSignature))
+            if (hasAllowedSize && StartsWith(picture, s_pngSignature))
             {
                 fileExtension = PngExtension;
             }
-            else if (hasAllowedSize && StartsWith(picture, _jpgSignature))
+            else if (hasAllowedSize && StartsWith(picture, s_jpgSignature))
             {
                 fileExtension = JpgExtension;
             }

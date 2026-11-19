@@ -13,7 +13,7 @@ namespace GinRummy.Client.Controls
         private const double QuarterTurn = Math.PI / 2.0;
         private const double StepsPerRadian = TableSize / TwoPi;
 
-        private static readonly double[] _sineTable = BuildSineTable();
+        private static readonly double[] s_sineTable = BuildSineTable();
 
         internal static double Sine(double angle)
         {
@@ -29,8 +29,8 @@ namespace GinRummy.Client.Controls
 
             double fraction = position - wholeSteps;
             int lowIndex = wholeSteps & TableMask;
-            double low = _sineTable[lowIndex];
-            double high = _sineTable[lowIndex + 1];
+            double low = s_sineTable[lowIndex];
+            double high = s_sineTable[lowIndex + 1];
 
             return low + ((high - low) * fraction);
         }

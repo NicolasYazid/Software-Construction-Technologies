@@ -18,7 +18,7 @@ namespace GinRummy.Client.ViewModels
         private const string OwnFriendLimitKey = "Notifications_OwnFriendLimit";
         private const string RequesterFriendLimitKey = "Notifications_RequesterFriendLimit";
 
-        private static readonly Dictionary<FriendRequestResponseOutcome, string> _noticeKeysByOutcome =
+        private static readonly Dictionary<FriendRequestResponseOutcome, string> s_noticeKeysByOutcome =
             new Dictionary<FriendRequestResponseOutcome, string>
             {
                 { FriendRequestResponseOutcome.Accepted, RequestAcceptedKey },
@@ -133,7 +133,7 @@ namespace GinRummy.Client.ViewModels
             }
 
             string noticeKey;
-            _noticeKeysByOutcome.TryGetValue(outcome, out noticeKey);
+            s_noticeKeysByOutcome.TryGetValue(outcome, out noticeKey);
             NoticeKey = noticeKey;
         }
 

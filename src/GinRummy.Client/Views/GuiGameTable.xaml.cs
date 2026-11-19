@@ -21,7 +21,7 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiGameTable : GuiWindowBase
     {
-        private static readonly int[] _stockTopCard = { 0 };
+        private static readonly int[] s_stockTopCard = { 0 };
 
         private const string MeldRunKey = "GameTable_LblMeldRun";
         private const string MeldThreeKey = "GameTable_LblMeldThree";
@@ -50,7 +50,7 @@ namespace GinRummy.Client.Views
             _viewModel.ConnectionLost += OnConnectionLost;
             _viewModel.SessionExpired += OnSessionExpired;
             _viewModel.MatchAlreadyOver += OnMatchAlreadyOver;
-            lstStock.ItemsSource = _stockTopCard;
+            lstStock.ItemsSource = s_stockTopCard;
             DataContext = _viewModel;
             Loaded += OnScreenLoaded;
             Closed += OnScreenClosed;
