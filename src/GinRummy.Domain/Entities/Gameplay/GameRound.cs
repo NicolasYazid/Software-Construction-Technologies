@@ -15,6 +15,7 @@ namespace GinRummy.Domain
         private int _knockerId;
         private int _knockerDeadwood;
         private List<List<Card>> _knockerMelds;
+        private List<Card> _defenderUnmatchedCards;
 
         public GameRound(int dealerId, int nonDealerId, IList<Card> shuffledDeck)
         {
@@ -60,6 +61,17 @@ namespace GinRummy.Domain
         public TurnPhase Phase { get; private set; }
         public RoundResult Result { get; private set; }
         public Card CardTakenFromDiscardPile { get; private set; }
+        public int DefenderDeadwood { get; private set; }
+
+        public IList<IList<Card>> KnockerMelds
+        {
+            get { return _knockerMelds.Select(meld => (IList<Card>)meld.OrderBy(card => card.Rank).ToList()).ToList(); }
+        }
+
+        public IReadOnlyList<Card> DefenderUnmatchedCards
+        {
+            get { return _defenderUnmatchedCards.AsReadOnly(); }
+        }
 
         public int StockCount
         {
@@ -187,7 +199,9 @@ namespace GinRummy.Domain
                 LayOff(unmatchedCards);
             }
 
-            Result = Score(playerId, CountUnmatchedPoints(unmatchedCards));
+            _defenderUnmatchedCards = unmatchedCards;
+            DefenderDeadwood = CountUnmatchedPoints(unmatchedCards);
+            Result = Score(playerId, DefenderDeadwood);
             Phase = TurnPhase.Finished;
 
             return Result;

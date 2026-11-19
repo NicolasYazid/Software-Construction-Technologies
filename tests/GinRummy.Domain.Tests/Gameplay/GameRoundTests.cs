@@ -235,6 +235,20 @@ namespace GinRummy.Domain.Tests.Gameplay
             Assert.AreEqual(66 - 10 - 2, result.Points);
         }
 
+        [Test]
+        public void Test_LayDownDefenderHand_CardThatFitsAKnockerMeld_LeavesItOutOfTheDefenderDeadwood()
+        {
+            IList<Card> defenderHand = CreateDefenderHand();
+            defenderHand[defenderHand.Count - 1] = new Card(CardSuit.Clubs, 10);
+            GameRound round = StartRound(CreateKnockerHand(), defenderHand, new Card(CardSuit.Diamonds, 2));
+            round.TakeFirstCard(NonDealerId);
+            round.Knock(NonDealerId, new Card(CardSuit.Diamonds, 13), CreateKnockerMelds());
+
+            round.LayDownDefenderHand(DealerId, new List<IList<Card>>());
+
+            Assert.AreEqual(66 - 10, round.DefenderDeadwood);
+        }
+
         private static GameRound StartRound(IList<Card> nonDealerHand, IList<Card> dealerHand, Card faceUpCard)
         {
             List<Card> deck = new List<Card>();
