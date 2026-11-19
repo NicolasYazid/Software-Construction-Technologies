@@ -109,7 +109,9 @@ namespace GinRummy.Client.Controls
 
         private static bool IsFloatingCard(FrameworkElement card, Control list)
         {
-            return (card != null) && !ReferenceEquals(card, list) && card.IsVisible ? true : false;
+            bool isOtherCard = (card != null) && !ReferenceEquals(card, list) ? true : false;
+
+            return isOtherCard && card.IsVisible ? true : false;
         }
 
         // The padding is written only when it changes, because each write triggers a new layout pass that runs this measurement again.

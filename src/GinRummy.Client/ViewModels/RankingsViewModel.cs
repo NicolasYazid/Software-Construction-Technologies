@@ -180,18 +180,20 @@ namespace GinRummy.Client.ViewModels
             }
 
             HasNoMatches = (_allRankings.Count > 0) && (Rankings.Count == 0) ? true : false;
-            HasNoFriends = _isFriendsTabSelected
-                && (_friendRankings.Count == OwnEntryOnly)
-                && (Rankings.Count == OwnEntryOnly)
-                ? true
-                : false;
+            bool isOwnEntryAlone = (_friendRankings.Count == OwnEntryOnly) && (Rankings.Count == OwnEntryOnly) ? true : false;
+            HasNoFriends = _isFriendsTabSelected && isOwnEntryAlone ? true : false;
         }
 
         private bool IsSearchMatch(PlayerRanking ranking)
         {
-            bool isMatch = string.IsNullOrWhiteSpace(_searchText)
-                || ((ranking.Username != null)
-                    && (ranking.Username.IndexOf(_searchText.Trim(), StringComparison.OrdinalIgnoreCase) >= 0))
+            bool isMatch = string.IsNullOrWhiteSpace(_searchText) || IsUsernameMatch(ranking.Username) ? true : false;
+            return isMatch;
+        }
+
+        private bool IsUsernameMatch(string username)
+        {
+            bool isMatch = (username != null)
+                && (username.IndexOf(_searchText.Trim(), StringComparison.OrdinalIgnoreCase) >= 0)
                 ? true
                 : false;
             return isMatch;

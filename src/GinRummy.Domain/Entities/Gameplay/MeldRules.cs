@@ -11,7 +11,8 @@ namespace GinRummy.Domain
         public static bool IsValidMeld(IList<Card> cards)
         {
             bool isValid = false;
-            if ((cards != null) && (cards.Count >= MinMeldSize) && (cards.Distinct().Count() == cards.Count))
+            bool hasMeldSize = (cards != null) && (cards.Count >= MinMeldSize) ? true : false;
+            if (hasMeldSize && (cards.Distinct().Count() == cards.Count))
             {
                 isValid = IsSet(cards) || IsRun(cards) ? true : false;
             }

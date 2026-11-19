@@ -38,11 +38,8 @@ namespace GinRummy.Domain.Entities.Authentication
 
         public bool Equals(AccessTokenOwner other)
         {
-            bool isSameOwner = (other != null)
-                && (PlayerAccountId == other.PlayerAccountId)
-                && (GuestSessionId == other.GuestSessionId)
-                ? true
-                : false;
+            bool isSameAccount = (other != null) && (PlayerAccountId == other.PlayerAccountId) ? true : false;
+            bool isSameOwner = isSameAccount && (GuestSessionId == other.GuestSessionId) ? true : false;
 
             return isSameOwner;
         }

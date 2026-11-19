@@ -463,11 +463,9 @@ namespace GinRummy.Client.ViewModels
 
         private bool HasNoFriendsListed()
         {
-            return (FriendsOnline.Count == 0)
-                && (FriendsInMatch.Count == 0)
-                && (FriendsUnavailable.Count == 0)
-                ? true
-                : false;
+            bool hasNoFriendsConnected = (FriendsOnline.Count == 0) && (FriendsInMatch.Count == 0) ? true : false;
+
+            return hasNoFriendsConnected && (FriendsUnavailable.Count == 0) ? true : false;
         }
 
         private static void ReplacePlayers(IList<LobbyPlayerViewModel> players, IList<PlayerPresence> presences)

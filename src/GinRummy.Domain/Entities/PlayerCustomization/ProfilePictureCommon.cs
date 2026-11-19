@@ -15,7 +15,8 @@ namespace GinRummy.Domain.Entities.PlayerCustomization
         public static string FindFileExtension(byte[] picture)
         {
             string fileExtension = null;
-            bool hasAllowedSize = (picture != null) && (picture.Length > 0) && (picture.Length <= MaxSizeInBytes) ? true : false;
+            bool hasContent = (picture != null) && (picture.Length > 0) ? true : false;
+            bool hasAllowedSize = hasContent && (picture.Length <= MaxSizeInBytes) ? true : false;
             if (hasAllowedSize && StartsWith(picture, s_pngSignature))
             {
                 fileExtension = PngExtension;

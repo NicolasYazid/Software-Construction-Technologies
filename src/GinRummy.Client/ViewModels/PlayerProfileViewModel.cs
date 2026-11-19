@@ -121,10 +121,8 @@ namespace GinRummy.Client.ViewModels
         {
             Uri address;
             bool isAbsolute = Uri.TryCreate(link.Url, UriKind.Absolute, out address);
-            bool isWebAddress = isAbsolute
-                && ((address.Scheme == Uri.UriSchemeHttp) || (address.Scheme == Uri.UriSchemeHttps))
-                ? true
-                : false;
+            string scheme = isAbsolute ? address.Scheme : string.Empty;
+            bool isWebAddress = (scheme == Uri.UriSchemeHttp) || (scheme == Uri.UriSchemeHttps) ? true : false;
             if (!isWebAddress)
             {
                 _logger.LogWarning("The social link of {PublicTag} was not opened because it is not a web address.", _profile.PublicTag);

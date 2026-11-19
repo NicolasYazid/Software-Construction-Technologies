@@ -35,10 +35,8 @@ namespace GinRummy.Domain.Entities.PlayerCustomization
         {
             Uri address;
             bool isAbsolute = Uri.TryCreate(url, UriKind.Absolute, out address);
-            bool isWebAddress = isAbsolute
-                && ((address.Scheme == Uri.UriSchemeHttp) || (address.Scheme == Uri.UriSchemeHttps))
-                ? true
-                : false;
+            string scheme = isAbsolute ? address.Scheme : string.Empty;
+            bool isWebAddress = (scheme == Uri.UriSchemeHttp) || (scheme == Uri.UriSchemeHttps) ? true : false;
 
             return isWebAddress;
         }
