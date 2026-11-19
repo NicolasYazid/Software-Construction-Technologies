@@ -554,9 +554,9 @@
               Visibility="{Binding IsOpponentDisconnected, Converter={StaticResource CnvBooleanToVisibility}}">
             <ctl:PixelBorder Style="{StaticResource StyTableOverlayCard}" Width="560">
                 <StackPanel>
-                    <TextBlock x:Name="lblPaused" Style="{StaticResource StyResultTitle}"
+                    <TextBlock x:Name="lblPaused" Style="{StaticResource StyResultTitle}" Visibility="Visible"
                                Text="{Binding [GameTable_LblPaused], Source={StaticResource PrvLocalization}}" />
-                    <TextBlock x:Name="lblPausedHint" Style="{StaticResource StyResultReason}"
+                    <TextBlock x:Name="lblPausedHint" Style="{StaticResource StyResultReason}" Visibility="Visible"
                                Text="{Binding [GameTable_LblPausedHint], Source={StaticResource PrvLocalization}}" />
                 </StackPanel>
             </ctl:PixelBorder>
