@@ -569,10 +569,6 @@
                                 </Style>
                             </Button.Style>
                         </Button>
-                        <Button Style="{StaticResource StyDialogSecondaryButton}" Margin="16,0,0,0"
-                                Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource PrvLocalization},
-                                          Converter={StaticResource CnvUpperCase}}"
-                                Click="OnHowToPlayClick" />
                     </StackPanel>
                 </StackPanel>
             </ctl:PixelBorder>
