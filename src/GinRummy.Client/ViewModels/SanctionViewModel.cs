@@ -32,7 +32,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _remainingTime = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
     }

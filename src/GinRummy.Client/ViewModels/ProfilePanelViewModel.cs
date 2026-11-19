@@ -77,7 +77,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _isChatFilterEnabled = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -93,7 +93,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _email = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -103,7 +103,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _newEmail = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -118,8 +118,8 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _emailErrorKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasEmailError));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasEmailError));
             }
         }
 
@@ -134,7 +134,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _isEmailChangedShown = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -144,7 +144,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _isChangeEmailOpen = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -154,7 +154,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _isPasswordChangedShown = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -164,7 +164,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _isTwoStepEnabled = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -174,8 +174,8 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _twoStepNoticeKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasTwoStepNotice));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasTwoStepNotice));
             }
         }
 
@@ -190,8 +190,8 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _twoStepErrorKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasTwoStepError));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasTwoStepError));
             }
         }
 
@@ -266,25 +266,25 @@ namespace GinRummy.Client.ViewModels
                     kind = ErrorDialogKind.SessionExpired;
                 }
 
-                RequestErrorDialog(kind);
+                OnErrorDialogRequested(kind);
             }
             catch (FaultException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The server could not keep the chosen language.");
-                RequestErrorDialog(ErrorDialogKind.ServiceUnavailable);
+                OnErrorDialogRequested(ErrorDialogKind.ServiceUnavailable);
             }
             catch (CommunicationException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The profile service could not be reached to keep the chosen language.");
-                RequestErrorDialog(ErrorDialogKind.ConnectionLost);
+                OnErrorDialogRequested(ErrorDialogKind.ConnectionLost);
             }
             catch (TimeoutException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The profile service timed out while keeping the chosen language.");
-                RequestErrorDialog(ErrorDialogKind.ConnectionLost);
+                OnErrorDialogRequested(ErrorDialogKind.ConnectionLost);
             }
         }
 
@@ -394,13 +394,13 @@ namespace GinRummy.Client.ViewModels
             bool isCompleted = _accountSettingsCaller.Call(operation);
             if (_accountSettingsCaller.ErrorDialog.HasValue)
             {
-                RequestErrorDialog(_accountSettingsCaller.ErrorDialog.Value);
+                OnErrorDialogRequested(_accountSettingsCaller.ErrorDialog.Value);
             }
 
             return isCompleted;
         }
 
-        private void RequestErrorDialog(ErrorDialogKind kind)
+        private void OnErrorDialogRequested(ErrorDialogKind kind)
         {
             ErrorDialogRequested?.Invoke(this, kind);
         }

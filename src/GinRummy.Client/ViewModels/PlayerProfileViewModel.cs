@@ -144,7 +144,7 @@ namespace GinRummy.Client.ViewModels
         // The lobby keeps the own profile too, so its avatar is told the same way when the profile screen closes.
         public void RefreshProfile()
         {
-            RaisePropertyChanged(string.Empty);
+            OnPropertyChanged(string.Empty);
         }
 
         private void ReadProfileFromServer(string accessToken)
@@ -172,19 +172,19 @@ namespace GinRummy.Client.ViewModels
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The server could not read the profile of player {PublicTag}.", _profile.PublicTag);
-                NotifyProfileUnavailable(ErrorDialogKind.ServiceUnavailable);
+                OnProfileUnavailable(ErrorDialogKind.ServiceUnavailable);
             }
             catch (CommunicationException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The profile service could not be reached to read a profile.");
-                NotifyProfileUnavailable(ErrorDialogKind.ConnectionLost);
+                OnProfileUnavailable(ErrorDialogKind.ConnectionLost);
             }
             catch (TimeoutException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The profile service timed out while reading a profile.");
-                NotifyProfileUnavailable(ErrorDialogKind.ConnectionLost);
+                OnProfileUnavailable(ErrorDialogKind.ConnectionLost);
             }
         }
 
@@ -199,7 +199,7 @@ namespace GinRummy.Client.ViewModels
             _profile.MatchesPlayed = details.MatchesPlayed;
             _profile.WinRate = details.WinRate;
             _profile.Score = details.Score;
-            RaisePropertyChanged(string.Empty);
+            OnPropertyChanged(string.Empty);
         }
 
         private void NotifyRefusal(ServiceFaultCode code)
@@ -215,10 +215,10 @@ namespace GinRummy.Client.ViewModels
                 _profile.IsRemoved = true;
             }
 
-            NotifyProfileUnavailable(kind);
+            OnProfileUnavailable(kind);
         }
 
-        private void NotifyProfileUnavailable(ErrorDialogKind kind)
+        private void OnProfileUnavailable(ErrorDialogKind kind)
         {
             ProfileUnavailable?.Invoke(this, kind);
         }

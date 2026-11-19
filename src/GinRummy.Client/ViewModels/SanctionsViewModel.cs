@@ -33,7 +33,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _sanctions = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -43,7 +43,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _hasNoSanctions = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 

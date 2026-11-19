@@ -26,7 +26,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _isCodeSentNoticeShown = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 

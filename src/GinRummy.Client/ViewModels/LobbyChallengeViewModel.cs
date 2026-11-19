@@ -77,8 +77,8 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _challengedPlayer = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(IsChallengeSent));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsChallengeSent));
             }
         }
 
@@ -93,8 +93,8 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _noticeKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasNotice));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasNotice));
             }
         }
 

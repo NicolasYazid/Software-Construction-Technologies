@@ -56,7 +56,7 @@ namespace GinRummy.Client.ViewModels
             protected set
             {
                 _remainingAttempts = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -66,8 +66,8 @@ namespace GinRummy.Client.ViewModels
             protected set
             {
                 _errorMessageKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasErrorMessage));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasErrorMessage));
             }
         }
 
@@ -82,8 +82,8 @@ namespace GinRummy.Client.ViewModels
             protected set
             {
                 _isAlreadyVerified = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(IsVerificationPending));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsVerificationPending));
             }
         }
 
@@ -98,7 +98,7 @@ namespace GinRummy.Client.ViewModels
             protected set
             {
                 _isCodeNotSentShown = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -127,7 +127,7 @@ namespace GinRummy.Client.ViewModels
             ResendCountdown.Restart(wait);
         }
 
-        protected void RequestErrorDialog(ErrorDialogKind kind)
+        protected void OnErrorDialogRequested(ErrorDialogKind kind)
         {
             ErrorDialogRequested?.Invoke(this, kind);
         }

@@ -81,9 +81,9 @@ namespace GinRummy.Client.Localization
             CultureInfo.DefaultThreadCurrentCulture = culture;
             CultureInfo.DefaultThreadCurrentUICulture = culture;
             _resourceManager.ReleaseAllResources();
-            RaisePropertyChanged(IndexerPropertyName);
-            RaisePropertyChanged(nameof(CurrentCulture));
-            RaisePropertyChanged(nameof(SelectedCulture));
+            OnPropertyChanged(IndexerPropertyName);
+            OnPropertyChanged(nameof(CurrentCulture));
+            OnPropertyChanged(nameof(SelectedCulture));
         }
 
         public string GetText(string resourceKey)

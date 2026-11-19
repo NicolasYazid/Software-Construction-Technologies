@@ -31,8 +31,8 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _friend = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(IsOpen));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsOpen));
             }
         }
 
@@ -47,7 +47,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _messageDraft = value ?? string.Empty;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 

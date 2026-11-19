@@ -199,7 +199,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _selectedCard = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -209,7 +209,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _messageDraft = value ?? string.Empty;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -219,7 +219,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _handResult = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -229,7 +229,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _handHeadlineKey = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -239,7 +239,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _isHandResultShown = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -254,7 +254,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _isOpponentDisconnected = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -264,12 +264,12 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _matchResult = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(IsMatchResultShown));
-                RaisePropertyChanged(nameof(IsVictory));
-                RaisePropertyChanged(nameof(IsDefeat));
-                RaisePropertyChanged(nameof(IsVictoryByTarget));
-                RaisePropertyChanged(nameof(IsVictoryByForfeit));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsMatchResultShown));
+                OnPropertyChanged(nameof(IsVictory));
+                OnPropertyChanged(nameof(IsDefeat));
+                OnPropertyChanged(nameof(IsVictoryByTarget));
+                OnPropertyChanged(nameof(IsVictoryByForfeit));
             }
         }
 
@@ -365,8 +365,8 @@ namespace GinRummy.Client.ViewModels
 
         private void HandleHandChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            RaisePropertyChanged(nameof(HandCount));
-            RaisePropertyChanged(nameof(HandCountKey));
+            OnPropertyChanged(nameof(HandCount));
+            OnPropertyChanged(nameof(HandCountKey));
         }
 
         // Spanish and English only change the word for a single card.
@@ -395,7 +395,7 @@ namespace GinRummy.Client.ViewModels
         private void ShowMoveOutcome(bool isMoveDone)
         {
             _isMoveRefused = !isMoveDone;
-            RaisePropertyChanged(nameof(TurnNoticeKey));
+            OnPropertyChanged(nameof(TurnNoticeKey));
             if (_isMoveRefused && (_gameConnection.LastFaultCode == GameFaultCode.SessionExpired))
             {
                 SessionExpired?.Invoke(this, EventArgs.Empty);
@@ -462,7 +462,7 @@ namespace GinRummy.Client.ViewModels
             OpponentCards = Enumerable.Range(0, round.OpponentCardCount).ToList();
             AddLastMoveToLog(round);
 
-            RaisePropertyChanged(string.Empty);
+            OnPropertyChanged(string.Empty);
             CommandManager.InvalidateRequerySuggested();
         }
 
@@ -487,7 +487,7 @@ namespace GinRummy.Client.ViewModels
             HandHeadlineKey = (summary.Ending == RoundOutcome.Void) ? RoundVoidKey : HandWinnerKey;
             HandResult = ToHandResult(summary);
             IsHandResultShown = true;
-            RaisePropertyChanged(string.Empty);
+            OnPropertyChanged(string.Empty);
         }
 
         private void HandleOpponentLeft(object sender, EventArgs e)
@@ -498,7 +498,7 @@ namespace GinRummy.Client.ViewModels
             _round.IsYourTurn = false;
             IsHandResultShown = false;
             MatchResult = new MatchResult(MatchEndReason.OpponentForfeited, _playerScore, _opponentScore);
-            RaisePropertyChanged(string.Empty);
+            OnPropertyChanged(string.Empty);
         }
 
         private void HandleOpponentDisconnected(object sender, EventArgs e)

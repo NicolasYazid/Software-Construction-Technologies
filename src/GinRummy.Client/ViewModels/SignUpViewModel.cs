@@ -55,7 +55,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _password = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -65,7 +65,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _confirmPassword = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -75,8 +75,8 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _errorMessageKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasErrorMessage));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasErrorMessage));
             }
         }
 
@@ -86,7 +86,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _errorMessageArgument = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 

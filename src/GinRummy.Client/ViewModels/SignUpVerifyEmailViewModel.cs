@@ -137,25 +137,25 @@ namespace GinRummy.Client.ViewModels
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The server could not complete the email verification.");
-                RequestErrorDialog(ErrorDialogKind.ServiceUnavailable);
+                OnErrorDialogRequested(ErrorDialogKind.ServiceUnavailable);
             }
             catch (EndpointNotFoundException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The sign-up service could not be reached.");
-                RequestErrorDialog(ErrorDialogKind.ConnectionRefused);
+                OnErrorDialogRequested(ErrorDialogKind.ConnectionRefused);
             }
             catch (CommunicationException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The connection with the sign-up service was lost.");
-                RequestErrorDialog(ErrorDialogKind.ConnectionLost);
+                OnErrorDialogRequested(ErrorDialogKind.ConnectionLost);
             }
             catch (TimeoutException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The sign-up service timed out.");
-                RequestErrorDialog(ErrorDialogKind.ConnectionLost);
+                OnErrorDialogRequested(ErrorDialogKind.ConnectionLost);
             }
 
             return isCompleted;

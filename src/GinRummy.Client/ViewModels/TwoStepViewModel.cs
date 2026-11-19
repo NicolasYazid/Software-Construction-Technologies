@@ -45,8 +45,8 @@ namespace GinRummy.Client.ViewModels
             protected set
             {
                 _errorMessageKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasErrorMessage));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasErrorMessage));
             }
         }
 
@@ -67,7 +67,7 @@ namespace GinRummy.Client.ViewModels
             CodeCountdown.Restart(TimeSpan.FromSeconds(CodeLifetimeSeconds));
         }
 
-        protected void RequestErrorDialog(ErrorDialogKind kind)
+        protected void OnErrorDialogRequested(ErrorDialogKind kind)
         {
             ErrorDialogRequested?.Invoke(this, kind);
         }

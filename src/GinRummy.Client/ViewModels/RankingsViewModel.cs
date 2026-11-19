@@ -59,7 +59,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _searchText = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
                 ShowMatchingRankings();
             }
         }
@@ -70,7 +70,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _hasNoMatches = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -80,7 +80,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _isFriendsTabSelected = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
                 ShowSelectedLeaderboard();
             }
         }
@@ -91,7 +91,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _hasNoFriends = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 

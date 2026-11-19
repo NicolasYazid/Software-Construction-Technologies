@@ -48,7 +48,7 @@ namespace GinRummy.Client.ViewModels
             ErrorMessageKey = _accountSettingsCaller.ErrorMessageKey;
             if (_accountSettingsCaller.ErrorDialog.HasValue)
             {
-                RequestErrorDialog(_accountSettingsCaller.ErrorDialog.Value);
+                OnErrorDialogRequested(_accountSettingsCaller.ErrorDialog.Value);
             }
 
             return isCompleted;

@@ -49,25 +49,25 @@ namespace GinRummy.Client.Services
             {
                 communicationObject.Abort();
                 _logger.LogWarning(ex, "The server refused the answer to the friend request with the fault {FaultCode}.", ex.Detail.Code);
-                NotifyResponseUnavailable(FindErrorDialogKind(ex.Detail.Code));
+                OnResponseUnavailable(FindErrorDialogKind(ex.Detail.Code));
             }
             catch (FaultException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The server could not answer the friend request.");
-                NotifyResponseUnavailable(ErrorDialogKind.ServiceUnavailable);
+                OnResponseUnavailable(ErrorDialogKind.ServiceUnavailable);
             }
             catch (CommunicationException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The friend request response service could not be reached.");
-                NotifyResponseUnavailable(ErrorDialogKind.ConnectionLost);
+                OnResponseUnavailable(ErrorDialogKind.ConnectionLost);
             }
             catch (TimeoutException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The friend request response service timed out.");
-                NotifyResponseUnavailable(ErrorDialogKind.ConnectionLost);
+                OnResponseUnavailable(ErrorDialogKind.ConnectionLost);
             }
 
             return outcome;
@@ -84,7 +84,7 @@ namespace GinRummy.Client.Services
             return errorDialogKind;
         }
 
-        private void NotifyResponseUnavailable(ErrorDialogKind errorDialogKind)
+        private void OnResponseUnavailable(ErrorDialogKind errorDialogKind)
         {
             ResponseUnavailable?.Invoke(this, errorDialogKind);
         }

@@ -118,25 +118,25 @@ namespace GinRummy.Client.ViewModels
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The server could not complete the second factor.");
-                RequestErrorDialog(ErrorDialogKind.ServiceUnavailable);
+                OnErrorDialogRequested(ErrorDialogKind.ServiceUnavailable);
             }
             catch (EndpointNotFoundException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The sign-in service could not be reached.");
-                RequestErrorDialog(ErrorDialogKind.ConnectionRefused);
+                OnErrorDialogRequested(ErrorDialogKind.ConnectionRefused);
             }
             catch (CommunicationException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The connection with the sign-in service was lost.");
-                RequestErrorDialog(ErrorDialogKind.ConnectionLost);
+                OnErrorDialogRequested(ErrorDialogKind.ConnectionLost);
             }
             catch (TimeoutException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The sign-in service timed out.");
-                RequestErrorDialog(ErrorDialogKind.ConnectionLost);
+                OnErrorDialogRequested(ErrorDialogKind.ConnectionLost);
             }
 
             return outcome;

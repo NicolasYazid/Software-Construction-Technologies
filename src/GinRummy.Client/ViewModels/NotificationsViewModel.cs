@@ -63,7 +63,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _hasNoPendingRequests = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -73,8 +73,8 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _noticeKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasNotice));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasNotice));
             }
         }
 

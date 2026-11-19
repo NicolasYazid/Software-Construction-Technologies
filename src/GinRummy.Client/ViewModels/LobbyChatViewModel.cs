@@ -90,7 +90,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _messageDraft = value ?? string.Empty;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -100,8 +100,8 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _isSearchingMatch = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(CanFindMatch));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanFindMatch));
             }
         }
 
@@ -116,8 +116,8 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _isChatBlocked = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(CanWriteMessage));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanWriteMessage));
             }
         }
 
@@ -132,7 +132,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _banReasonName = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -142,7 +142,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _hasNoFriends = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -152,7 +152,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _searchText = value ?? string.Empty;
-                RaisePropertyChanged();
+                OnPropertyChanged();
                 FilterPlayersByTag();
             }
         }
@@ -163,8 +163,8 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _searchNoticeKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasSearchNotice));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasSearchNotice));
             }
         }
 
@@ -210,7 +210,7 @@ namespace GinRummy.Client.ViewModels
             if (!_chatConnection.Start(_signedInPlayer.AccessToken))
             {
                 _isChatUnavailable = true;
-                RaisePropertyChanged(nameof(CanWriteMessage));
+                OnPropertyChanged(nameof(CanWriteMessage));
             }
         }
 
