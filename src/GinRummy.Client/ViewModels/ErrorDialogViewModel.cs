@@ -23,6 +23,8 @@ namespace GinRummy.Client.ViewModels
         private const string PlayerBusyMessageKey = "Error_GamePlayerBusy";
         private const string DataNotFoundTitleKey = "ErrorDialog_LblTitleDataNotFound";
         private const string DataNotFoundMessageKey = "Error_DataNotFound";
+        private const string MatchFinishedTitleKey = "ErrorDialog_LblTitleMatchFinished";
+        private const string MatchFinishedMessageKey = "Error_GameMatchFinished";
 
         public ErrorDialogViewModel(ErrorDialogKind kind)
         {
@@ -63,6 +65,9 @@ namespace GinRummy.Client.ViewModels
                     break;
                 case ErrorDialogKind.DataNotFound:
                     SetTextKeys(DataNotFoundTitleKey, DataNotFoundMessageKey);
+                    break;
+                case ErrorDialogKind.MatchFinished:
+                    SetTextKeys(MatchFinishedTitleKey, MatchFinishedMessageKey);
                     break;
                 default:
                     SetTextKeys(ServiceUnavailableTitleKey, ServiceUnavailableMessageKey);

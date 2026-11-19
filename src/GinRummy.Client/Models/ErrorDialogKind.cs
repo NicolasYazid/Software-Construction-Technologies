@@ -19,6 +19,7 @@
         SessionClosedElsewhere,
 
         PlayerBusy,
-        DataNotFound
+        DataNotFound,
+        MatchFinished
     }
 }

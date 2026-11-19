@@ -35,6 +35,7 @@ namespace GinRummy.Client.Views
         private const double MeldBarInset = 3.0;
 
         private readonly GameTableViewModel _viewModel;
+        private GuiReconnecting _reconnecting;
 
         public GuiGameTable(GameTableViewModel viewModel)
         {
@@ -48,6 +49,7 @@ namespace GinRummy.Client.Views
             _viewModel.PropertyChanged += OnTableChanged;
             _viewModel.ConnectionLost += OnConnectionLost;
             _viewModel.SessionExpired += OnSessionExpired;
+            _viewModel.MatchAlreadyOver += OnMatchAlreadyOver;
             lstStock.ItemsSource = _stockTopCard;
             DataContext = _viewModel;
             Loaded += OnScreenLoaded;
@@ -132,9 +134,23 @@ namespace GinRummy.Client.Views
 
         private void OnConnectionLost(object sender, EventArgs e)
         {
-            GuiReconnecting reconnecting = new GuiReconnecting(_viewModel.Reconnect);
-            reconnecting.Closed += OnReconnectingClosed;
-            ShowModal(reconnecting);
+            _reconnecting = new GuiReconnecting(_viewModel.Reconnect);
+            _reconnecting.Closed += OnReconnectingClosed;
+            ShowModal(_reconnecting);
+        }
+
+        private void OnMatchAlreadyOver(object sender, EventArgs e)
+        {
+            _reconnecting.Closed -= OnReconnectingClosed;
+            _reconnecting.Close();
+            GuiErrorDialog errorDialog = new GuiErrorDialog(ErrorDialogKind.MatchFinished);
+            errorDialog.Closed += OnMatchFinishedDialogClosed;
+            ShowModal(errorDialog);
+        }
+
+        private void OnMatchFinishedDialogClosed(object sender, EventArgs e)
+        {
+            Close();
         }
 
         private void OnReconnectingClosed(object sender, EventArgs e)
@@ -176,6 +192,7 @@ namespace GinRummy.Client.Views
             _viewModel.PropertyChanged -= OnTableChanged;
             _viewModel.ConnectionLost -= OnConnectionLost;
             _viewModel.SessionExpired -= OnSessionExpired;
+            _viewModel.MatchAlreadyOver -= OnMatchAlreadyOver;
             CompositionTarget.Rendering -= OnRendering;
             Loaded -= OnScreenLoaded;
             Closed -= OnScreenClosed;

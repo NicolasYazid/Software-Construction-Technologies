@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 using GinRummy.Client.GameServiceReference;
 using GinRummy.Client.LogInServiceReference;
@@ -26,9 +27,11 @@ namespace GinRummy.Client.ViewModels
         private const string HandWinnerKey = "GameTable_LblHandWinner";
         private const string RoundVoidKey = "GameTable_LblRoundVoid";
         private const int SingleCardCount = 1;
+        private const int PauseNoticeDelaySeconds = 2;
 
         private readonly GameConnection _gameConnection;
         private readonly LogInOutcome _signedInPlayer;
+        private readonly DispatcherTimer _pauseNoticeTimer;
         private RoundDetails _round;
         private Card _selectedCard;
         private string _messageDraft;
@@ -56,6 +59,9 @@ namespace GinRummy.Client.ViewModels
             OpponentCards = new List<int>();
             HandMelds = new List<Meld>();
             Hand.CollectionChanged += OnHandChanged;
+            _pauseNoticeTimer = new DispatcherTimer();
+            _pauseNoticeTimer.Interval = TimeSpan.FromSeconds(PauseNoticeDelaySeconds);
+            _pauseNoticeTimer.Tick += OnPauseNoticeTimerTick;
             TakeCommand = new RelayCommand(() => Play(_gameConnection.TakeFirstCard));
             PassCommand = new RelayCommand(() => Play(_gameConnection.PassFirstCard));
             DrawFromStockCommand = new RelayCommand(() => Play(_gameConnection.DrawFromStock), () => IsDrawing);
@@ -71,6 +77,7 @@ namespace GinRummy.Client.ViewModels
         public event EventHandler<Card> CardTakenFromDiscardPile;
         public event EventHandler ConnectionLost;
         public event EventHandler SessionExpired;
+        public event EventHandler MatchAlreadyOver;
 
         public ObservableCollection<Card> Hand { get; private set; }
         public ObservableCollection<Card> DiscardPile { get; private set; }
@@ -300,6 +307,7 @@ namespace GinRummy.Client.ViewModels
             _gameConnection.OpponentDisconnected -= OnOpponentDisconnected;
             _gameConnection.OpponentReconnected -= OnOpponentReconnected;
             _gameConnection.ConnectionLost -= OnConnectionLost;
+            _pauseNoticeTimer.Stop();
             if (!_isMatchOver)
             {
                 _gameConnection.Forfeit(_signedInPlayer.AccessToken);
@@ -308,7 +316,13 @@ namespace GinRummy.Client.ViewModels
 
         public bool Reconnect()
         {
-            return _gameConnection.Start(_signedInPlayer.AccessToken);
+            bool isReconnected = _gameConnection.Start(_signedInPlayer.AccessToken);
+            if (!isReconnected && (_gameConnection.LastFaultCode == GameFaultCode.MatchFinished))
+            {
+                MatchAlreadyOver?.Invoke(this, EventArgs.Empty);
+            }
+
+            return isReconnected;
         }
 
         public void MoveCard(int oldIndex, int newIndex)
@@ -465,6 +479,7 @@ namespace GinRummy.Client.ViewModels
         private void OnOpponentLeft(object sender, EventArgs e)
         {
             _isMatchOver = true;
+            _pauseNoticeTimer.Stop();
             _isOpponentDisconnected = false;
             _round.IsYourTurn = false;
             IsHandResultShown = false;
@@ -474,11 +489,18 @@ namespace GinRummy.Client.ViewModels
 
         private void OnOpponentDisconnected(object sender, EventArgs e)
         {
+            _pauseNoticeTimer.Start();
+        }
+
+        private void OnPauseNoticeTimerTick(object sender, EventArgs e)
+        {
+            _pauseNoticeTimer.Stop();
             IsOpponentDisconnected = true;
         }
 
         private void OnOpponentReconnected(object sender, EventArgs e)
         {
+            _pauseNoticeTimer.Stop();
             IsOpponentDisconnected = false;
         }
 

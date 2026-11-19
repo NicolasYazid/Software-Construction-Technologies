@@ -136,6 +136,9 @@ namespace GinRummy.Client.GameServiceReference {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         ChallengeNotFound = 24,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        MatchFinished = 25,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]

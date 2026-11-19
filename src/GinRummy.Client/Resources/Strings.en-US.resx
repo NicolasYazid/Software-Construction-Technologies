@@ -255,6 +255,9 @@
   <data name="ErrorDialog_LblTitlePlayerBusy" xml:space="preserve">
     <value>YOU ARE ALREADY IN A MATCH</value>
   </data>
+  <data name="ErrorDialog_LblTitleMatchFinished" xml:space="preserve">
+    <value>MATCH OVER</value>
+  </data>
   <data name="ErrorDialog_LblTitleServiceUnavailable" xml:space="preserve">
     <value>SERVICE UNAVAILABLE</value>
   </data>
@@ -305,6 +308,9 @@
   </data>
   <data name="Error_GamePlayerBusy" xml:space="preserve">
     <value>You are already in a match</value>
+  </data>
+  <data name="Error_GameMatchFinished" xml:space="preserve">
+    <value>This match is already over</value>
   </data>
   <data name="Error_ModAccountSuspended" xml:space="preserve">
     <value>Your account is suspended</value>

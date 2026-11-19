@@ -301,6 +301,10 @@
     <value>YA ESTÁS EN UNA PARTIDA</value>
     <comment>Encabezado de GuiErrorDialog</comment>
   </data>
+  <data name="ErrorDialog_LblTitleMatchFinished" xml:space="preserve">
+    <value>PARTIDA TERMINADA</value>
+    <comment>Encabezado de GuiErrorDialog</comment>
+  </data>
   <data name="ErrorDialog_LblTitleServiceUnavailable" xml:space="preserve">
     <value>SERVICIO NO DISPONIBLE</value>
     <comment>Encabezado de GuiErrorDialog</comment>
@@ -367,6 +371,10 @@
   </data>
   <data name="Error_GamePlayerBusy" xml:space="preserve">
     <value>Ya estás en una partida</value>
+    <comment>Mensajes del sistema de GuiErrorDialog</comment>
+  </data>
+  <data name="Error_GameMatchFinished" xml:space="preserve">
+    <value>Esta partida ya terminó</value>
     <comment>Mensajes del sistema de GuiErrorDialog</comment>
   </data>
   <data name="Error_ModAccountSuspended" xml:space="preserve">
