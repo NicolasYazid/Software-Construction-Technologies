@@ -113,12 +113,12 @@ namespace GinRummy.Domain.Tests.Gameplay
         [Test]
         public void Test_IsValidMeld_SameCardTwice_ReturnsFalse()
         {
-            IList<Card> repeatedCard = new List<Card>
+            IList<Card> repeatedCards = new List<Card>
             {
                 new Card(CardSuit.Spades, 9), new Card(CardSuit.Spades, 9), new Card(CardSuit.Hearts, 9)
             };
 
-            bool isValid = MeldRules.IsValidMeld(repeatedCard);
+            bool isValid = MeldRules.IsValidMeld(repeatedCards);
 
             Assert.IsFalse(isValid);
         }

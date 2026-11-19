@@ -199,12 +199,12 @@
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
                                     <Binding Path="[FriendsList_LblGroupOnline]" Source="{StaticResource PrvLocalization}" />
-                                    <Binding Path="Online.Count" />
+                                    <Binding Path="OnlinePlayers.Count" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
                         <Border Style="{StaticResource StyGroupRule}" />
-                        <ItemsControl ItemsSource="{Binding Online}" ItemTemplate="{StaticResource TplLobbyPlayer}" />
+                        <ItemsControl ItemsSource="{Binding OnlinePlayers}" ItemTemplate="{StaticResource TplLobbyPlayer}" />
 
                         <TextBlock x:Name="lblGroupInMatch" Style="{StaticResource StyGroupHeader}">
                             <TextBlock.Text>
@@ -221,12 +221,12 @@
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
                                     <Binding Path="[FriendsList_LblGroupUnavailable]" Source="{StaticResource PrvLocalization}" />
-                                    <Binding Path="Unavailable.Count" />
+                                    <Binding Path="UnavailablePlayers.Count" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
                         <Border Style="{StaticResource StyGroupRule}" />
-                        <ItemsControl ItemsSource="{Binding Unavailable}" ItemTemplate="{StaticResource TplLobbyPlayer}" />
+                        <ItemsControl ItemsSource="{Binding UnavailablePlayers}" ItemTemplate="{StaticResource TplLobbyPlayer}" />
                     </StackPanel>
                 </ScrollViewer>
 
