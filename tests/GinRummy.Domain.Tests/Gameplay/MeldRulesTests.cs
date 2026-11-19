@@ -12,7 +12,9 @@ namespace GinRummy.Domain.Tests.Gameplay
         {
             IList<Card> sevens = new List<Card>
             {
-                new Card(CardSuit.Hearts, 7), new Card(CardSuit.Spades, 7), new Card(CardSuit.Clubs, 7)
+                new Card(CardSuit.Hearts, 7),
+                new Card(CardSuit.Spades, 7),
+                new Card(CardSuit.Clubs, 7)
             };
 
             bool isValid = MeldRules.IsValidMeld(sevens);
@@ -25,7 +27,9 @@ namespace GinRummy.Domain.Tests.Gameplay
         {
             IList<Card> kings = new List<Card>
             {
-                new Card(CardSuit.Hearts, 13), new Card(CardSuit.Spades, 13), new Card(CardSuit.Clubs, 13),
+                new Card(CardSuit.Hearts, 13),
+                new Card(CardSuit.Spades, 13),
+                new Card(CardSuit.Clubs, 13),
                 new Card(CardSuit.Diamonds, 13)
             };
 
@@ -39,7 +43,9 @@ namespace GinRummy.Domain.Tests.Gameplay
         {
             IList<Card> run = new List<Card>
             {
-                new Card(CardSuit.Clubs, 6), new Card(CardSuit.Clubs, 4), new Card(CardSuit.Clubs, 5),
+                new Card(CardSuit.Clubs, 6),
+                new Card(CardSuit.Clubs, 4),
+                new Card(CardSuit.Clubs, 5),
                 new Card(CardSuit.Clubs, 7)
             };
 
@@ -53,7 +59,9 @@ namespace GinRummy.Domain.Tests.Gameplay
         {
             IList<Card> mixedRun = new List<Card>
             {
-                new Card(CardSuit.Clubs, 4), new Card(CardSuit.Hearts, 5), new Card(CardSuit.Clubs, 6)
+                new Card(CardSuit.Clubs, 4),
+                new Card(CardSuit.Hearts, 5),
+                new Card(CardSuit.Clubs, 6)
             };
 
             bool isValid = MeldRules.IsValidMeld(mixedRun);
@@ -66,7 +74,9 @@ namespace GinRummy.Domain.Tests.Gameplay
         {
             IList<Card> runWithGap = new List<Card>
             {
-                new Card(CardSuit.Diamonds, 2), new Card(CardSuit.Diamonds, 3), new Card(CardSuit.Diamonds, 5)
+                new Card(CardSuit.Diamonds, 2),
+                new Card(CardSuit.Diamonds, 3),
+                new Card(CardSuit.Diamonds, 5)
             };
 
             bool isValid = MeldRules.IsValidMeld(runWithGap);
@@ -79,7 +89,9 @@ namespace GinRummy.Domain.Tests.Gameplay
         {
             IList<Card> lowRun = new List<Card>
             {
-                new Card(CardSuit.Hearts, Card.AceRank), new Card(CardSuit.Hearts, 2), new Card(CardSuit.Hearts, 3)
+                new Card(CardSuit.Hearts, Card.AceRank),
+                new Card(CardSuit.Hearts, 2),
+                new Card(CardSuit.Hearts, 3)
             };
 
             bool isValid = MeldRules.IsValidMeld(lowRun);
@@ -92,7 +104,9 @@ namespace GinRummy.Domain.Tests.Gameplay
         {
             IList<Card> highRun = new List<Card>
             {
-                new Card(CardSuit.Hearts, 12), new Card(CardSuit.Hearts, Card.KingRank), new Card(CardSuit.Hearts, Card.AceRank)
+                new Card(CardSuit.Hearts, 12),
+                new Card(CardSuit.Hearts, Card.KingRank),
+                new Card(CardSuit.Hearts, Card.AceRank)
             };
 
             bool isValid = MeldRules.IsValidMeld(highRun);
@@ -103,7 +117,11 @@ namespace GinRummy.Domain.Tests.Gameplay
         [Test]
         public void Test_IsValidMeld_TwoCards_ReturnsFalse()
         {
-            IList<Card> pair = new List<Card> { new Card(CardSuit.Hearts, 9), new Card(CardSuit.Spades, 9) };
+            IList<Card> pair = new List<Card>
+            {
+                new Card(CardSuit.Hearts, 9),
+                new Card(CardSuit.Spades, 9)
+            };
 
             bool isValid = MeldRules.IsValidMeld(pair);
 
@@ -113,12 +131,14 @@ namespace GinRummy.Domain.Tests.Gameplay
         [Test]
         public void Test_IsValidMeld_SameCardTwice_ReturnsFalse()
         {
-            IList<Card> repeatedCard = new List<Card>
+            IList<Card> repeatedCards = new List<Card>
             {
-                new Card(CardSuit.Spades, 9), new Card(CardSuit.Spades, 9), new Card(CardSuit.Hearts, 9)
+                new Card(CardSuit.Spades, 9),
+                new Card(CardSuit.Spades, 9),
+                new Card(CardSuit.Hearts, 9)
             };
 
-            bool isValid = MeldRules.IsValidMeld(repeatedCard);
+            bool isValid = MeldRules.IsValidMeld(repeatedCards);
 
             Assert.IsFalse(isValid);
         }
@@ -128,7 +148,9 @@ namespace GinRummy.Domain.Tests.Gameplay
         {
             IList<Card> run = new List<Card>
             {
-                new Card(CardSuit.Clubs, 7), new Card(CardSuit.Clubs, 8), new Card(CardSuit.Clubs, 9)
+                new Card(CardSuit.Clubs, 7),
+                new Card(CardSuit.Clubs, 8),
+                new Card(CardSuit.Clubs, 9)
             };
 
             bool canLayOff = MeldRules.CanLayOff(new Card(CardSuit.Clubs, 10), run);
@@ -141,7 +163,9 @@ namespace GinRummy.Domain.Tests.Gameplay
         {
             IList<Card> run = new List<Card>
             {
-                new Card(CardSuit.Clubs, 7), new Card(CardSuit.Clubs, 8), new Card(CardSuit.Clubs, 9)
+                new Card(CardSuit.Clubs, 7),
+                new Card(CardSuit.Clubs, 8),
+                new Card(CardSuit.Clubs, 9)
             };
 
             bool canLayOff = MeldRules.CanLayOff(new Card(CardSuit.Hearts, 10), run);

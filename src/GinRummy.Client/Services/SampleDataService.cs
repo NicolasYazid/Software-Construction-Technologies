@@ -7,9 +7,6 @@ using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Services
 {
-    // It stands in for the services of the server, which the client does not reach yet.
-    // That way every screen can be walked and reviewed with the data the prototype screens show.
-    // The screens take their data only from here, which leaves a single place to replace once the server answers.
     public sealed class SampleDataService : ISampleDataService
     {
         private const int CardsPerHand = 10;
@@ -24,8 +21,6 @@ namespace GinRummy.Client.Services
 
         public IList<SanctionViewModel> GetSanctions()
         {
-            // The reasons of a ban are a catalogue of the database, translated there.
-            // Until the database can be reached, the closest names the language resources already carry stand in for them.
             LocalizationProvider localization = LocalizationProvider.Instance;
 
             return new List<SanctionViewModel>

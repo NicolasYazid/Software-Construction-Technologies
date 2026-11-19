@@ -12,8 +12,8 @@ namespace GinRummy.Client.Views
     /// </summary>
     public partial class GuiNewPassword : GuiModalBase
     {
-        private static readonly Thickness _newPasswordLabelAfterText = new Thickness(0, 28, 0, 8);
-        private static readonly Thickness _newPasswordLabelAfterField = new Thickness(0, 22, 0, 8);
+        private static readonly Thickness s_newPasswordLabelAfterText = new Thickness(0, 28, 0, 8);
+        private static readonly Thickness s_newPasswordLabelAfterField = new Thickness(0, 22, 0, 8);
 
         private readonly NewPasswordViewModel _viewModel;
 
@@ -27,11 +27,11 @@ namespace GinRummy.Client.Views
         {
             InitializeComponent();
             _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
-            _viewModel.PasswordUpdated += OnPasswordUpdated;
+            _viewModel.PasswordUpdated += HandlePasswordUpdated;
             PasswordChangeViewModel passwordChangeViewModel = viewModel as PasswordChangeViewModel;
             if (passwordChangeViewModel != null)
             {
-                passwordChangeViewModel.ErrorDialogRequested += OnErrorDialogRequested;
+                passwordChangeViewModel.ErrorDialogRequested += HandleErrorDialogRequested;
             }
 
             DataContext = _viewModel;
@@ -40,22 +40,22 @@ namespace GinRummy.Client.Views
 
         private void ApplyFlowLayout()
         {
-            Thickness newPasswordLabelMargin = _newPasswordLabelAfterText;
+            Thickness newPasswordLabelMargin = s_newPasswordLabelAfterText;
             if (_viewModel.IsChangeFromProfile)
             {
-                newPasswordLabelMargin = _newPasswordLabelAfterField;
+                newPasswordLabelMargin = s_newPasswordLabelAfterField;
             }
 
             lblNewPassword.Margin = newPasswordLabelMargin;
         }
 
-        private void OnErrorDialogRequested(object sender, ErrorDialogKind kind)
+        private void HandleErrorDialogRequested(object sender, ErrorDialogKind kind)
         {
             ShowModal(new GuiErrorDialog(kind));
         }
 
         // A recovered password ends every session of the account, so the player signs in again with it (CU-08 step 14).
-        private void OnPasswordUpdated(object sender, EventArgs e)
+        private void HandlePasswordUpdated(object sender, EventArgs e)
         {
             if (_viewModel.IsChangeFromProfile)
             {

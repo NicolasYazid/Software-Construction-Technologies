@@ -34,17 +34,17 @@
                             Visibility="{Binding IsRetryOffered, Converter={StaticResource CnvBooleanToVisibility}}"
                             Content="{Binding [ErrorDialog_BtnRetry], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
-                            Click="OnActionClick" />
+                            Click="HandleActionClick" />
                     <Button x:Name="btnReturnToMatch" Style="{StaticResource StyDialogPrimaryButton}"
                             Margin="0,0,16,0"
                             Visibility="{Binding IsReturnToMatchOffered, Converter={StaticResource CnvBooleanToVisibility}}"
                             Content="{Binding [ErrorDialog_BtnReturnToMatch], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
-                            Click="OnActionClick" />
+                            Click="HandleActionClick" />
                     <Button x:Name="btnClose" Style="{StaticResource StyDialogSecondaryButton}"
                             Content="{Binding [Shared_BtnClose], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
-                            Click="OnCloseClick" />
+                            Click="HandleCloseClick" />
                 </StackPanel>
 
             </StackPanel>

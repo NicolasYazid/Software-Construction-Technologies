@@ -24,7 +24,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _isFriend = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -34,7 +34,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _hasPendingRequest = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -44,7 +44,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _hasUnreadMessage = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
     }

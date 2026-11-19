@@ -66,7 +66,7 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Button Cursor="Hand" ToolTip="{Binding Url}" Click="OnSocialLinkClick">
+                                    <Button Cursor="Hand" ToolTip="{Binding Url}" Click="HandleSocialLinkClick">
                                         <Button.Template>
                                             <ControlTemplate TargetType="Button">
                                                 <ctl:PixelBorder Style="{StaticResource StySocialChip}">
@@ -84,7 +84,7 @@
                             VerticalAlignment="Top" Margin="0" FontSize="22"
                             Content="{Binding [PlayerProfile_BtnClose], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
-                            Click="OnCloseClick" />
+                            Click="HandleCloseClick" />
                 </Grid>
 
                 <!-- The cards follow the visibility of their first label, set by the view model from the matches played (CU-27 FA-01). -->
@@ -151,7 +151,7 @@
                                 Content="{Binding [PlayerProfile_BtnEditProfile], Source={StaticResource PrvLocalization},
                                           Converter={StaticResource CnvUpperCase}}"
                                 Visibility="{Binding IsOwnProfile, Converter={StaticResource CnvBooleanToVisibility}}"
-                                Click="OnEditProfileClick" />
+                                Click="HandleEditProfileClick" />
                     </StackPanel>
                 </DockPanel>
             </Grid>

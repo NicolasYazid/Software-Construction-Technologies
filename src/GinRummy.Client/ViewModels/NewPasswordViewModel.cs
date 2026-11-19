@@ -45,14 +45,14 @@ namespace GinRummy.Client.ViewModels
             protected set
             {
                 _errorMessageKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasErrorMessage));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasErrorMessage));
             }
         }
 
         public bool HasErrorMessage
         {
-            get { return !string.IsNullOrEmpty(_errorMessageKey); }
+            get { return !string.IsNullOrEmpty(_errorMessageKey) ? true : false; }
         }
 
         protected virtual void SubmitPassword()

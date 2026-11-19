@@ -55,7 +55,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _password = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -65,7 +65,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _confirmPassword = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -75,8 +75,8 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _errorMessageKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasErrorMessage));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasErrorMessage));
             }
         }
 
@@ -86,13 +86,13 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _errorMessageArgument = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
         public bool HasErrorMessage
         {
-            get { return !string.IsNullOrEmpty(_errorMessageKey); }
+            get { return !string.IsNullOrEmpty(_errorMessageKey) ? true : false; }
         }
 
         // The empty fields are checked here only to answer without waiting for the network (CU-01 FA-01).
@@ -125,7 +125,9 @@ namespace GinRummy.Client.ViewModels
             return string.IsNullOrEmpty(Email)
                 || string.IsNullOrEmpty(Username)
                 || string.IsNullOrEmpty(Password)
-                || string.IsNullOrEmpty(ConfirmPassword);
+                || string.IsNullOrEmpty(ConfirmPassword)
+                ? true
+                : false;
         }
 
         // The localization provider sets the interface culture of the thread, so it names the language the screen shows (CU-01 step 6).

@@ -35,7 +35,7 @@
                 HorizontalAlignment="Left" VerticalAlignment="Top"
                 Width="380" Margin="40,350,0,0"
                 Content="{Binding [Shared_BtnLogIn], Source={StaticResource PrvLocalization}, Converter={StaticResource CnvUpperCase}}"
-                Click="OnLogInClick" />
+                Click="HandleLogInClick" />
 
     </Grid>
 </views:GuiModalBase>

@@ -60,7 +60,9 @@ namespace GinRummy.Client.Controls
         {
             base.OnPropertyChanged(e);
             bool isOutlineProperty = (e.Property == PixelShapeCommon.CornerStepsProperty)
-                || (e.Property == PixelShapeCommon.PixelUnitProperty);
+                || (e.Property == PixelShapeCommon.PixelUnitProperty)
+                ? true
+                : false;
             if (isOutlineProperty)
             {
                 InvalidateVisual();
@@ -86,10 +88,10 @@ namespace GinRummy.Client.Controls
         // Such an element is drawn flat instead of with a broken outline.
         private static bool CanRaise(PixelFrame frame, int depth)
         {
-            bool hasDepth = depth > NoDepth;
-            bool hasRoomForCorners = (frame.Rows - depth) >= (frame.Steps * BothSides);
+            bool hasDepth = depth > NoDepth ? true : false;
+            bool hasRoomForCorners = (frame.Rows - depth) >= (frame.Steps * BothSides) ? true : false;
 
-            return hasDepth && hasRoomForCorners;
+            return hasDepth && hasRoomForCorners ? true : false;
         }
     }
 }

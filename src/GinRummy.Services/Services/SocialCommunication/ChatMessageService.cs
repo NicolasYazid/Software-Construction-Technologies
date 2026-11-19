@@ -37,8 +37,8 @@ namespace GinRummy.Services.Services.SocialCommunication
             _onlinePlayers.AddPlayer(playerId, callback);
             _subscribedPlayerId = playerId;
             _subscribedCallback = callback;
-            context.Channel.Closed += OnChannelClosed;
-            context.Channel.Faulted += OnChannelFaulted;
+            context.Channel.Closed += HandleChannelClosed;
+            context.Channel.Faulted += HandleChannelFaulted;
             _sendMessageUseCase.SendLobbyHistoryToPlayer(playerId);
         }
 
@@ -65,12 +65,12 @@ namespace GinRummy.Services.Services.SocialCommunication
             _onlinePlayers.RemovePlayer(_subscribedPlayerId, callbackToRemove);
         }
 
-        private void OnChannelClosed(object sender, EventArgs e)
+        private void HandleChannelClosed(object sender, EventArgs e)
         {
             LeaveChat();
         }
 
-        private void OnChannelFaulted(object sender, EventArgs e)
+        private void HandleChannelFaulted(object sender, EventArgs e)
         {
             LeaveChat();
         }

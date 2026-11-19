@@ -20,7 +20,7 @@ namespace GinRummy.Client.Controls
 
         public bool IsTilted
         {
-            get { return (Math.Abs(AngleX) > FlatThresholdDegrees) || (Math.Abs(AngleY) > FlatThresholdDegrees); }
+            get { return (Math.Abs(AngleX) > FlatThresholdDegrees) || (Math.Abs(AngleY) > FlatThresholdDegrees) ? true : false; }
         }
 
         public void Follow(Vector pointerOffset, Size cardSize)

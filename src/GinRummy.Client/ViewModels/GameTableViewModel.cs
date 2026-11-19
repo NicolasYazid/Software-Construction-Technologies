@@ -26,6 +26,16 @@ namespace GinRummy.Client.ViewModels
         private const string InvalidMoveKey = "GameTable_LblInvalidMove";
         private const string HandWinnerKey = "GameTable_LblHandWinner";
         private const string RoundVoidKey = "GameTable_LblRoundVoid";
+        private const string KnockTitleKey = "GameTable_LblKnockWith";
+        private const string GinTitleKey = "GameTable_LblGinTitle";
+        private const string UndercutTitleKey = "GameTable_LblUndercutTitle";
+        private const string VoidTitleKey = "GameTable_LblVoidTitle";
+        private const string KnockAnnounceKey = "GameTable_LblKnockAnnounce";
+        private const string GinAnnounceKey = "GameTable_LblGinAnnounce";
+        private const string UndercutAnnounceKey = "GameTable_LblUndercutAnnounce";
+        private const string VoidAnnounceKey = "GameTable_LblVoidAnnounce";
+        private const string GinBonusKey = "GameTable_LblGinBonus";
+        private const string UndercutBonusKey = "GameTable_LblUndercutBonus";
         private const int SingleCardCount = 1;
         private const int PauseNoticeDelaySeconds = 2;
 
@@ -55,10 +65,10 @@ namespace GinRummy.Client.ViewModels
             MatchLog = new ObservableCollection<MatchLogEntry>();
             OpponentCards = new List<int>();
             HandMelds = new List<Meld>();
-            Hand.CollectionChanged += OnHandChanged;
+            Hand.CollectionChanged += HandleHandChanged;
             _pauseNoticeTimer = new DispatcherTimer();
             _pauseNoticeTimer.Interval = TimeSpan.FromSeconds(PauseNoticeDelaySeconds);
-            _pauseNoticeTimer.Tick += OnPauseNoticeTimerTick;
+            _pauseNoticeTimer.Tick += HandlePauseNoticeTimerTick;
             TakeCommand = new RelayCommand(() => Play(_gameConnection.TakeFirstCard));
             PassCommand = new RelayCommand(() => Play(_gameConnection.PassFirstCard));
             DrawFromStockCommand = new RelayCommand(() => Play(_gameConnection.DrawFromStock), () => IsDrawing);
@@ -136,27 +146,27 @@ namespace GinRummy.Client.ViewModels
 
         public bool IsOfferingFirstCard
         {
-            get { return _round.IsYourTurn && (_round.Step == RoundStep.OfferingFirstCard); }
+            get { return _round.IsYourTurn && (_round.Step == RoundStep.OfferingFirstCard) ? true : false; }
         }
 
         public bool IsDrawing
         {
-            get { return _round.IsYourTurn && (_round.Step == RoundStep.Drawing); }
+            get { return _round.IsYourTurn && (_round.Step == RoundStep.Drawing) ? true : false; }
         }
 
         public bool IsDiscarding
         {
-            get { return _round.IsYourTurn && (_round.Step == RoundStep.Discarding); }
+            get { return _round.IsYourTurn && (_round.Step == RoundStep.Discarding) ? true : false; }
         }
 
         public bool CanDrawFromDiscardPile
         {
-            get { return IsDrawing && (_round.LastMove != RoundMoveKind.PassedFirstCard); }
+            get { return IsDrawing && (_round.LastMove != RoundMoveKind.PassedFirstCard) ? true : false; }
         }
 
         public bool CanTakeFromDiscardPile
         {
-            get { return IsOfferingFirstCard || CanDrawFromDiscardPile; }
+            get { return IsOfferingFirstCard || CanDrawFromDiscardPile ? true : false; }
         }
 
         public string TurnNoticeKey
@@ -183,7 +193,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _selectedCard = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -193,7 +203,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _handResult = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -203,7 +213,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _handHeadlineKey = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -213,7 +223,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _isHandResultShown = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -228,7 +238,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _isOpponentDisconnected = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -238,59 +248,59 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _matchResult = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(IsMatchResultShown));
-                RaisePropertyChanged(nameof(IsVictory));
-                RaisePropertyChanged(nameof(IsDefeat));
-                RaisePropertyChanged(nameof(IsVictoryByTarget));
-                RaisePropertyChanged(nameof(IsVictoryByForfeit));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsMatchResultShown));
+                OnPropertyChanged(nameof(IsVictory));
+                OnPropertyChanged(nameof(IsDefeat));
+                OnPropertyChanged(nameof(IsVictoryByTarget));
+                OnPropertyChanged(nameof(IsVictoryByForfeit));
             }
         }
 
         public bool IsMatchResultShown
         {
-            get { return _matchResult != null; }
+            get { return _matchResult != null ? true : false; }
         }
 
         public bool IsDefeat
         {
-            get { return IsMatchResultShown && (_matchResult.EndReason == MatchEndReason.OpponentReachedTarget); }
+            get { return IsMatchResultShown && (_matchResult.EndReason == MatchEndReason.OpponentReachedTarget) ? true : false; }
         }
 
         public bool IsVictory
         {
-            get { return IsMatchResultShown && !IsDefeat; }
+            get { return IsMatchResultShown && !IsDefeat ? true : false; }
         }
 
         public bool IsVictoryByTarget
         {
-            get { return IsMatchResultShown && (_matchResult.EndReason == MatchEndReason.PlayerReachedTarget); }
+            get { return IsMatchResultShown && (_matchResult.EndReason == MatchEndReason.PlayerReachedTarget) ? true : false; }
         }
 
         public bool IsVictoryByForfeit
         {
-            get { return IsMatchResultShown && (_matchResult.EndReason == MatchEndReason.OpponentForfeited); }
+            get { return IsMatchResultShown && (_matchResult.EndReason == MatchEndReason.OpponentForfeited) ? true : false; }
         }
 
         public void Start(RoundDetails startedRound)
         {
-            _gameConnection.RoundChanged += OnRoundChanged;
-            _gameConnection.RoundFinished += OnRoundFinished;
-            _gameConnection.OpponentLeft += OnOpponentLeft;
-            _gameConnection.OpponentDisconnected += OnOpponentDisconnected;
-            _gameConnection.OpponentReconnected += OnOpponentReconnected;
-            _gameConnection.ConnectionLost += OnConnectionLost;
-            OnRoundChanged(this, startedRound);
+            _gameConnection.RoundChanged += HandleRoundChanged;
+            _gameConnection.RoundFinished += HandleRoundFinished;
+            _gameConnection.OpponentLeft += HandleOpponentLeft;
+            _gameConnection.OpponentDisconnected += HandleOpponentDisconnected;
+            _gameConnection.OpponentReconnected += HandleOpponentReconnected;
+            _gameConnection.ConnectionLost += HandleConnectionLost;
+            HandleRoundChanged(this, startedRound);
         }
 
         public void Stop()
         {
-            _gameConnection.RoundChanged -= OnRoundChanged;
-            _gameConnection.RoundFinished -= OnRoundFinished;
-            _gameConnection.OpponentLeft -= OnOpponentLeft;
-            _gameConnection.OpponentDisconnected -= OnOpponentDisconnected;
-            _gameConnection.OpponentReconnected -= OnOpponentReconnected;
-            _gameConnection.ConnectionLost -= OnConnectionLost;
+            _gameConnection.RoundChanged -= HandleRoundChanged;
+            _gameConnection.RoundFinished -= HandleRoundFinished;
+            _gameConnection.OpponentLeft -= HandleOpponentLeft;
+            _gameConnection.OpponentDisconnected -= HandleOpponentDisconnected;
+            _gameConnection.OpponentReconnected -= HandleOpponentReconnected;
+            _gameConnection.ConnectionLost -= HandleConnectionLost;
             _pauseNoticeTimer.Stop();
             if (!_isMatchOver)
             {
@@ -337,14 +347,12 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        private void OnHandChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void HandleHandChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            RaisePropertyChanged(nameof(HandCount));
-            RaisePropertyChanged(nameof(HandCountKey));
+            OnPropertyChanged(nameof(HandCount));
+            OnPropertyChanged(nameof(HandCountKey));
         }
 
-        // Spanish and English only change the word for a single card.
-        // The dictionary keeps that form as a key of its own so that a language with more forms can add them.
         private static string ResolveCardCountKey(int count)
         {
             string key = CardCountKey;
@@ -368,8 +376,8 @@ namespace GinRummy.Client.ViewModels
 
         private void ShowMoveOutcome(bool isMoveDone)
         {
-            _isMoveRefused = !isMoveDone;
-            RaisePropertyChanged(nameof(TurnNoticeKey));
+            _isMoveRefused = !isMoveDone ? true : false;
+            OnPropertyChanged(nameof(TurnNoticeKey));
             if (_isMoveRefused && (_gameConnection.LastFaultCode == GameFaultCode.SessionExpired))
             {
                 SessionExpired?.Invoke(this, EventArgs.Empty);
@@ -378,27 +386,27 @@ namespace GinRummy.Client.ViewModels
 
         private bool IsCardSelected()
         {
-            return _selectedCard != null;
+            return _selectedCard != null ? true : false;
         }
 
         public bool CanDiscard(Card card)
         {
-            return IsDiscarding && !IsTakenFromDiscardPile(card);
+            return IsDiscarding && !IsTakenFromDiscardPile(card) ? true : false;
         }
 
         private bool CanDiscardSelectedCard()
         {
-            return IsCardSelected() && CanDiscard(_selectedCard);
+            return IsCardSelected() && CanDiscard(_selectedCard) ? true : false;
         }
 
         private bool IsTakenFromDiscardPile(Card card)
         {
-            return (_round.LastMove == RoundMoveKind.DrewFromDiscardPile) && IsSameCard(ToCard(_round.LastMoveCard), card);
+            return (_round.LastMove == RoundMoveKind.DrewFromDiscardPile) && IsSameCard(ToCard(_round.LastMoveCard), card) ? true : false;
         }
 
         private bool CanKnockWithSelectedCard()
         {
-            return IsCardSelected() && _round.KnockDiscards.Any(card => IsSameCard(ToCard(card), _selectedCard));
+            return IsCardSelected() && _round.KnockDiscards.Any(card => IsSameCard(ToCard(card), _selectedCard)) ? true : false;
         }
 
         private void SortHand()
@@ -406,7 +414,7 @@ namespace GinRummy.Client.ViewModels
             HandOrder.Arrange(Hand, HandOrder.SortLooseCards(Hand, HandMelds.Select(meld => meld.Cards)));
         }
 
-        private void OnRoundChanged(object sender, RoundDetails round)
+        private void HandleRoundChanged(object sender, RoundDetails round)
         {
             _round = round;
             _isMoveRefused = false;
@@ -426,11 +434,11 @@ namespace GinRummy.Client.ViewModels
             OpponentCards = Enumerable.Range(0, round.OpponentCardCount).ToList();
             AddLastMoveToLog(round);
 
-            RaisePropertyChanged(string.Empty);
+            OnPropertyChanged(string.Empty);
             CommandManager.InvalidateRequerySuggested();
         }
 
-        private void OnRoundFinished(object sender, RoundSummary summary)
+        private void HandleRoundFinished(object sender, RoundSummary summary)
         {
             _round.IsYourTurn = false;
             _playerScore = summary.PlayerScore;
@@ -451,10 +459,10 @@ namespace GinRummy.Client.ViewModels
             HandHeadlineKey = (summary.Ending == RoundOutcome.Void) ? RoundVoidKey : HandWinnerKey;
             HandResult = ToHandResult(summary);
             IsHandResultShown = true;
-            RaisePropertyChanged(string.Empty);
+            OnPropertyChanged(string.Empty);
         }
 
-        private void OnOpponentLeft(object sender, EventArgs e)
+        private void HandleOpponentLeft(object sender, EventArgs e)
         {
             _isMatchOver = true;
             _pauseNoticeTimer.Stop();
@@ -462,27 +470,27 @@ namespace GinRummy.Client.ViewModels
             _round.IsYourTurn = false;
             IsHandResultShown = false;
             MatchResult = new MatchResult(MatchEndReason.OpponentForfeited, _playerScore, _opponentScore);
-            RaisePropertyChanged(string.Empty);
+            OnPropertyChanged(string.Empty);
         }
 
-        private void OnOpponentDisconnected(object sender, EventArgs e)
+        private void HandleOpponentDisconnected(object sender, EventArgs e)
         {
             _pauseNoticeTimer.Start();
         }
 
-        private void OnPauseNoticeTimerTick(object sender, EventArgs e)
+        private void HandlePauseNoticeTimerTick(object sender, EventArgs e)
         {
             _pauseNoticeTimer.Stop();
             IsOpponentDisconnected = true;
         }
 
-        private void OnOpponentReconnected(object sender, EventArgs e)
+        private void HandleOpponentReconnected(object sender, EventArgs e)
         {
             _pauseNoticeTimer.Stop();
             IsOpponentDisconnected = false;
         }
 
-        private void OnConnectionLost(object sender, EventArgs e)
+        private void HandleConnectionLost(object sender, EventArgs e)
         {
             if (!_isMatchOver)
             {
@@ -512,8 +520,47 @@ namespace GinRummy.Client.ViewModels
             result.DefenderMelds = ToMelds(summary.DefenderMelds, summary.DefenderUnmatchedCards);
             result.PlayerScore = _playerScore;
             result.OpponentScore = _opponentScore;
+            ExplainScore(result, summary.Ending);
 
             return result;
+        }
+
+        private static void ExplainScore(HandResult result, RoundOutcome ending)
+        {
+            result.HasScoreBreakdown = ending != RoundOutcome.Void ? true : false;
+            switch (ending)
+            {
+                case RoundOutcome.Gin:
+                    result.TitleKey = GinTitleKey;
+                    result.AnnounceKey = GinAnnounceKey;
+                    result.BaseName = result.DefenderName;
+                    result.BaseDeadwood = result.DefenderDeadwood;
+                    result.BonusKey = GinBonusKey;
+                    result.BonusPoints = result.PointsAwarded - result.DefenderDeadwood;
+                    break;
+                case RoundOutcome.Undercut:
+                    result.TitleKey = UndercutTitleKey;
+                    result.AnnounceKey = UndercutAnnounceKey;
+                    result.BaseName = result.KnockerName;
+                    result.BaseDeadwood = result.KnockerDeadwood;
+                    result.SubtractedName = result.DefenderName;
+                    result.SubtractedDeadwood = result.DefenderDeadwood;
+                    result.BonusKey = UndercutBonusKey;
+                    result.BonusPoints = result.PointsAwarded - (result.KnockerDeadwood - result.DefenderDeadwood);
+                    break;
+                case RoundOutcome.Void:
+                    result.TitleKey = VoidTitleKey;
+                    result.AnnounceKey = VoidAnnounceKey;
+                    break;
+                default:
+                    result.TitleKey = KnockTitleKey;
+                    result.AnnounceKey = KnockAnnounceKey;
+                    result.BaseName = result.DefenderName;
+                    result.BaseDeadwood = result.DefenderDeadwood;
+                    result.SubtractedName = result.KnockerName;
+                    result.SubtractedDeadwood = result.KnockerDeadwood;
+                    break;
+            }
         }
 
         private void KeepHandOrder(PlayingCard[] serverHand)
@@ -536,7 +583,7 @@ namespace GinRummy.Client.ViewModels
         {
             List<Meld> handMelds = melds.Select(meld => ToMeld(meld.Select(ToCard).Select(FindHeldCard).ToList())).ToList();
             List<Card> meldCards = handMelds.SelectMany(meld => meld.Cards).ToList();
-            bool haveMeldsChanged = !new HashSet<Card>(HandMelds.SelectMany(meld => meld.Cards)).SetEquals(meldCards);
+            bool haveMeldsChanged = !new HashSet<Card>(HandMelds.SelectMany(meld => meld.Cards)).SetEquals(meldCards) ? true : false;
             if (haveMeldsChanged && (meldCards.Count > 0))
             {
                 HandOrder.Arrange(Hand, HandOrder.PutMeldsFirst(Hand, meldCards));
@@ -641,7 +688,7 @@ namespace GinRummy.Client.ViewModels
 
         private static bool IsSameCard(Card first, Card second)
         {
-            return (first.Rank == second.Rank) && (first.Suit == second.Suit);
+            return (first.Rank == second.Rank) && (first.Suit == second.Suit) ? true : false;
         }
 
         private static Card ToCard(PlayingCard playingCard)

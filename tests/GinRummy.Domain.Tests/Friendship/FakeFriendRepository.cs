@@ -23,7 +23,9 @@ namespace GinRummy.Domain.Tests.Friendship
             foreach (FriendRequest request in _requests)
             {
                 bool isMatch = (request.RequesterPlayerAccountId == requesterPlayerAccountId)
-                    && (request.AddresseePlayerAccountId == addresseePlayerAccountId);
+                    && (request.AddresseePlayerAccountId == addresseePlayerAccountId)
+                    ? true
+                    : false;
                 if (isMatch)
                 {
                     foundRequest = request;
@@ -93,7 +95,9 @@ namespace GinRummy.Domain.Tests.Friendship
             foreach (FriendShip friendShip in _friendShips)
             {
                 bool isMatch = (friendShip.LowerPlayerAccountId == lowerPlayerAccountId)
-                    && (friendShip.HigherPlayerAccountId == higherPlayerAccountId);
+                    && (friendShip.HigherPlayerAccountId == higherPlayerAccountId)
+                    ? true
+                    : false;
                 if (isMatch)
                 {
                     foundFriendShip = friendShip;
@@ -109,7 +113,9 @@ namespace GinRummy.Domain.Tests.Friendship
             foreach (FriendShip friendShip in _friendShips)
             {
                 bool isPartOfFriendShip = (friendShip.LowerPlayerAccountId == playerAccountId)
-                    || (friendShip.HigherPlayerAccountId == playerAccountId);
+                    || (friendShip.HigherPlayerAccountId == playerAccountId)
+                    ? true
+                    : false;
                 if (isPartOfFriendShip)
                 {
                     playerFriendShips.Add(friendShip);

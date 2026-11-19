@@ -13,10 +13,6 @@ using GinRummy.Persistence.Repositories;
 
 namespace GinRummy.Persistence.Persistence
 {
-    /// <summary>
-    /// Fulfils IUnitOfWork with one Entity Framework context and one transaction shared by every
-    /// repository it exposes.
-    /// </summary>
     public class EntityFrameworkUnitOfWork : IUnitOfWork
     {
         private readonly GinRummyContext _context;
@@ -33,10 +29,6 @@ namespace GinRummy.Persistence.Persistence
         private readonly IRankingRepository _rankings;
         private bool _isDisposed;
 
-        /// <summary>
-        /// Opens one context and one transaction, and binds every repository to them.
-        /// </summary>
-        /// <param name="connectionStringName">Name of the entry in App.config.</param>
         public EntityFrameworkUnitOfWork(string connectionStringName)
         {
             _context = new GinRummyContext(connectionStringName);
@@ -53,107 +45,67 @@ namespace GinRummy.Persistence.Persistence
             _rankings = new RankingRepository(_context);
         }
 
-        /// <summary>
-        /// Gets the player preferences repository bound to this unit of work.
-        /// </summary>
         public IPlayerPreferencesRepository PlayerPreferences
         {
             get { return _playerPreferences; }
         }
 
-        /// <summary>
-        /// Gets the player account repository bound to this unit of work.
-        /// </summary>
         public IPlayerAccountRepository PlayerAccounts
         {
             get { return _playerAccounts; }
         }
 
-        /// <summary>
-        /// Gets the verification code repository bound to this unit of work.
-        /// </summary>
         public IVerificationCodeRepository VerificationCodes
         {
             get { return _verificationCodes; }
         }
 
-        /// <summary>
-        /// Gets the locale repository bound to this unit of work.
-        /// </summary>
         public ILocaleRepository Locales
         {
             get { return _locales; }
         }
 
-        /// <summary>
-        /// Gets the guest session repository bound to this unit of work.
-        /// </summary>
         public IGuestSessionRepository GuestSessions
         {
             get { return _guestSessions; }
         }
 
-        /// <summary>
-        /// Gets the friend request and friendship repository bound to this unit of work.
-        /// </summary>
         public IFriendRepository Friends
         {
             get { return _friends; }
         }
 
-        /// <summary>
-        /// Gets the report, warning, sanction and permanent ban repository bound to this unit of work.
-        /// </summary>
         public IModerationRepository Moderation
         {
             get { return _moderation; }
         }
 
-        /// <summary>
-        /// Gets the challenge repository bound to this unit of work.
-        /// </summary>
         public IChallengeRepository Challenges
         {
             get { return _challenges; }
         }
 
-        /// <summary>
-        /// Gets the match and match history repository bound to this unit of work.
-        /// </summary>
         public IGameRepository Games
         {
             get { return _games; }
         }
 
-        /// <summary>
-        /// Gets the statistics and rank repository bound to this unit of work.
-        /// </summary>
         public IRankingRepository Rankings
         {
             get { return _rankings; }
         }
 
-        /// <summary>
-        /// Saves every change made through this unit of work as one transaction, including
-        /// changes made by calling methods on entities the repositories returned.
-        /// </summary>
         public void Commit()
         {
             _context.SaveChanges();
             _transaction.Commit();
         }
 
-        /// <summary>
-        /// Discards every change made through this unit of work.
-        /// </summary>
         public void Rollback()
         {
             _transaction.Rollback();
         }
 
-        /// <summary>
-        /// Frees the transaction and the context.
-        /// </summary>
         public void Dispose()
         {
             if (!_isDisposed)

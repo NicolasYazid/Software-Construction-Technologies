@@ -21,14 +21,14 @@ namespace GinRummy.Client.Controls
                 nameof(MarkFontSize),
                 typeof(double),
                 typeof(BrandMark),
-                new PropertyMetadata(DefaultMarkFontSize, OnAppearanceChanged));
+                new PropertyMetadata(DefaultMarkFontSize, HandleAppearanceChanged));
 
         public static readonly DependencyProperty MarkForegroundProperty =
             DependencyProperty.Register(
                 nameof(MarkForeground),
                 typeof(Brush),
                 typeof(BrandMark),
-                new PropertyMetadata(Brushes.Gray, OnAppearanceChanged));
+                new PropertyMetadata(Brushes.Gray, HandleAppearanceChanged));
 
         private readonly LocalizationProvider _localization;
 
@@ -36,8 +36,8 @@ namespace GinRummy.Client.Controls
         {
             InitializeComponent();
             _localization = LocalizationProvider.Instance;
-            _localization.PropertyChanged += OnLocalizationChanged;
-            Unloaded += OnControlUnloaded;
+            _localization.PropertyChanged += HandleLocalizationChanged;
+            Unloaded += HandleControlUnloaded;
             Refresh();
         }
 
@@ -53,7 +53,7 @@ namespace GinRummy.Client.Controls
             set { SetValue(MarkForegroundProperty, value); }
         }
 
-        private static void OnAppearanceChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
+        private static void HandleAppearanceChanged(DependencyObject source, DependencyPropertyChangedEventArgs e)
         {
             BrandMark mark = source as BrandMark;
             if (mark != null)
@@ -91,15 +91,15 @@ namespace GinRummy.Client.Controls
             imgBrandMark.Margin = new Thickness(SymbolOverlap, 0, SymbolOverlap, 0);
         }
 
-        private void OnLocalizationChanged(object sender, PropertyChangedEventArgs e)
+        private void HandleLocalizationChanged(object sender, PropertyChangedEventArgs e)
         {
             Refresh();
         }
 
-        private void OnControlUnloaded(object sender, RoutedEventArgs e)
+        private void HandleControlUnloaded(object sender, RoutedEventArgs e)
         {
-            _localization.PropertyChanged -= OnLocalizationChanged;
-            Unloaded -= OnControlUnloaded;
+            _localization.PropertyChanged -= HandleLocalizationChanged;
+            Unloaded -= HandleControlUnloaded;
         }
     }
 }

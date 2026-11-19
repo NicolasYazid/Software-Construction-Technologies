@@ -46,7 +46,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _password = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -56,14 +56,14 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _errorMessageKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasErrorMessage));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasErrorMessage));
             }
         }
 
         public bool HasErrorMessage
         {
-            get { return !string.IsNullOrEmpty(_errorMessageKey); }
+            get { return !string.IsNullOrEmpty(_errorMessageKey) ? true : false; }
         }
 
         public bool IsResendCodeOffered
@@ -72,7 +72,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _isResendCodeOffered = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -144,7 +144,7 @@ namespace GinRummy.Client.ViewModels
                 communicationObject.Abort();
                 _logger.LogInformation(ex, "The server refused the sign-in with the fault {FaultCode}.", ex.Detail.Code);
                 ErrorMessageKey = LogInFaultCommon.ResolveMessageKey(ex.Detail.Code);
-                IsResendCodeOffered = ex.Detail.Code == ServiceFaultCode.EmailNotVerified;
+                IsResendCodeOffered = ex.Detail.Code == ServiceFaultCode.EmailNotVerified ? true : false;
             }
             catch (FaultException ex)
             {

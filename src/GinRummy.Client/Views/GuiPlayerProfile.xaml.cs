@@ -21,63 +21,63 @@ namespace GinRummy.Client.Views
             InitializeComponent();
             _profile = profile;
             _viewModel = ((App)Application.Current).CreatePlayerProfileViewModel(profile);
-            _viewModel.ProfileUnavailable += OnProfileUnavailable;
+            _viewModel.ProfileUnavailable += HandleProfileUnavailable;
             DataContext = _viewModel;
-            Loaded += OnProfileLoaded;
+            Loaded += HandleProfileLoaded;
         }
 
         // The profile is loaded once the modal is on screen, because a failed load opens the error dialog over it.
-        private void OnProfileLoaded(object sender, RoutedEventArgs e)
+        private void HandleProfileLoaded(object sender, RoutedEventArgs e)
         {
-            Loaded -= OnProfileLoaded;
+            Loaded -= HandleProfileLoaded;
             _viewModel.LoadProfile(((App)Application.Current).SignedInPlayer.AccessToken);
         }
 
-        private void OnProfileUnavailable(object sender, ErrorDialogKind kind)
+        private void HandleProfileUnavailable(object sender, ErrorDialogKind kind)
         {
             GuiErrorDialog errorDialog = new GuiErrorDialog(kind);
             if (kind == ErrorDialogKind.SessionExpired)
             {
-                errorDialog.Closed += OnSessionExpiredDialogClosed;
+                errorDialog.Closed += HandleSessionExpiredDialogClosed;
             }
             else
             {
-                errorDialog.Closed += OnErrorDialogClosed;
+                errorDialog.Closed += HandleErrorDialogClosed;
             }
 
             ShowModal(errorDialog);
         }
 
         // A profile that could not be read has nothing to show, so the player goes back to the lobby (CU-27 EX-01, EX-02, EX-03).
-        private void OnErrorDialogClosed(object sender, EventArgs e)
+        private void HandleErrorDialogClosed(object sender, EventArgs e)
         {
             Close();
         }
 
         // An expired session cannot stay in the lobby, so the lobby closes too (CU-27 EX-04).
-        private void OnSessionExpiredDialogClosed(object sender, EventArgs e)
+        private void HandleSessionExpiredDialogClosed(object sender, EventArgs e)
         {
             LeaveLobby();
         }
 
-        private void OnEditProfileClick(object sender, RoutedEventArgs e)
+        private void HandleEditProfileClick(object sender, RoutedEventArgs e)
         {
             GuiEditProfile editProfile = new GuiEditProfile(_profile);
-            editProfile.Closed += OnEditProfileClosed;
+            editProfile.Closed += HandleEditProfileClosed;
             ShowModal(editProfile);
         }
 
-        private void OnEditProfileClosed(object sender, EventArgs e)
+        private void HandleEditProfileClosed(object sender, EventArgs e)
         {
             _viewModel.RefreshProfile();
         }
 
-        private void OnSocialLinkClick(object sender, RoutedEventArgs e)
+        private void HandleSocialLinkClick(object sender, RoutedEventArgs e)
         {
             _viewModel.OpenSocialLink((SocialLink)((FrameworkElement)sender).DataContext);
         }
 
-        private void OnCloseClick(object sender, RoutedEventArgs e)
+        private void HandleCloseClick(object sender, RoutedEventArgs e)
         {
             Close();
         }

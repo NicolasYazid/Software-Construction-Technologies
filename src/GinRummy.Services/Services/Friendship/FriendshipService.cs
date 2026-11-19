@@ -36,8 +36,8 @@ namespace GinRummy.Services.Services.Friendship
             _serviceTools.OnlinePlayers.AddPlayer(playerId, callback);
             _subscribedPlayerId = playerId;
             _subscribedCallback = callback;
-            context.Channel.Closed += OnChannelClosed;
-            context.Channel.Faulted += OnChannelFaulted;
+            context.Channel.Closed += HandleChannelClosed;
+            context.Channel.Faulted += HandleChannelFaulted;
         }
 
         public FriendRequestOutcome SendFriendRequest(string accessToken, int addresseePublicTag)
@@ -71,12 +71,12 @@ namespace GinRummy.Services.Services.Friendship
             _serviceTools.OnlinePlayers.RemovePlayer(_subscribedPlayerId, callbackToRemove);
         }
 
-        private void OnChannelClosed(object sender, EventArgs e)
+        private void HandleChannelClosed(object sender, EventArgs e)
         {
             LeaveFriendship();
         }
 
-        private void OnChannelFaulted(object sender, EventArgs e)
+        private void HandleChannelFaulted(object sender, EventArgs e)
         {
             LeaveFriendship();
         }

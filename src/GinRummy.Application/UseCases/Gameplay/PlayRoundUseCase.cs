@@ -19,7 +19,7 @@ namespace GinRummy.Application.UseCases.Gameplay
             _matchRegistry = matchRegistry ?? throw new ArgumentNullException(nameof(matchRegistry));
             _roundAnnouncer = roundAnnouncer ?? throw new ArgumentNullException(nameof(roundAnnouncer));
             _matchRecorder = matchRecorder ?? throw new ArgumentNullException(nameof(matchRecorder));
-            _matchRegistry.MatchStarted += OnMatchStarted;
+            _matchRegistry.MatchStarted += HandleMatchStarted;
         }
 
         public void TakeFirstCard(int playerId)
@@ -98,7 +98,7 @@ namespace GinRummy.Application.UseCases.Gameplay
             return hasMatchToShow;
         }
 
-        private void OnMatchStarted(object sender, ActiveMatch activeMatch)
+        private void HandleMatchStarted(object sender, ActiveMatch activeMatch)
         {
             lock (activeMatch.SyncRoot)
             {
@@ -171,7 +171,7 @@ namespace GinRummy.Application.UseCases.Gameplay
             {
                 _matchRegistry.DealNextRound(activeMatch);
                 AnnounceToPlayers(activeMatch, _roundAnnouncer.AnnounceRoundChanged);
-                _matchRecorder.RecordRoundScores(activeMatch);
+                _matchRecorder.RecordRoundSnapshot(activeMatch);
             }
         }
 
@@ -187,8 +187,6 @@ namespace GinRummy.Application.UseCases.Gameplay
                     }
                     catch (DataException)
                     {
-                        // The window ends on a timer thread, where an unhandled exception would stop the whole server.
-                        // The match is already over for the players, so only its record is lost.
                     }
                 }
             }

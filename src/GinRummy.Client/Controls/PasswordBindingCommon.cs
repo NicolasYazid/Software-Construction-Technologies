@@ -13,7 +13,7 @@ namespace GinRummy.Client.Controls
                 "BoundPassword",
                 typeof(string),
                 typeof(PasswordBindingCommon),
-                new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnBoundPasswordChanged));
+                new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, HandleBoundPasswordChanged));
 
         // WPF resolves an attached property from XAML through static Get and Set accessors, so these cannot be a property.
         public static string GetBoundPassword(DependencyObject element)
@@ -26,23 +26,23 @@ namespace GinRummy.Client.Controls
             element.SetValue(BoundPasswordProperty, value);
         }
 
-        private static void OnBoundPasswordChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
+        private static void HandleBoundPasswordChanged(DependencyObject element, DependencyPropertyChangedEventArgs e)
         {
             PasswordBox passwordField = element as PasswordBox;
             if (passwordField != null)
             {
-                passwordField.PasswordChanged -= OnPasswordChanged;
+                passwordField.PasswordChanged -= HandlePasswordChanged;
                 string password = (e.NewValue as string) ?? string.Empty;
                 if (passwordField.Password != password)
                 {
                     passwordField.Password = password;
                 }
 
-                passwordField.PasswordChanged += OnPasswordChanged;
+                passwordField.PasswordChanged += HandlePasswordChanged;
             }
         }
 
-        private static void OnPasswordChanged(object sender, RoutedEventArgs e)
+        private static void HandlePasswordChanged(object sender, RoutedEventArgs e)
         {
             PasswordBox passwordField = (PasswordBox)sender;
             SetBoundPassword(passwordField, passwordField.Password);

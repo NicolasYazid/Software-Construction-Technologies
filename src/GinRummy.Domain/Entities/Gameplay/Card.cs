@@ -32,7 +32,7 @@ namespace GinRummy.Domain
             bool isEqual = false;
             if (obj is Card card)
             {
-                isEqual = (Suit == card.Suit) && (Rank == card.Rank);
+                isEqual = (Suit == card.Suit) && (Rank == card.Rank) ? true : false;
             }
 
             return isEqual;

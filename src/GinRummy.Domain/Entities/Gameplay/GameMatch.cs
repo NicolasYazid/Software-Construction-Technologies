@@ -5,6 +5,8 @@ namespace GinRummy.Domain
 {
     public class GameMatch
     {
+        private const int MinimumScore = 0;
+
         private readonly Dictionary<int, int> _scoresByPlayerId;
         private bool _isCurrentRoundScored;
 
@@ -12,6 +14,21 @@ namespace GinRummy.Domain
         {
             CurrentRound = firstRound ?? throw new ArgumentNullException(nameof(firstRound));
             _scoresByPlayerId = new Dictionary<int, int> { { firstRound.DealerId, 0 }, { firstRound.NonDealerId, 0 } };
+        }
+
+        public GameMatch(GameRound firstRound, IDictionary<int, int> scoresByPlayerId)
+        {
+            CurrentRound = firstRound ?? throw new ArgumentNullException(nameof(firstRound));
+            if (scoresByPlayerId == null)
+            {
+                throw new ArgumentNullException(nameof(scoresByPlayerId));
+            }
+
+            _scoresByPlayerId = new Dictionary<int, int>
+            {
+                { firstRound.DealerId, FindResumedScore(scoresByPlayerId, firstRound.DealerId) },
+                { firstRound.NonDealerId, FindResumedScore(scoresByPlayerId, firstRound.NonDealerId) }
+            };
         }
 
         public GameRound CurrentRound { get; private set; }
@@ -63,6 +80,19 @@ namespace GinRummy.Domain
 
             CurrentRound = new GameRound(CurrentRound.NonDealerId, CurrentRound.DealerId, shuffledDeck);
             _isCurrentRoundScored = false;
+        }
+
+        private static int FindResumedScore(IDictionary<int, int> scoresByPlayerId, int playerId)
+        {
+            int score;
+            bool isFound = scoresByPlayerId.TryGetValue(playerId, out score);
+            bool isBelowTarget = (score >= MinimumScore) && (score < RoundRules.TargetScore) ? true : false;
+            if (!isFound || !isBelowTarget)
+            {
+                throw new ArgumentException("A resumed match needs a score below the target for each player.", nameof(scoresByPlayerId));
+            }
+
+            return score;
         }
     }
 }

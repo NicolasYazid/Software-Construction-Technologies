@@ -12,7 +12,7 @@ namespace GinRummy.Client.Views
             InitializeComponent();
         }
 
-        private void OnLogInClick(object sender, RoutedEventArgs e)
+        private void HandleLogInClick(object sender, RoutedEventArgs e)
         {
             NavigateTo(new GuiLogIn());
         }

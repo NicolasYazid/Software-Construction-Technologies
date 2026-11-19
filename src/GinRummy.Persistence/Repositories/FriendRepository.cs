@@ -124,14 +124,16 @@ namespace GinRummy.Persistence.Repositories
             return _context.FriendShips
                 .Include(friendShip => friendShip.LowerPlayerAccount.PlayerProfile)
                 .Include(friendShip => friendShip.HigherPlayerAccount.PlayerProfile)
-                .Where(friendShip => (friendShip.LowerPlayerAccountId == playerAccountId) || (friendShip.HigherPlayerAccountId == playerAccountId))
+                .Where(friendShip => (friendShip.LowerPlayerAccountId == playerAccountId)
+                    || (friendShip.HigherPlayerAccountId == playerAccountId))
                 .ToList();
         }
 
         public int CountFriendShipsOf(int playerAccountId)
         {
             return _context.FriendShips
-                .Count(friendShip => (friendShip.LowerPlayerAccountId == playerAccountId) || (friendShip.HigherPlayerAccountId == playerAccountId));
+                .Count(friendShip => (friendShip.LowerPlayerAccountId == playerAccountId)
+                    || (friendShip.HigherPlayerAccountId == playerAccountId));
         }
 
         /// <summary>

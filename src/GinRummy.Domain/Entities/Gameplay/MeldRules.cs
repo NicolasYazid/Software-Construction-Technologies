@@ -11,9 +11,10 @@ namespace GinRummy.Domain
         public static bool IsValidMeld(IList<Card> cards)
         {
             bool isValid = false;
-            if ((cards != null) && (cards.Count >= MinMeldSize) && (cards.Distinct().Count() == cards.Count))
+            bool hasMeldSize = (cards != null) && (cards.Count >= MinMeldSize) ? true : false;
+            if (hasMeldSize && (cards.Distinct().Count() == cards.Count))
             {
-                isValid = IsSet(cards) || IsRun(cards);
+                isValid = IsSet(cards) || IsRun(cards) ? true : false;
             }
 
             return isValid;
@@ -30,7 +31,7 @@ namespace GinRummy.Domain
         {
             int firstRank = cards[0].Rank;
 
-            return (cards.Count <= MaxSetSize) && cards.All(card => card.Rank == firstRank);
+            return (cards.Count <= MaxSetSize) && cards.All(card => card.Rank == firstRank) ? true : false;
         }
 
         private static bool IsRun(IList<Card> cards)
@@ -39,7 +40,7 @@ namespace GinRummy.Domain
             bool isSameSuit = cards.All(card => card.Suit == firstSuit);
             int rankSpan = cards.Max(card => card.Rank) - cards.Min(card => card.Rank);
 
-            return isSameSuit && (rankSpan == (cards.Count - 1));
+            return isSameSuit && (rankSpan == (cards.Count - 1)) ? true : false;
         }
     }
 }

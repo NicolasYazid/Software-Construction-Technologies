@@ -84,7 +84,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool IsPlayer
         {
-            get { return !_profile.IsGuest; }
+            get { return !_profile.IsGuest ? true : false; }
         }
 
         public bool IsOwnProfile
@@ -94,17 +94,17 @@ namespace GinRummy.Client.ViewModels
 
         public bool HasSocialLinks
         {
-            get { return IsPlayer && (_profile.SocialLinks.Count > 0); }
+            get { return IsPlayer && (_profile.SocialLinks.Count > 0) ? true : false; }
         }
 
         public bool HasMatches
         {
-            get { return IsPlayer && (_profile.MatchesPlayed > 0); }
+            get { return IsPlayer && (_profile.MatchesPlayed > 0) ? true : false; }
         }
 
         public bool HasNoMatchesYet
         {
-            get { return IsPlayer && (_profile.MatchesPlayed == 0); }
+            get { return IsPlayer && (_profile.MatchesPlayed == 0) ? true : false; }
         }
 
         // A guest has no profile on the server, so only the profile of a registered player is read from it (CU-27 FA-04).
@@ -121,8 +121,8 @@ namespace GinRummy.Client.ViewModels
         {
             Uri address;
             bool isAbsolute = Uri.TryCreate(link.Url, UriKind.Absolute, out address);
-            bool isWebAddress = isAbsolute
-                && ((address.Scheme == Uri.UriSchemeHttp) || (address.Scheme == Uri.UriSchemeHttps));
+            string scheme = isAbsolute ? address.Scheme : string.Empty;
+            bool isWebAddress = (scheme == Uri.UriSchemeHttp) || (scheme == Uri.UriSchemeHttps) ? true : false;
             if (!isWebAddress)
             {
                 _logger.LogWarning("The social link of {PublicTag} was not opened because it is not a web address.", _profile.PublicTag);
@@ -144,7 +144,7 @@ namespace GinRummy.Client.ViewModels
         // The lobby keeps the own profile too, so its avatar is told the same way when the profile screen closes.
         public void RefreshProfile()
         {
-            RaisePropertyChanged(string.Empty);
+            OnPropertyChanged(string.Empty);
         }
 
         private void ReadProfileFromServer(string accessToken)
@@ -172,19 +172,19 @@ namespace GinRummy.Client.ViewModels
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The server could not read the profile of player {PublicTag}.", _profile.PublicTag);
-                NotifyProfileUnavailable(ErrorDialogKind.ServiceUnavailable);
+                OnProfileUnavailable(ErrorDialogKind.ServiceUnavailable);
             }
             catch (CommunicationException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The profile service could not be reached to read a profile.");
-                NotifyProfileUnavailable(ErrorDialogKind.ConnectionLost);
+                OnProfileUnavailable(ErrorDialogKind.ConnectionLost);
             }
             catch (TimeoutException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The profile service timed out while reading a profile.");
-                NotifyProfileUnavailable(ErrorDialogKind.ConnectionLost);
+                OnProfileUnavailable(ErrorDialogKind.ConnectionLost);
             }
         }
 
@@ -199,7 +199,7 @@ namespace GinRummy.Client.ViewModels
             _profile.MatchesPlayed = details.MatchesPlayed;
             _profile.WinRate = details.WinRate;
             _profile.Score = details.Score;
-            RaisePropertyChanged(string.Empty);
+            OnPropertyChanged(string.Empty);
         }
 
         private void NotifyRefusal(ServiceFaultCode code)
@@ -215,10 +215,10 @@ namespace GinRummy.Client.ViewModels
                 _profile.IsRemoved = true;
             }
 
-            NotifyProfileUnavailable(kind);
+            OnProfileUnavailable(kind);
         }
 
-        private void NotifyProfileUnavailable(ErrorDialogKind kind)
+        private void OnProfileUnavailable(ErrorDialogKind kind)
         {
             ProfileUnavailable?.Invoke(this, kind);
         }

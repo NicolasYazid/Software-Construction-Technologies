@@ -16,15 +16,15 @@ namespace GinRummy.Client.Effects
         public static readonly DependencyProperty InputProperty =
             RegisterPixelShaderSamplerProperty(nameof(Input), typeof(CardTiltEffect), 0, SamplingMode.NearestNeighbor);
 
-        private static readonly DependencyProperty _rowXProperty = RegisterConstant("RowX", 0);
-        private static readonly DependencyProperty _rowYProperty = RegisterConstant("RowY", 1);
-        private static readonly DependencyProperty _rowZProperty = RegisterConstant("RowZ", 2);
-        private static readonly DependencyProperty _hostScaleProperty = RegisterConstant("HostScale", 3);
-        private static readonly PixelShader _shader = CreateShader();
+        private static readonly DependencyProperty s_rowXProperty = RegisterConstant("RowX", 0);
+        private static readonly DependencyProperty s_rowYProperty = RegisterConstant("RowY", 1);
+        private static readonly DependencyProperty s_rowZProperty = RegisterConstant("RowZ", 2);
+        private static readonly DependencyProperty s_hostScaleProperty = RegisterConstant("HostScale", 3);
+        private static readonly PixelShader s_shader = CreateShader();
 
         public CardTiltEffect()
         {
-            PixelShader = _shader;
+            PixelShader = s_shader;
             UpdateShaderValue(InputProperty);
             Turn(0, 0);
         }
@@ -40,7 +40,7 @@ namespace GinRummy.Client.Effects
             double growth = 1 + GetHalfFieldTangent();
             double horizontalRatio = hostSize.Width / cardSize.Width;
             double verticalRatio = hostSize.Height / cardSize.Height;
-            SetValue(_hostScaleProperty, new Point4D(
+            SetValue(s_hostScaleProperty, new Point4D(
                 horizontalRatio / growth,
                 verticalRatio / growth,
                 1 / horizontalRatio,
@@ -55,9 +55,9 @@ namespace GinRummy.Client.Effects
             double cosY = Math.Cos(ToRadians(angleYDegrees));
             double cameraDistance = Half / GetHalfFieldTangent();
             double cardDistance = cameraDistance + Half;
-            SetValue(_rowXProperty, new Point4D(cosY, sinY * sinX, sinY * cosX, cameraDistance));
-            SetValue(_rowYProperty, new Point4D(0, cosX, -sinX, cardDistance));
-            SetValue(_rowZProperty, new Point4D(-sinY, cosY * sinX, cosY * cosX, 0));
+            SetValue(s_rowXProperty, new Point4D(cosY, sinY * sinX, sinY * cosX, cameraDistance));
+            SetValue(s_rowYProperty, new Point4D(0, cosX, -sinX, cardDistance));
+            SetValue(s_rowZProperty, new Point4D(-sinY, cosY * sinX, cosY * cosX, 0));
         }
 
         private static DependencyProperty RegisterConstant(string name, int register)

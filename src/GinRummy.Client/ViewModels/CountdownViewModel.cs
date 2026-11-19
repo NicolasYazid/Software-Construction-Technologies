@@ -18,7 +18,7 @@ namespace GinRummy.Client.ViewModels
             _remainingTime = duration;
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromSeconds(StepSeconds);
-            _timer.Tick += OnTimerTick;
+            _timer.Tick += HandleTimerTick;
         }
 
         public TimeSpan RemainingTime
@@ -27,7 +27,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _remainingTime = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -47,7 +47,7 @@ namespace GinRummy.Client.ViewModels
             _timer.Stop();
         }
 
-        private void OnTimerTick(object sender, EventArgs e)
+        private void HandleTimerTick(object sender, EventArgs e)
         {
             TimeSpan remainingTime = _remainingTime.Subtract(_timer.Interval);
             if (remainingTime <= TimeSpan.Zero)

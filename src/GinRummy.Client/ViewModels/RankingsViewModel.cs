@@ -59,7 +59,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _searchText = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
                 ShowMatchingRankings();
             }
         }
@@ -70,7 +70,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _hasNoMatches = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -80,7 +80,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _isFriendsTabSelected = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
                 ShowSelectedLeaderboard();
             }
         }
@@ -91,7 +91,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _hasNoFriends = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -179,17 +179,23 @@ namespace GinRummy.Client.ViewModels
                 Rankings.Add(ranking);
             }
 
-            HasNoMatches = (_allRankings.Count > 0) && (Rankings.Count == 0);
-            HasNoFriends = _isFriendsTabSelected
-                && (_friendRankings.Count == OwnEntryOnly)
-                && (Rankings.Count == OwnEntryOnly);
+            HasNoMatches = (_allRankings.Count > 0) && (Rankings.Count == 0) ? true : false;
+            bool isOwnEntryAlone = (_friendRankings.Count == OwnEntryOnly) && (Rankings.Count == OwnEntryOnly) ? true : false;
+            HasNoFriends = _isFriendsTabSelected && isOwnEntryAlone ? true : false;
         }
 
         private bool IsSearchMatch(PlayerRanking ranking)
         {
-            bool isMatch = string.IsNullOrWhiteSpace(_searchText)
-                || ((ranking.Username != null)
-                    && (ranking.Username.IndexOf(_searchText.Trim(), StringComparison.OrdinalIgnoreCase) >= 0));
+            bool isMatch = string.IsNullOrWhiteSpace(_searchText) || IsUsernameMatch(ranking.Username) ? true : false;
+            return isMatch;
+        }
+
+        private bool IsUsernameMatch(string username)
+        {
+            bool isMatch = (username != null)
+                && (username.IndexOf(_searchText.Trim(), StringComparison.OrdinalIgnoreCase) >= 0)
+                ? true
+                : false;
             return isMatch;
         }
 

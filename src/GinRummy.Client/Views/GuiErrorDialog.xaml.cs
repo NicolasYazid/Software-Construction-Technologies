@@ -19,13 +19,13 @@ namespace GinRummy.Client.Views
 
         public bool IsActionChosen { get; private set; }
 
-        private void OnActionClick(object sender, RoutedEventArgs e)
+        private void HandleActionClick(object sender, RoutedEventArgs e)
         {
             IsActionChosen = true;
             Close();
         }
 
-        private void OnCloseClick(object sender, RoutedEventArgs e)
+        private void HandleCloseClick(object sender, RoutedEventArgs e)
         {
             Close();
         }

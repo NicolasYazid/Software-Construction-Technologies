@@ -28,46 +28,46 @@ namespace GinRummy.Domain
         private static List<List<Card>> FindCandidateMelds(IList<Card> cards)
         {
             List<List<Card>> candidates = new List<List<Card>>();
-            foreach (IGrouping<int, Card> sameRank in cards.GroupBy(card => card.Rank))
+            foreach (IGrouping<int, Card> sameRankCards in cards.GroupBy(card => card.Rank))
             {
-                AddSets(candidates, sameRank.ToList());
+                AddSets(candidates, sameRankCards.ToList());
             }
 
-            foreach (IGrouping<CardSuit, Card> sameSuit in cards.GroupBy(card => card.Suit))
+            foreach (IGrouping<CardSuit, Card> sameSuitCards in cards.GroupBy(card => card.Suit))
             {
-                AddRuns(candidates, sameSuit.OrderBy(card => card.Rank).ToList());
+                AddRuns(candidates, sameSuitCards.OrderBy(card => card.Rank).ToList());
             }
 
             return candidates;
         }
 
-        private static void AddSets(List<List<Card>> candidates, List<Card> sameRank)
+        private static void AddSets(List<List<Card>> candidates, List<Card> sameRankCards)
         {
-            if (sameRank.Count >= MinMeldSize)
+            if (sameRankCards.Count >= MinMeldSize)
             {
-                candidates.Add(sameRank);
+                candidates.Add(sameRankCards);
             }
 
-            if (sameRank.Count > MinMeldSize)
+            if (sameRankCards.Count > MinMeldSize)
             {
-                foreach (Card leftOutCard in sameRank)
+                foreach (Card leftOutCard in sameRankCards)
                 {
-                    candidates.Add(sameRank.Where(card => !card.Equals(leftOutCard)).ToList());
+                    candidates.Add(sameRankCards.Where(card => !card.Equals(leftOutCard)).ToList());
                 }
             }
         }
 
-        private static void AddRuns(List<List<Card>> candidates, List<Card> sameSuit)
+        private static void AddRuns(List<List<Card>> candidates, List<Card> sameSuitCards)
         {
-            for (int firstIndex = 0; firstIndex < sameSuit.Count; firstIndex++)
+            for (int firstIndex = 0; firstIndex < sameSuitCards.Count; firstIndex++)
             {
                 int lastIndex = firstIndex;
-                while ((lastIndex + 1 < sameSuit.Count) && (sameSuit[lastIndex + 1].Rank == sameSuit[lastIndex].Rank + 1))
+                while ((lastIndex + 1 < sameSuitCards.Count) && (sameSuitCards[lastIndex + 1].Rank == sameSuitCards[lastIndex].Rank + 1))
                 {
                     lastIndex++;
                     if (lastIndex - firstIndex + 1 >= MinMeldSize)
                     {
-                        candidates.Add(sameSuit.GetRange(firstIndex, lastIndex - firstIndex + 1));
+                        candidates.Add(sameSuitCards.GetRange(firstIndex, lastIndex - firstIndex + 1));
                     }
                 }
             }
@@ -79,13 +79,13 @@ namespace GinRummy.Domain
             int bestPoints = 0;
             for (int index = firstIndex; index < candidates.Count; index++)
             {
-                List<Card> candidate = candidates[index];
-                if (!candidate.Any(usedCards.Contains))
+                List<Card> candidateMeld = candidates[index];
+                if (!candidateMeld.Any(usedCards.Contains))
                 {
-                    usedCards.UnionWith(candidate);
+                    usedCards.UnionWith(candidateMeld);
                     List<IList<Card>> melds = FindBestCombination(candidates, index + 1, usedCards);
-                    usedCards.ExceptWith(candidate);
-                    melds.Insert(0, candidate);
+                    usedCards.ExceptWith(candidateMeld);
+                    melds.Insert(0, candidateMeld);
                     int points = CountPoints(melds);
                     if (points > bestPoints)
                     {

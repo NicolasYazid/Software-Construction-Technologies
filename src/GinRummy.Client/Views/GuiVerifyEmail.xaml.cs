@@ -31,14 +31,14 @@ namespace GinRummy.Client.Views
         {
             InitializeComponent();
             _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
-            _viewModel.CodeVerified += OnCodeVerified;
-            _viewModel.ErrorDialogRequested += OnErrorDialogRequested;
+            _viewModel.CodeVerified += HandleCodeVerified;
+            _viewModel.ErrorDialogRequested += HandleErrorDialogRequested;
 
             DataContext = _viewModel;
-            Closed += OnScreenClosed;
+            Closed += HandleScreenClosed;
         }
 
-        private void OnCodeVerified(object sender, EventArgs e)
+        private void HandleCodeVerified(object sender, EventArgs e)
         {
             if (_viewModel.Purpose == VerificationPurpose.PasswordRecovery)
             {
@@ -54,28 +54,28 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnErrorDialogRequested(object sender, ErrorDialogKind kind)
+        private void HandleErrorDialogRequested(object sender, ErrorDialogKind kind)
         {
             ShowModal(new GuiErrorDialog(kind));
         }
 
-        private void OnLogInClick(object sender, RoutedEventArgs e)
+        private void HandleLogInClick(object sender, RoutedEventArgs e)
         {
             NavigateTo(new GuiLogIn());
         }
 
-        private void OnVerifyLaterClick(object sender, RoutedEventArgs e)
+        private void HandleVerifyLaterClick(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        private void OnScreenClosed(object sender, EventArgs e)
+        private void HandleScreenClosed(object sender, EventArgs e)
         {
             _viewModel.StopCountdowns();
-            _viewModel.CodeVerified -= OnCodeVerified;
-            _viewModel.ErrorDialogRequested -= OnErrorDialogRequested;
+            _viewModel.CodeVerified -= HandleCodeVerified;
+            _viewModel.ErrorDialogRequested -= HandleErrorDialogRequested;
 
-            Closed -= OnScreenClosed;
+            Closed -= HandleScreenClosed;
         }
     }
 }

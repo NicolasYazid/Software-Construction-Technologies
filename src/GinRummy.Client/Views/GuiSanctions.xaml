@@ -11,7 +11,7 @@
             <StackPanel>
 
                 <DockPanel Margin="32,22,22,18">
-                    <Button DockPanel.Dock="Right" Style="{StaticResource StyDialogCloseButton}" Click="OnCloseClick">
+                    <Button DockPanel.Dock="Right" Style="{StaticResource StyDialogCloseButton}" Click="HandleCloseClick">
                         <Image Source="{StaticResource IcoClose}" Width="24" Height="24" />
                     </Button>
                     <TextBlock x:Name="lblTitle" Style="{StaticResource StyPanelTitle}"
@@ -19,7 +19,7 @@
                                       Converter={StaticResource CnvUpperCase}}" />
                 </DockPanel>
 
-                <TabControl Style="{StaticResource StyPanelTabs}" SelectionChanged="OnTabSelectionChanged">
+                <TabControl Style="{StaticResource StyPanelTabs}" SelectionChanged="HandleTabSelectionChanged">
                     <TabItem x:Name="tabFriendRequests"
                              Header="{Binding [Notifications_TabFriendRequests], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}" />

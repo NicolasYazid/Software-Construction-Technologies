@@ -144,11 +144,15 @@ namespace GinRummy.Services.Services.Authentication
         {
             if (result.IsVerificationCodeSent)
             {
-                _logger.LogInformation("Player {PlayerAccountId} created an account and was emailed its code.", result.Account.PlayerAccountId);
+                _logger.LogInformation(
+                    "Player {PlayerAccountId} created an account and was emailed its code.",
+                    result.Account.PlayerAccountId);
             }
             else
             {
-                _logger.LogError("Player {PlayerAccountId} created an account, but its code could not be emailed.", result.Account.PlayerAccountId);
+                _logger.LogError(
+                    "Player {PlayerAccountId} created an account, but its code could not be emailed.",
+                    result.Account.PlayerAccountId);
             }
         }
     }

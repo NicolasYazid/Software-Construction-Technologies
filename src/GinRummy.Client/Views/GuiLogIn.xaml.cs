@@ -20,31 +20,31 @@ namespace GinRummy.Client.Views
         {
             InitializeComponent();
             _viewModel = ((App)Application.Current).CreateLogInViewModel();
-            _viewModel.SignedIn += OnSignedIn;
-            _viewModel.TwoFactorRequired += OnTwoFactorRequired;
-            _viewModel.AccountRestricted += OnAccountRestricted;
-            _viewModel.ConnectionFailed += OnConnectionFailed;
+            _viewModel.SignedIn += HandleSignedIn;
+            _viewModel.TwoFactorRequired += HandleTwoFactorRequired;
+            _viewModel.AccountRestricted += HandleAccountRestricted;
+            _viewModel.ConnectionFailed += HandleConnectionFailed;
             DataContext = _viewModel;
-            Closed += OnScreenClosed;
+            Closed += HandleScreenClosed;
         }
 
-        private void OnTogglePasswordClick(object sender, RoutedEventArgs e)
+        private void HandleTogglePasswordClick(object sender, RoutedEventArgs e)
         {
-            PasswordRevealCommon.Toggle(pwdPassword, txtPasswordShown);
+            PasswordRevealCommon.SwapVisibleField(pwdPassword, txtPasswordShown);
         }
 
-        private void OnForgotPasswordClick(object sender, RoutedEventArgs e)
+        private void HandleForgotPasswordClick(object sender, RoutedEventArgs e)
         {
             NavigateTo(new GuiRecoverPassword());
         }
 
-        private void OnCreateAccountClick(object sender, RoutedEventArgs e)
+        private void HandleCreateAccountClick(object sender, RoutedEventArgs e)
         {
             NavigateTo(new GuiSignUp());
         }
 
         // The account was created earlier, so its code may have expired; a new one is asked for once the screen is open (CU-02 EX-03).
-        private void OnResendCodeClick(object sender, RoutedEventArgs e)
+        private void HandleResendCodeClick(object sender, RoutedEventArgs e)
         {
             SignUpVerifyEmailViewModel verifyEmailViewModel =
                 ((App)Application.Current).CreateSignUpVerifyEmailViewModel(_viewModel.Email);
@@ -52,47 +52,47 @@ namespace GinRummy.Client.Views
             verifyEmailViewModel.ResendCodeCommand.Execute(null);
         }
 
-        private void OnSignedIn(object sender, LogInOutcome signedInPlayer)
+        private void HandleSignedIn(object sender, LogInOutcome signedInPlayer)
         {
             ((App)Application.Current).StoreSignedInPlayer(signedInPlayer);
             EnterLobby(new GuiLobbyChat());
         }
 
-        private void OnTwoFactorRequired(object sender, LogInCredentials credentials)
+        private void HandleTwoFactorRequired(object sender, LogInCredentials credentials)
         {
             TwoStepLogInViewModel twoStepViewModel = ((App)Application.Current).CreateTwoStepLogInViewModel(credentials);
             NavigateTo(new GuiTwoStep(twoStepViewModel));
         }
 
-        private void OnAccountRestricted(object sender, AccountRestriction restriction)
+        private void HandleAccountRestricted(object sender, AccountRestriction restriction)
         {
             NavigateTo(AccountRestrictionScreenCommon.CreateScreen(restriction));
         }
 
-        private void OnConnectionFailed(object sender, ErrorDialogKind kind)
+        private void HandleConnectionFailed(object sender, ErrorDialogKind kind)
         {
             GuiErrorDialog errorDialog = new GuiErrorDialog(kind);
-            errorDialog.Closed += OnErrorDialogClosed;
+            errorDialog.Closed += HandleErrorDialogClosed;
             ShowModal(errorDialog);
         }
 
-        private void OnErrorDialogClosed(object sender, EventArgs e)
+        private void HandleErrorDialogClosed(object sender, EventArgs e)
         {
             GuiErrorDialog errorDialog = (GuiErrorDialog)sender;
-            errorDialog.Closed -= OnErrorDialogClosed;
+            errorDialog.Closed -= HandleErrorDialogClosed;
             if (errorDialog.IsActionChosen)
             {
                 _viewModel.LogInCommand.Execute(null);
             }
         }
 
-        private void OnScreenClosed(object sender, EventArgs e)
+        private void HandleScreenClosed(object sender, EventArgs e)
         {
-            _viewModel.SignedIn -= OnSignedIn;
-            _viewModel.TwoFactorRequired -= OnTwoFactorRequired;
-            _viewModel.AccountRestricted -= OnAccountRestricted;
-            _viewModel.ConnectionFailed -= OnConnectionFailed;
-            Closed -= OnScreenClosed;
+            _viewModel.SignedIn -= HandleSignedIn;
+            _viewModel.TwoFactorRequired -= HandleTwoFactorRequired;
+            _viewModel.AccountRestricted -= HandleAccountRestricted;
+            _viewModel.ConnectionFailed -= HandleConnectionFailed;
+            Closed -= HandleScreenClosed;
         }
     }
 }

@@ -68,7 +68,7 @@ namespace GinRummy.Application.UseCases.PlayerCustomization
         {
             int playerAccountId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
             string fileExtension = ProfilePictureCommon.FindFileExtension(picture);
-            bool isAccepted = fileExtension != null;
+            bool isAccepted = fileExtension != null ? true : false;
             if (isAccepted)
             {
                 string storedPath = _pictureStorage.Save(playerAccountId, picture, fileExtension);
@@ -134,7 +134,7 @@ namespace GinRummy.Application.UseCases.PlayerCustomization
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
                 Locale locale = unitOfWork.Locales.FindByCode(localeCode);
-                isSupported = locale != null;
+                isSupported = locale != null ? true : false;
                 if (isSupported)
                 {
                     unitOfWork.PlayerPreferences.FindById(playerAccountId).ChangeLocale(locale.LocaleId);

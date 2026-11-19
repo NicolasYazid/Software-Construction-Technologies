@@ -30,7 +30,7 @@
                         Width="200" HorizontalAlignment="Left"
                         Content="{Binding [Shared_BtnClose], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
-                        Click="OnCloseClick" />
+                        Click="HandleCloseClick" />
             </Grid>
         </Border>
     </Grid>

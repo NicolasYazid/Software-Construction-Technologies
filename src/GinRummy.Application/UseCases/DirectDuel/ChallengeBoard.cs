@@ -125,7 +125,7 @@ namespace GinRummy.Application.UseCases.DirectDuel
 
         private static bool IsReverseOf(PendingChallenge pending, PendingChallenge challenge)
         {
-            return (pending.Challenger.Id == challenge.Challenged.Id) && (pending.Challenged.Id == challenge.Challenger.Id);
+            return (pending.Challenger.Id == challenge.Challenged.Id) && (pending.Challenged.Id == challenge.Challenger.Id) ? true : false;
         }
 
         private ChallengeOutcome CheckPlayersFree(PendingChallenge challenge)

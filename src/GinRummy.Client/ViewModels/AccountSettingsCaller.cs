@@ -15,7 +15,7 @@ namespace GinRummy.Client.ViewModels
         private const string ResendLimitReachedKey = "Error_AuthResendLimitReached";
         private const string ServiceUnavailableKey = "Error_SysServiceUnavailable";
 
-        private static readonly Dictionary<ServiceFaultCode, string> _messageKeys = new Dictionary<ServiceFaultCode, string>
+        private static readonly Dictionary<ServiceFaultCode, string> s_messageKeys = new Dictionary<ServiceFaultCode, string>
         {
             { ServiceFaultCode.RequiredField, "Error_ValRequiredField" },
             { ServiceFaultCode.DisallowedCharacters, "Error_ValDisallowedCharacters" },
@@ -51,7 +51,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool HasSession
         {
-            get { return !string.IsNullOrEmpty(_accessToken); }
+            get { return !string.IsNullOrEmpty(_accessToken) ? true : false; }
         }
 
         public ServiceFaultCode? FaultCode { get; private set; }
@@ -126,7 +126,7 @@ namespace GinRummy.Client.ViewModels
             else
             {
                 string messageKey;
-                ErrorMessageKey = _messageKeys.TryGetValue(code, out messageKey) ? messageKey : ServiceUnavailableKey;
+                ErrorMessageKey = s_messageKeys.TryGetValue(code, out messageKey) ? messageKey : ServiceUnavailableKey;
             }
         }
     }

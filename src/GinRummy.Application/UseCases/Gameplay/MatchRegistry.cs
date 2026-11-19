@@ -26,18 +26,15 @@ namespace GinRummy.Application.UseCases.Gameplay
         public ActiveMatch Start(DuelPlayer dealer, DuelPlayer nonDealer)
         {
             GameRound firstRound = new GameRound(dealer.Id, nonDealer.Id, ShuffleDeck());
-            ActiveMatch activeMatch = new ActiveMatch(new GameMatch(firstRound), dealer, nonDealer);
-            lock (_syncRoot)
-            {
-                _matchesByPlayerId[dealer.Id] = activeMatch;
-                _matchesByPlayerId[nonDealer.Id] = activeMatch;
-                _playerIdsWithPendingVictory.Remove(dealer.Id);
-                _playerIdsWithPendingVictory.Remove(nonDealer.Id);
-            }
 
-            MatchStarted?.Invoke(this, activeMatch);
+            return Register(new ActiveMatch(new GameMatch(firstRound), dealer, nonDealer));
+        }
 
-            return activeMatch;
+        public void Resume(MatchSnapshot snapshot)
+        {
+            GameRound firstRound = new GameRound(snapshot.Dealer.Id, snapshot.NonDealer.Id, ShuffleDeck());
+            GameMatch resumedMatch = new GameMatch(firstRound, snapshot.ScoresByPlayerId);
+            Register(new ActiveMatch(resumedMatch, snapshot.Dealer, snapshot.NonDealer));
         }
 
         public void DealNextRound(ActiveMatch activeMatch)
@@ -58,7 +55,7 @@ namespace GinRummy.Application.UseCases.Gameplay
 
         public bool IsPlaying(int playerId)
         {
-            return Find(playerId) != null;
+            return Find(playerId) != null ? true : false;
         }
 
         public bool Remove(ActiveMatch activeMatch)
@@ -95,6 +92,22 @@ namespace GinRummy.Application.UseCases.Gameplay
             }
 
             return hadPendingVictory;
+        }
+
+        private ActiveMatch Register(ActiveMatch activeMatch)
+        {
+            lock (_syncRoot)
+            {
+                foreach (DuelPlayer player in activeMatch.Players)
+                {
+                    _matchesByPlayerId[player.Id] = activeMatch;
+                    _playerIdsWithPendingVictory.Remove(player.Id);
+                }
+            }
+
+            MatchStarted?.Invoke(this, activeMatch);
+
+            return activeMatch;
         }
 
         private IList<Card> ShuffleDeck()

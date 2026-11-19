@@ -20,9 +20,13 @@ namespace GinRummy.Persistence.Configurations
             Property(friendShip => friendShip.FriendShipId).HasColumnName("friend_ship_id");
             Property(friendShip => friendShip.LowerPlayerAccountId).HasColumnName("player_a_id");
             Property(friendShip => friendShip.HigherPlayerAccountId).HasColumnName("player_b_id");
-            HasRequired(friendShip => friendShip.LowerPlayerAccount).WithMany().HasForeignKey(friendShip => friendShip.LowerPlayerAccountId)
+            HasRequired(friendShip => friendShip.LowerPlayerAccount)
+                .WithMany()
+                .HasForeignKey(friendShip => friendShip.LowerPlayerAccountId)
                 .WillCascadeOnDelete(false);
-            HasRequired(friendShip => friendShip.HigherPlayerAccount).WithMany().HasForeignKey(friendShip => friendShip.HigherPlayerAccountId)
+            HasRequired(friendShip => friendShip.HigherPlayerAccount)
+                .WithMany()
+                .HasForeignKey(friendShip => friendShip.HigherPlayerAccountId)
                 .WillCascadeOnDelete(false);
         }
     }

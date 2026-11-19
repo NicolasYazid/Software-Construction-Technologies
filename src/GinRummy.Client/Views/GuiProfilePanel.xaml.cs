@@ -30,26 +30,26 @@ namespace GinRummy.Client.Views
         {
             InitializeComponent();
             _viewModel = ((App)Application.Current).CreateProfilePanelViewModel();
-            _viewModel.EmailVerificationRequested += OnEmailVerificationRequested;
-            _viewModel.TwoStepEnableRequested += OnTwoStepEnableRequested;
-            _viewModel.TwoStepDisableRequested += OnTwoStepDisableRequested;
-            _viewModel.ErrorDialogRequested += OnErrorDialogRequested;
-            _viewModel.ChatFilterChanged += OnChatFilterChanged;
+            _viewModel.EmailVerificationRequested += HandleEmailVerificationRequested;
+            _viewModel.TwoStepEnableRequested += HandleTwoStepEnableRequested;
+            _viewModel.TwoStepDisableRequested += HandleTwoStepDisableRequested;
+            _viewModel.ErrorDialogRequested += HandleErrorDialogRequested;
+            _viewModel.ChatFilterChanged += HandleChatFilterChanged;
             DataContext = _viewModel;
             grdAvatar.DataContext = ownProfile;
             pwdPassword.Password = new string(PasswordMaskFiller, PasswordMaskLength);
-            txtNewEmail.IsVisibleChanged += OnNewEmailVisibleChanged;
-            Loaded += OnPanelLoaded;
+            txtNewEmail.IsVisibleChanged += HandleNewEmailVisibleChanged;
+            Loaded += HandlePanelLoaded;
         }
 
         // The settings are read once the panel is on screen, because a failed read opens the error dialog over it.
-        private void OnPanelLoaded(object sender, RoutedEventArgs e)
+        private void HandlePanelLoaded(object sender, RoutedEventArgs e)
         {
-            Loaded -= OnPanelLoaded;
+            Loaded -= HandlePanelLoaded;
             _viewModel.LoadAccountSettings();
         }
 
-        private void OnNewEmailVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void HandleNewEmailVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (txtNewEmail.IsVisible)
             {
@@ -58,62 +58,62 @@ namespace GinRummy.Client.Views
         }
 
         // Only a confirmed code changes the email, so closing the screen without one leaves the panel as it was (CU-07).
-        private void OnEmailVerificationRequested(object sender, EventArgs e)
+        private void HandleEmailVerificationRequested(object sender, EventArgs e)
         {
             VerifyEmailViewModel emailChange = ((App)Application.Current).CreateEmailChangeVerifyEmailViewModel(_viewModel.PendingEmail);
-            emailChange.CodeVerified += OnEmailChangeVerified;
+            emailChange.CodeVerified += HandleEmailChangeVerified;
             ShowModal(new GuiVerifyEmail(emailChange));
         }
 
-        private void OnEmailChangeVerified(object sender, EventArgs e)
+        private void HandleEmailChangeVerified(object sender, EventArgs e)
         {
             _viewModel.CompleteEmailChange();
         }
 
-        private void OnChangePasswordClick(object sender, RoutedEventArgs e)
+        private void HandleChangePasswordClick(object sender, RoutedEventArgs e)
         {
             PasswordChangeViewModel passwordChange = ((App)Application.Current).CreatePasswordChangeViewModel();
-            passwordChange.PasswordUpdated += OnPasswordChangeRequested;
+            passwordChange.PasswordUpdated += HandlePasswordChangeRequested;
             ShowModal(new GuiNewPassword(passwordChange));
         }
 
         // The server already emailed the code when this runs, so the code screen opens while the password screen closes (CU-06).
-        private void OnPasswordChangeRequested(object sender, EventArgs e)
+        private void HandlePasswordChangeRequested(object sender, EventArgs e)
         {
             PasswordChangeViewModel passwordChange = (PasswordChangeViewModel)sender;
             TwoStepViewModel codeCheck = ((App)Application.Current).CreateTwoStepPasswordChangeViewModel(
                 passwordChange.CurrentPassword,
                 passwordChange.NewPassword);
-            codeCheck.CodeVerified += OnPasswordChanged;
+            codeCheck.CodeVerified += HandlePasswordChanged;
             ShowModal(new GuiTwoStep(codeCheck));
         }
 
-        private void OnPasswordChanged(object sender, EventArgs e)
+        private void HandlePasswordChanged(object sender, EventArgs e)
         {
             _viewModel.CompletePasswordChange();
         }
 
         // The panel already asked for the code, so the code screen only confirms it and the panel reads the result again (CU-04).
-        private void OnTwoStepEnableRequested(object sender, EventArgs e)
+        private void HandleTwoStepEnableRequested(object sender, EventArgs e)
         {
             GuiTwoStep twoStep = new GuiTwoStep(((App)Application.Current).CreateTwoStepActivationViewModel());
-            twoStep.Closed += OnTwoStepActivationClosed;
+            twoStep.Closed += HandleTwoStepActivationClosed;
             ShowModal(twoStep);
         }
 
-        private void OnTwoStepActivationClosed(object sender, EventArgs e)
+        private void HandleTwoStepActivationClosed(object sender, EventArgs e)
         {
             _viewModel.CompleteTwoStepEnable();
         }
 
-        private void OnTwoStepDisableRequested(object sender, EventArgs e)
+        private void HandleTwoStepDisableRequested(object sender, EventArgs e)
         {
             GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.TwoStepDisable);
-            confirmDialog.Closed += OnTwoStepDisableConfirmClosed;
+            confirmDialog.Closed += HandleTwoStepDisableConfirmClosed;
             ShowModal(confirmDialog);
         }
 
-        private void OnTwoStepDisableConfirmClosed(object sender, EventArgs e)
+        private void HandleTwoStepDisableConfirmClosed(object sender, EventArgs e)
         {
             GuiConfirmDialog confirmDialog = (GuiConfirmDialog)sender;
             _viewModel.CompleteTwoStepDisable(confirmDialog.IsConfirmed, confirmDialog.EnteredPassword);
@@ -122,10 +122,10 @@ namespace GinRummy.Client.Views
         // The selector applies the language by itself, so only a change made by the player is kept on the server (CU-20).
         // The first selection only shows the active language, and it has no previous item.
         // Without a session the language stays in memory only, because nobody keeps it (CU-20 FA-01).
-        private void OnLanguageSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void HandleLanguageSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             App application = (App)Application.Current;
-            bool isPlayerChange = (e.RemovedItems.Count > 0) && (e.AddedItems.Count > 0);
+            bool isPlayerChange = (e.RemovedItems.Count > 0) && (e.AddedItems.Count > 0) ? true : false;
             if (isPlayerChange && (application.SignedInPlayer != null))
             {
                 string localeCode = ((CultureOption)e.AddedItems[0]).Code;
@@ -134,29 +134,29 @@ namespace GinRummy.Client.Views
         }
 
         // The chat reads the preference of the session, so it follows the change without asking the server again (CU-17 step 10).
-        private void OnChatFilterChanged(object sender, EventArgs e)
+        private void HandleChatFilterChanged(object sender, EventArgs e)
         {
             ((App)Application.Current).SignedInPlayer.IsChatFilterEnabled = _viewModel.IsChatFilterEnabled;
         }
 
-        private void OnErrorDialogRequested(object sender, ErrorDialogKind kind)
+        private void HandleErrorDialogRequested(object sender, ErrorDialogKind kind)
         {
             GuiErrorDialog errorDialog = new GuiErrorDialog(kind);
             if (kind == ErrorDialogKind.SessionExpired)
             {
-                errorDialog.Closed += OnSessionExpiredDialogClosed;
+                errorDialog.Closed += HandleSessionExpiredDialogClosed;
             }
 
             ShowModal(errorDialog);
         }
 
         // An expired session leaves the lobby the same way as closing the session (CU-20 and CU-03).
-        private void OnSessionExpiredDialogClosed(object sender, EventArgs e)
+        private void HandleSessionExpiredDialogClosed(object sender, EventArgs e)
         {
             LeaveLobby();
         }
 
-        private void OnLogOutClick(object sender, RoutedEventArgs e)
+        private void HandleLogOutClick(object sender, RoutedEventArgs e)
         {
             LeaveLobby();
         }

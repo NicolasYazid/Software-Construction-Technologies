@@ -50,13 +50,15 @@ namespace GinRummy.Persistence.Repositories
             PlayerPreferences foundPlayerPreferences;
             if (_sharedContext != null)
             {
-                foundPlayerPreferences = _sharedContext.PlayerPreferences.FirstOrDefault(playerPreferences => playerPreferences.PlayerAccountId == playerAccountId);
+                foundPlayerPreferences = _sharedContext.PlayerPreferences
+                    .FirstOrDefault(playerPreferences => playerPreferences.PlayerAccountId == playerAccountId);
             }
             else
             {
                 using (GinRummyContext context = new GinRummyContext(_connectionStringName))
                 {
-                    foundPlayerPreferences = context.PlayerPreferences.FirstOrDefault(playerPreferences => playerPreferences.PlayerAccountId == playerAccountId);
+                    foundPlayerPreferences = context.PlayerPreferences
+                        .FirstOrDefault(playerPreferences => playerPreferences.PlayerAccountId == playerAccountId);
                 }
             }
 

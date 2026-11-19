@@ -48,7 +48,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _messages = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -58,14 +58,14 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _friend = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(IsOpen));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsOpen));
             }
         }
 
         public bool IsOpen
         {
-            get { return _friend != null; }
+            get { return _friend != null ? true : false; }
         }
 
         public string MessageDraft
@@ -74,7 +74,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _messageDraft = value ?? string.Empty;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -105,7 +105,7 @@ namespace GinRummy.Client.ViewModels
                 OpenConversationChanged?.Invoke(this, EventArgs.Empty);
             }
 
-            bool isFromFriend = message.PublicTag != _signedInPlayer.PublicTag;
+            bool isFromFriend = message.PublicTag != _signedInPlayer.PublicTag ? true : false;
             bool hasNewUnreadMessage = !isConversationOpen && isFromFriend ? true : false;
             if (hasNewUnreadMessage)
             {

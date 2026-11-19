@@ -8,16 +8,21 @@ namespace GinRummy.Domain.Entities.Gameplay
     {
         private const int MinimumScore = 0;
 
-        public GameHistory(int playerAccountId, int opponentId, bool hasWon, int scoreEarned, DateTime playedAt)
+        public GameHistory(int playerAccountId, int opponentId, MatchOutcome outcome)
         {
+            if (outcome == null)
+            {
+                throw new ArgumentNullException(nameof(outcome));
+            }
+
             ValidatePlayers(playerAccountId, opponentId);
-            ValidateScore(scoreEarned);
+            ValidateScore(outcome.ScoreEarned);
 
             PlayerAccountId = playerAccountId;
             OpponentId = opponentId;
-            HasWon = hasWon;
-            ScoreEarned = scoreEarned;
-            PlayedAt = playedAt;
+            HasWon = outcome.HasWon;
+            ScoreEarned = outcome.ScoreEarned;
+            PlayedAt = outcome.PlayedAt;
         }
 
         protected GameHistory()

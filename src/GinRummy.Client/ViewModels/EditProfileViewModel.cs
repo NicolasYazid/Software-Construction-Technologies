@@ -79,8 +79,8 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _bio = value ?? string.Empty;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(RemainingBioCharacters));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(RemainingBioCharacters));
             }
         }
 
@@ -95,7 +95,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _socialPlatformName = value ?? string.Empty;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -105,7 +105,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _socialUrl = value ?? string.Empty;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -115,7 +115,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _picture = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -125,14 +125,14 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _isNewLinkFormOpen = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(IsAddLinkOffered));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsAddLinkOffered));
             }
         }
 
         public bool IsAddLinkOffered
         {
-            get { return !_isNewLinkFormOpen; }
+            get { return !_isNewLinkFormOpen ? true : false; }
         }
 
         public string ErrorMessageKey
@@ -141,14 +141,14 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _errorMessageKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasErrorMessage));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasErrorMessage));
             }
         }
 
         public bool HasErrorMessage
         {
-            get { return _errorMessageKey != null; }
+            get { return _errorMessageKey != null ? true : false; }
         }
 
         public bool IsUsernameChangedShown
@@ -157,7 +157,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _isUsernameChangedShown = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -192,8 +192,9 @@ namespace GinRummy.Client.ViewModels
         {
             IsUsernameChangedShown = false;
             ErrorMessageKey = null;
-            bool isLinkComplete = (_socialPlatformName.Trim().Length > 0) && (_socialUrl.Trim().Length > 0);
-            bool isComplete = !string.IsNullOrWhiteSpace(Username) && (!_isNewLinkFormOpen || isLinkComplete);
+            bool isLinkComplete = (_socialPlatformName.Trim().Length > 0) && (_socialUrl.Trim().Length > 0) ? true : false;
+            bool isLinkReady = !_isNewLinkFormOpen || isLinkComplete ? true : false;
+            bool isComplete = !string.IsNullOrWhiteSpace(Username) && isLinkReady ? true : false;
             if (!isComplete)
             {
                 ErrorMessageKey = RequiredFieldKey;
@@ -300,19 +301,19 @@ namespace GinRummy.Client.ViewModels
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The server could not change the own profile.");
-                RequestErrorDialog(ErrorDialogKind.ServiceUnavailable);
+                OnErrorDialogRequested(ErrorDialogKind.ServiceUnavailable);
             }
             catch (CommunicationException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The profile service could not be reached to change the own profile.");
-                RequestErrorDialog(ErrorDialogKind.ConnectionLost);
+                OnErrorDialogRequested(ErrorDialogKind.ConnectionLost);
             }
             catch (TimeoutException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The profile service timed out while changing the own profile.");
-                RequestErrorDialog(ErrorDialogKind.ConnectionLost);
+                OnErrorDialogRequested(ErrorDialogKind.ConnectionLost);
             }
 
             return isDone;
@@ -323,7 +324,7 @@ namespace GinRummy.Client.ViewModels
             switch (code)
             {
                 case ServiceFaultCode.SessionExpired:
-                    RequestErrorDialog(ErrorDialogKind.SessionExpired);
+                    OnErrorDialogRequested(ErrorDialogKind.SessionExpired);
                     break;
                 case ServiceFaultCode.RequiredField:
                     ErrorMessageKey = RequiredFieldKey;
@@ -338,12 +339,12 @@ namespace GinRummy.Client.ViewModels
                     ErrorMessageKey = InvalidUrlKey;
                     break;
                 default:
-                    RequestErrorDialog(ErrorDialogKind.ServiceUnavailable);
+                    OnErrorDialogRequested(ErrorDialogKind.ServiceUnavailable);
                     break;
             }
         }
 
-        private void RequestErrorDialog(ErrorDialogKind kind)
+        private void OnErrorDialogRequested(ErrorDialogKind kind)
         {
             ErrorDialogRequested?.Invoke(this, kind);
         }

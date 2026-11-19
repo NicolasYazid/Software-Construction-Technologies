@@ -4,12 +4,17 @@ namespace GinRummy.Domain.Entities.PlayerCareer
 {
     public class LeaderboardPlayerPosition
     {
-        public LeaderboardPlayerPosition(int place, PlayerStats stats, string username, Rank rank)
+        public LeaderboardPlayerPosition(int place, PlayerStats stats, RankedUsername rankedUsername)
         {
+            if (rankedUsername == null)
+            {
+                throw new ArgumentNullException(nameof(rankedUsername));
+            }
+
             Place = place;
             Stats = stats ?? throw new ArgumentNullException(nameof(stats));
-            Username = username ?? throw new ArgumentNullException(nameof(username));
-            Rank = rank;
+            Username = rankedUsername.Username ?? throw new ArgumentNullException(nameof(rankedUsername));
+            Rank = rankedUsername.Rank;
         }
 
         public int Place { get; private set; }

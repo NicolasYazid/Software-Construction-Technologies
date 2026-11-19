@@ -22,10 +22,8 @@ namespace GinRummy.Services.Services.Shared
 
         public static FaultException<ResendLimitFault> CreateResendLimitFault(VerificationResendLimitException exception)
         {
-            ResendLimitFault resendLimit = new ResendLimitFault
-            {
-                RetryAfterSeconds = (int)Math.Ceiling(exception.RetryAfter.TotalSeconds)
-            };
+            int retryAfterSeconds = (int)Math.Ceiling(exception.RetryAfter.TotalSeconds);
+            ResendLimitFault resendLimit = new ResendLimitFault { RetryAfterSeconds = retryAfterSeconds };
 
             return new FaultException<ResendLimitFault>(resendLimit);
         }

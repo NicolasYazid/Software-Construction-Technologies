@@ -33,7 +33,7 @@ namespace GinRummy.Application.UseCases.Gameplay
 
         public bool IsPaused
         {
-            get { return _reconnectionTimersByPlayerId.Count > 0; }
+            get { return _reconnectionTimersByPlayerId.Count > 0 ? true : false; }
         }
 
         public IReadOnlyList<DuelPlayer> Players

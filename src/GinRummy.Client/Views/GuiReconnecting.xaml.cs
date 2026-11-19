@@ -17,43 +17,43 @@ namespace GinRummy.Client.Views
         {
             InitializeComponent();
             _viewModel = ((App)Application.Current).CreateReconnectingViewModel(tryReconnect);
-            _viewModel.Reconnected += OnReconnected;
-            _viewModel.GaveUp += OnGaveUp;
+            _viewModel.Reconnected += HandleReconnected;
+            _viewModel.GaveUp += HandleGaveUp;
             DataContext = _viewModel;
-            Loaded += OnScreenLoaded;
-            Closed += OnScreenClosed;
+            Loaded += HandleScreenLoaded;
+            Closed += HandleScreenClosed;
         }
 
         public bool IsReconnected { get; private set; }
 
-        private void OnScreenLoaded(object sender, RoutedEventArgs e)
+        private void HandleScreenLoaded(object sender, RoutedEventArgs e)
         {
             _viewModel.Start();
         }
 
-        private void OnReconnected(object sender, EventArgs e)
+        private void HandleReconnected(object sender, EventArgs e)
         {
             IsReconnected = true;
             Close();
         }
 
-        private void OnGaveUp(object sender, EventArgs e)
+        private void HandleGaveUp(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void OnCancelClick(object sender, RoutedEventArgs e)
+        private void HandleCancelClick(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        private void OnScreenClosed(object sender, EventArgs e)
+        private void HandleScreenClosed(object sender, EventArgs e)
         {
             _viewModel.Stop();
-            _viewModel.Reconnected -= OnReconnected;
-            _viewModel.GaveUp -= OnGaveUp;
-            Loaded -= OnScreenLoaded;
-            Closed -= OnScreenClosed;
+            _viewModel.Reconnected -= HandleReconnected;
+            _viewModel.GaveUp -= HandleGaveUp;
+            Loaded -= HandleScreenLoaded;
+            Closed -= HandleScreenClosed;
         }
     }
 }

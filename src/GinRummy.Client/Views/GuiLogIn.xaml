@@ -63,7 +63,7 @@
                                 Style="{StaticResource StyIconButton}"
                                 VerticalAlignment="Center" Margin="12,0,0,0"
                                 ToolTip="{Binding [Shared_TipTogglePassword], Source={StaticResource PrvLocalization}}"
-                                Click="OnTogglePasswordClick">
+                                Click="HandleTogglePasswordClick">
                             <Image Source="{StaticResource IcoEye}" Width="19" Height="19" />
                         </Button>
                         <Grid>
@@ -83,7 +83,7 @@
                     <Button x:Name="lnkForgotPassword" Style="{StaticResource StyInlineTextButton}"
                             Margin="0,10,0,0"
                             Content="{Binding [LogIn_LnkForgotPassword], Source={StaticResource PrvLocalization}}"
-                            Click="OnForgotPasswordClick" />
+                            Click="HandleForgotPasswordClick" />
                 </StackPanel>
 
                 <TextBlock x:Name="lblErrorMessage" Style="{StaticResource StyCardError}"
@@ -101,7 +101,7 @@
                         Visibility="{Binding IsResendCodeOffered, Converter={StaticResource CnvBooleanToVisibility}}"
                         Content="{Binding [Shared_BtnResendCode], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
-                        Click="OnResendCodeClick" />
+                        Click="HandleResendCodeClick" />
                 <TextBlock x:Name="lblSessionClosedElsewhere" Style="{StaticResource StyCardNotice}"
                            Width="402" HorizontalAlignment="Left" Margin="0,12,0,0"
                            Text="{Binding [LogIn_SessionClosedElsewhere], Source={StaticResource PrvLocalization}}" />
@@ -129,7 +129,7 @@
                         Width="402" HorizontalAlignment="Left" Margin="0,20,0,0"
                         Content="{Binding [Shared_BtnCreateAccount], Source={StaticResource PrvLocalization},
                                   Converter={StaticResource CnvUpperCase}}"
-                        Click="OnCreateAccountClick" />
+                        Click="HandleCreateAccountClick" />
 
             </StackPanel>
         </Border>

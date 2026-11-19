@@ -15,13 +15,13 @@ namespace GinRummy.Client.Views
             DataContext = ((App)Application.Current).CreateAccountBannedViewModel(reasonName);
         }
 
-        private void OnLogOutClick(object sender, RoutedEventArgs e)
+        private void HandleLogOutClick(object sender, RoutedEventArgs e)
         {
             // Leaving only closes the screen because a banned account never gets a session to end (CU-02 EX-05).
             Close();
         }
 
-        private void OnTermsOfServiceClick(object sender, RoutedEventArgs e)
+        private void HandleTermsOfServiceClick(object sender, RoutedEventArgs e)
         {
             GuiTermsOfService termsOfService = new GuiTermsOfService();
             ShowModal(termsOfService);

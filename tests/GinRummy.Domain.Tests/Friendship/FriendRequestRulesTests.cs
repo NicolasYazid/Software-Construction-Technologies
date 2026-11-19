@@ -12,7 +12,7 @@ namespace GinRummy.Domain.Tests.Friendship
         private const int AddresseeId = 2;
         private const int FirstOtherPlayerId = 100;
 
-        private static readonly DateTime _requestCreatedAt = new DateTime(2026, 11, 12, 10, 0, 0, DateTimeKind.Utc);
+        private static readonly DateTime s_requestCreatedAt = new DateTime(2026, 11, 12, 10, 0, 0, DateTimeKind.Utc);
 
         private FakeFriendRepository _friendRepository;
 
@@ -51,7 +51,7 @@ namespace GinRummy.Domain.Tests.Friendship
         [Test]
         public void Test_CheckNewRequest_SenderAlreadySentRequest_ReturnsRequestAlreadySent()
         {
-            _friendRepository.AddRequest(new FriendRequest(SenderId, AddresseeId, _requestCreatedAt));
+            _friendRepository.AddRequest(new FriendRequest(SenderId, AddresseeId, s_requestCreatedAt));
 
             FriendRequestResult result = FriendRequestRules.CheckNewRequest(_friendRepository, SenderId, AddresseeId);
 
@@ -61,7 +61,7 @@ namespace GinRummy.Domain.Tests.Friendship
         [Test]
         public void Test_CheckNewRequest_AddresseeAlreadySentRequest_ReturnsIncomingRequestExists()
         {
-            _friendRepository.AddRequest(new FriendRequest(AddresseeId, SenderId, _requestCreatedAt));
+            _friendRepository.AddRequest(new FriendRequest(AddresseeId, SenderId, s_requestCreatedAt));
 
             FriendRequestResult result = FriendRequestRules.CheckNewRequest(_friendRepository, SenderId, AddresseeId);
 
@@ -217,7 +217,7 @@ namespace GinRummy.Domain.Tests.Friendship
         {
             for (int i = 0; i < requestCount; i++)
             {
-                _friendRepository.AddRequest(new FriendRequest(FirstOtherPlayerId + i, addresseePlayerAccountId, _requestCreatedAt));
+                _friendRepository.AddRequest(new FriendRequest(FirstOtherPlayerId + i, addresseePlayerAccountId, s_requestCreatedAt));
             }
         }
     }

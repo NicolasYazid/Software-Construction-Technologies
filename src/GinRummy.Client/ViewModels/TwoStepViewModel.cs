@@ -45,14 +45,14 @@ namespace GinRummy.Client.ViewModels
             protected set
             {
                 _errorMessageKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasErrorMessage));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasErrorMessage));
             }
         }
 
         public bool HasErrorMessage
         {
-            get { return !string.IsNullOrEmpty(_errorMessageKey); }
+            get { return !string.IsNullOrEmpty(_errorMessageKey) ? true : false; }
         }
 
         // Each purpose checks the code on its own service, so this only ends the screen once the code was accepted.
@@ -67,7 +67,7 @@ namespace GinRummy.Client.ViewModels
             CodeCountdown.Restart(TimeSpan.FromSeconds(CodeLifetimeSeconds));
         }
 
-        protected void RequestErrorDialog(ErrorDialogKind kind)
+        protected void OnErrorDialogRequested(ErrorDialogKind kind)
         {
             ErrorDialogRequested?.Invoke(this, kind);
         }

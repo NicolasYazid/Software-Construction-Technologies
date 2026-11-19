@@ -38,7 +38,7 @@ namespace GinRummy.Client.Services
             {
                 IGameService service = _service;
 
-                return (service != null) && (((ICommunicationObject)service).State == CommunicationState.Opened);
+                return (service != null) && (((ICommunicationObject)service).State == CommunicationState.Opened) ? true : false;
             }
         }
 
@@ -145,7 +145,7 @@ namespace GinRummy.Client.Services
             bool isSubscribed = TryCall(operation, () => subscribe(service));
             if (isSubscribed)
             {
-                channel.Faulted += OnChannelFaulted;
+                channel.Faulted += HandleChannelFaulted;
                 _service = service;
             }
             else
@@ -160,10 +160,10 @@ namespace GinRummy.Client.Services
         {
             IGameService service = _service;
 
-            return (service != null) && TryCall(operation, () => call(service));
+            return (service != null) && TryCall(operation, () => call(service)) ? true : false;
         }
 
-        private void OnChannelFaulted(object sender, EventArgs e)
+        private void HandleChannelFaulted(object sender, EventArgs e)
         {
             _logger.LogWarning("The channel of the round failed, so the moves no longer arrive.");
             _screenContext.Post(state => ConnectionLost?.Invoke(this, EventArgs.Empty), null);

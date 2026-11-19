@@ -23,7 +23,7 @@ namespace GinRummy.Client.ViewModels
         private const string TooManyRequestsPerMinuteKey = "LobbyChat_FriendRequestTooManyPerMinute";
         private const string WaitingTimeKey = "LobbyChat_FriendRequestWaitingTime";
 
-        private static readonly Dictionary<FriendRequestOutcome, string> _noticeKeysByOutcome =
+        private static readonly Dictionary<FriendRequestOutcome, string> s_noticeKeysByOutcome =
             new Dictionary<FriendRequestOutcome, string>
             {
                 { FriendRequestOutcome.PlayerNotFound, PlayerNotFoundKey },
@@ -65,20 +65,20 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _noticeKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasNotice));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasNotice));
             }
         }
 
         public bool HasNotice
         {
-            get { return _noticeKey != null; }
+            get { return _noticeKey != null ? true : false; }
         }
 
         public void Start()
         {
-            _friendshipConnection.FriendshipEventReceived += OnFriendshipEventReceived;
-            _friendshipConnection.SessionExpired += OnSessionExpired;
+            _friendshipConnection.FriendshipEventReceived += HandleFriendshipEventReceived;
+            _friendshipConnection.SessionExpired += HandleSessionExpired;
             if (!_friendshipConnection.Start(_signedInPlayer.AccessToken))
             {
                 NoticeKey = ServiceUnavailableKey;
@@ -87,8 +87,8 @@ namespace GinRummy.Client.ViewModels
 
         public void Stop()
         {
-            _friendshipConnection.FriendshipEventReceived -= OnFriendshipEventReceived;
-            _friendshipConnection.SessionExpired -= OnSessionExpired;
+            _friendshipConnection.FriendshipEventReceived -= HandleFriendshipEventReceived;
+            _friendshipConnection.SessionExpired -= HandleSessionExpired;
             _friendshipConnection.Stop();
         }
 
@@ -134,7 +134,7 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        private void OnFriendshipEventReceived(object sender, FriendshipEvent friendshipEvent)
+        private void HandleFriendshipEventReceived(object sender, FriendshipEvent friendshipEvent)
         {
             if (friendshipEvent.EventType == FriendshipEventType.FriendRequestAccepted)
             {
@@ -150,7 +150,7 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        private void OnSessionExpired(object sender, EventArgs e)
+        private void HandleSessionExpired(object sender, EventArgs e)
         {
             SessionExpired?.Invoke(this, EventArgs.Empty);
         }
@@ -158,7 +158,7 @@ namespace GinRummy.Client.ViewModels
         private static string FindNoticeKey(FriendRequestOutcome outcome)
         {
             string noticeKey;
-            _noticeKeysByOutcome.TryGetValue(outcome, out noticeKey);
+            s_noticeKeysByOutcome.TryGetValue(outcome, out noticeKey);
 
             return noticeKey;
         }

@@ -13,15 +13,9 @@ using GinRummy.Client.ViewModels;
 
 namespace GinRummy.Client.Views
 {
-    /// <summary>
-    /// Game table screen (P20). Shows a match from the side of one of its players: the hand,
-    /// what can be seen of the opponent, the stock and the discard pile, the score, the log of
-    /// the match and its chat (CU-17 FA-01). From it the player reads the rules (CU-21 FA-01)
-    /// and forfeits the match (CU-26). Over it open the close of the hand and the result of the match.
-    /// </summary>
     public partial class GuiGameTable : GuiWindowBase
     {
-        private static readonly int[] _stockTopCard = { 0 };
+        private static readonly int[] s_stockTopCard = { 0 };
 
         private const string MeldRunKey = "GameTable_LblMeldRun";
         private const string MeldThreeKey = "GameTable_LblMeldThree";
@@ -43,27 +37,27 @@ namespace GinRummy.Client.Views
             InitializeComponent();
             _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
             _matchChat = matchChat ?? throw new ArgumentNullException(nameof(matchChat));
-            _matchChat.Messages.CollectionChanged += OnChatMessagesChanged;
-            _viewModel.MatchLog.CollectionChanged += OnMatchLogChanged;
-            _viewModel.CardDrawnFromStock += OnCardDrawnFromStock;
-            _viewModel.CardTakenFromDiscardPile += OnCardTakenFromDiscardPile;
-            _viewModel.Hand.CollectionChanged += OnHandChanged;
-            _viewModel.PropertyChanged += OnTableChanged;
-            _viewModel.ConnectionLost += OnConnectionLost;
-            _viewModel.SessionExpired += OnSessionExpired;
-            _viewModel.MatchAlreadyOver += OnMatchAlreadyOver;
-            lstStock.ItemsSource = _stockTopCard;
+            _matchChat.Messages.CollectionChanged += HandleChatMessagesChanged;
+            _viewModel.MatchLog.CollectionChanged += HandleMatchLogChanged;
+            _viewModel.CardDrawnFromStock += HandleCardDrawnFromStock;
+            _viewModel.CardTakenFromDiscardPile += HandleCardTakenFromDiscardPile;
+            _viewModel.Hand.CollectionChanged += HandleHandChanged;
+            _viewModel.PropertyChanged += HandleTableChanged;
+            _viewModel.ConnectionLost += HandleConnectionLost;
+            _viewModel.SessionExpired += HandleSessionExpired;
+            _viewModel.MatchAlreadyOver += HandleMatchAlreadyOver;
+            lstStock.ItemsSource = s_stockTopCard;
             DataContext = _viewModel;
             pnlMatchChat.DataContext = _matchChat;
-            Loaded += OnScreenLoaded;
-            Closed += OnScreenClosed;
+            Loaded += HandleScreenLoaded;
+            Closed += HandleScreenClosed;
         }
 
-        private void OnScreenLoaded(object sender, RoutedEventArgs e)
+        private void HandleScreenLoaded(object sender, RoutedEventArgs e)
         {
-            ScrollToLatest(lstMessages);
-            ScrollToLatest(lstMatchLog);
-            CompositionTarget.Rendering += OnRendering;
+            OverlayInsetCommon.ScrollToEnd(lstMessages);
+            OverlayInsetCommon.ScrollToEnd(lstMatchLog);
+            CompositionTarget.Rendering += HandleRendering;
         }
 
         protected override void RefreshFormattedText()
@@ -71,32 +65,32 @@ namespace GinRummy.Client.Views
             ShowMeldCaptions();
         }
 
-        private void OnChatMessagesChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void HandleChatMessagesChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            ScrollToLatest(lstMessages);
+            OverlayInsetCommon.ScrollToEnd(lstMessages);
         }
 
-        private void OnMatchLogChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void HandleMatchLogChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            ScrollToLatest(lstMatchLog);
+            OverlayInsetCommon.ScrollToEnd(lstMatchLog);
         }
 
-        private void OnCardDrawnFromStock(object sender, Card drawnCard)
+        private void HandleCardDrawnFromStock(object sender, Card drawnCard)
         {
             lstHand.EnterFrom(drawnCard, lstStock, true);
         }
 
-        private void OnCardTakenFromDiscardPile(object sender, Card takenCard)
+        private void HandleCardTakenFromDiscardPile(object sender, Card takenCard)
         {
             lstHand.EnterFrom(takenCard, lstDiscard);
         }
 
-        private void OnHandCardMoved(object sender, CardMovedEventArgs e)
+        private void HandleHandCardMoved(object sender, CardMovedEventArgs e)
         {
             _viewModel.MoveCard(e.OldIndex, e.NewIndex);
         }
 
-        private void OnHandCardDropped(object sender, CardEventArgs e)
+        private void HandleHandCardDropped(object sender, CardEventArgs e)
         {
             if (_viewModel.CanDiscard((Card)e.Item))
             {
@@ -104,30 +98,30 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnHandCardLeft(object sender, CardEventArgs e)
+        private void HandleHandCardLeft(object sender, CardEventArgs e)
         {
             _viewModel.Discard((Card)e.Item);
         }
 
-        private void OnDiscardCardDropped(object sender, CardEventArgs e)
+        private void HandleDiscardCardDropped(object sender, CardEventArgs e)
         {
             _viewModel.TakeFromDiscardPile();
         }
 
-        private void OnHowToPlayClick(object sender, RoutedEventArgs e)
+        private void HandleHowToPlayClick(object sender, RoutedEventArgs e)
         {
             GuiHouseRules houseRules = new GuiHouseRules();
             ShowModal(houseRules);
         }
 
-        private void OnForfeitClick(object sender, RoutedEventArgs e)
+        private void HandleForfeitClick(object sender, RoutedEventArgs e)
         {
             GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.Forfeit);
-            confirmDialog.Closed += OnForfeitConfirmClosed;
+            confirmDialog.Closed += HandleForfeitConfirmClosed;
             ShowModal(confirmDialog);
         }
 
-        private void OnForfeitConfirmClosed(object sender, EventArgs e)
+        private void HandleForfeitConfirmClosed(object sender, EventArgs e)
         {
             if (((GuiConfirmDialog)sender).IsConfirmed)
             {
@@ -135,28 +129,28 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnConnectionLost(object sender, EventArgs e)
+        private void HandleConnectionLost(object sender, EventArgs e)
         {
             _reconnecting = new GuiReconnecting(_viewModel.Reconnect);
-            _reconnecting.Closed += OnReconnectingClosed;
+            _reconnecting.Closed += HandleReconnectingClosed;
             ShowModal(_reconnecting);
         }
 
-        private void OnMatchAlreadyOver(object sender, EventArgs e)
+        private void HandleMatchAlreadyOver(object sender, EventArgs e)
         {
-            _reconnecting.Closed -= OnReconnectingClosed;
+            _reconnecting.Closed -= HandleReconnectingClosed;
             _reconnecting.Close();
             GuiErrorDialog errorDialog = new GuiErrorDialog(ErrorDialogKind.MatchFinished);
-            errorDialog.Closed += OnMatchFinishedDialogClosed;
+            errorDialog.Closed += HandleMatchFinishedDialogClosed;
             ShowModal(errorDialog);
         }
 
-        private void OnMatchFinishedDialogClosed(object sender, EventArgs e)
+        private void HandleMatchFinishedDialogClosed(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void OnReconnectingClosed(object sender, EventArgs e)
+        private void HandleReconnectingClosed(object sender, EventArgs e)
         {
             if (!((GuiReconnecting)sender).IsReconnected)
             {
@@ -164,14 +158,14 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnSessionExpired(object sender, EventArgs e)
+        private void HandleSessionExpired(object sender, EventArgs e)
         {
             GuiErrorDialog errorDialog = new GuiErrorDialog(ErrorDialogKind.SessionExpired);
-            errorDialog.Closed += OnSessionExpiredDialogClosed;
+            errorDialog.Closed += HandleSessionExpiredDialogClosed;
             ShowModal(errorDialog);
         }
 
-        private void OnSessionExpiredDialogClosed(object sender, EventArgs e)
+        private void HandleSessionExpiredDialogClosed(object sender, EventArgs e)
         {
             Window lobby = Owner;
             Close();
@@ -179,34 +173,34 @@ namespace GinRummy.Client.Views
             ((App)Application.Current).ForgetSignedInPlayer();
         }
 
-        private void OnReturnToLobbyClick(object sender, RoutedEventArgs e)
+        private void HandleReturnToLobbyClick(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        private void OnScreenClosed(object sender, EventArgs e)
+        private void HandleScreenClosed(object sender, EventArgs e)
         {
             _viewModel.Stop();
-            _matchChat.Messages.CollectionChanged -= OnChatMessagesChanged;
-            _viewModel.MatchLog.CollectionChanged -= OnMatchLogChanged;
-            _viewModel.CardDrawnFromStock -= OnCardDrawnFromStock;
-            _viewModel.CardTakenFromDiscardPile -= OnCardTakenFromDiscardPile;
-            _viewModel.Hand.CollectionChanged -= OnHandChanged;
-            _viewModel.PropertyChanged -= OnTableChanged;
-            _viewModel.ConnectionLost -= OnConnectionLost;
-            _viewModel.SessionExpired -= OnSessionExpired;
-            _viewModel.MatchAlreadyOver -= OnMatchAlreadyOver;
-            CompositionTarget.Rendering -= OnRendering;
-            Loaded -= OnScreenLoaded;
-            Closed -= OnScreenClosed;
+            _matchChat.Messages.CollectionChanged -= HandleChatMessagesChanged;
+            _viewModel.MatchLog.CollectionChanged -= HandleMatchLogChanged;
+            _viewModel.CardDrawnFromStock -= HandleCardDrawnFromStock;
+            _viewModel.CardTakenFromDiscardPile -= HandleCardTakenFromDiscardPile;
+            _viewModel.Hand.CollectionChanged -= HandleHandChanged;
+            _viewModel.PropertyChanged -= HandleTableChanged;
+            _viewModel.ConnectionLost -= HandleConnectionLost;
+            _viewModel.SessionExpired -= HandleSessionExpired;
+            _viewModel.MatchAlreadyOver -= HandleMatchAlreadyOver;
+            CompositionTarget.Rendering -= HandleRendering;
+            Loaded -= HandleScreenLoaded;
+            Closed -= HandleScreenClosed;
         }
 
-        private void OnHandChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void HandleHandChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             ShowMeldCaptions();
         }
 
-        private void OnTableChanged(object sender, PropertyChangedEventArgs e)
+        private void HandleTableChanged(object sender, PropertyChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(e.PropertyName))
             {
@@ -242,7 +236,7 @@ namespace GinRummy.Client.Views
             cnvMeldCaptions.Children.Add(bar);
         }
 
-        private void OnRendering(object sender, EventArgs e)
+        private void HandleRendering(object sender, EventArgs e)
         {
             double barTop = lstHand.TranslatePoint(new Point(0, lstHand.TiltRoom), cnvMeldCaptions).Y - MeldBarGap;
             foreach (FrameworkElement caption in cnvMeldCaptions.Children)
@@ -295,14 +289,6 @@ namespace GinRummy.Client.Views
             }
 
             return key;
-        }
-
-        private static void ScrollToLatest(ListBox list)
-        {
-            if (list.Items.Count > 0)
-            {
-                list.ScrollIntoView(list.Items[list.Items.Count - 1]);
-            }
         }
     }
 }

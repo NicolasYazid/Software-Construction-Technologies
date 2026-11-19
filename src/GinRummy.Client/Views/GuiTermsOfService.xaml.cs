@@ -12,7 +12,7 @@ namespace GinRummy.Client.Views
             InitializeComponent();
         }
 
-        private void OnCloseClick(object sender, RoutedEventArgs e)
+        private void HandleCloseClick(object sender, RoutedEventArgs e)
         {
             Close();
         }

@@ -13,8 +13,8 @@ namespace GinRummy.Application.Tests.Friendship
         private const int AddresseeId = 2;
         private const int ThirdPlayerId = 3;
 
-        private static readonly DateTime _startMoment = new DateTime(2026, 11, 12, 10, 0, 0, DateTimeKind.Utc);
-        private static readonly TimeSpan _oneSecond = TimeSpan.FromSeconds(1);
+        private static readonly DateTime s_startMoment = new DateTime(2026, 11, 12, 10, 0, 0, DateTimeKind.Utc);
+        private static readonly TimeSpan s_oneSecond = TimeSpan.FromSeconds(1);
 
         private FakeClock _fakeClock;
         private FriendRequestTimeLimits _timeLimits;
@@ -22,7 +22,7 @@ namespace GinRummy.Application.Tests.Friendship
         [SetUp]
         public void SetUp()
         {
-            _fakeClock = new FakeClock(_startMoment);
+            _fakeClock = new FakeClock(s_startMoment);
             _timeLimits = new FriendRequestTimeLimits(_fakeClock);
         }
 
@@ -58,7 +58,7 @@ namespace GinRummy.Application.Tests.Friendship
         public void Test_CanSendAnotherRequest_LimitReachedOneSecondBeforeMinutePasses_ReturnsFalse()
         {
             RegisterSentRequests(SenderId, FriendRequestRules.MaxRequestsPerPeriod);
-            _fakeClock.MoveForward(FriendRequestRules.RequestCountingPeriod.Subtract(_oneSecond));
+            _fakeClock.MoveForward(FriendRequestRules.RequestCountingPeriod.Subtract(s_oneSecond));
 
             bool canSend = _timeLimits.CanSendAnotherRequest(SenderId);
 
@@ -91,7 +91,7 @@ namespace GinRummy.Application.Tests.Friendship
         {
             DateTime sentAt = _timeLimits.RegisterSentRequest(SenderId);
 
-            Assert.AreEqual(_startMoment, sentAt);
+            Assert.AreEqual(s_startMoment, sentAt);
         }
 
         [Test]
@@ -116,7 +116,7 @@ namespace GinRummy.Application.Tests.Friendship
         public void Test_HasWaitingTimeEnded_OneSecondBeforeWaitingTimePasses_ReturnsFalse()
         {
             _timeLimits.RegisterRejectionOrRemoval(SenderId, AddresseeId);
-            _fakeClock.MoveForward(FriendRequestRules.WaitingTimeAfterRejectionOrRemoval.Subtract(_oneSecond));
+            _fakeClock.MoveForward(FriendRequestRules.WaitingTimeAfterRejectionOrRemoval.Subtract(s_oneSecond));
 
             bool hasWaitingTimeEnded = _timeLimits.HasWaitingTimeEnded(SenderId, AddresseeId);
 

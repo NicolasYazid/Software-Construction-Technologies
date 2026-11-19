@@ -533,6 +533,18 @@ Busca a un jugador por su etiqueta pública para enviarle una solicitud.</value>
 Tú: {0}   -   Rival: {1}</value>
     <comment>Contenido de GuiGameTable</comment>
   </data>
+  <data name="GameTable_LblGinAnnounce" xml:space="preserve">
+    <value>{0} CERRÓ SIN CARTAS SUELTAS Y {2} NO PUEDE ACOMODAR</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblGinBonus" xml:space="preserve">
+    <value>Más el bono de gin</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblGinTitle" xml:space="preserve">
+    <value>Gin</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
   <data name="GameTable_LblHandHint" xml:space="preserve">
     <value>Toca una carta para seleccionarla, arrástrala para reordenar o suéltala en el descarte para tirarla</value>
     <comment>Contenido de GuiGameTable</comment>
@@ -621,6 +633,18 @@ Tú: {0}   -   Rival: {1}</value>
     <value>Meta</value>
     <comment>Contenido de GuiGameTable</comment>
   </data>
+  <data name="GameTable_LblUndercutAnnounce" xml:space="preserve">
+    <value>{0} CERRÓ CON {1} Y {2} QUEDÓ CON IGUAL O MENOS DEADWOOD</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblUndercutBonus" xml:space="preserve">
+    <value>Más el bono de undercut</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblUndercutTitle" xml:space="preserve">
+    <value>Undercut</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
   <data name="GameTable_LblUnmatched" xml:space="preserve">
     <value>SIN COMBINAR</value>
     <comment>Contenido de GuiGameTable</comment>
@@ -631,6 +655,14 @@ Tú: {0}   -   Rival: {1}</value>
   </data>
   <data name="GameTable_LblVictoryReasonTarget" xml:space="preserve">
     <value>¡Alcanzaste la meta de puntos!</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblVoidAnnounce" xml:space="preserve">
+    <value>NADIE CERRÓ ANTES DE AGOTAR EL MAZO, ASÍ QUE NADIE ANOTA</value>
+    <comment>Contenido de GuiGameTable</comment>
+  </data>
+  <data name="GameTable_LblVoidTitle" xml:space="preserve">
+    <value>Mano anulada</value>
     <comment>Contenido de GuiGameTable</comment>
   </data>
   <data name="GameTable_LblWaiting" xml:space="preserve">

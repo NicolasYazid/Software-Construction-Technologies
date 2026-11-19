@@ -31,7 +31,10 @@ namespace GinRummy.Application.UseCases.AccountProtection
             TypedFieldValidator.EnsureAreTyped(verificationCode);
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                VerificationCode storedCode = FindStoredCode(unitOfWork.VerificationCodes, playerAccountId, VerificationPurpose.TwoFactorSetup);
+                VerificationCode storedCode = FindStoredCode(
+                    unitOfWork.VerificationCodes,
+                    playerAccountId,
+                    VerificationPurpose.TwoFactorSetup);
                 RedeemCode(unitOfWork, storedCode, verificationCode);
                 unitOfWork.PlayerAccounts.FindByPlayerAccountId(playerAccountId).EnableTwoFactor();
                 unitOfWork.Commit();
@@ -45,7 +48,10 @@ namespace GinRummy.Application.UseCases.AccountProtection
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
                 PlayerAccount account = unitOfWork.PlayerAccounts.FindByPlayerAccountId(playerAccountId);
-                VerificationCode storedCode = FindStoredCode(unitOfWork.VerificationCodes, playerAccountId, VerificationPurpose.PasswordChange);
+                VerificationCode storedCode = FindStoredCode(
+                    unitOfWork.VerificationCodes,
+                    playerAccountId,
+                    VerificationPurpose.PasswordChange);
                 RedeemCode(unitOfWork, storedCode, verificationCode);
                 _accessPolicy.ReplacePassword(account, newPassword);
                 unitOfWork.Commit();
@@ -59,7 +65,10 @@ namespace GinRummy.Application.UseCases.AccountProtection
             string normalizedEmail = PlayerAccount.NormalizeEmail(newEmail);
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                VerificationCode storedCode = FindStoredCode(unitOfWork.VerificationCodes, playerAccountId, VerificationPurpose.EmailChange);
+                VerificationCode storedCode = FindStoredCode(
+                    unitOfWork.VerificationCodes,
+                    playerAccountId,
+                    VerificationPurpose.EmailChange);
                 Email sentEmail = unitOfWork.VerificationCodes.FindEmailOf(storedCode.VerificationCodeId);
                 if ((sentEmail == null) || (sentEmail.DestinationAddress != normalizedEmail))
                 {

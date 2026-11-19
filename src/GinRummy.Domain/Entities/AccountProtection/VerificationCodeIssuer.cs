@@ -39,11 +39,9 @@ namespace GinRummy.Domain.Entities.AccountProtection
             string plainCode = _codeGenerator.GenerateCode();
             DateTime expiresAt = issuedAt.AddMinutes(LifetimeMinutes);
             VerificationCode storedCode = new VerificationCode(
-                playerAccountId,
-                purpose,
+                new VerificationRequest(playerAccountId, purpose),
                 _codeHasher.ComputeHash(plainCode),
-                issuedAt,
-                expiresAt);
+                new ValidityPeriod(issuedAt, expiresAt));
             codes.Add(storedCode);
 
             return new IssuedVerificationCode(storedCode, plainCode);
@@ -73,7 +71,7 @@ namespace GinRummy.Domain.Entities.AccountProtection
 
         private static bool IsPending(VerificationCode code, DateTime moment)
         {
-            return !code.UsedAt.HasValue && (code.ExpiresAt > moment);
+            return !code.UsedAt.HasValue && (code.ExpiresAt > moment) ? true : false;
         }
     }
 }

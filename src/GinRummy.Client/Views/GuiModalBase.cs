@@ -17,11 +17,11 @@ namespace GinRummy.Client.Views
         protected GuiModalBase()
         {
             _localization = LocalizationProvider.Instance;
-            _localization.PropertyChanged += OnLocalizationChanged;
+            _localization.PropertyChanged += HandleLocalizationChanged;
             HasCloseButton = true;
             HorizontalAlignment = HorizontalAlignment.Center;
             VerticalAlignment = VerticalAlignment.Center;
-            Loaded += OnModalLoaded;
+            Loaded += HandleModalLoaded;
         }
 
         public event EventHandler Closed;
@@ -48,8 +48,8 @@ namespace GinRummy.Client.Views
             }
 
             _isClosed = true;
-            _localization.PropertyChanged -= OnLocalizationChanged;
-            Loaded -= OnModalLoaded;
+            _localization.PropertyChanged -= HandleLocalizationChanged;
+            Loaded -= HandleModalLoaded;
             if (_host != null)
             {
                 _host.RemoveModal(this);
@@ -101,13 +101,13 @@ namespace GinRummy.Client.Views
             ((App)Application.Current).ForgetSignedInPlayer();
         }
 
-        private void OnLocalizationChanged(object sender, PropertyChangedEventArgs e)
+        private void HandleLocalizationChanged(object sender, PropertyChangedEventArgs e)
         {
             RefreshFormattedText();
         }
 
         // The focus moves to the first field so that a modal keeps the keyboard behavior of the windows it replaced.
-        private void OnModalLoaded(object sender, RoutedEventArgs e)
+        private void HandleModalLoaded(object sender, RoutedEventArgs e)
         {
             MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
         }

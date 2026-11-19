@@ -47,15 +47,15 @@
                          DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
                 <MenuItem x:Name="mniChallenge" Style="{StaticResource StyPlayerMenuChallengeItem}"
                           Header="{Binding [LobbyChat_MniChallenge], Source={StaticResource PrvLocalization}}"
-                          Click="OnChallengeClick">
+                          Click="HandleChallengeClick">
                     <MenuItem.Icon>
                         <Image Source="{StaticResource IcoChallenge}" Width="16" Height="16" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem x:Name="mniProfile"
                           Header="{Binding [LobbyChat_MniProfile], Source={StaticResource PrvLocalization}}"
-                          Click="OnPlayerProfileClick" />
-                <MenuItem x:Name="mniFriendRequest" Click="OnFriendRequestClick">
+                          Click="HandlePlayerProfileClick" />
+                <MenuItem x:Name="mniFriendRequest" Click="HandleFriendRequestClick">
                     <MenuItem.Style>
                         <Style TargetType="MenuItem" BasedOn="{StaticResource StyPlayerMenuStrangerItem}">
                             <Setter Property="Header"
@@ -74,10 +74,10 @@
                 </MenuItem>
                 <MenuItem x:Name="mniRemoveFriend" Style="{StaticResource StyPlayerMenuFriendItem}"
                           Header="{Binding [LobbyChat_MniRemoveFriend], Source={StaticResource PrvLocalization}}"
-                          Click="OnRemoveFriendClick" />
+                          Click="HandleRemoveFriendClick" />
                 <MenuItem x:Name="mniSendMessage" Style="{StaticResource StyPlayerMenuFriendItem}"
                           Header="{Binding [LobbyChat_MniSendMessage], Source={StaticResource PrvLocalization}}"
-                          Click="OnSendMessageClick" />
+                          Click="HandleSendMessageClick" />
             </ContextMenu>
 
             <ContextMenu x:Key="CtxMessageActions" Style="{StaticResource StyPlayerMenu}"
@@ -102,7 +102,7 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-                <EventSetter Event="ContextMenuOpening" Handler="OnMessageMenuOpening" />
+                <EventSetter Event="ContextMenuOpening" Handler="HandleMessageMenuOpening" />
             </Style>
 
             <Style x:Key="StyPlayerMenuHost" TargetType="ContentPresenter">
@@ -135,19 +135,19 @@
                 <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Center">
                     <Border Style="{StaticResource StyGroupRule}" Width="72" Margin="0,0,0,16" />
                     <Button Style="{StaticResource StyRailButton}" HorizontalAlignment="Center"
-                            Click="OnNotificationsClick">
+                            Click="HandleNotificationsClick">
                         <Image Source="{StaticResource IcoBell}" Style="{StaticResource StyRailIcon}" />
                     </Button>
                     <Button x:Name="btnSettings" Style="{StaticResource StyRailButton}"
                             HorizontalAlignment="Center" Margin="0,12,0,0"
                             ToolTip="{Binding [LobbyChat_TipSettings], Source={StaticResource PrvLocalization}}"
-                            Click="OnSettingsClick">
+                            Click="HandleSettingsClick">
                         <Image Source="{StaticResource IcoGear}" Style="{StaticResource StyRailIcon}" />
                     </Button>
                     <Button x:Name="btnMyProfile" Style="{StaticResource StyRailButton}"
                             Width="80" Height="80" HorizontalAlignment="Center" Margin="0,16,0,0"
                             ToolTip="{Binding [LobbyChat_TipMyProfile], Source={StaticResource PrvLocalization}}"
-                            Click="OnMyProfileClick">
+                            Click="HandleMyProfileClick">
                         <Grid Width="64" Height="64">
                             <Border Style="{StaticResource StyAvatarLarge}">
                                 <Image Style="{StaticResource StyAvatarIconLarge}" />
@@ -177,11 +177,11 @@
                     <Button x:Name="btnRankings" Style="{StaticResource StyLobbyNavButton}"
                             Content="{Binding [LobbyChat_BtnRankings], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
-                            Click="OnRankingsClick" />
+                            Click="HandleRankingsClick" />
                     <Button x:Name="btnProfile" Style="{StaticResource StyLobbyNavButton}"
                             Content="{Binding [LobbyChat_BtnProfile], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
-                            Click="OnProfileClick" />
+                            Click="HandleProfileClick" />
                     <Button x:Name="btnFindMatch" Style="{StaticResource StyLobbyActionButton}" Margin="0,0,12,0"
                             Content="{Binding [LobbyChat_BtnFindMatch], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
@@ -190,7 +190,7 @@
                     <Button x:Name="btnHowToPlay" Style="{StaticResource StyLobbySecondaryButton}"
                             Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
-                            Click="OnHowToPlayClick" />
+                            Click="HandleHowToPlayClick" />
                 </StackPanel>
             </DockPanel>
         </ctl:PixelBorder>
@@ -488,12 +488,12 @@
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
                                     <Binding Path="[LobbyStatus_LookingToPlay]" Source="{StaticResource PrvLocalization}" />
-                                    <Binding Path="LookingToPlay.Count" />
+                                    <Binding Path="PlayersLookingToPlay.Count" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
                         <Border Style="{StaticResource StyGroupRule}" />
-                        <ItemsControl ItemsSource="{Binding LookingToPlay}" ItemTemplate="{StaticResource TplLobbyPlayer}"
+                        <ItemsControl ItemsSource="{Binding PlayersLookingToPlay}" ItemTemplate="{StaticResource TplLobbyPlayer}"
                                       ItemContainerStyle="{StaticResource StyPlayerMenuHost}" />
                         <TextBlock x:Name="lblEmptyNoPlayers" Style="{StaticResource StyPanelEmpty}"
                                    Visibility="{Binding HasNoPlayersLookingToPlay, Converter={StaticResource CnvBooleanToVisibility}}"
@@ -503,12 +503,12 @@
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
                                     <Binding Path="[FriendsList_LblGroupOnline]" Source="{StaticResource PrvLocalization}" />
-                                    <Binding Path="Online.Count" />
+                                    <Binding Path="OnlinePlayers.Count" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
                         <Border Style="{StaticResource StyGroupRule}" />
-                        <ItemsControl ItemsSource="{Binding Online}" ItemTemplate="{StaticResource TplLobbyPlayer}"
+                        <ItemsControl ItemsSource="{Binding OnlinePlayers}" ItemTemplate="{StaticResource TplLobbyPlayer}"
                                       ItemContainerStyle="{StaticResource StyPlayerMenuHost}" />
 
                         <TextBlock x:Name="lblGroupInMatch" Style="{StaticResource StyGroupHeader}">
@@ -526,12 +526,12 @@
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
                                     <Binding Path="[FriendsList_LblGroupUnavailable]" Source="{StaticResource PrvLocalization}" />
-                                    <Binding Path="Unavailable.Count" />
+                                    <Binding Path="UnavailablePlayers.Count" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
                         <Border Style="{StaticResource StyGroupRule}" />
-                        <ItemsControl ItemsSource="{Binding Unavailable}" ItemTemplate="{StaticResource TplLobbyPlayer}"
+                        <ItemsControl ItemsSource="{Binding UnavailablePlayers}" ItemTemplate="{StaticResource TplLobbyPlayer}"
                                       ItemContainerStyle="{StaticResource StyPlayerMenuHost}" />
                     </StackPanel>
                 </ScrollViewer>

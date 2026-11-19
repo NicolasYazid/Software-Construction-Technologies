@@ -18,7 +18,7 @@ namespace GinRummy.Client.ViewModels
         private const string OwnFriendLimitKey = "Notifications_OwnFriendLimit";
         private const string RequesterFriendLimitKey = "Notifications_RequesterFriendLimit";
 
-        private static readonly Dictionary<FriendRequestResponseOutcome, string> _noticeKeysByOutcome =
+        private static readonly Dictionary<FriendRequestResponseOutcome, string> s_noticeKeysByOutcome =
             new Dictionary<FriendRequestResponseOutcome, string>
             {
                 { FriendRequestResponseOutcome.Accepted, RequestAcceptedKey },
@@ -41,13 +41,13 @@ namespace GinRummy.Client.ViewModels
             _pendingRequestsConnection = pendingRequestsConnection
                 ?? throw new ArgumentNullException(nameof(pendingRequestsConnection));
             _responseConnection = responseConnection ?? throw new ArgumentNullException(nameof(responseConnection));
-            _pendingRequestsConnection.RequestsUnavailable += OnRequestsUnavailable;
-            _responseConnection.ResponseUnavailable += OnRequestsUnavailable;
+            _pendingRequestsConnection.RequestsUnavailable += HandleRequestsUnavailable;
+            _responseConnection.ResponseUnavailable += HandleRequestsUnavailable;
             FriendRequests = new ObservableCollection<PendingFriendRequestViewModel>();
             AcceptRequestCommand = new RelayCommand(AcceptRequest);
             DeclineRequestCommand = new RelayCommand(DeclineRequest);
             DismissNoticeCommand = new RelayCommand(() => NoticeKey = null);
-            HasNoPendingRequests = FriendRequests.Count == 0;
+            HasNoPendingRequests = FriendRequests.Count == 0 ? true : false;
         }
 
         public event EventHandler<ErrorDialogKind> RequestsUnavailable;
@@ -63,7 +63,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _hasNoPendingRequests = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -73,24 +73,24 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _noticeKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasNotice));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasNotice));
             }
         }
 
         public bool HasNotice
         {
-            get { return _noticeKey != null; }
+            get { return _noticeKey != null ? true : false; }
         }
 
         public void StartReceivingRequests()
         {
-            _friendshipConnection.FriendshipEventReceived += OnFriendshipEventReceived;
+            _friendshipConnection.FriendshipEventReceived += HandleFriendshipEventReceived;
         }
 
         public void StopReceivingRequests()
         {
-            _friendshipConnection.FriendshipEventReceived -= OnFriendshipEventReceived;
+            _friendshipConnection.FriendshipEventReceived -= HandleFriendshipEventReceived;
         }
 
         public void LoadPendingRequests()
@@ -102,7 +102,7 @@ namespace GinRummy.Client.ViewModels
                 FriendRequests.Add(new PendingFriendRequestViewModel(savedRequest.FriendRequestId, savedRequest.RequesterUsername));
             }
 
-            HasNoPendingRequests = FriendRequests.Count == 0;
+            HasNoPendingRequests = FriendRequests.Count == 0 ? true : false;
         }
 
         private void AcceptRequest(object parameter)
@@ -133,17 +133,17 @@ namespace GinRummy.Client.ViewModels
             }
 
             string noticeKey;
-            _noticeKeysByOutcome.TryGetValue(outcome, out noticeKey);
+            s_noticeKeysByOutcome.TryGetValue(outcome, out noticeKey);
             NoticeKey = noticeKey;
         }
 
         private void RemoveRequest(PendingFriendRequestViewModel request)
         {
             FriendRequests.Remove(request);
-            HasNoPendingRequests = FriendRequests.Count == 0;
+            HasNoPendingRequests = FriendRequests.Count == 0 ? true : false;
         }
 
-        private void OnFriendshipEventReceived(object sender, FriendshipEvent friendshipEvent)
+        private void HandleFriendshipEventReceived(object sender, FriendshipEvent friendshipEvent)
         {
             if (friendshipEvent.EventType == FriendshipEventType.FriendRequestReceived)
             {
@@ -169,7 +169,7 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        private void OnRequestsUnavailable(object sender, ErrorDialogKind errorDialogKind)
+        private void HandleRequestsUnavailable(object sender, ErrorDialogKind errorDialogKind)
         {
             RequestsUnavailable?.Invoke(this, errorDialogKind);
         }

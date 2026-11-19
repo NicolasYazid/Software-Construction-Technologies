@@ -41,8 +41,8 @@ namespace GinRummy.Services.Services.PlayerPresence
                 AccessTokenOwner accessTokenOwner = _orchestrator.IdentifyByAccessToken(accessToken);
                 _announcer.RegisterPlayerConnection(accessTokenOwner, callback);
                 Interlocked.Exchange(ref _accessTokenOwner, accessTokenOwner);
-                context.Channel.Closed += OnChannelClosed;
-                context.Channel.Faulted += OnChannelFaulted;
+                context.Channel.Closed += HandleChannelClosed;
+                context.Channel.Faulted += HandleChannelFaulted;
                 _orchestrator.AnnouncePlayerStatus(accessTokenOwner, PlayerPresenceStatus.Online, _announcer.GetOnlinePlayers());
                 _orchestrator.ReportCurrentPresenceStatusOfPlayers(accessTokenOwner, _announcer.GetOnlinePlayers());
             }
@@ -85,12 +85,12 @@ namespace GinRummy.Services.Services.PlayerPresence
             }
         }
 
-        private void OnChannelClosed(object sender, EventArgs e)
+        private void HandleChannelClosed(object sender, EventArgs e)
         {
             Disconnect();
         }
 
-        private void OnChannelFaulted(object sender, EventArgs e)
+        private void HandleChannelFaulted(object sender, EventArgs e)
         {
             Disconnect();
         }

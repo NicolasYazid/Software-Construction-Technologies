@@ -9,7 +9,7 @@ namespace GinRummy.Domain.Entities.PlayerModeration
     {
         private const char WordSeparator = ' ';
 
-        private static readonly Dictionary<char, char> _lookAlikeLetters = new Dictionary<char, char>
+        private static readonly Dictionary<char, char> s_lookAlikeLetters = new Dictionary<char, char>
         {
             { '4', 'a' },
             { '@', 'a' },
@@ -52,7 +52,7 @@ namespace GinRummy.Domain.Entities.PlayerModeration
         private static char ToLetter(char character)
         {
             char letter;
-            if (!_lookAlikeLetters.TryGetValue(character, out letter))
+            if (!s_lookAlikeLetters.TryGetValue(character, out letter))
             {
                 letter = char.IsLetterOrDigit(character) ? character : WordSeparator;
             }

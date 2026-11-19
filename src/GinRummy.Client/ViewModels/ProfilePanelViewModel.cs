@@ -51,7 +51,7 @@ namespace GinRummy.Client.ViewModels
             ChangeEmailCommand = new RelayCommand(OpenChangeEmail);
             CancelEmailCommand = new RelayCommand(CancelChangeEmail);
             SaveEmailCommand = new RelayCommand(SaveEmail);
-            ToggleTwoStepCommand = new RelayCommand(ToggleTwoStep);
+            ToggleTwoStepCommand = new RelayCommand(ChangeTwoStep);
             ToggleChatFilterCommand = new RelayCommand(ChangeChatFilter);
         }
 
@@ -77,7 +77,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _isChatFilterEnabled = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -93,7 +93,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _email = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -103,7 +103,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _newEmail = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -118,14 +118,14 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _emailErrorKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasEmailError));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasEmailError));
             }
         }
 
         public bool HasEmailError
         {
-            get { return !string.IsNullOrEmpty(_emailErrorKey); }
+            get { return !string.IsNullOrEmpty(_emailErrorKey) ? true : false; }
         }
 
         public bool IsEmailChangedShown
@@ -134,7 +134,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _isEmailChangedShown = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -144,7 +144,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _isChangeEmailOpen = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -154,7 +154,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _isPasswordChangedShown = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -164,7 +164,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _isTwoStepEnabled = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -174,14 +174,14 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _twoStepNoticeKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasTwoStepNotice));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasTwoStepNotice));
             }
         }
 
         public bool HasTwoStepNotice
         {
-            get { return !string.IsNullOrEmpty(_twoStepNoticeKey); }
+            get { return !string.IsNullOrEmpty(_twoStepNoticeKey) ? true : false; }
         }
 
         public string TwoStepErrorKey
@@ -190,14 +190,14 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _twoStepErrorKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasTwoStepError));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasTwoStepError));
             }
         }
 
         public bool HasTwoStepError
         {
-            get { return !string.IsNullOrEmpty(_twoStepErrorKey); }
+            get { return !string.IsNullOrEmpty(_twoStepErrorKey) ? true : false; }
         }
 
         // The settings are read from the server every time, because only the server knows what the codes already confirmed.
@@ -266,25 +266,25 @@ namespace GinRummy.Client.ViewModels
                     kind = ErrorDialogKind.SessionExpired;
                 }
 
-                RequestErrorDialog(kind);
+                OnErrorDialogRequested(kind);
             }
             catch (FaultException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The server could not keep the chosen language.");
-                RequestErrorDialog(ErrorDialogKind.ServiceUnavailable);
+                OnErrorDialogRequested(ErrorDialogKind.ServiceUnavailable);
             }
             catch (CommunicationException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The profile service could not be reached to keep the chosen language.");
-                RequestErrorDialog(ErrorDialogKind.ConnectionLost);
+                OnErrorDialogRequested(ErrorDialogKind.ConnectionLost);
             }
             catch (TimeoutException ex)
             {
                 communicationObject.Abort();
                 _logger.LogError(ex, "The profile service timed out while keeping the chosen language.");
-                RequestErrorDialog(ErrorDialogKind.ConnectionLost);
+                OnErrorDialogRequested(ErrorDialogKind.ConnectionLost);
             }
         }
 
@@ -335,7 +335,7 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        private void ToggleTwoStep()
+        private void ChangeTwoStep()
         {
             TwoStepNoticeKey = null;
             TwoStepErrorKey = null;
@@ -385,7 +385,7 @@ namespace GinRummy.Client.ViewModels
             }
             else
             {
-                IsChatFilterEnabled = !_isChatFilterEnabled;
+                IsChatFilterEnabled = !_isChatFilterEnabled ? true : false;
             }
         }
 
@@ -394,13 +394,13 @@ namespace GinRummy.Client.ViewModels
             bool isCompleted = _accountSettingsCaller.Call(operation);
             if (_accountSettingsCaller.ErrorDialog.HasValue)
             {
-                RequestErrorDialog(_accountSettingsCaller.ErrorDialog.Value);
+                OnErrorDialogRequested(_accountSettingsCaller.ErrorDialog.Value);
             }
 
             return isCompleted;
         }
 
-        private void RequestErrorDialog(ErrorDialogKind kind)
+        private void OnErrorDialogRequested(ErrorDialogKind kind)
         {
             ErrorDialogRequested?.Invoke(this, kind);
         }

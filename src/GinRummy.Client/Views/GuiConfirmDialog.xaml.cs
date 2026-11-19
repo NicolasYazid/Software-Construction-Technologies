@@ -42,13 +42,13 @@ namespace GinRummy.Client.Views
             lblMessage.Style = (Style)FindResource(messageStyleKey);
         }
 
-        private void OnConfirmClick(object sender, RoutedEventArgs e)
+        private void HandleConfirmClick(object sender, RoutedEventArgs e)
         {
             IsConfirmed = true;
             Close();
         }
 
-        private void OnCancelClick(object sender, RoutedEventArgs e)
+        private void HandleCancelClick(object sender, RoutedEventArgs e)
         {
             Close();
         }

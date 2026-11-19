@@ -48,6 +48,7 @@
     <Compile Include="Gameplay\ActiveMatchTests.cs" />
     <Compile Include="Gameplay\FakeRoundAnnouncer.cs" />
     <Compile Include="Gameplay\FakeMatchRecorder.cs" />
+    <Compile Include="Gameplay\MatchRegistryTests.cs" />
     <Compile Include="Gameplay\PlayRoundUseCaseTests.cs" />
     <Compile Include="SocialCommunication\ChatHistoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

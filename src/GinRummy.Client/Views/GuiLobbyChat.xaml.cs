@@ -32,20 +32,20 @@ namespace GinRummy.Client.Views
         {
             InitializeComponent();
             _viewModel = ((App)Application.Current).CreateLobbyChatViewModel();
-            _viewModel.PresenceUnavailable += OnPresenceUnavailable;
-            _viewModel.ChatEntries.CollectionChanged += OnChatEntriesChanged;
+            _viewModel.PresenceUnavailable += HandlePresenceUnavailable;
+            _viewModel.ChatEntries.CollectionChanged += HandleChatEntriesChanged;
             DataContext = _viewModel;
             _challengeViewModel = ((App)Application.Current).CreateLobbyChallengeViewModel();
-            _challengeViewModel.RoundStarted += OnRoundStarted;
-            _challengeViewModel.SessionExpired += OnSessionExpired;
+            _challengeViewModel.RoundStarted += HandleRoundStarted;
+            _challengeViewModel.SessionExpired += HandleSessionExpired;
             pnlChallenges.DataContext = _challengeViewModel;
             _friendshipConnection = ((App)Application.Current).CreateFriendshipConnection();
             _friendshipViewModel = ((App)Application.Current).CreateLobbyFriendshipViewModel(_friendshipConnection);
             pnlFriendshipNotice.DataContext = _friendshipViewModel;
-            _friendshipViewModel.FriendshipCreated += OnFriendshipCreated;
-            _friendshipViewModel.FriendRequestDeclined += OnFriendRequestDeclined;
-            _friendshipViewModel.FriendRemoved += OnFriendRemoved;
-            _friendshipViewModel.SessionExpired += OnSessionExpired;
+            _friendshipViewModel.FriendshipCreated += HandleFriendshipCreated;
+            _friendshipViewModel.FriendRequestDeclined += HandleFriendRequestDeclined;
+            _friendshipViewModel.FriendRemoved += HandleFriendRemoved;
+            _friendshipViewModel.SessionExpired += HandleSessionExpired;
             _friendChatViewModel = _viewModel.FriendChat;
             _friendChatViewModel.OpenConversationChanged += HandleOpenConversationChanged;
             pnlFriendChat.DataContext = _friendChatViewModel;
@@ -54,12 +54,12 @@ namespace GinRummy.Client.Views
             _ownProfile = _viewModel.GetOwnProfile();
             _ownProfileViewModel = ((App)Application.Current).CreatePlayerProfileViewModel(_ownProfile);
             imgMyProfilePicture.DataContext = _ownProfileViewModel;
-            Loaded += OnScreenLoaded;
-            Closed += OnScreenClosed;
+            Loaded += HandleScreenLoaded;
+            Closed += HandleScreenClosed;
         }
 
         // The follow-up of the players starts once the window is on screen, because a failure opens the error dialog over it.
-        private void OnScreenLoaded(object sender, RoutedEventArgs e)
+        private void HandleScreenLoaded(object sender, RoutedEventArgs e)
         {
             ScrollToLatestEntry();
             _viewModel.StartPresence();
@@ -69,7 +69,7 @@ namespace GinRummy.Client.Views
             _ownProfileViewModel.LoadProfile(((App)Application.Current).SignedInPlayer.AccessToken);
         }
 
-        private void OnChatEntriesChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void HandleChatEntriesChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
@@ -77,14 +77,14 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnPresenceUnavailable(object sender, EventArgs e)
+        private void HandlePresenceUnavailable(object sender, EventArgs e)
         {
             ShowModal(new GuiErrorDialog(ErrorDialogKind.ServiceUnavailable));
         }
 
         // A context menu lives outside the visual tree of the window, so its items cannot bind to the commands of the lobby.
         // Each item hands the row it was opened on to the command instead.
-        private void OnChallengeClick(object sender, RoutedEventArgs e)
+        private void HandleChallengeClick(object sender, RoutedEventArgs e)
         {
             LobbyPlayerViewModel player = GetMenuPlayer(sender);
             if (player != null)
@@ -93,34 +93,34 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnRoundStarted(object sender, GameTableViewModel table)
+        private void HandleRoundStarted(object sender, GameTableViewModel table)
         {
             GuiGameTable gameTable = new GuiGameTable(table, _viewModel.MatchChat);
-            gameTable.Closed += OnGameTableClosed;
+            gameTable.Closed += HandleGameTableClosed;
             OpenOver(gameTable);
         }
 
-        private void OnGameTableClosed(object sender, EventArgs e)
+        private void HandleGameTableClosed(object sender, EventArgs e)
         {
-            ((Window)sender).Closed -= OnGameTableClosed;
+            ((Window)sender).Closed -= HandleGameTableClosed;
             _viewModel.MatchChat.ClearMessages();
             _challengeViewModel.LeaveMatch();
         }
 
-        private void OnSessionExpired(object sender, EventArgs e)
+        private void HandleSessionExpired(object sender, EventArgs e)
         {
             GuiErrorDialog errorDialog = new GuiErrorDialog(ErrorDialogKind.SessionExpired);
-            errorDialog.Closed += OnSessionExpiredDialogClosed;
+            errorDialog.Closed += HandleSessionExpiredDialogClosed;
             ShowModal(errorDialog);
         }
 
-        private void OnSessionExpiredDialogClosed(object sender, EventArgs e)
+        private void HandleSessionExpiredDialogClosed(object sender, EventArgs e)
         {
             Close();
             ((App)Application.Current).ForgetSignedInPlayer();
         }
 
-        private void OnFriendRequestClick(object sender, RoutedEventArgs e)
+        private void HandleFriendRequestClick(object sender, RoutedEventArgs e)
         {
             LobbyPlayerViewModel player = GetMenuPlayer(sender);
             if (player != null)
@@ -129,22 +129,22 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnFriendshipCreated(object sender, int publicTag)
+        private void HandleFriendshipCreated(object sender, int publicTag)
         {
             _viewModel.AddFriend(publicTag);
         }
 
-        private void OnFriendRequestDeclined(object sender, int publicTag)
+        private void HandleFriendRequestDeclined(object sender, int publicTag)
         {
             _viewModel.ClearPendingRequest(publicTag);
         }
 
-        private void OnFriendRemoved(object sender, int publicTag)
+        private void HandleFriendRemoved(object sender, int publicTag)
         {
             _viewModel.RemoveFriend(publicTag);
         }
 
-        private void OnPlayerProfileClick(object sender, RoutedEventArgs e)
+        private void HandlePlayerProfileClick(object sender, RoutedEventArgs e)
         {
             LobbyPlayerViewModel player = GetMenuPlayer(sender);
             if (player != null)
@@ -156,15 +156,15 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnRemoveFriendClick(object sender, RoutedEventArgs e)
+        private void HandleRemoveFriendClick(object sender, RoutedEventArgs e)
         {
             _friendToRemove = GetMenuPlayer(sender);
             GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.RemoveFriend);
-            confirmDialog.Closed += OnRemoveFriendConfirmClosed;
+            confirmDialog.Closed += HandleRemoveFriendConfirmClosed;
             ShowModal(confirmDialog);
         }
 
-        private void OnRemoveFriendConfirmClosed(object sender, EventArgs e)
+        private void HandleRemoveFriendConfirmClosed(object sender, EventArgs e)
         {
             if ((_friendToRemove != null) && ((GuiConfirmDialog)sender).IsConfirmed)
             {
@@ -174,7 +174,7 @@ namespace GinRummy.Client.Views
             _friendToRemove = null;
         }
 
-        private void OnSendMessageClick(object sender, RoutedEventArgs e)
+        private void HandleSendMessageClick(object sender, RoutedEventArgs e)
         {
             LobbyPlayerViewModel friend = GetMenuPlayer(sender);
             if (friend != null)
@@ -183,74 +183,74 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnMessageMenuOpening(object sender, ContextMenuEventArgs e)
+        private void HandleMessageMenuOpening(object sender, ContextMenuEventArgs e)
         {
             PlayerMessage message = ((FrameworkElement)sender).DataContext as PlayerMessage;
-            e.Handled = !_viewModel.CanReport(message);
+            e.Handled = !_viewModel.CanReport(message) ? true : false;
         }
 
-        private void OnNotificationsClick(object sender, RoutedEventArgs e)
+        private void HandleNotificationsClick(object sender, RoutedEventArgs e)
         {
             GuiNotifications notifications = new GuiNotifications(_friendshipConnection);
             ShowModal(notifications);
         }
 
-        private void OnSettingsClick(object sender, RoutedEventArgs e)
+        private void HandleSettingsClick(object sender, RoutedEventArgs e)
         {
             GuiProfilePanel profilePanel = new GuiProfilePanel(_ownProfile);
             ShowModal(profilePanel);
         }
 
-        private void OnMyProfileClick(object sender, RoutedEventArgs e)
+        private void HandleMyProfileClick(object sender, RoutedEventArgs e)
         {
             ShowOwnProfile();
         }
 
-        private void OnProfileClick(object sender, RoutedEventArgs e)
+        private void HandleProfileClick(object sender, RoutedEventArgs e)
         {
             ShowOwnProfile();
         }
 
-        private void OnRankingsClick(object sender, RoutedEventArgs e)
+        private void HandleRankingsClick(object sender, RoutedEventArgs e)
         {
             GuiRankings rankings = new GuiRankings();
             ShowModal(rankings);
         }
 
-        private void OnHowToPlayClick(object sender, RoutedEventArgs e)
+        private void HandleHowToPlayClick(object sender, RoutedEventArgs e)
         {
             GuiHouseRules houseRules = new GuiHouseRules();
             ShowModal(houseRules);
         }
 
-        private void OnScreenClosed(object sender, EventArgs e)
+        private void HandleScreenClosed(object sender, EventArgs e)
         {
             _viewModel.StopCountdown();
             _viewModel.StopPresence();
             _viewModel.StopChat();
             _challengeViewModel.Stop();
             _friendshipViewModel.Stop();
-            _friendshipViewModel.FriendshipCreated -= OnFriendshipCreated;
-            _friendshipViewModel.FriendRequestDeclined -= OnFriendRequestDeclined;
-            _friendshipViewModel.FriendRemoved -= OnFriendRemoved;
+            _friendshipViewModel.FriendshipCreated -= HandleFriendshipCreated;
+            _friendshipViewModel.FriendRequestDeclined -= HandleFriendRequestDeclined;
+            _friendshipViewModel.FriendRemoved -= HandleFriendRemoved;
             _friendChatViewModel.OpenConversationChanged -= HandleOpenConversationChanged;
-            _friendshipViewModel.SessionExpired -= OnSessionExpired;
-            _challengeViewModel.RoundStarted -= OnRoundStarted;
-            _challengeViewModel.SessionExpired -= OnSessionExpired;
-            _viewModel.PresenceUnavailable -= OnPresenceUnavailable;
-            _viewModel.ChatEntries.CollectionChanged -= OnChatEntriesChanged;
-            Loaded -= OnScreenLoaded;
-            Closed -= OnScreenClosed;
+            _friendshipViewModel.SessionExpired -= HandleSessionExpired;
+            _challengeViewModel.RoundStarted -= HandleRoundStarted;
+            _challengeViewModel.SessionExpired -= HandleSessionExpired;
+            _viewModel.PresenceUnavailable -= HandlePresenceUnavailable;
+            _viewModel.ChatEntries.CollectionChanged -= HandleChatEntriesChanged;
+            Loaded -= HandleScreenLoaded;
+            Closed -= HandleScreenClosed;
         }
 
         private void ShowOwnProfile()
         {
             GuiPlayerProfile playerProfile = new GuiPlayerProfile(_ownProfile);
-            playerProfile.Closed += OnOwnProfileClosed;
+            playerProfile.Closed += HandleOwnProfileClosed;
             ShowModal(playerProfile);
         }
 
-        private void OnOwnProfileClosed(object sender, EventArgs e)
+        private void HandleOwnProfileClosed(object sender, EventArgs e)
         {
             _ownProfileViewModel.RefreshProfile();
         }

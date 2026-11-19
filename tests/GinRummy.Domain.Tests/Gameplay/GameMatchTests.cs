@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using NUnit.Framework;
@@ -80,6 +81,38 @@ namespace GinRummy.Domain.Tests.Gameplay
             Assert.Throws<InvalidMoveException>(dealNextRound);
         }
 
+        [Test]
+        public void Test_Constructor_ResumedScores_KeepsTheScoreOfEachPlayer()
+        {
+            Dictionary<int, int> scoresByPlayerId = new Dictionary<int, int> { { KnockerId, 40 }, { DefenderId, 70 } };
+
+            GameMatch match = new GameMatch(new GameRound(DefenderId, KnockerId, StandardDeck.CreateOrdered()), scoresByPlayerId);
+
+            Assert.AreEqual(70, match.GetScore(DefenderId));
+        }
+
+        [Test]
+        public void Test_Constructor_ResumedScoreAtTheTarget_ThrowsArgumentException()
+        {
+            Dictionary<int, int> scoresByPlayerId = new Dictionary<int, int> { { KnockerId, RoundRules.TargetScore }, { DefenderId, 0 } };
+            GameRound round = new GameRound(DefenderId, KnockerId, StandardDeck.CreateOrdered());
+
+            TestDelegate resumeMatch = () => new GameMatch(round, scoresByPlayerId);
+
+            Assert.Throws<ArgumentException>(resumeMatch);
+        }
+
+        [Test]
+        public void Test_Constructor_ResumedScoresWithoutAPlayer_ThrowsArgumentException()
+        {
+            Dictionary<int, int> scoresByPlayerId = new Dictionary<int, int> { { KnockerId, 10 } };
+            GameRound round = new GameRound(DefenderId, KnockerId, StandardDeck.CreateOrdered());
+
+            TestDelegate resumeMatch = () => new GameMatch(round, scoresByPlayerId);
+
+            Assert.Throws<ArgumentException>(resumeMatch);
+        }
+
         private static GameRound BuildRoundWithKnockerAsNonDealer()
         {
             return new GameRound(DefenderId, KnockerId, BuildDeck(CreateKnockerHand(), CreateDefenderHand()));
@@ -136,9 +169,15 @@ namespace GinRummy.Domain.Tests.Gameplay
         {
             return new List<Card>
             {
-                new Card(CardSuit.Hearts, Card.AceRank), new Card(CardSuit.Hearts, 2), new Card(CardSuit.Hearts, 3),
-                new Card(CardSuit.Spades, 4), new Card(CardSuit.Spades, 5), new Card(CardSuit.Spades, 6),
-                new Card(CardSuit.Clubs, 7), new Card(CardSuit.Clubs, 8), new Card(CardSuit.Clubs, 9),
+                new Card(CardSuit.Hearts, Card.AceRank),
+                new Card(CardSuit.Hearts, 2),
+                new Card(CardSuit.Hearts, 3),
+                new Card(CardSuit.Spades, 4),
+                new Card(CardSuit.Spades, 5),
+                new Card(CardSuit.Spades, 6),
+                new Card(CardSuit.Clubs, 7),
+                new Card(CardSuit.Clubs, 8),
+                new Card(CardSuit.Clubs, 9),
                 new Card(CardSuit.Diamonds, 13)
             };
         }
@@ -147,9 +186,15 @@ namespace GinRummy.Domain.Tests.Gameplay
         {
             return new List<Card>
             {
-                new Card(CardSuit.Diamonds, Card.AceRank), new Card(CardSuit.Diamonds, 3), new Card(CardSuit.Diamonds, 5),
-                new Card(CardSuit.Diamonds, 7), new Card(CardSuit.Diamonds, 9), new Card(CardSuit.Hearts, 5),
-                new Card(CardSuit.Hearts, 7), new Card(CardSuit.Hearts, 9), new Card(CardSuit.Spades, 11),
+                new Card(CardSuit.Diamonds, Card.AceRank),
+                new Card(CardSuit.Diamonds, 3),
+                new Card(CardSuit.Diamonds, 5),
+                new Card(CardSuit.Diamonds, 7),
+                new Card(CardSuit.Diamonds, 9),
+                new Card(CardSuit.Hearts, 5),
+                new Card(CardSuit.Hearts, 7),
+                new Card(CardSuit.Hearts, 9),
+                new Card(CardSuit.Spades, 11),
                 new Card(CardSuit.Spades, 13)
             };
         }

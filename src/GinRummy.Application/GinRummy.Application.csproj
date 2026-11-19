@@ -72,6 +72,7 @@
     <Compile Include="UseCases\Gameplay\RoundMoveKind.cs" />
     <Compile Include="UseCases\Gameplay\MatchRegistry.cs" />
     <Compile Include="UseCases\Gameplay\MatchRecorder.cs" />
+    <Compile Include="UseCases\Gameplay\MatchSnapshot.cs" />
     <Compile Include="Ports\DirectDuel\IChallengeAnnouncer.cs" />
     <Compile Include="Ports\DirectDuel\IChallengeRecorder.cs" />
     <Compile Include="Ports\DirectDuel\IChallengeUseCase.cs" />

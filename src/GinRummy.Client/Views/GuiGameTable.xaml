@@ -17,7 +17,6 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <!-- The table has the size of the lobby because it takes its place while a match lasts. -->
     <Grid Width="1360" Height="780" Background="{StaticResource BrsMenuRoot}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="280" />
@@ -49,7 +48,6 @@
                 <Border Grid.Row="2" Style="{StaticResource StyChatComposer}" Padding="14,14,14,16">
                     <ctl:PixelBorder Style="{StaticResource StyPanelSearchShell}">
                         <DockPanel LastChildFill="True">
-                            <!-- The button borrows the tooltip of the chat of the lobby because the language resources give this one none. -->
                             <Button x:Name="btnSend" Effect="{StaticResource EfxCardShadow}"
                                     DockPanel.Dock="Right" Style="{StaticResource StyIconButton}"
                                     Width="28" Height="28" Margin="8,0,0,0" VerticalAlignment="Center"
@@ -86,7 +84,6 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- The name of the opponent is data and keeps the case the player gave it. -->
             <StackPanel Orientation="Horizontal" Margin="8,24,0,0">
                 <TextBlock Style="{StaticResource StyTableCaption}" Text="{Binding OpponentName}" />
                 <Border Style="{StaticResource StyTablePill}">
@@ -149,7 +146,7 @@
                             <ctl:CardHand x:Name="lstDiscard" ItemsSource="{Binding DiscardPile}"
                                           ItemTemplate="{StaticResource TplCardFaceLarge}"
                                           IsDragOnly="True" DropTarget="{Binding ElementName=lstHand}"
-                                          CardDropped="OnDiscardCardDropped">
+                                          CardDropped="HandleDiscardCardDropped">
                                 <ctl:CardHand.Style>
                                     <Style TargetType="ctl:CardHand" BasedOn="{StaticResource StyTablePile}">
                                         <Style.Triggers>
@@ -206,9 +203,9 @@
                           BackTemplate="{StaticResource TplCardBackHand}"
                           SelectedItem="{Binding SelectedCard}"
                           DropTarget="{Binding ElementName=lstDiscard}"
-                          CardMoved="OnHandCardMoved"
-                          CardDropped="OnHandCardDropped"
-                          CardLeft="OnHandCardLeft" />
+                          CardMoved="HandleHandCardMoved"
+                          CardDropped="HandleHandCardDropped"
+                          CardLeft="HandleHandCardLeft" />
 
             <TextBlock x:Name="lblHandHint" Grid.Row="5" Style="{StaticResource StyTableNote}" Margin="0,10,0,0"
                        Text="{Binding [GameTable_LblHandHint], Source={StaticResource PrvLocalization},
@@ -283,12 +280,12 @@
                     <Button x:Name="btnHowToPlay" Effect="{StaticResource EfxCardShadow}" Style="{StaticResource StyLobbySecondaryButton}"
                             Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
-                            Click="OnHowToPlayClick" />
+                            Click="HandleHowToPlayClick" />
                     <Button x:Name="btnForfeit" Effect="{StaticResource EfxCardShadow}"
                             Style="{StaticResource StyForfeitButton}" Margin="0,12,0,0"
                             Content="{Binding [GameTable_BtnForfeit], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
-                            Click="OnForfeitClick" />
+                            Click="HandleForfeitClick" />
                 </StackPanel>
 
                 <StackPanel DockPanel.Dock="Top">
@@ -343,7 +340,6 @@
             </DockPanel>
         </ctl:PixelBorder>
 
-        <!-- Each veil follows the visibility of its label, so the view model switches one element for both. -->
         <Grid Grid.ColumnSpan="3" Background="{StaticResource BrsOverlay}"
               Visibility="{Binding Visibility, ElementName=lblKnockWith}">
             <ctl:PixelBorder Style="{StaticResource StyTableOverlayCard}" Width="780" Padding="40,24,40,26">
@@ -362,8 +358,9 @@
                     <TextBlock x:Name="lblKnockWith" Style="{StaticResource StyCardTitle}"
                                Visibility="{Binding IsHandResultShown, Converter={StaticResource CnvBooleanToVisibility}}">
                         <TextBlock.Text>
-                            <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
-                                <Binding Path="[GameTable_LblKnockWith]" Source="{StaticResource PrvLocalization}" />
+                            <MultiBinding Converter="{StaticResource CnvResourceText}">
+                                <Binding Path="HandResult.TitleKey" />
+                                <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                                 <Binding Path="HandResult.KnockerDeadwood" />
                             </MultiBinding>
                         </TextBlock.Text>
@@ -371,19 +368,22 @@
                     <TextBlock x:Name="lblKnockAnnounce" Style="{StaticResource StyTableNote}" HorizontalAlignment="Left"
                                Margin="0,2,0,12">
                         <TextBlock.Text>
-                            <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
-                                <Binding Path="[GameTable_LblKnockAnnounce]" Source="{StaticResource PrvLocalization}" />
+                            <MultiBinding Converter="{StaticResource CnvResourceText}">
+                                <Binding Path="HandResult.AnnounceKey" />
+                                <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                                 <Binding Path="HandResult.KnockerName" />
                                 <Binding Path="HandResult.KnockerDeadwood" />
+                                <Binding Path="HandResult.DefenderName" />
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
 
-                    <DockPanel Style="{StaticResource StyHandCountRow}">
+                    <DockPanel Style="{StaticResource StyHandCountRow}"
+                               Visibility="{Binding HandResult.HasScoreBreakdown, Converter={StaticResource CnvBooleanToVisibility}}">
                         <TextBlock x:Name="lblYourDeadwoodValue" Style="{StaticResource StyHandCountValue}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="N0">
-                                    <Binding Path="HandResult.DefenderDeadwood" />
+                                    <Binding Path="HandResult.BaseDeadwood" />
                                     <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                                 </MultiBinding>
                             </TextBlock.Text>
@@ -392,16 +392,17 @@
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
                                     <Binding Path="[GameTable_LblDeadwoodOf]" Source="{StaticResource PrvLocalization}" />
-                                    <Binding Path="HandResult.DefenderName" />
+                                    <Binding Path="HandResult.BaseName" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
                     </DockPanel>
-                    <DockPanel Style="{StaticResource StyHandCountRow}">
+                    <DockPanel Style="{StaticResource StyHandCountRow}"
+                               Visibility="{Binding HandResult.HasSubtraction, Converter={StaticResource CnvBooleanToVisibility}}">
                         <TextBlock x:Name="lblOpponentDeadwoodValue" Style="{StaticResource StyHandCountValue}">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="-#,0;-#,0;0">
-                                    <Binding Path="HandResult.KnockerDeadwood" />
+                                    <Binding Path="HandResult.SubtractedDeadwood" />
                                     <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
                                 </MultiBinding>
                             </TextBlock.Text>
@@ -410,13 +411,34 @@
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvLocalizedFormat}">
                                     <Binding Path="[GameTable_LblMinusOpponentDeadwood]" Source="{StaticResource PrvLocalization}" />
-                                    <Binding Path="HandResult.KnockerName" />
+                                    <Binding Path="HandResult.SubtractedName" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
                     </DockPanel>
-                    <Border Style="{StaticResource StyGroupRule}" Margin="0,6,0,6" />
-                    <DockPanel Style="{StaticResource StyHandCountRow}">
+                    <DockPanel Style="{StaticResource StyHandCountRow}"
+                               Visibility="{Binding HandResult.HasBonus, Converter={StaticResource CnvBooleanToVisibility}}">
+                        <TextBlock x:Name="lblBonusValue" Style="{StaticResource StyHandCountValue}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="+#,0;-#,0;0">
+                                    <Binding Path="HandResult.BonusPoints" />
+                                    <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock x:Name="lblBonus" Style="{StaticResource StyHandCountLabel}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource CnvResourceText}">
+                                    <Binding Path="HandResult.BonusKey" />
+                                    <Binding Path="CurrentCulture" Source="{StaticResource PrvLocalization}" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DockPanel>
+                    <Border Style="{StaticResource StyGroupRule}" Margin="0,6,0,6"
+                            Visibility="{Binding HandResult.HasScoreBreakdown, Converter={StaticResource CnvBooleanToVisibility}}" />
+                    <DockPanel Style="{StaticResource StyHandCountRow}"
+                               Visibility="{Binding HandResult.HasScoreBreakdown, Converter={StaticResource CnvBooleanToVisibility}}">
                         <TextBlock x:Name="lblPointsForValue" Style="{StaticResource StyHandCountValue}" FontSize="24">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource CnvCultureNumber}" ConverterParameter="+#,0;-#,0;0">
@@ -436,7 +458,8 @@
                         </TextBlock>
                     </DockPanel>
 
-                    <ctl:PixelBorder Style="{StaticResource StyMeldPanel}">
+                    <ctl:PixelBorder Style="{StaticResource StyMeldPanel}"
+                                     Visibility="{Binding HandResult.HasScoreBreakdown, Converter={StaticResource CnvBooleanToVisibility}}">
                         <StackPanel>
                             <DockPanel LastChildFill="False" Margin="0,0,0,10">
                                 <TextBlock x:Name="lblDeadwoodCount" DockPanel.Dock="Right"
@@ -467,7 +490,8 @@
                             </ItemsControl>
                         </StackPanel>
                     </ctl:PixelBorder>
-                    <ctl:PixelBorder Style="{StaticResource StyMeldPanel}">
+                    <ctl:PixelBorder Style="{StaticResource StyMeldPanel}"
+                                     Visibility="{Binding HandResult.HasScoreBreakdown, Converter={StaticResource CnvBooleanToVisibility}}">
                         <StackPanel>
                             <DockPanel LastChildFill="False" Margin="0,0,0,10">
                                 <TextBlock x:Name="lblDefenderDeadwoodCount" DockPanel.Dock="Right"
@@ -541,10 +565,6 @@
                                 </Style>
                             </Button.Style>
                         </Button>
-                        <Button Style="{StaticResource StyDialogSecondaryButton}" Margin="16,0,0,0"
-                                Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource PrvLocalization},
-                                          Converter={StaticResource CnvUpperCase}}"
-                                Click="OnHowToPlayClick" />
                     </StackPanel>
                 </StackPanel>
             </ctl:PixelBorder>
@@ -554,9 +574,9 @@
               Visibility="{Binding IsOpponentDisconnected, Converter={StaticResource CnvBooleanToVisibility}}">
             <ctl:PixelBorder Style="{StaticResource StyTableOverlayCard}" Width="560">
                 <StackPanel>
-                    <TextBlock x:Name="lblPaused" Style="{StaticResource StyResultTitle}"
+                    <TextBlock x:Name="lblPaused" Style="{StaticResource StyResultTitle}" Visibility="Visible"
                                Text="{Binding [GameTable_LblPaused], Source={StaticResource PrvLocalization}}" />
-                    <TextBlock x:Name="lblPausedHint" Style="{StaticResource StyResultReason}"
+                    <TextBlock x:Name="lblPausedHint" Style="{StaticResource StyResultReason}" Visibility="Visible"
                                Text="{Binding [GameTable_LblPausedHint], Source={StaticResource PrvLocalization}}" />
                 </StackPanel>
             </ctl:PixelBorder>
@@ -596,7 +616,7 @@
                             HorizontalAlignment="Center" Margin="0,24,0,0"
                             Content="{Binding [GameTable_BtnReturnToLobby], Source={StaticResource PrvLocalization},
                                       Converter={StaticResource CnvUpperCase}}"
-                            Click="OnReturnToLobbyClick" />
+                            Click="HandleReturnToLobbyClick" />
                 </StackPanel>
             </ctl:PixelBorder>
         </Grid>

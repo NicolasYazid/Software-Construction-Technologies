@@ -16,41 +16,41 @@ namespace GinRummy.Client.Views
         {
             InitializeComponent();
             RankingsViewModel viewModel = ((App)Application.Current).CreateRankingsViewModel();
-            viewModel.LeaderboardUnavailable += OnLeaderboardUnavailable;
+            viewModel.LeaderboardUnavailable += HandleLeaderboardUnavailable;
             DataContext = viewModel;
-            Loaded += OnRankingsLoaded;
+            Loaded += HandleRankingsLoaded;
         }
 
         // The leaderboard is loaded once the modal is on screen, because a failed load opens the error dialog over it.
-        private void OnRankingsLoaded(object sender, RoutedEventArgs e)
+        private void HandleRankingsLoaded(object sender, RoutedEventArgs e)
         {
-            Loaded -= OnRankingsLoaded;
+            Loaded -= HandleRankingsLoaded;
             RankingsViewModel viewModel = (RankingsViewModel)DataContext;
             viewModel.LoadRankingsCommand.Execute(null);
         }
 
-        private void OnLeaderboardUnavailable(object sender, ErrorDialogKind errorDialogKind)
+        private void HandleLeaderboardUnavailable(object sender, ErrorDialogKind errorDialogKind)
         {
             GuiErrorDialog errorDialog = new GuiErrorDialog(errorDialogKind);
             if (errorDialogKind == ErrorDialogKind.SessionExpired)
             {
-                errorDialog.Closed += OnSessionExpiredDialogClosed;
+                errorDialog.Closed += HandleSessionExpiredDialogClosed;
             }
 
             ShowModal(errorDialog);
         }
 
-        private void OnSessionExpiredDialogClosed(object sender, EventArgs e)
+        private void HandleSessionExpiredDialogClosed(object sender, EventArgs e)
         {
             LeaveLobby();
         }
 
-        private void OnSearchClick(object sender, RoutedEventArgs e)
+        private void HandleSearchClick(object sender, RoutedEventArgs e)
         {
             txtSearch.Focus();
         }
 
-        private void OnCloseClick(object sender, RoutedEventArgs e)
+        private void HandleCloseClick(object sender, RoutedEventArgs e)
         {
             Close();
         }

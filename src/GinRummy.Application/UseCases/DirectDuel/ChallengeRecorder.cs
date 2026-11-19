@@ -26,8 +26,7 @@ namespace GinRummy.Application.UseCases.DirectDuel
             Challenge sentChallenge = new Challenge(
                 challenge.Challenger.Id,
                 challenge.Challenged.Id,
-                sentAt,
-                sentAt.AddMinutes(ChallengeLifetimeMinutes));
+                new ValidityPeriod(sentAt, sentAt.AddMinutes(ChallengeLifetimeMinutes)));
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
                 unitOfWork.Challenges.Add(sentChallenge);
@@ -57,7 +56,7 @@ namespace GinRummy.Application.UseCases.DirectDuel
             {
                 DateTime acceptedAt = _clock.UtcNow;
                 Challenge storedChallenge = FindPendingChallenge(unitOfWork, challenge);
-                isAccepted = (storedChallenge != null) && !storedChallenge.IsExpiredAt(acceptedAt);
+                isAccepted = (storedChallenge != null) && !storedChallenge.IsExpiredAt(acceptedAt) ? true : false;
                 if (isAccepted)
                 {
                     storedChallenge.Accept(StartGameSession(unitOfWork, challenge, acceptedAt), acceptedAt);
@@ -92,7 +91,9 @@ namespace GinRummy.Application.UseCases.DirectDuel
             gameSession.Start(startedAt);
             unitOfWork.Games.Add(gameSession);
             unitOfWork.Games.AddParticipant(GameParticipant.ForPlayer(gameSession.GameSessionId, challenge.Challenger.Id));
-            unitOfWork.Games.AddParticipant(GameParticipant.ForPlayer(gameSession.GameSessionId, challenge.Challenged.Id));
+            GameParticipant firstToPlay = GameParticipant.ForPlayer(gameSession.GameSessionId, challenge.Challenged.Id);
+            unitOfWork.Games.AddParticipant(firstToPlay);
+            gameSession.GiveTurnTo(firstToPlay.GameParticipantId);
 
             return gameSession.GameSessionId;
         }

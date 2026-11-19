@@ -15,7 +15,7 @@ namespace GinRummy.Client.Models
 
         public bool IsPermanent
         {
-            get { return !RemainingTime.HasValue; }
+            get { return !RemainingTime.HasValue ? true : false; }
         }
     }
 }

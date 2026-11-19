@@ -36,7 +36,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _messageDraft = value ?? string.Empty;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 

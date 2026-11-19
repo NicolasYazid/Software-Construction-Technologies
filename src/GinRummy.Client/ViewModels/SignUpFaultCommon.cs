@@ -22,7 +22,7 @@ namespace GinRummy.Client.ViewModels
         private const string CodeTooManyAttemptsKey = "Error_AuthTooManyAttempts";
         private const string ServiceUnavailableKey = "Error_SysServiceUnavailable";
 
-        private static readonly IDictionary<ServiceFaultCode, string> _messageKeys = new Dictionary<ServiceFaultCode, string>
+        private static readonly IDictionary<ServiceFaultCode, string> s_messageKeys = new Dictionary<ServiceFaultCode, string>
         {
             { ServiceFaultCode.RequiredField, RequiredFieldKey },
             { ServiceFaultCode.DisallowedCharacters, DisallowedCharactersKey },
@@ -42,7 +42,7 @@ namespace GinRummy.Client.ViewModels
         public static string ResolveMessageKey(ServiceFaultCode code)
         {
             string messageKey;
-            if (!_messageKeys.TryGetValue(code, out messageKey))
+            if (!s_messageKeys.TryGetValue(code, out messageKey))
             {
                 messageKey = ServiceUnavailableKey;
             }

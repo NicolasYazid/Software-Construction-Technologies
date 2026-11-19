@@ -21,10 +21,10 @@ namespace GinRummy.Client.Views
         {
             InitializeComponent();
             _viewModel = ((App)Application.Current).CreateEditProfileViewModel(profile);
-            _viewModel.SocialLinkRemovalRequested += OnSocialLinkRemovalRequested;
-            _viewModel.ErrorDialogRequested += OnErrorDialogRequested;
+            _viewModel.SocialLinkRemovalRequested += HandleSocialLinkRemovalRequested;
+            _viewModel.ErrorDialogRequested += HandleErrorDialogRequested;
             DataContext = _viewModel;
-            txtSocialPlatformName.IsVisibleChanged += OnSocialPlatformNameVisibleChanged;
+            txtSocialPlatformName.IsVisibleChanged += HandleSocialPlatformNameVisibleChanged;
         }
 
         private static string AccessToken
@@ -32,7 +32,7 @@ namespace GinRummy.Client.Views
             get { return ((App)Application.Current).SignedInPlayer.AccessToken; }
         }
 
-        private void OnChangePhotoClick(object sender, RoutedEventArgs e)
+        private void HandleChangePhotoClick(object sender, RoutedEventArgs e)
         {
             // The filter shows only the patterns because a filter description is visible text that the language resources do not carry.
             OpenFileDialog fileDialog = new OpenFileDialog();
@@ -43,17 +43,17 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnRemovePhotoClick(object sender, RoutedEventArgs e)
+        private void HandleRemovePhotoClick(object sender, RoutedEventArgs e)
         {
             _viewModel.RemovePicture(AccessToken);
         }
 
-        private void OnSaveClick(object sender, RoutedEventArgs e)
+        private void HandleSaveClick(object sender, RoutedEventArgs e)
         {
             _viewModel.Save(AccessToken);
         }
 
-        private void OnSocialPlatformNameVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void HandleSocialPlatformNameVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (txtSocialPlatformName.IsVisible)
             {
@@ -61,36 +61,36 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnSocialLinkRemovalRequested(object sender, EventArgs e)
+        private void HandleSocialLinkRemovalRequested(object sender, EventArgs e)
         {
             GuiConfirmDialog confirmDialog = new GuiConfirmDialog(ConfirmDialogKind.SocialLinkRemove);
-            confirmDialog.Closed += OnUnlinkConfirmClosed;
+            confirmDialog.Closed += HandleUnlinkConfirmClosed;
             ShowModal(confirmDialog);
         }
 
-        private void OnUnlinkConfirmClosed(object sender, EventArgs e)
+        private void HandleUnlinkConfirmClosed(object sender, EventArgs e)
         {
             _viewModel.CompleteSocialLinkRemoval(((GuiConfirmDialog)sender).IsConfirmed, AccessToken);
         }
 
-        private void OnErrorDialogRequested(object sender, ErrorDialogKind kind)
+        private void HandleErrorDialogRequested(object sender, ErrorDialogKind kind)
         {
             GuiErrorDialog errorDialog = new GuiErrorDialog(kind);
             if (kind == ErrorDialogKind.SessionExpired)
             {
-                errorDialog.Closed += OnSessionExpiredDialogClosed;
+                errorDialog.Closed += HandleSessionExpiredDialogClosed;
             }
 
             ShowModal(errorDialog);
         }
 
         // An expired session cannot stay in the lobby, so the lobby closes too.
-        private void OnSessionExpiredDialogClosed(object sender, EventArgs e)
+        private void HandleSessionExpiredDialogClosed(object sender, EventArgs e)
         {
             LeaveLobby();
         }
 
-        private void OnCancelClick(object sender, RoutedEventArgs e)
+        private void HandleCancelClick(object sender, RoutedEventArgs e)
         {
             Close();
         }

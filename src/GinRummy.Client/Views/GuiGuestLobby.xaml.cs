@@ -20,14 +20,14 @@ namespace GinRummy.Client.Views
         {
             InitializeComponent();
             _viewModel = ((App)Application.Current).CreateGuestLobbyViewModel();
-            _viewModel.PresenceUnavailable += OnPresenceUnavailable;
+            _viewModel.PresenceUnavailable += HandlePresenceUnavailable;
             DataContext = _viewModel;
-            Loaded += OnScreenLoaded;
-            Closed += OnScreenClosed;
+            Loaded += HandleScreenLoaded;
+            Closed += HandleScreenClosed;
         }
 
         // The follow-up of the players starts once the window is on screen, because a failure opens the error dialog over it.
-        private void OnScreenLoaded(object sender, RoutedEventArgs e)
+        private void HandleScreenLoaded(object sender, RoutedEventArgs e)
         {
             if (_viewModel.ChatEntries.Count > 0)
             {
@@ -37,45 +37,45 @@ namespace GinRummy.Client.Views
             _viewModel.StartPresence();
         }
 
-        private void OnPresenceUnavailable(object sender, EventArgs e)
+        private void HandlePresenceUnavailable(object sender, EventArgs e)
         {
             ShowModal(new GuiErrorDialog(ErrorDialogKind.ServiceUnavailable));
         }
 
-        private void OnLogInClick(object sender, RoutedEventArgs e)
+        private void HandleLogInClick(object sender, RoutedEventArgs e)
         {
             ReturnToMenuWith(new GuiLogIn());
         }
 
-        private void OnCreateAccountClick(object sender, RoutedEventArgs e)
+        private void HandleCreateAccountClick(object sender, RoutedEventArgs e)
         {
             ReturnToMenuWith(new GuiSignUp(true));
         }
 
-        private void OnRankingsClick(object sender, RoutedEventArgs e)
+        private void HandleRankingsClick(object sender, RoutedEventArgs e)
         {
             pnlRankingsNotice.Visibility = Visibility.Visible;
         }
 
-        private void OnDismissRankingsNoticeClick(object sender, RoutedEventArgs e)
+        private void HandleDismissRankingsNoticeClick(object sender, RoutedEventArgs e)
         {
             pnlRankingsNotice.Visibility = Visibility.Collapsed;
         }
 
-        private void OnHowToPlayClick(object sender, RoutedEventArgs e)
+        private void HandleHowToPlayClick(object sender, RoutedEventArgs e)
         {
             GuiHouseRules houseRules = new GuiHouseRules();
             ShowModal(houseRules);
         }
 
         // Leaving the lobby ends the presence subscription, so the other players stop seeing the guest.
-        private void OnScreenClosed(object sender, EventArgs e)
+        private void HandleScreenClosed(object sender, EventArgs e)
         {
             _viewModel.StopCountdown();
             _viewModel.StopPresence();
-            _viewModel.PresenceUnavailable -= OnPresenceUnavailable;
-            Loaded -= OnScreenLoaded;
-            Closed -= OnScreenClosed;
+            _viewModel.PresenceUnavailable -= HandlePresenceUnavailable;
+            Loaded -= HandleScreenLoaded;
+            Closed -= HandleScreenClosed;
             ((App)Application.Current).ForgetSignedInPlayer();
         }
     }

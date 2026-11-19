@@ -23,7 +23,7 @@ namespace GinRummy.Client.Views
             _friendshipConnection = friendshipConnection ?? throw new ArgumentNullException(nameof(friendshipConnection));
             _viewModel = ((App)Application.Current).CreateSanctionsViewModel();
             DataContext = _viewModel;
-            Closed += OnScreenClosed;
+            Closed += HandleScreenClosed;
         }
 
         protected override void RefreshFormattedText()
@@ -31,7 +31,7 @@ namespace GinRummy.Client.Views
             _viewModel.LoadSanctions();
         }
 
-        private void OnTabSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void HandleTabSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (IsLoaded && tabFriendRequests.IsSelected)
             {
@@ -39,15 +39,15 @@ namespace GinRummy.Client.Views
             }
         }
 
-        private void OnCloseClick(object sender, RoutedEventArgs e)
+        private void HandleCloseClick(object sender, RoutedEventArgs e)
         {
             Close();
         }
 
-        private void OnScreenClosed(object sender, EventArgs e)
+        private void HandleScreenClosed(object sender, EventArgs e)
         {
             _viewModel.StopCountdown();
-            Closed -= OnScreenClosed;
+            Closed -= HandleScreenClosed;
         }
     }
 }

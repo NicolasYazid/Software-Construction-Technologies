@@ -56,7 +56,7 @@ namespace GinRummy.Client.ViewModels
             protected set
             {
                 _remainingAttempts = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -66,14 +66,14 @@ namespace GinRummy.Client.ViewModels
             protected set
             {
                 _errorMessageKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasErrorMessage));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasErrorMessage));
             }
         }
 
         public bool HasErrorMessage
         {
-            get { return !string.IsNullOrEmpty(_errorMessageKey); }
+            get { return !string.IsNullOrEmpty(_errorMessageKey) ? true : false; }
         }
 
         public bool IsAlreadyVerified
@@ -82,14 +82,14 @@ namespace GinRummy.Client.ViewModels
             protected set
             {
                 _isAlreadyVerified = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(IsVerificationPending));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsVerificationPending));
             }
         }
 
         public bool IsVerificationPending
         {
-            get { return !_isAlreadyVerified; }
+            get { return !_isAlreadyVerified ? true : false; }
         }
 
         public bool IsCodeNotSentShown
@@ -98,7 +98,7 @@ namespace GinRummy.Client.ViewModels
             protected set
             {
                 _isCodeNotSentShown = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -127,7 +127,7 @@ namespace GinRummy.Client.ViewModels
             ResendCountdown.Restart(wait);
         }
 
-        protected void RequestErrorDialog(ErrorDialogKind kind)
+        protected void OnErrorDialogRequested(ErrorDialogKind kind)
         {
             ErrorDialogRequested?.Invoke(this, kind);
         }

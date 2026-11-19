@@ -45,7 +45,7 @@
                         <!-- Settings belong to an account and nobody is signed in on the menu, so the button stays unavailable here. -->
                         <Button x:Name="btnSettings" Style="{StaticResource StyMenuChipButton}" Margin="0,8,0,0"
                                 IsEnabled="False"
-                                Click="OnSettingsClick">
+                                Click="HandleSettingsClick">
                             <Image Source="{StaticResource IcoGear}" Width="22" Height="22" />
                         </Button>
                     </StackPanel>
@@ -65,19 +65,19 @@
                                     Style="{StaticResource StyMenuButton}" Margin="6,0,6,0"
                                     Content="{Binding [Shared_BtnCreateAccount], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}"
-                                    Click="OnCreateAccountClick" />
+                                    Click="HandleCreateAccountClick" />
                             <Button Grid.Column="1" x:Name="btnLogIn"
                                     Background="{StaticResource BrsMenuAccent}"
                                     Style="{StaticResource StyMenuPrimaryButton}" Margin="6,0,6,0"
                                     Content="{Binding [Shared_BtnLogIn], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}"
-                                    Click="OnLogInClick" />
+                                    Click="HandleLogInClick" />
                             <Button Grid.Column="2" x:Name="btnPlayAsGuest"
                                     Background="{StaticResource BrsMenuEarth}"
                                     Style="{StaticResource StyMenuButton}" Margin="6,0,6,0"
                                     Content="{Binding [MainMenu_BtnPlayAsGuest], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}"
-                                    Click="OnPlayAsGuestClick" />
+                                    Click="HandlePlayAsGuestClick" />
                         </Grid>
                         <Grid HorizontalAlignment="Center" Margin="0,14,0,0">
                             <Grid.ColumnDefinitions>
@@ -89,13 +89,13 @@
                                     Style="{StaticResource StyMenuSmallButton}" Margin="6,0,6,0"
                                     Content="{Binding [Shared_BtnHowToPlay], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}"
-                                    Click="OnHowToPlayClick" />
+                                    Click="HandleHowToPlayClick" />
                             <Button Grid.Column="1" x:Name="btnExit"
                                     Background="{StaticResource BrsMenuWarn}"
                                     Style="{StaticResource StyMenuSmallAltButton}" Margin="6,0,6,0"
                                     Content="{Binding [MainMenu_BtnExit], Source={StaticResource PrvLocalization},
                                               Converter={StaticResource CnvUpperCase}}"
-                                    Click="OnExitClick" />
+                                    Click="HandleExitClick" />
                         </Grid>
                     </StackPanel>
                 </ctl:PixelSurface>

@@ -82,13 +82,13 @@ namespace GinRummy.Client.Controls
             typeof(CardHand),
             new FrameworkPropertyMetadata(false));
 
-        private static readonly DependencyPropertyKey IsDraggingPropertyKey = DependencyProperty.RegisterReadOnly(
+        private static readonly DependencyPropertyKey s_isDraggingPropertyKey = DependencyProperty.RegisterReadOnly(
             nameof(IsDragging),
             typeof(bool),
             typeof(CardHand),
             new FrameworkPropertyMetadata(false));
 
-        public static readonly DependencyProperty IsDraggingProperty = IsDraggingPropertyKey.DependencyProperty;
+        public static readonly DependencyProperty IsDraggingProperty = s_isDraggingPropertyKey.DependencyProperty;
 
         private readonly Dictionary<object, CardMotion> _motions = new Dictionary<object, CardMotion>();
         private readonly Dictionary<object, Point> _exitTargets = new Dictionary<object, Point>();
@@ -113,8 +113,8 @@ namespace GinRummy.Client.Controls
         {
             Background = Brushes.Transparent;
             ItemsPanel = new ItemsPanelTemplate(new FrameworkElementFactory(typeof(Canvas)));
-            Loaded += OnLoaded;
-            Unloaded += OnUnloaded;
+            Loaded += HandleLoaded;
+            Unloaded += HandleUnloaded;
         }
 
         public event EventHandler<CardMovedEventArgs> CardMoved;
@@ -180,7 +180,7 @@ namespace GinRummy.Client.Controls
         public bool IsDragging
         {
             get { return (bool)GetValue(IsDraggingProperty); }
-            private set { SetValue(IsDraggingPropertyKey, value); }
+            private set { SetValue(s_isDraggingPropertyKey, value); }
         }
 
         public void EnterFrom(object item, FrameworkElement source, bool isFaceDown)
@@ -354,7 +354,7 @@ namespace GinRummy.Client.Controls
 
         private void ShowSide(Border host, bool isFaceDown)
         {
-            bool canShowBack = isFaceDown && (BackTemplate != null);
+            bool canShowBack = isFaceDown && (BackTemplate != null) ? true : false;
             GetFace(host, FrontFace).Visibility = canShowBack ? Visibility.Hidden : Visibility.Visible;
             GetFace(host, BackFace).Visibility = canShowBack ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -378,22 +378,22 @@ namespace GinRummy.Client.Controls
             effect.Turn(tilt.AngleX, tilt.AngleY);
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        private void HandleLoaded(object sender, RoutedEventArgs e)
         {
             if (!_isSubscribedToRendering)
             {
-                CompositionTarget.Rendering += OnRendering;
+                CompositionTarget.Rendering += HandleRendering;
                 _isSubscribedToRendering = true;
             }
         }
 
-        private void OnUnloaded(object sender, RoutedEventArgs e)
+        private void HandleUnloaded(object sender, RoutedEventArgs e)
         {
-            CompositionTarget.Rendering -= OnRendering;
+            CompositionTarget.Rendering -= HandleRendering;
             _isSubscribedToRendering = false;
         }
 
-        private void OnRendering(object sender, EventArgs e)
+        private void HandleRendering(object sender, EventArgs e)
         {
             TimeSpan renderingTime = ((RenderingEventArgs)e).RenderingTime;
             HandFan fan = CreateFan(GetSeatedItems().Count);
@@ -441,7 +441,7 @@ namespace GinRummy.Client.Controls
             motion.TargetSlotAngle = 0;
             motion.IsHovered = false;
             motion.Step();
-            bool hasJustArrived = motion.HasArrived && !_departedItems.Contains(item);
+            bool hasJustArrived = motion.HasArrived && !_departedItems.Contains(item) ? true : false;
             if (hasJustArrived)
             {
                 _departedItems.Add(item);
@@ -500,16 +500,16 @@ namespace GinRummy.Client.Controls
                 hoveredItem = _draggedItem ?? FindItemAt(_pointer);
             }
 
-            bool hasHoverChanged = !Equals(hoveredItem, _hoveredItem);
+            bool hasHoverChanged = !Equals(hoveredItem, _hoveredItem) ? true : false;
             if (hasHoverChanged && (_hoveredItem != null) && _motions.TryGetValue(_hoveredItem, out CardMotion previousMotion))
             {
                 previousMotion.Tilt.Release();
             }
 
             _hoveredItem = hoveredItem;
-            bool canPickHoveredCard = (hoveredItem != null) && !IsReadOnly;
+            bool canPickHoveredCard = (hoveredItem != null) && !IsReadOnly ? true : false;
             Cursor = canPickHoveredCard ? Cursors.Hand : null;
-            bool canTiltHoveredCard = (hoveredItem != null) && IsHoverTiltEnabled;
+            bool canTiltHoveredCard = (hoveredItem != null) && IsHoverTiltEnabled ? true : false;
             if (canTiltHoveredCard && _motions.TryGetValue(hoveredItem, out CardMotion hoveredMotion))
             {
                 hoveredMotion.Tilt.Follow(_pointer - hoveredMotion.Position, GetCardSize());
@@ -526,7 +526,7 @@ namespace GinRummy.Client.Controls
                 if ((host != null) && _motions.TryGetValue(item, out CardMotion motion))
                 {
                     ((MatrixTransform)host.RenderTransform).Matrix = CreateMatrix(motion, host, cardSize);
-                    bool isAboveHand = motion.IsDragged || motion.IsLeaving;
+                    bool isAboveHand = motion.IsDragged || motion.IsLeaving ? true : false;
                     Panel.SetZIndex(host, isAboveHand ? DraggedLayer : index);
                     ShowSide(host, motion.IsShowingBack);
                     ApplyTilt(host, motion.Tilt, cardSize);
@@ -695,7 +695,9 @@ namespace GinRummy.Client.Controls
         {
             Vector distance = position - _pressPoint;
             bool hasLeftClickArea = (Math.Abs(distance.X) > SystemParameters.MinimumHorizontalDragDistance)
-                || (Math.Abs(distance.Y) > SystemParameters.MinimumVerticalDragDistance);
+                || (Math.Abs(distance.Y) > SystemParameters.MinimumVerticalDragDistance)
+                ? true
+                : false;
 
             return hasLeftClickArea;
         }

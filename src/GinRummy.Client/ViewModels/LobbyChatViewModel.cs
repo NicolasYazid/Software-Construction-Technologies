@@ -50,14 +50,14 @@ namespace GinRummy.Client.ViewModels
             FriendChat = new LobbyFriendChatViewModel(_chatConnection, _signedInPlayer);
             FriendChat.UnreadMessagesChanged += HandleUnreadMessagesChanged;
             MatchChat = new MatchChatViewModel(_chatConnection, _signedInPlayer);
-            LookingToPlay = new ObservableCollection<LobbyPlayerViewModel>();
-            Online = new ObservableCollection<LobbyPlayerViewModel>();
+            PlayersLookingToPlay = new ObservableCollection<LobbyPlayerViewModel>();
+            OnlinePlayers = new ObservableCollection<LobbyPlayerViewModel>();
             MatchesInProgress = new ObservableCollection<MatchPair>();
-            Unavailable = new ObservableCollection<LobbyPlayerViewModel>();
+            UnavailablePlayers = new ObservableCollection<LobbyPlayerViewModel>();
             FriendsOnline = new ObservableCollection<LobbyPlayerViewModel>();
             FriendsInMatch = new ObservableCollection<MatchPair>();
             FriendsUnavailable = new ObservableCollection<LobbyPlayerViewModel>();
-            HasNoPlayersLookingToPlay = (LookingToPlay.Count == 0);
+            HasNoPlayersLookingToPlay = (PlayersLookingToPlay.Count == 0) ? true : false;
             _hasNoFriends = HasNoFriendsListed();
             SortPlayersByRank();
             BanCountdown = new CountdownViewModel(TimeSpan.Zero);
@@ -76,11 +76,11 @@ namespace GinRummy.Client.ViewModels
         public ICommand SendMessageCommand { get; private set; }
         public ICommand FindMatchCommand { get; private set; }
         public ICommand CancelSearchCommand { get; private set; }
-        public IList<LobbyPlayerViewModel> LookingToPlay { get; private set; }
-        public IList<LobbyPlayerViewModel> Online { get; private set; }
+        public IList<LobbyPlayerViewModel> PlayersLookingToPlay { get; private set; }
+        public IList<LobbyPlayerViewModel> OnlinePlayers { get; private set; }
         public IList<MatchPair> MatchesInProgress { get; private set; }
         public int PlayersInMatchCount { get; private set; }
-        public IList<LobbyPlayerViewModel> Unavailable { get; private set; }
+        public IList<LobbyPlayerViewModel> UnavailablePlayers { get; private set; }
         public IList<LobbyPlayerViewModel> FriendsOnline { get; private set; }
         public IList<MatchPair> FriendsInMatch { get; private set; }
         public int FriendsInMatchCount { get; private set; }
@@ -97,7 +97,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _messageDraft = value ?? string.Empty;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -107,14 +107,14 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _isSearchingMatch = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(CanFindMatch));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanFindMatch));
             }
         }
 
         public bool CanFindMatch
         {
-            get { return !_isSearchingMatch; }
+            get { return !_isSearchingMatch ? true : false; }
         }
 
         public bool IsChatBlocked
@@ -123,14 +123,14 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _isChatBlocked = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(CanWriteMessage));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanWriteMessage));
             }
         }
 
         public bool CanWriteMessage
         {
-            get { return !_isChatBlocked && !_isChatUnavailable; }
+            get { return !_isChatBlocked && !_isChatUnavailable ? true : false; }
         }
 
         public string BanReasonName
@@ -139,7 +139,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _banReasonName = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -149,7 +149,7 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _hasNoFriends = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -159,7 +159,7 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _searchText = value ?? string.Empty;
-                RaisePropertyChanged();
+                OnPropertyChanged();
                 FilterPlayersByTag();
             }
         }
@@ -170,14 +170,14 @@ namespace GinRummy.Client.ViewModels
             private set
             {
                 _searchNoticeKey = value;
-                RaisePropertyChanged();
-                RaisePropertyChanged(nameof(HasSearchNotice));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(HasSearchNotice));
             }
         }
 
         public bool HasSearchNotice
         {
-            get { return _searchNoticeKey != null; }
+            get { return _searchNoticeKey != null ? true : false; }
         }
 
         public void BlockChat(string reasonName, TimeSpan remainingTime)
@@ -195,8 +195,8 @@ namespace GinRummy.Client.ViewModels
         // The server reports the current status of the players once the subscription is made, and every change after that.
         public void StartPresence()
         {
-            _presenceMonitor.CurrentStatusReported += OnCurrentStatusReported;
-            _presenceMonitor.PlayerPresenceChanged += OnPlayerPresenceChanged;
+            _presenceMonitor.CurrentStatusReported += HandleCurrentStatusReported;
+            _presenceMonitor.PlayerPresenceChanged += HandlePlayerPresenceChanged;
             if (!_presenceMonitor.Start(_signedInPlayer.AccessToken))
             {
                 PresenceUnavailable?.Invoke(this, EventArgs.Empty);
@@ -206,32 +206,32 @@ namespace GinRummy.Client.ViewModels
         public void StopPresence()
         {
             _presenceMonitor.Stop();
-            _presenceMonitor.CurrentStatusReported -= OnCurrentStatusReported;
-            _presenceMonitor.PlayerPresenceChanged -= OnPlayerPresenceChanged;
+            _presenceMonitor.CurrentStatusReported -= HandleCurrentStatusReported;
+            _presenceMonitor.PlayerPresenceChanged -= HandlePlayerPresenceChanged;
         }
 
         public void StartChat()
         {
-            _chatConnection.LobbyChatHistoryReceived += OnLobbyChatHistoryReceived;
-            _chatConnection.ChatMessageReceived += OnChatMessageReceived;
+            _chatConnection.LobbyChatHistoryReceived += HandleLobbyChatHistoryReceived;
+            _chatConnection.ChatMessageReceived += HandleChatMessageReceived;
             if (!_chatConnection.Start(_signedInPlayer.AccessToken))
             {
                 _isChatUnavailable = true;
-                RaisePropertyChanged(nameof(CanWriteMessage));
+                OnPropertyChanged(nameof(CanWriteMessage));
             }
         }
 
         public void StopChat()
         {
             _chatConnection.Stop();
-            _chatConnection.LobbyChatHistoryReceived -= OnLobbyChatHistoryReceived;
-            _chatConnection.ChatMessageReceived -= OnChatMessageReceived;
+            _chatConnection.LobbyChatHistoryReceived -= HandleLobbyChatHistoryReceived;
+            _chatConnection.ChatMessageReceived -= HandleChatMessageReceived;
         }
 
         // Only the messages of other players can be reported, so the own messages open no menu.
         public bool CanReport(PlayerMessage message)
         {
-            return (message != null) && (message.PublicTag != _signedInPlayer.PublicTag);
+            return (message != null) && (message.PublicTag != _signedInPlayer.PublicTag) ? true : false;
         }
 
         // Only the tag is needed, because the profile screen reads everything else from the server (CU-27 FA-02).
@@ -292,10 +292,12 @@ namespace GinRummy.Client.ViewModels
 
         public void AddFriend(int publicTag)
         {
-            LobbyPlayerViewModel onlinePlayer = FindByPublicTag(Online, publicTag);
-            LobbyPlayerViewModel unavailablePlayer = FindByPublicTag(Unavailable, publicTag);
+            LobbyPlayerViewModel onlinePlayer = FindByPublicTag(OnlinePlayers, publicTag);
+            LobbyPlayerViewModel unavailablePlayer = FindByPublicTag(UnavailablePlayers, publicTag);
             bool isListedAsFriend = (FindByPublicTag(FriendsOnline, publicTag) != null)
-                || (FindByPublicTag(FriendsUnavailable, publicTag) != null);
+                || (FindByPublicTag(FriendsUnavailable, publicTag) != null)
+                ? true
+                : false;
             if (!isListedAsFriend && (onlinePlayer != null))
             {
                 FriendsOnline.Add(CopyAsFriend(onlinePlayer));
@@ -337,10 +339,10 @@ namespace GinRummy.Client.ViewModels
             IsSearchingMatch = false;
         }
 
-        private void OnCurrentStatusReported(object sender, PlayerPresenceReport report)
+        private void HandleCurrentStatusReported(object sender, PlayerPresenceReport report)
         {
-            ReplacePlayers(Online, report.AllOnlinePlayers);
-            ReplacePlayers(Unavailable, report.AllOfflinePlayers);
+            ReplacePlayers(OnlinePlayers, report.AllOnlinePlayers);
+            ReplacePlayers(UnavailablePlayers, report.AllOfflinePlayers);
             ReplacePlayers(FriendsOnline, report.AllOnlineFriends);
             ReplacePlayers(FriendsUnavailable, report.AllOfflineFriends);
             RefreshUnreadMessageMarks();
@@ -348,27 +350,27 @@ namespace GinRummy.Client.ViewModels
         }
 
         // A player is listed in one status only, so its old row is removed before the new one is added.
-        private void OnPlayerPresenceChanged(object sender, PlayerPresence presence)
+        private void HandlePlayerPresenceChanged(object sender, PlayerPresence presence)
         {
-            RemovePlayerRow(Online, presence.PublicTag, presence.GuestSessionId);
-            RemovePlayerRow(Unavailable, presence.PublicTag, presence.GuestSessionId);
+            RemovePlayerRow(OnlinePlayers, presence.PublicTag, presence.GuestSessionId);
+            RemovePlayerRow(UnavailablePlayers, presence.PublicTag, presence.GuestSessionId);
             RemovePlayerRow(FriendsOnline, presence.PublicTag, presence.GuestSessionId);
             RemovePlayerRow(FriendsUnavailable, presence.PublicTag, presence.GuestSessionId);
             if (presence.Status == PresenceStatus.Online)
             {
-                AddPlayer(Online, FriendsOnline, presence);
+                AddPlayer(OnlinePlayers, FriendsOnline, presence);
             }
             else if (!presence.IsGuest)
             {
                 // A guest has no account to come back to, so it leaves the panel instead of becoming unavailable.
-                AddPlayer(Unavailable, FriendsUnavailable, presence);
+                AddPlayer(UnavailablePlayers, FriendsUnavailable, presence);
             }
 
             RefreshUnreadMessageMarks();
             HasNoFriends = HasNoFriendsListed();
         }
 
-        private void OnLobbyChatHistoryReceived(object sender, List<PlayerMessage> messages)
+        private void HandleLobbyChatHistoryReceived(object sender, List<PlayerMessage> messages)
         {
             foreach (PlayerMessage message in messages)
             {
@@ -376,7 +378,7 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
-        private void OnChatMessageReceived(object sender, PlayerMessage message)
+        private void HandleChatMessageReceived(object sender, PlayerMessage message)
         {
             switch (message.Destination)
             {
@@ -421,8 +423,8 @@ namespace GinRummy.Client.ViewModels
 
         private void RemovePlayer(LobbyPlayerViewModel player)
         {
-            RemovePlayerRow(Online, player.PublicTag, player.GuestSessionId);
-            RemovePlayerRow(Unavailable, player.PublicTag, player.GuestSessionId);
+            RemovePlayerRow(OnlinePlayers, player.PublicTag, player.GuestSessionId);
+            RemovePlayerRow(UnavailablePlayers, player.PublicTag, player.GuestSessionId);
             RemovePlayerRow(FriendsOnline, player.PublicTag, player.GuestSessionId);
             RemovePlayerRow(FriendsUnavailable, player.PublicTag, player.GuestSessionId);
             HasNoFriends = HasNoFriendsListed();
@@ -488,9 +490,9 @@ namespace GinRummy.Client.ViewModels
         {
             IList<IList<LobbyPlayerViewModel>> playerGroups = new List<IList<LobbyPlayerViewModel>>
             {
-                LookingToPlay,
-                Online,
-                Unavailable,
+                PlayersLookingToPlay,
+                OnlinePlayers,
+                UnavailablePlayers,
                 FriendsOnline,
                 FriendsUnavailable
             };
@@ -502,14 +504,16 @@ namespace GinRummy.Client.ViewModels
         private static bool TagStartsWith(LobbyPlayerViewModel player, string typedTag)
         {
             return player.PublicTag.HasValue
-                && player.PublicTag.Value.ToString(CultureInfo.InvariantCulture).StartsWith(typedTag, StringComparison.Ordinal);
+                && player.PublicTag.Value.ToString(CultureInfo.InvariantCulture).StartsWith(typedTag, StringComparison.Ordinal)
+                ? true
+                : false;
         }
 
         private bool HasNoFriendsListed()
         {
-            return (FriendsOnline.Count == 0)
-                && (FriendsInMatch.Count == 0)
-                && (FriendsUnavailable.Count == 0);
+            bool hasNoFriendsConnected = (FriendsOnline.Count == 0) && (FriendsInMatch.Count == 0) ? true : false;
+
+            return hasNoFriendsConnected && (FriendsUnavailable.Count == 0) ? true : false;
         }
 
         private static void ReplacePlayers(IList<LobbyPlayerViewModel> players, IList<PlayerPresence> presences)
@@ -563,9 +567,9 @@ namespace GinRummy.Client.ViewModels
         {
             List<IList<LobbyPlayerViewModel>> groupsOfEveryone = new List<IList<LobbyPlayerViewModel>>
             {
-                LookingToPlay,
-                Online,
-                Unavailable
+                PlayersLookingToPlay,
+                OnlinePlayers,
+                UnavailablePlayers
             };
             foreach (IList<LobbyPlayerViewModel> players in groupsOfEveryone)
             {

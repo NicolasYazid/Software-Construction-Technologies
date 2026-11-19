@@ -24,7 +24,7 @@ namespace GinRummy.Domain.Entities.Authentication
 
         public void EnsureCredentialsMatch(PlayerAccount account, string password)
         {
-            bool isMatch = (account != null) && _passwordHasher.VerifyPassword(password, account.PasswordHash);
+            bool isMatch = (account != null) && _passwordHasher.VerifyPassword(password, account.PasswordHash) ? true : false;
             if (!isMatch)
             {
                 throw new InvalidCredentialsException("The email or the password is not valid.");
@@ -86,7 +86,10 @@ namespace GinRummy.Domain.Entities.Authentication
         {
             DateTime grantedAt = _clock.UtcNow;
 
-            return _tokenSigner.Sign(AccessTokenOwner.OfGuestSession(guest.GuestSessionId), grantedAt, grantedAt.AddHours(TokenLifetimeHours));
+            return _tokenSigner.Sign(
+                AccessTokenOwner.OfGuestSession(guest.GuestSessionId),
+                grantedAt,
+                grantedAt.AddHours(TokenLifetimeHours));
         }
 
         public AccessTokenOwner IdentifyByAccessToken(string accessToken)

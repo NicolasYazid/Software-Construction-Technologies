@@ -55,7 +55,7 @@ namespace GinRummy.Application.Tests.Gameplay
 
         public bool IsPlayerOnline(int playerId)
         {
-            return !OfflinePlayerIds.Contains(playerId);
+            return !OfflinePlayerIds.Contains(playerId) ? true : false;
         }
     }
 }

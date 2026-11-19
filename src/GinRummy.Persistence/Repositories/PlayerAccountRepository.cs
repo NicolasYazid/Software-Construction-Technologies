@@ -365,7 +365,9 @@ namespace GinRummy.Persistence.Repositories
             if (sqlException != null)
             {
                 isDuplicateKey = (sqlException.Number == UniqueIndexViolationNumber)
-                    || (sqlException.Number == UniqueConstraintViolationNumber);
+                    || (sqlException.Number == UniqueConstraintViolationNumber)
+                    ? true
+                    : false;
             }
 
             return isDuplicateKey;

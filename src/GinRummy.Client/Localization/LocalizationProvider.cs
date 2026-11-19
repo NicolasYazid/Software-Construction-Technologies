@@ -19,7 +19,7 @@ namespace GinRummy.Client.Localization
         private const string IndexerPropertyName = "Item[]";
         private const int DefaultCultureIndex = 0;
 
-        private static readonly LocalizationProvider _singleInstance = new LocalizationProvider();
+        private static readonly LocalizationProvider s_singleInstance = new LocalizationProvider();
 
         private readonly ResourceManager _resourceManager;
         private readonly List<CultureOption> _availableCultures;
@@ -40,7 +40,7 @@ namespace GinRummy.Client.Localization
 
         public static LocalizationProvider Instance
         {
-            get { return _singleInstance; }
+            get { return s_singleInstance; }
         }
 
         public string this[string resourceKey]
@@ -81,9 +81,9 @@ namespace GinRummy.Client.Localization
             CultureInfo.DefaultThreadCurrentCulture = culture;
             CultureInfo.DefaultThreadCurrentUICulture = culture;
             _resourceManager.ReleaseAllResources();
-            RaisePropertyChanged(IndexerPropertyName);
-            RaisePropertyChanged(nameof(CurrentCulture));
-            RaisePropertyChanged(nameof(SelectedCulture));
+            OnPropertyChanged(IndexerPropertyName);
+            OnPropertyChanged(nameof(CurrentCulture));
+            OnPropertyChanged(nameof(SelectedCulture));
         }
 
         public string GetText(string resourceKey)

@@ -54,7 +54,7 @@ namespace GinRummy.Domain.Entities.AccountProtection
             string body = _emailComposer.ComposeBody(storedCode.Purpose, issuedCode.PlainCode, localeCode);
             EmailDeliveryStatus deliveryStatus = _emailSender.Send(destinationAddress, subject, body);
 
-            return new Email(storedCode.VerificationCodeId, destinationAddress, storedCode.CreatedAt, deliveryStatus);
+            return new Email(storedCode.VerificationCodeId, destinationAddress, new EmailDelivery(storedCode.CreatedAt, deliveryStatus));
         }
 
         private static string FindLocaleCode(ILocaleRepository locales, int localeId)

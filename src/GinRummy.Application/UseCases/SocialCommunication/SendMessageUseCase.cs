@@ -104,7 +104,7 @@ namespace GinRummy.Application.UseCases.SocialCommunication
                 friendProfile = unitOfWork.PlayerAccounts.FindByPublicTag(friendPublicTag);
                 if (friendProfile != null)
                 {
-                    hasFriendShip = unitOfWork.Friends.FindFriendShip(authorId, friendProfile.PlayerAccountId) != null;
+                    hasFriendShip = unitOfWork.Friends.FindFriendShip(authorId, friendProfile.PlayerAccountId) != null ? true : false;
                 }
             }
 
@@ -121,7 +121,7 @@ namespace GinRummy.Application.UseCases.SocialCommunication
 
         private static bool IsContentValid(string content)
         {
-            return !string.IsNullOrWhiteSpace(content) && (content.Length <= SentChatMessage.ContentMaxLength);
+            return !string.IsNullOrWhiteSpace(content) && (content.Length <= SentChatMessage.ContentMaxLength) ? true : false;
         }
 
         private static PlayerProfile FindAuthorProfile(IUnitOfWork unitOfWork, int authorId)
@@ -140,7 +140,9 @@ namespace GinRummy.Application.UseCases.SocialCommunication
             int rivalId = NoRivalPlayerAccountId;
             foreach (GameParticipant participant in gameSessionInProgress.Participants)
             {
-                bool isRegisteredRival = participant.PlayerAccountId.HasValue && (participant.PlayerAccountId.Value != authorId);
+                bool isRegisteredRival = participant.PlayerAccountId.HasValue && (participant.PlayerAccountId.Value != authorId)
+                    ? true
+                    : false;
                 if (isRegisteredRival)
                 {
                     rivalId = participant.PlayerAccountId.Value;

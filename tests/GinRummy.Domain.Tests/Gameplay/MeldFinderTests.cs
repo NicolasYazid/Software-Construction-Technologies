@@ -12,9 +12,15 @@ namespace GinRummy.Domain.Tests.Gameplay
         {
             IList<Card> hand = new List<Card>
             {
-                new Card(CardSuit.Hearts, 1), new Card(CardSuit.Hearts, 2), new Card(CardSuit.Hearts, 3),
-                new Card(CardSuit.Spades, 4), new Card(CardSuit.Spades, 5), new Card(CardSuit.Spades, 6),
-                new Card(CardSuit.Clubs, 9), new Card(CardSuit.Diamonds, 9), new Card(CardSuit.Spades, 9),
+                new Card(CardSuit.Hearts, 1),
+                new Card(CardSuit.Hearts, 2),
+                new Card(CardSuit.Hearts, 3),
+                new Card(CardSuit.Spades, 4),
+                new Card(CardSuit.Spades, 5),
+                new Card(CardSuit.Spades, 6),
+                new Card(CardSuit.Clubs, 9),
+                new Card(CardSuit.Diamonds, 9),
+                new Card(CardSuit.Spades, 9),
                 new Card(CardSuit.Diamonds, 13)
             };
 
@@ -28,8 +34,12 @@ namespace GinRummy.Domain.Tests.Gameplay
         {
             IList<Card> hand = new List<Card>
             {
-                new Card(CardSuit.Hearts, 4), new Card(CardSuit.Hearts, 5), new Card(CardSuit.Hearts, 6),
-                new Card(CardSuit.Hearts, 7), new Card(CardSuit.Spades, 7), new Card(CardSuit.Clubs, 7)
+                new Card(CardSuit.Hearts, 4),
+                new Card(CardSuit.Hearts, 5),
+                new Card(CardSuit.Hearts, 6),
+                new Card(CardSuit.Hearts, 7),
+                new Card(CardSuit.Spades, 7),
+                new Card(CardSuit.Clubs, 7)
             };
 
             int deadwood = MeldFinder.CountDeadwood(hand);
@@ -42,7 +52,9 @@ namespace GinRummy.Domain.Tests.Gameplay
         {
             IList<Card> hand = new List<Card>
             {
-                new Card(CardSuit.Hearts, 2), new Card(CardSuit.Spades, 5), new Card(CardSuit.Clubs, 13)
+                new Card(CardSuit.Hearts, 2),
+                new Card(CardSuit.Spades, 5),
+                new Card(CardSuit.Clubs, 13)
             };
 
             int deadwood = MeldFinder.CountDeadwood(hand);
@@ -55,7 +67,9 @@ namespace GinRummy.Domain.Tests.Gameplay
         {
             IList<Card> nines = new List<Card>
             {
-                new Card(CardSuit.Hearts, 9), new Card(CardSuit.Spades, 9), new Card(CardSuit.Clubs, 9),
+                new Card(CardSuit.Hearts, 9),
+                new Card(CardSuit.Spades, 9),
+                new Card(CardSuit.Clubs, 9),
                 new Card(CardSuit.Diamonds, 9)
             };
 

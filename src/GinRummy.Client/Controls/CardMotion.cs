@@ -64,10 +64,10 @@ namespace GinRummy.Client.Controls
         {
             get
             {
-                bool isInPlace = (Target - Position).Length <= EntryArrivalDistance;
-                bool isAtSize = !IsLeaving || (Math.Abs(Scale - _exitScale) <= ArrivalScaleTolerance);
+                bool isInPlace = (Target - Position).Length <= EntryArrivalDistance ? true : false;
+                bool isAtSize = !IsLeaving || (Math.Abs(Scale - _exitScale) <= ArrivalScaleTolerance) ? true : false;
 
-                return isInPlace && isAtSize;
+                return isInPlace && isAtSize ? true : false;
             }
         }
 
@@ -78,7 +78,7 @@ namespace GinRummy.Client.Controls
 
         public bool IsShowingBack
         {
-            get { return FaceDownAmount > Half; }
+            get { return FaceDownAmount > Half ? true : false; }
         }
 
         public double FlipWidth
@@ -148,10 +148,10 @@ namespace GinRummy.Client.Controls
 
         private void StepResting()
         {
-            bool isTravelling = _isEntering || IsLeaving;
+            bool isTravelling = _isEntering || IsLeaving ? true : false;
             double followFactor = isTravelling ? EntryFollowFactor : FollowFactor;
             Position = Lerp(Position, Target, followFactor);
-            _isEntering = _isEntering && ((Target - Position).Length > EntryArrivalDistance);
+            _isEntering = _isEntering && ((Target - Position).Length > EntryArrivalDistance) ? true : false;
             double returnSwing = (Position.X - _previousPosition.X) * ReturnSwingFactor;
             _previousPosition = Position;
             Rotation += Clamp(returnSwing, MaxLeftReturnSwing, MaxRightReturnSwing);

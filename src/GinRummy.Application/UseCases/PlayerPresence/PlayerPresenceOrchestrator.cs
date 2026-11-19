@@ -71,7 +71,9 @@ namespace GinRummy.Application.UseCases.PlayerPresence
                 if (!onlinePlayer.AccessTokenOwner.Equals(playerWithNewStatus))
                 {
                     bool isFriend = onlinePlayer.AccessTokenOwner.PlayerAccountId.HasValue
-                        && friendPlayerAccountIds.Contains(onlinePlayer.AccessTokenOwner.PlayerAccountId.Value);
+                        && friendPlayerAccountIds.Contains(onlinePlayer.AccessTokenOwner.PlayerAccountId.Value)
+                        ? true
+                        : false;
                     PlayerPresenceChange change = new PlayerPresenceChange(rankedPlayerWithNewStatus, newStatus, isFriend);
                     _announcer.SendPlayerPresenceChange(onlinePlayer.AccessTokenOwner, change);
                 }
@@ -115,7 +117,10 @@ namespace GinRummy.Application.UseCases.PlayerPresence
                 PlayerProfile player = unitOfWork.PlayerAccounts.FindProfileByPlayerAccountId(playerAccountId);
                 if (player != null)
                 {
-                    rankedPlayer = RankPlayer(player, unitOfWork.PlayerAccounts.FindStats(playerAccountId), unitOfWork.Rankings.GetAllRanks());
+                    rankedPlayer = RankPlayer(
+                        player,
+                        unitOfWork.PlayerAccounts.FindStats(playerAccountId),
+                        unitOfWork.Rankings.GetAllRanks());
                 }
             }
 
@@ -131,7 +136,7 @@ namespace GinRummy.Application.UseCases.PlayerPresence
             foreach (OnlinePlayer onlinePlayer in onlinePlayers)
             {
                 AccessTokenOwner owner = onlinePlayer.AccessTokenOwner;
-                bool isOtherGuest = owner.IsGuest && !owner.Equals(subscriber);
+                bool isOtherGuest = owner.IsGuest && !owner.Equals(subscriber) ? true : false;
                 RankedPlayer guest = isOtherGuest ? FindGuest(unitOfWork, owner.GuestSessionId.Value) : null;
                 if (guest != null)
                 {

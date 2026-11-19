@@ -19,7 +19,7 @@ namespace GinRummy.Client.ViewModels
             _attemptsLeft = ReconnectionWindowSeconds / SecondsBetweenAttempts;
             _attemptTimer = new DispatcherTimer();
             _attemptTimer.Interval = TimeSpan.FromSeconds(SecondsBetweenAttempts);
-            _attemptTimer.Tick += OnAttemptTimerTick;
+            _attemptTimer.Tick += HandleAttemptTimerTick;
             Countdown = new CountdownViewModel(TimeSpan.FromSeconds(ReconnectionWindowSeconds));
         }
 
@@ -40,7 +40,7 @@ namespace GinRummy.Client.ViewModels
             Countdown.Stop();
         }
 
-        private void OnAttemptTimerTick(object sender, EventArgs e)
+        private void HandleAttemptTimerTick(object sender, EventArgs e)
         {
             _attemptsLeft--;
             if (_tryReconnect())
