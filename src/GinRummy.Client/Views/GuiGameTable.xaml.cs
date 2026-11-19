@@ -58,8 +58,8 @@ namespace GinRummy.Client.Views
 
         private void OnScreenLoaded(object sender, RoutedEventArgs e)
         {
-            ScrollToLatest(lstMessages);
-            ScrollToLatest(lstMatchLog);
+            OverlayInsetCommon.ScrollToEnd(lstMessages);
+            OverlayInsetCommon.ScrollToEnd(lstMatchLog);
             CompositionTarget.Rendering += OnRendering;
         }
 
@@ -70,12 +70,12 @@ namespace GinRummy.Client.Views
 
         private void OnChatMessagesChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            ScrollToLatest(lstMessages);
+            OverlayInsetCommon.ScrollToEnd(lstMessages);
         }
 
         private void OnMatchLogChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            ScrollToLatest(lstMatchLog);
+            OverlayInsetCommon.ScrollToEnd(lstMatchLog);
         }
 
         private void OnCardDrawnFromStock(object sender, Card drawnCard)
@@ -292,14 +292,6 @@ namespace GinRummy.Client.Views
             }
 
             return key;
-        }
-
-        private static void ScrollToLatest(ListBox list)
-        {
-            if (list.Items.Count > 0)
-            {
-                list.ScrollIntoView(list.Items[list.Items.Count - 1]);
-            }
         }
     }
 }
