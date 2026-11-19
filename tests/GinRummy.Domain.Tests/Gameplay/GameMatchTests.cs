@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using NUnit.Framework;
@@ -78,6 +79,38 @@ namespace GinRummy.Domain.Tests.Gameplay
             TestDelegate dealNextRound = () => match.DealNextRound(StandardDeck.CreateOrdered());
 
             Assert.Throws<InvalidMoveException>(dealNextRound);
+        }
+
+        [Test]
+        public void Test_Constructor_ResumedScores_KeepsTheScoreOfEachPlayer()
+        {
+            Dictionary<int, int> scoresByPlayerId = new Dictionary<int, int> { { KnockerId, 40 }, { DefenderId, 70 } };
+
+            GameMatch match = new GameMatch(new GameRound(DefenderId, KnockerId, StandardDeck.CreateOrdered()), scoresByPlayerId);
+
+            Assert.AreEqual(70, match.GetScore(DefenderId));
+        }
+
+        [Test]
+        public void Test_Constructor_ResumedScoreAtTheTarget_ThrowsArgumentException()
+        {
+            Dictionary<int, int> scoresByPlayerId = new Dictionary<int, int> { { KnockerId, RoundRules.TargetScore }, { DefenderId, 0 } };
+            GameRound round = new GameRound(DefenderId, KnockerId, StandardDeck.CreateOrdered());
+
+            TestDelegate resumeMatch = () => new GameMatch(round, scoresByPlayerId);
+
+            Assert.Throws<ArgumentException>(resumeMatch);
+        }
+
+        [Test]
+        public void Test_Constructor_ResumedScoresWithoutAPlayer_ThrowsArgumentException()
+        {
+            Dictionary<int, int> scoresByPlayerId = new Dictionary<int, int> { { KnockerId, 10 } };
+            GameRound round = new GameRound(DefenderId, KnockerId, StandardDeck.CreateOrdered());
+
+            TestDelegate resumeMatch = () => new GameMatch(round, scoresByPlayerId);
+
+            Assert.Throws<ArgumentException>(resumeMatch);
         }
 
         private static GameRound BuildRoundWithKnockerAsNonDealer()
