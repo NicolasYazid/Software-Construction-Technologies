@@ -27,6 +27,7 @@
         InvalidMove,
         CannotChallengeSelf,
         ConcurrentChallenge,
-        GuestNotAllowed
+        GuestNotAllowed,
+        MatchFinished
     }
 }

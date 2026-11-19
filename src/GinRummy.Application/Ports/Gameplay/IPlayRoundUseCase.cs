@@ -20,6 +20,6 @@ namespace GinRummy.Application.Ports.Gameplay
 
         void WaitForReconnection(int playerId);
 
-        void Rejoin(int playerId);
+        bool Rejoin(int playerId);
     }
 }

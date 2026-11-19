@@ -19,6 +19,7 @@ namespace GinRummy.Application.UseCases.Gameplay
             _matchRegistry = matchRegistry ?? throw new ArgumentNullException(nameof(matchRegistry));
             _roundAnnouncer = roundAnnouncer ?? throw new ArgumentNullException(nameof(roundAnnouncer));
             _matchRecorder = matchRecorder ?? throw new ArgumentNullException(nameof(matchRecorder));
+            _matchRegistry.MatchStarted += OnMatchStarted;
         }
 
         public void TakeFirstCard(int playerId)
@@ -80,15 +81,36 @@ namespace GinRummy.Application.UseCases.Gameplay
             }
         }
 
-        public void Rejoin(int playerId)
+        public bool Rejoin(int playerId)
         {
             ActiveMatch activeMatch = _matchRegistry.Find(playerId);
+            bool hasMatchToShow;
             if (activeMatch == null)
             {
-                AnnouncePendingVictory(playerId);
-                return;
+                hasMatchToShow = AnnouncePendingVictory(playerId);
+            }
+            else
+            {
+                RejoinMatch(activeMatch, playerId);
+                hasMatchToShow = true;
             }
 
+            return hasMatchToShow;
+        }
+
+        private void OnMatchStarted(object sender, ActiveMatch activeMatch)
+        {
+            lock (activeMatch.SyncRoot)
+            {
+                foreach (DuelPlayer player in activeMatch.Players)
+                {
+                    StartReconnectionWindow(activeMatch, player.Id);
+                }
+            }
+        }
+
+        private void RejoinMatch(ActiveMatch activeMatch, int playerId)
+        {
             lock (activeMatch.SyncRoot)
             {
                 int opponentId = activeMatch.FindOpponent(playerId).Id;
@@ -100,10 +122,6 @@ namespace GinRummy.Application.UseCases.Gameplay
                 if (activeMatch.IsWaitingForReconnection(opponentId))
                 {
                     _roundAnnouncer.AnnounceOpponentDisconnected(playerId);
-                }
-                else if (!_roundAnnouncer.IsPlayerOnline(opponentId))
-                {
-                    StartReconnectionWindow(activeMatch, opponentId);
                 }
 
                 _roundAnnouncer.AnnounceRoundChanged(playerId, activeMatch);
@@ -162,7 +180,7 @@ namespace GinRummy.Application.UseCases.Gameplay
                 {
                     try
                     {
-                        EndByForfeit(activeMatch, playerId);
+                        EndAfterDisconnection(activeMatch, playerId);
                     }
                     catch (DataException)
                     {
@@ -181,11 +199,36 @@ namespace GinRummy.Application.UseCases.Gameplay
                 () => ForfeitAfterDisconnection(activeMatch, playerId));
         }
 
-        private void AnnouncePendingVictory(int playerId)
+        private bool AnnouncePendingVictory(int playerId)
         {
-            if (_matchRegistry.TakePendingVictory(playerId))
+            bool hadPendingVictory = _matchRegistry.TakePendingVictory(playerId);
+            if (hadPendingVictory)
             {
                 _roundAnnouncer.AnnounceOpponentLeft(playerId);
+            }
+
+            return hadPendingVictory;
+        }
+
+        private void EndAfterDisconnection(ActiveMatch activeMatch, int playerId)
+        {
+            int opponentId = activeMatch.FindOpponent(playerId).Id;
+            if (activeMatch.IsWaitingForReconnection(opponentId))
+            {
+                EndWithoutWinner(activeMatch);
+            }
+            else
+            {
+                EndByForfeit(activeMatch, playerId);
+            }
+        }
+
+        private void EndWithoutWinner(ActiveMatch activeMatch)
+        {
+            if (_matchRegistry.Remove(activeMatch))
+            {
+                activeMatch.StopWaitingForReconnections();
+                _matchRecorder.RecordEndWithoutWinner(activeMatch);
             }
         }
 

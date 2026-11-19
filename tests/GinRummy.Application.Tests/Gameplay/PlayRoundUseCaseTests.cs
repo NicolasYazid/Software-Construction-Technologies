@@ -116,16 +116,27 @@ namespace GinRummy.Application.Tests.Gameplay
         }
 
         [Test]
-        public void Test_PassFirstCard_OpponentNeverJoined_ThrowsInvalidMoveException()
+        public void Test_PassFirstCard_OpponentNotJoinedYet_ThrowsInvalidMoveException()
         {
-            FakeRoundAnnouncer announcer = new FakeRoundAnnouncer();
-            announcer.OfflinePlayerIds.Add(DealerId);
-            PlayRoundUseCase useCase = CreateUseCaseWithRound(announcer);
+            MatchRegistry matchRegistry = new MatchRegistry(StandardDeck.CreateOrdered);
+            PlayRoundUseCase useCase = new PlayRoundUseCase(matchRegistry, new FakeRoundAnnouncer(), new FakeMatchRecorder());
+            matchRegistry.Start(new DuelPlayer(DealerId, "Dealer", 1001), new DuelPlayer(NonDealerId, "Non-dealer", 1002));
             useCase.Rejoin(NonDealerId);
 
             TestDelegate passFirstCard = () => useCase.PassFirstCard(NonDealerId);
 
             Assert.Throws<InvalidMoveException>(passFirstCard);
+        }
+
+        [Test]
+        public void Test_Rejoin_MatchAlreadyOver_ReturnsFalse()
+        {
+            PlayRoundUseCase useCase = CreateUseCaseWithRound(new FakeRoundAnnouncer());
+            useCase.ForfeitRound(DealerId);
+
+            bool hasMatchToShow = useCase.Rejoin(DealerId);
+
+            Assert.IsFalse(hasMatchToShow);
         }
 
         [Test]

@@ -7,5 +7,7 @@ namespace GinRummy.Application.Ports.Gameplay
         void RecordRoundScores(ActiveMatch activeMatch);
 
         void RecordEnd(ActiveMatch activeMatch, int winnerId);
+
+        void RecordEndWithoutWinner(ActiveMatch activeMatch);
     }
 }

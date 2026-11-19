@@ -22,5 +22,9 @@ namespace GinRummy.Application.Tests.Gameplay
         {
             WinnerIds.Add(winnerId);
         }
+
+        public void RecordEndWithoutWinner(ActiveMatch activeMatch)
+        {
+        }
     }
 }

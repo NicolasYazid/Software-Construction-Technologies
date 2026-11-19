@@ -21,6 +21,8 @@ namespace GinRummy.Application.UseCases.Gameplay
             _playerIdsWithPendingVictory = new HashSet<int>();
         }
 
+        public event EventHandler<ActiveMatch> MatchStarted;
+
         public ActiveMatch Start(DuelPlayer dealer, DuelPlayer nonDealer)
         {
             GameRound firstRound = new GameRound(dealer.Id, nonDealer.Id, ShuffleDeck());
@@ -32,6 +34,8 @@ namespace GinRummy.Application.UseCases.Gameplay
                 _playerIdsWithPendingVictory.Remove(dealer.Id);
                 _playerIdsWithPendingVictory.Remove(nonDealer.Id);
             }
+
+            MatchStarted?.Invoke(this, activeMatch);
 
             return activeMatch;
         }

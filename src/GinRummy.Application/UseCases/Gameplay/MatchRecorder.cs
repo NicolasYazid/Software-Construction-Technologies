@@ -44,6 +44,15 @@ namespace GinRummy.Application.UseCases.Gameplay
             }
         }
 
+        public void RecordEndWithoutWinner(ActiveMatch activeMatch)
+        {
+            using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
+            {
+                FindGameSession(unitOfWork, activeMatch).Finish(_clock.UtcNow);
+                unitOfWork.Commit();
+            }
+        }
+
         public void FinishInterruptedMatches()
         {
             DateTime endedAt = _clock.UtcNow;

@@ -15,7 +15,5 @@ namespace GinRummy.Application.Ports.Gameplay
         void AnnounceOpponentDisconnected(int playerId);
 
         void AnnounceOpponentReconnected(int playerId);
-
-        bool IsPlayerOnline(int playerId);
     }
 }

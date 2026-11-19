@@ -104,7 +104,11 @@ namespace GinRummy.Services.Services.Gameplay
             _subscribedCallback = callback;
             context.Channel.Closed += OnChannelClosed;
             context.Channel.Faulted += OnChannelFaulted;
-            _playRoundUseCase.Rejoin(playerId);
+            if (!_playRoundUseCase.Rejoin(playerId))
+            {
+                RemoveSubscription();
+                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.MatchFinished);
+            }
         }
 
         private void LeaveGame()
