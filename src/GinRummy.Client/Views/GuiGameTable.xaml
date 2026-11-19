@@ -30,7 +30,7 @@
                                 MidColour="{StaticResource ClrMenuLiquidMid}"
                                 GlowColour="{StaticResource ClrMenuLiquidGlow}" />
 
-        <ctl:PixelBorder Style="{StaticResource StyLobbyGlassPanel}" Margin="12,12,6,12">
+        <ctl:PixelBorder x:Name="pnlMatchChat" Style="{StaticResource StyLobbyGlassPanel}" Margin="12,12,6,12">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -43,7 +43,7 @@
                                   Converter={StaticResource CnvUpperCase}}" />
 
                 <ListBox x:Name="lstMessages" Grid.Row="1" Style="{StaticResource StyChatList}"
-                         ItemsSource="{Binding ChatMessages}" ItemTemplate="{StaticResource TplMatchChatMessage}" />
+                         ItemsSource="{Binding Messages}" ItemTemplate="{StaticResource TplMatchChatMessage}" />
 
                 <Border Grid.Row="2" Style="{StaticResource StyChatComposer}" Padding="14,14,14,16">
                     <ctl:PixelBorder Style="{StaticResource StyPanelSearchShell}">

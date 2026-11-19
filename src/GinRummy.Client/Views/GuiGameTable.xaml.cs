@@ -29,13 +29,15 @@ namespace GinRummy.Client.Views
         private const double MeldBarInset = 3.0;
 
         private readonly GameTableViewModel _viewModel;
+        private readonly MatchChatViewModel _matchChat;
         private GuiReconnecting _reconnecting;
 
-        public GuiGameTable(GameTableViewModel viewModel)
+        public GuiGameTable(GameTableViewModel viewModel, MatchChatViewModel matchChat)
         {
             InitializeComponent();
             _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
-            _viewModel.ChatMessages.CollectionChanged += HandleChatMessagesChanged;
+            _matchChat = matchChat ?? throw new ArgumentNullException(nameof(matchChat));
+            _matchChat.Messages.CollectionChanged += HandleChatMessagesChanged;
             _viewModel.MatchLog.CollectionChanged += HandleMatchLogChanged;
             _viewModel.CardDrawnFromStock += HandleCardDrawnFromStock;
             _viewModel.CardTakenFromDiscardPile += HandleCardTakenFromDiscardPile;
@@ -46,6 +48,7 @@ namespace GinRummy.Client.Views
             _viewModel.MatchAlreadyOver += HandleMatchAlreadyOver;
             lstStock.ItemsSource = s_stockTopCard;
             DataContext = _viewModel;
+            pnlMatchChat.DataContext = _matchChat;
             Loaded += HandleScreenLoaded;
             Closed += HandleScreenClosed;
         }
@@ -178,7 +181,7 @@ namespace GinRummy.Client.Views
         private void HandleScreenClosed(object sender, EventArgs e)
         {
             _viewModel.Stop();
-            _viewModel.ChatMessages.CollectionChanged -= HandleChatMessagesChanged;
+            _matchChat.Messages.CollectionChanged -= HandleChatMessagesChanged;
             _viewModel.MatchLog.CollectionChanged -= HandleMatchLogChanged;
             _viewModel.CardDrawnFromStock -= HandleCardDrawnFromStock;
             _viewModel.CardTakenFromDiscardPile -= HandleCardTakenFromDiscardPile;

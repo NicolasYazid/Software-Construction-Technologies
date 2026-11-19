@@ -56,23 +56,14 @@
   <wsdl:message name="IChatMessageService_SubscribeToChat_ServiceFaultFault_FaultMessage">
     <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q1:ServiceFault" />
   </wsdl:message>
-  <wsdl:message name="IChatMessageService_SendLobbyMessage_InputMessage">
-    <wsdl:part name="parameters" element="tns:SendLobbyMessage" />
+  <wsdl:message name="IChatMessageService_SendMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendMessage" />
   </wsdl:message>
-  <wsdl:message name="IChatMessageService_SendLobbyMessage_OutputMessage">
-    <wsdl:part name="parameters" element="tns:SendLobbyMessageResponse" />
+  <wsdl:message name="IChatMessageService_SendMessage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendMessageResponse" />
   </wsdl:message>
-  <wsdl:message name="IChatMessageService_SendLobbyMessage_ServiceFaultFault_FaultMessage">
+  <wsdl:message name="IChatMessageService_SendMessage_ServiceFaultFault_FaultMessage">
     <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q2:ServiceFault" />
-  </wsdl:message>
-  <wsdl:message name="IChatMessageService_SendMatchMessage_InputMessage">
-    <wsdl:part name="parameters" element="tns:SendMatchMessage" />
-  </wsdl:message>
-  <wsdl:message name="IChatMessageService_SendMatchMessage_OutputMessage">
-    <wsdl:part name="parameters" element="tns:SendMatchMessageResponse" />
-  </wsdl:message>
-  <wsdl:message name="IChatMessageService_SendMatchMessage_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q3:ServiceFault" />
   </wsdl:message>
   <wsdl:message name="IChatMessageService_UnsubscribeFromChat_InputMessage">
     <wsdl:part name="parameters" element="tns:UnsubscribeFromChat" />
@@ -89,15 +80,10 @@
       <wsdl:output wsaw:Action="http://tempuri.org/IChatMessageService/SubscribeToChatResponse" message="tns:IChatMessageService_SubscribeToChat_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/IChatMessageService/SubscribeToChatServiceFaultFault" name="ServiceFaultFault" message="tns:IChatMessageService_SubscribeToChat_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="SendLobbyMessage">
-      <wsdl:input wsaw:Action="http://tempuri.org/IChatMessageService/SendLobbyMessage" message="tns:IChatMessageService_SendLobbyMessage_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IChatMessageService/SendLobbyMessageResponse" message="tns:IChatMessageService_SendLobbyMessage_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IChatMessageService/SendLobbyMessageServiceFaultFault" name="ServiceFaultFault" message="tns:IChatMessageService_SendLobbyMessage_ServiceFaultFault_FaultMessage" />
-    </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="SendMatchMessage">
-      <wsdl:input wsaw:Action="http://tempuri.org/IChatMessageService/SendMatchMessage" message="tns:IChatMessageService_SendMatchMessage_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IChatMessageService/SendMatchMessageResponse" message="tns:IChatMessageService_SendMatchMessage_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/IChatMessageService/SendMatchMessageServiceFaultFault" name="ServiceFaultFault" message="tns:IChatMessageService_SendMatchMessage_ServiceFaultFault_FaultMessage" />
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="SendMessage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IChatMessageService/SendMessage" message="tns:IChatMessageService_SendMessage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IChatMessageService/SendMessageResponse" message="tns:IChatMessageService_SendMessage_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://tempuri.org/IChatMessageService/SendMessageServiceFaultFault" name="ServiceFaultFault" message="tns:IChatMessageService_SendMessage_ServiceFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="UnsubscribeFromChat">
       <wsdl:input wsaw:Action="http://tempuri.org/IChatMessageService/UnsubscribeFromChat" message="tns:IChatMessageService_UnsubscribeFromChat_InputMessage" />
@@ -125,20 +111,8 @@
         <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
       </wsdl:fault>
     </wsdl:operation>
-    <wsdl:operation name="SendLobbyMessage">
-      <soap12:operation soapAction="http://tempuri.org/IChatMessageService/SendLobbyMessage" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-      <wsdl:fault name="ServiceFaultFault">
-        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
-      </wsdl:fault>
-    </wsdl:operation>
-    <wsdl:operation name="SendMatchMessage">
-      <soap12:operation soapAction="http://tempuri.org/IChatMessageService/SendMatchMessage" style="document" />
+    <wsdl:operation name="SendMessage">
+      <soap12:operation soapAction="http://tempuri.org/IChatMessageService/SendMessage" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

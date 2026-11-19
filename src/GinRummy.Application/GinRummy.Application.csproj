@@ -44,6 +44,7 @@
     <Compile Include="UseCases\Friendship\SendFriendRequestUseCase.cs" />
     <Compile Include="UseCases\SocialCommunication\ChatHistory.cs" />
     <Compile Include="UseCases\SocialCommunication\SentChatMessage.cs" />
+    <Compile Include="UseCases\SocialCommunication\SendMessageRequest.cs" />
     <Compile Include="Ports\AccountProtection\IAccountChangeConfirmationPort.cs" />
     <Compile Include="Ports\AccountProtection\IAccountSettingsPort.cs" />
     <Compile Include="Ports\SocialCommunication\IChatMessageAnnouncer.cs" />

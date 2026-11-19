@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading;
 
@@ -24,7 +25,7 @@ namespace GinRummy.Client.Services
             _screenContext = SynchronizationContext.Current ?? new SynchronizationContext();
         }
 
-        public event EventHandler<PlayerMessage[]> LobbyChatHistoryReceived;
+        public event EventHandler<List<PlayerMessage>> LobbyChatHistoryReceived;
         public event EventHandler<PlayerMessage> ChatMessageReceived;
 
         public bool Start(string accessToken)
@@ -71,16 +72,16 @@ namespace GinRummy.Client.Services
             return isSubscribed;
         }
 
-        public void SendLobbyMessage(string accessToken, string content)
+        public void SendMessage(string accessToken, MessageToSend message)
         {
             if (accessToken == null)
             {
                 throw new ArgumentNullException(nameof(accessToken));
             }
 
-            if (content == null)
+            if (message == null)
             {
-                throw new ArgumentNullException(nameof(content));
+                throw new ArgumentNullException(nameof(message));
             }
 
             if (_chatService == null)
@@ -90,23 +91,23 @@ namespace GinRummy.Client.Services
 
             try
             {
-                _chatService.SendLobbyMessage(accessToken, content);
+                _chatService.SendMessage(accessToken, message);
             }
             catch (FaultException<ServiceFault> ex)
             {
-                _logger.LogWarning(ex, "The server refused the message of the lobby with the fault {FaultCode}.", ex.Detail.Code);
+                _logger.LogWarning(ex, "The server refused the chat message with the fault {FaultCode}.", ex.Detail.Code);
             }
             catch (FaultException ex)
             {
-                _logger.LogError(ex, "The server could not send the message of the lobby.");
+                _logger.LogError(ex, "The server could not send the chat message.");
             }
             catch (CommunicationException ex)
             {
-                _logger.LogError(ex, "The chat service could not be reached to send the message of the lobby.");
+                _logger.LogError(ex, "The chat service could not be reached to send the chat message.");
             }
             catch (TimeoutException ex)
             {
-                _logger.LogError(ex, "The chat service timed out while sending the message of the lobby.");
+                _logger.LogError(ex, "The chat service timed out while sending the chat message.");
             }
         }
 
@@ -137,7 +138,7 @@ namespace GinRummy.Client.Services
             }
         }
 
-        public void OnLobbyChatHistoryReceived(PlayerMessage[] messages)
+        public void OnLobbyChatHistoryReceived(List<PlayerMessage> messages)
         {
             if (messages == null)
             {

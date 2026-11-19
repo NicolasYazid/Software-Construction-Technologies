@@ -7,6 +7,7 @@ namespace GinRummy.Client.ViewModels
     {
         private bool _isFriend;
         private bool _hasPendingRequest;
+        private bool _hasUnreadMessage;
 
         public string Username { get; set; }
         // The tag identifies a player with an account and the guest session identifies a guest, so a change of presence
@@ -33,6 +34,16 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _hasPendingRequest = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool HasUnreadMessage
+        {
+            get { return _hasUnreadMessage; }
+            set
+            {
+                _hasUnreadMessage = value;
                 OnPropertyChanged();
             }
         }

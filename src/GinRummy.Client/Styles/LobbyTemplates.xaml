@@ -9,6 +9,7 @@
         <Border Style="{StaticResource StyPlayerRow}">
             <DockPanel LastChildFill="True">
                 <Label DockPanel.Dock="Right" Style="{StaticResource StyRankBadge}" Content="{Binding RankName}" />
+                <Image DockPanel.Dock="Right" Source="{StaticResource IcoMail}" Style="{StaticResource StyUnreadMessageMark}" />
                 <Border Style="{StaticResource StyAvatar}">
                     <Image Style="{StaticResource StyAvatarIcon}" />
                 </Border>

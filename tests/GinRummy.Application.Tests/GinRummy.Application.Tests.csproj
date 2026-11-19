@@ -50,6 +50,7 @@
     <Compile Include="Gameplay\FakeMatchRecorder.cs" />
     <Compile Include="Gameplay\MatchRegistryTests.cs" />
     <Compile Include="Gameplay\PlayRoundUseCaseTests.cs" />
+    <Compile Include="SocialCommunication\ChatHistoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -44,7 +44,6 @@ namespace GinRummy.Client.ViewModels
         private readonly DispatcherTimer _pauseNoticeTimer;
         private RoundDetails _round;
         private Card _selectedCard;
-        private string _messageDraft;
         private bool _isMoveRefused;
         private bool _isMatchOver;
         private bool _isOpponentDisconnected;
@@ -61,10 +60,8 @@ namespace GinRummy.Client.ViewModels
             _gameConnection = gameConnection ?? throw new ArgumentNullException(nameof(gameConnection));
             _signedInPlayer = signedInPlayer ?? throw new ArgumentNullException(nameof(signedInPlayer));
             _round = new RoundDetails();
-            _messageDraft = string.Empty;
             Hand = new ObservableCollection<Card>();
             DiscardPile = new ObservableCollection<Card>();
-            ChatMessages = new ObservableCollection<ChatMessage>();
             MatchLog = new ObservableCollection<MatchLogEntry>();
             OpponentCards = new List<int>();
             HandMelds = new List<Meld>();
@@ -79,7 +76,6 @@ namespace GinRummy.Client.ViewModels
             DiscardCommand = new RelayCommand(() => PlaySelectedCard(_gameConnection.Discard), CanDiscardSelectedCard);
             KnockCommand = new RelayCommand(() => PlaySelectedCard(_gameConnection.Knock), CanKnockWithSelectedCard);
             SortHandCommand = new RelayCommand(SortHand);
-            SendMessageCommand = new RelayCommand(SendMessage);
             CloseHandResultCommand = new RelayCommand(CloseHandResult);
         }
 
@@ -91,7 +87,6 @@ namespace GinRummy.Client.ViewModels
 
         public ObservableCollection<Card> Hand { get; private set; }
         public ObservableCollection<Card> DiscardPile { get; private set; }
-        public ObservableCollection<ChatMessage> ChatMessages { get; private set; }
         public ObservableCollection<MatchLogEntry> MatchLog { get; private set; }
         public IList<int> OpponentCards { get; private set; }
         public IList<Meld> HandMelds { get; private set; }
@@ -102,7 +97,6 @@ namespace GinRummy.Client.ViewModels
         public ICommand DiscardCommand { get; private set; }
         public ICommand KnockCommand { get; private set; }
         public ICommand SortHandCommand { get; private set; }
-        public ICommand SendMessageCommand { get; private set; }
         public ICommand CloseHandResultCommand { get; private set; }
 
         public string OpponentName
@@ -199,16 +193,6 @@ namespace GinRummy.Client.ViewModels
             set
             {
                 _selectedCard = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string MessageDraft
-        {
-            get { return _messageDraft; }
-            set
-            {
-                _messageDraft = value ?? string.Empty;
                 OnPropertyChanged();
             }
         }
@@ -428,16 +412,6 @@ namespace GinRummy.Client.ViewModels
         private void SortHand()
         {
             HandOrder.Arrange(Hand, HandOrder.SortLooseCards(Hand, HandMelds.Select(meld => meld.Cards)));
-        }
-
-        private void SendMessage()
-        {
-            string content = _messageDraft.Trim();
-            if (content.Length > 0)
-            {
-                ChatMessages.Add(new ChatMessage(_signedInPlayer.Username, content, DateTime.UtcNow));
-                MessageDraft = string.Empty;
-            }
         }
 
         private void HandleRoundChanged(object sender, RoundDetails round)

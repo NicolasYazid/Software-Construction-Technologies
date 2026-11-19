@@ -2,8 +2,10 @@
 using System.ServiceModel;
 
 using GinRummy.Application.Ports.SocialCommunication;
+using GinRummy.Contracts.DataContracts.SocialCommunication;
 using GinRummy.Contracts.Services.SocialCommunication;
 using GinRummy.Domain.Entities.Authentication;
+using GinRummy.Services.Mappers.SocialCommunication;
 using GinRummy.Services.Notifiers;
 
 namespace GinRummy.Services.Services.SocialCommunication
@@ -40,16 +42,10 @@ namespace GinRummy.Services.Services.SocialCommunication
             _sendMessageUseCase.SendLobbyHistoryToPlayer(playerId);
         }
 
-        public void SendLobbyMessage(string accessToken, string content)
+        public void SendMessage(string accessToken, MessageToSend message)
         {
             int authorId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
-            _sendMessageUseCase.SendLobbyMessage(authorId, content);
-        }
-
-        public void SendMatchMessage(string accessToken, string content)
-        {
-            int authorId = _accessPolicy.IdentifyPlayerByAccessToken(accessToken);
-            _sendMessageUseCase.SendMatchMessage(authorId, content);
+            _sendMessageUseCase.SendMessage(authorId, ChatMessageMapper.MapToSendMessageRequest(message));
         }
 
         public void UnsubscribeFromChat()

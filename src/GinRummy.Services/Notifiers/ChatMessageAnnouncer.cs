@@ -32,7 +32,7 @@ namespace GinRummy.Services.Notifiers
             }
         }
 
-        public void SendMessageToMatchPlayers(int authorId, int rivalId, SentChatMessage message)
+        public void SendMessageToAuthorAndAddressee(int authorId, int addresseeId, SentChatMessage message)
         {
             if (message == null)
             {
@@ -41,7 +41,7 @@ namespace GinRummy.Services.Notifiers
 
             PlayerMessage playerMessage = ChatMessageMapper.MapToPlayerMessage(message);
             EnqueueMessageForPlayer(authorId, playerMessage);
-            EnqueueMessageForPlayer(rivalId, playerMessage);
+            EnqueueMessageForPlayer(addresseeId, playerMessage);
         }
 
         public void SendLobbyHistoryToPlayer(int playerId, List<SentChatMessage> messages)
@@ -59,6 +59,11 @@ namespace GinRummy.Services.Notifiers
 
             List<PlayerMessage> playerMessages = ChatMessageMapper.MapToPlayerMessages(messages);
             playerDispatcher.EnqueueNotice(callback => callback.OnLobbyChatHistoryReceived(playerMessages));
+        }
+
+        public bool IsPlayerOnline(int playerId)
+        {
+            return _onlinePlayers.FindDispatcherOfPlayer(playerId) != null;
         }
 
         private void EnqueueMessageForPlayer(int playerId, PlayerMessage playerMessage)

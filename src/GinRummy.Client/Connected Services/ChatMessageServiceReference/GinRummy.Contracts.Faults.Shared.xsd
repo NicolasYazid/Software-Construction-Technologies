@@ -30,6 +30,11 @@
       <xs:enumeration value="InvalidUrl" />
       <xs:enumeration value="UnsupportedLocale" />
       <xs:enumeration value="SamePassword" />
+      <xs:enumeration value="InvalidMove" />
+      <xs:enumeration value="CannotChallengeSelf" />
+      <xs:enumeration value="ConcurrentChallenge" />
+      <xs:enumeration value="GuestNotAllowed" />
+      <xs:enumeration value="MatchFinished" />
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="ServiceFaultCode" nillable="true" type="tns:ServiceFaultCode" />
