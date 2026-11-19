@@ -7,7 +7,6 @@
         PlayerNotFound,
         AlreadyChallenging,
         OpponentBusy,
-        AccountSuspended,
         ChallengeExpired
     }
 }

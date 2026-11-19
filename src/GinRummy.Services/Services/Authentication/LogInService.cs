@@ -64,7 +64,7 @@ namespace GinRummy.Services.Services.Authentication
             catch (AccountBannedException ex)
             {
                 _logger.LogInformation(ex, "A banned account tried to sign in.");
-                throw CreateSanctionFault(ex);
+                throw CreateAccountBannedFault();
             }
             catch (VerificationResendLimitException ex)
             {
@@ -115,21 +115,21 @@ namespace GinRummy.Services.Services.Authentication
             catch (AccountBannedException ex)
             {
                 _logger.LogInformation(ex, "A banned account tried to confirm its sign-in.");
-                throw CreateSanctionFault(ex);
+                throw CreateAccountBannedFault();
             }
 
             return outcome;
         }
 
-        private static FaultException<SanctionFault> CreateSanctionFault(AccountBannedException exception)
+        private static FaultException<AccountBannedFault> CreateAccountBannedFault()
         {
-            SanctionFault sanction = new SanctionFault
+            AccountBannedFault fault = new AccountBannedFault
             {
-                ReasonName = exception.ReasonName,
-                ExpiresAt = exception.ExpiresAt
+                ReasonKey = PermanentBan.ConductViolationReasonKey,
+                MessageKey = PermanentBan.BanMessageKey
             };
 
-            return new FaultException<SanctionFault>(sanction);
+            return new FaultException<AccountBannedFault>(fault);
         }
 
         private void LogAcceptedLogIn(LogInResult result)

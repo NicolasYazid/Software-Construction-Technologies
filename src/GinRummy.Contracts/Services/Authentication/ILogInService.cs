@@ -12,13 +12,13 @@ namespace GinRummy.Contracts.Services.Authentication
     {
         [OperationContract]
         [FaultContract(typeof(ServiceFault))]
-        [FaultContract(typeof(SanctionFault))]
+        [FaultContract(typeof(AccountBannedFault))]
         [FaultContract(typeof(ResendLimitFault))]
         LogInOutcome LogIn(string email, string password, bool keepSignedIn);
 
         [OperationContract]
         [FaultContract(typeof(ServiceFault))]
-        [FaultContract(typeof(SanctionFault))]
+        [FaultContract(typeof(AccountBannedFault))]
         LogInOutcome VerifyLogInByTwoFactorAuthentication(string email, string verificationCode, bool keepSignedIn);
 
         [OperationContract]

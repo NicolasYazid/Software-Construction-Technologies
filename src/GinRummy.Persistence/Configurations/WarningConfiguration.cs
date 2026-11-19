@@ -20,8 +20,8 @@ namespace GinRummy.Persistence.Configurations
             Property(warning => warning.WarningId).HasColumnName("warning_id");
             Property(warning => warning.PlayerAccountId).HasColumnName("player_account_id");
             Property(warning => warning.ReportId).HasColumnName("report_id");
-            Property(warning => warning.BanId).HasColumnName("ban_id");
             Property(warning => warning.IssuedAt).HasColumnName("issued_at");
+            HasRequired(warning => warning.Report).WithMany().HasForeignKey(warning => warning.ReportId);
         }
     }
 }

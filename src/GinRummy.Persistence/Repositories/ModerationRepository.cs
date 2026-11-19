@@ -29,29 +29,8 @@ namespace GinRummy.Persistence.Repositories
         }
 
         /// <summary>
-        /// Finds a sanction reason by its identifier, or null when it does not exist.
-        /// </summary>
-        /// <param name="reasonBanId">Identifier of the reason.</param>
-        /// <returns>The matching reason, or null.</returns>
-        public ReasonBan FindReasonBanById(int reasonBanId)
-        {
-            return _context.ReasonBans
-                .Include(reason => reason.Translations)
-                .FirstOrDefault(reason => reason.ReasonBanId == reasonBanId);
-        }
-
-        /// <summary>
-        /// Adds a new warning and persists it immediately.
-        /// </summary>
-        /// <param name="newWarning">Warning to create.</param>
-        public void AddWarning(Warning newWarning)
-        {
-            _context.Warnings.Add(newWarning);
-            _context.SaveChanges();
-        }
-
-        /// <summary>
-        /// Adds a new report and persists it immediately.
+        /// Adds a new report and persists it immediately, so its identifier is known right
+        /// after the call.
         /// </summary>
         /// <param name="newReport">Report to create.</param>
         public void AddReport(Report newReport)
@@ -61,59 +40,104 @@ namespace GinRummy.Persistence.Repositories
         }
 
         /// <summary>
-        /// Adds a new ban and persists it immediately, so its identifier is known right
+        /// Adds a new warning and persists it immediately, so its identifier is known right
         /// after the call.
         /// </summary>
-        /// <param name="newBan">Ban to create.</param>
-        public void AddBan(Ban newBan)
+        /// <param name="newWarning">Warning to create.</param>
+        public void AddWarning(Warning newWarning)
         {
-            _context.Bans.Add(newBan);
+            _context.Warnings.Add(newWarning);
             _context.SaveChanges();
         }
 
         /// <summary>
-        /// Links a warning to the ban it ended up causing and persists the change.
+        /// Adds a new sanction and persists it immediately, so its identifier is known right
+        /// after the call.
         /// </summary>
-        /// <param name="warningId">Warning to update.</param>
-        /// <param name="banId">Ban the warning led to.</param>
-        /// <exception cref="InvalidOperationException">Thrown when the warning does not exist.</exception>
-        public void AssociateWarningWithBan(int warningId, int banId)
+        /// <param name="newSanction">Sanction to create.</param>
+        public void AddSanction(Sanction newSanction)
         {
-            Warning warning = _context.Warnings.FirstOrDefault(found => found.WarningId == warningId);
-            if (warning == null)
-            {
-                throw new InvalidOperationException("The warning does not exist.");
-            }
-
-            warning.AssociateWithBan(banId);
+            _context.Sanctions.Add(newSanction);
             _context.SaveChanges();
         }
 
         /// <summary>
-        /// Gets every ban a player has received, active or not, each with its reason and the
-        /// translations of the reason loaded.
+        /// Adds a new permanent ban and persists it immediately.
         /// </summary>
-        /// <param name="playerAccountId">Player whose bans are wanted.</param>
-        /// <returns>The bans, most recent first.</returns>
-        public IList<Ban> GetBansOf(int playerAccountId)
+        /// <param name="newPermanentBan">Permanent ban to create.</param>
+        public void AddPermanentBan(PermanentBan newPermanentBan)
         {
-            return _context.Bans
-                .Include(ban => ban.ReasonBan.Translations)
-                .Where(ban => ban.PlayerAccountId == playerAccountId)
-                .OrderByDescending(ban => ban.IssuedAt)
+            _context.PermanentBans.Add(newPermanentBan);
+            _context.SaveChanges();
+        }
+
+        /// <summary>
+        /// Counts every warning a player has received.
+        /// </summary>
+        /// <param name="playerAccountId">Player whose warnings are counted.</param>
+        /// <returns>The number of warnings.</returns>
+        public int CountWarningsOf(int playerAccountId)
+        {
+            return _context.Warnings.Count(warning => warning.PlayerAccountId == playerAccountId);
+        }
+
+        /// <summary>
+        /// Counts every sanction a player has received.
+        /// </summary>
+        /// <param name="playerAccountId">Player whose sanctions are counted.</param>
+        /// <returns>The number of sanctions.</returns>
+        public int CountSanctionsOf(int playerAccountId)
+        {
+            return _context.Sanctions.Count(sanction => sanction.PlayerAccountId == playerAccountId);
+        }
+
+        /// <summary>
+        /// Gets the sanctions of a player that have not ended at the given moment: the one in
+        /// force and the ones waiting for it.
+        /// </summary>
+        /// <param name="playerAccountId">Player whose sanctions are wanted.</param>
+        /// <param name="moment">Moment the sanctions are compared with.</param>
+        /// <returns>The sanctions, in the order they start.</returns>
+        public IList<Sanction> GetUnfinishedSanctionsOf(int playerAccountId, DateTime moment)
+        {
+            return _context.Sanctions
+                .Where(sanction => (sanction.PlayerAccountId == playerAccountId) && (sanction.EndsAt > moment))
+                .OrderBy(sanction => sanction.StartsAt)
                 .ToList();
         }
 
         /// <summary>
-        /// Gets every warning a player has received.
+        /// Gets every warning a player has received, each with the report that caused it.
         /// </summary>
         /// <param name="playerAccountId">Player whose warnings are wanted.</param>
         /// <returns>The warnings, most recent first.</returns>
         public IList<Warning> GetWarningsOf(int playerAccountId)
         {
             return _context.Warnings
+                .Include(warning => warning.Report)
                 .Where(warning => warning.PlayerAccountId == playerAccountId)
                 .OrderByDescending(warning => warning.IssuedAt)
+                .ToList();
+        }
+
+        /// <summary>
+        /// Tells whether a player has a permanent ban.
+        /// </summary>
+        /// <param name="playerAccountId">Player to check.</param>
+        /// <returns>True when the account is permanently banned.</returns>
+        public bool IsPermanentlyBanned(int playerAccountId)
+        {
+            return _context.PermanentBans.Any(permanentBan => permanentBan.PlayerAccountId == playerAccountId);
+        }
+
+        /// <summary>
+        /// Gets the identifier of every permanently banned account.
+        /// </summary>
+        /// <returns>The identifiers of the banned accounts.</returns>
+        public IList<int> GetPermanentlyBannedPlayerIds()
+        {
+            return _context.PermanentBans
+                .Select(permanentBan => permanentBan.PlayerAccountId)
                 .ToList();
         }
 

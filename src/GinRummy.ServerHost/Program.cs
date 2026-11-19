@@ -108,7 +108,7 @@ namespace GinRummy.ServerHost
                     tokenSigner,
                     new SystemClock());
                 ChallengeUseCase challengeUseCase = new ChallengeUseCase(
-                    new DuelPlayerDirectory(duelUnitOfWorkFactory, duelAccessPolicy),
+                    new DuelPlayerDirectory(duelUnitOfWorkFactory),
                     new ChallengeBoard(matchRegistry, new ChallengeRecorder(duelUnitOfWorkFactory, new SystemClock())),
                     new ChallengeAnnouncer(duelOnlinePlayers, roundAnnouncer));
 

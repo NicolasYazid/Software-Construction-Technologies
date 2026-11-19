@@ -51,12 +51,10 @@
     <Compile Include="Ports\Authentication\IEmailVerificationPort.cs" />
     <Compile Include="Ports\PlayerCareer\IViewLeaderboardUseCase.cs" />
     <Compile Include="Ports\Authentication\ILogInPort.cs" />
-    <Compile Include="Ports\PlayerModeration\IMessageReportPort.cs" />
     <Compile Include="Ports\PlayerCustomization\IPlayerProfilePort.cs" />
     <Compile Include="Ports\PlayerCustomization\IProfileEditPort.cs" />
     <Compile Include="Ports\PlayerPresence\IPlayerPresenceAnnouncer.cs" />
     <Compile Include="Ports\PlayerPresence\IPlayerPresenceOrchestrator.cs" />
-    <Compile Include="Ports\PlayerModeration\IReportedMessageSource.cs" />
     <Compile Include="Ports\SocialCommunication\ISendMessageUseCase.cs" />
     <Compile Include="Ports\Authentication\ISignUpPort.cs" />
     <Compile Include="Ports\Authentication\ITwoFactorLogInPort.cs" />
@@ -100,7 +98,6 @@
     <Compile Include="UseCases\PlayerCustomization\EditPlayerProfileUseCase.cs" />
     <Compile Include="UseCases\Authentication\EmailVerificationUseCase.cs" />
     <Compile Include="UseCases\Authentication\LogInUseCase.cs" />
-    <Compile Include="UseCases\PlayerModeration\ReportMessageUseCase.cs" />
     <Compile Include="UseCases\SocialCommunication\SendMessageUseCase.cs" />
     <Compile Include="UseCases\Authentication\SignUpUseCase.cs" />
     <Compile Include="UseCases\Authentication\VerifyTwoFactorLogInUseCase.cs" />

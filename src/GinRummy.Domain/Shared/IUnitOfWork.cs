@@ -8,7 +8,6 @@ using GinRummy.Domain.Ports.Gameplay;
 using GinRummy.Domain.Ports.PlayerCareer;
 using GinRummy.Domain.Ports.PlayerModeration;
 using GinRummy.Domain.Ports.PlayerPreferences;
-using GinRummy.Domain.Ports.SocialCommunication;
 
 namespace GinRummy.Domain.Shared
 {
@@ -27,8 +26,6 @@ namespace GinRummy.Domain.Shared
         IFriendRepository Friends { get; }
 
         IModerationRepository Moderation { get; }
-
-        IMessageRepository Messages { get; }
 
         IChallengeRepository Challenges { get; }
 

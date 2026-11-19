@@ -8,7 +8,6 @@ using GinRummy.Domain.Ports.Gameplay;
 using GinRummy.Domain.Ports.PlayerCareer;
 using GinRummy.Domain.Ports.PlayerModeration;
 using GinRummy.Domain.Ports.PlayerPreferences;
-using GinRummy.Domain.Ports.SocialCommunication;
 using GinRummy.Domain.Shared;
 using GinRummy.Persistence.Repositories;
 
@@ -29,7 +28,6 @@ namespace GinRummy.Persistence.Persistence
         private readonly IGuestSessionRepository _guestSessions;
         private readonly IFriendRepository _friends;
         private readonly IModerationRepository _moderation;
-        private readonly IMessageRepository _messages;
         private readonly IChallengeRepository _challenges;
         private readonly IGameRepository _games;
         private readonly IRankingRepository _rankings;
@@ -50,7 +48,6 @@ namespace GinRummy.Persistence.Persistence
             _guestSessions = new GuestSessionRepository(_context);
             _friends = new FriendRepository(_context);
             _moderation = new ModerationRepository(_context);
-            _messages = new MessageRepository(_context);
             _challenges = new ChallengeRepository(_context);
             _games = new GameRepository(_context);
             _rankings = new RankingRepository(_context);
@@ -105,19 +102,11 @@ namespace GinRummy.Persistence.Persistence
         }
 
         /// <summary>
-        /// Gets the warning and ban repository bound to this unit of work.
+        /// Gets the report, warning, sanction and permanent ban repository bound to this unit of work.
         /// </summary>
         public IModerationRepository Moderation
         {
             get { return _moderation; }
-        }
-
-        /// <summary>
-        /// Gets the chat message repository bound to this unit of work.
-        /// </summary>
-        public IMessageRepository Messages
-        {
-            get { return _messages; }
         }
 
         /// <summary>

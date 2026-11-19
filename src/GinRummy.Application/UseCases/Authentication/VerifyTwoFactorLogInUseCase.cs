@@ -42,7 +42,7 @@ namespace GinRummy.Application.UseCases.Authentication
                     throw new VerificationCodeRejectedException("The code of the second factor was rejected.", checkResult);
                 }
 
-                _accessPolicy.EnsureAccessAllowed(account, unitOfWork.Moderation.GetBansOf(account.PlayerAccountId));
+                _accessPolicy.EnsureAccessAllowed(account, unitOfWork.Moderation.IsPermanentlyBanned(account.PlayerAccountId));
                 AccessToken accessToken = _accessPolicy.GrantAccess(account, keepSignedIn);
                 unitOfWork.Commit();
                 result = LogInResult.ForSignedIn(account, accessToken);

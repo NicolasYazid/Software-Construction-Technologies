@@ -21,11 +21,21 @@ namespace GinRummy.Persistence.Configurations
             Property(report => report.ReportId).HasColumnName("report_id");
             Property(report => report.ReporterPlayerAccountId).HasColumnName("reporter_player_account_id");
             Property(report => report.ReportedPlayerAccountId).HasColumnName("reported_player_account_id");
-            Property(report => report.MessageId).HasColumnName("message_id");
-            Property(report => report.ReportStatusId).HasColumnName("report_status_id");
+            Property(report => report.ReportedContent)
+                .HasColumnName("reported_content")
+                .IsRequired()
+                .IsUnicode(false)
+                .HasMaxLength(ReportedMessage.ContentMaxLength);
+            Property(report => report.MessageSentAt).HasColumnName("message_sent_at");
+            Property(report => report.OriginName)
+                .HasColumnName("origin")
+                .IsRequired()
+                .IsUnicode(false)
+                .HasMaxLength(Report.OriginNameMaxLength);
             Property(report => report.CreatedAt)
                 .HasColumnName("created_at")
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Computed);
+            Ignore(report => report.Origin);
         }
     }
 }
