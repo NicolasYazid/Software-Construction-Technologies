@@ -65,7 +65,7 @@ namespace GinRummy.Client.ViewModels
 
         public bool IsOpen
         {
-            get { return _friend != null; }
+            get { return _friend != null ? true : false; }
         }
 
         public string MessageDraft
@@ -105,7 +105,7 @@ namespace GinRummy.Client.ViewModels
                 OpenConversationChanged?.Invoke(this, EventArgs.Empty);
             }
 
-            bool isFromFriend = message.PublicTag != _signedInPlayer.PublicTag;
+            bool isFromFriend = message.PublicTag != _signedInPlayer.PublicTag ? true : false;
             bool hasNewUnreadMessage = !isConversationOpen && isFromFriend ? true : false;
             if (hasNewUnreadMessage)
             {

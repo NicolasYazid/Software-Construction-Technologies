@@ -24,7 +24,7 @@ namespace GinRummy.Application.Tests.SocialCommunication
         private const string ElenaUsername = "elena_soto";
         private const string MessageContent = "Hola";
 
-        private static readonly DateTime _sentAtMoment = new DateTime(2026, 11, 19, 12, 0, 0, DateTimeKind.Utc);
+        private static readonly DateTime s_sentAtMoment = new DateTime(2026, 11, 19, 12, 0, 0, DateTimeKind.Utc);
 
         private ChatHistory _chatHistory;
         private PlayerProfile _alice;
@@ -34,7 +34,7 @@ namespace GinRummy.Application.Tests.SocialCommunication
         [SetUp]
         public void SetUp()
         {
-            _chatHistory = new ChatHistory(new FakeClock(_sentAtMoment));
+            _chatHistory = new ChatHistory(new FakeClock(s_sentAtMoment));
             _alice = new PlayerProfile(AliceId, AliceUsername);
             _bob = new PlayerProfile(BobId, BobUsername);
             _elena = new PlayerProfile(ElenaId, ElenaUsername);
@@ -51,7 +51,7 @@ namespace GinRummy.Application.Tests.SocialCommunication
         {
             SentChatMessage lobbyMessage = AddLobbyMessage();
 
-            Assert.AreEqual(_sentAtMoment, lobbyMessage.SentAt);
+            Assert.AreEqual(s_sentAtMoment, lobbyMessage.SentAt);
         }
 
         [Test]

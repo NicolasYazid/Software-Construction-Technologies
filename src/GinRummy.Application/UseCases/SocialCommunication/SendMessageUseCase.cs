@@ -104,7 +104,7 @@ namespace GinRummy.Application.UseCases.SocialCommunication
                 friendProfile = unitOfWork.PlayerAccounts.FindByPublicTag(friendPublicTag);
                 if (friendProfile != null)
                 {
-                    hasFriendShip = unitOfWork.Friends.FindFriendShip(authorId, friendProfile.PlayerAccountId) != null;
+                    hasFriendShip = unitOfWork.Friends.FindFriendShip(authorId, friendProfile.PlayerAccountId) != null ? true : false;
                 }
             }
 

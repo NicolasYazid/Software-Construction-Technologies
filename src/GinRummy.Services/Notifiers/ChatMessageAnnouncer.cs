@@ -63,7 +63,7 @@ namespace GinRummy.Services.Notifiers
 
         public bool IsPlayerOnline(int playerId)
         {
-            return _onlinePlayers.FindDispatcherOfPlayer(playerId) != null;
+            return _onlinePlayers.FindDispatcherOfPlayer(playerId) != null ? true : false;
         }
 
         private void EnqueueMessageForPlayer(int playerId, PlayerMessage playerMessage)
