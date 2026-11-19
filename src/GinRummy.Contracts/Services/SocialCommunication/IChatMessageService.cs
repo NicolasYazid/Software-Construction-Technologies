@@ -1,5 +1,6 @@
 ﻿using System.ServiceModel;
 
+using GinRummy.Contracts.DataContracts.SocialCommunication;
 using GinRummy.Contracts.Faults.Shared;
 
 namespace GinRummy.Contracts.Services.SocialCommunication
@@ -13,11 +14,7 @@ namespace GinRummy.Contracts.Services.SocialCommunication
 
         [OperationContract]
         [FaultContract(typeof(ServiceFault))]
-        void SendLobbyMessage(string accessToken, string content);
-
-        [OperationContract]
-        [FaultContract(typeof(ServiceFault))]
-        void SendMatchMessage(string accessToken, string content);
+        void SendMessage(string accessToken, MessageToSend message);
 
         [OperationContract(IsOneWay = true)]
         void UnsubscribeFromChat();

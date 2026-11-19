@@ -388,7 +388,6 @@
     <Compile Include="ViewModels\SignUpVerifyEmailViewModel.cs" />
     <Compile Include="ViewModels\SignUpViewModel.cs" />
     <Compile Include="Controls\PasswordBindingCommon.cs" />
-    <Compile Include="Models\ChatMessage.cs" />
     <Compile Include="ViewModels\LobbyPlayerViewModel.cs" />
     <Compile Include="Models\MatchPair.cs" />
     <Compile Include="ViewModels\SanctionViewModel.cs" />
@@ -402,6 +401,7 @@
     <Compile Include="ViewModels\GameTableViewModel.cs" />
     <Compile Include="ViewModels\LobbyChallengeViewModel.cs" />
     <Compile Include="ViewModels\LobbyFriendChatViewModel.cs" />
+    <Compile Include="ViewModels\MatchChatViewModel.cs" />
     <Compile Include="ViewModels\LobbyFriendshipViewModel.cs" />
     <Compile Include="Services\ChatMessageConnection.cs" />
     <Compile Include="Services\DirectDuelConnection.cs" />

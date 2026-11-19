@@ -13,28 +13,15 @@
       <xs:sequence />
     </xs:complexType>
   </xs:element>
-  <xs:element name="SendLobbyMessage">
+  <xs:element name="SendMessage">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="accessToken" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="content" nillable="true" type="xs:string" />
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.SocialCommunication" minOccurs="0" name="message" nillable="true" type="q1:MessageToSend" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="SendLobbyMessageResponse">
-    <xs:complexType>
-      <xs:sequence />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="SendMatchMessage">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="accessToken" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="content" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="SendMatchMessageResponse">
+  <xs:element name="SendMessageResponse">
     <xs:complexType>
       <xs:sequence />
     </xs:complexType>
@@ -47,14 +34,14 @@
   <xs:element name="OnLobbyChatHistoryReceived">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.SocialCommunication" minOccurs="0" name="messages" nillable="true" type="q1:ArrayOfPlayerMessage" />
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.SocialCommunication" minOccurs="0" name="messages" nillable="true" type="q2:ArrayOfPlayerMessage" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="OnChatMessageReceived">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.SocialCommunication" minOccurs="0" name="message" nillable="true" type="q2:PlayerMessage" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.SocialCommunication" minOccurs="0" name="message" nillable="true" type="q3:PlayerMessage" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

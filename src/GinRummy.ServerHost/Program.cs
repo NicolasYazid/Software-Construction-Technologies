@@ -85,7 +85,8 @@ namespace GinRummy.ServerHost
                 ILogger<PlayerPresenceService> presenceLogger = loggerFactory.CreateLogger<PlayerPresenceService>();
                 OnlinePlayers<IChatMessageCallback> chatOnlinePlayers = new OnlinePlayers<IChatMessageCallback>(
                     loggerFactory.CreateLogger<WcfCallbackDispatcher<IChatMessageCallback>>());
-                SendMessageUseCase sendMessageUseCase = ComposeSendMessageUseCase(chatOnlinePlayers);
+                ChatHistory chatHistory = new ChatHistory(new SystemClock());
+                SendMessageUseCase sendMessageUseCase = ComposeSendMessageUseCase(chatOnlinePlayers, chatHistory);
                 AccountAccessPolicy chatAccessPolicy = new AccountAccessPolicy(
                     new Argon2PasswordHasher(),
                     tokenSigner,
@@ -99,7 +100,7 @@ namespace GinRummy.ServerHost
                 MatchRegistry matchRegistry = new MatchRegistry(() => StandardDeck.CreateShuffled(deckRandom));
                 RoundAnnouncer roundAnnouncer = new RoundAnnouncer(gameOnlinePlayers);
                 Func<IUnitOfWork> duelUnitOfWorkFactory = () => new EntityFrameworkUnitOfWork(ConnectionStringName);
-                MatchRecorder matchRecorder = new MatchRecorder(duelUnitOfWorkFactory, new SystemClock());
+                MatchRecorder matchRecorder = new MatchRecorder(duelUnitOfWorkFactory, new SystemClock(), chatHistory);
                 FinishInterruptedMatches(matchRecorder, hostLogger);
                 PlayRoundUseCase playRoundUseCase = new PlayRoundUseCase(matchRegistry, roundAnnouncer, matchRecorder);
                 AccountAccessPolicy duelAccessPolicy = new AccountAccessPolicy(
@@ -333,10 +334,11 @@ namespace GinRummy.ServerHost
             return presenceOrchestrator;
         }
 
-        private static SendMessageUseCase ComposeSendMessageUseCase(OnlinePlayers<IChatMessageCallback> chatOnlinePlayers)
+        private static SendMessageUseCase ComposeSendMessageUseCase(
+            OnlinePlayers<IChatMessageCallback> chatOnlinePlayers,
+            ChatHistory chatHistory)
         {
             Func<IUnitOfWork> unitOfWorkFactory = () => new EntityFrameworkUnitOfWork(ConnectionStringName);
-            ChatHistory chatHistory = new ChatHistory(new SystemClock());
             ChatMessageAnnouncer chatMessageAnnouncer = new ChatMessageAnnouncer(chatOnlinePlayers);
 
             return new SendMessageUseCase(unitOfWorkFactory, chatHistory, chatMessageAnnouncer);

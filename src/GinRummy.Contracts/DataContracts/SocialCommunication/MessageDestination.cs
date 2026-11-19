@@ -3,6 +3,7 @@
     public enum MessageDestination
     {
         Lobby,
-        Match
+        Match,
+        Friend
     }
 }

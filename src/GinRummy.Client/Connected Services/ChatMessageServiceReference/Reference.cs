@@ -127,6 +127,114 @@ namespace GinRummy.Client.ChatMessageServiceReference {
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         SamePassword = 21,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        InvalidMove = 22,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        CannotChallengeSelf = 23,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        ConcurrentChallenge = 24,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        GuestNotAllowed = 25,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        MatchFinished = 26,
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="MessageToSend", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.SocialCo" +
+        "mmunication")]
+    [System.SerializableAttribute()]
+    public partial class MessageToSend : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ContentField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private GinRummy.Client.ChatMessageServiceReference.MessageDestination DestinationField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int FriendPublicTagField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Content {
+            get {
+                return this.ContentField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ContentField, value) != true)) {
+                    this.ContentField = value;
+                    this.RaisePropertyChanged("Content");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public GinRummy.Client.ChatMessageServiceReference.MessageDestination Destination {
+            get {
+                return this.DestinationField;
+            }
+            set {
+                if ((this.DestinationField.Equals(value) != true)) {
+                    this.DestinationField = value;
+                    this.RaisePropertyChanged("Destination");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int FriendPublicTag {
+            get {
+                return this.FriendPublicTagField;
+            }
+            set {
+                if ((this.FriendPublicTagField.Equals(value) != true)) {
+                    this.FriendPublicTagField = value;
+                    this.RaisePropertyChanged("FriendPublicTag");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="MessageDestination", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.SocialCo" +
+        "mmunication")]
+    public enum MessageDestination : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Lobby = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Match = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Friend = 2,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -138,6 +246,9 @@ namespace GinRummy.Client.ChatMessageServiceReference {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private int AddresseePublicTagField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string ContentField;
@@ -167,6 +278,19 @@ namespace GinRummy.Client.ChatMessageServiceReference {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int AddresseePublicTag {
+            get {
+                return this.AddresseePublicTagField;
+            }
+            set {
+                if ((this.AddresseePublicTagField.Equals(value) != true)) {
+                    this.AddresseePublicTagField = value;
+                    this.RaisePropertyChanged("AddresseePublicTag");
+                }
             }
         }
         
@@ -271,18 +395,6 @@ namespace GinRummy.Client.ChatMessageServiceReference {
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="MessageDestination", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.SocialCo" +
-        "mmunication")]
-    public enum MessageDestination : int {
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        Lobby = 0,
-        
-        [System.Runtime.Serialization.EnumMemberAttribute()]
-        Match = 1,
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ChatMessageServiceReference.IChatMessageService", CallbackContract=typeof(GinRummy.Client.ChatMessageServiceReference.IChatMessageServiceCallback), SessionMode=System.ServiceModel.SessionMode.Required)]
     public interface IChatMessageService {
@@ -294,19 +406,12 @@ namespace GinRummy.Client.ChatMessageServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatMessageService/SubscribeToChat", ReplyAction="http://tempuri.org/IChatMessageService/SubscribeToChatResponse")]
         System.Threading.Tasks.Task SubscribeToChatAsync(string accessToken);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatMessageService/SendLobbyMessage", ReplyAction="http://tempuri.org/IChatMessageService/SendLobbyMessageResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.ChatMessageServiceReference.ServiceFault), Action="http://tempuri.org/IChatMessageService/SendLobbyMessageServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
-        void SendLobbyMessage(string accessToken, string content);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatMessageService/SendMessage", ReplyAction="http://tempuri.org/IChatMessageService/SendMessageResponse")]
+        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.ChatMessageServiceReference.ServiceFault), Action="http://tempuri.org/IChatMessageService/SendMessageServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
+        void SendMessage(string accessToken, GinRummy.Client.ChatMessageServiceReference.MessageToSend message);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatMessageService/SendLobbyMessage", ReplyAction="http://tempuri.org/IChatMessageService/SendLobbyMessageResponse")]
-        System.Threading.Tasks.Task SendLobbyMessageAsync(string accessToken, string content);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatMessageService/SendMatchMessage", ReplyAction="http://tempuri.org/IChatMessageService/SendMatchMessageResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.ChatMessageServiceReference.ServiceFault), Action="http://tempuri.org/IChatMessageService/SendMatchMessageServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
-        void SendMatchMessage(string accessToken, string content);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatMessageService/SendMatchMessage", ReplyAction="http://tempuri.org/IChatMessageService/SendMatchMessageResponse")]
-        System.Threading.Tasks.Task SendMatchMessageAsync(string accessToken, string content);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IChatMessageService/SendMessage", ReplyAction="http://tempuri.org/IChatMessageService/SendMessageResponse")]
+        System.Threading.Tasks.Task SendMessageAsync(string accessToken, GinRummy.Client.ChatMessageServiceReference.MessageToSend message);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatMessageService/UnsubscribeFromChat")]
         void UnsubscribeFromChat();
@@ -319,7 +424,7 @@ namespace GinRummy.Client.ChatMessageServiceReference {
     public interface IChatMessageServiceCallback {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatMessageService/OnLobbyChatHistoryReceived")]
-        void OnLobbyChatHistoryReceived(GinRummy.Client.ChatMessageServiceReference.PlayerMessage[] messages);
+        void OnLobbyChatHistoryReceived(System.Collections.Generic.List<GinRummy.Client.ChatMessageServiceReference.PlayerMessage> messages);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IChatMessageService/OnChatMessageReceived")]
         void OnChatMessageReceived(GinRummy.Client.ChatMessageServiceReference.PlayerMessage message);
@@ -361,20 +466,12 @@ namespace GinRummy.Client.ChatMessageServiceReference {
             return base.Channel.SubscribeToChatAsync(accessToken);
         }
         
-        public void SendLobbyMessage(string accessToken, string content) {
-            base.Channel.SendLobbyMessage(accessToken, content);
+        public void SendMessage(string accessToken, GinRummy.Client.ChatMessageServiceReference.MessageToSend message) {
+            base.Channel.SendMessage(accessToken, message);
         }
         
-        public System.Threading.Tasks.Task SendLobbyMessageAsync(string accessToken, string content) {
-            return base.Channel.SendLobbyMessageAsync(accessToken, content);
-        }
-        
-        public void SendMatchMessage(string accessToken, string content) {
-            base.Channel.SendMatchMessage(accessToken, content);
-        }
-        
-        public System.Threading.Tasks.Task SendMatchMessageAsync(string accessToken, string content) {
-            return base.Channel.SendMatchMessageAsync(accessToken, content);
+        public System.Threading.Tasks.Task SendMessageAsync(string accessToken, GinRummy.Client.ChatMessageServiceReference.MessageToSend message) {
+            return base.Channel.SendMessageAsync(accessToken, message);
         }
         
         public void UnsubscribeFromChat() {

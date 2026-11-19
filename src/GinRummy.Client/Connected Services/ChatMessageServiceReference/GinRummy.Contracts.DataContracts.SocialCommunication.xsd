@@ -1,6 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.SocialCommunication" xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.SocialCommunication" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+  <xs:complexType name="MessageToSend">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Content" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Destination" type="tns:MessageDestination" />
+      <xs:element minOccurs="0" name="FriendPublicTag" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="MessageToSend" nillable="true" type="tns:MessageToSend" />
+  <xs:simpleType name="MessageDestination">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Lobby" />
+      <xs:enumeration value="Match" />
+      <xs:enumeration value="Friend" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="MessageDestination" nillable="true" type="tns:MessageDestination" />
   <xs:complexType name="ArrayOfPlayerMessage">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="PlayerMessage" nillable="true" type="tns:PlayerMessage" />
@@ -9,6 +25,7 @@
   <xs:element name="ArrayOfPlayerMessage" nillable="true" type="tns:ArrayOfPlayerMessage" />
   <xs:complexType name="PlayerMessage">
     <xs:sequence>
+      <xs:element minOccurs="0" name="AddresseePublicTag" type="xs:int" />
       <xs:element minOccurs="0" name="Content" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Destination" type="tns:MessageDestination" />
       <xs:element minOccurs="0" name="MessageId" type="ser:guid" />
@@ -19,11 +36,4 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="PlayerMessage" nillable="true" type="tns:PlayerMessage" />
-  <xs:simpleType name="MessageDestination">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Lobby" />
-      <xs:enumeration value="Match" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:element name="MessageDestination" nillable="true" type="tns:MessageDestination" />
 </xs:schema>

@@ -21,6 +21,8 @@ namespace GinRummy.Client.ViewModels
         private const string PlayerNotFoundNoticeKey = "Error_SocialPlayerNotFound";
         private const string OwnTagNoticeKey = "Search_OwnTagNotice";
         private const string DisallowedCharactersNoticeKey = "Error_ValDisallowedCharacters";
+        private const int MaxLobbyMessages = 50;
+        private const int OldestMessageIndex = 0;
 
         private readonly PlayerPresenceMonitor _presenceMonitor;
         private readonly ChatMessageConnection _chatConnection;
@@ -45,6 +47,9 @@ namespace GinRummy.Client.ViewModels
             _signedInPlayer = signedInPlayer ?? throw new ArgumentNullException(nameof(signedInPlayer));
             _messageDraft = string.Empty;
             ChatEntries = new ObservableCollection<PlayerMessage>();
+            FriendChat = new LobbyFriendChatViewModel(_chatConnection, _signedInPlayer);
+            FriendChat.UnreadMessagesChanged += HandleUnreadMessagesChanged;
+            MatchChat = new MatchChatViewModel(_chatConnection, _signedInPlayer);
             LookingToPlay = new ObservableCollection<LobbyPlayerViewModel>();
             Online = new ObservableCollection<LobbyPlayerViewModel>();
             MatchesInProgress = new ObservableCollection<MatchPair>();
@@ -64,6 +69,8 @@ namespace GinRummy.Client.ViewModels
         public event EventHandler PresenceUnavailable;
 
         public ObservableCollection<PlayerMessage> ChatEntries { get; private set; }
+        public LobbyFriendChatViewModel FriendChat { get; private set; }
+        public MatchChatViewModel MatchChat { get; private set; }
         public bool HasNoPlayersLookingToPlay { get; private set; }
         public CountdownViewModel BanCountdown { get; private set; }
         public ICommand SendMessageCommand { get; private set; }
@@ -279,6 +286,7 @@ namespace GinRummy.Client.ViewModels
             }
 
             UpdateRelationOfPlayer(publicTag, false);
+            FriendChat.CloseConversationWith(publicTag);
             HasNoFriends = HasNoFriendsListed();
         }
 
@@ -311,7 +319,10 @@ namespace GinRummy.Client.ViewModels
             string content = _messageDraft.Trim();
             if (CanWriteMessage && (content.Length > 0))
             {
-                _chatConnection.SendLobbyMessage(_signedInPlayer.AccessToken, content);
+                MessageToSend message = new MessageToSend();
+                message.Destination = MessageDestination.Lobby;
+                message.Content = content;
+                _chatConnection.SendMessage(_signedInPlayer.AccessToken, message);
                 MessageDraft = string.Empty;
             }
         }
@@ -332,6 +343,7 @@ namespace GinRummy.Client.ViewModels
             ReplacePlayers(Unavailable, report.AllOfflinePlayers);
             ReplacePlayers(FriendsOnline, report.AllOnlineFriends);
             ReplacePlayers(FriendsUnavailable, report.AllOfflineFriends);
+            RefreshUnreadMessageMarks();
             HasNoFriends = HasNoFriendsListed();
         }
 
@@ -352,22 +364,58 @@ namespace GinRummy.Client.ViewModels
                 AddPlayer(Unavailable, FriendsUnavailable, presence);
             }
 
+            RefreshUnreadMessageMarks();
             HasNoFriends = HasNoFriendsListed();
         }
 
-        private void OnLobbyChatHistoryReceived(object sender, PlayerMessage[] messages)
+        private void OnLobbyChatHistoryReceived(object sender, List<PlayerMessage> messages)
         {
             foreach (PlayerMessage message in messages)
             {
-                ChatEntries.Add(message);
+                AddLobbyMessage(message);
             }
         }
 
         private void OnChatMessageReceived(object sender, PlayerMessage message)
         {
-            if (message.Destination == MessageDestination.Lobby)
+            switch (message.Destination)
             {
-                ChatEntries.Add(message);
+                case MessageDestination.Lobby:
+                    AddLobbyMessage(message);
+                    break;
+                case MessageDestination.Match:
+                    MatchChat.ReceiveMessage(message);
+                    break;
+                case MessageDestination.Friend:
+                    FriendChat.ReceiveMessage(message);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void HandleUnreadMessagesChanged(object sender, EventArgs e)
+        {
+            RefreshUnreadMessageMarks();
+        }
+
+        private void AddLobbyMessage(PlayerMessage message)
+        {
+            ChatEntries.Add(message);
+            while (ChatEntries.Count > MaxLobbyMessages)
+            {
+                ChatEntries.RemoveAt(OldestMessageIndex);
+            }
+        }
+
+        private void RefreshUnreadMessageMarks()
+        {
+            foreach (IList<LobbyPlayerViewModel> players in GetPlayerGroups())
+            {
+                foreach (LobbyPlayerViewModel player in players)
+                {
+                    player.HasUnreadMessage = FriendChat.HasUnreadMessages(player.PublicTag);
+                }
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:models="clr-namespace:GinRummy.Client.Models">
+                    xmlns:models="clr-namespace:GinRummy.Client.Models"
+                    xmlns:chat="clr-namespace:GinRummy.Client.ChatMessageServiceReference">
 
     <!-- These templates live apart from the theme because they bind to the localization provider, created after the theme loads. -->
 
@@ -165,10 +166,10 @@
     </DataTemplate>
 
     <!-- The chat of the match is narrower than the one of the lobby, so its messages leave out the avatar. -->
-    <DataTemplate x:Key="TplMatchChatMessage" DataType="{x:Type models:ChatMessage}">
+    <DataTemplate x:Key="TplMatchChatMessage" DataType="{x:Type chat:PlayerMessage}">
         <StackPanel Margin="20,6,14,8">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Style="{StaticResource StyMatchChatAuthor}" Text="{Binding AuthorName}" />
+                <TextBlock Style="{StaticResource StyMatchChatAuthor}" Text="{Binding Username}" />
                 <TextBlock Style="{StaticResource StyMatchChatTime}">
                     <TextBlock.Text>
                         <MultiBinding Converter="{StaticResource CnvLocalizedFormat}" ConverterParameter="t">
@@ -179,15 +180,7 @@
                 </TextBlock>
             </StackPanel>
             <TextBlock x:Name="lblChatContent" Style="{StaticResource StyMatchChatContent}" Text="{Binding Content}" />
-            <TextBlock x:Name="lblMessageCensored" Style="{StaticResource StyChatCensored}" FontSize="18"
-                       Text="{Binding [LobbyChat_MessageCensored], Source={StaticResource PrvLocalization}}" />
         </StackPanel>
-        <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding IsCensored}" Value="True">
-                <Setter TargetName="lblChatContent" Property="Visibility" Value="Collapsed" />
-                <Setter TargetName="lblMessageCensored" Property="Visibility" Value="Visible" />
-            </DataTrigger>
-        </DataTemplate.Triggers>
     </DataTemplate>
 
 </ResourceDictionary>

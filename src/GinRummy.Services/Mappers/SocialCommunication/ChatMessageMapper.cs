@@ -10,6 +10,8 @@ namespace GinRummy.Services.Mappers.SocialCommunication
 {
     public static class ChatMessageMapper
     {
+        private const int NoAddresseePublicTag = 0;
+
         public static PlayerMessage MapToPlayerMessage(SentChatMessage message)
         {
             if (message == null)
@@ -25,6 +27,7 @@ namespace GinRummy.Services.Mappers.SocialCommunication
                 Destination = MapToMessageDestination(message.Channel),
                 Username = author.Username,
                 PublicTag = author.PublicTag,
+                AddresseePublicTag = FindAddresseePublicTag(message),
                 ProfilePicture = message.AuthorProfile.ProfilePicture,
                 Content = message.Content,
                 SentAt = message.SentAt
@@ -47,9 +50,26 @@ namespace GinRummy.Services.Mappers.SocialCommunication
             return playerMessages;
         }
 
+        public static SendMessageRequest MapToSendMessageRequest(MessageToSend message)
+        {
+            if (message == null)
+            {
+                throw new ArgumentNullException(nameof(message));
+            }
+
+            MessageChannel channel = (MessageChannel)Enum.Parse(typeof(MessageChannel), message.Destination.ToString());
+
+            return new SendMessageRequest(channel, message.Content, message.FriendPublicTag);
+        }
+
         private static MessageDestination MapToMessageDestination(MessageChannel channel)
         {
-            return (channel == MessageChannel.Match) ? MessageDestination.Match : MessageDestination.Lobby;
+            return (MessageDestination)Enum.Parse(typeof(MessageDestination), channel.ToString());
+        }
+
+        private static int FindAddresseePublicTag(SentChatMessage message)
+        {
+            return (message.AddresseeProfile != null) ? message.AddresseeProfile.PublicTag : NoAddresseePublicTag;
         }
     }
 }

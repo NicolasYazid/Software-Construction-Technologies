@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 using GinRummy.Client.ChatMessageServiceReference;
 using GinRummy.Client.Controls;
@@ -45,7 +46,8 @@ namespace GinRummy.Client.Views
             _friendshipViewModel.FriendRequestDeclined += OnFriendRequestDeclined;
             _friendshipViewModel.FriendRemoved += OnFriendRemoved;
             _friendshipViewModel.SessionExpired += OnSessionExpired;
-            _friendChatViewModel = new LobbyFriendChatViewModel();
+            _friendChatViewModel = _viewModel.FriendChat;
+            _friendChatViewModel.OpenConversationChanged += HandleOpenConversationChanged;
             pnlFriendChat.DataContext = _friendChatViewModel;
 
             // The rail, the profile screen and the panel share one own profile, so a new picture shows on all of them (CU-28).
@@ -93,7 +95,7 @@ namespace GinRummy.Client.Views
 
         private void OnRoundStarted(object sender, GameTableViewModel table)
         {
-            GuiGameTable gameTable = new GuiGameTable(table);
+            GuiGameTable gameTable = new GuiGameTable(table, _viewModel.MatchChat);
             gameTable.Closed += OnGameTableClosed;
             OpenOver(gameTable);
         }
@@ -101,6 +103,7 @@ namespace GinRummy.Client.Views
         private void OnGameTableClosed(object sender, EventArgs e)
         {
             ((Window)sender).Closed -= OnGameTableClosed;
+            _viewModel.MatchChat.ClearMessages();
             _challengeViewModel.LeaveMatch();
         }
 
@@ -230,6 +233,7 @@ namespace GinRummy.Client.Views
             _friendshipViewModel.FriendshipCreated -= OnFriendshipCreated;
             _friendshipViewModel.FriendRequestDeclined -= OnFriendRequestDeclined;
             _friendshipViewModel.FriendRemoved -= OnFriendRemoved;
+            _friendChatViewModel.OpenConversationChanged -= HandleOpenConversationChanged;
             _friendshipViewModel.SessionExpired -= OnSessionExpired;
             _challengeViewModel.RoundStarted -= OnRoundStarted;
             _challengeViewModel.SessionExpired -= OnSessionExpired;
@@ -249,6 +253,16 @@ namespace GinRummy.Client.Views
         private void OnOwnProfileClosed(object sender, EventArgs e)
         {
             _ownProfileViewModel.RefreshProfile();
+        }
+
+        private void HandleOpenConversationChanged(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(ScrollFriendMessagesToEnd));
+        }
+
+        private void ScrollFriendMessagesToEnd()
+        {
+            OverlayInsetCommon.ScrollToEnd(lstFriendMessages);
         }
 
         private void ScrollToLatestEntry()

@@ -19,6 +19,9 @@ namespace GinRummy.Contracts.DataContracts.SocialCommunication
         public int PublicTag { get; set; }
 
         [DataMember]
+        public int AddresseePublicTag { get; set; }
+
+        [DataMember]
         public string ProfilePicture { get; set; }
 
         [DataMember]

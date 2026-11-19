@@ -1,10 +1,10 @@
-﻿namespace GinRummy.Application.Ports.SocialCommunication
+﻿using GinRummy.Application.UseCases.SocialCommunication;
+
+namespace GinRummy.Application.Ports.SocialCommunication
 {
     public interface ISendMessageUseCase
     {
-        void SendLobbyMessage(int authorId, string content);
-
-        void SendMatchMessage(int authorId, string content);
+        void SendMessage(int authorId, SendMessageRequest request);
 
         void SendLobbyHistoryToPlayer(int playerId);
     }

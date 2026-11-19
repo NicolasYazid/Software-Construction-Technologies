@@ -1,6 +1,7 @@
 ﻿using System;
 
 using GinRummy.Application.Ports.Gameplay;
+using GinRummy.Application.UseCases.SocialCommunication;
 using GinRummy.Domain.Entities.Gameplay;
 using GinRummy.Domain.Entities.PlayerCareer;
 using GinRummy.Domain.Shared;
@@ -11,11 +12,13 @@ namespace GinRummy.Application.UseCases.Gameplay
     {
         private readonly Func<IUnitOfWork> _unitOfWorkFactory;
         private readonly IClock _clock;
+        private readonly ChatHistory _chatHistory;
 
-        public MatchRecorder(Func<IUnitOfWork> unitOfWorkFactory, IClock clock)
+        public MatchRecorder(Func<IUnitOfWork> unitOfWorkFactory, IClock clock, ChatHistory chatHistory)
         {
             _unitOfWorkFactory = unitOfWorkFactory ?? throw new ArgumentNullException(nameof(unitOfWorkFactory));
             _clock = clock ?? throw new ArgumentNullException(nameof(clock));
+            _chatHistory = chatHistory ?? throw new ArgumentNullException(nameof(chatHistory));
         }
 
         public void RecordRoundScores(ActiveMatch activeMatch)
@@ -41,6 +44,7 @@ namespace GinRummy.Application.UseCases.Gameplay
                 unitOfWork.PlayerAccounts.FindStats(winnerId).RecordWin();
                 unitOfWork.PlayerAccounts.FindStats(loserId).RecordLoss();
                 unitOfWork.Commit();
+                _chatHistory.RemoveMatchMessages(gameSession.GameSessionId);
             }
         }
 
@@ -48,8 +52,10 @@ namespace GinRummy.Application.UseCases.Gameplay
         {
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
-                FindGameSession(unitOfWork, activeMatch).Finish(_clock.UtcNow);
+                GameSession gameSession = FindGameSession(unitOfWork, activeMatch);
+                gameSession.Finish(_clock.UtcNow);
                 unitOfWork.Commit();
+                _chatHistory.RemoveMatchMessages(gameSession.GameSessionId);
             }
         }
 

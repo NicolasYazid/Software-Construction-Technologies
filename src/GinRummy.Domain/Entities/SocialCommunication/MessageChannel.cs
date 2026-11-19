@@ -3,6 +3,7 @@
     public enum MessageChannel
     {
         Lobby,
-        Match
+        Match,
+        Friend
     }
 }
