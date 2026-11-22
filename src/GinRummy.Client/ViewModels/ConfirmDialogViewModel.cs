@@ -34,6 +34,11 @@ namespace GinRummy.Client.ViewModels
         public bool IsPasswordRequired { get; private set; }
         public string Password { get; set; }
 
+        public int PasswordMaxLength
+        {
+            get { return LogInCredentials.PasswordMaxLength; }
+        }
+
         private void ApplyKind(ConfirmDialogKind kind)
         {
             // The prototype paints red the warnings of an action with consequences for the account or the match.

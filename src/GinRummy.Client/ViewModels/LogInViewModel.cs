@@ -37,6 +37,16 @@ namespace GinRummy.Client.ViewModels
         public bool IsKeepSignedIn { get; set; }
         public ICommand LogInCommand { get; private set; }
 
+        public int EmailMaxLength
+        {
+            get { return LogInCredentials.EmailMaxLength; }
+        }
+
+        public int PasswordMaxLength
+        {
+            get { return LogInCredentials.PasswordMaxLength; }
+        }
+
         public string Password
         {
             get { return _password; }

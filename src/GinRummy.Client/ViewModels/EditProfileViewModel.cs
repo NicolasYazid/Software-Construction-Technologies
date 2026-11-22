@@ -61,6 +61,21 @@ namespace GinRummy.Client.ViewModels
         public ICommand AddSocialLinkCommand { get; private set; }
         public ICommand UnlinkCommand { get; private set; }
 
+        public int UsernameMaxLength
+        {
+            get { return PlayerProfile.UsernameMaxLength; }
+        }
+
+        public int PlatformNameMaxLength
+        {
+            get { return SocialLink.PlatformNameMaxLength; }
+        }
+
+        public int UrlMaxLength
+        {
+            get { return SocialLink.UrlMaxLength; }
+        }
+
         public int BioMaxLength
         {
             get { return PlayerProfile.BioMaxLength; }

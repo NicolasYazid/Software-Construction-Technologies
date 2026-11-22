@@ -45,7 +45,7 @@
                            Text="{Binding [EditProfile_LblUsername], Source={StaticResource PrvLocalization}}" />
                 <!-- The database limits the name to twenty characters. -->
                 <ctl:PixelBorder Style="{StaticResource StyGlassFieldShell}">
-                    <TextBox x:Name="txtUsername" Style="{StaticResource StyFieldInput}" MaxLength="20"
+                    <TextBox x:Name="txtUsername" Style="{StaticResource StyFieldInput}" MaxLength="{Binding UsernameMaxLength, Mode=OneTime}"
                              Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" />
                 </ctl:PixelBorder>
 
@@ -94,7 +94,7 @@
                                Text="{Binding [EditProfile_LblPlatform], Source={StaticResource PrvLocalization}}" />
                     <!-- The database limits the name of the network to one hundred characters. -->
                     <ctl:PixelBorder Style="{StaticResource StyGlassFieldShell}">
-                        <TextBox x:Name="txtSocialPlatformName" Style="{StaticResource StyFieldInput}" MaxLength="100"
+                        <TextBox x:Name="txtSocialPlatformName" Style="{StaticResource StyFieldInput}" MaxLength="{Binding PlatformNameMaxLength, Mode=OneTime}"
                                  Text="{Binding SocialPlatformName, UpdateSourceTrigger=PropertyChanged}" />
                     </ctl:PixelBorder>
                     <TextBlock x:Name="lblSocialUrl" Style="{StaticResource StyFieldLabel}" Margin="0,16,0,8"
@@ -102,7 +102,7 @@
                     <!-- The database limits the address to two hundred and fifty-five characters. -->
                     <ctl:PixelBorder Style="{StaticResource StyGlassFieldShell}">
                         <Grid>
-                            <TextBox x:Name="txtSocialUrl" Style="{StaticResource StyFieldInput}" MaxLength="255"
+                            <TextBox x:Name="txtSocialUrl" Style="{StaticResource StyFieldInput}" MaxLength="{Binding UrlMaxLength, Mode=OneTime}"
                                      Text="{Binding SocialUrl, UpdateSourceTrigger=PropertyChanged}" />
                             <TextBlock x:Name="lblFieldSocialLink" Style="{StaticResource StyFieldPlaceholder}"
                                        Text="{Binding [EditProfile_FieldSocialLink], Source={StaticResource PrvLocalization}}"

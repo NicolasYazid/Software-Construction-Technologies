@@ -5,6 +5,9 @@ namespace GinRummy.Client.Models
     // The player writes both the name of the network and the address, so neither is translated.
     public sealed class SocialLink
     {
+        public const int PlatformNameMaxLength = 100;
+        public const int UrlMaxLength = 255;
+
         public SocialLink(int socialMediaId, string platformName, string url)
         {
             SocialMediaId = socialMediaId;

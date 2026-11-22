@@ -36,7 +36,7 @@
                                       Converter={StaticResource CnvUpperCase}}" />
                     <ctl:PixelBorder Style="{StaticResource StyFieldShell}"
                             Visibility="{Binding Visibility, ElementName=lblPassword}">
-                        <PasswordBox x:Name="pwdPassword" Style="{StaticResource StyFieldPassword}" MaxLength="64"
+                        <PasswordBox x:Name="pwdPassword" Style="{StaticResource StyFieldPassword}" MaxLength="{Binding PasswordMaxLength, Mode=OneTime}"
                                      ctl:PasswordBindingCommon.BoundPassword="{Binding Password}" />
                     </ctl:PixelBorder>
                 </StackPanel>

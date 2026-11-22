@@ -38,6 +38,11 @@ namespace GinRummy.Client.ViewModels
         public ICommand VerifyCommand { get; private set; }
         public ICommand ResendCodeCommand { get; private set; }
 
+        public int CodeMaxLength
+        {
+            get { return VerifyEmailViewModel.CodeLength; }
+        }
+
         public string ErrorMessageKey
         {
             get { return _errorMessageKey; }

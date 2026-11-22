@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
+using GinRummy.Client.Models;
 using GinRummy.Client.Mvvm;
 
 namespace GinRummy.Client.ViewModels
@@ -37,6 +38,11 @@ namespace GinRummy.Client.ViewModels
         public string NewPassword { get; set; }
         public string ConfirmPassword { get; set; }
         public ICommand UpdateCommand { get; private set; }
+
+        public int PasswordMaxLength
+        {
+            get { return LogInCredentials.PasswordMaxLength; }
+        }
 
         public string ErrorMessageKey
         {

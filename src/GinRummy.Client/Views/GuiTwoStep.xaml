@@ -42,7 +42,7 @@
 
             <ctl:PixelBorder Style="{StaticResource StyPlainFieldShell}" Margin="0,8,0,0">
                 <Grid>
-                    <TextBox x:Name="txtCode" Style="{StaticResource StyPlainInput}" MaxLength="6"
+                    <TextBox x:Name="txtCode" Style="{StaticResource StyPlainInput}" MaxLength="{Binding CodeMaxLength, Mode=OneTime}"
                              TextAlignment="Center" Text="{Binding Code, UpdateSourceTrigger=PropertyChanged}" />
                     <!-- The hint steps aside on focus because the caret of the centred empty field stands in its middle. -->
                     <TextBlock TextAlignment="Center" HorizontalAlignment="Center"

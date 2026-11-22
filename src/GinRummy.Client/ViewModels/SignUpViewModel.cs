@@ -12,9 +12,6 @@ namespace GinRummy.Client.ViewModels
 {
     public class SignUpViewModel : ViewModelBase
     {
-        // The username column holds twenty characters, the same limit the field of the screen has.
-        private const int UsernameMaxLength = 20;
-
         private readonly Func<ISignUpService> _signUpServiceFactory;
         private readonly ILogger<SignUpViewModel> _logger;
         private string _password;
@@ -45,6 +42,21 @@ namespace GinRummy.Client.ViewModels
         public string Username { get; set; }
         public bool IsGuestSessionNoticeShown { get; private set; }
         public ICommand CreateAccountCommand { get; private set; }
+
+        public int EmailMaxLength
+        {
+            get { return LogInCredentials.EmailMaxLength; }
+        }
+
+        public int UsernameMaxLength
+        {
+            get { return PlayerProfile.UsernameMaxLength; }
+        }
+
+        public int PasswordMaxLength
+        {
+            get { return LogInCredentials.PasswordMaxLength; }
+        }
 
         public string Password
         {

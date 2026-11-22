@@ -70,6 +70,11 @@ namespace GinRummy.Client.ViewModels
         public ICommand ToggleTwoStepCommand { get; private set; }
         public ICommand ToggleChatFilterCommand { get; private set; }
 
+        public int EmailMaxLength
+        {
+            get { return LogInCredentials.EmailMaxLength; }
+        }
+
         public bool IsChatFilterEnabled
         {
             get { return _isChatFilterEnabled; }

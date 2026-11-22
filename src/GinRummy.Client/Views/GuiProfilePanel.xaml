@@ -168,7 +168,7 @@
                         <!-- The database limits an email address to two hundred and fifty-four characters. -->
                         <ctl:PixelBorder Style="{StaticResource StyLobbyFieldShell}">
                             <Grid>
-                                <TextBox x:Name="txtNewEmail" Style="{StaticResource StyFieldInput}" MaxLength="254"
+                                <TextBox x:Name="txtNewEmail" Style="{StaticResource StyFieldInput}" MaxLength="{Binding EmailMaxLength, Mode=OneTime}"
                                          Text="{Binding NewEmail, UpdateSourceTrigger=PropertyChanged}" />
                                 <TextBlock Style="{StaticResource StyFieldPlaceholder}"
                                            Text="{Binding [ProfilePanel_TxtNewEmailPlaceholder], Source={StaticResource PrvLocalization}}"

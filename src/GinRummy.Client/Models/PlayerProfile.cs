@@ -4,7 +4,8 @@ namespace GinRummy.Client.Models
 {
     public sealed class PlayerProfile
     {
-        // The database limits the biography to five hundred characters.
+        // The database limits the username to twenty characters and the biography to five hundred.
+        public const int UsernameMaxLength = 20;
         public const int BioMaxLength = 500;
 
         public string Username { get; set; }

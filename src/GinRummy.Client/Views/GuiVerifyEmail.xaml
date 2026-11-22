@@ -32,7 +32,7 @@
                 <ctl:PixelBorder Style="{StaticResource StyFieldShell}" Width="402"
                         HorizontalAlignment="Left" Margin="0,20,0,0">
                     <Grid>
-                        <TextBox x:Name="txtCode" Style="{StaticResource StyFieldInput}" MaxLength="6"
+                        <TextBox x:Name="txtCode" Style="{StaticResource StyFieldInput}" MaxLength="{Binding CodeMaxLength, Mode=OneTime}"
                                  Text="{Binding Code, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock Style="{StaticResource StyFieldPlaceholder}"
                                    Text="{Binding [VerifyEmail_TxtCodePlaceholder], Source={StaticResource PrvLocalization}}"

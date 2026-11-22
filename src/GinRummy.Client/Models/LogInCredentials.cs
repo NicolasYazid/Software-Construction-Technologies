@@ -4,6 +4,9 @@
     // They therefore travel together from the sign-in screen and live only in memory, never on disk.
     public sealed class LogInCredentials
     {
+        public const int EmailMaxLength = 254;
+        public const int PasswordMaxLength = 64;
+
         public LogInCredentials(string email, string password, bool isKeepSignedIn)
         {
             Email = email;

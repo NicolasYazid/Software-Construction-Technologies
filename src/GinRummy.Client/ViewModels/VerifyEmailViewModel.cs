@@ -12,6 +12,7 @@ namespace GinRummy.Client.ViewModels
         protected const int MaximumAttempts = 3;
         protected const int AttemptJustUsed = 1;
         public const int CodeLifetimeSeconds = 600;
+        public const int CodeLength = 6;
         private const int ResendDelaySeconds = 60;
         private const string SignUpTitleKey = "VerifyEmail_LblTitleSignUp";
         private const string RecoveryTitleKey = "VerifyEmail_LblTitleRecovery";
@@ -50,6 +51,11 @@ namespace GinRummy.Client.ViewModels
         public CountdownViewModel ResendCountdown { get; private set; }
         public ICommand VerifyCommand { get; private set; }
         public ICommand ResendCodeCommand { get; private set; }
+
+        public int CodeMaxLength
+        {
+            get { return CodeLength; }
+        }
 
         public int RemainingAttempts
         {
