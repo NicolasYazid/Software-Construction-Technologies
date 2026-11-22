@@ -384,6 +384,7 @@
     <Compile Include="ViewModels\TwoStepViewModel.cs" />
     <Compile Include="ViewModels\VerifyEmailViewModel.cs" />
     <Compile Include="ViewModels\NewPasswordViewModel.cs" />
+    <Compile Include="ViewModels\MessageKeyCommon.cs" />
     <Compile Include="ViewModels\SignUpFaultCommon.cs" />
     <Compile Include="ViewModels\SignUpVerifyEmailViewModel.cs" />
     <Compile Include="ViewModels\SignUpViewModel.cs" />

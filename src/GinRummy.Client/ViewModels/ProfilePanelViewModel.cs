@@ -15,7 +15,6 @@ namespace GinRummy.Client.ViewModels
 {
     public class ProfilePanelViewModel : ViewModelBase
     {
-        private const string RequiredFieldKey = "Error_ValRequiredField";
         private const string SameEmailKey = "ProfilePanel_SameEmail";
         private const string TwoStepEnabledKey = "ProfilePanel_TwoStepEnabled";
         private const string TwoStepDisabledKey = "ProfilePanel_TwoStepDisabled";
@@ -309,7 +308,7 @@ namespace GinRummy.Client.ViewModels
             string newEmail = (_newEmail ?? string.Empty).Trim();
             if (newEmail.Length == 0)
             {
-                EmailErrorKey = RequiredFieldKey;
+                EmailErrorKey = MessageKeyCommon.RequiredFieldKey;
             }
             else if (string.Equals(newEmail, _email, StringComparison.OrdinalIgnoreCase))
             {

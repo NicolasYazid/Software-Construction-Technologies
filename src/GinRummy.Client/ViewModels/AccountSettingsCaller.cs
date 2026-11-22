@@ -12,9 +12,6 @@ namespace GinRummy.Client.ViewModels
     // Every call of the settings belongs to the session of the player, so the token is kept here once.
     public class AccountSettingsCaller
     {
-        private const string ResendLimitReachedKey = "Error_AuthResendLimitReached";
-        private const string ServiceUnavailableKey = "Error_SysServiceUnavailable";
-
         private static readonly Dictionary<ServiceFaultCode, string> s_messageKeys = new Dictionary<ServiceFaultCode, string>
         {
             { ServiceFaultCode.RequiredField, "Error_ValRequiredField" },
@@ -78,7 +75,7 @@ namespace GinRummy.Client.ViewModels
             {
                 communicationObject.Abort();
                 _logger.LogInformation(ex, "The server refused a new code for {RetryAfterSeconds} seconds.", ex.Detail.RetryAfterSeconds);
-                ErrorMessageKey = ResendLimitReachedKey;
+                ErrorMessageKey = MessageKeyCommon.ResendLimitReachedKey;
                 ResendWait = TimeSpan.FromSeconds(ex.Detail.RetryAfterSeconds);
             }
             catch (FaultException<ServiceFault> ex)
@@ -126,7 +123,7 @@ namespace GinRummy.Client.ViewModels
             else
             {
                 string messageKey;
-                ErrorMessageKey = s_messageKeys.TryGetValue(code, out messageKey) ? messageKey : ServiceUnavailableKey;
+                ErrorMessageKey = s_messageKeys.TryGetValue(code, out messageKey) ? messageKey : MessageKeyCommon.ServiceUnavailableKey;
             }
         }
     }

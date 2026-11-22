@@ -16,8 +16,6 @@ namespace GinRummy.Client.ViewModels
     {
         private const string MaxImageSizeLabel = "2 MB";
         private const long MaxPictureSizeInBytes = 2 * 1024 * 1024;
-        private const string RequiredFieldKey = "Error_ValRequiredField";
-        private const string DisallowedCharactersKey = "Error_ValDisallowedCharacters";
         private const string UnsupportedImageKey = "Error_ValUnsupportedImage";
         private const string InvalidUrlKey = "Error_ValInvalidUrl";
 
@@ -197,7 +195,7 @@ namespace GinRummy.Client.ViewModels
             bool isComplete = !string.IsNullOrWhiteSpace(Username) && isLinkReady ? true : false;
             if (!isComplete)
             {
-                ErrorMessageKey = RequiredFieldKey;
+                ErrorMessageKey = MessageKeyCommon.RequiredFieldKey;
             }
             else
             {
@@ -327,10 +325,10 @@ namespace GinRummy.Client.ViewModels
                     OnErrorDialogRequested(ErrorDialogKind.SessionExpired);
                     break;
                 case ServiceFaultCode.RequiredField:
-                    ErrorMessageKey = RequiredFieldKey;
+                    ErrorMessageKey = MessageKeyCommon.RequiredFieldKey;
                     break;
                 case ServiceFaultCode.DisallowedCharacters:
-                    ErrorMessageKey = DisallowedCharactersKey;
+                    ErrorMessageKey = MessageKeyCommon.DisallowedCharactersKey;
                     break;
                 case ServiceFaultCode.InvalidImage:
                     ErrorMessageKey = UnsupportedImageKey;

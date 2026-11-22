@@ -12,9 +12,6 @@ namespace GinRummy.Client.ViewModels
 {
     public class SignUpViewModel : ViewModelBase
     {
-        private const string RequiredFieldKey = "Error_ValRequiredField";
-        private const string PasswordMismatchKey = "Error_ValPasswordMismatch";
-
         // The username column holds twenty characters, the same limit the field of the screen has.
         private const int UsernameMaxLength = 20;
 
@@ -103,13 +100,13 @@ namespace GinRummy.Client.ViewModels
             ErrorMessageKey = null;
             if (IsAnyFieldEmpty())
             {
-                ErrorMessageKey = RequiredFieldKey;
+                ErrorMessageKey = MessageKeyCommon.RequiredFieldKey;
                 return;
             }
 
             if (Password != ConfirmPassword)
             {
-                ErrorMessageKey = PasswordMismatchKey;
+                ErrorMessageKey = MessageKeyCommon.PasswordMismatchKey;
                 return;
             }
 

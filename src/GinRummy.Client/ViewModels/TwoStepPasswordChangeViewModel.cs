@@ -7,7 +7,6 @@ namespace GinRummy.Client.ViewModels
 {
     public class TwoStepPasswordChangeViewModel : TwoStepViewModel
     {
-        private const string RequiredFieldKey = "Error_ValRequiredField";
         private readonly AccountSettingsCaller _accountSettingsCaller;
         private readonly string _currentPassword;
         private readonly string _newPassword;
@@ -26,7 +25,7 @@ namespace GinRummy.Client.ViewModels
             ErrorMessageKey = null;
             if (string.IsNullOrEmpty(Code))
             {
-                ErrorMessageKey = RequiredFieldKey;
+                ErrorMessageKey = MessageKeyCommon.RequiredFieldKey;
                 return;
             }
 

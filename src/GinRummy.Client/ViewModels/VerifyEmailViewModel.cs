@@ -10,7 +10,8 @@ namespace GinRummy.Client.ViewModels
     {
         // The server issues every verification code for ten minutes and allows three wrong attempts (CU-09).
         protected const int MaximumAttempts = 3;
-        private const int CodeLifetimeSeconds = 600;
+        protected const int AttemptJustUsed = 1;
+        public const int CodeLifetimeSeconds = 600;
         private const int ResendDelaySeconds = 60;
         private const string SignUpTitleKey = "VerifyEmail_LblTitleSignUp";
         private const string RecoveryTitleKey = "VerifyEmail_LblTitleRecovery";

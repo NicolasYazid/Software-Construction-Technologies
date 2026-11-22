@@ -9,7 +9,6 @@ namespace GinRummy.Client.ViewModels
     public class TwoStepViewModel : ViewModelBase
     {
         // The server issues every verification code for ten minutes (CU-04 step 4).
-        private const int CodeLifetimeSeconds = 600;
         private const string LogInInstructionsKey = "TwoStep_LblInstructions";
         private const string EnableTwoStepInstructionsKey = "TwoStep_LblInstructionsEnable";
         private const string ChangePasswordInstructionsKey = "TwoStep_LblInstructionsPassword";
@@ -22,7 +21,7 @@ namespace GinRummy.Client.ViewModels
             Purpose = purpose;
             InstructionsKey = ResolveInstructionsKey(purpose);
             Code = string.Empty;
-            CodeCountdown = new CountdownViewModel(TimeSpan.FromSeconds(CodeLifetimeSeconds));
+            CodeCountdown = new CountdownViewModel(TimeSpan.FromSeconds(VerifyEmailViewModel.CodeLifetimeSeconds));
             CodeCountdown.Start();
             VerifyCommand = new RelayCommand(Verify);
             ResendCodeCommand = new RelayCommand(ResendCode);
@@ -64,7 +63,7 @@ namespace GinRummy.Client.ViewModels
 
         protected virtual void ResendCode()
         {
-            CodeCountdown.Restart(TimeSpan.FromSeconds(CodeLifetimeSeconds));
+            CodeCountdown.Restart(TimeSpan.FromSeconds(VerifyEmailViewModel.CodeLifetimeSeconds));
         }
 
         protected void OnErrorDialogRequested(ErrorDialogKind kind)

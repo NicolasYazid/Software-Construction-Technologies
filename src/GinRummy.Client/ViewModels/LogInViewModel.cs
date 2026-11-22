@@ -11,9 +11,6 @@ namespace GinRummy.Client.ViewModels
 {
     public class LogInViewModel : ViewModelBase
     {
-        private const string RequiredFieldKey = "Error_ValRequiredField";
-        private const string ResendLimitReachedKey = "Error_AuthResendLimitReached";
-
         private readonly Func<ILogInService> _logInServiceFactory;
         private readonly ILogger<LogInViewModel> _logger;
         private string _password;
@@ -94,7 +91,7 @@ namespace GinRummy.Client.ViewModels
             IsResendCodeOffered = false;
             if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
             {
-                ErrorMessageKey = RequiredFieldKey;
+                ErrorMessageKey = MessageKeyCommon.RequiredFieldKey;
                 return;
             }
 
@@ -137,7 +134,7 @@ namespace GinRummy.Client.ViewModels
                     ex,
                     "The server refused a second factor code for {RetryAfterSeconds} seconds.",
                     ex.Detail.RetryAfterSeconds);
-                ErrorMessageKey = ResendLimitReachedKey;
+                ErrorMessageKey = MessageKeyCommon.ResendLimitReachedKey;
             }
             catch (FaultException<ServiceFault> ex)
             {
