@@ -5,8 +5,6 @@ namespace GinRummy.Domain
 {
     public class GameMatch
     {
-        private const int MinimumScore = 0;
-
         private readonly Dictionary<int, int> _scoresByPlayerId;
         private bool _isCurrentRoundScored;
 
@@ -86,7 +84,7 @@ namespace GinRummy.Domain
         {
             int score;
             bool isFound = scoresByPlayerId.TryGetValue(playerId, out score);
-            bool isBelowTarget = (score >= MinimumScore) && (score < RoundRules.TargetScore) ? true : false;
+            bool isBelowTarget = (score >= RoundRules.MinimumScore) && (score < RoundRules.TargetScore) ? true : false;
             if (!isFound || !isBelowTarget)
             {
                 throw new ArgumentException("A resumed match needs a score below the target for each player.", nameof(scoresByPlayerId));

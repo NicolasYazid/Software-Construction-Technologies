@@ -1,10 +1,12 @@
 ﻿using System;
 
+using GinRummy.Domain.Entities.Authentication;
+
 namespace GinRummy.Domain.Entities.AccountProtection
 {
     public class Email
     {
-        public const int DestinationAddressMaxLength = 254;
+        public const int DestinationAddressMaxLength = PlayerAccount.EmailMaxLength;
 
         public const int DeliveryStatusNameMaxLength = 20;
 

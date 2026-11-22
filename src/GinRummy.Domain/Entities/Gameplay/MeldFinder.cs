@@ -6,8 +6,6 @@ namespace GinRummy.Domain
 {
     public static class MeldFinder
     {
-        private const int MinMeldSize = 3;
-
         public static IList<IList<Card>> FindBestMelds(IList<Card> cards)
         {
             if (cards == null)
@@ -43,12 +41,12 @@ namespace GinRummy.Domain
 
         private static void AddSets(List<List<Card>> candidates, List<Card> sameRankCards)
         {
-            if (sameRankCards.Count >= MinMeldSize)
+            if (sameRankCards.Count >= MeldRules.MinMeldSize)
             {
                 candidates.Add(sameRankCards);
             }
 
-            if (sameRankCards.Count > MinMeldSize)
+            if (sameRankCards.Count > MeldRules.MinMeldSize)
             {
                 foreach (Card leftOutCard in sameRankCards)
                 {
@@ -65,7 +63,7 @@ namespace GinRummy.Domain
                 while ((lastIndex + 1 < sameSuitCards.Count) && (sameSuitCards[lastIndex + 1].Rank == sameSuitCards[lastIndex].Rank + 1))
                 {
                     lastIndex++;
-                    if (lastIndex - firstIndex + 1 >= MinMeldSize)
+                    if (lastIndex - firstIndex + 1 >= MeldRules.MinMeldSize)
                     {
                         candidates.Add(sameSuitCards.GetRange(firstIndex, lastIndex - firstIndex + 1));
                     }

@@ -5,7 +5,7 @@ namespace GinRummy.Domain
 {
     public static class MeldRules
     {
-        private const int MinMeldSize = 3;
+        public const int MinMeldSize = 3;
         private const int MaxSetSize = 4;
 
         public static bool IsValidMeld(IList<Card> cards)

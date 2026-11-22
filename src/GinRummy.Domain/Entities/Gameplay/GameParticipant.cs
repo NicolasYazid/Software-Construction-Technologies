@@ -73,7 +73,7 @@ namespace GinRummy.Domain.Entities.Gameplay
 
         public void RecordScore(int score)
         {
-            if (score < InitialScore)
+            if (score < RoundRules.MinimumScore)
             {
                 throw new ArgumentOutOfRangeException(nameof(score), "The score cannot be negative.");
             }
