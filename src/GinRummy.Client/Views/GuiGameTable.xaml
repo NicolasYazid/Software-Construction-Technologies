@@ -56,7 +56,7 @@
                                 <Image Source="{StaticResource IcoSend}" Width="22" Height="22" />
                             </Button>
                             <Grid>
-                                <TextBox x:Name="txtMessage" Style="{StaticResource StyPanelSearchInput}"
+                                <TextBox x:Name="txtMessage" Style="{StaticResource StyPanelSearchInput}" MaxLength="300"
                                          Text="{Binding MessageDraft, UpdateSourceTrigger=PropertyChanged}">
                                     <TextBox.InputBindings>
                                         <KeyBinding Key="Enter" Command="{Binding SendMessageCommand}" />
