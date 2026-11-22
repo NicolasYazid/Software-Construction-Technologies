@@ -8,9 +8,9 @@ namespace GinRummy.Client.Controls
     {
         private const double ByteRange = 255.0;
         private const int OpaqueAlpha = 255;
-        private const int AlphaShift = 24;
-        private const int RedShift = 16;
-        private const int GreenShift = 8;
+        internal const int AlphaShift = 24;
+        internal const int RedShift = 16;
+        internal const int GreenShift = 8;
         private const double MinimumChannel = 0.0;
         private const double MaximumChannel = 1.0;
 

@@ -10,8 +10,6 @@ namespace GinRummy.Client.Controls
     public static class CardBackCommon
     {
         private const int BlockSize = 4;
-        private const int BytesPerPixel = 4;
-        private const double DotsPerInch = 96.0;
         private const int Columns = 60;
         private const int Rows = 84;
         private const double StillMoment = 12.0;
@@ -32,7 +30,7 @@ namespace GinRummy.Client.Controls
         {
             PaintFrameRequest request = new PaintFrameRequest
             {
-                Buffer = new byte[Columns * Rows * BytesPerPixel],
+                Buffer = new byte[Columns * Rows * PaintedBackground.BytesPerPixel],
                 Width = Columns,
                 Height = Rows,
                 ElapsedSeconds = StillMoment,
@@ -49,25 +47,25 @@ namespace GinRummy.Client.Controls
         {
             int width = request.Width * BlockSize;
             int height = request.Height * BlockSize;
-            int stride = width * BytesPerPixel;
+            int stride = width * PaintedBackground.BytesPerPixel;
             byte[] pixels = new byte[stride * height];
 
             for (int rowIndex = 0; rowIndex < height; rowIndex++)
             {
-                int sourceRow = (rowIndex / BlockSize) * request.Width * BytesPerPixel;
+                int sourceRow = (rowIndex / BlockSize) * request.Width * PaintedBackground.BytesPerPixel;
                 for (int columnIndex = 0; columnIndex < width; columnIndex++)
                 {
-                    int source = sourceRow + ((columnIndex / BlockSize) * BytesPerPixel);
-                    int target = (rowIndex * stride) + (columnIndex * BytesPerPixel);
-                    Array.Copy(request.Buffer, source, pixels, target, BytesPerPixel);
+                    int source = sourceRow + ((columnIndex / BlockSize) * PaintedBackground.BytesPerPixel);
+                    int target = (rowIndex * stride) + (columnIndex * PaintedBackground.BytesPerPixel);
+                    Array.Copy(request.Buffer, source, pixels, target, PaintedBackground.BytesPerPixel);
                 }
             }
 
             BitmapSource enlarged = BitmapSource.Create(
                 width,
                 height,
-                DotsPerInch,
-                DotsPerInch,
+                PaintedBackground.BitmapDotsPerInch,
+                PaintedBackground.BitmapDotsPerInch,
                 PixelFormats.Pbgra32,
                 null,
                 pixels,

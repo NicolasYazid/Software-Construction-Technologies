@@ -14,22 +14,19 @@ namespace GinRummy.Client.Controls
     // The three colours are properties, so the hosting screen owns the palette and the control owns only the movement.
     public partial class PaintedBackground : UserControl
     {
-        private const int BytesPerPixel = 4;
+        internal const int BytesPerPixel = 4;
         private const int BlueOffset = 0;
         private const int GreenOffset = 1;
         private const int RedOffset = 2;
         private const int AlphaOffset = 3;
         private const int ByteMask = 0xFF;
-        private const int GreenShift = 8;
-        private const int RedShift = 16;
-        private const int AlphaShift = 24;
 
         private const int DefaultShortSide = 150;
         private const double FramesPerSecond = 12.0;
         private const double FrameInterval = 1.0 / FramesPerSecond;
         private const double DefaultPatternScale = 1.0;
         private const int MinimumSideInPixels = 2;
-        private const double BitmapDotsPerInch = 96.0;
+        internal const double BitmapDotsPerInch = 96.0;
         private const double DefaultAspectRatio = 1.0;
 
         private const int FoldCount = 5;
@@ -481,9 +478,9 @@ namespace GinRummy.Client.Controls
         private static void WritePixel(byte[] buffer, int offset, int packedColour)
         {
             buffer[offset + BlueOffset] = (byte)(packedColour & ByteMask);
-            buffer[offset + GreenOffset] = (byte)((packedColour >> GreenShift) & ByteMask);
-            buffer[offset + RedOffset] = (byte)((packedColour >> RedShift) & ByteMask);
-            buffer[offset + AlphaOffset] = (byte)((packedColour >> AlphaShift) & ByteMask);
+            buffer[offset + GreenOffset] = (byte)((packedColour >> PaintPalette.GreenShift) & ByteMask);
+            buffer[offset + RedOffset] = (byte)((packedColour >> PaintPalette.RedShift) & ByteMask);
+            buffer[offset + AlphaOffset] = (byte)((packedColour >> PaintPalette.AlphaShift) & ByteMask);
         }
 
         private static double Clamp(double value, double lowest, double highest)
