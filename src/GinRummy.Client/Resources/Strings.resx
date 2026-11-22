@@ -374,7 +374,7 @@
     <comment>Mensajes del sistema de GuiErrorDialog</comment>
   </data>
   <data name="Error_GameMatchFinished" xml:space="preserve">
-    <value>Esta partida ya terminó</value>
+    <value>No te reconectaste a tiempo. Si tu rival seguía conectado, ganó la partida por abandono.</value>
     <comment>Mensajes del sistema de GuiErrorDialog</comment>
   </data>
   <data name="Error_ModAccountSuspended" xml:space="preserve">

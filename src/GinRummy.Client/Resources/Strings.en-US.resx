@@ -310,7 +310,7 @@
     <value>You are already in a match</value>
   </data>
   <data name="Error_GameMatchFinished" xml:space="preserve">
-    <value>This match is already over</value>
+    <value>You did not reconnect in time. If your opponent was still connected, they won the match by forfeit.</value>
   </data>
   <data name="Error_ModAccountSuspended" xml:space="preserve">
     <value>Your account is suspended</value>
