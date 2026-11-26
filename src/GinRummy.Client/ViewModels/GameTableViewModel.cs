@@ -347,6 +347,11 @@ namespace GinRummy.Client.ViewModels
             }
         }
 
+        public bool CanDiscard(Card card)
+        {
+            return IsDiscarding && !IsTakenFromDiscardPile(card) ? true : false;
+        }
+
         private void HandleHandChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             OnPropertyChanged(nameof(HandCount));
@@ -387,11 +392,6 @@ namespace GinRummy.Client.ViewModels
         private bool IsCardSelected()
         {
             return _selectedCard != null ? true : false;
-        }
-
-        public bool CanDiscard(Card card)
-        {
-            return IsDiscarding && !IsTakenFromDiscardPile(card) ? true : false;
         }
 
         private bool CanDiscardSelectedCard()

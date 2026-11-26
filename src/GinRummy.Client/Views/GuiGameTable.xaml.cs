@@ -53,16 +53,16 @@ namespace GinRummy.Client.Views
             Closed += HandleScreenClosed;
         }
 
+        protected override void RefreshFormattedText()
+        {
+            ShowMeldCaptions();
+        }
+
         private void HandleScreenLoaded(object sender, RoutedEventArgs e)
         {
             OverlayInsetCommon.ScrollToEnd(lstMessages);
             OverlayInsetCommon.ScrollToEnd(lstMatchLog);
             CompositionTarget.Rendering += HandleRendering;
-        }
-
-        protected override void RefreshFormattedText()
-        {
-            ShowMeldCaptions();
         }
 
         private void HandleChatMessagesChanged(object sender, NotifyCollectionChangedEventArgs e)
