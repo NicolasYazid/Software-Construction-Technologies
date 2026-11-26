@@ -583,8 +583,8 @@ namespace GinRummy.Client.ViewModels
         {
             List<Meld> handMelds = melds.Select(meld => ToMeld(meld.Select(ToCard).Select(FindHeldCard).ToList())).ToList();
             List<Card> meldCards = handMelds.SelectMany(meld => meld.Cards).ToList();
-            bool haveMeldsChanged = !new HashSet<Card>(HandMelds.SelectMany(meld => meld.Cards)).SetEquals(meldCards) ? true : false;
-            if (haveMeldsChanged && (meldCards.Count > 0))
+            bool hasMeldChanges = !new HashSet<Card>(HandMelds.SelectMany(meld => meld.Cards)).SetEquals(meldCards) ? true : false;
+            if (hasMeldChanges && (meldCards.Count > 0))
             {
                 HandOrder.Arrange(Hand, HandOrder.PutMeldsFirst(Hand, meldCards));
             }
