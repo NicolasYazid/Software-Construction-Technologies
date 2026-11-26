@@ -23,7 +23,6 @@ namespace GinRummy.Application.UseCases.Authentication
             _codeSender = codeSender ?? throw new ArgumentNullException(nameof(codeSender));
         }
 
-
         public SignUpResult SignUp(SignUpForm form, string localeCode)
         {
             SignUpResult result;
