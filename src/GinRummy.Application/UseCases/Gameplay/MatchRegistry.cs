@@ -85,13 +85,13 @@ namespace GinRummy.Application.UseCases.Gameplay
 
         public bool TakePendingVictory(int playerId)
         {
-            bool hadPendingVictory;
+            bool hasPendingVictory;
             lock (_syncRoot)
             {
-                hadPendingVictory = _playerIdsWithPendingVictory.Remove(playerId);
+                hasPendingVictory = _playerIdsWithPendingVictory.Remove(playerId);
             }
 
-            return hadPendingVictory;
+            return hasPendingVictory;
         }
 
         private ActiveMatch Register(ActiveMatch activeMatch)

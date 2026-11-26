@@ -204,13 +204,13 @@ namespace GinRummy.Application.UseCases.Gameplay
 
         private bool AnnouncePendingVictory(int playerId)
         {
-            bool hadPendingVictory = _matchRegistry.TakePendingVictory(playerId);
-            if (hadPendingVictory)
+            bool hasPendingVictory = _matchRegistry.TakePendingVictory(playerId);
+            if (hasPendingVictory)
             {
                 _roundAnnouncer.AnnounceOpponentLeft(playerId);
             }
 
-            return hadPendingVictory;
+            return hasPendingVictory;
         }
 
         private void EndAfterDisconnection(ActiveMatch activeMatch, int playerId)

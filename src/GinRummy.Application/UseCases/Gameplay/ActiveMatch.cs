@@ -119,14 +119,14 @@ namespace GinRummy.Application.UseCases.Gameplay
         public bool StopWaitingForReconnection(int playerId)
         {
             Timer reconnectionTimer;
-            bool wasWaiting = _reconnectionTimersByPlayerId.TryGetValue(playerId, out reconnectionTimer);
-            if (wasWaiting)
+            bool hasReconnectionTimer = _reconnectionTimersByPlayerId.TryGetValue(playerId, out reconnectionTimer);
+            if (hasReconnectionTimer)
             {
                 reconnectionTimer.Dispose();
                 _reconnectionTimersByPlayerId.Remove(playerId);
             }
 
-            return wasWaiting;
+            return hasReconnectionTimer;
         }
 
         public void StopWaitingForReconnections()
