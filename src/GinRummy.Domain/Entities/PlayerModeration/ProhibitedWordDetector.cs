@@ -24,9 +24,9 @@ namespace GinRummy.Domain.Entities.PlayerModeration
         public static bool ContainsProhibitedWord(string text, IEnumerable<string> prohibitedTerms)
         {
             HashSet<string> words = new HashSet<string>(Normalize(text).Split(WordSeparator));
-            bool containsProhibitedWord = prohibitedTerms.Any(term => words.Contains(Normalize(term)));
+            bool hasProhibitedWord = prohibitedTerms.Any(term => words.Contains(Normalize(term)));
 
-            return containsProhibitedWord;
+            return hasProhibitedWord;
         }
 
         private static string Normalize(string text)

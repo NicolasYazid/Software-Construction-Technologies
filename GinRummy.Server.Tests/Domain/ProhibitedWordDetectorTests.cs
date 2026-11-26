@@ -21,9 +21,9 @@ namespace GinRummy.Server.Tests.Domain
         {
             string text = "eres un tonto";
 
-            bool containsProhibitedWord = ProhibitedWordDetector.ContainsProhibitedWord(text, _prohibitedTerms);
+            bool hasProhibitedWord = ProhibitedWordDetector.ContainsProhibitedWord(text, _prohibitedTerms);
 
-            Assert.IsTrue(containsProhibitedWord);
+            Assert.IsTrue(hasProhibitedWord);
         }
 
         [Test]
@@ -31,9 +31,9 @@ namespace GinRummy.Server.Tests.Domain
         {
             string text = "eso fue una tontera";
 
-            bool containsProhibitedWord = ProhibitedWordDetector.ContainsProhibitedWord(text, _prohibitedTerms);
+            bool hasProhibitedWord = ProhibitedWordDetector.ContainsProhibitedWord(text, _prohibitedTerms);
 
-            Assert.IsFalse(containsProhibitedWord);
+            Assert.IsFalse(hasProhibitedWord);
         }
 
         [Test]
@@ -41,9 +41,9 @@ namespace GinRummy.Server.Tests.Domain
         {
             string text = "ERES UN IDIÓTA";
 
-            bool containsProhibitedWord = ProhibitedWordDetector.ContainsProhibitedWord(text, _prohibitedTerms);
+            bool hasProhibitedWord = ProhibitedWordDetector.ContainsProhibitedWord(text, _prohibitedTerms);
 
-            Assert.IsTrue(containsProhibitedWord);
+            Assert.IsTrue(hasProhibitedWord);
         }
 
         [Test]
@@ -51,9 +51,9 @@ namespace GinRummy.Server.Tests.Domain
         {
             string text = "qué t0nt0";
 
-            bool containsProhibitedWord = ProhibitedWordDetector.ContainsProhibitedWord(text, _prohibitedTerms);
+            bool hasProhibitedWord = ProhibitedWordDetector.ContainsProhibitedWord(text, _prohibitedTerms);
 
-            Assert.IsTrue(containsProhibitedWord);
+            Assert.IsTrue(hasProhibitedWord);
         }
 
         [Test]
@@ -61,9 +61,9 @@ namespace GinRummy.Server.Tests.Domain
         {
             string text = "toooontooo";
 
-            bool containsProhibitedWord = ProhibitedWordDetector.ContainsProhibitedWord(text, _prohibitedTerms);
+            bool hasProhibitedWord = ProhibitedWordDetector.ContainsProhibitedWord(text, _prohibitedTerms);
 
-            Assert.IsTrue(containsProhibitedWord);
+            Assert.IsTrue(hasProhibitedWord);
         }
 
         [Test]
@@ -71,9 +71,9 @@ namespace GinRummy.Server.Tests.Domain
         {
             string text = "¡tonto!";
 
-            bool containsProhibitedWord = ProhibitedWordDetector.ContainsProhibitedWord(text, _prohibitedTerms);
+            bool hasProhibitedWord = ProhibitedWordDetector.ContainsProhibitedWord(text, _prohibitedTerms);
 
-            Assert.IsTrue(containsProhibitedWord);
+            Assert.IsTrue(hasProhibitedWord);
         }
 
         [Test]
@@ -81,9 +81,9 @@ namespace GinRummy.Server.Tests.Domain
         {
             string text = "buena partida";
 
-            bool containsProhibitedWord = ProhibitedWordDetector.ContainsProhibitedWord(text, _prohibitedTerms);
+            bool hasProhibitedWord = ProhibitedWordDetector.ContainsProhibitedWord(text, _prohibitedTerms);
 
-            Assert.IsFalse(containsProhibitedWord);
+            Assert.IsFalse(hasProhibitedWord);
         }
     }
 }

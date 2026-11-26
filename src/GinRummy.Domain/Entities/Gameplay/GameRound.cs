@@ -260,15 +260,15 @@ namespace GinRummy.Domain
 
         private static void EnsureMeldsOfHand(List<Card> hand, IList<IList<Card>> melds)
         {
-            bool areMeldsOfHand = melds.All(meld => MeldRules.IsValidMeld(meld));
-            if (areMeldsOfHand)
+            bool isMeldSetValid = melds.All(meld => MeldRules.IsValidMeld(meld));
+            if (isMeldSetValid)
             {
                 List<Card> meldedCards = melds.SelectMany(meld => meld).ToList();
                 bool isEachCardInOneMeld = meldedCards.Distinct().Count() == meldedCards.Count ? true : false;
-                areMeldsOfHand = isEachCardInOneMeld && meldedCards.All(card => hand.Contains(card)) ? true : false;
+                isMeldSetValid = isEachCardInOneMeld && meldedCards.All(card => hand.Contains(card)) ? true : false;
             }
 
-            if (!areMeldsOfHand)
+            if (!isMeldSetValid)
             {
                 throw new InvalidMoveException("The melds are not melds made with the cards of the hand.");
             }
