@@ -53,13 +53,16 @@ namespace GinRummy.Client.ViewModels
 
         private void CountUsedAttempt()
         {
-            if (_accountSettingsCaller.FaultCode == ServiceFaultCode.CodeIncorrect)
+            switch (_accountSettingsCaller.FaultCode)
             {
-                RemainingAttempts = Math.Max(RemainingAttempts - AttemptJustUsed, 0);
-            }
-            else if (_accountSettingsCaller.FaultCode == ServiceFaultCode.CodeTooManyAttempts)
-            {
-                RemainingAttempts = 0;
+                case ServiceFaultCode.CodeIncorrect:
+                    RemainingAttempts = Math.Max(RemainingAttempts - AttemptJustUsed, 0);
+                    break;
+                case ServiceFaultCode.CodeTooManyAttempts:
+                    RemainingAttempts = 0;
+                    break;
+                default:
+                    break;
             }
         }
 

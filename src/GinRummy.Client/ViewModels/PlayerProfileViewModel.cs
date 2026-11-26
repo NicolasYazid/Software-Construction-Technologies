@@ -204,15 +204,19 @@ namespace GinRummy.Client.ViewModels
 
         private void NotifyRefusal(ServiceFaultCode code)
         {
-            ErrorDialogKind kind = ErrorDialogKind.ServiceUnavailable;
-            if (code == ServiceFaultCode.SessionExpired)
+            ErrorDialogKind kind;
+            switch (code)
             {
-                kind = ErrorDialogKind.SessionExpired;
-            }
-            else if (code == ServiceFaultCode.PlayerNotFound)
-            {
-                kind = ErrorDialogKind.DataNotFound;
-                _profile.IsRemoved = true;
+                case ServiceFaultCode.SessionExpired:
+                    kind = ErrorDialogKind.SessionExpired;
+                    break;
+                case ServiceFaultCode.PlayerNotFound:
+                    kind = ErrorDialogKind.DataNotFound;
+                    _profile.IsRemoved = true;
+                    break;
+                default:
+                    kind = ErrorDialogKind.ServiceUnavailable;
+                    break;
             }
 
             OnProfileUnavailable(kind);

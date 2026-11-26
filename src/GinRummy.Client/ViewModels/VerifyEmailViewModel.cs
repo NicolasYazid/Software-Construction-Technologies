@@ -141,14 +141,18 @@ namespace GinRummy.Client.ViewModels
 
         private static string ResolveTitleKey(VerificationPurpose purpose)
         {
-            string titleKey = SignUpTitleKey;
-            if (purpose == VerificationPurpose.PasswordRecovery)
+            string titleKey;
+            switch (purpose)
             {
-                titleKey = RecoveryTitleKey;
-            }
-            else if (purpose == VerificationPurpose.EmailChange)
-            {
-                titleKey = NewEmailTitleKey;
+                case VerificationPurpose.PasswordRecovery:
+                    titleKey = RecoveryTitleKey;
+                    break;
+                case VerificationPurpose.EmailChange:
+                    titleKey = NewEmailTitleKey;
+                    break;
+                default:
+                    titleKey = SignUpTitleKey;
+                    break;
             }
 
             return titleKey;

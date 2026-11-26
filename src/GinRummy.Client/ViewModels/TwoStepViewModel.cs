@@ -78,14 +78,18 @@ namespace GinRummy.Client.ViewModels
 
         private static string ResolveInstructionsKey(TwoStepPurpose purpose)
         {
-            string instructionsKey = LogInInstructionsKey;
-            if (purpose == TwoStepPurpose.EnableTwoStep)
+            string instructionsKey;
+            switch (purpose)
             {
-                instructionsKey = EnableTwoStepInstructionsKey;
-            }
-            else if (purpose == TwoStepPurpose.ChangePassword)
-            {
-                instructionsKey = ChangePasswordInstructionsKey;
+                case TwoStepPurpose.EnableTwoStep:
+                    instructionsKey = EnableTwoStepInstructionsKey;
+                    break;
+                case TwoStepPurpose.ChangePassword:
+                    instructionsKey = ChangePasswordInstructionsKey;
+                    break;
+                default:
+                    instructionsKey = LogInInstructionsKey;
+                    break;
             }
 
             return instructionsKey;

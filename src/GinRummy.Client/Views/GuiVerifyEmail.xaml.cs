@@ -40,17 +40,17 @@ namespace GinRummy.Client.Views
 
         private void HandleCodeVerified(object sender, EventArgs e)
         {
-            if (_viewModel.Purpose == VerificationPurpose.PasswordRecovery)
+            switch (_viewModel.Purpose)
             {
-                NavigateTo(new GuiNewPassword());
-            }
-            else if (_viewModel.Purpose == VerificationPurpose.AccountSignUp)
-            {
-                NavigateTo(new GuiAccountCreated());
-            }
-            else
-            {
-                Close();
+                case VerificationPurpose.PasswordRecovery:
+                    NavigateTo(new GuiNewPassword());
+                    break;
+                case VerificationPurpose.AccountSignUp:
+                    NavigateTo(new GuiAccountCreated());
+                    break;
+                default:
+                    Close();
+                    break;
             }
         }
 
