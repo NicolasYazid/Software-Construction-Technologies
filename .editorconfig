@@ -70,8 +70,8 @@ dotnet_style_parentheses_in_other_operators = never_if_unnecessary:suggestion
 dotnet_style_prefer_conditional_expression_over_assignment = false:silent
 dotnet_style_prefer_conditional_expression_over_return = false:silent
 
-# A boolean is never compared with a literal (IDE0100).
-dotnet_style_prefer_simplified_boolean_expressions = true:warning
+# The standard writes both branches of a boolean ternary, so the editor must not offer to remove them (IDE0075).
+dotnet_style_prefer_simplified_boolean_expressions = false:silent
 
 csharp_style_throw_expression = true:suggestion
 dotnet_style_coalesce_expression = true:suggestion
@@ -123,6 +123,10 @@ csharp_space_between_square_brackets = false
 csharp_preserve_single_line_blocks = true
 csharp_preserve_single_line_statements = false
 
+# Blank lines never repeat, and two consecutive braces never have a blank line between them (IDE2000, IDE2002).
+dotnet_style_allow_multiple_blank_lines_experimental = false:warning
+csharp_style_allow_blank_lines_between_consecutive_braces_experimental = false:warning
+
 #### Naming rules (IDE1006) ####
 
 # Interfaces start with I.
@@ -140,7 +144,12 @@ dotnet_naming_rule.public_fields_are_pascal_case.severity = warning
 dotnet_naming_rule.public_fields_are_pascal_case.symbols = public_fields
 dotnet_naming_rule.public_fields_are_pascal_case.style = pascal_case
 
-# Private and internal fields, static or not, start with an underscore.
+# Private and internal static fields that are not const start with s_, so they read apart from instance fields.
+dotnet_naming_rule.static_fields_start_with_s.severity = warning
+dotnet_naming_rule.static_fields_start_with_s.symbols = static_fields
+dotnet_naming_rule.static_fields_start_with_s.style = s_camel_case
+
+# Private and internal instance fields start with an underscore.
 dotnet_naming_rule.private_fields_start_with_underscore.severity = warning
 dotnet_naming_rule.private_fields_start_with_underscore.symbols = private_fields
 dotnet_naming_rule.private_fields_start_with_underscore.style = underscore_camel_case
@@ -165,6 +174,10 @@ dotnet_naming_symbols.constants.required_modifiers = const
 dotnet_naming_symbols.public_fields.applicable_kinds = field
 dotnet_naming_symbols.public_fields.applicable_accessibilities = public, protected, protected_internal
 
+dotnet_naming_symbols.static_fields.applicable_kinds = field
+dotnet_naming_symbols.static_fields.applicable_accessibilities = private, internal, private_protected
+dotnet_naming_symbols.static_fields.required_modifiers = static
+
 dotnet_naming_symbols.private_fields.applicable_kinds = field
 dotnet_naming_symbols.private_fields.applicable_accessibilities = private, internal, private_protected
 
@@ -178,6 +191,9 @@ dotnet_naming_style.prefix_i_pascal_case.required_prefix = I
 dotnet_naming_style.prefix_i_pascal_case.capitalization = pascal_case
 
 dotnet_naming_style.pascal_case.capitalization = pascal_case
+
+dotnet_naming_style.s_camel_case.required_prefix = s_
+dotnet_naming_style.s_camel_case.capitalization = camel_case
 
 dotnet_naming_style.underscore_camel_case.required_prefix = _
 dotnet_naming_style.underscore_camel_case.capitalization = camel_case
@@ -200,6 +216,8 @@ dotnet_diagnostic.IDE0065.severity = warning
 dotnet_diagnostic.IDE0100.severity = warning
 dotnet_diagnostic.IDE0130.severity = warning
 dotnet_diagnostic.IDE1006.severity = warning
+dotnet_diagnostic.IDE2000.severity = warning
+dotnet_diagnostic.IDE2002.severity = warning
 
 # The service reference is generated again from the metadata of the server, so the standard does not apply to it.
 [**/Connected Services/**.cs]
