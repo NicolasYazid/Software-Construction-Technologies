@@ -18,6 +18,8 @@ namespace GinRummy.Client.ViewModels
         private const long MaxPictureSizeInBytes = 2 * 1024 * 1024;
         private const string UnsupportedImageKey = "Error_ValUnsupportedImage";
         private const string InvalidUrlKey = "Error_ValInvalidUrl";
+        private const string RequiredFieldKey = "Error_ValRequiredField";
+        private const string DisallowedCharactersKey = "Error_ValDisallowedCharacters";
 
         private readonly PlayerProfile _profile;
         private readonly Func<IPlayerProfileService> _playerProfileServiceFactory;
@@ -210,7 +212,7 @@ namespace GinRummy.Client.ViewModels
             bool isComplete = !string.IsNullOrWhiteSpace(Username) && isLinkReady ? true : false;
             if (!isComplete)
             {
-                ErrorMessageKey = MessageKeyCommon.RequiredFieldKey;
+                ErrorMessageKey = RequiredFieldKey;
             }
             else
             {
@@ -340,10 +342,10 @@ namespace GinRummy.Client.ViewModels
                     OnErrorDialogRequested(ErrorDialogKind.SessionExpired);
                     break;
                 case ServiceFaultCode.RequiredField:
-                    ErrorMessageKey = MessageKeyCommon.RequiredFieldKey;
+                    ErrorMessageKey = RequiredFieldKey;
                     break;
                 case ServiceFaultCode.DisallowedCharacters:
-                    ErrorMessageKey = MessageKeyCommon.DisallowedCharactersKey;
+                    ErrorMessageKey = DisallowedCharactersKey;
                     break;
                 case ServiceFaultCode.InvalidImage:
                     ErrorMessageKey = UnsupportedImageKey;

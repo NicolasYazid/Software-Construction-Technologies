@@ -10,6 +10,15 @@ namespace GinRummy.Client.ViewModels
     {
         private const string InvalidCredentialsKey = "Error_AuthInvalidCredentials";
         private const string EmailNotVerifiedKey = "Error_AuthEmailNotVerified";
+        private const string RequiredFieldKey = "Error_ValRequiredField";
+        private const string DisallowedCharactersKey = "Error_ValDisallowedCharacters";
+        private const string ServiceUnavailableKey = "Error_SysServiceUnavailable";
+        private const string CodeNotSentKey = "Shared_CodeNotSent";
+        private const string CodeInvalidFormatKey = "Error_ValInvalidCodeFormat";
+        private const string CodeIncorrectKey = "Error_AuthCodeInvalid";
+        private const string CodeExpiredKey = "Error_AuthCodeExpired";
+        private const string CodeAlreadyUsedKey = "Error_AuthCodeAlreadyUsed";
+        private const string CodeTooManyAttemptsKey = "Error_AuthTooManyAttempts";
 
         public static string ResolveMessageKey(ServiceFaultCode code)
         {
@@ -17,10 +26,10 @@ namespace GinRummy.Client.ViewModels
             switch (code)
             {
                 case ServiceFaultCode.RequiredField:
-                    messageKey = MessageKeyCommon.RequiredFieldKey;
+                    messageKey = RequiredFieldKey;
                     break;
                 case ServiceFaultCode.DisallowedCharacters:
-                    messageKey = MessageKeyCommon.DisallowedCharactersKey;
+                    messageKey = DisallowedCharactersKey;
                     break;
                 case ServiceFaultCode.InvalidCredentials:
                     messageKey = InvalidCredentialsKey;
@@ -56,25 +65,25 @@ namespace GinRummy.Client.ViewModels
             switch (code)
             {
                 case ServiceFaultCode.CodeNotSent:
-                    messageKey = MessageKeyCommon.CodeNotSentKey;
+                    messageKey = CodeNotSentKey;
                     break;
                 case ServiceFaultCode.CodeInvalidFormat:
-                    messageKey = MessageKeyCommon.CodeInvalidFormatKey;
+                    messageKey = CodeInvalidFormatKey;
                     break;
                 case ServiceFaultCode.CodeIncorrect:
-                    messageKey = MessageKeyCommon.CodeIncorrectKey;
+                    messageKey = CodeIncorrectKey;
                     break;
                 case ServiceFaultCode.CodeExpired:
-                    messageKey = MessageKeyCommon.CodeExpiredKey;
+                    messageKey = CodeExpiredKey;
                     break;
                 case ServiceFaultCode.CodeAlreadyUsed:
-                    messageKey = MessageKeyCommon.CodeAlreadyUsedKey;
+                    messageKey = CodeAlreadyUsedKey;
                     break;
                 case ServiceFaultCode.CodeTooManyAttempts:
-                    messageKey = MessageKeyCommon.CodeTooManyAttemptsKey;
+                    messageKey = CodeTooManyAttemptsKey;
                     break;
                 default:
-                    messageKey = MessageKeyCommon.ServiceUnavailableKey;
+                    messageKey = ServiceUnavailableKey;
                     break;
             }
 

@@ -10,6 +10,7 @@ namespace GinRummy.Client.ViewModels
     {
         private const string RecoveryTitleKey = "NewPassword_LblTitle";
         private const string ChangeTitleKey = "NewPassword_LblTitleChange";
+        private const string PasswordMismatchKey = "Error_ValPasswordMismatch";
 
         private string _errorMessageKey;
 
@@ -72,7 +73,7 @@ namespace GinRummy.Client.ViewModels
             ErrorMessageKey = null;
             if (NewPassword != ConfirmPassword)
             {
-                ErrorMessageKey = MessageKeyCommon.PasswordMismatchKey;
+                ErrorMessageKey = PasswordMismatchKey;
             }
             else
             {

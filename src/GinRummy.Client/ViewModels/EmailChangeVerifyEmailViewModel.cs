@@ -7,6 +7,8 @@ namespace GinRummy.Client.ViewModels
 {
     public class EmailChangeVerifyEmailViewModel : VerifyEmailViewModel
     {
+        private const string RequiredFieldKey = "Error_ValRequiredField";
+
         private readonly AccountSettingsCaller _accountSettingsCaller;
 
         // The code goes to the new address, so the screen shows that address and confirms the change with it (CU-07).
@@ -21,7 +23,7 @@ namespace GinRummy.Client.ViewModels
             ErrorMessageKey = null;
             if (string.IsNullOrEmpty(Code))
             {
-                ErrorMessageKey = MessageKeyCommon.RequiredFieldKey;
+                ErrorMessageKey = RequiredFieldKey;
                 return;
             }
 

@@ -12,21 +12,37 @@ namespace GinRummy.Client.ViewModels
     // Every call of the settings belongs to the session of the player, so the token is kept here once.
     public class AccountSettingsCaller
     {
+        private const string RequiredFieldKey = "Error_ValRequiredField";
+        private const string DisallowedCharactersKey = "Error_ValDisallowedCharacters";
+        private const string InvalidCurrentPasswordKey = "Error_AuthInvalidCurrentPassword";
+        private const string WeakPasswordKey = "Error_ValWeakPassword";
+        private const string SamePasswordKey = "Error_AuthSamePassword";
+        private const string InvalidEmailFormatKey = "Error_ValInvalidEmailFormat";
+        private const string EmailAlreadyRegisteredKey = "Error_AuthEmailAlreadyRegistered";
+        private const string ServiceUnavailableKey = "Error_SysServiceUnavailable";
+        private const string ResendLimitReachedKey = "Error_AuthResendLimitReached";
+        private const string CodeNotSentKey = "Shared_CodeNotSent";
+        private const string CodeInvalidFormatKey = "Error_ValInvalidCodeFormat";
+        private const string CodeIncorrectKey = "Error_AuthCodeInvalid";
+        private const string CodeExpiredKey = "Error_AuthCodeExpired";
+        private const string CodeAlreadyUsedKey = "Error_AuthCodeAlreadyUsed";
+        private const string CodeTooManyAttemptsKey = "Error_AuthTooManyAttempts";
+
         private static readonly Dictionary<ServiceFaultCode, string> s_messageKeys = new Dictionary<ServiceFaultCode, string>
         {
-            { ServiceFaultCode.RequiredField, "Error_ValRequiredField" },
-            { ServiceFaultCode.DisallowedCharacters, "Error_ValDisallowedCharacters" },
-            { ServiceFaultCode.InvalidCredentials, "Error_AuthInvalidCurrentPassword" },
-            { ServiceFaultCode.WeakPassword, "Error_ValWeakPassword" },
-            { ServiceFaultCode.SamePassword, "Error_AuthSamePassword" },
-            { ServiceFaultCode.InvalidEmailFormat, "Error_ValInvalidEmailFormat" },
-            { ServiceFaultCode.EmailAlreadyRegistered, "Error_AuthEmailAlreadyRegistered" },
-            { ServiceFaultCode.CodeNotSent, "Shared_CodeNotSent" },
-            { ServiceFaultCode.CodeInvalidFormat, "Error_ValInvalidCodeFormat" },
-            { ServiceFaultCode.CodeIncorrect, "Error_AuthCodeInvalid" },
-            { ServiceFaultCode.CodeExpired, "Error_AuthCodeExpired" },
-            { ServiceFaultCode.CodeAlreadyUsed, "Error_AuthCodeAlreadyUsed" },
-            { ServiceFaultCode.CodeTooManyAttempts, "Error_AuthTooManyAttempts" }
+            { ServiceFaultCode.RequiredField, RequiredFieldKey },
+            { ServiceFaultCode.DisallowedCharacters, DisallowedCharactersKey },
+            { ServiceFaultCode.InvalidCredentials, InvalidCurrentPasswordKey },
+            { ServiceFaultCode.WeakPassword, WeakPasswordKey },
+            { ServiceFaultCode.SamePassword, SamePasswordKey },
+            { ServiceFaultCode.InvalidEmailFormat, InvalidEmailFormatKey },
+            { ServiceFaultCode.EmailAlreadyRegistered, EmailAlreadyRegisteredKey },
+            { ServiceFaultCode.CodeNotSent, CodeNotSentKey },
+            { ServiceFaultCode.CodeInvalidFormat, CodeInvalidFormatKey },
+            { ServiceFaultCode.CodeIncorrect, CodeIncorrectKey },
+            { ServiceFaultCode.CodeExpired, CodeExpiredKey },
+            { ServiceFaultCode.CodeAlreadyUsed, CodeAlreadyUsedKey },
+            { ServiceFaultCode.CodeTooManyAttempts, CodeTooManyAttemptsKey }
         };
 
         private readonly string _accessToken;
@@ -75,7 +91,7 @@ namespace GinRummy.Client.ViewModels
             {
                 communicationObject.Abort();
                 _logger.LogInformation(ex, "The server refused a new code for {RetryAfterSeconds} seconds.", ex.Detail.RetryAfterSeconds);
-                ErrorMessageKey = MessageKeyCommon.ResendLimitReachedKey;
+                ErrorMessageKey = ResendLimitReachedKey;
                 ResendWait = TimeSpan.FromSeconds(ex.Detail.RetryAfterSeconds);
             }
             catch (FaultException<ServiceFault> ex)
@@ -123,7 +139,7 @@ namespace GinRummy.Client.ViewModels
             else
             {
                 string messageKey;
-                ErrorMessageKey = s_messageKeys.TryGetValue(code, out messageKey) ? messageKey : MessageKeyCommon.ServiceUnavailableKey;
+                ErrorMessageKey = s_messageKeys.TryGetValue(code, out messageKey) ? messageKey : ServiceUnavailableKey;
             }
         }
     }

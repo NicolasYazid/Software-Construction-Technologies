@@ -21,6 +21,7 @@ namespace GinRummy.Client.ViewModels
         private const string PlayerFriendLimitKey = "LobbyChat_FriendRequestPlayerFriendLimit";
         private const string TooManyRequestsPerMinuteKey = "LobbyChat_FriendRequestTooManyPerMinute";
         private const string WaitingTimeKey = "LobbyChat_FriendRequestWaitingTime";
+        private const string ServiceUnavailableKey = "Error_SysServiceUnavailable";
 
         private static readonly Dictionary<FriendRequestOutcome, string> s_noticeKeysByOutcome =
             new Dictionary<FriendRequestOutcome, string>
@@ -80,7 +81,7 @@ namespace GinRummy.Client.ViewModels
             _friendshipConnection.SessionExpired += HandleSessionExpired;
             if (!_friendshipConnection.Start(_signedInPlayer.AccessToken))
             {
-                NoticeKey = MessageKeyCommon.ServiceUnavailableKey;
+                NoticeKey = ServiceUnavailableKey;
             }
         }
 
@@ -104,7 +105,7 @@ namespace GinRummy.Client.ViewModels
             }
 
             FriendRequestOutcome? outcome = _friendshipConnection.SendFriendRequest(_signedInPlayer.AccessToken, player.PublicTag.Value);
-            string noticeKey = MessageKeyCommon.ServiceUnavailableKey;
+            string noticeKey = ServiceUnavailableKey;
             if (outcome.HasValue)
             {
                 noticeKey = FindNoticeKey(outcome.Value);
@@ -129,7 +130,7 @@ namespace GinRummy.Client.ViewModels
             bool isRemovalSent = _friendshipConnection.RemoveFriend(_signedInPlayer.AccessToken, friend.PublicTag.Value);
             if (!isRemovalSent)
             {
-                NoticeKey = MessageKeyCommon.ServiceUnavailableKey;
+                NoticeKey = ServiceUnavailableKey;
             }
         }
 

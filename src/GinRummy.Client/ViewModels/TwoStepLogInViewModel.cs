@@ -9,6 +9,9 @@ namespace GinRummy.Client.ViewModels
 {
     public class TwoStepLogInViewModel : TwoStepViewModel
     {
+        private const string RequiredFieldKey = "Error_ValRequiredField";
+        private const string ResendLimitReachedKey = "Error_AuthResendLimitReached";
+
         private readonly LogInCredentials _credentials;
         private readonly Func<ILogInService> _logInServiceFactory;
         private readonly ILogger<TwoStepLogInViewModel> _logger;
@@ -33,7 +36,7 @@ namespace GinRummy.Client.ViewModels
             ErrorMessageKey = null;
             if (string.IsNullOrEmpty(Code))
             {
-                ErrorMessageKey = MessageKeyCommon.RequiredFieldKey;
+                ErrorMessageKey = RequiredFieldKey;
                 return;
             }
 
@@ -104,7 +107,7 @@ namespace GinRummy.Client.ViewModels
                     ex,
                     "The server refused a second factor code for {RetryAfterSeconds} seconds.",
                     ex.Detail.RetryAfterSeconds);
-                ErrorMessageKey = MessageKeyCommon.ResendLimitReachedKey;
+                ErrorMessageKey = ResendLimitReachedKey;
             }
             catch (FaultException<ServiceFault> ex)
             {

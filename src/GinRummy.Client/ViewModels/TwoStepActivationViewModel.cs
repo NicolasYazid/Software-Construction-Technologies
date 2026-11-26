@@ -7,6 +7,8 @@ namespace GinRummy.Client.ViewModels
 {
     public class TwoStepActivationViewModel : TwoStepViewModel
     {
+        private const string RequiredFieldKey = "Error_ValRequiredField";
+
         private readonly AccountSettingsCaller _accountSettingsCaller;
 
         // The panel already asked for the first code, so this screen only confirms it or asks for a new one (CU-04).
@@ -21,7 +23,7 @@ namespace GinRummy.Client.ViewModels
             ErrorMessageKey = null;
             if (string.IsNullOrEmpty(Code))
             {
-                ErrorMessageKey = MessageKeyCommon.RequiredFieldKey;
+                ErrorMessageKey = RequiredFieldKey;
                 return;
             }
 

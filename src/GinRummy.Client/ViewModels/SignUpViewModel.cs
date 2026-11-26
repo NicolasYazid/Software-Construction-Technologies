@@ -12,6 +12,9 @@ namespace GinRummy.Client.ViewModels
 {
     public class SignUpViewModel : ViewModelBase
     {
+        private const string RequiredFieldKey = "Error_ValRequiredField";
+        private const string PasswordMismatchKey = "Error_ValPasswordMismatch";
+
         private readonly Func<ISignUpService> _signUpServiceFactory;
         private readonly ILogger<SignUpViewModel> _logger;
         private string _password;
@@ -112,13 +115,13 @@ namespace GinRummy.Client.ViewModels
             ErrorMessageKey = null;
             if (IsAnyFieldEmpty())
             {
-                ErrorMessageKey = MessageKeyCommon.RequiredFieldKey;
+                ErrorMessageKey = RequiredFieldKey;
                 return;
             }
 
             if (Password != ConfirmPassword)
             {
-                ErrorMessageKey = MessageKeyCommon.PasswordMismatchKey;
+                ErrorMessageKey = PasswordMismatchKey;
                 return;
             }
 

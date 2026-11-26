@@ -21,22 +21,30 @@ namespace GinRummy.Client.ViewModels
         private const string ChallengeDeclinedKey = "LobbyChat_ChallengeDeclined";
         private const string ChallengeUnavailableKey = "LobbyChat_ChallengeUnavailable";
         private const string ChallengeCancelledKey = "LobbyChat_ChallengeCancelled";
+        private const string PlayerNotAvailableKey = "LobbyChat_PlayerNotAvailable";
+        private const string PlayerNotFoundKey = "Error_DataNotFound";
+        private const string OpponentBusyKey = "Error_GameOpponentBusy";
+        private const string AccountSuspendedKey = "Error_ModAccountSuspended";
+        private const string ChallengeExpiredKey = "Error_GameChallengeExpired";
+        private const string CannotChallengeSelfKey = "Error_GameCannotChallengeSelf";
+        private const string ConcurrentChallengeKey = "Error_DataConcurrentChallenge";
+        private const string GuestNotAllowedKey = "Error_PermGuestNotAllowed";
         private const int SecondsBetweenReconnectionAttempts = 10;
 
         private static readonly Dictionary<ChallengeOutcome, string> s_outcomeNoticeKeys = new Dictionary<ChallengeOutcome, string>
         {
-            { ChallengeOutcome.PlayerNotAvailable, "LobbyChat_PlayerNotAvailable" },
-            { ChallengeOutcome.PlayerNotFound, "Error_DataNotFound" },
-            { ChallengeOutcome.OpponentBusy, "Error_GameOpponentBusy" },
-            { ChallengeOutcome.AccountSuspended, "Error_ModAccountSuspended" },
-            { ChallengeOutcome.ChallengeExpired, "Error_GameChallengeExpired" }
+            { ChallengeOutcome.PlayerNotAvailable, PlayerNotAvailableKey },
+            { ChallengeOutcome.PlayerNotFound, PlayerNotFoundKey },
+            { ChallengeOutcome.OpponentBusy, OpponentBusyKey },
+            { ChallengeOutcome.AccountSuspended, AccountSuspendedKey },
+            { ChallengeOutcome.ChallengeExpired, ChallengeExpiredKey }
         };
 
         private static readonly Dictionary<DuelFaultCode, string> s_refusalNoticeKeys = new Dictionary<DuelFaultCode, string>
         {
-            { DuelFaultCode.CannotChallengeSelf, "Error_GameCannotChallengeSelf" },
-            { DuelFaultCode.ConcurrentChallenge, "Error_DataConcurrentChallenge" },
-            { DuelFaultCode.GuestNotAllowed, "Error_PermGuestNotAllowed" }
+            { DuelFaultCode.CannotChallengeSelf, CannotChallengeSelfKey },
+            { DuelFaultCode.ConcurrentChallenge, ConcurrentChallengeKey },
+            { DuelFaultCode.GuestNotAllowed, GuestNotAllowedKey }
         };
 
         private readonly DirectDuelConnection _duelConnection;

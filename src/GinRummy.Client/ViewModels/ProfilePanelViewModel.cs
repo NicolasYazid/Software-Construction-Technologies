@@ -18,6 +18,7 @@ namespace GinRummy.Client.ViewModels
         private const string SameEmailKey = "ProfilePanel_SameEmail";
         private const string TwoStepEnabledKey = "ProfilePanel_TwoStepEnabled";
         private const string TwoStepDisabledKey = "ProfilePanel_TwoStepDisabled";
+        private const string RequiredFieldKey = "Error_ValRequiredField";
 
         private readonly Func<IPlayerProfileService> _playerProfileServiceFactory;
         private readonly AccountSettingsCaller _accountSettingsCaller;
@@ -313,7 +314,7 @@ namespace GinRummy.Client.ViewModels
             string newEmail = (_newEmail ?? string.Empty).Trim();
             if (newEmail.Length == 0)
             {
-                EmailErrorKey = MessageKeyCommon.RequiredFieldKey;
+                EmailErrorKey = RequiredFieldKey;
             }
             else if (string.Equals(newEmail, _email, StringComparison.OrdinalIgnoreCase))
             {

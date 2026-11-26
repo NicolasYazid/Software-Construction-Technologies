@@ -9,6 +9,9 @@ namespace GinRummy.Client.ViewModels
 {
     public class SignUpVerifyEmailViewModel : VerifyEmailViewModel
     {
+        private const string RequiredFieldKey = "Error_ValRequiredField";
+        private const string ResendLimitReachedKey = "Error_AuthResendLimitReached";
+
         private readonly Func<ISignUpService> _signUpServiceFactory;
         private readonly ILogger<SignUpVerifyEmailViewModel> _logger;
 
@@ -34,7 +37,7 @@ namespace GinRummy.Client.ViewModels
             ErrorMessageKey = null;
             if (string.IsNullOrEmpty(Code))
             {
-                ErrorMessageKey = MessageKeyCommon.RequiredFieldKey;
+                ErrorMessageKey = RequiredFieldKey;
                 return;
             }
 
@@ -121,7 +124,7 @@ namespace GinRummy.Client.ViewModels
             {
                 communicationObject.Abort();
                 _logger.LogInformation(ex, "The server refused a new code for {RetryAfterSeconds} seconds.", ex.Detail.RetryAfterSeconds);
-                ErrorMessageKey = MessageKeyCommon.ResendLimitReachedKey;
+                ErrorMessageKey = ResendLimitReachedKey;
                 RestartResendCountdown(TimeSpan.FromSeconds(ex.Detail.RetryAfterSeconds));
             }
             catch (FaultException<ServiceFault> ex)
