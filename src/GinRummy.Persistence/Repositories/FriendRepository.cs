@@ -23,6 +23,7 @@ namespace GinRummy.Persistence.Repositories
         /// for disposing that context.
         /// </summary>
         /// <param name="context">Context to run every operation on.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the context is null.</exception>
         public FriendRepository(GinRummyContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
