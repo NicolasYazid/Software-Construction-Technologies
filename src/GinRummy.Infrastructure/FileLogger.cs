@@ -27,6 +27,7 @@ namespace GinRummy.Infrastructure
         /// <param name="categoryName">Name written next to every entry, usually the class name.</param>
         /// <param name="logFilePath">Full path of the log file.</param>
         /// <param name="minimumLevel">Lowest level that is written.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the category name or the file path is null.</exception>
         public FileLogger(string categoryName, string logFilePath, LogLevel minimumLevel)
         {
             _categoryName = categoryName ?? throw new ArgumentNullException(nameof(categoryName));

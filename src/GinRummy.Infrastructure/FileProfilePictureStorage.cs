@@ -19,6 +19,7 @@ namespace GinRummy.Infrastructure
         /// Builds the storage on a folder, which is created the first time a picture is saved.
         /// </summary>
         /// <param name="folderPath">Folder that keeps the pictures.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the folder path is null.</exception>
         public FileProfilePictureStorage(string folderPath)
         {
             _folderPath = folderPath ?? throw new ArgumentNullException(nameof(folderPath));

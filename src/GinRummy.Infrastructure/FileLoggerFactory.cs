@@ -19,6 +19,7 @@ namespace GinRummy.Infrastructure
         /// </summary>
         /// <param name="logFilePath">Full path of the log file.</param>
         /// <param name="minimumLevel">Lowest level that is written.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the file path is null.</exception>
         public FileLoggerFactory(string logFilePath, LogLevel minimumLevel)
         {
             _logFilePath = logFilePath ?? throw new ArgumentNullException(nameof(logFilePath));
