@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
 
 using GinRummy.Domain.Entities.PlayerModeration;
+using NUnit.Framework;
 
 namespace GinRummy.Server.Tests.Domain
 {

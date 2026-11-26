@@ -146,7 +146,6 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
             {
                 DrawAndDiscardTheDrawnCard(round);
             }
-
             round.DrawFromStock(round.CurrentPlayerId);
 
             round.Discard(round.CurrentPlayerId, round.GetHand(round.CurrentPlayerId).Last());
