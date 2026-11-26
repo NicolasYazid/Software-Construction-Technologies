@@ -187,6 +187,8 @@ namespace GinRummy.Application.UseCases.Gameplay
                     }
                     catch (DataException)
                     {
+                        // The window closes on a timer thread, where an unhandled error would stop the whole server,
+                        // so a match result that cannot be saved does not take the other matches down with it.
                     }
                 }
             }
