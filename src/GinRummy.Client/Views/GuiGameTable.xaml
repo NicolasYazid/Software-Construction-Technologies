@@ -196,7 +196,7 @@
                         Command="{Binding SortHandCommand}" />
             </DockPanel>
 
-            <Canvas x:Name="cnvMeldCaptions" Grid.Row="4" IsHitTestVisible="False" />
+            <Canvas x:Name="pnlMeldCaptions" Grid.Row="4" IsHitTestVisible="False" />
 
             <ctl:CardHand x:Name="lstHand" Grid.Row="4" Style="{StaticResource StyCardHand}" Margin="0,2,0,-24"
                           ItemsSource="{Binding Hand}" ItemTemplate="{StaticResource TplCardFace}"

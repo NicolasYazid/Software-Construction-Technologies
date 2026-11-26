@@ -36,7 +36,7 @@ namespace GinRummy.Client.Views
             _viewModel.ErrorDialogRequested += HandleErrorDialogRequested;
             _viewModel.ChatFilterChanged += HandleChatFilterChanged;
             DataContext = _viewModel;
-            grdAvatar.DataContext = ownProfile;
+            pnlAvatar.DataContext = ownProfile;
             pwdPassword.Password = new string(PasswordMaskFiller, PasswordMaskLength);
             txtNewEmail.IsVisibleChanged += HandleNewEmailVisibleChanged;
             Loaded += HandlePanelLoaded;

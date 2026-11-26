@@ -210,7 +210,7 @@ namespace GinRummy.Client.Views
 
         private void ShowMeldCaptions()
         {
-            cnvMeldCaptions.Children.Clear();
+            pnlMeldCaptions.Children.Clear();
             foreach (Meld meld in _viewModel.HandMelds)
             {
                 string caption = Localization[GetMeldCaptionKey(meld)];
@@ -232,14 +232,14 @@ namespace GinRummy.Client.Views
             bar.Style = (Style)FindResource(MeldBarStyleKey);
             bar.Tag = stretch;
             bar.Visibility = Visibility.Hidden;
-            cnvMeldCaptions.Children.Add(name);
-            cnvMeldCaptions.Children.Add(bar);
+            pnlMeldCaptions.Children.Add(name);
+            pnlMeldCaptions.Children.Add(bar);
         }
 
         private void HandleRendering(object sender, EventArgs e)
         {
-            double barTop = lstHand.TranslatePoint(new Point(0, lstHand.TiltRoom), cnvMeldCaptions).Y - MeldBarGap;
-            foreach (FrameworkElement caption in cnvMeldCaptions.Children)
+            double barTop = lstHand.TranslatePoint(new Point(0, lstHand.TiltRoom), pnlMeldCaptions).Y - MeldBarGap;
+            foreach (FrameworkElement caption in pnlMeldCaptions.Children)
             {
                 Rect bounds = GetStretchBounds((IList<Card>)caption.Tag);
                 caption.Visibility = bounds.IsEmpty ? Visibility.Hidden : Visibility.Visible;
@@ -258,7 +258,7 @@ namespace GinRummy.Client.Views
                 Border host = lstHand.ItemContainerGenerator.ContainerFromItem(card) as Border;
                 if ((host != null) && (host.Child is FrameworkElement faces))
                 {
-                    bounds.Union(faces.TransformToVisual(cnvMeldCaptions).TransformBounds(new Rect(faces.RenderSize)));
+                    bounds.Union(faces.TransformToVisual(pnlMeldCaptions).TransformBounds(new Rect(faces.RenderSize)));
                 }
             }
 

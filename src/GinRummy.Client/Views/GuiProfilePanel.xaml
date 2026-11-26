@@ -12,7 +12,7 @@
                 <StackPanel Margin="36,30,30,30">
 
                     <!-- The picture comes from the profile the lobby already read, so the panel does not ask the server for it again. -->
-                    <Grid x:Name="grdAvatar" Width="112" Height="112" HorizontalAlignment="Center">
+                    <Grid x:Name="pnlAvatar" Width="112" Height="112" HorizontalAlignment="Center">
                         <Border Style="{StaticResource StyAvatarProfile}">
                             <Image Style="{StaticResource StyAvatarIconProfile}" />
                         </Border>
