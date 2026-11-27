@@ -13,14 +13,16 @@ namespace GinRummy.Server.Tests.Application.Gameplay
     {
         private const int NonDealerId = 1;
         private const int DealerId = 2;
+        private const int NonDealerPublicTag = 1001;
+        private const int DealerPublicTag = 1002;
 
         [Test]
         public void Test_Knock_DeadwoodWithinThreshold_FinishesTheRound()
         {
-            ActiveMatch activeMatch = StartRound(new Card(CardSuit.Diamonds, 2));
+            ActiveMatch activeMatch = StartRound(new Card(CardSuit.Diamonds, RankValues.Two));
             activeMatch.TakeFirstCard(NonDealerId);
 
-            activeMatch.Knock(NonDealerId, new Card(CardSuit.Diamonds, 13));
+            activeMatch.Knock(NonDealerId, new Card(CardSuit.Diamonds, Card.KingRank));
 
             Assert.AreEqual(TurnPhase.Finished, activeMatch.Round.Phase);
         }
@@ -28,7 +30,7 @@ namespace GinRummy.Server.Tests.Application.Gameplay
         [Test]
         public void Test_Knock_DeadwoodAboveThreshold_ThrowsInvalidMoveException()
         {
-            ActiveMatch activeMatch = StartRound(new Card(CardSuit.Diamonds, 11));
+            ActiveMatch activeMatch = StartRound(new Card(CardSuit.Diamonds, RankValues.Jack));
             activeMatch.TakeFirstCard(NonDealerId);
 
             TestDelegate knock = () => activeMatch.Knock(NonDealerId, new Card(CardSuit.Hearts, Card.AceRank));
@@ -39,18 +41,18 @@ namespace GinRummy.Server.Tests.Application.Gameplay
         [Test]
         public void Test_FindKnockDiscards_CardTakenFromDiscardPile_LeavesItOut()
         {
-            ActiveMatch activeMatch = StartRound(new Card(CardSuit.Diamonds, 2));
+            ActiveMatch activeMatch = StartRound(new Card(CardSuit.Diamonds, RankValues.Two));
             activeMatch.TakeFirstCard(NonDealerId);
 
             IList<Card> discards = activeMatch.FindKnockDiscards(NonDealerId);
 
-            CollectionAssert.AreEquivalent(new[] { new Card(CardSuit.Diamonds, 13) }, discards);
+            CollectionAssert.AreEquivalent(new[] { new Card(CardSuit.Diamonds, Card.KingRank) }, discards);
         }
 
         [Test]
         public void Test_FindKnockDiscards_FirstCardOffer_ReturnsEmpty()
         {
-            ActiveMatch activeMatch = StartRound(new Card(CardSuit.Diamonds, 2));
+            ActiveMatch activeMatch = StartRound(new Card(CardSuit.Diamonds, RankValues.Two));
 
             IList<Card> discards = activeMatch.FindKnockDiscards(NonDealerId);
 
@@ -60,9 +62,9 @@ namespace GinRummy.Server.Tests.Application.Gameplay
         [Test]
         public void Test_DealNextRound_AfterAScoredKnock_RecordsTheDealOfTheNewDealer()
         {
-            ActiveMatch activeMatch = StartRound(new Card(CardSuit.Diamonds, 2));
+            ActiveMatch activeMatch = StartRound(new Card(CardSuit.Diamonds, RankValues.Two));
             activeMatch.TakeFirstCard(NonDealerId);
-            activeMatch.Knock(NonDealerId, new Card(CardSuit.Diamonds, 13));
+            activeMatch.Knock(NonDealerId, new Card(CardSuit.Diamonds, Card.KingRank));
             activeMatch.Match.ScoreFinishedRound();
 
             activeMatch.DealNextRound(StandardDeck.CreateOrdered());
@@ -75,28 +77,28 @@ namespace GinRummy.Server.Tests.Application.Gameplay
             IList<Card> nonDealerHand = new List<Card>
             {
                 new Card(CardSuit.Hearts, Card.AceRank),
-                new Card(CardSuit.Hearts, 2),
-                new Card(CardSuit.Hearts, 3),
-                new Card(CardSuit.Spades, 4),
-                new Card(CardSuit.Spades, 5),
-                new Card(CardSuit.Spades, 6),
-                new Card(CardSuit.Clubs, 7),
-                new Card(CardSuit.Clubs, 8),
-                new Card(CardSuit.Clubs, 9),
-                new Card(CardSuit.Diamonds, 13)
+                new Card(CardSuit.Hearts, RankValues.Two),
+                new Card(CardSuit.Hearts, RankValues.Three),
+                new Card(CardSuit.Spades, RankValues.Four),
+                new Card(CardSuit.Spades, RankValues.Five),
+                new Card(CardSuit.Spades, RankValues.Six),
+                new Card(CardSuit.Clubs, RankValues.Seven),
+                new Card(CardSuit.Clubs, RankValues.Eight),
+                new Card(CardSuit.Clubs, RankValues.Nine),
+                new Card(CardSuit.Diamonds, Card.KingRank)
             };
             IList<Card> dealerHand = new List<Card>
             {
                 new Card(CardSuit.Diamonds, Card.AceRank),
-                new Card(CardSuit.Diamonds, 3),
-                new Card(CardSuit.Diamonds, 5),
-                new Card(CardSuit.Diamonds, 7),
-                new Card(CardSuit.Diamonds, 9),
-                new Card(CardSuit.Hearts, 5),
-                new Card(CardSuit.Hearts, 7),
-                new Card(CardSuit.Hearts, 9),
-                new Card(CardSuit.Spades, 12),
-                new Card(CardSuit.Spades, 13)
+                new Card(CardSuit.Diamonds, RankValues.Three),
+                new Card(CardSuit.Diamonds, RankValues.Five),
+                new Card(CardSuit.Diamonds, RankValues.Seven),
+                new Card(CardSuit.Diamonds, RankValues.Nine),
+                new Card(CardSuit.Hearts, RankValues.Five),
+                new Card(CardSuit.Hearts, RankValues.Seven),
+                new Card(CardSuit.Hearts, RankValues.Nine),
+                new Card(CardSuit.Spades, RankValues.Queen),
+                new Card(CardSuit.Spades, Card.KingRank)
             };
             List<Card> deck = new List<Card>();
             for (int index = 0; index < nonDealerHand.Count; index++)
@@ -111,8 +113,8 @@ namespace GinRummy.Server.Tests.Application.Gameplay
 
             return new ActiveMatch(
                 new GameMatch(round),
-                new DuelPlayer(DealerId, "Dealer", 1002),
-                new DuelPlayer(NonDealerId, "Non-dealer", 1001));
+                new DuelPlayer(DealerId, "Dealer", DealerPublicTag),
+                new DuelPlayer(NonDealerId, "Non-dealer", NonDealerPublicTag));
         }
     }
 }

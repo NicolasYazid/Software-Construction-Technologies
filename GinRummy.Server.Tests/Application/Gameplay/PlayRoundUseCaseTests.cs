@@ -14,6 +14,8 @@ namespace GinRummy.Server.Tests.Application.Gameplay
         private const int DealerId = 1;
         private const int NonDealerId = 2;
         private const int PlayerWithoutRoundId = 3;
+        private const int DealerPublicTag = 1001;
+        private const int NonDealerPublicTag = 1002;
 
         [Test]
         public void Test_PassFirstCard_NonDealer_AnnouncesTheChangeToBothPlayers()
@@ -122,7 +124,9 @@ namespace GinRummy.Server.Tests.Application.Gameplay
             announcer.OfflinePlayerIds.Add(DealerId);
             MatchRegistry matchRegistry = new MatchRegistry(StandardDeck.CreateOrdered);
             PlayRoundUseCase useCase = new PlayRoundUseCase(matchRegistry, announcer, new FakeMatchRecorder());
-            matchRegistry.Start(new DuelPlayer(DealerId, "Dealer", 1001), new DuelPlayer(NonDealerId, "Non-dealer", 1002));
+            matchRegistry.Start(
+                new DuelPlayer(DealerId, "Dealer", DealerPublicTag),
+                new DuelPlayer(NonDealerId, "Non-dealer", NonDealerPublicTag));
 
             TestDelegate passFirstCard = () => useCase.PassFirstCard(NonDealerId);
 
@@ -135,7 +139,9 @@ namespace GinRummy.Server.Tests.Application.Gameplay
             FakeRoundAnnouncer announcer = new FakeRoundAnnouncer();
             MatchRegistry matchRegistry = new MatchRegistry(StandardDeck.CreateOrdered);
             PlayRoundUseCase useCase = new PlayRoundUseCase(matchRegistry, announcer, new FakeMatchRecorder());
-            matchRegistry.Start(new DuelPlayer(DealerId, "Dealer", 1001), new DuelPlayer(NonDealerId, "Non-dealer", 1002));
+            matchRegistry.Start(
+                new DuelPlayer(DealerId, "Dealer", DealerPublicTag),
+                new DuelPlayer(NonDealerId, "Non-dealer", NonDealerPublicTag));
 
             useCase.PassFirstCard(NonDealerId);
 
@@ -208,7 +214,9 @@ namespace GinRummy.Server.Tests.Application.Gameplay
             decks.Enqueue(BuildDeck(CreateKnockerHand(), CreateDefenderHand()));
             decks.Enqueue(BuildDeck(CreateDefenderHand(), CreateKnockerHand()));
             MatchRegistry matchRegistry = new MatchRegistry(decks.Dequeue);
-            matchRegistry.Start(new DuelPlayer(DealerId, "Dealer", 1001), new DuelPlayer(NonDealerId, "Non-dealer", 1002));
+            matchRegistry.Start(
+                new DuelPlayer(DealerId, "Dealer", DealerPublicTag),
+                new DuelPlayer(NonDealerId, "Non-dealer", NonDealerPublicTag));
             PlayRoundUseCase useCase = new PlayRoundUseCase(matchRegistry, new FakeRoundAnnouncer(), new FakeMatchRecorder());
             useCase.TakeFirstCard(NonDealerId);
             useCase.Knock(NonDealerId, new Card(CardSuit.Diamonds, Card.KingRank));
@@ -228,7 +236,9 @@ namespace GinRummy.Server.Tests.Application.Gameplay
         private static MatchRegistry BuildRegistryWithMatch()
         {
             MatchRegistry matchRegistry = new MatchRegistry(StandardDeck.CreateOrdered);
-            matchRegistry.Start(new DuelPlayer(DealerId, "Dealer", 1001), new DuelPlayer(NonDealerId, "Non-dealer", 1002));
+            matchRegistry.Start(
+                new DuelPlayer(DealerId, "Dealer", DealerPublicTag),
+                new DuelPlayer(NonDealerId, "Non-dealer", NonDealerPublicTag));
 
             return matchRegistry;
         }
@@ -242,7 +252,7 @@ namespace GinRummy.Server.Tests.Application.Gameplay
                 deck.Add(dealerHand[index]);
             }
 
-            deck.Add(new Card(CardSuit.Diamonds, 2));
+            deck.Add(new Card(CardSuit.Diamonds, RankValues.Two));
             deck.AddRange(StandardDeck.CreateOrdered().Where(card => !deck.Contains(card)));
 
             return deck;
@@ -253,14 +263,14 @@ namespace GinRummy.Server.Tests.Application.Gameplay
             return new List<Card>
             {
                 new Card(CardSuit.Hearts, Card.AceRank),
-                new Card(CardSuit.Hearts, 2),
-                new Card(CardSuit.Hearts, 3),
-                new Card(CardSuit.Spades, 4),
-                new Card(CardSuit.Spades, 5),
-                new Card(CardSuit.Spades, 6),
-                new Card(CardSuit.Clubs, 7),
-                new Card(CardSuit.Clubs, 8),
-                new Card(CardSuit.Clubs, 9),
+                new Card(CardSuit.Hearts, RankValues.Two),
+                new Card(CardSuit.Hearts, RankValues.Three),
+                new Card(CardSuit.Spades, RankValues.Four),
+                new Card(CardSuit.Spades, RankValues.Five),
+                new Card(CardSuit.Spades, RankValues.Six),
+                new Card(CardSuit.Clubs, RankValues.Seven),
+                new Card(CardSuit.Clubs, RankValues.Eight),
+                new Card(CardSuit.Clubs, RankValues.Nine),
                 new Card(CardSuit.Diamonds, Card.KingRank)
             };
         }
@@ -270,14 +280,14 @@ namespace GinRummy.Server.Tests.Application.Gameplay
             return new List<Card>
             {
                 new Card(CardSuit.Diamonds, Card.AceRank),
-                new Card(CardSuit.Diamonds, 3),
-                new Card(CardSuit.Diamonds, 5),
-                new Card(CardSuit.Diamonds, 7),
-                new Card(CardSuit.Diamonds, 9),
-                new Card(CardSuit.Hearts, 5),
-                new Card(CardSuit.Hearts, 7),
-                new Card(CardSuit.Hearts, 9),
-                new Card(CardSuit.Spades, 11),
+                new Card(CardSuit.Diamonds, RankValues.Three),
+                new Card(CardSuit.Diamonds, RankValues.Five),
+                new Card(CardSuit.Diamonds, RankValues.Seven),
+                new Card(CardSuit.Diamonds, RankValues.Nine),
+                new Card(CardSuit.Hearts, RankValues.Five),
+                new Card(CardSuit.Hearts, RankValues.Seven),
+                new Card(CardSuit.Hearts, RankValues.Nine),
+                new Card(CardSuit.Spades, RankValues.Jack),
                 new Card(CardSuit.Spades, Card.KingRank)
             };
         }

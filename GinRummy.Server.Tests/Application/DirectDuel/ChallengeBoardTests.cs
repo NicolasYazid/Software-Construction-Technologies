@@ -11,6 +11,7 @@ namespace GinRummy.Server.Tests.Application.DirectDuel
         private const int ChallengerId = 1;
         private const int ChallengedId = 2;
         private const int ThirdPlayerId = 3;
+        private const int FirstPublicTag = 1000;
 
         [Test]
         public void Test_Post_ChallengeToOneself_ThrowsSelfChallengeException()
@@ -113,7 +114,7 @@ namespace GinRummy.Server.Tests.Application.DirectDuel
 
         private static DuelPlayer CreatePlayer(int id)
         {
-            return new DuelPlayer(id, "Player " + id, 1000 + id);
+            return new DuelPlayer(id, "Player " + id, FirstPublicTag + id);
         }
     }
 }
