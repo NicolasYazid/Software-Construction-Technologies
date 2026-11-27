@@ -90,8 +90,8 @@ namespace GinRummy.Client.Controls
                         Rect bounds = BoundsIn(card, parent);
                         double cardTop = bounds.Top - card.Margin.Top;
                         double cardBottom = bounds.Bottom + card.Margin.Bottom;
-                        bool isOverlappingList = (cardBottom > listBounds.Top) && (cardTop < listBounds.Bottom) ? true : false;
-                        bool isAbove = (bounds.Top + (bounds.Height * Half)) < listMiddle ? true : false;
+                        bool isOverlappingList = IsOverlapping(cardTop, cardBottom, listBounds);
+                        bool isAbove = IsAbove(bounds, listMiddle);
                         if (isOverlappingList && isAbove)
                         {
                             top = Math.Max(top, cardBottom - listBounds.Top);
@@ -105,6 +105,16 @@ namespace GinRummy.Client.Controls
 
                 SetRoom(list, top, bottom);
             }
+        }
+
+        private static bool IsOverlapping(double cardTop, double cardBottom, Rect listBounds)
+        {
+            return (cardBottom > listBounds.Top) && (cardTop < listBounds.Bottom) ? true : false;
+        }
+
+        private static bool IsAbove(Rect cardBounds, double listMiddle)
+        {
+            return (cardBounds.Top + (cardBounds.Height * Half)) < listMiddle ? true : false;
         }
 
         private static bool IsFloatingCard(FrameworkElement card, Control list)

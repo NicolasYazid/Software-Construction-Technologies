@@ -264,14 +264,9 @@ namespace GinRummy.Client.ViewModels
 
         private void HandleReconnectionTimerTick(object sender, EventArgs e)
         {
-            bool isDuelConnected = _duelConnection.IsConnected || _duelConnection.Start(_signedInPlayer.AccessToken) ? true : false;
-            bool isGameConnected = _isPlayingMatch || _gameConnection.IsConnected || _gameConnection.Start(_signedInPlayer.AccessToken)
-                ? true
-                : false;
-            bool isSessionExpired = (_duelConnection.LastFaultCode == DuelFaultCode.SessionExpired)
-                || (_gameConnection.LastFaultCode == GameFaultCode.SessionExpired)
-                ? true
-                : false;
+            bool isDuelConnected = TryReconnectDuel();
+            bool isGameConnected = TryReconnectGame();
+            bool isSessionExpired = IsSessionExpired();
             if (isSessionExpired || (isDuelConnected && isGameConnected))
             {
                 _reconnectionTimer.Stop();
@@ -281,6 +276,24 @@ namespace GinRummy.Client.ViewModels
             {
                 SessionExpired?.Invoke(this, EventArgs.Empty);
             }
+        }
+
+        private bool TryReconnectDuel()
+        {
+            return _duelConnection.IsConnected || _duelConnection.Start(_signedInPlayer.AccessToken) ? true : false;
+        }
+
+        private bool TryReconnectGame()
+        {
+            return _isPlayingMatch || _gameConnection.IsConnected || _gameConnection.Start(_signedInPlayer.AccessToken) ? true : false;
+        }
+
+        private bool IsSessionExpired()
+        {
+            return (_duelConnection.LastFaultCode == DuelFaultCode.SessionExpired)
+                || (_gameConnection.LastFaultCode == GameFaultCode.SessionExpired)
+                ? true
+                : false;
         }
 
         private void RemoveReceived(int challengerPublicTag)

@@ -207,10 +207,7 @@ namespace GinRummy.Client.ViewModels
         {
             IsUsernameChangedShown = false;
             ErrorMessageKey = null;
-            bool isLinkComplete = (_socialPlatformName.Trim().Length > 0) && (_socialUrl.Trim().Length > 0) ? true : false;
-            bool isLinkReady = !_isNewLinkFormOpen || isLinkComplete ? true : false;
-            bool isComplete = !string.IsNullOrWhiteSpace(Username) && isLinkReady ? true : false;
-            if (!isComplete)
+            if (!IsFormComplete())
             {
                 ErrorMessageKey = RequiredFieldKey;
             }
@@ -242,6 +239,14 @@ namespace GinRummy.Client.ViewModels
             }
 
             _linkToRemove = null;
+        }
+
+        private bool IsFormComplete()
+        {
+            bool isLinkComplete = (_socialPlatformName.Trim().Length > 0) && (_socialUrl.Trim().Length > 0) ? true : false;
+            bool isLinkReady = !_isNewLinkFormOpen || isLinkComplete ? true : false;
+
+            return !string.IsNullOrWhiteSpace(Username) && isLinkReady ? true : false;
         }
 
         private void OpenNewLinkForm()

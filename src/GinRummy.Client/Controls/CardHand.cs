@@ -500,15 +500,24 @@ namespace GinRummy.Client.Controls
                 hoveredItem = _draggedItem ?? FindItemAt(_pointer);
             }
 
+            ReleasePreviousTilt(hoveredItem);
+            _hoveredItem = hoveredItem;
+            bool canPickHoveredCard = (hoveredItem != null) && !IsReadOnly ? true : false;
+            Cursor = canPickHoveredCard ? Cursors.Hand : null;
+            FollowHoveredTilt(hoveredItem);
+        }
+
+        private void ReleasePreviousTilt(object hoveredItem)
+        {
             bool hasHoverChanged = !Equals(hoveredItem, _hoveredItem) ? true : false;
             if (hasHoverChanged && (_hoveredItem != null) && _motions.TryGetValue(_hoveredItem, out CardMotion previousMotion))
             {
                 previousMotion.Tilt.Release();
             }
+        }
 
-            _hoveredItem = hoveredItem;
-            bool canPickHoveredCard = (hoveredItem != null) && !IsReadOnly ? true : false;
-            Cursor = canPickHoveredCard ? Cursors.Hand : null;
+        private void FollowHoveredTilt(object hoveredItem)
+        {
             bool canTiltHoveredCard = (hoveredItem != null) && IsHoverTiltEnabled ? true : false;
             if (canTiltHoveredCard && _motions.TryGetValue(hoveredItem, out CardMotion hoveredMotion))
             {
