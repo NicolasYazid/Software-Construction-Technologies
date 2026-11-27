@@ -57,6 +57,7 @@ namespace GinRummy.Services.Notifiers
             }
             catch (InvalidOperationException)
             {
+                // Stop closes the queue when the player leaves, so a notice that arrives afterwards has nobody to reach.
             }
         }
 
