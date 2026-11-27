@@ -136,17 +136,19 @@ namespace GinRummy.Client.ViewModels
 
         private void HandleFriendshipEventReceived(object sender, FriendshipEvent friendshipEvent)
         {
-            if (friendshipEvent.EventType == FriendshipEventType.FriendRequestAccepted)
+            switch (friendshipEvent.EventType)
             {
-                FriendshipCreated?.Invoke(this, friendshipEvent.OtherPlayerPublicTag);
-            }
-            else if (friendshipEvent.EventType == FriendshipEventType.FriendRequestDeclined)
-            {
-                FriendRequestDeclined?.Invoke(this, friendshipEvent.OtherPlayerPublicTag);
-            }
-            else if (friendshipEvent.EventType == FriendshipEventType.FriendRemoved)
-            {
-                FriendRemoved?.Invoke(this, friendshipEvent.OtherPlayerPublicTag);
+                case FriendshipEventType.FriendRequestAccepted:
+                    FriendshipCreated?.Invoke(this, friendshipEvent.OtherPlayerPublicTag);
+                    break;
+                case FriendshipEventType.FriendRequestDeclined:
+                    FriendRequestDeclined?.Invoke(this, friendshipEvent.OtherPlayerPublicTag);
+                    break;
+                case FriendshipEventType.FriendRemoved:
+                    FriendRemoved?.Invoke(this, friendshipEvent.OtherPlayerPublicTag);
+                    break;
+                default:
+                    break;
             }
         }
 
