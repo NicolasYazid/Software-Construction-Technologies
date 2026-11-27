@@ -10,6 +10,8 @@ namespace GinRummy.Client.Tests.Models
     [TestFixture]
     public class HandOrderTests
     {
+        private const int StretchesWithOneCardApart = 2;
+
         private static readonly Card s_kingOfClubs = new Card(CardRank.King, CardSuit.Clubs);
         private static readonly Card s_fiveOfHearts = new Card(CardRank.Five, CardSuit.Hearts);
         private static readonly Card s_fiveOfClubs = new Card(CardRank.Five, CardSuit.Clubs);
@@ -54,14 +56,32 @@ namespace GinRummy.Client.Tests.Models
         }
 
         [Test]
+        public void Test_SplitIntoNeighbors_CardApart_ReturnsTwoStretches()
+        {
+            List<Card> hand = new List<Card> { s_fiveOfClubs, s_fiveOfHearts, s_kingOfClubs, s_aceOfSpades };
+
+            IList<IList<Card>> stretches = HandOrder.SplitIntoNeighbors(hand, new[] { s_aceOfSpades, s_fiveOfHearts, s_fiveOfClubs });
+
+            Assert.AreEqual(StretchesWithOneCardApart, stretches.Count);
+        }
+
+        [Test]
+        public void Test_SplitIntoNeighbors_CardApart_KeepsNeighborsInFirstStretch()
+        {
+            List<Card> hand = new List<Card> { s_fiveOfClubs, s_fiveOfHearts, s_kingOfClubs, s_aceOfSpades };
+
+            IList<IList<Card>> stretches = HandOrder.SplitIntoNeighbors(hand, new[] { s_aceOfSpades, s_fiveOfHearts, s_fiveOfClubs });
+
+            CollectionAssert.AreEqual(new[] { s_fiveOfClubs, s_fiveOfHearts }, stretches[0]);
+        }
+
+        [Test]
         public void Test_SplitIntoNeighbors_CardApart_StartsNewStretch()
         {
             List<Card> hand = new List<Card> { s_fiveOfClubs, s_fiveOfHearts, s_kingOfClubs, s_aceOfSpades };
 
             IList<IList<Card>> stretches = HandOrder.SplitIntoNeighbors(hand, new[] { s_aceOfSpades, s_fiveOfHearts, s_fiveOfClubs });
 
-            Assert.AreEqual(2, stretches.Count);
-            CollectionAssert.AreEqual(new[] { s_fiveOfClubs, s_fiveOfHearts }, stretches[0]);
             CollectionAssert.AreEqual(new[] { s_aceOfSpades }, stretches[1]);
         }
 
