@@ -106,9 +106,9 @@ namespace GinRummy.Application.UseCases.Gameplay
 
         private static bool IsResumable(GameSession gameSession)
         {
-            return gameSession.Participants.Any(participant => participant.GameParticipantId == gameSession.CurrentTurn)
-                && (gameSession.Participants.Count == SeatsPerMatch)
-                && gameSession.Participants.All(IsResumableSeat)
+            bool hasCurrentTurnSeat = gameSession.Participants.Any(participant => participant.GameParticipantId == gameSession.CurrentTurn);
+
+            return hasCurrentTurnSeat && (gameSession.Participants.Count == SeatsPerMatch) && gameSession.Participants.All(IsResumableSeat)
                 ? true
                 : false;
         }
