@@ -55,7 +55,7 @@ namespace GinRummy.Application.UseCases.PlayerCustomization
                 }
             }
 
-            byte[] picture = null;
+            byte[] picture = Array.Empty<byte>();
             if (storedPath != null)
             {
                 picture = _pictureStorage.Load(storedPath);

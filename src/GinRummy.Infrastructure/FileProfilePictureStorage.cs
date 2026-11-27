@@ -45,11 +45,11 @@ namespace GinRummy.Infrastructure
         /// Reads a stored picture.
         /// </summary>
         /// <param name="storedPath">Name of the file previously returned by Save.</param>
-        /// <returns>Bytes of the image file, or null when the file no longer exists.</returns>
+        /// <returns>Bytes of the image file, or an empty array when the file no longer exists.</returns>
         public byte[] Load(string storedPath)
         {
             string filePath = Path.Combine(_folderPath, storedPath);
-            byte[] content = null;
+            byte[] content = Array.Empty<byte>();
             if (File.Exists(filePath))
             {
                 content = File.ReadAllBytes(filePath);

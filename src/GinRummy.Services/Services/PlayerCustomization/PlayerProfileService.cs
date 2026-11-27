@@ -60,7 +60,7 @@ namespace GinRummy.Services.Services.PlayerCustomization
 
         public byte[] GetProfilePicture(string accessToken, int publicTag)
         {
-            byte[] picture = null;
+            byte[] picture = Array.Empty<byte>();
             RunProfileEdit(() => picture = _profileEditPort.GetProfilePicture(accessToken, publicTag));
 
             return picture;
