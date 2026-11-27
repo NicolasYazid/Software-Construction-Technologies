@@ -14,12 +14,12 @@ namespace GinRummy.Contracts.Services.Authentication
         [FaultContract(typeof(ServiceFault))]
         [FaultContract(typeof(SanctionFault))]
         [FaultContract(typeof(ResendLimitFault))]
-        LogInOutcome LogIn(string email, string password, bool keepSignedIn);
+        LogInOutcome LogIn(string email, string password, bool isKeepSignedIn);
 
         [OperationContract]
         [FaultContract(typeof(ServiceFault))]
         [FaultContract(typeof(SanctionFault))]
-        LogInOutcome VerifyLogInByTwoFactorAuthentication(string email, string verificationCode, bool keepSignedIn);
+        LogInOutcome VerifyLogInByTwoFactorAuthentication(string email, string verificationCode, bool isKeepSignedIn);
 
         [OperationContract]
         LogInOutcome LogInAsGuest();

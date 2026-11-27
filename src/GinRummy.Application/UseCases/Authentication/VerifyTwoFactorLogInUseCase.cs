@@ -25,7 +25,7 @@ namespace GinRummy.Application.UseCases.Authentication
             _codeRedeemer = codeRedeemer ?? throw new ArgumentNullException(nameof(codeRedeemer));
         }
 
-        public LogInResult VerifyTwoFactorLogIn(string email, string verificationCode, bool keepSignedIn)
+        public LogInResult VerifyTwoFactorLogIn(string email, string verificationCode, bool isKeepSignedIn)
         {
             TypedFieldValidator.EnsureAreTyped(email, verificationCode);
             TypedFieldValidator.EnsureHaveNoForbiddenCharacters(email);
@@ -43,7 +43,7 @@ namespace GinRummy.Application.UseCases.Authentication
                 }
 
                 _accessPolicy.EnsureAccessAllowed(account, unitOfWork.Moderation.GetBansOf(account.PlayerAccountId));
-                AccessToken accessToken = _accessPolicy.GrantAccess(account, keepSignedIn);
+                AccessToken accessToken = _accessPolicy.GrantAccess(account, isKeepSignedIn);
                 unitOfWork.Commit();
                 result = LogInResult.ForSignedIn(account, accessToken);
             }

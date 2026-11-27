@@ -29,12 +29,12 @@ namespace GinRummy.Services.Services.Authentication
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public LogInOutcome LogIn(string email, string password, bool keepSignedIn)
+        public LogInOutcome LogIn(string email, string password, bool isKeepSignedIn)
         {
             LogInOutcome outcome;
             try
             {
-                LogInResult result = _logInPort.LogIn(email, password, keepSignedIn);
+                LogInResult result = _logInPort.LogIn(email, password, isKeepSignedIn);
                 LogAcceptedLogIn(result);
                 outcome = LogInOutcomeMapper.MapToLogInOutcome(result);
             }
@@ -88,12 +88,12 @@ namespace GinRummy.Services.Services.Authentication
             return LogInOutcomeMapper.MapToGuestOutcome(guestAccess);
         }
 
-        public LogInOutcome VerifyLogInByTwoFactorAuthentication(string email, string verificationCode, bool keepSignedIn)
+        public LogInOutcome VerifyLogInByTwoFactorAuthentication(string email, string verificationCode, bool isKeepSignedIn)
         {
             LogInOutcome outcome;
             try
             {
-                LogInResult result = _twoFactorLogInPort.VerifyTwoFactorLogIn(email, verificationCode, keepSignedIn);
+                LogInResult result = _twoFactorLogInPort.VerifyTwoFactorLogIn(email, verificationCode, isKeepSignedIn);
                 LogAcceptedLogIn(result);
                 outcome = LogInOutcomeMapper.MapToLogInOutcome(result);
             }

@@ -29,7 +29,7 @@ namespace GinRummy.Application.UseCases.Authentication
             _codeSender = codeSender ?? throw new ArgumentNullException(nameof(codeSender));
         }
 
-        public LogInResult LogIn(string email, string password, bool keepSignedIn)
+        public LogInResult LogIn(string email, string password, bool isKeepSignedIn)
         {
             TypedFieldValidator.EnsureAreTyped(email, password);
             TypedFieldValidator.EnsureHaveNoForbiddenCharacters(email, password);
@@ -46,7 +46,7 @@ namespace GinRummy.Application.UseCases.Authentication
                 }
                 else
                 {
-                    AccessToken accessToken = _accessPolicy.GrantAccess(account, keepSignedIn);
+                    AccessToken accessToken = _accessPolicy.GrantAccess(account, isKeepSignedIn);
                     unitOfWork.Commit();
                     result = LogInResult.ForSignedIn(account, accessToken);
                 }

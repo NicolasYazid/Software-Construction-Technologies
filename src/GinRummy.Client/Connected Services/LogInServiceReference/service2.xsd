@@ -6,7 +6,7 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="email" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="password" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="keepSignedIn" type="xs:boolean" />
+        <xs:element minOccurs="0" name="isKeepSignedIn" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -22,7 +22,7 @@
       <xs:sequence>
         <xs:element minOccurs="0" name="email" nillable="true" type="xs:string" />
         <xs:element minOccurs="0" name="verificationCode" nillable="true" type="xs:string" />
-        <xs:element minOccurs="0" name="keepSignedIn" type="xs:boolean" />
+        <xs:element minOccurs="0" name="isKeepSignedIn" type="xs:boolean" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

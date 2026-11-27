@@ -48,11 +48,11 @@ namespace GinRummy.Domain.Entities.Authentication
             }
         }
 
-        public AccessToken GrantAccess(PlayerAccount account, bool keepSignedIn)
+        public AccessToken GrantAccess(PlayerAccount account, bool isKeepSignedIn)
         {
             DateTime signedInAt = _clock.UtcNow;
             DateTime expiresAt = signedInAt.AddHours(TokenLifetimeHours);
-            if (keepSignedIn)
+            if (isKeepSignedIn)
             {
                 expiresAt = signedInAt.AddDays(KeepSignedInTokenLifetimeDays);
             }
