@@ -63,6 +63,7 @@ namespace GinRummy.ServerHost
                 IServiceBehavior faultShieldBehavior = new FaultShieldBehavior(faultShield);
                 ServiceHostGroup hostGroup = new ServiceHostGroup(loggerFactory.CreateLogger<ServiceHostGroup>());
                 ILogger<Program> hostLogger = loggerFactory.CreateLogger<Program>();
+                AppDomain.CurrentDomain.UnhandledException += (sender, e) => HandleDomainUnhandledException(hostLogger, e);
                 IEmailSender emailSender = CreateEmailSender(hostLogger);
                 IAccessTokenSigner tokenSigner = CreateAccessTokenSigner(hostLogger);
                 ILogger<LogInService> logInLogger = loggerFactory.CreateLogger<LogInService>();
@@ -204,6 +205,11 @@ namespace GinRummy.ServerHost
             string logFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, LogFolderName);
 
             return Path.Combine(logFolder, LogFileName);
+        }
+
+        private static void HandleDomainUnhandledException(ILogger<Program> logger, UnhandledExceptionEventArgs e)
+        {
+            logger.LogCritical(e.ExceptionObject as Exception, "An unexpected error stopped the server.");
         }
 
         private static void ResumeInterruptedMatches(MatchRecorder matchRecorder, MatchRegistry matchRegistry, ILogger<Program> logger)
