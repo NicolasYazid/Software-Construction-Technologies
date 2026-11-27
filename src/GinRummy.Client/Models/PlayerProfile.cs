@@ -14,7 +14,7 @@ namespace GinRummy.Client.Models
         public string RankName { get; set; }
         public string Bio { get; set; }
         public byte[] Picture { get; set; } = Array.Empty<byte>();
-        public IList<SocialLink> SocialLinks { get; set; }
+        public IList<SocialLink> SocialLinks { get; set; } = new List<SocialLink>();
         public int MatchesPlayed { get; set; }
         public double WinRate { get; set; }
         public int Score { get; set; }
