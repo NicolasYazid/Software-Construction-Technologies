@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace GinRummy.Client.Models
 {
@@ -12,7 +13,7 @@ namespace GinRummy.Client.Models
         public int PublicTag { get; set; }
         public string RankName { get; set; }
         public string Bio { get; set; }
-        public byte[] Picture { get; set; }
+        public byte[] Picture { get; set; } = Array.Empty<byte>();
         public IList<SocialLink> SocialLinks { get; set; }
         public int MatchesPlayed { get; set; }
         public double WinRate { get; set; }

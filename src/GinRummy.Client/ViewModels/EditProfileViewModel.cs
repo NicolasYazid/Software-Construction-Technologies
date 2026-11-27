@@ -181,7 +181,7 @@ namespace GinRummy.Client.ViewModels
         {
             ErrorMessageKey = null;
             byte[] picture = ReadPicture(filePath);
-            if (picture == null)
+            if (picture.Length == 0)
             {
                 ErrorMessageKey = UnsupportedImageKey;
             }
@@ -197,8 +197,8 @@ namespace GinRummy.Client.ViewModels
             ErrorMessageKey = null;
             if (CallProfileService(profileService => profileService.RemoveProfilePicture(accessToken)))
             {
-                Picture = null;
-                _profile.Picture = null;
+                Picture = Array.Empty<byte>();
+                _profile.Picture = Array.Empty<byte>();
             }
         }
 
@@ -274,7 +274,7 @@ namespace GinRummy.Client.ViewModels
 
         private byte[] ReadPicture(string filePath)
         {
-            byte[] picture = null;
+            byte[] picture = Array.Empty<byte>();
             try
             {
                 if (new FileInfo(filePath).Length <= MaxPictureSizeInBytes)

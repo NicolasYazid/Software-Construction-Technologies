@@ -152,7 +152,8 @@
                             <Border Style="{StaticResource StyAvatarLarge}">
                                 <Image Style="{StaticResource StyAvatarIconLarge}" />
                             </Border>
-                            <Image x:Name="imgMyProfilePicture" Stretch="UniformToFill" Source="{Binding Picture}">
+                            <Image x:Name="imgMyProfilePicture" Stretch="UniformToFill"
+                                   Source="{Binding Picture, Converter={StaticResource CnvPictureSource}}">
                                 <Image.Clip>
                                     <EllipseGeometry Center="32,32" RadiusX="32" RadiusY="32" />
                                 </Image.Clip>

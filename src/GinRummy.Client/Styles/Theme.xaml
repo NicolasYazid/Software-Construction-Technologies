@@ -18,6 +18,7 @@
     <conv:CardRankConverter x:Key="CnvCardRank" />
     <conv:CardNameConverter x:Key="CnvCardName" />
     <conv:MatchLogConverter x:Key="CnvMatchLog" />
+    <conv:PictureSourceConverter x:Key="CnvPictureSource" />
 
     <!-- The Figma prototype was the starting point, but from version 2 on the design is decided here and not in the Figma file. -->
 
