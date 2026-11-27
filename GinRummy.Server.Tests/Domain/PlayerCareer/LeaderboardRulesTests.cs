@@ -16,6 +16,7 @@ namespace GinRummy.Server.Tests.Domain.PlayerCareer
         private const int LossesToEmptyNewScore = 40;
         private const int LossesToEmptyScoreAfterOneWin = 41;
         private const int LossesToEmptyScoreAfterTwoWins = 42;
+        private const int SecondPlayerWins = 2;
 
         private IDictionary<int, string> _usernames;
 
@@ -36,7 +37,7 @@ namespace GinRummy.Server.Tests.Domain.PlayerCareer
             PlayerStats secondStats = new PlayerStats(SecondPlayerId);
             RecordWins(firstStats, 1);
             RecordLosses(firstStats, LossesToEmptyScoreAfterOneWin);
-            RecordWins(secondStats, 2);
+            RecordWins(secondStats, SecondPlayerWins);
             RecordLosses(secondStats, LossesToEmptyScoreAfterTwoWins);
             List<PlayerStats> stats = new List<PlayerStats> { firstStats, secondStats };
 

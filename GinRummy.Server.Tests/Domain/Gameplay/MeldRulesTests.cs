@@ -13,9 +13,9 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
         {
             IList<Card> sevens = new List<Card>
             {
-                new Card(CardSuit.Hearts, 7),
-                new Card(CardSuit.Spades, 7),
-                new Card(CardSuit.Clubs, 7)
+                new Card(CardSuit.Hearts, RankValues.Seven),
+                new Card(CardSuit.Spades, RankValues.Seven),
+                new Card(CardSuit.Clubs, RankValues.Seven)
             };
 
             bool isValid = MeldRules.IsValidMeld(sevens);
@@ -28,10 +28,10 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
         {
             IList<Card> kings = new List<Card>
             {
-                new Card(CardSuit.Hearts, 13),
-                new Card(CardSuit.Spades, 13),
-                new Card(CardSuit.Clubs, 13),
-                new Card(CardSuit.Diamonds, 13)
+                new Card(CardSuit.Hearts, Card.KingRank),
+                new Card(CardSuit.Spades, Card.KingRank),
+                new Card(CardSuit.Clubs, Card.KingRank),
+                new Card(CardSuit.Diamonds, Card.KingRank)
             };
 
             bool isValid = MeldRules.IsValidMeld(kings);
@@ -44,10 +44,10 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
         {
             IList<Card> run = new List<Card>
             {
-                new Card(CardSuit.Clubs, 6),
-                new Card(CardSuit.Clubs, 4),
-                new Card(CardSuit.Clubs, 5),
-                new Card(CardSuit.Clubs, 7)
+                new Card(CardSuit.Clubs, RankValues.Six),
+                new Card(CardSuit.Clubs, RankValues.Four),
+                new Card(CardSuit.Clubs, RankValues.Five),
+                new Card(CardSuit.Clubs, RankValues.Seven)
             };
 
             bool isValid = MeldRules.IsValidMeld(run);
@@ -60,9 +60,9 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
         {
             IList<Card> mixedRun = new List<Card>
             {
-                new Card(CardSuit.Clubs, 4),
-                new Card(CardSuit.Hearts, 5),
-                new Card(CardSuit.Clubs, 6)
+                new Card(CardSuit.Clubs, RankValues.Four),
+                new Card(CardSuit.Hearts, RankValues.Five),
+                new Card(CardSuit.Clubs, RankValues.Six)
             };
 
             bool isValid = MeldRules.IsValidMeld(mixedRun);
@@ -75,9 +75,9 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
         {
             IList<Card> runWithGap = new List<Card>
             {
-                new Card(CardSuit.Diamonds, 2),
-                new Card(CardSuit.Diamonds, 3),
-                new Card(CardSuit.Diamonds, 5)
+                new Card(CardSuit.Diamonds, RankValues.Two),
+                new Card(CardSuit.Diamonds, RankValues.Three),
+                new Card(CardSuit.Diamonds, RankValues.Five)
             };
 
             bool isValid = MeldRules.IsValidMeld(runWithGap);
@@ -91,8 +91,8 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
             IList<Card> lowRun = new List<Card>
             {
                 new Card(CardSuit.Hearts, Card.AceRank),
-                new Card(CardSuit.Hearts, 2),
-                new Card(CardSuit.Hearts, 3)
+                new Card(CardSuit.Hearts, RankValues.Two),
+                new Card(CardSuit.Hearts, RankValues.Three)
             };
 
             bool isValid = MeldRules.IsValidMeld(lowRun);
@@ -105,7 +105,7 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
         {
             IList<Card> highRun = new List<Card>
             {
-                new Card(CardSuit.Hearts, 12),
+                new Card(CardSuit.Hearts, RankValues.Queen),
                 new Card(CardSuit.Hearts, Card.KingRank),
                 new Card(CardSuit.Hearts, Card.AceRank)
             };
@@ -120,8 +120,8 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
         {
             IList<Card> pair = new List<Card>
             {
-                new Card(CardSuit.Hearts, 9),
-                new Card(CardSuit.Spades, 9)
+                new Card(CardSuit.Hearts, RankValues.Nine),
+                new Card(CardSuit.Spades, RankValues.Nine)
             };
 
             bool isValid = MeldRules.IsValidMeld(pair);
@@ -134,9 +134,9 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
         {
             IList<Card> repeatedCards = new List<Card>
             {
-                new Card(CardSuit.Spades, 9),
-                new Card(CardSuit.Spades, 9),
-                new Card(CardSuit.Hearts, 9)
+                new Card(CardSuit.Spades, RankValues.Nine),
+                new Card(CardSuit.Spades, RankValues.Nine),
+                new Card(CardSuit.Hearts, RankValues.Nine)
             };
 
             bool isValid = MeldRules.IsValidMeld(repeatedCards);
@@ -149,12 +149,12 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
         {
             IList<Card> run = new List<Card>
             {
-                new Card(CardSuit.Clubs, 7),
-                new Card(CardSuit.Clubs, 8),
-                new Card(CardSuit.Clubs, 9)
+                new Card(CardSuit.Clubs, RankValues.Seven),
+                new Card(CardSuit.Clubs, RankValues.Eight),
+                new Card(CardSuit.Clubs, RankValues.Nine)
             };
 
-            bool canLayOff = MeldRules.CanLayOff(new Card(CardSuit.Clubs, 10), run);
+            bool canLayOff = MeldRules.CanLayOff(new Card(CardSuit.Clubs, RankValues.Ten), run);
 
             Assert.IsTrue(canLayOff);
         }
@@ -164,12 +164,12 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
         {
             IList<Card> run = new List<Card>
             {
-                new Card(CardSuit.Clubs, 7),
-                new Card(CardSuit.Clubs, 8),
-                new Card(CardSuit.Clubs, 9)
+                new Card(CardSuit.Clubs, RankValues.Seven),
+                new Card(CardSuit.Clubs, RankValues.Eight),
+                new Card(CardSuit.Clubs, RankValues.Nine)
             };
 
-            bool canLayOff = MeldRules.CanLayOff(new Card(CardSuit.Hearts, 10), run);
+            bool canLayOff = MeldRules.CanLayOff(new Card(CardSuit.Hearts, RankValues.Ten), run);
 
             Assert.IsFalse(canLayOff);
         }

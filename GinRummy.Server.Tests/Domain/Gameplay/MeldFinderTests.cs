@@ -8,26 +8,29 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
     [TestFixture]
     public class MeldFinderTests
     {
+        private const int LooseKingDeadwood = 10;
+        private const int TwoFiveAndKingDeadwood = 17;
+
         [Test]
         public void Test_CountDeadwood_TwoRunsAndSetWithLooseKing_ReturnsTen()
         {
             IList<Card> hand = new List<Card>
             {
-                new Card(CardSuit.Hearts, 1),
-                new Card(CardSuit.Hearts, 2),
-                new Card(CardSuit.Hearts, 3),
-                new Card(CardSuit.Spades, 4),
-                new Card(CardSuit.Spades, 5),
-                new Card(CardSuit.Spades, 6),
-                new Card(CardSuit.Clubs, 9),
-                new Card(CardSuit.Diamonds, 9),
-                new Card(CardSuit.Spades, 9),
-                new Card(CardSuit.Diamonds, 13)
+                new Card(CardSuit.Hearts, Card.AceRank),
+                new Card(CardSuit.Hearts, RankValues.Two),
+                new Card(CardSuit.Hearts, RankValues.Three),
+                new Card(CardSuit.Spades, RankValues.Four),
+                new Card(CardSuit.Spades, RankValues.Five),
+                new Card(CardSuit.Spades, RankValues.Six),
+                new Card(CardSuit.Clubs, RankValues.Nine),
+                new Card(CardSuit.Diamonds, RankValues.Nine),
+                new Card(CardSuit.Spades, RankValues.Nine),
+                new Card(CardSuit.Diamonds, Card.KingRank)
             };
 
             int deadwood = MeldFinder.CountDeadwood(hand);
 
-            Assert.AreEqual(10, deadwood);
+            Assert.AreEqual(LooseKingDeadwood, deadwood);
         }
 
         [Test]
@@ -35,12 +38,12 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
         {
             IList<Card> hand = new List<Card>
             {
-                new Card(CardSuit.Hearts, 4),
-                new Card(CardSuit.Hearts, 5),
-                new Card(CardSuit.Hearts, 6),
-                new Card(CardSuit.Hearts, 7),
-                new Card(CardSuit.Spades, 7),
-                new Card(CardSuit.Clubs, 7)
+                new Card(CardSuit.Hearts, RankValues.Four),
+                new Card(CardSuit.Hearts, RankValues.Five),
+                new Card(CardSuit.Hearts, RankValues.Six),
+                new Card(CardSuit.Hearts, RankValues.Seven),
+                new Card(CardSuit.Spades, RankValues.Seven),
+                new Card(CardSuit.Clubs, RankValues.Seven)
             };
 
             int deadwood = MeldFinder.CountDeadwood(hand);
@@ -53,14 +56,14 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
         {
             IList<Card> hand = new List<Card>
             {
-                new Card(CardSuit.Hearts, 2),
-                new Card(CardSuit.Spades, 5),
-                new Card(CardSuit.Clubs, 13)
+                new Card(CardSuit.Hearts, RankValues.Two),
+                new Card(CardSuit.Spades, RankValues.Five),
+                new Card(CardSuit.Clubs, Card.KingRank)
             };
 
             int deadwood = MeldFinder.CountDeadwood(hand);
 
-            Assert.AreEqual(17, deadwood);
+            Assert.AreEqual(TwoFiveAndKingDeadwood, deadwood);
         }
 
         [Test]
@@ -68,10 +71,10 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
         {
             IList<Card> nines = new List<Card>
             {
-                new Card(CardSuit.Hearts, 9),
-                new Card(CardSuit.Spades, 9),
-                new Card(CardSuit.Clubs, 9),
-                new Card(CardSuit.Diamonds, 9)
+                new Card(CardSuit.Hearts, RankValues.Nine),
+                new Card(CardSuit.Spades, RankValues.Nine),
+                new Card(CardSuit.Clubs, RankValues.Nine),
+                new Card(CardSuit.Diamonds, RankValues.Nine)
             };
 
             IList<IList<Card>> melds = MeldFinder.FindBestMelds(nines);

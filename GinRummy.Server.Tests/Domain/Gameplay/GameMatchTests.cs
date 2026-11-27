@@ -13,6 +13,8 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
         private const int KnockerId = 1;
         private const int DefenderId = 2;
         private const int PointsOfAKnockAgainstLooseCards = 64;
+        private const int KnockerResumedScore = 40;
+        private const int DefenderResumedScore = 70;
 
         [Test]
         public void Test_ScoreFinishedRound_Knock_AddsThePointsToTheWinner()
@@ -85,11 +87,15 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
         [Test]
         public void Test_Constructor_ResumedScores_KeepsTheScoreOfEachPlayer()
         {
-            Dictionary<int, int> scoresByPlayerId = new Dictionary<int, int> { { KnockerId, 40 }, { DefenderId, 70 } };
+            Dictionary<int, int> scoresByPlayerId = new Dictionary<int, int>
+            {
+                { KnockerId, KnockerResumedScore },
+                { DefenderId, DefenderResumedScore }
+            };
 
             GameMatch match = new GameMatch(new GameRound(DefenderId, KnockerId, StandardDeck.CreateOrdered()), scoresByPlayerId);
 
-            Assert.AreEqual(70, match.GetScore(DefenderId));
+            Assert.AreEqual(DefenderResumedScore, match.GetScore(DefenderId));
         }
 
         [Test]
@@ -106,7 +112,7 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
         [Test]
         public void Test_Constructor_ResumedScoresWithoutAPlayer_ThrowsArgumentException()
         {
-            Dictionary<int, int> scoresByPlayerId = new Dictionary<int, int> { { KnockerId, 10 } };
+            Dictionary<int, int> scoresByPlayerId = new Dictionary<int, int> { { KnockerId, KnockerResumedScore } };
             GameRound round = new GameRound(DefenderId, KnockerId, StandardDeck.CreateOrdered());
 
             TestDelegate resumeMatch = () => new GameMatch(round, scoresByPlayerId);
@@ -128,7 +134,7 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
                 deck.Add(dealerHand[index]);
             }
 
-            deck.Add(new Card(CardSuit.Diamonds, 2));
+            deck.Add(new Card(CardSuit.Diamonds, RankValues.Two));
             deck.AddRange(StandardDeck.CreateOrdered().Where(card => !deck.Contains(card)));
 
             return deck;
@@ -171,15 +177,15 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
             return new List<Card>
             {
                 new Card(CardSuit.Hearts, Card.AceRank),
-                new Card(CardSuit.Hearts, 2),
-                new Card(CardSuit.Hearts, 3),
-                new Card(CardSuit.Spades, 4),
-                new Card(CardSuit.Spades, 5),
-                new Card(CardSuit.Spades, 6),
-                new Card(CardSuit.Clubs, 7),
-                new Card(CardSuit.Clubs, 8),
-                new Card(CardSuit.Clubs, 9),
-                new Card(CardSuit.Diamonds, 13)
+                new Card(CardSuit.Hearts, RankValues.Two),
+                new Card(CardSuit.Hearts, RankValues.Three),
+                new Card(CardSuit.Spades, RankValues.Four),
+                new Card(CardSuit.Spades, RankValues.Five),
+                new Card(CardSuit.Spades, RankValues.Six),
+                new Card(CardSuit.Clubs, RankValues.Seven),
+                new Card(CardSuit.Clubs, RankValues.Eight),
+                new Card(CardSuit.Clubs, RankValues.Nine),
+                new Card(CardSuit.Diamonds, Card.KingRank)
             };
         }
 
@@ -188,15 +194,15 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
             return new List<Card>
             {
                 new Card(CardSuit.Diamonds, Card.AceRank),
-                new Card(CardSuit.Diamonds, 3),
-                new Card(CardSuit.Diamonds, 5),
-                new Card(CardSuit.Diamonds, 7),
-                new Card(CardSuit.Diamonds, 9),
-                new Card(CardSuit.Hearts, 5),
-                new Card(CardSuit.Hearts, 7),
-                new Card(CardSuit.Hearts, 9),
-                new Card(CardSuit.Spades, 11),
-                new Card(CardSuit.Spades, 13)
+                new Card(CardSuit.Diamonds, RankValues.Three),
+                new Card(CardSuit.Diamonds, RankValues.Five),
+                new Card(CardSuit.Diamonds, RankValues.Seven),
+                new Card(CardSuit.Diamonds, RankValues.Nine),
+                new Card(CardSuit.Hearts, RankValues.Five),
+                new Card(CardSuit.Hearts, RankValues.Seven),
+                new Card(CardSuit.Hearts, RankValues.Nine),
+                new Card(CardSuit.Spades, RankValues.Jack),
+                new Card(CardSuit.Spades, Card.KingRank)
             };
         }
     }

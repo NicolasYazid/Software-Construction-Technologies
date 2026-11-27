@@ -8,14 +8,16 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
     [TestFixture]
     public class CardTests
     {
+        private const int FaceCardDeadwood = 10;
+
         [Test]
         public void Test_DeadwoodValue_FaceCard_ReturnsTen()
         {
-            Card queen = new Card(CardSuit.Hearts, 12);
+            Card queen = new Card(CardSuit.Hearts, RankValues.Queen);
 
             int deadwoodValue = queen.DeadwoodValue;
 
-            Assert.AreEqual(10, deadwoodValue);
+            Assert.AreEqual(FaceCardDeadwood, deadwoodValue);
         }
 
         [Test]
@@ -41,9 +43,9 @@ namespace GinRummy.Server.Tests.Domain.Gameplay
         [Test]
         public void Test_Equals_SameSuitAndRank_ReturnsTrue()
         {
-            Card sevenOfHearts = new Card(CardSuit.Hearts, 7);
+            Card sevenOfHearts = new Card(CardSuit.Hearts, RankValues.Seven);
 
-            bool isEqual = sevenOfHearts.Equals(new Card(CardSuit.Hearts, 7));
+            bool isEqual = sevenOfHearts.Equals(new Card(CardSuit.Hearts, RankValues.Seven));
 
             Assert.IsTrue(isEqual);
         }
