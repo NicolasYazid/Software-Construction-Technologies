@@ -27,28 +27,57 @@ namespace GinRummy.Application.UseCases.Authentication
 
         public LogInResult VerifyTwoFactorLogIn(string email, string verificationCode, bool isKeepSignedIn)
         {
-            TypedFieldValidator.EnsureAreTyped(email, verificationCode);
-            TypedFieldValidator.EnsureHaveNoForbiddenCharacters(email);
+            LogInResult result;
+            if (!TypedFieldValidator.AreTyped(email, verificationCode))
+            {
+                result = LogInResult.ForRejected(LogInStatus.RequiredField);
+            }
+            else if (TypedFieldValidator.HaveForbiddenCharacters(email))
+            {
+                result = LogInResult.ForRejected(LogInStatus.DisallowedCharacters);
+            }
+            else
+            {
+                result = RedeemCode(email, verificationCode, isKeepSignedIn);
+            }
 
+            return result;
+        }
+
+        private LogInResult RedeemCode(string email, string verificationCode, bool isKeepSignedIn)
+        {
             LogInResult result;
             using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
             {
                 PlayerAccount account = unitOfWork.PlayerAccounts.FindByEmail(PlayerAccount.NormalizeEmail(email));
                 VerificationCode storedCode = FindStoredCode(unitOfWork.VerificationCodes, account);
-                VerificationCodeCheckResult checkResult = _codeRedeemer.Redeem(unitOfWork.VerificationCodes, storedCode, verificationCode);
+                VerificationCodeCheckResult checkResult = VerificationCodeCheckResult.Expired;
+                if (storedCode != null)
+                {
+                    checkResult = _codeRedeemer.Redeem(unitOfWork.VerificationCodes, storedCode, verificationCode);
+                }
+
                 if (checkResult != VerificationCodeCheckResult.Valid)
                 {
                     unitOfWork.Commit();
-                    throw new VerificationCodeRejectedException("The code of the second factor was rejected.", checkResult);
+                    result = LogInResult.ForRejected(MapRejectedCode(checkResult));
                 }
-
-                _accessPolicy.EnsureAccessAllowed(account, unitOfWork.Moderation.GetBansOf(account.PlayerAccountId));
-                AccessToken accessToken = _accessPolicy.GrantAccess(account, isKeepSignedIn);
-                unitOfWork.Commit();
-                result = LogInResult.ForSignedIn(account, accessToken);
+                else
+                {
+                    result = _accessPolicy.FindAccessRejection(account, unitOfWork.Moderation.GetBansOf(account.PlayerAccountId))
+                        ?? GrantAccess(unitOfWork, account, isKeepSignedIn);
+                }
             }
 
             return result;
+        }
+
+        private LogInResult GrantAccess(IUnitOfWork unitOfWork, PlayerAccount account, bool isKeepSignedIn)
+        {
+            AccessToken accessToken = _accessPolicy.GrantAccess(account, isKeepSignedIn);
+            unitOfWork.Commit();
+
+            return LogInResult.ForSignedIn(account, accessToken);
         }
 
         private static VerificationCode FindStoredCode(IVerificationCodeRepository codes, PlayerAccount account)
@@ -59,12 +88,32 @@ namespace GinRummy.Application.UseCases.Authentication
                 storedCode = codes.FindMostRecent(account.PlayerAccountId, VerificationPurpose.TwoFactorLogin);
             }
 
-            if (storedCode == null)
+            return storedCode;
+        }
+
+        private static LogInStatus MapRejectedCode(VerificationCodeCheckResult checkResult)
+        {
+            LogInStatus status;
+            switch (checkResult)
             {
-                throw new VerificationCodeRejectedException("No code of the second factor exists.", VerificationCodeCheckResult.Expired);
+                case VerificationCodeCheckResult.InvalidFormat:
+                    status = LogInStatus.CodeInvalidFormat;
+                    break;
+                case VerificationCodeCheckResult.AlreadyUsed:
+                    status = LogInStatus.CodeAlreadyUsed;
+                    break;
+                case VerificationCodeCheckResult.Expired:
+                    status = LogInStatus.CodeExpired;
+                    break;
+                case VerificationCodeCheckResult.TooManyAttempts:
+                    status = LogInStatus.CodeTooManyAttempts;
+                    break;
+                default:
+                    status = LogInStatus.CodeIncorrect;
+                    break;
             }
 
-            return storedCode;
+            return status;
         }
     }
 }

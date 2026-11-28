@@ -4,9 +4,19 @@ namespace GinRummy.Domain.Shared
 {
     public static class TypedFieldValidator
     {
+        public static bool AreTyped(params string[] fieldValues)
+        {
+            return fieldValues.All(fieldValue => !string.IsNullOrEmpty(fieldValue)) ? true : false;
+        }
+
+        public static bool HaveForbiddenCharacters(params string[] fieldValues)
+        {
+            return fieldValues.Any(fieldValue => ForbiddenCharacterCommon.ContainsForbiddenCharacters(fieldValue)) ? true : false;
+        }
+
         public static void EnsureAreTyped(params string[] fieldValues)
         {
-            if (fieldValues.Any(fieldValue => string.IsNullOrEmpty(fieldValue)))
+            if (!AreTyped(fieldValues))
             {
                 throw new RequiredFieldMissingException("A required field arrived empty.");
             }
@@ -22,7 +32,7 @@ namespace GinRummy.Domain.Shared
 
         public static void EnsureHaveNoForbiddenCharacters(params string[] fieldValues)
         {
-            if (fieldValues.Any(fieldValue => ForbiddenCharacterCommon.ContainsForbiddenCharacters(fieldValue)))
+            if (HaveForbiddenCharacters(fieldValues))
             {
                 throw new DisallowedCharactersException("A typed field contains characters that are not allowed.");
             }

@@ -9,8 +9,28 @@
       <xs:element minOccurs="0" name="LocaleCode" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="PlayerAccountId" type="xs:int" />
       <xs:element minOccurs="0" name="PublicTag" type="xs:int" />
+      <xs:element minOccurs="0" name="SanctionExpiresAt" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="SanctionReasonName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Status" type="tns:LogInStatus" />
       <xs:element minOccurs="0" name="Username" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="LogInOutcome" nillable="true" type="tns:LogInOutcome" />
+  <xs:simpleType name="LogInStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Accepted" />
+      <xs:enumeration value="RequiredField" />
+      <xs:enumeration value="DisallowedCharacters" />
+      <xs:enumeration value="InvalidCredentials" />
+      <xs:enumeration value="EmailNotVerified" />
+      <xs:enumeration value="AccountBanned" />
+      <xs:enumeration value="ResendLimitReached" />
+      <xs:enumeration value="CodeInvalidFormat" />
+      <xs:enumeration value="CodeIncorrect" />
+      <xs:enumeration value="CodeExpired" />
+      <xs:enumeration value="CodeAlreadyUsed" />
+      <xs:enumeration value="CodeTooManyAttempts" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="LogInStatus" nillable="true" type="tns:LogInStatus" />
 </xs:schema>

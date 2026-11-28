@@ -47,6 +47,7 @@
     <Compile Include="Services\SocialCommunication\IChatMessageCallback.cs" />
     <Compile Include="DataContracts\AccountProtection\AccountSettingsDetails.cs" />
     <Compile Include="DataContracts\Authentication\LogInOutcome.cs" />
+    <Compile Include="DataContracts\Authentication\LogInStatus.cs" />
     <Compile Include="DataContracts\SocialCommunication\MessageDestination.cs" />
     <Compile Include="DataContracts\SocialCommunication\MessageToSend.cs" />
     <Compile Include="DataContracts\SocialCommunication\PlayerMessage.cs" />
@@ -61,7 +62,6 @@
     <Compile Include="DataContracts\Friendship\FriendshipEvent.cs" />
     <Compile Include="DataContracts\Friendship\FriendshipEventType.cs" />
     <Compile Include="Faults\AccountProtection\ResendLimitFault.cs" />
-    <Compile Include="Faults\PlayerModeration\SanctionFault.cs" />
     <Compile Include="Faults\Shared\ServiceFault.cs" />
     <Compile Include="Faults\Shared\ServiceFaultCode.cs" />
     <Compile Include="Services\Authentication\ILogInService.cs" />

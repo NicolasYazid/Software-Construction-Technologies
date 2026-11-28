@@ -7,6 +7,9 @@ namespace GinRummy.Contracts.DataContracts.Authentication
     public class LogInOutcome
     {
         [DataMember]
+        public LogInStatus Status { get; set; }
+
+        [DataMember]
         public bool IsTwoFactorRequired { get; set; }
 
         [DataMember]
@@ -29,5 +32,11 @@ namespace GinRummy.Contracts.DataContracts.Authentication
 
         [DataMember]
         public bool IsChatFilterEnabled { get; set; }
+
+        [DataMember]
+        public string SanctionReasonName { get; set; }
+
+        [DataMember]
+        public DateTime? SanctionExpiresAt { get; set; }
     }
 }

@@ -27,8 +27,6 @@
     <MetadataFile FileName="service21.xsd" MetadataType="Schema" ID="e1a27757-ff7d-47fe-ab8e-51a80535b68d" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
     <MetadataFile FileName="GinRummy.Contracts.DataContracts.Authentication.xsd" MetadataType="Schema" ID="7787dfc2-3571-4df7-85c3-04d85599cb0c" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
     <MetadataFile FileName="GinRummy.Contracts.Faults.Shared.xsd" MetadataType="Schema" ID="dcd9f682-fc9f-4180-a847-08fd9ec9c414" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
-    <MetadataFile FileName="GinRummy.Contracts.Faults.PlayerModeration.xsd" MetadataType="Schema" ID="9bc61514-b16f-4bda-ad5b-a7ca41be4e86" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
-    <MetadataFile FileName="GinRummy.Contracts.Faults.AccountProtection.xsd" MetadataType="Schema" ID="aa02625f-4d97-4575-a335-aba4f6aec0d9" SourceId="1" SourceUrl="net.tcp://localhost:8001/LogInService/mex" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

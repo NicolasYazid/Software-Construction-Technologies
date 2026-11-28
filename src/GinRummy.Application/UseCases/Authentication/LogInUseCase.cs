@@ -31,25 +31,18 @@ namespace GinRummy.Application.UseCases.Authentication
 
         public LogInResult LogIn(string email, string password, bool isKeepSignedIn)
         {
-            TypedFieldValidator.EnsureAreTyped(email, password);
-            TypedFieldValidator.EnsureHaveNoForbiddenCharacters(email, password);
-
             LogInResult result;
-            using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
+            if (!TypedFieldValidator.AreTyped(email, password))
             {
-                PlayerAccount account = unitOfWork.PlayerAccounts.FindByEmail(PlayerAccount.NormalizeEmail(email));
-                _accessPolicy.EnsureCredentialsMatch(account, password);
-                _accessPolicy.EnsureAccessAllowed(account, unitOfWork.Moderation.GetBansOf(account.PlayerAccountId));
-                if (account.IsTwoFactorEnabled)
-                {
-                    result = StartTwoFactor(unitOfWork, account);
-                }
-                else
-                {
-                    AccessToken accessToken = _accessPolicy.GrantAccess(account, isKeepSignedIn);
-                    unitOfWork.Commit();
-                    result = LogInResult.ForSignedIn(account, accessToken);
-                }
+                result = LogInResult.ForRejected(LogInStatus.RequiredField);
+            }
+            else if (TypedFieldValidator.HaveForbiddenCharacters(email, password))
+            {
+                result = LogInResult.ForRejected(LogInStatus.DisallowedCharacters);
+            }
+            else
+            {
+                result = LogInWithCredentials(email, password, isKeepSignedIn);
             }
 
             return result;
@@ -67,6 +60,47 @@ namespace GinRummy.Application.UseCases.Authentication
             }
 
             return new GuestAccess(guest, _accessPolicy.GrantGuestAccess(guest));
+        }
+
+        private LogInResult LogInWithCredentials(string email, string password, bool isKeepSignedIn)
+        {
+            LogInResult result;
+            using (IUnitOfWork unitOfWork = _unitOfWorkFactory())
+            {
+                PlayerAccount account = unitOfWork.PlayerAccounts.FindByEmail(PlayerAccount.NormalizeEmail(email));
+                if (!_accessPolicy.AreCredentialsValid(account, password))
+                {
+                    result = LogInResult.ForRejected(LogInStatus.InvalidCredentials);
+                }
+                else
+                {
+                    result = _accessPolicy.FindAccessRejection(account, unitOfWork.Moderation.GetBansOf(account.PlayerAccountId))
+                        ?? AdmitAccount(unitOfWork, account, isKeepSignedIn);
+                }
+            }
+
+            return result;
+        }
+
+        private LogInResult AdmitAccount(IUnitOfWork unitOfWork, PlayerAccount account, bool isKeepSignedIn)
+        {
+            LogInResult result;
+            if (!account.IsTwoFactorEnabled)
+            {
+                AccessToken accessToken = _accessPolicy.GrantAccess(account, isKeepSignedIn);
+                unitOfWork.Commit();
+                result = LogInResult.ForSignedIn(account, accessToken);
+            }
+            else if (!_codeSender.CanSend(unitOfWork, account, VerificationPurpose.TwoFactorLogin))
+            {
+                result = LogInResult.ForRejected(LogInStatus.ResendLimitReached);
+            }
+            else
+            {
+                result = StartTwoFactor(unitOfWork, account);
+            }
+
+            return result;
         }
 
         private LogInResult StartTwoFactor(IUnitOfWork unitOfWork, PlayerAccount account)

@@ -45,6 +45,15 @@ namespace GinRummy.Client.LogInServiceReference {
         private int PublicTagField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<System.DateTime> SanctionExpiresAtField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string SanctionReasonNameField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private GinRummy.Client.LogInServiceReference.LogInStatus StatusField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string UsernameField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
@@ -149,6 +158,45 @@ namespace GinRummy.Client.LogInServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<System.DateTime> SanctionExpiresAt {
+            get {
+                return this.SanctionExpiresAtField;
+            }
+            set {
+                if ((this.SanctionExpiresAtField.Equals(value) != true)) {
+                    this.SanctionExpiresAtField = value;
+                    this.RaisePropertyChanged("SanctionExpiresAt");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string SanctionReasonName {
+            get {
+                return this.SanctionReasonNameField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SanctionReasonNameField, value) != true)) {
+                    this.SanctionReasonNameField = value;
+                    this.RaisePropertyChanged("SanctionReasonName");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public GinRummy.Client.LogInServiceReference.LogInStatus Status {
+            get {
+                return this.StatusField;
+            }
+            set {
+                if ((this.StatusField.Equals(value) != true)) {
+                    this.StatusField = value;
+                    this.RaisePropertyChanged("Status");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public string Username {
             get {
                 return this.UsernameField;
@@ -169,6 +217,48 @@ namespace GinRummy.Client.LogInServiceReference {
                 propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
             }
         }
+    }
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="LogInStatus", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.Authenti" +
+        "cation")]
+    public enum LogInStatus : int {
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        Accepted = 0,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        RequiredField = 1,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        DisallowedCharacters = 2,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        InvalidCredentials = 3,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        EmailNotVerified = 4,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        AccountBanned = 5,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        ResendLimitReached = 6,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        CodeInvalidFormat = 7,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        CodeIncorrect = 8,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        CodeExpired = 9,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        CodeAlreadyUsed = 10,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        CodeTooManyAttempts = 11,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -302,135 +392,18 @@ namespace GinRummy.Client.LogInServiceReference {
         MatchFinished = 26,
     }
     
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="SanctionFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.PlayerModeratio" +
-        "n")]
-    [System.SerializableAttribute()]
-    public partial class SanctionFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<System.DateTime> ExpiresAtField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string ReasonNameField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<System.DateTime> ExpiresAt {
-            get {
-                return this.ExpiresAtField;
-            }
-            set {
-                if ((this.ExpiresAtField.Equals(value) != true)) {
-                    this.ExpiresAtField = value;
-                    this.RaisePropertyChanged("ExpiresAt");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string ReasonName {
-            get {
-                return this.ReasonNameField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ReasonNameField, value) != true)) {
-                    this.ReasonNameField = value;
-                    this.RaisePropertyChanged("ReasonName");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ResendLimitFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.AccountProtecti" +
-        "on")]
-    [System.SerializableAttribute()]
-    public partial class ResendLimitFault : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int RetryAfterSecondsField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int RetryAfterSeconds {
-            get {
-                return this.RetryAfterSecondsField;
-            }
-            set {
-                if ((this.RetryAfterSecondsField.Equals(value) != true)) {
-                    this.RetryAfterSecondsField = value;
-                    this.RaisePropertyChanged("RetryAfterSeconds");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="LogInServiceReference.ILogInService")]
     public interface ILogInService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILogInService/LogIn", ReplyAction="http://tempuri.org/ILogInService/LogInResponse")]
         [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.LogInServiceReference.ServiceFault), Action="http://tempuri.org/ILogInService/LogInServiceFaultFault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
-        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.LogInServiceReference.SanctionFault), Action="http://tempuri.org/ILogInService/LogInSanctionFaultFault", Name="SanctionFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.PlayerModeratio" +
-            "n")]
-        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.LogInServiceReference.ResendLimitFault), Action="http://tempuri.org/ILogInService/LogInResendLimitFaultFault", Name="ResendLimitFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.AccountProtecti" +
-            "on")]
         GinRummy.Client.LogInServiceReference.LogInOutcome LogIn(string email, string password, bool isKeepSignedIn);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILogInService/LogIn", ReplyAction="http://tempuri.org/ILogInService/LogInResponse")]
         System.Threading.Tasks.Task<GinRummy.Client.LogInServiceReference.LogInOutcome> LogInAsync(string email, string password, bool isKeepSignedIn);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthentication", ReplyAction="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthenticationResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.LogInServiceReference.ServiceFault), Action="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthenticationServiceFault" +
-            "Fault", Name="ServiceFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared")]
-        [System.ServiceModel.FaultContractAttribute(typeof(GinRummy.Client.LogInServiceReference.SanctionFault), Action="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthenticationSanctionFaul" +
-            "tFault", Name="SanctionFault", Namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.PlayerModeratio" +
-            "n")]
         GinRummy.Client.LogInServiceReference.LogInOutcome VerifyLogInByTwoFactorAuthentication(string email, string verificationCode, bool isKeepSignedIn);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthentication", ReplyAction="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthenticationResponse")]

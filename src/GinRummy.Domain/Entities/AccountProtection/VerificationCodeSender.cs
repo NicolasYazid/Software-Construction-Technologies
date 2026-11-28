@@ -24,6 +24,11 @@ namespace GinRummy.Domain.Entities.AccountProtection
             _emailComposer = emailComposer ?? throw new ArgumentNullException(nameof(emailComposer));
         }
 
+        public bool CanSend(IUnitOfWork unitOfWork, PlayerAccount account, VerificationPurpose purpose)
+        {
+            return _codeIssuer.CanIssue(unitOfWork.VerificationCodes, account.PlayerAccountId, purpose);
+        }
+
         public EmailDeliveryStatus Send(IUnitOfWork unitOfWork, PlayerAccount account, VerificationPurpose purpose)
         {
             IssuedVerificationCode issuedCode = _codeIssuer.Issue(unitOfWork.VerificationCodes, account.PlayerAccountId, purpose);

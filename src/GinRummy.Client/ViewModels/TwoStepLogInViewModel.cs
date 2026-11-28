@@ -10,7 +10,6 @@ namespace GinRummy.Client.ViewModels
     public class TwoStepLogInViewModel : TwoStepViewModel
     {
         private const string RequiredFieldKey = "Error_ValRequiredField";
-        private const string ResendLimitReachedKey = "Error_AuthResendLimitReached";
 
         private readonly LogInCredentials _credentials;
         private readonly Func<ILogInService> _logInServiceFactory;
@@ -41,7 +40,16 @@ namespace GinRummy.Client.ViewModels
             }
 
             LogInOutcome outcome = CallLogInService(VerifyCode);
-            if (outcome != null)
+            if (outcome == null)
+            {
+                return;
+            }
+
+            if (outcome.Status != LogInStatus.Accepted)
+            {
+                ShowRefusal(outcome);
+            }
+            else
             {
                 CompleteLogIn(outcome);
             }
@@ -58,7 +66,11 @@ namespace GinRummy.Client.ViewModels
                 return;
             }
 
-            if (outcome.IsTwoFactorRequired)
+            if (outcome.Status != LogInStatus.Accepted)
+            {
+                ShowRefusal(outcome);
+            }
+            else if (outcome.IsTwoFactorRequired)
             {
                 base.ResendCode();
             }
@@ -84,6 +96,19 @@ namespace GinRummy.Client.ViewModels
             SignedIn?.Invoke(this, outcome);
         }
 
+        private void ShowRefusal(LogInOutcome outcome)
+        {
+            _logger.LogInformation("The server refused the second factor as {Status}.", outcome.Status);
+            if (outcome.Status == LogInStatus.AccountBanned)
+            {
+                AccountRestricted?.Invoke(this, LogInResultCommon.ToRestriction(outcome));
+            }
+            else
+            {
+                ErrorMessageKey = LogInResultCommon.ResolveMessageKey(outcome.Status);
+            }
+        }
+
         private LogInOutcome CallLogInService(Func<ILogInService, LogInOutcome> operation)
         {
             LogInOutcome outcome = null;
@@ -94,26 +119,11 @@ namespace GinRummy.Client.ViewModels
                 outcome = operation(logInService);
                 communicationObject.Close();
             }
-            catch (FaultException<SanctionFault> ex)
-            {
-                communicationObject.Abort();
-                _logger.LogInformation(ex, "The sign-in was refused because the account is banned.");
-                AccountRestricted?.Invoke(this, LogInFaultCommon.ToRestriction(ex.Detail));
-            }
-            catch (FaultException<ResendLimitFault> ex)
-            {
-                communicationObject.Abort();
-                _logger.LogInformation(
-                    ex,
-                    "The server refused a second factor code for {RetryAfterSeconds} seconds.",
-                    ex.Detail.RetryAfterSeconds);
-                ErrorMessageKey = ResendLimitReachedKey;
-            }
             catch (FaultException<ServiceFault> ex)
             {
                 communicationObject.Abort();
-                _logger.LogInformation(ex, "The server refused the second factor with the fault {FaultCode}.", ex.Detail.Code);
-                ErrorMessageKey = LogInFaultCommon.ResolveMessageKey(ex.Detail.Code);
+                _logger.LogError(ex, "The server could not complete the second factor, with the fault {FaultCode}.", ex.Detail.Code);
+                ErrorMessageKey = LogInResultCommon.ResolveFaultMessageKey(ex.Detail.Code);
             }
             catch (FaultException ex)
             {

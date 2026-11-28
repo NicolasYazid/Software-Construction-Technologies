@@ -23,6 +23,16 @@ namespace GinRummy.Domain.Entities.AccountProtection
             _clock = clock ?? throw new ArgumentNullException(nameof(clock));
         }
 
+        public bool CanIssue(IVerificationCodeRepository codes, int playerAccountId, VerificationPurpose purpose)
+        {
+            DateTime moment = _clock.UtcNow;
+            TimeSpan cooldownWait = FindCooldownWait(codes.FindMostRecent(playerAccountId, purpose), moment);
+            DateTime windowStart = moment.AddMinutes(-LimitWindowMinutes);
+            TimeSpan windowWait = FindWindowWait(codes.FindCreatedSince(playerAccountId, purpose, windowStart), moment);
+
+            return (cooldownWait == TimeSpan.Zero) && (windowWait == TimeSpan.Zero) ? true : false;
+        }
+
         public IssuedVerificationCode Issue(IVerificationCodeRepository codes, int playerAccountId, VerificationPurpose purpose)
         {
             DateTime issuedAt = _clock.UtcNow;
@@ -49,24 +59,47 @@ namespace GinRummy.Domain.Entities.AccountProtection
 
         private static void EnsureCooldownElapsed(VerificationCode previousCode, DateTime moment)
         {
-            if (previousCode != null)
+            TimeSpan cooldownWait = FindCooldownWait(previousCode, moment);
+            if (cooldownWait > TimeSpan.Zero)
             {
-                DateTime allowedAt = previousCode.CreatedAt.AddSeconds(ResendCooldownSeconds);
-                if (allowedAt > moment)
-                {
-                    throw new VerificationResendLimitException("A new code was asked for too soon.", allowedAt - moment);
-                }
+                throw new VerificationResendLimitException("A new code was asked for too soon.", cooldownWait);
             }
         }
 
         private static void EnsureWindowHasRoom(IList<VerificationCode> recentCodes, DateTime moment)
         {
+            TimeSpan windowWait = FindWindowWait(recentCodes, moment);
+            if (windowWait > TimeSpan.Zero)
+            {
+                throw new VerificationResendLimitException("The limit of codes in the window was reached.", windowWait);
+            }
+        }
+
+        private static TimeSpan FindCooldownWait(VerificationCode previousCode, DateTime moment)
+        {
+            TimeSpan cooldownWait = TimeSpan.Zero;
+            if (previousCode != null)
+            {
+                DateTime allowedAt = previousCode.CreatedAt.AddSeconds(ResendCooldownSeconds);
+                if (allowedAt > moment)
+                {
+                    cooldownWait = allowedAt - moment;
+                }
+            }
+
+            return cooldownWait;
+        }
+
+        private static TimeSpan FindWindowWait(IList<VerificationCode> recentCodes, DateTime moment)
+        {
+            TimeSpan windowWait = TimeSpan.Zero;
             if (recentCodes.Count >= MaxCodesPerWindow)
             {
                 VerificationCode codeThatFreesRoom = recentCodes[recentCodes.Count - MaxCodesPerWindow];
-                DateTime allowedAt = codeThatFreesRoom.CreatedAt.AddMinutes(LimitWindowMinutes);
-                throw new VerificationResendLimitException("The limit of codes in the window was reached.", allowedAt - moment);
+                windowWait = codeThatFreesRoom.CreatedAt.AddMinutes(LimitWindowMinutes) - moment;
             }
+
+            return windowWait;
         }
 
         private static bool IsPending(VerificationCode code, DateTime moment)

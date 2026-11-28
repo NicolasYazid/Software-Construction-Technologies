@@ -1,5 +1,9 @@
-﻿using GinRummy.Contracts.DataContracts.Authentication;
+﻿using System;
+
+using GinRummy.Contracts.DataContracts.Authentication;
 using GinRummy.Domain.Entities.Authentication;
+using ContractLogInStatus = GinRummy.Contracts.DataContracts.Authentication.LogInStatus;
+using DomainLogInStatus = GinRummy.Domain.Entities.Authentication.LogInStatus;
 
 namespace GinRummy.Services.Mappers.Authentication
 {
@@ -9,12 +13,16 @@ namespace GinRummy.Services.Mappers.Authentication
         {
             LogInOutcome outcome = new LogInOutcome
             {
-                IsTwoFactorRequired = true,
+                Status = (ContractLogInStatus)Enum.Parse(typeof(ContractLogInStatus), result.Status.ToString()),
+                IsTwoFactorRequired = result.IsTwoFactorRequired,
                 AccessToken = string.Empty,
                 Username = string.Empty,
-                LocaleCode = string.Empty
+                LocaleCode = string.Empty,
+                SanctionReasonName = result.SanctionReasonName ?? string.Empty,
+                SanctionExpiresAt = result.SanctionExpiresAt
             };
-            if (!result.IsTwoFactorRequired)
+            bool isSignedIn = (result.Status == DomainLogInStatus.Accepted) && !result.IsTwoFactorRequired ? true : false;
+            if (isSignedIn)
             {
                 outcome = MapToSignedInOutcome(result);
             }

@@ -37,8 +37,6 @@
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import namespace="http://tempuri.org/" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.PlayerModeration" />
-      <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.AccountProtection" />
       <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
       <xsd:import namespace="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.DataContracts.Authentication" />
     </xsd:schema>
@@ -52,23 +50,11 @@
   <wsdl:message name="ILogInService_LogIn_ServiceFaultFault_FaultMessage">
     <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q1:ServiceFault" />
   </wsdl:message>
-  <wsdl:message name="ILogInService_LogIn_SanctionFaultFault_FaultMessage">
-    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.PlayerModeration" name="detail" element="q2:SanctionFault" />
-  </wsdl:message>
-  <wsdl:message name="ILogInService_LogIn_ResendLimitFaultFault_FaultMessage">
-    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.AccountProtection" name="detail" element="q3:ResendLimitFault" />
-  </wsdl:message>
   <wsdl:message name="ILogInService_VerifyLogInByTwoFactorAuthentication_InputMessage">
     <wsdl:part name="parameters" element="tns:VerifyLogInByTwoFactorAuthentication" />
   </wsdl:message>
   <wsdl:message name="ILogInService_VerifyLogInByTwoFactorAuthentication_OutputMessage">
     <wsdl:part name="parameters" element="tns:VerifyLogInByTwoFactorAuthenticationResponse" />
-  </wsdl:message>
-  <wsdl:message name="ILogInService_VerifyLogInByTwoFactorAuthentication_ServiceFaultFault_FaultMessage">
-    <wsdl:part xmlns:q4="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.Shared" name="detail" element="q4:ServiceFault" />
-  </wsdl:message>
-  <wsdl:message name="ILogInService_VerifyLogInByTwoFactorAuthentication_SanctionFaultFault_FaultMessage">
-    <wsdl:part xmlns:q5="http://schemas.datacontract.org/2004/07/GinRummy.Contracts.Faults.PlayerModeration" name="detail" element="q5:SanctionFault" />
   </wsdl:message>
   <wsdl:message name="ILogInService_LogInAsGuest_InputMessage">
     <wsdl:part name="parameters" element="tns:LogInAsGuest" />
@@ -81,14 +67,10 @@
       <wsdl:input wsaw:Action="http://tempuri.org/ILogInService/LogIn" message="tns:ILogInService_LogIn_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ILogInService/LogInResponse" message="tns:ILogInService_LogIn_OutputMessage" />
       <wsdl:fault wsaw:Action="http://tempuri.org/ILogInService/LogInServiceFaultFault" name="ServiceFaultFault" message="tns:ILogInService_LogIn_ServiceFaultFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/ILogInService/LogInSanctionFaultFault" name="SanctionFaultFault" message="tns:ILogInService_LogIn_SanctionFaultFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/ILogInService/LogInResendLimitFaultFault" name="ResendLimitFaultFault" message="tns:ILogInService_LogIn_ResendLimitFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="VerifyLogInByTwoFactorAuthentication">
       <wsdl:input wsaw:Action="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthentication" message="tns:ILogInService_VerifyLogInByTwoFactorAuthentication_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthenticationResponse" message="tns:ILogInService_VerifyLogInByTwoFactorAuthentication_OutputMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthenticationServiceFaultFault" name="ServiceFaultFault" message="tns:ILogInService_VerifyLogInByTwoFactorAuthentication_ServiceFaultFault_FaultMessage" />
-      <wsdl:fault wsaw:Action="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthenticationSanctionFaultFault" name="SanctionFaultFault" message="tns:ILogInService_VerifyLogInByTwoFactorAuthentication_SanctionFaultFault_FaultMessage" />
     </wsdl:operation>
     <wsdl:operation name="LogInAsGuest">
       <wsdl:input wsaw:Action="http://tempuri.org/ILogInService/LogInAsGuest" message="tns:ILogInService_LogInAsGuest_InputMessage" />
@@ -110,12 +92,6 @@
       <wsdl:fault name="ServiceFaultFault">
         <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
       </wsdl:fault>
-      <wsdl:fault name="SanctionFaultFault">
-        <soap12:fault use="literal" name="SanctionFaultFault" namespace="" />
-      </wsdl:fault>
-      <wsdl:fault name="ResendLimitFaultFault">
-        <soap12:fault use="literal" name="ResendLimitFaultFault" namespace="" />
-      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="VerifyLogInByTwoFactorAuthentication">
       <soap12:operation soapAction="http://tempuri.org/ILogInService/VerifyLogInByTwoFactorAuthentication" style="document" />
@@ -125,12 +101,6 @@
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
-      <wsdl:fault name="ServiceFaultFault">
-        <soap12:fault use="literal" name="ServiceFaultFault" namespace="" />
-      </wsdl:fault>
-      <wsdl:fault name="SanctionFaultFault">
-        <soap12:fault use="literal" name="SanctionFaultFault" namespace="" />
-      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="LogInAsGuest">
       <soap12:operation soapAction="http://tempuri.org/ILogInService/LogInAsGuest" style="document" />

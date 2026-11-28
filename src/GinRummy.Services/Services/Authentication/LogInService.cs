@@ -3,15 +3,14 @@ using System.ServiceModel;
 
 using GinRummy.Application.Ports.Authentication;
 using GinRummy.Contracts.DataContracts.Authentication;
-using GinRummy.Contracts.Faults.PlayerModeration;
 using GinRummy.Contracts.Faults.Shared;
 using GinRummy.Contracts.Services.Authentication;
 using GinRummy.Domain;
 using GinRummy.Domain.Entities.Authentication;
-using GinRummy.Domain.Entities.PlayerModeration;
 using GinRummy.Services.Mappers.Authentication;
 using GinRummy.Services.Services.Shared;
 using Microsoft.Extensions.Logging;
+using DomainLogInStatus = GinRummy.Domain.Entities.Authentication.LogInStatus;
 
 namespace GinRummy.Services.Services.Authentication
 {
@@ -35,41 +34,8 @@ namespace GinRummy.Services.Services.Authentication
             try
             {
                 LogInResult result = _logInPort.LogIn(email, password, isKeepSignedIn);
-                LogAcceptedLogIn(result);
+                LogLogInResult(result, email);
                 outcome = LogInOutcomeMapper.MapToLogInOutcome(result);
-            }
-            catch (RequiredFieldMissingException ex)
-            {
-                _logger.LogWarning(ex, "A sign-in arrived with an empty field.");
-                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.RequiredField);
-            }
-            catch (DisallowedCharactersException ex)
-            {
-                _logger.LogWarning(
-                    ex,
-                    "A sign-in from {Caller} arrived with characters that are not allowed.",
-                    CallerAddressCommon.DescribeCaller());
-                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.DisallowedCharacters);
-            }
-            catch (InvalidCredentialsException ex)
-            {
-                _logger.LogWarning(ex, "A sign-in with the email {Email} failed because of its credentials.", email);
-                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.InvalidCredentials);
-            }
-            catch (EmailNotVerifiedException ex)
-            {
-                _logger.LogInformation(ex, "An account with an unverified email tried to sign in.");
-                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.EmailNotVerified);
-            }
-            catch (AccountBannedException ex)
-            {
-                _logger.LogInformation(ex, "A banned account tried to sign in.");
-                throw CreateSanctionFault(ex);
-            }
-            catch (VerificationResendLimitException ex)
-            {
-                _logger.LogWarning(ex, "A second factor code for the email {Email} was refused by the limit of codes.", email);
-                throw ServiceFaultCommon.CreateResendLimitFault(ex);
             }
             catch (VerificationEmailNotSentException ex)
             {
@@ -90,46 +56,33 @@ namespace GinRummy.Services.Services.Authentication
 
         public LogInOutcome VerifyLogInByTwoFactorAuthentication(string email, string verificationCode, bool isKeepSignedIn)
         {
-            LogInOutcome outcome;
-            try
-            {
-                LogInResult result = _twoFactorLogInPort.VerifyTwoFactorLogIn(email, verificationCode, isKeepSignedIn);
-                LogAcceptedLogIn(result);
-                outcome = LogInOutcomeMapper.MapToLogInOutcome(result);
-            }
-            catch (RequiredFieldMissingException ex)
-            {
-                _logger.LogWarning(ex, "A second factor confirmation arrived with an empty field.");
-                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.RequiredField);
-            }
-            catch (DisallowedCharactersException ex)
-            {
-                _logger.LogWarning(ex, "A second factor confirmation arrived with characters that are not allowed.");
-                throw ServiceFaultCommon.CreateServiceFault(ServiceFaultCode.DisallowedCharacters);
-            }
-            catch (VerificationCodeRejectedException ex)
-            {
-                _logger.LogWarning(ex, "A second factor code for the email {Email} was rejected as {Reason}.", email, ex.Reason);
-                throw ServiceFaultCommon.CreateRejectedCodeFault(ex.Reason);
-            }
-            catch (AccountBannedException ex)
-            {
-                _logger.LogInformation(ex, "A banned account tried to confirm its sign-in.");
-                throw CreateSanctionFault(ex);
-            }
+            LogInResult result = _twoFactorLogInPort.VerifyTwoFactorLogIn(email, verificationCode, isKeepSignedIn);
+            LogLogInResult(result, email);
 
-            return outcome;
+            return LogInOutcomeMapper.MapToLogInOutcome(result);
         }
 
-        private static FaultException<SanctionFault> CreateSanctionFault(AccountBannedException exception)
+        private void LogLogInResult(LogInResult result, string email)
         {
-            SanctionFault sanction = new SanctionFault
+            switch (result.Status)
             {
-                ReasonName = exception.ReasonName,
-                ExpiresAt = exception.ExpiresAt
-            };
-
-            return new FaultException<SanctionFault>(sanction);
+                case DomainLogInStatus.Accepted:
+                    LogAcceptedLogIn(result);
+                    break;
+                case DomainLogInStatus.DisallowedCharacters:
+                    _logger.LogWarning(
+                        "A sign-in from {Caller} arrived with characters that are not allowed.",
+                        CallerAddressCommon.DescribeCaller());
+                    break;
+                case DomainLogInStatus.RequiredField:
+                case DomainLogInStatus.EmailNotVerified:
+                case DomainLogInStatus.AccountBanned:
+                    _logger.LogInformation("A sign-in was refused as {Status}.", result.Status);
+                    break;
+                default:
+                    _logger.LogWarning("A sign-in with the email {Email} was refused as {Status}.", email, result.Status);
+                    break;
+            }
         }
 
         private void LogAcceptedLogIn(LogInResult result)

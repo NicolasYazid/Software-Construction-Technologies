@@ -24,28 +24,43 @@ namespace GinRummy.Domain.Entities.Authentication
             _clock = clock ?? throw new ArgumentNullException(nameof(clock));
         }
 
+        public bool AreCredentialsValid(PlayerAccount account, string password)
+        {
+            return (account != null) && _passwordHasher.VerifyPassword(password, account.PasswordHash) ? true : false;
+        }
+
         public void EnsureCredentialsMatch(PlayerAccount account, string password)
         {
-            bool isMatch = (account != null) && _passwordHasher.VerifyPassword(password, account.PasswordHash) ? true : false;
-            if (!isMatch)
+            if (!AreCredentialsValid(account, password))
             {
                 throw new InvalidCredentialsException("The email or the password is not valid.");
             }
         }
 
-        public void EnsureAccessAllowed(PlayerAccount account, IEnumerable<Ban> bans)
+        /// <summary>
+        /// Finds why an account whose credentials are valid cannot enter yet.
+        /// </summary>
+        /// <param name="account">The account that is signing in.</param>
+        /// <param name="bans">The bans of the account.</param>
+        /// <returns>The rejection of the sign-in, or null when the account can enter.</returns>
+        public LogInResult FindAccessRejection(PlayerAccount account, IEnumerable<Ban> bans)
         {
+            LogInResult rejection = null;
             if (!account.IsEmailVerified)
             {
-                throw new EmailNotVerifiedException("The email of the account is not verified.");
+                rejection = LogInResult.ForRejected(LogInStatus.EmailNotVerified);
+            }
+            else
+            {
+                Ban blockingBan = FindBlockingBan(bans);
+                if (blockingBan != null)
+                {
+                    string reasonName = blockingBan.ReasonBan.GetNameFor(account.PlayerPreferences.LocaleId);
+                    rejection = LogInResult.ForBanned(reasonName, blockingBan.ExpiresAt);
+                }
             }
 
-            Ban blockingBan = FindBlockingBan(bans);
-            if (blockingBan != null)
-            {
-                string reasonName = blockingBan.ReasonBan.GetNameFor(account.PlayerPreferences.LocaleId);
-                throw new AccountBannedException("A ban restricts the whole account.", reasonName, blockingBan.ExpiresAt);
-            }
+            return rejection;
         }
 
         public AccessToken GrantAccess(PlayerAccount account, bool isKeepSignedIn)

@@ -277,7 +277,7 @@
     <Compile Include="Models\LogInCredentials.cs" />
     <Compile Include="Mvvm\RelayCommand.cs" />
     <Compile Include="Mvvm\ViewModelBase.cs" />
-    <Compile Include="ViewModels\LogInFaultCommon.cs" />
+    <Compile Include="ViewModels\LogInResultCommon.cs" />
     <Compile Include="ViewModels\LogInViewModel.cs" />
     <Compile Include="ViewModels\RankingsViewModel.cs" />
     <Compile Include="ViewModels\CountdownViewModel.cs" />
@@ -532,12 +532,6 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\LogInServiceReference\GinRummy.Contracts.DataContracts.Authentication.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LogInServiceReference\GinRummy.Contracts.Faults.AccountProtection.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\LogInServiceReference\GinRummy.Contracts.Faults.PlayerModeration.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\LogInServiceReference\GinRummy.Contracts.Faults.Shared.xsd">
